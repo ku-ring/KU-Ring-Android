@@ -19,6 +19,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false">
+            <meta-data
+                android:name="com.ku_stacks.kustack.initializer.TimberInitializer"
+                android:value="androidx.startup" />
+        </provider>
+
     </application>
 
 </manifest>

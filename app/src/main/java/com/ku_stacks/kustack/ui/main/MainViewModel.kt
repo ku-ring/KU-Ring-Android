@@ -1,18 +1,18 @@
 package com.ku_stacks.kustack.ui.main
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(): ViewModel(){
 
     init {
-        Log.e("TAG", "MainViewModel injected")
+        Timber.e("MainViewModel injected")
     }
 
     fun sayHi(){
-        Log.e("TAG","HIHI")
+        Timber.e("HIHI")
     }
 }
