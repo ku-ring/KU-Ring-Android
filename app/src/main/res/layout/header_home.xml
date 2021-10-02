@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.appbar.AppBarLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/app_bar">
+
+<!--    <com.google.android.material.appbar.MaterialToolbar-->
+<!--        android:id="@+id/material_toolbar"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="60dp"-->
+<!--        app:navigationIcon="@drawable/ic_launcher_foreground"-->
+<!--        app:title="KU STACK"-->
+<!--        app:layout_scrollFlags="scroll|snap|enterAlways"/>-->
+
+    <com.google.android.material.appbar.CollapsingToolbarLayout
+        android:id="@+id/collapsingToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_scrollFlags="scroll|exitUntilCollapsed|enterAlways">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:title="KU STACK"
+                app:navigationIcon="@drawable/ic_launcher_foreground"
+                android:background="#ff0000">
+
+            </com.google.android.material.appbar.MaterialToolbar>
+        </FrameLayout>
+    </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+
+</com.google.android.material.appbar.AppBarLayout>

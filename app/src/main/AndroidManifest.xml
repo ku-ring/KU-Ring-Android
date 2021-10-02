@@ -9,9 +9,11 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.KUStack">
+        android:theme="@style/WhiteTheme">
         <activity
-            android:name=".ui.main.MainActivity"
+            android:name=".ui.main.HomeActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

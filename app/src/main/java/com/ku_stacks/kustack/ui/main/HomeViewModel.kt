@@ -6,10 +6,10 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(): ViewModel(){
+class HomeViewModel @Inject constructor(): ViewModel(){
 
     init {
-        Timber.e("MainViewModel injected")
+        Timber.e("HomeViewModel injected")
     }
 
     fun sayHi(){

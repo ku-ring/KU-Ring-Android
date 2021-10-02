@@ -85,6 +85,15 @@ dependencies {
 
     //Timber
     implementation 'com.jakewharton.timber:timber:4.7.1'
+
+    //viewPager2
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
+
+    //fragment
+    def fragment_version = '1.2.0-rc04'
+    implementation "androidx.fragment:fragment-ktx:$fragment_version"
+    implementation "androidx.fragment:fragment-testing:$fragment_version"
+
 }
 
 kapt {
