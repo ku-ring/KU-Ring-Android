@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/WhiteTheme">
         <activity
-            android:name=".ui.main.HomeActivity"
+            android:name=".ui.home.HomeActivity"
             android:launchMode="singleTask"
             android:exported="true">
             <intent-filter>
