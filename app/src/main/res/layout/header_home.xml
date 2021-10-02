@@ -3,17 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/app_bar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/app_bar">
-
-<!--    <com.google.android.material.appbar.MaterialToolbar-->
-<!--        android:id="@+id/material_toolbar"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="60dp"-->
-<!--        app:navigationIcon="@drawable/ic_launcher_foreground"-->
-<!--        app:title="KU STACK"-->
-<!--        app:layout_scrollFlags="scroll|snap|enterAlways"/>-->
+    android:stateListAnimator="@animator/appbar_elevation">
 
     <com.google.android.material.appbar.CollapsingToolbarLayout
         android:id="@+id/collapsingToolbar"
@@ -28,13 +21,70 @@
             <com.google.android.material.appbar.MaterialToolbar
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                app:title="KU STACK"
-                app:navigationIcon="@drawable/ic_launcher_foreground"
-                android:background="#ff0000">
+                android:background="@color/white"
+                app:navigationIcon="@drawable/icn_menu">
 
+                <com.google.android.material.tabs.TabLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="16dp"
+                    android:overScrollMode="never"
+                    app:tabIndicator="@drawable/indicator_home_header"
+                    app:tabIndicatorColor="#00ffff"
+                    app:tabIndicatorFullWidth="true"
+                    app:tabIndicatorGravity="center"
+                    app:tabIndicatorHeight="36dp"
+                    app:tabInlineLabel="true"
+                    app:tabMode="scrollable"
+                    app:tabRippleColor="@null"
+                    app:tabSelectedTextColor="@color/primary"
+                    app:tabTextAppearance="@style/tab_text"
+                    app:tabTextColor="@color/dark_gray">
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="학사" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="장학" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="취창업" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="국제" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="학생" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="산학" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="일반" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="도서관" />
+
+                </com.google.android.material.tabs.TabLayout>
             </com.google.android.material.appbar.MaterialToolbar>
         </FrameLayout>
     </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-
 </com.google.android.material.appbar.AppBarLayout>

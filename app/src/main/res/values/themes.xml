@@ -30,4 +30,9 @@
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="windowNoTitle">true</item>
     </style>
+
+    <style name="tab_text" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="android:fontFamily">@font/notosanskr_medium</item>
+    </style>
+
 </resources>
