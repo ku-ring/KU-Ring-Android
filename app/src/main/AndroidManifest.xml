@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ku_stacks.kustack">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".KuStackApplication"
         android:allowBackup="false"

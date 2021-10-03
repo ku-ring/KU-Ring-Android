@@ -3,12 +3,21 @@ package com.ku_stacks.kustack.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.ku_stacks.kustack.repository.ITunesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(): ViewModel(){
+class HomeViewModel @Inject constructor(
+    repository: ITunesRepository
+): ViewModel(){
+
+    private val disposable = CompositeDisposable()
 
     private val _homeTabState = MutableLiveData<HomeTabState>()
     val homeTabState: LiveData<HomeTabState>
@@ -16,6 +25,22 @@ class HomeViewModel @Inject constructor(): ViewModel(){
 
     init {
         Timber.e("HomeViewModel injected")
+
+        disposable.add(
+            repository.fetchTrackList(
+                term = "greenday",
+                entity = "song",
+                limit = 20,
+                offset = 0
+            ).observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    Timber.e("fetchTrackList success ${it.results}")
+                }, {
+                    Timber.e("fetchTrackList fail")
+                })
+        )
+
     }
 
 
@@ -42,5 +67,15 @@ class HomeViewModel @Inject constructor(): ViewModel(){
     }
     fun onLibTabClick() {
         _homeTabState.postValue(HomeTabState.Lib)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+
+        if (!disposable.isDisposed) {
+            disposable.dispose()
+            Timber.e("disposable disposed")
+        }
+
     }
 }

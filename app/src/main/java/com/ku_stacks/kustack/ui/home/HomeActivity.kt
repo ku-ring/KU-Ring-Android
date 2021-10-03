@@ -5,12 +5,13 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.tabs.TabLayout
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import com.ku_stacks.kustack.R
 import com.ku_stacks.kustack.databinding.ActivityHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
+import kotlinx.android.synthetic.main.header_home.view.*
 
 @AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
@@ -51,8 +52,8 @@ class HomeActivity : AppCompatActivity() {
         binding.homeViewpager.adapter = HomePagerAdapter(supportFragmentManager,lifecycle)
         binding.homeViewpager.registerOnPageChangeCallback(pageChangeCallback)
 
-        val tabLayout = binding.homeHeader.findViewById<TabLayout>(R.id.tab_layout)
-        TabLayoutMediator(tabLayout, binding.homeViewpager,true) { tab, position ->
+        TabLayoutMediator(binding.homeHeader.tab_layout, binding.homeViewpager,true) { tab, position ->
+            //여기서 등록한 푸시알림으로 색깔 변경도 가능할듯?
             when(position){
                 0 -> tab.text = "학사"
                 1 -> tab.text = "장학"
@@ -64,6 +65,10 @@ class HomeActivity : AppCompatActivity() {
                 7 -> tab.text = "도서관"
             }
         }.attach()
+
+        binding.homeHeader.material_toolbar.setNavigationOnClickListener {
+            Snackbar.make(binding.root, "menu clicked", Snackbar.LENGTH_SHORT).show()
+        }
     }
 
     private fun setUpViewModel(){
@@ -71,7 +76,6 @@ class HomeActivity : AppCompatActivity() {
         viewModel.homeTabState.observe(this){
             binding.homeText.text = "${it.name} in HomeActivity"
             Timber.e("${it.name} observed")
-
         }
     }
 }
