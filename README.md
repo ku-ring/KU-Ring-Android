@@ -11,11 +11,14 @@
 - Dagger Hilt - 의존성 주입
 
 ### Jetpack Library
-- LiveData
+- Lifecycle(LiveData)
 - DataBinding
 - ViewModel
 - Startup - 앱 시작 시 startup 간소화, 초기화 순서 명시
 - CoordinatorLayout
+
+### Async
+- RxJava3
 
 ### Network
 - OkHttp3
