@@ -3,9 +3,11 @@ package com.ku_stacks.kustack.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.ku_stacks.kustack.data.api.response.TrackListResponse
 import com.ku_stacks.kustack.repository.ITunesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -26,23 +28,23 @@ class HomeViewModel @Inject constructor(
     init {
         Timber.e("HomeViewModel injected")
 
-        disposable.add(
-            repository.fetchTrackList(
-                term = "greenday",
-                entity = "song",
-                limit = 20,
-                offset = 0
-            ).observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe({
-                    Timber.e("fetchTrackList success ${it.results}")
-                }, {
-                    Timber.e("fetchTrackList fail")
-                })
+        repository.fetchTrackList(
+            term = "greenday",
+            entity = "song",
+            limit = 20,
+            offset = 0
         )
+            .map { result -> result.results }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ result ->
+                Timber.e("fetchTrackList success ${result.size}")
+            }, { error ->
+                Timber.e("fetchTrackList fail : $error")
+            })
+            .apply { disposable.add(this) }
 
     }
-
 
     fun onBchTabClick() {
         _homeTabState.postValue(HomeTabState.Bch)
@@ -74,7 +76,7 @@ class HomeViewModel @Inject constructor(
 
         if (!disposable.isDisposed) {
             disposable.dispose()
-            Timber.e("disposable disposed")
+            Timber.e("compositeDisposable disposed")
         }
 
     }

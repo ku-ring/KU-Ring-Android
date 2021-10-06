@@ -39,16 +39,18 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        setUpView()
-        setUpViewModel()
-
+        setupBinding()
+        setupHeader()
+        observeData()
     }
 
-    private fun setUpView(){
+    private fun setupBinding(){
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+    }
 
+    private fun setupHeader(){
         binding.homeViewpager.adapter = HomePagerAdapter(supportFragmentManager,lifecycle)
         binding.homeViewpager.registerOnPageChangeCallback(pageChangeCallback)
 
@@ -71,7 +73,7 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-    private fun setUpViewModel(){
+    private fun observeData(){
 
         viewModel.homeTabState.observe(this){
             binding.homeText.text = "${it.name} in HomeActivity"
