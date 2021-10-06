@@ -34,7 +34,7 @@ class HomeViewModel @Inject constructor(
             limit = 20,
             offset = 0
         )
-            .map { result -> result.results }
+            .map { result -> result.results } //데이터 변환
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ result ->

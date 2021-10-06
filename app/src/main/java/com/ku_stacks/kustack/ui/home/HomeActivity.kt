@@ -7,11 +7,17 @@ import androidx.databinding.DataBindingUtil
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.installations.FirebaseInstallations
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 import com.ku_stacks.kustack.R
 import com.ku_stacks.kustack.databinding.ActivityHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import kotlinx.android.synthetic.main.header_home.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
@@ -38,6 +44,8 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+
+        getFcmToken()
 
         setupBinding()
         setupHeader()
@@ -79,5 +87,22 @@ class HomeActivity : AppCompatActivity() {
             binding.homeText.text = "${it.name} in HomeActivity"
             Timber.e("${it.name} observed")
         }
+    }
+
+    private fun getFcmToken() {
+        CoroutineScope(Dispatchers.Default).launch {
+            val instance = FirebaseInstallations.getInstance()
+            Timber.e("FCM instance : $instance")
+
+            FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+                if(!task.isSuccessful){
+                    Timber.e("Firebase instanceId fail : ${task.exception}")
+                    return@addOnCompleteListener
+                }
+                val token = task.result
+                Timber.e("FCM token : $token")
+            }
+        }
+
     }
 }

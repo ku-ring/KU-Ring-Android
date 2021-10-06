@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "685711045622",
+    "project_id": "ku-stack",
+    "storage_bucket": "ku-stack.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:685711045622:android:b682b7d624fe1667a64dd7",
+        "android_client_info": {
+          "package_name": "com.ku_stacks.kustack"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "685711045622-o4esgd0mium88cmt10blf6t9078c3bf3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ku_stacks.kustack",
+            "certificate_hash": "a1a143e1726ff633a5862fb40fe25b87f1930fc9"
+          }
+        },
+        {
+          "client_id": "685711045622-kil1s76k0c2c9hivbukdti2l82ehrv5p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTuxvDIcWw_1MFZPiqQikIM0WmlRoRaxY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "685711045622-kil1s76k0c2c9hivbukdti2l82ehrv5p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

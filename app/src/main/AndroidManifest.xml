@@ -12,6 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/WhiteTheme">
+
         <activity
             android:name=".ui.home.HomeActivity"
             android:launchMode="singleTask"
@@ -31,6 +32,16 @@
                 android:name="com.ku_stacks.kustack.initializer.TimberInitializer"
                 android:value="androidx.startup" />
         </provider>
+
+        <service android:name=".MyFireBaseMessagingService"
+            android:enabled="true"
+            android:exported="false"
+            android:stopWithTask="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
 
     </application>
 
