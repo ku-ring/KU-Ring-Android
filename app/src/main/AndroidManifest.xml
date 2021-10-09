@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ku_stacks.kustack">
+    package="com.ku_stacks.ku_ring">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".KuStackApplication"
+        android:name="com.ku_stacks.ku_ring.KuRingApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -14,7 +14,7 @@
         android:theme="@style/WhiteTheme">
 
         <activity
-            android:name=".ui.home.HomeActivity"
+            android:name="com.ku_stacks.ku_ring.ui.home.HomeActivity"
             android:launchMode="singleTask"
             android:exported="true">
             <intent-filter>
@@ -29,11 +29,11 @@
             android:authorities="${applicationId}.androidx-startup"
             android:exported="false">
             <meta-data
-                android:name="com.ku_stacks.kustack.initializer.TimberInitializer"
+                android:name="com.ku_stacks.ku_ring.initializer.TimberInitializer"
                 android:value="androidx.startup" />
         </provider>
 
-        <service android:name=".MyFireBaseMessagingService"
+        <service android:name="com.ku_stacks.ku_ring.MyFireBaseMessagingService"
             android:enabled="true"
             android:exported="false"
             android:stopWithTask="false">

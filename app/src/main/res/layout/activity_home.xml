@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.ku_stacks.kustack.ui.home.HomeViewModel" />
+            type="com.ku_stacks.ku_ring.ui.home.HomeViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
