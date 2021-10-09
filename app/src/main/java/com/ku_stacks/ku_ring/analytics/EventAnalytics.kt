@@ -1,11 +1,11 @@
 package com.ku_stacks.ku_ring.analytics
 
-import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import com.google.firebase.analytics.FirebaseAnalytics
+import dagger.hilt.android.qualifiers.ApplicationContext
 
-class EventAnalytics(context: Context) {
+class EventAnalytics(@ApplicationContext context: Context) {
 
     private val delegate by lazy {
         FirebaseAnalytics.getInstance(context)
