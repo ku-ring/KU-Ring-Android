@@ -5,21 +5,27 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.messaging.FirebaseMessaging
 import com.ku_stacks.ku_ring.R
+import com.ku_stacks.ku_ring.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.databinding.ActivityHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
-import kotlinx.android.synthetic.main.header_home.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var analytics : EventAnalytics
 
     private lateinit var binding: ActivityHomeBinding
     private val viewModel by viewModels<HomeViewModel>()
@@ -49,6 +55,11 @@ class HomeActivity : AppCompatActivity() {
         setupBinding()
         setupHeader()
         observeData()
+
+        binding.homeText.setOnClickListener {
+            Timber.e("homeText clicked")
+            analytics.click("home btn", "HomeActivity")
+        }
     }
 
     private fun setupBinding(){
@@ -61,7 +72,8 @@ class HomeActivity : AppCompatActivity() {
         binding.homeViewpager.adapter = HomePagerAdapter(supportFragmentManager,lifecycle)
         binding.homeViewpager.registerOnPageChangeCallback(pageChangeCallback)
 
-        TabLayoutMediator(binding.homeHeader.tab_layout, binding.homeViewpager,true) { tab, position ->
+        val tabLayout = findViewById<TabLayout>(R.id.tab_layout)
+        TabLayoutMediator(tabLayout, binding.homeViewpager,true) { tab, position ->
             //여기서 등록한 푸시알림으로 색깔 변경도 가능할듯?
             when(position){
                 0 -> tab.text = "학사"
@@ -75,7 +87,8 @@ class HomeActivity : AppCompatActivity() {
             }
         }.attach()
 
-        binding.homeHeader.material_toolbar.setNavigationOnClickListener {
+        val materialToolbar = findViewById<MaterialToolbar>(R.id.material_toolbar)
+        materialToolbar.setNavigationOnClickListener {
             Snackbar.make(binding.root, "menu clicked", Snackbar.LENGTH_SHORT).show()
         }
     }
