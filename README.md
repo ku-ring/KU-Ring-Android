@@ -18,7 +18,7 @@
 - CoordinatorLayout
 
 ### Async
-- RxJava3
+- RxJava
 
 ### Network
 - OkHttp3
