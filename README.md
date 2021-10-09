@@ -1,4 +1,4 @@
-# KU-Stack-Android
+# KU Ring-Android
 
 개발 진행중
 
