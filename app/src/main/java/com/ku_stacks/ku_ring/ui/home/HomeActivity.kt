@@ -59,6 +59,7 @@ class HomeActivity : AppCompatActivity() {
         binding.homeText.setOnClickListener {
             Timber.e("homeText clicked")
             analytics.click("home btn", "HomeActivity")
+            throw RuntimeException("Test Crash")
         }
     }
 
