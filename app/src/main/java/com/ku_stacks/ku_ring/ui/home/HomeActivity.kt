@@ -59,7 +59,7 @@ class HomeActivity : AppCompatActivity() {
         binding.homeText.setOnClickListener {
             Timber.e("homeText clicked")
             analytics.click("home btn", "HomeActivity")
-            throw RuntimeException("Test Crash")
+            //throw RuntimeException("Test Crash")
         }
     }
 
@@ -88,10 +88,10 @@ class HomeActivity : AppCompatActivity() {
             }
         }.attach()
 
-        val materialToolbar = findViewById<MaterialToolbar>(R.id.material_toolbar)
-        materialToolbar.setNavigationOnClickListener {
-            Snackbar.make(binding.root, "menu clicked", Snackbar.LENGTH_SHORT).show()
-        }
+//        val materialToolbar = findViewById<MaterialToolbar>(R.id.material_toolbar)
+//        materialToolbar.setNavigationOnClickListener {
+//            Snackbar.make(binding.root, "menu clicked", Snackbar.LENGTH_SHORT).show()
+//        }
     }
 
     private fun observeData(){
