@@ -7,7 +7,24 @@ plugins {
     id 'com.google.firebase.crashlytics'
 }
 
+def useReleaseKeystore = rootProject.file(keystore).exists()
+
 android {
+    signingConfigs {
+        release {
+            storeFile file(keystore)
+            storePassword keystore_pass
+            keyAlias key_alias
+            keyPassword key_pass
+            if (useReleaseKeystore) {
+                storeFile rootProject.file(keystore)
+                storePassword keystore_pass
+                keyAlias key_alias
+                keyPassword key_pass
+            }
+
+        }
+    }
     compileSdk 30
 
     defaultConfig {
@@ -15,7 +32,7 @@ android {
         minSdk 23
         targetSdk 30
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -25,9 +42,24 @@ android {
     }
 
     buildTypes {
+        debug {
+            manifestPlaceholders = [
+                    appName : "KU Ring Debug",
+                    appIcon : "@mipmap/ic_launcher"
+            ]
+
+            applicationIdSuffix '.debug'
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+
+            manifestPlaceholders = [
+                    appName : "@string/app_name",
+                    appIcon : "@mipmap/ic_launcher"
+            ]
         }
     }
     compileOptions {
