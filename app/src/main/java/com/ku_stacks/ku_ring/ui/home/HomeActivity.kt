@@ -122,7 +122,8 @@ class HomeActivity : AppCompatActivity() {
 
     }
     private fun invokeMenuDialog() {
-        val bottomSheet = HomeBottomSheet {
+        val bottomSheet = HomeBottomSheet()
+        bottomSheet.setArgument {
             when (it) {
                 NextActivityItem.Feedback -> {
                     Snackbar.make(binding.root,"Feedback Activity",Snackbar.LENGTH_SHORT ).show()
@@ -136,5 +137,10 @@ class HomeActivity : AppCompatActivity() {
             }
         }
         bottomSheet.show(supportFragmentManager, bottomSheet.tag)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
     }
 }

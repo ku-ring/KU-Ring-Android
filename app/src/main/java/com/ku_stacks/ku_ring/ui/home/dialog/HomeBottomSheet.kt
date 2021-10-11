@@ -12,9 +12,19 @@ enum class NextActivityItem{
     Feedback, OpenSource, PersonalInfo
 }
 
-class HomeBottomSheet(val itemClick: (NextActivityItem) -> (Unit)) : BottomSheetDialogFragment() {
+class HomeBottomSheet: BottomSheetDialogFragment() {
     private var _binding: DialogHomeMoreBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var itemClick: (NextActivityItem) -> (Unit)
+    /*
+    Fragment는 기본생성자로 생성해야함.
+    그렇지 않으면 화면회전 시 반드시 Unable to instantiate fragment...의 에러가 발생!
+    따라서 아래와 같이 람다식을 인자로 click listener 를 넘긴다.
+     */
+    fun setArgument(click: (NextActivityItem) -> (Unit)){
+        itemClick = click
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
