@@ -2,8 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/feedback_layout"
@@ -18,7 +17,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginStart="25dp"
-            android:src="@drawable/chat_bubble" />
+            android:src="@drawable/ic_chat_bubble" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -42,7 +41,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginStart="25dp"
-            android:src="@drawable/institution" />
+            android:src="@drawable/ic_institution" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -66,7 +65,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginStart="25dp"
-            android:src="@drawable/document" />
+            android:src="@drawable/ic_document" />
 
         <TextView
             android:layout_width="wrap_content"

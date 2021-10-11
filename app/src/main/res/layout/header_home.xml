@@ -2,8 +2,6 @@
 <com.google.android.material.appbar.AppBarLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/app_bar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -42,7 +40,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="12dp"
-                android:src="@drawable/menu"
+                android:src="@drawable/ic_menu"
                 android:background="@null"
                 android:contentDescription="@string/home_menu_icn" />
 
@@ -54,7 +52,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/menu_img"
                 android:layout_marginEnd="16dp"
-                android:src="@drawable/search"
+                android:src="@drawable/ic_search"
                 android:background="@null"
                 android:contentDescription="@string/home_search_icn" />
 
@@ -66,7 +64,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/search_img"
                 android:layout_marginEnd="16dp"
-                android:src="@drawable/bell"
+                android:src="@drawable/ic_bell"
                 android:background="@null"
                 android:contentDescription="@string/home_bell_icn" />
 

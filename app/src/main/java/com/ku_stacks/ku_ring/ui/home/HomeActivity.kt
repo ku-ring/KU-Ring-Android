@@ -58,12 +58,15 @@ class HomeActivity : AppCompatActivity() {
         setupHeader()
         observeData()
 
+        getFcmToken()
+
+//      anlytics, crashlytics 예시
 //        binding.homeText.setOnClickListener {
 //            Timber.e("homeText clicked")
 //            analytics.click("home btn", "HomeActivity")
 //            //throw RuntimeException("Crash On Release ver")
 //        }
-        getFcmToken()
+
     }
 
     private fun setupBinding(){
@@ -93,11 +96,9 @@ class HomeActivity : AppCompatActivity() {
         binding.homeHeader.menuImg.setOnClickListener {
             invokeMenuDialog()
         }
-
     }
 
     private fun observeData(){
-
         viewModel.homeTabState.observe(this){
             binding.homeText.text = "${it.name} in HomeActivity"
             Timber.e("${it.name} observed")
