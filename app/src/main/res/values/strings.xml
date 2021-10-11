@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">KU Ring</string>
+
+    <!--  home  -->
+    <string name="home_menu_icn">home menu img</string>
+    <string name="home_bell_icn">home bell img</string>
+    <string name="home_search_icn">home search img</string>
 </resources>

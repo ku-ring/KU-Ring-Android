@@ -8,9 +8,14 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="primary">#FF4444FF</color>
+    <!--  common  -->
     <color name="transparent">#00000000</color>
     <color name="gray">#FF7E7E7E</color>
     <color name="light_gray">#FFF1F1F1</color>
     <color name="dark_gray">#FF2F2F2F</color>
+
+    <!--  KUS  -->
+    <color name="kus_primary">#4c41bf83</color>
+    <color name="kus_highlight">#036b3f</color>
+
 </resources>

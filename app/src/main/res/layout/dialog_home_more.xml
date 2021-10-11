@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <LinearLayout
+        android:id="@+id/feedback_layout"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="25dp"
+            android:src="@drawable/chat_bubble" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="피드백 보내기"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/notosanskr_bold"
+            android:layout_marginStart="25dp" />
+   </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/open_source_layout"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toBottomOf="@+id/feedback_layout">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="25dp"
+            android:src="@drawable/institution" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="오픈소스"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/notosanskr_bold"
+            android:layout_marginStart="25dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/personal_data_layout"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toBottomOf="@+id/open_source_layout">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="25dp"
+            android:src="@drawable/document" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="개인정보 처리방침"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/notosanskr_bold"
+            android:layout_marginStart="25dp" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/personal_data_layout">
+
+        <View
+            android:layout_width="72dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center"
+            android:background="@color/dark_gray"/>
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

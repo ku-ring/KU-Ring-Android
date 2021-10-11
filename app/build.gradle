@@ -12,17 +12,12 @@ def useReleaseKeystore = rootProject.file(keystore).exists()
 android {
     signingConfigs {
         release {
-            storeFile file(keystore)
-            storePassword keystore_pass
-            keyAlias key_alias
-            keyPassword key_pass
             if (useReleaseKeystore) {
                 storeFile rootProject.file(keystore)
                 storePassword keystore_pass
                 keyAlias key_alias
                 keyPassword key_pass
             }
-
         }
     }
     compileSdk 30
@@ -35,6 +30,10 @@ android {
         versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    viewBinding {
+        enabled = true
     }
 
     dataBinding{

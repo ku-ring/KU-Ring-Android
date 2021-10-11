@@ -17,8 +17,8 @@
     <style name="WhiteTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimaryDark">@color/white</item>
         <item name="android:windowLightStatusBar">true</item>
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryVariant">@color/primary</item>
+        <item name="colorPrimary">@color/kus_highlight</item>
+        <item name="colorPrimaryVariant">@color/kus_highlight</item>
     </style>
 
     <style name="Theme.AppCompat.Transparent.NoActionBar" parent="WhiteTheme">

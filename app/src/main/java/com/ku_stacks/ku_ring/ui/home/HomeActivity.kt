@@ -2,8 +2,10 @@ package com.ku_stacks.ku_ring.ui.home
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ImageButton
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.snackbar.Snackbar
@@ -14,6 +16,8 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.databinding.ActivityHomeBinding
+import com.ku_stacks.ku_ring.ui.home.dialog.HomeBottomSheet
+import com.ku_stacks.ku_ring.ui.home.dialog.NextActivityItem
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import kotlinx.coroutines.CoroutineScope
@@ -50,17 +54,16 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        getFcmToken()
-
         setupBinding()
         setupHeader()
         observeData()
 
-        binding.homeText.setOnClickListener {
-            Timber.e("homeText clicked")
-            analytics.click("home btn", "HomeActivity")
-            //throw RuntimeException("Test Crash")
-        }
+//        binding.homeText.setOnClickListener {
+//            Timber.e("homeText clicked")
+//            analytics.click("home btn", "HomeActivity")
+//            //throw RuntimeException("Crash On Release ver")
+//        }
+        getFcmToken()
     }
 
     private fun setupBinding(){
@@ -73,8 +76,7 @@ class HomeActivity : AppCompatActivity() {
         binding.homeViewpager.adapter = HomePagerAdapter(supportFragmentManager,lifecycle)
         binding.homeViewpager.registerOnPageChangeCallback(pageChangeCallback)
 
-        val tabLayout = findViewById<TabLayout>(R.id.tab_layout)
-        TabLayoutMediator(tabLayout, binding.homeViewpager,true) { tab, position ->
+        TabLayoutMediator(binding.homeHeader.tabLayout, binding.homeViewpager,true) { tab, position ->
             //여기서 등록한 푸시알림으로 색깔 변경도 가능할듯?
             when(position){
                 0 -> tab.text = "학사"
@@ -88,10 +90,10 @@ class HomeActivity : AppCompatActivity() {
             }
         }.attach()
 
-//        val materialToolbar = findViewById<MaterialToolbar>(R.id.material_toolbar)
-//        materialToolbar.setNavigationOnClickListener {
-//            Snackbar.make(binding.root, "menu clicked", Snackbar.LENGTH_SHORT).show()
-//        }
+        binding.homeHeader.menuImg.setOnClickListener {
+            invokeMenuDialog()
+        }
+
     }
 
     private fun observeData(){
@@ -117,5 +119,21 @@ class HomeActivity : AppCompatActivity() {
             }
         }
 
+    }
+    private fun invokeMenuDialog() {
+        val bottomSheet = HomeBottomSheet {
+            when (it) {
+                NextActivityItem.Feedback -> {
+                    Snackbar.make(binding.root,"Feedback Activity",Snackbar.LENGTH_SHORT ).show()
+                }
+                NextActivityItem.OpenSource -> {
+                    Snackbar.make(binding.root,"OpenSource Activity",Snackbar.LENGTH_SHORT ).show()
+                }
+                NextActivityItem.PersonalInfo -> {
+                    Snackbar.make(binding.root,"PersonalInfo Activity",Snackbar.LENGTH_SHORT ).show()
+                }
+            }
+        }
+        bottomSheet.show(supportFragmentManager, bottomSheet.tag)
     }
 }
