@@ -17,5 +17,6 @@
     <!--  KUS  -->
     <color name="kus_primary">#4c41bf83</color>
     <color name="kus_highlight">#036b3f</color>
+    <color name="kus_dark_gray">#535b5d</color>
 
 </resources>

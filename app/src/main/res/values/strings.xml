@@ -5,4 +5,9 @@
     <string name="home_menu_icn">home menu img</string>
     <string name="home_bell_icn">home bell img</string>
     <string name="home_search_icn">home search img</string>
+
+    <!--  feedback  -->
+    <string name="feedback_send_content">피드백 보내기</string>
+    <string name="feedback_title">피드백을 남겨서 앱이 성장하는데에 \n큰 기여를 해주세요 🙂</string>
+    <string name="feedback_hint">피드백을 남겨주세요...</string>
 </resources>

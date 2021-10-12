@@ -1,5 +1,6 @@
 package com.ku_stacks.ku_ring.ui.home
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageButton
@@ -16,6 +17,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.databinding.ActivityHomeBinding
+import com.ku_stacks.ku_ring.ui.feedback.FeedbackActivity
 import com.ku_stacks.ku_ring.ui.home.dialog.HomeBottomSheet
 import com.ku_stacks.ku_ring.ui.home.dialog.NextActivityItem
 import dagger.hilt.android.AndroidEntryPoint
@@ -52,7 +54,6 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
 
         setupBinding()
         setupHeader()
@@ -127,6 +128,8 @@ class HomeActivity : AppCompatActivity() {
             when (it) {
                 NextActivityItem.Feedback -> {
                     Snackbar.make(binding.root,"Feedback Activity",Snackbar.LENGTH_SHORT ).show()
+                    val intent = Intent(this, FeedbackActivity::class.java)
+                    startActivity(intent)
                 }
                 NextActivityItem.OpenSource -> {
                     Snackbar.make(binding.root,"OpenSource Activity",Snackbar.LENGTH_SHORT ).show()

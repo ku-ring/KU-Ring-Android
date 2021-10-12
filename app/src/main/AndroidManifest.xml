@@ -26,6 +26,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".ui.feedback.FeedbackActivity" />
+
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"

@@ -4,8 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.240625" />
+        <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable/button_primary_gradation.xml" value="0.29814814814814816" />
+        <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable/edittext_primary_gradation.xml" value="0.22870370370370371" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable/home_header_indicator.xml" value="0.1" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable/indicator_home_header.xml" value="0.16614583333333333" />
+        <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/activity_feedback.xml" value="0.25" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/activity_home.xml" value="0.22" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/activity_main.xml" value="0.11322463768115942" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/dialog_home_more.xml" value="0.33" />
