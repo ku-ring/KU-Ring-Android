@@ -3,16 +3,13 @@ package com.ku_stacks.ku_ring.ui.feedback
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.databinding.ActivityFeedbackBinding
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class FeedbackActivity : AppCompatActivity() {
-    @Inject
-    lateinit var analytics : EventAnalytics
 
     private lateinit var binding: ActivityFeedbackBinding
     private val viewModel by viewModels<FeedbackViewModel>()
@@ -20,7 +17,19 @@ class FeedbackActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_feedback)
+        setupBinding()
+        observeData()
+    }
 
+    private fun setupBinding() {
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_feedback)
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
+    }
+
+    private fun observeData() {
+        viewModel.quit.observe(this) {
+            finish()
+        }
     }
 }

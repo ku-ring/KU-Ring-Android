@@ -25,6 +25,7 @@ class HomeViewModel @Inject constructor(
     init {
         Timber.e("HomeViewModel injected")
 
+        //TODO 로직은 init 외에서 호출도록 수정
         repository.fetchTrackList(
             term = "greenday",
             entity = "song",
@@ -75,6 +76,5 @@ class HomeViewModel @Inject constructor(
             disposable.dispose()
             Timber.e("compositeDisposable disposed")
         }
-
     }
 }
