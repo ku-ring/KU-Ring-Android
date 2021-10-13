@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.ui.notification
+package com.ku_stacks.ku_ring.ui.my_notification
 
 import android.os.Bundle
 import androidx.activity.viewModels
