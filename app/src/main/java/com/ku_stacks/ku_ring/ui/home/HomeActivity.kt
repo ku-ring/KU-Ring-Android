@@ -20,6 +20,7 @@ import com.ku_stacks.ku_ring.databinding.ActivityHomeBinding
 import com.ku_stacks.ku_ring.ui.feedback.FeedbackActivity
 import com.ku_stacks.ku_ring.ui.home.dialog.HomeBottomSheet
 import com.ku_stacks.ku_ring.ui.home.dialog.NextActivityItem
+import com.ku_stacks.ku_ring.ui.notification.NotificationActivity
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import kotlinx.coroutines.CoroutineScope
@@ -93,6 +94,11 @@ class HomeActivity : AppCompatActivity() {
                 7 -> tab.text = "도서관"
             }
         }.attach()
+
+        binding.homeHeader.bellImg.setOnClickListener {
+            val intent = Intent(this, NotificationActivity::class.java)
+            startActivity(intent)
+        }
 
         binding.homeHeader.menuImg.setOnClickListener {
             invokeMenuDialog()

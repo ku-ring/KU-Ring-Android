@@ -9,5 +9,12 @@
     <!--  feedback  -->
     <string name="feedback_send_content">피드백 보내기</string>
     <string name="feedback_title">피드백을 남겨서 앱이 성장하는데에 \n큰 기여를 해주세요 🙂</string>
-    <string name="feedback_hint">피드백을 남겨주세요...</string>
+    <string name="feedback_hint">피드백을 남겨주세요…</string>
+    
+    <!--  notification  -->
+    <string name="notification_my">내 알림</string>
+    <string name="notification_advice_setting">알림 설정한 항목이 없습니다.\n 알림 받고 싶은 공지를 설정해보세요!</string>
+    <string name="notification_no_noti">알림이 없어요!</string>
+    <string name="notification_setting">푸시 알림 설정하기</string>
+
 </resources>

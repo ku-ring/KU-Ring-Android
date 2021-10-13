@@ -81,7 +81,7 @@
         android:paddingEnd="16dp"
         android:overScrollMode="never"
         app:tabIndicator="@drawable/indicator_home_header"
-        app:tabIndicatorColor="@color/kus_primary"
+        app:tabIndicatorColor="@color/kus_primary_30"
         app:tabIndicatorFullWidth="true"
         app:tabIndicatorGravity="center"
         app:tabIndicatorHeight="36dp"

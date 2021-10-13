@@ -15,7 +15,8 @@
     <color name="dark_gray">#FF2F2F2F</color>
 
     <!--  KUS  -->
-    <color name="kus_primary">#4c41bf83</color>
+    <color name="kus_primary_100">#3dbd80</color>
+    <color name="kus_primary_30">#4c41bf83</color>
     <color name="kus_highlight">#036b3f</color>
     <color name="kus_dark_gray">#535b5d</color>
 

@@ -25,6 +25,7 @@
                 android:layout_height="32dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="12dp"
+                android:padding="4dp"
                 android:background="@null"
                 android:src="@drawable/ic_close"
                 android:onClick="@{() -> viewModel.closeFeedback()}"
@@ -86,7 +87,7 @@
                 android:paddingBottom="20dp"
                 android:text="@={viewModel.feedbackContent}"
                 android:textColor="@color/kus_dark_gray"
-                android:textColorHint="@color/kus_primary"
+                android:textColorHint="@color/kus_primary_30"
                 android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@+id/feedback_title_txt" />
 
