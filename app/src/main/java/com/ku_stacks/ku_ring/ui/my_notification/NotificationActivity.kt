@@ -30,6 +30,7 @@ class NotificationActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
 
         binding.backImg.setOnClickListener {
+            overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
             finish()
         }
 
@@ -37,5 +38,10 @@ class NotificationActivity : AppCompatActivity() {
             analytics.click("set_notification btn", "NotificationActivity")
             // TODO create new activity
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
     }
 }

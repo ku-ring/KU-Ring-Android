@@ -94,6 +94,7 @@ class HomeActivity : AppCompatActivity() {
         binding.homeHeader.bellImg.setOnClickListener {
             val intent = Intent(this, NotificationActivity::class.java)
             startActivity(intent)
+            overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
         }
 
         binding.homeHeader.menuImg.setOnClickListener {
