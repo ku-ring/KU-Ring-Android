@@ -131,17 +131,18 @@ class HomeActivity : AppCompatActivity() {
         bottomSheet.setArgument {
             when (it) {
                 NextActivityItem.Feedback -> {
-                    Snackbar.make(binding.root,"Feedback Activity",Snackbar.LENGTH_SHORT ).show()
+                    analytics.click("bottomSheet_Feedback btn", "HomeActivity")
                     val intent = Intent(this, FeedbackActivity::class.java)
                     startActivity(intent)
                 }
                 NextActivityItem.OpenSource -> {
-                    Snackbar.make(binding.root, "OpenSource Activity", Snackbar.LENGTH_SHORT).show()
+                    analytics.click("bottomSheet_OpenSource btn", "HomeActivity")
                     startActivity(Intent(this, OssLicensesMenuActivity::class.java))
                     OssLicensesMenuActivity.setActivityTitle("오픈소스 라이선스")
 
                 }
                 NextActivityItem.PersonalInfo -> {
+                    analytics.click("bottomSheet_PersonalInformation btn", "HomeActivity")
                     Snackbar.make(binding.root,"PersonalInfo Activity",Snackbar.LENGTH_SHORT ).show()
                 }
             }
