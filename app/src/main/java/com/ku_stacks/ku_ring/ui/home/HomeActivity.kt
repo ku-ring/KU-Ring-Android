@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.installations.FirebaseInstallations
@@ -135,7 +136,10 @@ class HomeActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
                 NextActivityItem.OpenSource -> {
-                    Snackbar.make(binding.root,"OpenSource Activity",Snackbar.LENGTH_SHORT ).show()
+                    Snackbar.make(binding.root, "OpenSource Activity", Snackbar.LENGTH_SHORT).show()
+                    startActivity(Intent(this, OssLicensesMenuActivity::class.java))
+                    OssLicensesMenuActivity.setActivityTitle("오픈소스 라이선스")
+
                 }
                 NextActivityItem.PersonalInfo -> {
                     Snackbar.make(binding.root,"PersonalInfo Activity",Snackbar.LENGTH_SHORT ).show()

@@ -35,4 +35,31 @@
         <item name="android:fontFamily">@font/notosanskr_medium</item>
     </style>
 
+    <style name="OpenSourceMenuTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimaryDark">@color/black</item>
+        <item name="colorPrimary">@color/kus_primary_100</item>
+        <item name="colorPrimaryVariant">@color/white</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/kus_primary_100</item>
+        <item name="colorOnSecondary">@color/black</item>
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <style name="OpenSourceItemTheme" parent="OpenSourceMenuTheme">
+        <item name="android:windowAnimationStyle">@style/OpenSourceItemAnimation</item>
+    </style>
+
+    <style name="OpenSourceItemAnimation">
+        <item name="android:activityOpenEnterAnimation">@anim/anim_slide_right_enter</item>
+        <item name="android:activityOpenExitAnimation">@anim/anim_slide_right_exit</item>
+        <item name="android:activityCloseEnterAnimation">@anim/anim_slide_left_enter</item>
+        <item name="android:activityCloseExitAnimation">@anim/anim_slide_left_exit</item>
+    </style>
+
 </resources>

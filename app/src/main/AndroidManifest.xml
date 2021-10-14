@@ -28,6 +28,12 @@
 
         <activity android:name=".ui.feedback.FeedbackActivity" />
         <activity android:name=".ui.my_notification.NotificationActivity" />
+        <activity
+            android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
+            android:theme="@style/OpenSourceMenuTheme" />
+        <activity
+            android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
+            android:theme="@style/OpenSourceItemTheme" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"
