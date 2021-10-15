@@ -15,6 +15,7 @@
         android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/feedback_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="32dp">
@@ -45,26 +46,27 @@
                 app:layout_constraintTop_toTopOf="@+id/close_img" />
 
             <ImageView
+                android:id="@+id/feedback_chat_img"
                 android:layout_width="42dp"
                 android:layout_height="42dp"
-                android:layout_marginTop="78dp"
+                android:layout_marginTop="36dp"
                 android:background="@null"
                 android:src="@drawable/ic_chat_bubble"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/close_img" />
 
             <TextView
                 android:id="@+id/feedback_title_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="140dp"
+                android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:fontFamily="@font/sfpro_display_medium"
                 android:text="@string/feedback_title"
                 android:textColor="@color/kus_dark_gray"
                 android:textSize="16sp"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/feedback_chat_img"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 

@@ -55,16 +55,16 @@
         <item name="toolbarNavigationButtonStyle">@style/Toolbar.Button.Navigation.Tinted</item>
     </style>
 
-    <style name="Toolbar.Button.Navigation.Tinted" parent="Widget.AppCompat.Toolbar.Button.Navigation">
-        <item name="tint">@color/white</item>
-    </style>
-
     <style name="OpenSourceItemTheme" parent="OpenSourceMenuTheme">
         <item name="android:windowAnimationStyle">@style/OpenSourceItemAnimation</item>
 
         <!--    actionbar nav icon    -->
         <item name="navigationIcon">@drawable/ic_back</item>
         <item name="toolbarNavigationButtonStyle">@style/Toolbar.Button.Navigation.Tinted</item>
+    </style>
+
+    <style name="Toolbar.Button.Navigation.Tinted" parent="Widget.AppCompat.Toolbar.Button.Navigation">
+        <item name="tint">@color/white</item>
     </style>
 
     <style name="OpenSourceItemAnimation">
