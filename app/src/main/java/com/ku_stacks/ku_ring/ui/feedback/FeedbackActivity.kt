@@ -2,7 +2,6 @@ package com.ku_stacks.ku_ring.ui.feedback
 
 import android.app.Service
 import android.os.Bundle
-import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -10,10 +9,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.databinding.ActivityFeedbackBinding
-import com.ku_stacks.ku_ring.util.SlideAnimation
+import com.ku_stacks.ku_ring.util.AppearanceAnimation
 import com.ku_stacks.ku_ring.util.SoftKeyboard
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -53,8 +51,8 @@ class FeedbackActivity : AppCompatActivity() {
                 Timber.e("on keyboard hide")
 
                 lifecycleScope.launch {
-                    SlideAnimation.expand(binding.feedbackChatImg)
-                    SlideAnimation.expand(binding.feedbackTitleTxt)
+                    AppearanceAnimation.expand(binding.feedbackChatImg)
+                    AppearanceAnimation.expand(binding.feedbackTitleTxt)
                 }
             }
 
@@ -62,8 +60,8 @@ class FeedbackActivity : AppCompatActivity() {
                 Timber.e("on keyboard show")
 
                 lifecycleScope.launch {
-                    SlideAnimation.collapse(binding.feedbackChatImg)
-                    SlideAnimation.collapse(binding.feedbackTitleTxt)
+                    AppearanceAnimation.collapse(binding.feedbackChatImg)
+                    AppearanceAnimation.collapse(binding.feedbackTitleTxt)
                 }
             }
 
