@@ -3,6 +3,8 @@ package com.ku_stacks.ku_ring.di
 import com.ku_stacks.ku_ring.BuildConfig
 import com.ku_stacks.ku_ring.data.api.ITunesClient
 import com.ku_stacks.ku_ring.data.api.ITunesService
+import com.ku_stacks.ku_ring.data.api.NoticeClient
+import com.ku_stacks.ku_ring.data.api.NoticeService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,7 +20,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
-    const val BASE_URL = "https://itunes.apple.com/"
+    const val BASE_URL = "https://kuring-dev.herokuapp.com/api/v1/"
 
     @Provides
     @Singleton
@@ -55,5 +57,17 @@ object NetworkModule {
     @Singleton
     fun provideITunesClient(iTunesService: ITunesService): ITunesClient{
         return ITunesClient(iTunesService)
+    }
+
+    @Provides
+    @Singleton
+    fun provideNoticeService(retrofit: Retrofit): NoticeService {
+        return retrofit.create(NoticeService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideNoticeClient(noticeService: NoticeService): NoticeClient {
+        return NoticeClient(noticeService)
     }
 }

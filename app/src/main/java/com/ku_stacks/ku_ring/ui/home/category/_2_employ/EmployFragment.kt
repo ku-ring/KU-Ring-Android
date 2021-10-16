@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class EmployFragment : HomeCategoryFragment(){
+class EmployFragment : HomeBaseFragment(){
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return super.onCreateView(inflater, container, savedInstanceState)

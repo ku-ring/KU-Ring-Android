@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.databinding.FragmentHomeCategoryBinding
 
-abstract class HomeCategoryFragment : Fragment(){
+abstract class HomeBaseFragment : Fragment(){
 
     lateinit var binding: FragmentHomeCategoryBinding
 

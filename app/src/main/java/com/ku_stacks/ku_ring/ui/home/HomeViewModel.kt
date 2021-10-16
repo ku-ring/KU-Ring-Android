@@ -26,21 +26,21 @@ class HomeViewModel @Inject constructor(
         Timber.e("HomeViewModel injected")
 
         //TODO 로직은 init 외에서 호출도록 수정
-        repository.fetchTrackList(
-            term = "greenday",
-            entity = "song",
-            limit = 20,
-            offset = 0
-        )
-            .map { result -> result.results } //데이터 변환
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ result ->
-                Timber.e("fetchTrackList success ${result.size}")
-            }, { error ->
-                Timber.e("fetchTrackList fail : $error")
-            })
-            .apply { disposable.add(this) }
+//        repository.fetchTrackList(
+//            term = "greenday",
+//            entity = "song",
+//            limit = 20,
+//            offset = 0
+//        )
+//            .map { result -> result.results } //데이터 변환
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe({ result ->
+//                Timber.e("fetchTrackList success ${result.size}")
+//            }, { error ->
+//                Timber.e("fetchTrackList fail : $error")
+//            })
+//            .apply { disposable.add(this) }
 
     }
 
