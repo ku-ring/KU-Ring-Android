@@ -138,6 +138,9 @@ dependencies {
 
     //open source notices
     implementation("com.google.android.gms:play-services-oss-licenses:17.0.0")
+
+    //soft keyboard listener
+    implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:3.0.0-RC3'
 }
 
 kapt {
