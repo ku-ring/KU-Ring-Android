@@ -46,5 +46,13 @@ class BachelorViewModel @Inject constructor(
             .cachedIn(viewModelScope)
     }
 
+    override fun onCleared() {
+        super.onCleared()
+
+        if (!disposable.isDisposed) {
+            disposable.dispose()
+            Timber.e("compositeDisposable disposed")
+        }
+    }
 
 }

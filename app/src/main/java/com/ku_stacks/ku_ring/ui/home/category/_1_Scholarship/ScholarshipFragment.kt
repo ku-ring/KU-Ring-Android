@@ -4,18 +4,24 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import com.ku_stacks.ku_ring.ui.home.category._0_Bachelor.BachelorViewModel
+import com.ku_stacks.ku_ring.ui.home.category._1_Scholarship.ScholarshipViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class ScholarshipFragment: HomeBaseFragment() {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
+    private val viewModel by viewModels<ScholarshipViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.tv1.text = "Scholarship"
+
+        disposable.add(viewModel.getNotices().subscribe {
+            pagingAdapter.submitData(lifecycle, it)
+            Timber.e("notice page received")
+        })
     }
 
 }

@@ -15,10 +15,8 @@ import timber.log.Timber
 
 @AndroidEntryPoint
 class BachelorFragment : HomeBaseFragment() {
-    private val disposable = CompositeDisposable()
 
     private val viewModel by viewModels<BachelorViewModel>()
-    private lateinit var pagingAdapter: NoticePagingAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return super.onCreateView(inflater, container, savedInstanceState)
@@ -27,11 +25,6 @@ class BachelorFragment : HomeBaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //viewModel.loadNotice()
-
-        pagingAdapter = NoticePagingAdapter()
-
-        binding.listView.layoutManager = LinearLayoutManager(activity)
-        binding.listView.adapter = pagingAdapter
 
         disposable.add(viewModel.getNotices().subscribe {
             pagingAdapter.submitData(lifecycle, it)
