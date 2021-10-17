@@ -5,12 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModel
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.ku_stacks.ku_ring.ui.home.category.HomeBaseFragment
-import com.ku_stacks.ku_ring.ui.home.category.NoticePagingAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 import timber.log.Timber
 
 @AndroidEntryPoint

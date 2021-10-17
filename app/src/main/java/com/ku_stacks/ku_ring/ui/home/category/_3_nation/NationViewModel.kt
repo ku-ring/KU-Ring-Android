@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.ui.home.category._0_Bachelor
+package com.ku_stacks.ku_ring.ui.home.category._3_nation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,25 +7,22 @@ import androidx.paging.rxjava3.cachedIn
 import com.ku_stacks.ku_ring.data.entity.Notice
 import com.ku_stacks.ku_ring.repository.NoticeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Flowable
-import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class BachelorViewModel @Inject constructor(
+class NationViewModel @Inject constructor(
     private val repository: NoticeRepository
 ): ViewModel() {
 
     init {
-        Timber.e("BachelorViewModel injected")
+        Timber.e("NationViewModel injected")
     }
 
     fun getNotices(): Flowable<PagingData<Notice>> {
         return repository
-            .getNotices("bch")
+            .getNotices("nat")
             .cachedIn(viewModelScope)
     }
 }

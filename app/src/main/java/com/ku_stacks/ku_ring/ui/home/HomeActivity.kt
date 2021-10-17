@@ -59,12 +59,14 @@ class HomeActivity : AppCompatActivity() {
 
         getFcmToken()
 
-//      anlytics, crashlytics 예시
-//        binding.homeText.setOnClickListener {
-//            Timber.e("homeText clicked")
-//            analytics.click("home btn", "HomeActivity")
-//            //throw RuntimeException("Crash On Release ver")
-//        }
+    /*
+        anlytics, crashlytics 예시
+        binding.homeText.setOnClickListener {
+        Timber.e("homeText clicked")
+        analytics.click("home btn", "HomeActivity")
+        //throw RuntimeException("Crash On Release ver")
+        }
+    */
 
     }
 
@@ -75,8 +77,10 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setupHeader(){
-        binding.homeViewpager.adapter = HomePagerAdapter(supportFragmentManager,lifecycle)
+        val pagerAdapter = HomePagerAdapter(supportFragmentManager,lifecycle)
+        binding.homeViewpager.adapter = pagerAdapter
         binding.homeViewpager.registerOnPageChangeCallback(pageChangeCallback)
+        //binding.homeViewpager.offscreenPageLimit = pagerAdapter.itemCount
 
         TabLayoutMediator(binding.homeHeader.tabLayout, binding.homeViewpager,true) { tab, position ->
             //여기서 등록한 푸시알림으로 색깔 변경도 가능할듯?

@@ -35,7 +35,13 @@ abstract class HomeBaseFragment : Fragment(){
     }
 
     override fun onDestroyView() {
-        disposable.dispose()
+        if (!disposable.isDisposed) {
+            disposable.dispose()
+        }
         super.onDestroyView()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 }
