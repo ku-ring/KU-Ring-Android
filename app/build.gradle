@@ -147,6 +147,12 @@ dependencies {
     testImplementation 'org.mockito:mockito-inline:2.21.0'
     testImplementation "androidx.arch.core:core-testing:2.1.0"
     testImplementation 'org.mockito:mockito-core:3.5.9'
+
+    //paging
+    def paging_version = "3.0.1"
+    implementation "androidx.paging:paging-runtime:$paging_version"
+    implementation "androidx.paging:paging-common-ktx:$paging_version"
+    implementation "androidx.paging:paging-rxjava3:$paging_version"
 }
 
 kapt {

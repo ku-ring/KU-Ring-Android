@@ -5,7 +5,7 @@ import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
 class NoticeClient @Inject constructor(
-    private val noticeService: NoticeService
+    val noticeService: NoticeService
 ) {
     fun fetchNotice(
         type: String,
