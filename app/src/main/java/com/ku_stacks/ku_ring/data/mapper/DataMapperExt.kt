@@ -10,7 +10,7 @@ fun transformNotice(response : NoticeListResponse): List<Notice> {
                 postedDate = it.postedDate,
                 subject = it.subject,
                 category = it.category,
-                url = this.baseUrl + "id?=" + it.articleId,
+                url = this.baseUrl + "?id=" + it.articleId,
                 isRead = false,
                 isUpdated = false
             )
