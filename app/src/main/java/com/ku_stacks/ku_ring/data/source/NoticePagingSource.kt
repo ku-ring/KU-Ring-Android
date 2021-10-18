@@ -7,6 +7,8 @@ import com.ku_stacks.ku_ring.data.entity.Notice
 import com.ku_stacks.ku_ring.data.mapper.transformNotice
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
+import timber.log.Timber
+import java.util.concurrent.TimeUnit
 
 class NoticePagingSource constructor(
     private val type: String,
@@ -20,10 +22,15 @@ class NoticePagingSource constructor(
 
         return service.fetchNoticeList(type, position, itemSize)
             .subscribeOn(Schedulers.io())
+            .doOnError{
+                Timber.e("network error of '$type' in NoticePagingSource : ${it.message}")
+            }
+            .retryWhen { flowable ->
+                flowable.take(3).delay(5000, TimeUnit.MILLISECONDS)
+            }
             .map { transformNotice(it) }
             .map { toLoadResult(it, position) }
             .onErrorReturn { LoadResult.Error(it) }
-
     }
 
     private fun toLoadResult(data: List<Notice>, position: Int): LoadResult<Int, Notice> {
