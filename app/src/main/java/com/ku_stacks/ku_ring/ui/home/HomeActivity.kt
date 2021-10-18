@@ -109,7 +109,6 @@ class HomeActivity : AppCompatActivity() {
 
     private fun observeData(){
         viewModel.homeTabState.observe(this){
-            binding.homeText.text = "${it.name} in HomeActivity"
             Timber.e("${it.name} observed")
         }
     }

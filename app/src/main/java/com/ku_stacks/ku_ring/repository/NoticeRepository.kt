@@ -22,9 +22,8 @@ class NoticeRepository @Inject constructor(
     fun getNotices(type: String): Flowable<PagingData<Notice>> {
         return Pager(
             config = PagingConfig(
-                pageSize = 10,
+                pageSize = 10,  //이것보다 PagingSource 에서 ItemCount 가 중요함
                 enablePlaceholders = true
-            //TODO 추가 configuration 고민
             ),
             pagingSourceFactory = { NoticePagingSource(type, noticeClient.noticeService) }
         ).flowable

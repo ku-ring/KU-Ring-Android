@@ -18,8 +18,7 @@ class NoticePagingSource constructor(
     private val itemSize = 10
 
     override fun loadSingle(params: LoadParams<Int>): Single<LoadResult<Int, Notice>> {
-        val position = params.key ?: 1 //TODO 다시생각
-
+        val position = params.key ?: 0
         return service.fetchNoticeList(type, position, itemSize)
             .subscribeOn(Schedulers.io())
             .doOnError{
@@ -36,7 +35,7 @@ class NoticePagingSource constructor(
     private fun toLoadResult(data: List<Notice>, position: Int): LoadResult<Int, Notice> {
         return LoadResult.Page(
             data = data,
-            prevKey = if (position == 1) null else position - itemSize, //TODO 다시생각
+            prevKey = if (position == 0) null else position - itemSize, //TODO 다시생각
             nextKey = if (data.isEmpty()) null else position + itemSize
         )
     }
