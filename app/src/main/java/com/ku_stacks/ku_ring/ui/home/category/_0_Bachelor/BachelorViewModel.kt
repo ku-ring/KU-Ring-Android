@@ -7,10 +7,7 @@ import androidx.paging.rxjava3.cachedIn
 import com.ku_stacks.ku_ring.data.entity.Notice
 import com.ku_stacks.ku_ring.repository.NoticeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Flowable
-import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -21,6 +18,10 @@ class BachelorViewModel @Inject constructor(
 
     init {
         Timber.e("BachelorViewModel injected")
+
+        // TEST
+        repository.insertNotice()
+        repository.getNoticeRecord()
     }
 
     fun getNotices(): Flowable<PagingData<Notice>> {
