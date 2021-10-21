@@ -11,8 +11,10 @@ data class Notice(
     val category: String,
     @SerializedName(value = "url")
     val url: String,
+    @SerializedName(value = "articleId")
+    val articleId: String,
     @SerializedName(value = "isRead")
-    val isRead: Boolean,
-    @SerializedName(value = "isUpdated")
-    val isUpdated: Boolean
+    var isRead: Boolean,
+    @SerializedName(value = "isNew")
+    var isNew: Boolean
 )

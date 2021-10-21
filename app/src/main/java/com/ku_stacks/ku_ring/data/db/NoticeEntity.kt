@@ -9,5 +9,5 @@ data class NoticeEntity(
     @PrimaryKey @ColumnInfo(name = "articleId") val articleId: String,
     @ColumnInfo(name = "category") val category: String,
     @ColumnInfo(name = "isRead") val isRead: Boolean,
-    @ColumnInfo(name = "isUpdate") val isUpdate: Boolean
+    @ColumnInfo(name = "isNew") val isNew: Boolean
 )

@@ -3,6 +3,9 @@ package com.ku_stacks.ku_ring.ui.home.category._0_Bachelor
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.filter
+import androidx.paging.flatMap
+import androidx.paging.map
 import androidx.paging.rxjava3.cachedIn
 import com.ku_stacks.ku_ring.data.entity.Notice
 import com.ku_stacks.ku_ring.repository.NoticeRepository
@@ -20,7 +23,7 @@ class BachelorViewModel @Inject constructor(
         Timber.e("BachelorViewModel injected")
 
         // TEST
-        repository.insertNotice()
+        //repository.insertNotice()
         repository.getNoticeRecord()
     }
 

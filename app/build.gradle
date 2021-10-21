@@ -13,6 +13,10 @@ def useReleaseKeystore = rootProject.file(keystore).exists()
 android {
     signingConfigs {
         release {
+            keyPassword key_pass
+            keyAlias key_alias
+            storePassword keystore_pass
+            storeFile file(keystore)
             if (useReleaseKeystore) {
                 storeFile rootProject.file(keystore)
                 storePassword keystore_pass

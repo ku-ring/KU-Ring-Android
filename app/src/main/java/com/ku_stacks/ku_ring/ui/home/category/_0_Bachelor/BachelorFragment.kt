@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.ku_stacks.ku_ring.ui.home.category.HomeBaseFragment
 import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -22,10 +23,15 @@ class BachelorFragment : HomeBaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         //viewModel.loadNotice()
 
-        disposable.add(viewModel.getNotices().subscribe {
-            pagingAdapter.submitData(lifecycle, it)
-            Timber.e("notice page received")
-        })
+        try {
+            disposable.add(viewModel.getNotices().subscribe {
+                pagingAdapter.submitData(lifecycle, it)
+                Timber.e("notice page received")
+            })
+        }
+        catch (e: Exception){
+            Timber.e("getNotices() Exception : $e")
+        }
     }
 
     override fun onDestroyView() {

@@ -7,7 +7,7 @@ import timber.log.Timber
 
 class NoticeViewHolder(private val binding: ItemNoticeBinding) : RecyclerView.ViewHolder(binding.root) {
     fun bind(notice: Notice) {
-        Timber.e("received notice : $notice")
+        //Timber.e("received notice : $notice")
         binding.noticeItem = notice
         binding.executePendingBindings()
     }

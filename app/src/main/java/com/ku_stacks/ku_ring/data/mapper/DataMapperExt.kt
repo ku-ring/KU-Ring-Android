@@ -11,8 +11,9 @@ fun transformNotice(response : NoticeListResponse): List<Notice> {
                 subject = it.subject,
                 category = it.category,
                 url = this.baseUrl + "?id=" + it.articleId,
+                articleId = it.articleId,
                 isRead = false,
-                isUpdated = false
+                isNew = false
             )
         }
     }
