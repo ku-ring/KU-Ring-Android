@@ -15,6 +15,7 @@
 - DataBinding
 - ViewModel
 - Paging3
+- Room
 - Startup - 앱 시작 시 startup 간소화, 초기화 순서 명시
 - CoordinatorLayout
 
