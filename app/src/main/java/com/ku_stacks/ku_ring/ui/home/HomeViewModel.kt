@@ -3,16 +3,13 @@ package com.ku_stacks.ku_ring.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ku_stacks.ku_ring.repository.ITunesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
-    repository: ITunesRepository
-): ViewModel(){
+class HomeViewModel @Inject constructor(): ViewModel(){
 
     private val disposable = CompositeDisposable()
 

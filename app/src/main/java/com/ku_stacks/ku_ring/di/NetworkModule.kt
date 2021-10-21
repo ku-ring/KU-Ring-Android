@@ -1,8 +1,6 @@
 package com.ku_stacks.ku_ring.di
 
 import com.ku_stacks.ku_ring.BuildConfig
-import com.ku_stacks.ku_ring.data.api.ITunesClient
-import com.ku_stacks.ku_ring.data.api.ITunesService
 import com.ku_stacks.ku_ring.data.api.NoticeClient
 import com.ku_stacks.ku_ring.data.api.NoticeService
 import dagger.Module
@@ -45,18 +43,6 @@ object NetworkModule {
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .build()
-    }
-
-    @Provides
-    @Singleton
-    fun provideITunesService(retrofit: Retrofit): ITunesService {
-        return retrofit.create(ITunesService::class.java)
-    }
-
-    @Provides
-    @Singleton
-    fun provideITunesClient(iTunesService: ITunesService): ITunesClient{
-        return ITunesClient(iTunesService)
     }
 
     @Provides

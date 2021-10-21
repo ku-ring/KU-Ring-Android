@@ -16,6 +16,16 @@
         android:paddingTop="8dp"
         android:paddingBottom="20dp">
 
+        <View
+            visibleIf="@{noticeItem.isNew}"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/point_primary_pink"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/notice_title_txt"
             android:layout_width="match_parent"
@@ -42,6 +52,5 @@
             app:layout_constraintTop_toBottomOf="@+id/notice_title_txt"
             android:layout_marginTop="6dp"
             tools:text="2021.10.01" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,5 +1,6 @@
 package com.ku_stacks.ku_ring.adapter
 
+import android.view.View
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import timber.log.Timber
@@ -13,6 +14,15 @@ object BindingAdapters {
             str
         } else {
             str.substring(0, 4) + "." + str.substring(4, 6) + "." + str.substring(6, 8)
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("visibleIf")
+    fun View.visibleIf(value:Boolean){
+        visibility = when(value){
+            true -> View.VISIBLE
+            else -> View.GONE
         }
     }
 }
