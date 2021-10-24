@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.ku_stacks.ku_ring.databinding.DialogHomeMoreBinding
+import com.ku_stacks.ku_ring.databinding.DialogHomeBottomSheetBinding
 import timber.log.Timber
 
 enum class NextActivityItem{
@@ -13,7 +13,7 @@ enum class NextActivityItem{
 }
 
 class HomeBottomSheet: BottomSheetDialogFragment() {
-    private var _binding: DialogHomeMoreBinding? = null
+    private var _binding: DialogHomeBottomSheetBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var itemClick: (NextActivityItem) -> (Unit)
@@ -32,7 +32,7 @@ class HomeBottomSheet: BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        _binding = DialogHomeMoreBinding.inflate(inflater, container, false)
+        _binding = DialogHomeBottomSheetBinding.inflate(inflater, container, false)
         return binding.root
     }
 

@@ -21,7 +21,7 @@
             android:layout_width="8dp"
             android:layout_height="8dp"
             android:layout_marginStart="20dp"
-            android:background="@drawable/point_primary_pink"
+            android:background="@drawable/point_primary_gray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

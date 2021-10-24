@@ -26,7 +26,7 @@
             android:text="피드백 보내기"
             android:textSize="16sp"
             android:textColor="@color/black"
-            android:fontFamily="@font/notosanskr_bold"
+            android:fontFamily="@font/notosanskr_regular"
             android:layout_marginStart="25dp" />
    </LinearLayout>
 
@@ -51,7 +51,7 @@
             android:text="오픈소스"
             android:textSize="16sp"
             android:textColor="@color/black"
-            android:fontFamily="@font/notosanskr_bold"
+            android:fontFamily="@font/notosanskr_regular"
             android:layout_marginStart="25dp" />
     </LinearLayout>
 
@@ -76,7 +76,7 @@
             android:text="개인정보 처리방침"
             android:textSize="16sp"
             android:textColor="@color/black"
-            android:fontFamily="@font/notosanskr_bold"
+            android:fontFamily="@font/notosanskr_regular"
             android:layout_marginStart="25dp" />
     </LinearLayout>
 
