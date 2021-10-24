@@ -3,110 +3,117 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
             name="viewModel"
             type="com.ku_stacks.ku_ring.ui.feedback.FeedbackViewModel" />
     </data>
 
-    <ScrollView
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/feedback_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:layout_height="wrap_content">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/feedback_layout"
-            android:layout_width="match_parent"
+        <ImageButton
+            android:id="@+id/close_img"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:background="@null"
+            android:onClick="@{() -> viewModel.closeFeedback()}"
+            android:padding="4dp"
+            android:src="@drawable/ic_close"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="32dp">
+            android:layout_marginStart="28dp"
+            android:fontFamily="@font/notosanskr_medium"
+            android:text="@string/feedback_send_content"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/close_img"
+            app:layout_constraintStart_toEndOf="@+id/close_img"
+            app:layout_constraintTop_toTopOf="@+id/close_img" />
 
-            <ImageButton
-                android:id="@+id/close_img"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="12dp"
-                android:padding="4dp"
-                android:background="@null"
-                android:src="@drawable/ic_close"
-                android:onClick="@{() -> viewModel.closeFeedback()}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="56dp"
+            android:fillViewport="true"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="28dp"
-                android:fontFamily="@font/notosanskr_medium"
-                android:text="@string/feedback_send_content"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="@+id/close_img"
-                app:layout_constraintStart_toEndOf="@+id/close_img"
-                app:layout_constraintTop_toTopOf="@+id/close_img" />
-
-            <ImageView
-                android:id="@+id/feedback_chat_img"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:layout_marginTop="36dp"
-                android:background="@null"
-                android:src="@drawable/ic_chat_bubble"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/close_img" />
-
-            <TextView
-                android:id="@+id/feedback_title_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:gravity="center"
-                android:fontFamily="@font/sfpro_display_medium"
-                android:text="@string/feedback_title"
-                android:textColor="@color/kus_dark_gray"
-                android:textSize="16sp"
-                app:layout_constraintTop_toBottomOf="@+id/feedback_chat_img"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
-
-            <EditText
-                android:id="@+id/feedback_et"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="230dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-                android:autofillHints="no"
-                android:background="@drawable/edittext_primary_gradation"
-                android:fontFamily="@font/sfpro_display_regular"
-                android:gravity="top"
-                android:hint="@string/feedback_hint"
-                android:inputType="textMultiLine"
-                android:paddingStart="20dp"
-                android:paddingTop="20dp"
-                android:paddingEnd="20dp"
-                android:paddingBottom="20dp"
-                android:text="@={viewModel.feedbackContent}"
-                android:textColor="@color/kus_dark_gray"
-                android:textColorHint="@color/kus_primary_30"
-                android:textSize="14sp"
-                app:layout_constraintTop_toBottomOf="@+id/feedback_title_txt" />
+                android:layout_height="wrap_content"
+                android:paddingBottom="16dp">
 
-            <Button
-                android:id="@+id/feedback_send_btn"
-                android:layout_width="match_parent"
-                android:layout_height="38dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/button_primary_gradation"
-                android:fontFamily="@font/sfpro_display_regular"
-                android:text="@string/feedback_send_content"
-                android:textColor="@color/white"
-                android:textSize="15sp"
-                android:onClick="@{() -> viewModel.sendFeedback()}"
-                app:layout_constraintTop_toBottomOf="@+id/feedback_et" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+                <ImageView
+                    android:id="@+id/feedback_chat_img"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:background="@null"
+                    android:src="@drawable/ic_chat_bubble"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/feedback_title_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/sfpro_display_medium"
+                    android:gravity="center"
+                    android:text="@string/feedback_title"
+                    android:textColor="@color/kus_dark_gray"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/feedback_chat_img" />
+
+                <EditText
+                    android:id="@+id/feedback_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="230dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:autofillHints="no"
+                    android:background="@drawable/edittext_primary_gradation"
+                    android:fontFamily="@font/sfpro_display_regular"
+                    android:gravity="top"
+                    android:hint="@string/feedback_hint"
+                    android:inputType="textMultiLine"
+                    android:paddingStart="20dp"
+                    android:paddingTop="20dp"
+                    android:paddingEnd="20dp"
+                    android:paddingBottom="20dp"
+                    android:text="@={viewModel.feedbackContent}"
+                    android:textColor="@color/kus_dark_gray"
+                    android:textColorHint="@color/kus_primary_30"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@+id/feedback_title_txt" />
+
+                <Button
+                    android:id="@+id/feedback_send_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="38dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="@drawable/button_primary_gradation"
+                    android:fontFamily="@font/sfpro_display_regular"
+                    android:onClick="@{() -> viewModel.sendFeedback()}"
+                    android:text="@string/feedback_send_content"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    app:layout_constraintTop_toBottomOf="@+id/feedback_et" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
