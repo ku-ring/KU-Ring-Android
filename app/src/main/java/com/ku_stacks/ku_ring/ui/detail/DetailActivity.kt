@@ -21,6 +21,8 @@ class DetailActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
 
+        val url = intent.getStringExtra("url")
+
         webView = findViewById(R.id.detail_webView)
         webView.webViewClient = WebViewClient() // 클릭시 새창 안뜨게
 
@@ -37,6 +39,8 @@ class DetailActivity: AppCompatActivity() {
             domStorageEnabled = true // 로컬저장소 허용 여부
         }
 
-        webView.loadUrl("https://naver.com") // 웹뷰에 표시할 웹사이트 주소, 웹뷰 시작
+        url?.let {
+            webView.loadUrl(it) //웹뷰에 표시할 웹사이트 주소, 웹뷰 시작
+        }
     }
 }

@@ -40,12 +40,11 @@ class NoticeRepository @Inject constructor(
             for (noticeRecord in it) {
                 if (noticeRecord.articleId == notice.articleId) {
                     _isNew = false
-                    _isRead = notice.isRead
+                    _isRead = noticeRecord.isRead
                     break
                 }
             }
         }
-        Timber.e("articleId with full Notice Data : ${notice.articleId}")
 
         return Notice(
             postedDate = notice.postedDate,
@@ -88,6 +87,24 @@ class NoticeRepository @Inject constructor(
         ).subscribeOn(Schedulers.io())
             .subscribe({ Timber.e("noticeRecord Insert true") },
                 { Timber.e("noticeRecord Insert fail") })
+    }
 
+    fun updateNoticeToBeRead(articleId: String, category: String) {
+        noticeDao.updateNotice(
+            NoticeEntity(
+                articleId = articleId,
+                category = category,
+                isRead = true,
+                isNew = false)
+        )
+            .subscribeOn(Schedulers.io())
+            .subscribe({ Timber.e("noticeRecord update true $articleId") },
+                { Timber.e("noticeRecord update fail") })
+    }
+
+    fun showAllNotices(){ //not using
+        for(noticeRecord in noticeRecordList!!){
+            Timber.e("notice Record : ${noticeRecord.articleId}, ${noticeRecord.isRead}")
+        }
     }
 }

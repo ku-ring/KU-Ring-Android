@@ -13,6 +13,7 @@ import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.messaging.FirebaseMessaging
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.analytics.EventAnalytics
+import com.ku_stacks.ku_ring.data.entity.Notice
 import com.ku_stacks.ku_ring.databinding.ActivityHomeBinding
 import com.ku_stacks.ku_ring.ui.detail.DetailActivity
 import com.ku_stacks.ku_ring.ui.feedback.FeedbackActivity
@@ -152,6 +153,10 @@ class HomeActivity : AppCompatActivity() {
             }
         }
         bottomSheet.show(supportFragmentManager, bottomSheet.tag)
+    }
+
+    fun updateNoticeTobeRead(notice: Notice) {
+        viewModel.updateNoticeTobeRead(notice)
     }
 
     override fun onDestroy() {

@@ -3,13 +3,17 @@ package com.ku_stacks.ku_ring.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.ku_stacks.ku_ring.data.entity.Notice
+import com.ku_stacks.ku_ring.repository.NoticeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(): ViewModel(){
+class HomeViewModel @Inject constructor(
+    private val repository: NoticeRepository
+): ViewModel(){
 
     private val disposable = CompositeDisposable()
 
@@ -19,24 +23,10 @@ class HomeViewModel @Inject constructor(): ViewModel(){
 
     init {
         Timber.e("HomeViewModel injected")
+    }
 
-        //TODO 로직은 init 외에서 호출도록 수정
-//        repository.fetchTrackList(
-//            term = "greenday",
-//            entity = "song",
-//            limit = 20,
-//            offset = 0
-//        )
-//            .map { result -> result.results } //데이터 변환
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe({ result ->
-//                Timber.e("fetchTrackList success ${result.size}")
-//            }, { error ->
-//                Timber.e("fetchTrackList fail : $error")
-//            })
-//            .apply { disposable.add(this) }
-
+    fun updateNoticeTobeRead(notice: Notice) {
+        repository.updateNoticeToBeRead(notice.articleId, notice.category)
     }
 
     fun onBchTabClick() {

@@ -8,12 +8,13 @@ import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.data.entity.Notice
 import com.ku_stacks.ku_ring.databinding.ItemNoticeBinding
 
-class NoticePagingAdapter : PagingDataAdapter<Notice, NoticeViewHolder>(NoticeDiffCallback) {
+class NoticePagingAdapter(private val itemClick: (Notice) -> Unit) :
+    PagingDataAdapter<Notice, NoticeViewHolder>(NoticeDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoticeViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_notice, parent, false)
         val binding = ItemNoticeBinding.bind(view)
-        return NoticeViewHolder(binding)
+        return NoticeViewHolder(binding, itemClick)
     }
 
     override fun onBindViewHolder(holder: NoticeViewHolder, position: Int) {

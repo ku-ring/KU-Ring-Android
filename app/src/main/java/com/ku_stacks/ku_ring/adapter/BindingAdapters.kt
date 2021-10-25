@@ -1,8 +1,11 @@
 package com.ku_stacks.ku_ring.adapter
 
+import android.graphics.Color
 import android.view.View
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
+import com.ku_stacks.ku_ring.R
 import timber.log.Timber
 
 object BindingAdapters {
@@ -19,10 +22,21 @@ object BindingAdapters {
 
     @JvmStatic
     @BindingAdapter("visibleIf")
-    fun View.visibleIf(value:Boolean){
-        visibility = when(value){
+    fun View.visibleIf(value: Boolean) {
+        visibility = when (value) {
             true -> View.VISIBLE
             else -> View.GONE
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("backgroundGrayIf")
+    fun View.backgroundGrayIf(value: Boolean) {
+        if(value) {
+            setBackgroundColor(Color.parseColor("#14000000"))
+        }
+        else {
+            setBackgroundColor(Color.parseColor("#ffffff"))
         }
     }
 }

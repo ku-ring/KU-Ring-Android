@@ -35,7 +35,7 @@ class NoticePagingSource constructor(
     private fun toLoadResult(data: List<Notice>, position: Int): LoadResult<Int, Notice> {
         return LoadResult.Page(
             data = data,
-            prevKey = if (position == 0) null else position - itemSize, //TODO 다시생각
+            prevKey = if (position == 0) null else position - itemSize,
             nextKey = if (data.isEmpty()) null else position + itemSize
         )
     }
