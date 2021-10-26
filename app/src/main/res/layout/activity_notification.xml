@@ -16,6 +16,7 @@
             android:background="@null"
             android:padding="4dp"
             android:src="@drawable/ic_back"
+            app:tint="@color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,26 +33,12 @@
             app:layout_constraintTop_toTopOf="@+id/back_img" />
 
         <TextView
-            android:id="@+id/notification_no_setting_txt"
+            android:id="@+id/notification_alert_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/sfpro_display_bold"
+            android:fontFamily="@font/sfpro_display_medium"
             android:gravity="center"
-            android:text="@string/notification_advice_setting"
-            android:textColor="@color/kus_primary_100"
-            android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/notification_no_noti_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/sfpro_display_regular"
-            android:gravity="center"
-            android:text="@string/notification_no_noti"
+            android:text="@string/notification_alert"
             android:textColor="@color/kus_dark_gray"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
