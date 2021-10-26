@@ -8,6 +8,7 @@ import com.ku_stacks.ku_ring.data.db.NoticeEntity
 import com.ku_stacks.ku_ring.data.entity.Notice
 import com.ku_stacks.ku_ring.data.source.NoticePagingSource
 import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
@@ -17,55 +18,70 @@ class NoticeRepository @Inject constructor(
     private val noticeDao: NoticeDao,
 ) {
     private var noticeRecordList: List<NoticeEntity>? = null
+    private var isReadRecordList: List<NoticeEntity>? = null
 
     fun getNotices(type: String): Flowable<PagingData<Notice>> {
         return getFlowableLocal()
-            .flatMap { localNoticeInfo ->
-                noticeRecordList = localNoticeInfo //TODO exist 검사를 위해 Hashmap 으로 저장하자
+            .flatMap {
                 getFlowableRemoteNotice(type)
             }
             .map {
                 it.map { notice ->
                     insertNotice(notice.articleId, notice.category)
-                    addUserInfoWithDB(notice)
+                    transformInfoWithDB(notice)
                 }
             }
     }
 
-    private fun addUserInfoWithDB(notice: Notice): Notice {
+    private fun transformInfoWithDB(remoteNotice: Notice): Notice {
         var _isNew = true
         var _isRead = false
-        noticeRecordList?.let {
-            //TODO Hashmap으로 개선 가능
-            for (noticeRecord in it) {
-                if (noticeRecord.articleId == notice.articleId) {
+        noticeRecordList?.let { it->
+            for (isNewRecord in it) {
+                if (isNewRecord.articleId == remoteNotice.articleId) {
                     _isNew = false
-                    _isRead = noticeRecord.isRead
+                    break
+                }
+            }
+        }
+
+        isReadRecordList?.let {
+            for(isReadRecord in it) {
+                if(isReadRecord.articleId == remoteNotice.articleId) {
+                    _isRead = isReadRecord.isRead
                     break
                 }
             }
         }
 
         return Notice(
-            postedDate = notice.postedDate,
-            subject = notice.subject,
-            category = notice.category,
-            url = notice.url,
-            articleId = notice.articleId,
+            postedDate = remoteNotice.postedDate,
+            subject = remoteNotice.subject,
+            category = remoteNotice.category,
+            url = remoteNotice.url,
+            articleId = remoteNotice.articleId,
             isRead = _isRead,
             isNew = _isNew
         )
     }
 
     private fun getFlowableLocal(): Flowable<List<NoticeEntity>> {
-        return if (noticeRecordList != null) {
-            Flowable.just(noticeRecordList)
-        } else {
-            noticeDao.getNoticeRecord()
-                .subscribeOn(Schedulers.io())
-                .toFlowable()
-        }
+        return noticeDao.getNoticeRecord()
+            .subscribeOn(Schedulers.io())
+            .toFlowable()
+            .doOnNext {
+                noticeRecordList = it //TODO HashMap으로 개선 가능
+            }
+            .flatMap {
+                noticeDao.getReadNoticeRecord(true)
+            }
+            .doOnNext {
+                isReadRecordList = it //TODO DB 쿼리로 개선 가능
+            }
+            .distinctUntilChanged()
     }
+
+
 
     private fun getFlowableRemoteNotice(type: String): Flowable<PagingData<Notice>>{
          return Pager(
@@ -85,7 +101,9 @@ class NoticeRepository @Inject constructor(
                 isRead = false,
                 isNew = false)
         ).subscribeOn(Schedulers.io())
-            .subscribe({ Timber.e("noticeRecord Insert true") },
+            .subscribe({
+                // TODO 주석 다시 풀기 Timber.e("noticeRecord Insert true")
+                       },
                 { Timber.e("noticeRecord Insert fail") })
     }
 
@@ -106,5 +124,15 @@ class NoticeRepository @Inject constructor(
         for(noticeRecord in noticeRecordList!!){
             Timber.e("notice Record : ${noticeRecord.articleId}, ${noticeRecord.isRead}")
         }
+    }
+
+    fun deleteDB() { // for testing
+        noticeDao.deleteAllNoticeRecord()
+            .subscribeOn(Schedulers.io())
+            .subscribe ({
+                Timber.e("delete db success")
+            }, {
+                Timber.e("delete db fail")
+            })
     }
 }

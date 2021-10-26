@@ -107,6 +107,10 @@ class HomeActivity : AppCompatActivity() {
         binding.homeHeader.menuImg.setOnClickListener {
             invokeMenuDialog()
         }
+
+        binding.homeHeader.searchImg.setOnClickListener {
+            viewModel.deleteDB()
+        }
     }
 
     private fun observeData(){

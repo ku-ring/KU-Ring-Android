@@ -29,7 +29,7 @@ class NoticePagingAdapter(private val itemClick: (Notice) -> Unit) :
         }
 
         override fun areContentsTheSame(oldItem: Notice, newItem: Notice): Boolean {
-            return oldItem.url == newItem.url
+            return oldItem.url == newItem.url && oldItem.isRead == newItem.isRead
         }
     }
 }

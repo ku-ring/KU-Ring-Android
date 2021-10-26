@@ -29,6 +29,10 @@ class HomeViewModel @Inject constructor(
         repository.updateNoticeToBeRead(notice.articleId, notice.category)
     }
 
+    fun deleteDB() {
+        repository.deleteDB()
+    }
+
     fun onBchTabClick() {
         _homeTabState.postValue(HomeTabState.Bch)
     }
