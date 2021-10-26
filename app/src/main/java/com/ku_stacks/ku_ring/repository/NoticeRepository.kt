@@ -8,7 +8,6 @@ import com.ku_stacks.ku_ring.data.db.NoticeEntity
 import com.ku_stacks.ku_ring.data.entity.Notice
 import com.ku_stacks.ku_ring.data.source.NoticePagingSource
 import io.reactivex.rxjava3.core.Flowable
-import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
@@ -17,7 +16,7 @@ class NoticeRepository @Inject constructor(
     private val noticeClient: NoticeClient,
     private val noticeDao: NoticeDao,
 ) {
-    private var noticeRecordList: List<NoticeEntity>? = null
+    private var isNewRecordHashMap = HashMap<String, NoticeEntity>()
     private var isReadRecordList: List<NoticeEntity>? = null
 
     fun getNotices(type: String): Flowable<PagingData<Notice>> {
@@ -28,21 +27,17 @@ class NoticeRepository @Inject constructor(
             .map {
                 it.map { notice ->
                     insertNotice(notice.articleId, notice.category)
-                    transformInfoWithDB(notice)
+                    transformUiData(notice)
                 }
             }
     }
 
-    private fun transformInfoWithDB(remoteNotice: Notice): Notice {
+    private fun transformUiData(remoteNotice: Notice): Notice {
         var _isNew = true
         var _isRead = false
-        noticeRecordList?.let { it->
-            for (isNewRecord in it) {
-                if (isNewRecord.articleId == remoteNotice.articleId) {
-                    _isNew = false
-                    break
-                }
-            }
+
+        if(isNewRecordHashMap.containsKey(remoteNotice.articleId)){
+            _isNew = false
         }
 
         isReadRecordList?.let {
@@ -70,7 +65,9 @@ class NoticeRepository @Inject constructor(
             .subscribeOn(Schedulers.io())
             .toFlowable()
             .doOnNext {
-                noticeRecordList = it //TODO HashMap으로 개선 가능
+                for(localNotice in it){
+                    isNewRecordHashMap[localNotice.articleId] = localNotice
+                }
             }
             .flatMap {
                 noticeDao.getReadNoticeRecord(true)
@@ -101,9 +98,7 @@ class NoticeRepository @Inject constructor(
                 isRead = false,
                 isNew = false)
         ).subscribeOn(Schedulers.io())
-            .subscribe({
-                // TODO 주석 다시 풀기 Timber.e("noticeRecord Insert true")
-                       },
+            .subscribe({ Timber.e("noticeRecord Insert true") },
                 { Timber.e("noticeRecord Insert fail") })
     }
 
@@ -118,12 +113,6 @@ class NoticeRepository @Inject constructor(
             .subscribeOn(Schedulers.io())
             .subscribe({ Timber.e("noticeRecord update true $articleId") },
                 { Timber.e("noticeRecord update fail") })
-    }
-
-    fun showAllNotices(){ //not using
-        for(noticeRecord in noticeRecordList!!){
-            Timber.e("notice Record : ${noticeRecord.articleId}, ${noticeRecord.isRead}")
-        }
     }
 
     fun deleteDB() { // for testing
