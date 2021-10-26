@@ -17,7 +17,6 @@ class NoticeRepository @Inject constructor(
     private val noticeDao: NoticeDao,
 ) {
     private var isNewRecordHashMap = HashMap<String, NoticeEntity>()
-    private var isReadRecordList: List<NoticeEntity>? = null
 
     fun getNotices(type: String): Flowable<PagingData<Notice>> {
         return getFlowableLocal()
@@ -33,21 +32,8 @@ class NoticeRepository @Inject constructor(
     }
 
     private fun transformUiData(remoteNotice: Notice): Notice {
-        var _isNew = true
-        var _isRead = false
-
-        if(isNewRecordHashMap.containsKey(remoteNotice.articleId)){
-            _isNew = false
-        }
-
-        isReadRecordList?.let {
-            for(isReadRecord in it) {
-                if(isReadRecord.articleId == remoteNotice.articleId) {
-                    _isRead = isReadRecord.isRead
-                    break
-                }
-            }
-        }
+        val isNew = !isNewRecordHashMap.containsKey(remoteNotice.articleId)
+        val isRead  = noticeDao.isReadNotice(remoteNotice.articleId)
 
         return Notice(
             postedDate = remoteNotice.postedDate,
@@ -55,8 +41,8 @@ class NoticeRepository @Inject constructor(
             category = remoteNotice.category,
             url = remoteNotice.url,
             articleId = remoteNotice.articleId,
-            isRead = _isRead,
-            isNew = _isNew
+            isNew = isNew,
+            isRead = isRead
         )
     }
 
@@ -71,9 +57,6 @@ class NoticeRepository @Inject constructor(
             }
             .flatMap {
                 noticeDao.getReadNoticeRecord(true)
-            }
-            .doOnNext {
-                isReadRecordList = it //TODO DB 쿼리로 개선 가능
             }
             .distinctUntilChanged()
     }
@@ -95,11 +78,12 @@ class NoticeRepository @Inject constructor(
             NoticeEntity(
                 articleId = articleId,
                 category = category,
-                isRead = false,
-                isNew = false)
+                isNew = false,
+                isRead = false)
         ).subscribeOn(Schedulers.io())
-            .subscribe({ Timber.e("noticeRecord Insert true") },
-                { Timber.e("noticeRecord Insert fail") })
+            .subscribe({
+                //Timber.e("noticeRecord Insert true : $articleId")
+            }, { Timber.e("noticeRecord Insert fail") })
     }
 
     fun updateNoticeToBeRead(articleId: String, category: String) {
@@ -107,12 +91,13 @@ class NoticeRepository @Inject constructor(
             NoticeEntity(
                 articleId = articleId,
                 category = category,
-                isRead = true,
-                isNew = false)
+                isNew = false,
+                isRead = true)
         )
             .subscribeOn(Schedulers.io())
-            .subscribe({ Timber.e("noticeRecord update true $articleId") },
-                { Timber.e("noticeRecord update fail") })
+            .subscribe({
+                //Timber.e("noticeRecord update true : $articleId")
+            }, { Timber.e("noticeRecord update fail") })
     }
 
     fun deleteDB() { // for testing

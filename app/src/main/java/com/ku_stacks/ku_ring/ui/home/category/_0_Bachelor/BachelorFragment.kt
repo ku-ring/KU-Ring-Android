@@ -27,9 +27,4 @@ class BachelorFragment : HomeBaseFragment() {
         })
 
     }
-
-    override fun onDestroyView() {
-        disposable.dispose()
-        super.onDestroyView()
-    }
 }

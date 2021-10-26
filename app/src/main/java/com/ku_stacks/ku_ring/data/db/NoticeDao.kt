@@ -4,6 +4,7 @@ import androidx.room.*
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 @Dao
 interface NoticeDao {
@@ -20,8 +21,11 @@ interface NoticeDao {
     fun updateNotice(notice: NoticeEntity): Completable
 
     @Query("SELECT COUNT(*) FROM NoticeEntity WHERE isRead = :value and articleId = :id")
-    fun isReadNotice(value: Boolean, id: String): Single<Int>
+    fun getCountForReadNotice(value: Boolean, id: String): Single<Int>
 
+    fun isReadNotice(id: String): Boolean {
+        return getCountForReadNotice(true, id).subscribeOn(Schedulers.io()).blockingGet() > 0
+    }
 
     //not using now
     @Query("DELETE FROM NoticeEntity")

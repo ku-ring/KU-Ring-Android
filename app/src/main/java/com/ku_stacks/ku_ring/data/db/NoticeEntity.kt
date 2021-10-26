@@ -8,6 +8,6 @@ import androidx.room.PrimaryKey
 data class NoticeEntity(
     @PrimaryKey @ColumnInfo(name = "articleId") val articleId: String,
     @ColumnInfo(name = "category") val category: String,
-    @ColumnInfo(name = "isRead") val isRead: Boolean,
-    @ColumnInfo(name = "isNew") val isNew: Boolean
+    @ColumnInfo(name = "isNew") val isNew: Boolean,
+    @ColumnInfo(name = "isRead") val isRead: Boolean
 )
