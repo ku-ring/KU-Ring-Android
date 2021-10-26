@@ -29,6 +29,10 @@ class HomeViewModel @Inject constructor(
         repository.updateNoticeToBeRead(notice.articleId, notice.category)
     }
 
+    fun insertNotice(articleId: String, category: String) {
+        repository.insertNotice(articleId = articleId, category = category)
+    }
+
     fun deleteDB() {
         repository.deleteDB()
     }

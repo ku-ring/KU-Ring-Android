@@ -32,15 +32,19 @@ abstract class HomeBaseFragment : Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        pagingAdapter = NoticePagingAdapter { notice ->
-            (activity as HomeActivity).updateNoticeTobeRead(notice)
-            val intent = Intent(requireActivity(), DetailActivity::class.java)
-            intent.putExtra("url", notice.url)
-            startActivity(intent)
-        }
+        pagingAdapter = NoticePagingAdapter(
+            { notice -> startDetailActivity(notice) },
+            { notice -> (activity as HomeActivity).insertNotice(notice.articleId, notice.category) })
 
         binding.listView.layoutManager = LinearLayoutManager(activity)
         binding.listView.adapter = pagingAdapter
+    }
+
+    private fun startDetailActivity(notice: Notice){
+        (activity as HomeActivity).updateNoticeTobeRead(notice)
+        val intent = Intent(requireActivity(), DetailActivity::class.java)
+        intent.putExtra("url", notice.url)
+        startActivity(intent)
     }
 
     override fun onDestroyView() {

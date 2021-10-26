@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.google.android.material.snackbar.Snackbar
@@ -15,15 +16,12 @@ import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.data.entity.Notice
 import com.ku_stacks.ku_ring.databinding.ActivityHomeBinding
-import com.ku_stacks.ku_ring.ui.detail.DetailActivity
 import com.ku_stacks.ku_ring.ui.feedback.FeedbackActivity
 import com.ku_stacks.ku_ring.ui.home.dialog.HomeBottomSheet
 import com.ku_stacks.ku_ring.ui.home.dialog.NextActivityItem
 import com.ku_stacks.ku_ring.ui.my_notification.NotificationActivity
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -120,7 +118,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun getFcmToken() {
-        CoroutineScope(Dispatchers.Default).launch {
+        lifecycleScope.launch {
             val instance = FirebaseInstallations.getInstance()
             Timber.e("FCM instance : $instance")
 
@@ -163,8 +161,7 @@ class HomeActivity : AppCompatActivity() {
         viewModel.updateNoticeTobeRead(notice)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-
+    fun insertNotice(articleId: String, category: String) {
+        viewModel.insertNotice(articleId, category)
     }
 }

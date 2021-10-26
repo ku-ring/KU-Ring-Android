@@ -8,7 +8,10 @@ import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.data.entity.Notice
 import com.ku_stacks.ku_ring.databinding.ItemNoticeBinding
 
-class NoticePagingAdapter(private val itemClick: (Notice) -> Unit) :
+class NoticePagingAdapter(
+    private val itemClick: (Notice) -> Unit,
+    private val onBindItem: (Notice) -> Unit,
+) :
     PagingDataAdapter<Notice, NoticeViewHolder>(NoticeDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoticeViewHolder {
@@ -20,6 +23,7 @@ class NoticePagingAdapter(private val itemClick: (Notice) -> Unit) :
     override fun onBindViewHolder(holder: NoticeViewHolder, position: Int) {
         getItem(position)?.let {
             holder.bind(it)
+            onBindItem(it)
         }
     }
 

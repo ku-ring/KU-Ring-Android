@@ -20,14 +20,9 @@ class NoticeRepository @Inject constructor(
 
     fun getNotices(type: String): Flowable<PagingData<Notice>> {
         return getFlowableLocal()
-            .flatMap {
-                getFlowableRemoteNotice(type)
-            }
+            .flatMap { getFlowableRemoteNotice(type) }
             .map {
-                it.map { notice ->
-                    insertNotice(notice.articleId, notice.category)
-                    transformUiData(notice)
-                }
+                it.map { notice -> transformUiData(notice) }
             }
     }
 
@@ -61,8 +56,6 @@ class NoticeRepository @Inject constructor(
             .distinctUntilChanged()
     }
 
-
-
     private fun getFlowableRemoteNotice(type: String): Flowable<PagingData<Notice>>{
          return Pager(
             config = PagingConfig(
@@ -73,7 +66,7 @@ class NoticeRepository @Inject constructor(
         ).flowable
     }
 
-    private fun insertNotice(articleId: String, category: String) {
+    fun insertNotice(articleId: String, category: String) {
         noticeDao.insertNotice(
             NoticeEntity(
                 articleId = articleId,
