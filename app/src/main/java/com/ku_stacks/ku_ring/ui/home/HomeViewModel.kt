@@ -7,6 +7,7 @@ import com.ku_stacks.ku_ring.data.entity.Notice
 import com.ku_stacks.ku_ring.repository.NoticeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -26,11 +27,24 @@ class HomeViewModel @Inject constructor(
     }
 
     fun updateNoticeTobeRead(notice: Notice) {
-        repository.updateNoticeToBeRead(notice.articleId, notice.category)
+        disposable.add(
+            repository.updateNoticeToBeRead(notice.articleId, notice.category)
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    //Timber.e("noticeRecord update true : $articleId")
+                }, { Timber.e("noticeRecord update fail") })
+        )
+
     }
 
     fun insertNotice(articleId: String, category: String) {
-        repository.insertNotice(articleId = articleId, category = category)
+        disposable.add(
+            repository.insertNotice(articleId = articleId, category = category)
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    //Timber.e("noticeRecord Insert true : $articleId")
+                }, { Timber.e("noticeRecord Insert fail") })
+        )
     }
 
     fun deleteDB() {

@@ -9,6 +9,7 @@ import com.ku_stacks.ku_ring.data.entity.Notice
 import com.ku_stacks.ku_ring.data.source.NoticePagingSource
 import com.ku_stacks.ku_ring.util.DateUtil
 import com.ku_stacks.ku_ring.util.PreferenceUtil
+import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber
@@ -84,31 +85,24 @@ class NoticeRepository @Inject constructor(
         ).flowable
     }
 
-    fun insertNotice(articleId: String, category: String) {
-        noticeDao.insertNotice(
+    fun insertNotice(articleId: String, category: String): Completable {
+        return noticeDao.insertNotice(
             NoticeEntity(
                 articleId = articleId,
                 category = category,
                 isNew = false,
                 isRead = false)
-        ).subscribeOn(Schedulers.io())
-            .subscribe({
-                //Timber.e("noticeRecord Insert true : $articleId")
-            }, { Timber.e("noticeRecord Insert fail") })
+        )
     }
 
-    fun updateNoticeToBeRead(articleId: String, category: String) {
-        noticeDao.updateNotice(
+    fun updateNoticeToBeRead(articleId: String, category: String): Completable {
+        return noticeDao.updateNotice(
             NoticeEntity(
                 articleId = articleId,
                 category = category,
                 isNew = false,
                 isRead = true)
         )
-            .subscribeOn(Schedulers.io())
-            .subscribe({
-                //Timber.e("noticeRecord update true : $articleId")
-            }, { Timber.e("noticeRecord update fail") })
     }
 
     fun deleteDB() { // for testing
