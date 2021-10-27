@@ -18,11 +18,11 @@ object DBModule {
 
     @Singleton
     @Provides
-    fun provideNoticeDatabase(@ApplicationContext context: Context): KuRingDatabase {
+    fun provideKuRingDatabase(@ApplicationContext context: Context): KuRingDatabase {
         return Room.databaseBuilder(
             context,
             KuRingDatabase::class.java,
-            "notices-db")
+            "ku-ring-db")
             .build()
     }
 

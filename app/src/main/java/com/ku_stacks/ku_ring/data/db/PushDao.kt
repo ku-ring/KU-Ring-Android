@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.core.Flowable
 
 @Dao
 interface PushDao {
@@ -13,5 +13,5 @@ interface PushDao {
     fun insertNotification(pushEntity: PushEntity): Completable
 
     @Query("SELECT * FROM PushEntity")
-    fun getNotification(): Single<List<PushEntity>>
+    fun getNotification(): Flowable<List<PushEntity>>
 }

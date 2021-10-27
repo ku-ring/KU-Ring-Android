@@ -8,24 +8,70 @@ import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Build
 import androidx.core.app.NotificationCompat
+import androidx.room.Room
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.ku_stacks.ku_ring.data.db.KuRingDatabase
+import com.ku_stacks.ku_ring.data.db.PushDao
+import com.ku_stacks.ku_ring.data.db.PushEntity
+import com.ku_stacks.ku_ring.di.DBModule.provideKuRingDatabase
+import com.ku_stacks.ku_ring.di.DBModule.providePushDao
 import com.ku_stacks.ku_ring.ui.home.HomeActivity
+import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber
 
 class MyFireBaseMessagingService : FirebaseMessagingService() {
+
+    private var pushDao: PushDao? = null
 
     override fun onNewToken(token: String){
         Timber.e("refreshed token : $token")
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        remoteMessage.data?.let { map ->
-            Timber.e(map["title2"])
-            val str = map["title3"]
-            sendNotification(str, str)
+
+        readyForDatabase()
+
+        val articleId = remoteMessage.data["articleId"]
+        val category = remoteMessage.data["category"]
+        val postedDate = remoteMessage.data["date"]
+        val subject = remoteMessage.data["subject"]
+        val baseUrl = remoteMessage.data["baseUrl"]
+
+        if (articleId.isNullOrEmpty() || category.isNullOrEmpty() || postedDate.isNullOrEmpty()
+            || subject.isNullOrEmpty() || baseUrl.isNullOrEmpty()) {
+            return
         }
 
+        insertNotificationIntoDatabase(articleId, category, postedDate, subject, baseUrl)
+        sendNotification(title = subject, body = category)
+    }
+
+    private fun readyForDatabase() {
+        pushDao = providePushDao(provideKuRingDatabase(applicationContext))
+    }
+
+    private fun insertNotificationIntoDatabase(
+        articleId: String,
+        category: String,
+        postedDate: String,
+        subject: String,
+        baseUrl: String
+    ) {
+        pushDao?.insertNotification(
+            PushEntity(
+                articleId = articleId,
+                category = category,
+                postedDate = postedDate,
+                subject = subject,
+                baseUrl = baseUrl,
+                isNew = false
+            )
+        )?.subscribeOn(Schedulers.io())?.subscribe({
+            Timber.e("insert success in service")
+        }, {
+            Timber.e("insert failed in service")
+        })?.dispose()
     }
 
     private fun sendNotification(title: String?, body: String?){

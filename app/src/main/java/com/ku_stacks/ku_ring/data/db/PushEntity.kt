@@ -9,6 +9,8 @@ class PushEntity(
     @PrimaryKey
     @ColumnInfo(name = "articleId") val articleId: String,
     @ColumnInfo(name = "category") val category: String,
-    @ColumnInfo(name = "date") val date: String,
-    @ColumnInfo(name = "isNew") val isNew: Boolean,
+    @ColumnInfo(name = "postedDate") val postedDate: String,
+    @ColumnInfo(name = "subject") val subject: String,
+    @ColumnInfo(name = "baseUrl") val baseUrl: String,
+    @ColumnInfo(name = "isNew") val isNew: Boolean
 )
