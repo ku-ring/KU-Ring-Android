@@ -3,6 +3,7 @@ package com.ku_stacks.ku_ring.di
 import com.ku_stacks.ku_ring.data.api.NoticeClient
 import com.ku_stacks.ku_ring.data.db.NoticeDao
 import com.ku_stacks.ku_ring.repository.NoticeRepository
+import com.ku_stacks.ku_ring.util.PreferenceUtil
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,8 +18,9 @@ object RepositoryModule {
     @Singleton
     fun provideNoticeRepository(
         noticeClient: NoticeClient,
-        noticeDao: NoticeDao
+        noticeDao: NoticeDao,
+        pref: PreferenceUtil
     ): NoticeRepository {
-        return NoticeRepository(noticeClient, noticeDao)
+        return NoticeRepository(noticeClient, noticeDao, pref)
     }
 }

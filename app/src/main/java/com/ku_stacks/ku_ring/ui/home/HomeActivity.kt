@@ -20,6 +20,7 @@ import com.ku_stacks.ku_ring.ui.feedback.FeedbackActivity
 import com.ku_stacks.ku_ring.ui.home.dialog.HomeBottomSheet
 import com.ku_stacks.ku_ring.ui.home.dialog.NextActivityItem
 import com.ku_stacks.ku_ring.ui.my_notification.NotificationActivity
+import com.ku_stacks.ku_ring.util.PreferenceUtil
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import kotlinx.coroutines.launch
@@ -30,6 +31,9 @@ class HomeActivity : AppCompatActivity() {
 
     @Inject
     lateinit var analytics : EventAnalytics
+
+    @Inject
+    lateinit var pref: PreferenceUtil
 
     private lateinit var binding: ActivityHomeBinding
     private val viewModel by viewModels<HomeViewModel>()
@@ -107,7 +111,9 @@ class HomeActivity : AppCompatActivity() {
         }
 
         binding.homeHeader.searchImg.setOnClickListener {
+            //testing
             viewModel.deleteDB()
+            pref.deleteStartDate()
         }
     }
 

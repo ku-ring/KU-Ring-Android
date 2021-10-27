@@ -7,6 +7,8 @@ import com.ku_stacks.ku_ring.data.db.NoticeDao
 import com.ku_stacks.ku_ring.data.db.NoticeEntity
 import com.ku_stacks.ku_ring.data.entity.Notice
 import com.ku_stacks.ku_ring.data.source.NoticePagingSource
+import com.ku_stacks.ku_ring.util.DateUtil
+import com.ku_stacks.ku_ring.util.PreferenceUtil
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber
@@ -15,30 +17,48 @@ import javax.inject.Inject
 class NoticeRepository @Inject constructor(
     private val noticeClient: NoticeClient,
     private val noticeDao: NoticeDao,
+    private val pref: PreferenceUtil
 ) {
     private val isNewRecordHashMap = HashMap<String, NoticeEntity>()
 
     fun getNotices(type: String): Flowable<PagingData<Notice>> {
         return getFlowableLocal()
             .flatMap { getFlowableRemoteNotice(type) }
-            .map {
-                it.map { notice -> transformUiData(notice) }
-            }
+            .map { transformRemoteData(it) }
     }
 
-    private fun transformUiData(remoteNotice: Notice): Notice {
-        val isNew = !isNewRecordHashMap.containsKey(remoteNotice.articleId)
-        val isRead  = noticeDao.isReadNotice(remoteNotice.articleId)
-
-        return Notice(
-            postedDate = remoteNotice.postedDate,
-            subject = remoteNotice.subject,
-            category = remoteNotice.category,
-            url = remoteNotice.url,
-            articleId = remoteNotice.articleId,
-            isNew = isNew,
-            isRead = isRead
-        )
+    private fun transformRemoteData(pagingData: PagingData<Notice>): PagingData<Notice> {
+        val startDate = pref.getStartDate()
+        if (startDate.isNullOrEmpty() || DateUtil.isToday(startDate)) { // 설치 이후 앱을 처음 킨 날만
+            Timber.e("This is first connect day")
+            if (startDate.isNullOrEmpty()) {
+                pref.setStartDate(DateUtil.getToday())
+            }
+            return pagingData.map {
+                Notice(
+                    postedDate = it.postedDate,
+                    subject = it.subject,
+                    category = it.category,
+                    url = it.url,
+                    articleId = it.articleId,
+                    isNew = DateUtil.isToday(it.postedDate),
+                    isRead = false
+                )
+            }
+        } else { //앱을 처음 킨 것이 아닌 경우(일반적인 케이스)
+            Timber.e("This is not first connect day")
+            return pagingData.map {
+                Notice(
+                    postedDate = it.postedDate,
+                    subject = it.subject,
+                    category = it.category,
+                    url = it.url,
+                    articleId = it.articleId,
+                    isNew = !isNewRecordHashMap.containsKey(it.articleId),
+                    isRead = noticeDao.isReadNotice(it.articleId)
+                )
+            }
+        }
     }
 
     private fun getFlowableLocal(): Flowable<List<NoticeEntity>> {
@@ -50,9 +70,7 @@ class NoticeRepository @Inject constructor(
                     isNewRecordHashMap[localNotice.articleId] = localNotice
                 }
             }
-            .flatMap {
-                noticeDao.getReadNoticeRecord(true)
-            }
+            .flatMap { noticeDao.getReadNoticeRecord(true) }
             .distinctUntilChanged()
     }
 
