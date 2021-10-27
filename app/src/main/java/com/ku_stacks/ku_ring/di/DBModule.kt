@@ -3,7 +3,8 @@ package com.ku_stacks.ku_ring.di
 import android.content.Context
 import androidx.room.Room
 import com.ku_stacks.ku_ring.data.db.NoticeDao
-import com.ku_stacks.ku_ring.data.db.NoticeDatabase
+import com.ku_stacks.ku_ring.data.db.KuRingDatabase
+import com.ku_stacks.ku_ring.data.db.PushDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,16 +18,21 @@ object DBModule {
 
     @Singleton
     @Provides
-    fun provideNoticeDatabase(@ApplicationContext context: Context): NoticeDatabase {
+    fun provideNoticeDatabase(@ApplicationContext context: Context): KuRingDatabase {
         return Room.databaseBuilder(
             context,
-            NoticeDatabase::class.java,
+            KuRingDatabase::class.java,
             "notices-db")
             .build()
     }
 
     @Singleton
     @Provides
-    fun provideNoticeDao(database: NoticeDatabase): NoticeDao
+    fun provideNoticeDao(database: KuRingDatabase): NoticeDao
         = database.noticeDao()
+
+    @Singleton
+    @Provides
+    fun providePushDao(database: KuRingDatabase): PushDao
+        = database.pushDao()
 }
