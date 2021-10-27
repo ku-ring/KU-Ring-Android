@@ -8,16 +8,16 @@ import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Build
 import androidx.core.app.NotificationCompat
-import androidx.room.Room
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.ku_stacks.ku_ring.data.db.KuRingDatabase
 import com.ku_stacks.ku_ring.data.db.PushDao
 import com.ku_stacks.ku_ring.data.db.PushEntity
 import com.ku_stacks.ku_ring.di.DBModule.provideKuRingDatabase
 import com.ku_stacks.ku_ring.di.DBModule.providePushDao
 import com.ku_stacks.ku_ring.ui.home.HomeActivity
-import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class MyFireBaseMessagingService : FirebaseMessagingService() {
@@ -34,7 +34,7 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
 
         val articleId = remoteMessage.data["articleId"]
         val category = remoteMessage.data["category"]
-        val postedDate = remoteMessage.data["date"]
+        val postedDate = remoteMessage.data["postedDate"]
         val subject = remoteMessage.data["subject"]
         val baseUrl = remoteMessage.data["baseUrl"]
 
@@ -58,27 +58,32 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
         subject: String,
         baseUrl: String
     ) {
-        pushDao?.insertNotification(
-            PushEntity(
-                articleId = articleId,
-                category = category,
-                postedDate = postedDate,
-                subject = subject,
-                baseUrl = baseUrl,
-                isNew = false
-            )
-        )?.subscribeOn(Schedulers.io())?.subscribe({
-            Timber.e("insert success in service")
-        }, {
-            Timber.e("insert failed in service")
-        })?.dispose()
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                pushDao?.insertNotification(
+                    PushEntity(
+                        articleId = articleId,
+                        category = category,
+                        postedDate = postedDate,
+                        subject = subject,
+                        baseUrl = baseUrl,
+                        isNew = true
+                    )
+                )
+                Timber.e("insert notification success")
+            }
+            catch (e: Exception) {
+                Timber.e("insert notification error : $e")
+            }
+
+        }
     }
 
     private fun sendNotification(title: String?, body: String?){
         val intent = Intent(this, HomeActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
         val defaultSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-        val channelId = "ku_stack_channel_id"
+        val channelId = "알림 소리"
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.mipmap.ic_launcher)
             .setContentTitle(title)

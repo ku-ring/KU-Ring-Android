@@ -1,6 +1,9 @@
 package com.ku_stacks.ku_ring.ui.my_notification
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.ku_stacks.ku_ring.data.db.PushEntity
 import com.ku_stacks.ku_ring.repository.PushRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -15,31 +18,37 @@ class NotificationViewModel @Inject constructor(
 
     private val disposable = CompositeDisposable()
 
+    private val _pushList = MutableLiveData<List<PushEntity>>()
+    val pushList: LiveData<List<PushEntity>>
+        get() = _pushList
+
     init {
         Timber.e("NotificationViewModel injected")
+        //repository.deleteAllNotification()
     }
 
     fun getMyNotification() {
-        repository.getMyNotification()
-            .subscribeOn(Schedulers.io())
-            .subscribe({
-
-            }, {
-                Timber.e("getMyNotification failed : $it")
-            })
+        disposable.add(
+            repository.getMyNotification()
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    _pushList.postValue(it)
+                }, {
+                    Timber.e("getMyNotification failed : $it")
+                })
+        )
     }
 
-    //testing
-    fun showPushDB() {
-        repository.getMyNotification()
-            .subscribeOn(Schedulers.io())
-            .subscribe({
-                for(push in it){
-                    Timber.e("pushEntity : ${push.articleId}, ${push.isNew}")
-                }
-            }, {
-                Timber.e("get pushEntity fail")
-            })
+    fun updateNotification(articleId: String) {
+        disposable.add(
+            repository.updateNotification(articleId)
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    //Timber.e("update noti success with adapter")
+                }, {
+                    Timber.e("update noti failed with adapter")
+                })
+        )
     }
 
     override fun onCleared() {
