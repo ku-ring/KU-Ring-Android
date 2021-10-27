@@ -12,11 +12,17 @@ object BindingAdapters {
     @JvmStatic
     @BindingAdapter("timeMillis")
     fun TextView.getDay(str: String) {
-        text = if (str.length != 8) {
-            Timber.e("timeMillis String length is not 8 in BindingAdapter")
-            str
-        } else {
-            str.substring(0, 4) + "." + str.substring(4, 6) + "." + str.substring(6, 8)
+        text = when (str.length) {
+            8 -> { // "20211018"
+                str.substring(0, 4) + "." + str.substring(4, 6) + "." + str.substring(6, 8)
+            }
+            19 -> { // "2021-10-10 21:37:37"
+                str.substring(0, 4) + "." + str.substring(5, 7) + "." + str.substring(8, 10)
+            }
+            else -> {
+                Timber.e("timeMillis String length is not 8 in BindingAdapter")
+                str
+            }
         }
     }
 

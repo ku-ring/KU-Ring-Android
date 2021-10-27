@@ -16,7 +16,7 @@ class NoticeRepository @Inject constructor(
     private val noticeClient: NoticeClient,
     private val noticeDao: NoticeDao,
 ) {
-    private var isNewRecordHashMap = HashMap<String, NoticeEntity>()
+    private val isNewRecordHashMap = HashMap<String, NoticeEntity>()
 
     fun getNotices(type: String): Flowable<PagingData<Notice>> {
         return getFlowableLocal()
