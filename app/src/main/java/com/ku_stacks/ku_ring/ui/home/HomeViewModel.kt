@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ku_stacks.ku_ring.data.entity.Notice
 import com.ku_stacks.ku_ring.repository.NoticeRepository
+import com.ku_stacks.ku_ring.repository.PushRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -13,7 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val repository: NoticeRepository
+    private val noticeRepository: NoticeRepository,
+    private val pushRepository: PushRepository
 ): ViewModel(){
 
     private val disposable = CompositeDisposable()
@@ -22,33 +24,49 @@ class HomeViewModel @Inject constructor(
     val homeTabState: LiveData<HomeTabState>
         get() = _homeTabState
 
+    private val _pushCount = MutableLiveData<Int>()
+    val pushCount : LiveData<Int>
+        get() = _pushCount
+
     init {
         Timber.e("HomeViewModel injected")
+        getNotificationCount()
     }
 
     fun updateNoticeTobeRead(notice: Notice) {
         disposable.add(
-            repository.updateNoticeToBeRead(notice.articleId, notice.category)
+            noticeRepository.updateNoticeToBeRead(notice.articleId, notice.category)
                 .subscribeOn(Schedulers.io())
                 .subscribe({
                     //Timber.e("noticeRecord update true : $articleId")
                 }, { Timber.e("noticeRecord update fail") })
         )
-
     }
 
     fun insertNotice(articleId: String, category: String) {
         disposable.add(
-            repository.insertNotice(articleId = articleId, category = category)
+            noticeRepository.insertNotice(articleId = articleId, category = category)
                 .subscribeOn(Schedulers.io())
                 .subscribe({
                     //Timber.e("noticeRecord Insert true : $articleId")
-                }, { Timber.e("noticeRecord Insert fail") })
+                }, { Timber.e("noticeRecord Insert fail $it") })
+        )
+    }
+
+    private fun getNotificationCount() {
+        disposable.add(
+            pushRepository.getNotificationCount()
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    _pushCount.postValue(it)
+                }, {
+                    Timber.e("getNotificationCount error $it")
+                })
         )
     }
 
     fun deleteDB() {
-        repository.deleteDB()
+        noticeRepository.deleteDB()
     }
 
     fun onBchTabClick() {

@@ -3,6 +3,7 @@ package com.ku_stacks.ku_ring.ui.home
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
@@ -112,14 +113,28 @@ class HomeActivity : AppCompatActivity() {
 
         binding.homeHeader.searchImg.setOnClickListener {
             //testing
-            viewModel.deleteDB()
-            pref.deleteStartDate()
         }
     }
 
     private fun observeData(){
-        viewModel.homeTabState.observe(this){
+        viewModel.homeTabState.observe(this) {
             Timber.e("${it.name} observed")
+        }
+
+        viewModel.pushCount.observe(this) {
+            when (it)  {
+                0 -> {
+                    binding.homeHeader.notiCountBt.visibility = View.GONE
+                }
+                in 1..99 -> {
+                    binding.homeHeader.notiCountBt.visibility = View.VISIBLE
+                    binding.homeHeader.notiCountBt.text = it.toString()
+                }
+                else -> {
+                    binding.homeHeader.notiCountBt.visibility = View.VISIBLE
+                    binding.homeHeader.notiCountBt.text = getString(R.string.push_notification_max_count)
+                }
+            }
         }
     }
 

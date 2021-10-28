@@ -15,5 +15,6 @@
     <string name="notification_my">내 알림</string>
     <string name="notification_alert">알림이 없어요!</string>
     <string name="notification_setting">푸시 알림 설정하기</string>
+    <string name="push_notification_max_count">99+</string>
 
 </resources>

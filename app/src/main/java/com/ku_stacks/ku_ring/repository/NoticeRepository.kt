@@ -66,9 +66,11 @@ class NoticeRepository @Inject constructor(
         return noticeDao.getNoticeRecord()
             .subscribeOn(Schedulers.io())
             .toFlowable()
-            .doOnNext { // local 데이터가 발행될때 HashMap 에 저장 (단 한번만 실행)
-                for(localNotice in it){
-                    isNewRecordHashMap[localNotice.articleId] = localNotice
+            .doOnNext { // local 데이터가 처음 발행될때 HashMap 에 저장 (단 한번만 실행)
+                if(isNewRecordHashMap.size == 0){
+                    for(localNotice in it){
+                        isNewRecordHashMap[localNotice.articleId] = localNotice
+                    }
                 }
             }
     }

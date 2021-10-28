@@ -2,6 +2,7 @@
 <com.google.android.material.appbar.AppBarLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/app_bar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -70,6 +71,26 @@
                 app:layout_constraintEnd_toStartOf="@+id/search_img"
                 app:layout_constraintTop_toTopOf="parent"
                 app:tint="@color/black" />
+
+            <TextView
+                android:id="@+id/noti_count_bt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="22dp"
+                android:background="@drawable/bg_pink"
+                android:fontFamily="@font/notosanskr_medium"
+                android:minWidth="12dp"
+                android:minHeight="12dp"
+                android:paddingStart="3.5dp"
+                android:paddingTop="2dp"
+                android:paddingEnd="3.5dp"
+                android:paddingBottom="2dp"
+                android:textColor="@color/white"
+                android:textSize="8sp"
+                app:layout_constraintStart_toStartOf="@+id/bell_img"
+                app:layout_constraintTop_toTopOf="@+id/bell_img"
+                tools:ignore="SmallSp"
+                tools:text="99+" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.appbar.CollapsingToolbarLayout>

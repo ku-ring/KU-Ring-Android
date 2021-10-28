@@ -12,26 +12,25 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.ku_stacks.ku_ring.data.db.PushDao
 import com.ku_stacks.ku_ring.data.db.PushEntity
-import com.ku_stacks.ku_ring.di.DBModule.provideKuRingDatabase
-import com.ku_stacks.ku_ring.di.DBModule.providePushDao
 import com.ku_stacks.ku_ring.ui.home.HomeActivity
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MyFireBaseMessagingService : FirebaseMessagingService() {
 
-    private var pushDao: PushDao? = null
+    @Inject
+    lateinit var pushDao : PushDao
 
     override fun onNewToken(token: String){
         Timber.e("refreshed token : $token")
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-
-        readyForDatabase()
-
         val articleId = remoteMessage.data["articleId"]
         val category = remoteMessage.data["category"]
         val postedDate = remoteMessage.data["postedDate"]
@@ -47,10 +46,6 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
         sendNotification(title = subject, body = category)
     }
 
-    private fun readyForDatabase() {
-        pushDao = providePushDao(provideKuRingDatabase(applicationContext))
-    }
-
     private fun insertNotificationIntoDatabase(
         articleId: String,
         category: String,
@@ -60,7 +55,7 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
     ) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                pushDao?.insertNotification(
+                pushDao.insertNotification(
                     PushEntity(
                         articleId = articleId,
                         category = category,
@@ -75,7 +70,6 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
             catch (e: Exception) {
                 Timber.e("insert notification error : $e")
             }
-
         }
     }
 
