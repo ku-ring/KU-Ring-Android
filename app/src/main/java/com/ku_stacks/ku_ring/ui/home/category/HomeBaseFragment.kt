@@ -45,6 +45,7 @@ abstract class HomeBaseFragment : Fragment(){
         val intent = Intent(requireActivity(), DetailActivity::class.java)
         intent.putExtra("url", notice.url)
         startActivity(intent)
+        requireActivity().overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
     }
 
     override fun onDestroyView() {

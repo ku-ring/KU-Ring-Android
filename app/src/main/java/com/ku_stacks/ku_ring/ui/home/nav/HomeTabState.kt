@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.ui.home
+package com.ku_stacks.ku_ring.ui.home.nav
 
 enum class HomeTabState {
     Bch, //학사
