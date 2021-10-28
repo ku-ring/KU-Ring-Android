@@ -23,14 +23,14 @@ class NoticeRepository @Inject constructor(
     private val isNewRecordHashMap = HashMap<String, NoticeEntity>()
 
     fun getNotices(type: String): Flowable<PagingData<Notice>> {
-        return getFlowableLocal()
+        return getSingleLocal()
             .flatMap { getFlowableRemoteNotice(type) }
             .map { transformRemoteData(it) }
     }
 
     private fun transformRemoteData(pagingData: PagingData<Notice>): PagingData<Notice> {
         val startDate = pref.getStartDate()
-        if (startDate.isNullOrEmpty() || DateUtil.isToday(startDate)) { // 설치 이후 앱을 처음 킨 날만
+        if (startDate.isNullOrEmpty() || DateUtil.isToday(startDate)) { // 설치 이후 앱을 처음 킨 경우
             Timber.e("This is first connect day")
             if (startDate.isNullOrEmpty()) {
                 pref.setStartDate(DateUtil.getToday())
@@ -43,7 +43,7 @@ class NoticeRepository @Inject constructor(
                     url = it.url,
                     articleId = it.articleId,
                     isNew = DateUtil.isToday(it.postedDate),
-                    isRead = false
+                    isRead = noticeDao.isReadNotice(it.articleId)
                 )
             }
         } else { //앱을 처음 킨 것이 아닌 경우(일반적인 케이스)
@@ -62,16 +62,20 @@ class NoticeRepository @Inject constructor(
         }
     }
 
-    private fun getFlowableLocal(): Flowable<List<NoticeEntity>> {
+    private fun getSingleLocal(): Flowable<List<NoticeEntity>> {
         return noticeDao.getNoticeRecord()
             .subscribeOn(Schedulers.io())
             .toFlowable()
-            .doOnNext {
+            .doOnNext { // local 데이터가 발행될때 HashMap 에 저장 (단 한번만 실행)
                 for(localNotice in it){
                     isNewRecordHashMap[localNotice.articleId] = localNotice
                 }
             }
-            .flatMap { noticeDao.getReadNoticeRecord(true) }
+    }
+
+    //not using now
+    private fun getFlowableLocal(): Flowable<List<NoticeEntity>> {
+        return noticeDao.getReadNoticeRecord(true) // isRead에 대해 실시간으로 발행
             .distinctUntilChanged()
     }
 
