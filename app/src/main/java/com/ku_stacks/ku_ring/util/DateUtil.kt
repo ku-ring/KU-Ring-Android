@@ -1,6 +1,5 @@
 package com.ku_stacks.ku_ring.util
 
-import androidx.databinding.BindingAdapter
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*

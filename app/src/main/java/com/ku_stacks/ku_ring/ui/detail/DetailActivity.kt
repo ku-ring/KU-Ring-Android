@@ -33,7 +33,7 @@ class DetailActivity: AppCompatActivity() {
             builtInZoomControls = true // 화면 확대 축소 허용 여부 (true로 두면 돋보기+- 버튼 생김)
             layoutAlgorithm = WebSettings.LayoutAlgorithm.SINGLE_COLUMN // 컨텐츠 사이즈 맞추기
             cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK // 브라우저 캐시 허용 여부
-            domStorageEnabled = true // 로컬저장소 허용 여부
+            domStorageEnabled = false // 로컬저장소 허용 여부
         }
 
         url?.let {

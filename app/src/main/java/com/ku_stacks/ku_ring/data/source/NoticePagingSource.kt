@@ -27,7 +27,7 @@ class NoticePagingSource constructor(
             .retryWhen { flowable ->
                 flowable.take(3).delay(5000, TimeUnit.MILLISECONDS)
             }
-            .map { transformNotice(it) }
+            .map { transformNotice(it, type) }
             .map { toLoadResult(it, position) }
             .onErrorReturn { LoadResult.Error(it) }
     }
