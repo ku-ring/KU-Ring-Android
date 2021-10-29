@@ -49,7 +49,7 @@ android {
         debug {
             manifestPlaceholders = [
                     appName : "KU Ring Debug",
-                    appIcon : "@mipmap/ic_launcher"
+                    appIcon : "@drawable/ic_ku_ring_launcher"
             ]
 
             applicationIdSuffix '.debug'

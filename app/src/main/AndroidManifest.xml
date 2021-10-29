@@ -11,7 +11,7 @@
         android:allowBackup="false"
         android:icon="${appIcon}"
         android:label="${appName}"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/ic_ku_ring_launcher_round"
         android:usesCleartextTraffic="true"
         android:supportsRtl="true"
         android:theme="@style/WhiteTheme">

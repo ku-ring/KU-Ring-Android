@@ -20,15 +20,12 @@
             android:background="@color/white"
             android:minHeight="56dp">
 
-            <TextView
-                android:id="@+id/app_name_txt"
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:fontFamily="@font/notosanskr_medium"
-                android:text="@string/app_name"
-                android:textColor="@color/black"
-                android:textSize="20sp"
+                android:background="@null"
+                android:src="@drawable/ic_ku_ring_home"
+                android:layout_marginStart="32dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

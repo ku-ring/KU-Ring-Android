@@ -8,6 +8,7 @@
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable/button_primary_gradation.xml" value="0.29814814814814816" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable/edittext_primary_gradation.xml" value="0.22870370370370371" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable/home_header_indicator.xml" value="0.1" />
+        <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable/ic_launcher_background.xml" value="0.20185185185185187" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable/indicator_home_header.xml" value="0.16614583333333333" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable/point_primary_gray.xml" value="0.1925925925925926" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable/point_primary_pink.xml" value="0.2815384615384615" />
@@ -26,8 +27,11 @@
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/item_notice.xml" value="0.28664495114006516" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/item_notification.xml" value="0.45555555555555555" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/item_notification_date.xml" value="0.25905797101449274" />
+        <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/layout.xml" value="0.23645833333333333" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/menu/toolbar_menu.xml" value="0.25" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.18981481481481483" />
+        <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/mipmap-xxxhdpi/ic_bitmap_ku_ring_notification.xml" value="0.22314814814814815" />
+        <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/mipmap-xxxhdpi/ic_launcher2.xml" value="0.22314814814814815" />
       </map>
     </option>
   </component>
