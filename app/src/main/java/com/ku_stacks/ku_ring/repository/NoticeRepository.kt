@@ -36,14 +36,15 @@ class NoticeRepository @Inject constructor(
                 pref.setStartDate(DateUtil.getToday())
             }
             return pagingData.map {
+                val isRead = noticeDao.isReadNotice(it.articleId)
                 Notice(
                     postedDate = it.postedDate,
                     subject = it.subject,
                     category = it.category,
                     url = it.url,
                     articleId = it.articleId,
-                    isNew = DateUtil.isToday(it.postedDate),
-                    isRead = noticeDao.isReadNotice(it.articleId)
+                    isNew = DateUtil.isToday(it.postedDate) && !isRead,
+                    isRead = isRead
                 )
             }
         } else { //앱을 처음 킨 것이 아닌 경우(일반적인 케이스)
@@ -119,5 +120,9 @@ class NoticeRepository @Inject constructor(
             }, {
                 Timber.e("delete db fail")
             })
+    }
+
+    fun deleteSharedPreference() { //for testing
+        pref.deleteStartDate()
     }
 }

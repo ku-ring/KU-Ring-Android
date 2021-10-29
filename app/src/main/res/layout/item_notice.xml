@@ -11,7 +11,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/notice_isNew_layout"
+        android:id="@+id/notice_isRead_layout"
         backgroundGrayIf="@{noticeItem.isRead}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,6 +19,7 @@
         android:paddingBottom="20dp">
 
         <View
+            android:id="@+id/notice_isNew_point"
             visibleIf="@{noticeItem.isNew}"
             android:layout_width="8dp"
             android:layout_height="8dp"

@@ -81,9 +81,9 @@
                 android:fontFamily="@font/notosanskr_medium"
                 android:minWidth="12dp"
                 android:minHeight="12dp"
-                android:paddingStart="3.5dp"
+                android:paddingStart="4dp"
                 android:paddingTop="2dp"
-                android:paddingEnd="3.5dp"
+                android:paddingEnd="4dp"
                 android:paddingBottom="2dp"
                 android:textColor="@color/white"
                 android:textSize="8sp"
@@ -91,7 +91,6 @@
                 app:layout_constraintTop_toTopOf="@+id/bell_img"
                 tools:ignore="SmallSp"
                 tools:text="99+" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.appbar.CollapsingToolbarLayout>
 
