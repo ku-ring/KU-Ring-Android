@@ -13,6 +13,7 @@ import com.google.firebase.messaging.RemoteMessage
 import com.ku_stacks.ku_ring.data.db.PushDao
 import com.ku_stacks.ku_ring.data.db.PushEntity
 import com.ku_stacks.ku_ring.ui.home.HomeActivity
+import com.ku_stacks.ku_ring.util.WordConverter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -32,18 +33,20 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         val articleId = remoteMessage.data["articleId"]
-        val category = remoteMessage.data["category"]
+        val categoryEng = remoteMessage.data["category"]
         val postedDate = remoteMessage.data["postedDate"]
         val subject = remoteMessage.data["subject"]
         val baseUrl = remoteMessage.data["baseUrl"]
 
-        if (articleId.isNullOrEmpty() || category.isNullOrEmpty() || postedDate.isNullOrEmpty()
+        if (articleId.isNullOrEmpty() || categoryEng.isNullOrEmpty() || postedDate.isNullOrEmpty()
             || subject.isNullOrEmpty() || baseUrl.isNullOrEmpty()) {
             return
         }
 
-        insertNotificationIntoDatabase(articleId, category, postedDate, subject, baseUrl)
-        sendNotification(title = subject, body = category)
+        val categoryKr = WordConverter.convertEnglishToKorean(categoryEng)
+
+        insertNotificationIntoDatabase(articleId, categoryKr, postedDate, subject, baseUrl)
+        sendNotification(title = subject, body = categoryKr)
     }
 
     private fun insertNotificationIntoDatabase(

@@ -1,15 +1,18 @@
 package com.ku_stacks.ku_ring.util
 
+import androidx.databinding.BindingAdapter
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
 object DateUtil {
+    @JvmStatic
     fun getToday(): String {
         val simpleDateFormat = SimpleDateFormat("yyyyMMdd", Locale.KOREA)
         return simpleDateFormat.format(System.currentTimeMillis())
     }
 
+    @JvmStatic
     fun isToday(str: String): Boolean {
         val today = getToday()
         return when (str.length) {
@@ -24,6 +27,18 @@ object DateUtil {
                 Timber.e("DateUtil.isToday() : String length is not normal")
                 false
             }
+        }
+    }
+
+    @JvmStatic
+    fun convertDateToDay(str: String): String {
+        val oldSimpleDateFormat = SimpleDateFormat("yyyyMMdd", Locale.KOREA)
+        val date = oldSimpleDateFormat.parse(str)
+        val newSimpleDateFormat = SimpleDateFormat("yyyy.MM.dd (E)", Locale.KOREA)
+        return if (date == null) {
+            str
+        } else {
+            newSimpleDateFormat.format(date)
         }
     }
 }

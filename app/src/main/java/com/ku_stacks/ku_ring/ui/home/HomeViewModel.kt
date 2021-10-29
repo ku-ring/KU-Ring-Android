@@ -67,7 +67,8 @@ class HomeViewModel @Inject constructor(
     }
 
     fun deleteDB() {
-        noticeRepository.deleteDB()
+        //noticeRepository.deleteDB()
+        //pushRepository.deleteAllNotification()
     }
 
     fun onBchTabClick() {

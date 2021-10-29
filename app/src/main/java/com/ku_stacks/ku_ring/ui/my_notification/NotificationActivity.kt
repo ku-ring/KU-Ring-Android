@@ -1,6 +1,7 @@
 package com.ku_stacks.ku_ring.ui.my_notification
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -63,6 +64,11 @@ class NotificationActivity : AppCompatActivity() {
     private fun observeData() {
         viewModel.pushList.observe(this) {
             notificationAdapter.submitList(it)
+            if(it.isEmpty()){
+                binding.notificationAlertTxt.visibility = View.VISIBLE
+            } else {
+                binding.notificationAlertTxt.visibility = View.GONE
+            }
         }
     }
 

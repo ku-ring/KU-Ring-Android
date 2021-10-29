@@ -111,7 +111,7 @@ class NoticeRepository @Inject constructor(
         )
     }
 
-    fun deleteDB() { // for testing
+    fun deleteAllNoticeRecord() { // for testing
         noticeDao.deleteAllNoticeRecord()
             .subscribeOn(Schedulers.io())
             .subscribe ({

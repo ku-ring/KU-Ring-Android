@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.data.db.PushEntity
 import com.ku_stacks.ku_ring.databinding.ItemNotificationBinding
+import com.ku_stacks.ku_ring.ui.my_notification.viewholder.NotificationViewHolder
 
 class NotificationAdapter(
     private val itemClick: (PushEntity) -> Unit,
@@ -22,9 +23,23 @@ class NotificationAdapter(
 
     override fun onBindViewHolder(holder: NotificationViewHolder, position: Int) {
         getItem(position)?.let {
-            holder.bind(it)
+
+            var isNewDay = false
+            if (position == itemCount - 1) {
+                isNewDay = true
+            } else if (position < itemCount - 1) {
+                val prevItem = getItem(position + 1)
+                if (!areSameDate(prevItem, it)) {
+                    isNewDay = true
+                }
+            }
+            holder.bind(it, isNewDay)
             onBindItem(it)
         }
+    }
+
+    private fun areSameDate(prevItem: PushEntity, curItem: PushEntity): Boolean {
+        return prevItem.postedDate == curItem.postedDate
     }
 
     object NotificationDiffCallback : DiffUtil.ItemCallback<PushEntity>() {

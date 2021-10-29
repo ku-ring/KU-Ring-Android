@@ -113,6 +113,7 @@ class HomeActivity : AppCompatActivity() {
 
         binding.homeHeader.searchImg.setOnClickListener {
             //testing
+            //viewModel.deleteDB()
         }
     }
 
