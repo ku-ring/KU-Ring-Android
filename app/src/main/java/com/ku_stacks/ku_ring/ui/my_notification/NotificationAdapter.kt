@@ -5,14 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.data.db.PushEntity
+import com.ku_stacks.ku_ring.data.entity.Push
 import com.ku_stacks.ku_ring.databinding.ItemNotificationBinding
 import com.ku_stacks.ku_ring.ui.my_notification.viewholder.NotificationViewHolder
 
 class NotificationAdapter(
-    private val itemClick: (PushEntity) -> Unit,
-    private val onBindItem: (PushEntity) -> Unit
-): ListAdapter<PushEntity, NotificationViewHolder>(
+    private val itemClick: (Push) -> Unit,
+    private val onBindItem: (Push) -> Unit
+): ListAdapter<Push, NotificationViewHolder>(
     NotificationDiffCallback
 ) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationViewHolder {
@@ -23,32 +23,23 @@ class NotificationAdapter(
 
     override fun onBindViewHolder(holder: NotificationViewHolder, position: Int) {
         getItem(position)?.let {
-
-            var isNewDay = false
-            if (position == itemCount - 1) {
-                isNewDay = true
-            } else if (position < itemCount - 1) {
-                val prevItem = getItem(position + 1)
-                if (!areSameDate(prevItem, it)) {
-                    isNewDay = true
-                }
-            }
-            holder.bind(it, isNewDay)
+            holder.bind(it)
             onBindItem(it)
         }
     }
 
-    private fun areSameDate(prevItem: PushEntity, curItem: PushEntity): Boolean {
+    private fun areSameDate(prevItem: Push, curItem: Push): Boolean {
         return prevItem.postedDate == curItem.postedDate
     }
 
-    object NotificationDiffCallback : DiffUtil.ItemCallback<PushEntity>() {
-        override fun areItemsTheSame(oldItem: PushEntity, newItem: PushEntity): Boolean {
+    object NotificationDiffCallback : DiffUtil.ItemCallback<Push>() {
+        override fun areItemsTheSame(oldItem: Push, newItem: Push): Boolean {
             return oldItem.articleId == newItem.articleId
         }
 
-        override fun areContentsTheSame(oldItem: PushEntity, newItem: PushEntity): Boolean {
+        override fun areContentsTheSame(oldItem: Push, newItem: Push): Boolean {
             return oldItem.articleId == newItem.articleId
+                    && oldItem.isNewDay == newItem.isNewDay
         }
     }
 }

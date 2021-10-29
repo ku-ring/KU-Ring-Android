@@ -6,7 +6,6 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
-import io.reactivex.rxjava3.core.Single
 
 @Dao
 interface PushDao {
@@ -17,7 +16,7 @@ interface PushDao {
     @Query("UPDATE PushEntity SET isNew = :value WHERE articleId = :articleId")
     fun updateConfirmedNotification(articleId: String, value: Boolean): Completable
 
-    @Query("SELECT * FROM PushEntity ORDER BY postedDate DESC")
+    @Query("SELECT * FROM PushEntity ORDER BY postedDate DESC, receivedDate DESC")
     fun getNotification(): Flowable<List<PushEntity>>
 
     @Query("SELECT COUNT(articleId) FROM PushEntity WHERE isNew = :value")

@@ -9,7 +9,7 @@
 
         <variable
             name="NotificationItem"
-            type="com.ku_stacks.ku_ring.data.db.PushEntity" />
+            type="com.ku_stacks.ku_ring.data.entity.Push" />
     </data>
 
     <LinearLayout
@@ -25,6 +25,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:fontFamily="@font/sfpro_display_regular"
+            visibleIf="@{NotificationItem.isNewDay}"
             android:text="@{DateUtil.convertDateToDay(NotificationItem.postedDate)}"
             android:textColor="@color/kus_dark_gray"
             android:textSize="15sp"

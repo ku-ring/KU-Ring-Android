@@ -12,5 +12,6 @@ class PushEntity(
     @ColumnInfo(name = "postedDate") val postedDate: String,
     @ColumnInfo(name = "subject") val subject: String,
     @ColumnInfo(name = "baseUrl") val baseUrl: String,
-    @ColumnInfo(name = "isNew") val isNew: Boolean
+    @ColumnInfo(name = "isNew") val isNew: Boolean,
+    @ColumnInfo(name = "receivedDate") val receivedDate: String
 )

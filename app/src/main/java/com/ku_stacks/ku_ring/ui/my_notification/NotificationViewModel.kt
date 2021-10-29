@@ -3,7 +3,7 @@ package com.ku_stacks.ku_ring.ui.my_notification
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ku_stacks.ku_ring.data.db.PushEntity
+import com.ku_stacks.ku_ring.data.entity.Push
 import com.ku_stacks.ku_ring.repository.PushRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -18,8 +18,8 @@ class NotificationViewModel @Inject constructor(
 
     private val disposable = CompositeDisposable()
 
-    private val _pushList = MutableLiveData<List<PushEntity>>()
-    val pushList: LiveData<List<PushEntity>>
+    private val _pushList = MutableLiveData<List<Push>>()
+    val pushList: LiveData<List<Push>>
         get() = _pushList
 
     init {

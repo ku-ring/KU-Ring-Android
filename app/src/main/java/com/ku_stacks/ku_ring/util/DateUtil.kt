@@ -12,6 +12,12 @@ object DateUtil {
     }
 
     @JvmStatic
+    fun getCurrentTime(): String {
+        val simpleDateFormat = SimpleDateFormat("yyyyMMdd-HHmmss", Locale.KOREA)
+        return simpleDateFormat.format(System.currentTimeMillis())
+    }
+
+    @JvmStatic
     fun isToday(str: String): Boolean {
         val today = getToday()
         return when (str.length) {

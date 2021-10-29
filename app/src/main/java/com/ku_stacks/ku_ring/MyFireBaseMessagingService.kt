@@ -14,6 +14,7 @@ import com.google.firebase.messaging.RemoteMessage
 import com.ku_stacks.ku_ring.data.db.PushDao
 import com.ku_stacks.ku_ring.data.db.PushEntity
 import com.ku_stacks.ku_ring.ui.home.HomeActivity
+import com.ku_stacks.ku_ring.util.DateUtil
 import com.ku_stacks.ku_ring.util.WordConverter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -45,8 +46,9 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
         }
 
         val categoryKr = WordConverter.convertEnglishToKorean(categoryEng)
+        val receivedDate = DateUtil.getCurrentTime()
 
-        insertNotificationIntoDatabase(articleId, categoryKr, postedDate, subject, baseUrl)
+        insertNotificationIntoDatabase(articleId, categoryKr, postedDate, subject, baseUrl, receivedDate)
         sendNotification(title = subject, body = categoryKr)
     }
 
@@ -55,7 +57,8 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
         category: String,
         postedDate: String,
         subject: String,
-        baseUrl: String
+        baseUrl: String,
+        receivedDate: String
     ) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
@@ -66,7 +69,8 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
                         postedDate = postedDate,
                         subject = subject,
                         baseUrl = baseUrl,
-                        isNew = true
+                        isNew = true,
+                        receivedDate = receivedDate
                     )
                 )
                 Timber.e("insert notification success")
