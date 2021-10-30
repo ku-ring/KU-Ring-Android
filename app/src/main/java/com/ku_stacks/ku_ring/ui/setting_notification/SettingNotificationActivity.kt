@@ -9,7 +9,9 @@ import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.databinding.ActivitySettingNotificationBinding
 import com.ku_stacks.ku_ring.ui.setting_notification.adapter.SubscribeAdapter
 import com.ku_stacks.ku_ring.ui.setting_notification.adapter.UnSubscribeAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SettingNotificationActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySettingNotificationBinding

@@ -2,21 +2,54 @@ package com.ku_stacks.ku_ring.ui.setting_notification
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.messaging.FirebaseMessaging
+import com.ku_stacks.ku_ring.repository.SubscribeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.schedulers.Schedulers
+import timber.log.Timber
 import javax.inject.Inject
 import java.util.*
 import kotlin.Comparator
 
 @HiltViewModel
 class SettingNotificationViewModel @Inject constructor(
-
+    private val repository: SubscribeRepository
 ) : ViewModel(){
+    private val disposable = CompositeDisposable()
 
     private val _subscriptionList = ArrayList<String>()
     val subscriptionList = MutableLiveData<ArrayList<String>>()
 
     private val _unSubscriptionList = ArrayList<String>()
     val unSubscriptionList = MutableLiveData<ArrayList<String>>()
+
+    private var fcmToken: String? = null
+
+    init {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if(!task.isSuccessful){
+                Timber.e("Firebase instanceId fail : ${task.exception}")
+                throw RuntimeException("Failed to get Fcm Token error")
+            }
+            fcmToken = task.result
+            if (fcmToken == null) {
+                throw RuntimeException("Fcm Token is null!")
+            }
+
+            _unSubscriptionList.addAll(listOf(
+                "학사", "장학", "취창업", "국제", "학생", "산학", "일반", "도서관"
+            ))
+
+            disposable.add(
+                repository.getSubscribeList(fcmToken!!)
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(
+                        { initialSort(it) },
+                        { Timber.e("getSubscribeList fail $it") })
+            )
+        }
+    }
 
     fun removeSubscription(category: String) {
         _subscriptionList.remove(category)
@@ -42,12 +75,13 @@ class SettingNotificationViewModel @Inject constructor(
         unSubscriptionList.postValue(_unSubscriptionList)
     }
 
-    init {
-        _subscriptionList.add("학사")
-        _subscriptionList.add("장학")
-        _subscriptionList.add("취창업")
-        _subscriptionList.add("학생")
+    private fun initialSort(subscribingList: List<String>) {
+        for(str in subscribingList){
+            _subscriptionList.add(str)
+            _unSubscriptionList.remove(str)
+        }
         subscriptionList.postValue(_subscriptionList)
+        unSubscriptionList.postValue(_unSubscriptionList)
     }
 
     /*

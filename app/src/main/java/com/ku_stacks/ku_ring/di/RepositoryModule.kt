@@ -5,6 +5,7 @@ import com.ku_stacks.ku_ring.data.db.NoticeDao
 import com.ku_stacks.ku_ring.data.db.PushDao
 import com.ku_stacks.ku_ring.repository.NoticeRepository
 import com.ku_stacks.ku_ring.repository.PushRepository
+import com.ku_stacks.ku_ring.repository.SubscribeRepository
 import com.ku_stacks.ku_ring.util.PreferenceUtil
 import dagger.Module
 import dagger.Provides
@@ -32,5 +33,13 @@ object RepositoryModule {
         pushDao: PushDao
     ): PushRepository {
         return PushRepository(pushDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSubscribeRepository(
+        noticeClient: NoticeClient
+    ): SubscribeRepository {
+        return SubscribeRepository(noticeClient)
     }
 }
