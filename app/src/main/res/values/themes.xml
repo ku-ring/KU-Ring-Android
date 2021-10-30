@@ -74,4 +74,11 @@
         <item name="android:activityCloseExitAnimation">@anim/anim_slide_left_exit</item>
     </style>
 
+    <style name="SettingNotificationTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="colorPrimaryDark">@color/kus_primary_100</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="colorPrimary">@color/kus_primary_100</item>
+        <item name="colorPrimaryVariant">@color/kus_highlight</item>
+    </style>
+
 </resources>
