@@ -16,4 +16,19 @@ object WordConverter {
             else -> str
         }
     }
+
+    @JvmStatic
+    fun convertKoreanToEnglish(str: String): String {
+        return when (str) {
+            "학사" -> "bachelor"
+            "장학" -> "scholarship"
+            "취창업" -> "employment"
+            "국제" -> "national"
+            "학생" -> "student"
+            "산학" -> "industry_university"
+            "일반" -> "normal"
+            "도서관" -> "library"
+            else -> str
+        }
+    }
 }

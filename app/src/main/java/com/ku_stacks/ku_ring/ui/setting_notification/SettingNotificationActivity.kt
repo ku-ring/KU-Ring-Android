@@ -26,6 +26,10 @@ class SettingNotificationActivity : AppCompatActivity() {
         setupBinding()
         setupListAdapter()
         observeData()
+
+        binding.sendBt.setOnClickListener {
+            viewModel.saveSubscribe()
+        }
     }
 
     private fun setupBinding() {
@@ -67,6 +71,10 @@ class SettingNotificationActivity : AppCompatActivity() {
 
         viewModel.unSubscriptionList.observe(this) {
             unSubscribeListAdapter.submitList(it.toList())
+        }
+
+        viewModel.quit.observe(this) {
+            finish()
         }
     }
 }

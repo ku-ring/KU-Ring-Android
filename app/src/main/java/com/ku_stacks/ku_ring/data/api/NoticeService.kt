@@ -1,9 +1,14 @@
 package com.ku_stacks.ku_ring.data.api
 
+import com.ku_stacks.ku_ring.data.api.response.DefaultResponse
 import com.ku_stacks.ku_ring.data.api.response.NoticeListResponse
 import com.ku_stacks.ku_ring.data.api.response.SubscribeListResponse
+import com.ku_stacks.ku_ring.data.entity.Subscribe
+import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface NoticeService {
@@ -18,4 +23,9 @@ interface NoticeService {
     fun fetchSubscribeList(
         @Query("id") token: String
     ): Single<SubscribeListResponse>
+
+    @POST("notice/subscribe")
+    fun saveSubscribeList(
+        @Body subscribe: Subscribe
+    ): Single<DefaultResponse>
 }

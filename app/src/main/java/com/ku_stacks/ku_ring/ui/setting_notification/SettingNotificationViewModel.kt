@@ -3,8 +3,12 @@ package com.ku_stacks.ku_ring.ui.setting_notification
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.messaging.FirebaseMessaging
+import com.ku_stacks.ku_ring.data.entity.Subscribe
 import com.ku_stacks.ku_ring.repository.SubscribeRepository
+import com.ku_stacks.ku_ring.ui.SingleLiveEvent
+import com.ku_stacks.ku_ring.util.WordConverter
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber
@@ -23,6 +27,10 @@ class SettingNotificationViewModel @Inject constructor(
 
     private val _unSubscriptionList = ArrayList<String>()
     val unSubscriptionList = MutableLiveData<ArrayList<String>>()
+
+    private val _quit = SingleLiveEvent<Unit>()
+    val quit: SingleLiveEvent<Unit>
+        get() = _quit
 
     private var fcmToken: String? = null
 
@@ -47,6 +55,29 @@ class SettingNotificationViewModel @Inject constructor(
                     .subscribe(
                         { initialSort(it) },
                         { Timber.e("getSubscribeList fail $it") })
+            )
+        }
+    }
+
+    fun saveSubscribe() {
+        fcmToken?.let {
+            disposable.add(
+                repository.saveSubscribe(
+                    Subscribe(it, _subscriptionList.toList().map { category ->
+                        WordConverter.convertKoreanToEnglish(category)
+                    })
+                ).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ response ->
+                        if (response.isSuccess) {
+                            Timber.e("saveSubscribe success")
+                            _quit.call()
+                        } else {
+                            Timber.e("saveSubscribe failed ${response.resultCode}")
+                        }
+                    }, {
+                        Timber.e("saveSubscribe failed $it")
+                    })
             )
         }
     }
