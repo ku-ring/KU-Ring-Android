@@ -17,4 +17,7 @@
     <string name="notification_setting">푸시 알림 설정하기</string>
     <string name="push_notification_max_count">99+</string>
 
+    <!--  setting_notification  -->
+    <string name="setting_notification_explain"> 어떤 알림들을 받아보시겠습니까?\n알림 받고 싶은 카테고리를 선택해주세요.</string>
+
 </resources>

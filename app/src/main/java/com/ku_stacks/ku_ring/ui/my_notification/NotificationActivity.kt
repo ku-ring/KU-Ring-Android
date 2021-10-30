@@ -1,5 +1,6 @@
 package com.ku_stacks.ku_ring.ui.my_notification
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
@@ -10,6 +11,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.databinding.ActivityNotificationBinding
+import com.ku_stacks.ku_ring.ui.setting_notification.SettingNotificationActivity
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import javax.inject.Inject
@@ -45,7 +47,8 @@ class NotificationActivity : AppCompatActivity() {
 
         binding.notificationSetNotiBtn.setOnClickListener {
             analytics.click("set_notification btn", "NotificationActivity")
-            // TODO create new activity
+            val intent = Intent(this, SettingNotificationActivity::class.java)
+            startActivity(intent)
         }
     }
 
