@@ -116,6 +116,8 @@ class SettingNotificationViewModel @Inject constructor(
             _subscriptionList.add(str)
             _unSubscriptionList.remove(str)
         }
+        _subscriptionList.sortWith(CategoryComparator)
+        _unSubscriptionList.sortWith(CategoryComparator)
         subscriptionList.postValue(_subscriptionList)
         unSubscriptionList.postValue(_unSubscriptionList)
     }
