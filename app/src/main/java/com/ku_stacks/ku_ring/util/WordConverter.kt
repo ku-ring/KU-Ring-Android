@@ -31,4 +31,19 @@ object WordConverter {
             else -> str
         }
     }
+
+    @JvmStatic
+    fun convertKoreanToShortEnglish(str: String): String {
+        return when (str) {
+            "학사" -> "bch"
+            "장학" -> "sch"
+            "취창업" -> "emp"
+            "국제" -> "nat"
+            "학생" -> "stu"
+            "산학" -> "ind"
+            "일반" -> "nor"
+            "도서관" -> "lib"
+            else -> str
+        }
+    }
 }

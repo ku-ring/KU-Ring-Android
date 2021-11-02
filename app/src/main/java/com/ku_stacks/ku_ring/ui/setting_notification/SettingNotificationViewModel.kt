@@ -71,6 +71,7 @@ class SettingNotificationViewModel @Inject constructor(
                     .subscribe({ response ->
                         if (response.isSuccess) {
                             Timber.e("saveSubscribe success")
+                            repository.saveSubscriptionToLocal(_subscriptionList)
                             _quit.call()
                         } else {
                             Timber.e("saveSubscribe failed ${response.resultCode}")
@@ -95,13 +96,17 @@ class SettingNotificationViewModel @Inject constructor(
     }
 
     fun addSubscription(category: String) {
-        _subscriptionList.add(category)
+        if (!_subscriptionList.contains(category)) {
+            _subscriptionList.add(category)
+        }
         _subscriptionList.sortWith(CategoryComparator)
         subscriptionList.postValue(_subscriptionList)
     }
 
     fun addUnSubscription(category: String) {
-        _unSubscriptionList.add(category)
+        if (!_unSubscriptionList.contains(category)) {
+            _unSubscriptionList.add(category)
+        }
         _unSubscriptionList.sortWith(CategoryComparator)
         unSubscriptionList.postValue(_unSubscriptionList)
     }

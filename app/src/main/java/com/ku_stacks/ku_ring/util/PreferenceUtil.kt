@@ -25,6 +25,14 @@ class PreferenceUtil(@ApplicationContext context: Context) {
         return prefs.getString(fcmToken, "")
     }
 
+    fun setSubscription(stringSet: Set<String>) {
+        prefs.edit().putStringSet(subscription, stringSet).apply()
+    }
+
+    fun getSubscription(): Set<String>? {
+        return prefs.getStringSet(subscription, emptySet())
+    }
+
     fun deleteStartDate() {
         prefs.edit().remove(startDate).apply()
     }
@@ -32,5 +40,6 @@ class PreferenceUtil(@ApplicationContext context: Context) {
     companion object {
         const val startDate = "START_DATE"
         const val fcmToken = "FCM_TOKEN"
+        const val subscription = "SUBSCRIPTION"
     }
 }

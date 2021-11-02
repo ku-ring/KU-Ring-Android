@@ -25,11 +25,14 @@ class NoticeRepository @Inject constructor(
     fun getNotices(type: String): Flowable<PagingData<Notice>> {
         return getSingleLocal()
             .flatMap { getFlowableRemoteNotice(type) }
-            .map { transformRemoteData(it) }
+            .map { transformRemoteData(it, type) }
     }
 
-    private fun transformRemoteData(pagingData: PagingData<Notice>): PagingData<Notice> {
+    private fun transformRemoteData(pagingData: PagingData<Notice>, type: String): PagingData<Notice> {
         val startDate = pref.getStartDate()
+        val subscribingSet = pref.getSubscription()
+        val isSubscribing = subscribingSet?.contains(type) == true
+
         if (startDate.isNullOrEmpty() || DateUtil.isToday(startDate)) { // 설치 이후 앱을 처음 킨 경우
             Timber.e("This is first connect day")
             if (startDate.isNullOrEmpty()) {
@@ -44,7 +47,8 @@ class NoticeRepository @Inject constructor(
                     url = it.url,
                     articleId = it.articleId,
                     isNew = DateUtil.isToday(it.postedDate) && !isRead,
-                    isRead = isRead
+                    isRead = isRead,
+                    isSubscribing = isSubscribing
                 )
             }
         } else { //앱을 처음 킨 것이 아닌 경우(일반적인 케이스)
@@ -57,7 +61,8 @@ class NoticeRepository @Inject constructor(
                     url = it.url,
                     articleId = it.articleId,
                     isNew = !isNewRecordHashMap.containsKey(it.articleId),
-                    isRead = noticeDao.isReadNotice(it.articleId)
+                    isRead = noticeDao.isReadNotice(it.articleId),
+                    isSubscribing = isSubscribing
                 )
             }
         }

@@ -16,7 +16,8 @@ fun transformNotice(response : NoticeListResponse, type : String): List<Notice> 
                     url = this.baseUrl + "/" + it.articleId,
                     articleId = it.articleId,
                     isNew = false,
-                    isRead = false
+                    isRead = false,
+                    isSubscribing = false
                 )
             }
         }
@@ -30,7 +31,8 @@ fun transformNotice(response : NoticeListResponse, type : String): List<Notice> 
                 url = this.baseUrl + "?id=" + it.articleId,
                 articleId = it.articleId,
                 isNew = false,
-                isRead = false
+                isRead = false,
+                isSubscribing = false
             )
         }
     }

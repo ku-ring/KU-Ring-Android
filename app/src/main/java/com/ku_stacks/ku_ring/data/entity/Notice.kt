@@ -16,5 +16,7 @@ data class Notice(
     @SerializedName(value = "isNew")
     var isNew: Boolean,
     @SerializedName(value = "isRead")
-    var isRead: Boolean
+    var isRead: Boolean,
+    @SerializedName(value = "isSubscribing")
+    var isSubscribing: Boolean
 )

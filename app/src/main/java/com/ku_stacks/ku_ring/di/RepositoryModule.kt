@@ -38,8 +38,9 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideSubscribeRepository(
-        noticeClient: NoticeClient
+        noticeClient: NoticeClient,
+        pref: PreferenceUtil
     ): SubscribeRepository {
-        return SubscribeRepository(noticeClient)
+        return SubscribeRepository(noticeClient, pref)
     }
 }

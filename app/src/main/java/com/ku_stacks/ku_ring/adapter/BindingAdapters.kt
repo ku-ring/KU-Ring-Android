@@ -36,6 +36,19 @@ object BindingAdapters {
     }
 
     @JvmStatic
+    @BindingAdapter(value = ["isNew", "isSubscribing"])
+    fun View.pointColor(isNew: Boolean, isSubscribing: Boolean) {
+        visibility = when (isNew) {
+            true -> View.VISIBLE
+            else -> View.GONE
+        }
+        background = when (isSubscribing) {
+            true -> ContextCompat.getDrawable(this.context, R.drawable.point_primary_pink)
+            else -> ContextCompat.getDrawable(this.context, R.drawable.point_primary_gray)
+        }
+    }
+
+    @JvmStatic
     @BindingAdapter("backgroundGrayIf")
     fun View.backgroundGrayIf(value: Boolean) {
         if(value) {

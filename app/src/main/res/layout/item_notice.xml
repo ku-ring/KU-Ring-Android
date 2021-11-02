@@ -20,7 +20,8 @@
 
         <View
             android:id="@+id/notice_isNew_point"
-            visibleIf="@{noticeItem.isNew}"
+            app:isNew="@{noticeItem.isNew}"
+            app:isSubscribing="@{noticeItem.isSubscribing}"
             android:layout_width="8dp"
             android:layout_height="8dp"
             android:layout_marginStart="20dp"
