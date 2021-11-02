@@ -53,6 +53,7 @@ class FeedbackViewModel @Inject constructor(
                     content = content
                 )
             )
+                .filter { it.isSuccess == true }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
