@@ -1,6 +1,8 @@
 package com.ku_stacks.ku_ring.di
 
 import com.ku_stacks.ku_ring.BuildConfig
+import com.ku_stacks.ku_ring.data.api.FeedbackClient
+import com.ku_stacks.ku_ring.data.api.FeedbackService
 import com.ku_stacks.ku_ring.data.api.NoticeClient
 import com.ku_stacks.ku_ring.data.api.NoticeService
 import dagger.Module
@@ -56,4 +58,17 @@ object NetworkModule {
     fun provideNoticeClient(noticeService: NoticeService): NoticeClient {
         return NoticeClient(noticeService)
     }
+
+    @Provides
+    @Singleton
+    fun provideFeedbackService(retrofit: Retrofit): FeedbackService {
+        return retrofit.create(FeedbackService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFeedbackClient(feedbackService: FeedbackService): FeedbackClient {
+        return FeedbackClient(feedbackService)
+    }
+
 }

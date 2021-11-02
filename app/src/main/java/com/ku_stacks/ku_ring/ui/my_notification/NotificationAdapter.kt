@@ -28,10 +28,6 @@ class NotificationAdapter(
         }
     }
 
-    private fun areSameDate(prevItem: Push, curItem: Push): Boolean {
-        return prevItem.postedDate == curItem.postedDate
-    }
-
     object NotificationDiffCallback : DiffUtil.ItemCallback<Push>() {
         override fun areItemsTheSame(oldItem: Push, newItem: Push): Boolean {
             return oldItem.articleId == newItem.articleId

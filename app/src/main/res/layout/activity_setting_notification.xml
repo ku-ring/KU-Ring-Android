@@ -23,6 +23,17 @@
             app:layout_constraintTop_toTopOf="parent"
             app:tint="@color/white" />
 
+        <ImageButton
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="12dp"
+            android:background="@null"
+            android:src="@drawable/ic_renew"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/white" />
+
         <ImageView
             android:id="@+id/setting_notification_bell_img"
             android:layout_width="44dp"

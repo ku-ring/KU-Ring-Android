@@ -116,8 +116,8 @@ class SettingNotificationViewModel @Inject constructor(
     }
 
     /*
-    안드로이드에서 priority queue 는 api24부터 지원해서(현재 minSdk = 23)
-    변경될때마다 정렬하는 방식 채택
+    안드로이드에서 priority queue 에서 Comparator 는 api24부터
+    지원해서(현재 minSdk = 23) 변경될때마다 정렬하는 방식 채택
     getPriority()가 낮을수록 앞쪽으로 정렬
      */
     object CategoryComparator : Comparator<String> {
