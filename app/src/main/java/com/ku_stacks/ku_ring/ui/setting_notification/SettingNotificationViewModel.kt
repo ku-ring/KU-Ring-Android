@@ -45,6 +45,14 @@ class SettingNotificationViewModel @Inject constructor(
                 throw RuntimeException("Fcm Token is null!")
             }
 
+            syncWithServer()
+        }
+    }
+
+    fun syncWithServer() {
+        fcmToken?.let {
+            _subscriptionList.clear()
+            _unSubscriptionList.clear()
             _unSubscriptionList.addAll(listOf(
                 "학사", "장학", "취창업", "국제", "학생", "산학", "일반", "도서관"
             ))
@@ -53,33 +61,36 @@ class SettingNotificationViewModel @Inject constructor(
                 repository.getSubscribeList(fcmToken!!)
                     .subscribeOn(Schedulers.io())
                     .subscribe(
-                        { initialSort(it) },
+                        { initialSortSubscription(it) },
                         { Timber.e("getSubscribeList fail $it") })
             )
         }
+
     }
 
+    /*
+    이 함수는 background 에서 이어서 작동해야하기 때문에
+    disposable에 추가하지 않았음. observable은 Single 이다.
+     */
     fun saveSubscribe() {
         fcmToken?.let {
-            disposable.add(
-                repository.saveSubscribe(
-                    Subscribe(it, _subscriptionList.toList().map { category ->
-                        WordConverter.convertKoreanToEnglish(category)
-                    })
-                ).subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ response ->
-                        if (response.isSuccess) {
-                            Timber.e("saveSubscribe success")
-                            repository.saveSubscriptionToLocal(_subscriptionList)
-                            _quit.call()
-                        } else {
-                            Timber.e("saveSubscribe failed ${response.resultCode}")
-                        }
-                    }, {
-                        Timber.e("saveSubscribe failed $it")
-                    })
-            )
+            repository.saveSubscribe(
+                Subscribe(it, _subscriptionList.toList().map { category ->
+                    WordConverter.convertKoreanToEnglish(category)
+                })
+            ).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ response ->
+                    if (response.isSuccess) {
+                        Timber.e("saveSubscribe success")
+                        repository.saveSubscriptionToLocal(_subscriptionList)
+                        //_quit.call()
+                    } else {
+                        Timber.e("saveSubscribe failed ${response.resultCode}")
+                    }
+                }, {
+                    Timber.e("saveSubscribe failed $it")
+                })
         }
     }
 
@@ -111,7 +122,7 @@ class SettingNotificationViewModel @Inject constructor(
         unSubscriptionList.postValue(_unSubscriptionList)
     }
 
-    private fun initialSort(subscribingList: List<String>) {
+    private fun initialSortSubscription(subscribingList: List<String>) {
         for(str in subscribingList){
             _subscriptionList.add(str)
             _unSubscriptionList.remove(str)

@@ -26,15 +26,19 @@ class SettingNotificationActivity : AppCompatActivity() {
         setupBinding()
         setupListAdapter()
         observeData()
-
-        binding.sendBt.setOnClickListener {
-            viewModel.saveSubscribe()
-        }
     }
 
     private fun setupBinding() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_setting_notification)
         binding.lifecycleOwner = this
+
+        binding.settingNotificationDismissBt.setOnClickListener {
+            viewModel.saveSubscribe()
+            finish()
+        }
+        binding.settingNotificationRollbackBt.setOnClickListener {
+            viewModel.syncWithServer()
+        }
     }
 
     private fun setupListAdapter() {
@@ -76,5 +80,10 @@ class SettingNotificationActivity : AppCompatActivity() {
         viewModel.quit.observe(this) {
             finish()
         }
+    }
+
+    override fun onBackPressed() {
+        viewModel.saveSubscribe()
+        super.onBackPressed()
     }
 }
