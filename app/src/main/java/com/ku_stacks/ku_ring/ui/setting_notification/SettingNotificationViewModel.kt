@@ -33,6 +33,9 @@ class SettingNotificationViewModel @Inject constructor(
         get() = _quit
 
     private var fcmToken: String? = null
+    
+    //초기 설정이 끝나기 전에 뒤로가기를 하면 빈 목록을 구독하는 경우를 방지하기 위함
+    private var initFlag = false
 
     init {
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
@@ -73,6 +76,10 @@ class SettingNotificationViewModel @Inject constructor(
     disposable에 추가하지 않았음. observable은 Single 이다.
      */
     fun saveSubscribe() {
+        if(initFlag == false) {
+            return
+        }
+
         fcmToken?.let {
             repository.saveSubscribe(
                 Subscribe(it, _subscriptionList.toList().map { category ->
@@ -131,6 +138,7 @@ class SettingNotificationViewModel @Inject constructor(
         _unSubscriptionList.sortWith(CategoryComparator)
         subscriptionList.postValue(_subscriptionList)
         unSubscriptionList.postValue(_unSubscriptionList)
+        initFlag = true
     }
 
     /*
