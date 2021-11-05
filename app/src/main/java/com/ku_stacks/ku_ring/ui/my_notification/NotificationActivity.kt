@@ -49,6 +49,7 @@ class NotificationActivity : AppCompatActivity() {
             analytics.click("set_notification btn", "NotificationActivity")
             val intent = Intent(this, SettingNotificationActivity::class.java)
             startActivity(intent)
+            overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
         }
     }
 

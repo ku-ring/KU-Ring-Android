@@ -34,6 +34,7 @@ class SettingNotificationActivity : AppCompatActivity() {
 
         binding.settingNotificationDismissBt.setOnClickListener {
             viewModel.saveSubscribe()
+            overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
             finish()
         }
         binding.settingNotificationRollbackBt.setOnClickListener {
@@ -79,11 +80,13 @@ class SettingNotificationActivity : AppCompatActivity() {
 
         viewModel.quit.observe(this) {
             finish()
+            overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
         }
     }
 
     override fun onBackPressed() {
         viewModel.saveSubscribe()
         super.onBackPressed()
+        overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
     }
 }
