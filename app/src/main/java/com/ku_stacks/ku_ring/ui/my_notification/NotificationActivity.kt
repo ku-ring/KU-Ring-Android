@@ -11,6 +11,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.databinding.ActivityNotificationBinding
+import com.ku_stacks.ku_ring.ui.detail.DetailActivity
 import com.ku_stacks.ku_ring.ui.setting_notification.SettingNotificationActivity
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -55,7 +56,7 @@ class NotificationActivity : AppCompatActivity() {
 
     private fun setupListAdapter() {
         notificationAdapter = NotificationAdapter (
-            { Snackbar.make(binding.root, "push noti click", Snackbar.LENGTH_SHORT).show() },
+            { startDetailActivity(it.articleId, it.baseUrl, it.category) },
             { it -> viewModel.updateNotification(it.articleId) }
         )
 
@@ -74,6 +75,20 @@ class NotificationActivity : AppCompatActivity() {
                 binding.notificationAlertTxt.visibility = View.GONE
             }
         }
+    }
+
+    private fun startDetailActivity(articleId: String, baseUrl: String, category: String) {
+        val url = if (category == "도서관") {
+            "$baseUrl/$articleId"
+        } else {
+            "$baseUrl?id=$articleId"
+        }
+        Timber.e("url : $url, category : $category")
+
+        val intent = Intent(this, DetailActivity::class.java)
+        intent.putExtra("url", url)
+        startActivity(intent)
+        overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
     }
 
     override fun onBackPressed() {
