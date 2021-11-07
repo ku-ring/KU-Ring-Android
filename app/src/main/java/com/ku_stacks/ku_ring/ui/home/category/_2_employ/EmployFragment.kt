@@ -18,6 +18,7 @@ class EmployFragment : HomeBaseFragment(){
         disposable.add(viewModel.getNotices().subscribe {
             pagingAdapter.submitData(lifecycle, it)
             Timber.e("notice page received")
+            hideShimmerView()
         })
     }
 }

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.data.entity.Notice
@@ -14,6 +15,10 @@ import com.ku_stacks.ku_ring.databinding.FragmentHomeCategoryBinding
 import com.ku_stacks.ku_ring.ui.detail.DetailActivity
 import com.ku_stacks.ku_ring.ui.home.HomeActivity
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 abstract class HomeBaseFragment : Fragment(){
@@ -34,10 +39,27 @@ abstract class HomeBaseFragment : Fragment(){
 
         pagingAdapter = NoticePagingAdapter(
             { notice -> startDetailActivity(notice) },
-            { notice -> (activity as HomeActivity).insertNotice(notice.articleId, notice.category) })
+            { notice -> (activity as HomeActivity).insertNotice(notice.articleId, notice.category) }
+        )
 
         binding.listView.layoutManager = LinearLayoutManager(activity)
         binding.listView.adapter = pagingAdapter
+
+    }
+
+    protected fun showShimmerView() {
+        binding.homeShimmerLayout.startShimmer()
+        binding.listView.visibility = View.VISIBLE
+        binding.homeShimmerLayout.visibility = View.GONE
+    }
+
+    protected fun hideShimmerView() {
+        lifecycleScope.launch {
+            delay(300)
+            binding.listView.visibility = View.VISIBLE
+            binding.homeShimmerLayout.stopShimmer()
+            binding.homeShimmerLayout.visibility = View.GONE
+        }
     }
 
     private fun startDetailActivity(notice: Notice){
