@@ -49,7 +49,8 @@ class NoticeRepository @Inject constructor(
                     articleId = it.articleId,
                     isNew = DateUtil.isToday(it.postedDate) && !isRead,
                     isRead = isRead,
-                    isSubscribing = isSubscribing
+                    isSubscribing = isSubscribing,
+                    tag = it.tag
                 )
             }
         } else { //앱을 처음 킨 것이 아닌 경우(일반적인 케이스)
@@ -63,7 +64,8 @@ class NoticeRepository @Inject constructor(
                     articleId = it.articleId,
                     isNew = !isNewRecordHashMap.containsKey(it.articleId),
                     isRead = noticeDao.isReadNotice(it.articleId),
-                    isSubscribing = isSubscribing
+                    isSubscribing = isSubscribing,
+                    tag = it.tag
                 )
             }
         }

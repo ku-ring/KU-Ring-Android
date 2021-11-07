@@ -4,35 +4,43 @@ import com.ku_stacks.ku_ring.data.api.response.NoticeListResponse
 import com.ku_stacks.ku_ring.data.db.PushEntity
 import com.ku_stacks.ku_ring.data.entity.Notice
 import com.ku_stacks.ku_ring.data.entity.Push
+import timber.log.Timber
 
 fun transformNotice(response : NoticeListResponse, type : String): List<Notice> {
     return if(type == "lib") {
         with(response) {
             this.noticeResponse.map {
+                val subjectAndTag = getSubjectAndTag(it.subject.trim())
+
                 Notice(
                     postedDate = it.postedDate,
-                    subject = it.subject,
+                    subject = subjectAndTag.first,
                     category = it.category,
                     url = this.baseUrl + "/" + it.articleId,
                     articleId = it.articleId,
                     isNew = false,
                     isRead = false,
-                    isSubscribing = false
+                    isSubscribing = false,
+                    tag = subjectAndTag.second
                 )
             }
         }
     }
     else with(response) {
         this.noticeResponse.map {
+            val subjectAndTag = getSubjectAndTag(it.subject.trim())
+            Timber.e("tag : ${subjectAndTag.second}")
+
             Notice(
                 postedDate = it.postedDate,
-                subject = it.subject,
+                subject = subjectAndTag.first,
                 category = it.category,
                 url = this.baseUrl + "?id=" + it.articleId,
                 articleId = it.articleId,
                 isNew = false,
                 isRead = false,
-                isSubscribing = false
+                isSubscribing = false,
+                tag = subjectAndTag.second
             )
         }
     }
@@ -58,5 +66,27 @@ fun transformPush(pushEntityList: List<PushEntity>): List<Push> {
             receivedDate = it.receivedDate,
             isNewDay = isNewDay
         )
+    }
+}
+
+fun getSubjectAndTag(subject: String): Pair<String, List<String>> {
+    val tagList = mutableListOf<String>()
+    var startIdx = 0
+
+    if (subject.first() == '[') {
+        for (currentIdx in 1 until subject.length) {
+            if (subject[currentIdx] == ']') {
+                tagList.add(subject.substring(startIdx + 1, currentIdx))
+                startIdx = currentIdx + 1
+                if (currentIdx + 1 == subject.length || subject[currentIdx + 1] != '[') {
+                    break
+                }
+            }
+        }
+    }
+    return if (tagList.size == 0) {
+        Pair(subject, emptyList())
+    } else {
+        Pair(subject.substring(startIdx + 1).trim(), tagList)
     }
 }

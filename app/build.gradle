@@ -168,6 +168,9 @@ dependencies {
 
     //Shimmer effect
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
+
+    //tag library
+    implementation 'co.lujun:androidtagview:1.1.7'
 }
 
 kapt {

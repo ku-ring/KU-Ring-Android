@@ -18,5 +18,7 @@ data class Notice(
     @SerializedName(value = "isRead")
     var isRead: Boolean,
     @SerializedName(value = "isSubscribing")
-    var isSubscribing: Boolean
+    var isSubscribing: Boolean,
+    @SerializedName(value = "tag")
+    val tag: List<String>
 )
