@@ -25,7 +25,7 @@ class NoticeViewHolder(
         binding.executePendingBindings()
     }
 
-    fun setupTag(tagList: List<String>) {
+    private fun setupTag(tagList: List<String>) {
         val colors: MutableList<IntArray> = arrayListOf()
         val color = intArrayOf(
             ContextCompat.getColor(binding.root.context, R.color.kus_gray), //tag background color

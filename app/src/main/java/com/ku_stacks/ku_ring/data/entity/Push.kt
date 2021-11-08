@@ -19,4 +19,6 @@ data class Push(
     val receivedDate: String,
     @SerializedName(value = "isNewDay")
     val isNewDay: Boolean,
+    @SerializedName(value = "tag")
+    val tag: List<String>
 )

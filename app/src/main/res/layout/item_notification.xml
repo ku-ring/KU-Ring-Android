@@ -49,7 +49,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/notification_subject"
+                android:id="@+id/notification_subject_txt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="40dp"
@@ -64,6 +64,7 @@
                 tools:text="2021-2학기 중간고사 이후 수업 운영 가이드라인" />
 
             <TextView
+                android:id="@+id/notification_category_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="40dp"
@@ -73,8 +74,27 @@
                 android:textColor="@color/kus_dark_gray"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/notification_subject"
+                app:layout_constraintTop_toBottomOf="@+id/notification_subject_txt"
                 tools:text="학사" />
+
+            <co.lujun.androidtagview.TagContainerLayout
+                android:id="@+id/notification_tag_container"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="1.2dp"
+                android:layout_marginEnd="20dp"
+                app:container_background_color="@color/transparent"
+                app:container_border_color="@color/transparent"
+                app:container_enable_drag="false"
+                app:horizontal_interval="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/notification_category_txt"
+                app:layout_constraintTop_toTopOf="@+id/notification_category_txt"
+                app:tag_clickable="false"
+                app:tag_text_size="12sp"
+                app:tag_vertical_padding="3dp"
+                app:vertical_interval="4dp" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </layout>

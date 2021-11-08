@@ -54,20 +54,23 @@ fun transformPush(pushEntityList: List<PushEntity>): List<Push> {
             prevItem.postedDate != it.postedDate
         }
 
+        val subjectAndTag = getSubjectAndTag(it.subject.trim())
+
         Push(
             articleId = it.articleId,
             category = it.category,
             postedDate = it.postedDate,
-            subject = it.subject,
+            subject = subjectAndTag.first,
             baseUrl = it.baseUrl,
             isNew = it.isNew,
             receivedDate = it.receivedDate,
-            isNewDay = isNewDay
+            isNewDay = isNewDay,
+            tag = subjectAndTag.second
         )
     }
 }
 
-fun getSubjectAndTag(subject: String): Pair<String, List<String>> {
+private fun getSubjectAndTag(subject: String): Pair<String, List<String>> {
     val tagList = mutableListOf<String>()
     var startIdx = 0
 

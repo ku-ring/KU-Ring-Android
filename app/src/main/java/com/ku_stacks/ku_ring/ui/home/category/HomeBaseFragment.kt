@@ -69,14 +69,12 @@ abstract class HomeBaseFragment : Fragment(){
     }
 
     private fun showShimmerView() {
-        Timber.e("showing shimmer effect")
         binding.homeShimmerLayout.startShimmer()
         binding.listView.visibility = View.GONE
         binding.homeShimmerLayout.visibility = View.VISIBLE
     }
 
     private fun hideShimmerView() {
-        Timber.e("hiding shimmer effect")
         binding.homeShimmerLayout.stopShimmer()
         binding.listView.visibility = View.VISIBLE
         binding.homeShimmerLayout.visibility = View.GONE
