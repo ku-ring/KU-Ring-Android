@@ -4,7 +4,6 @@ import com.ku_stacks.ku_ring.data.api.response.NoticeListResponse
 import com.ku_stacks.ku_ring.data.db.PushEntity
 import com.ku_stacks.ku_ring.data.entity.Notice
 import com.ku_stacks.ku_ring.data.entity.Push
-import timber.log.Timber
 
 fun transformNotice(response : NoticeListResponse, type : String): List<Notice> {
     return if(type == "lib") {
@@ -29,7 +28,6 @@ fun transformNotice(response : NoticeListResponse, type : String): List<Notice> 
     else with(response) {
         this.noticeResponse.map {
             val subjectAndTag = getSubjectAndTag(it.subject.trim())
-            Timber.e("tag : ${subjectAndTag.second}")
 
             Notice(
                 postedDate = it.postedDate,

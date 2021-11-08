@@ -8,7 +8,6 @@ import androidx.fragment.app.viewModels
 import com.ku_stacks.ku_ring.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.ui.home.category.HomeBaseFragment
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -28,8 +27,8 @@ class BachelorFragment : HomeBaseFragment() {
 
         disposable.add(viewModel.getNotices().subscribe {
             pagingAdapter.submitData(lifecycle, it)
-            Timber.e("notice page received")
-            hideShimmerView()
         })
     }
+
+
 }

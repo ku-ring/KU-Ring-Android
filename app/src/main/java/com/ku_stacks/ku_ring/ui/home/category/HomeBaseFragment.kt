@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.data.entity.Notice
@@ -17,6 +18,7 @@ import com.ku_stacks.ku_ring.ui.home.HomeActivity
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -45,21 +47,39 @@ abstract class HomeBaseFragment : Fragment(){
         binding.listView.layoutManager = LinearLayoutManager(activity)
         binding.listView.adapter = pagingAdapter
 
+        observePagingState()
     }
 
-    protected fun showShimmerView() {
+    private fun observePagingState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            pagingAdapter.loadStateFlow.collectLatest { loadState ->
+                when (loadState.refresh) {
+                    is LoadState.Loading -> {
+                        showShimmerView()
+                    }
+                    is LoadState.NotLoading -> {
+                        hideShimmerView()
+                    }
+                    is LoadState.Error -> {
+                        //TODO error
+                    }
+                }
+            }
+        }
+    }
+
+    private fun showShimmerView() {
+        Timber.e("showing shimmer effect")
         binding.homeShimmerLayout.startShimmer()
+        binding.listView.visibility = View.GONE
+        binding.homeShimmerLayout.visibility = View.VISIBLE
+    }
+
+    private fun hideShimmerView() {
+        Timber.e("hiding shimmer effect")
+        binding.homeShimmerLayout.stopShimmer()
         binding.listView.visibility = View.VISIBLE
         binding.homeShimmerLayout.visibility = View.GONE
-    }
-
-    protected fun hideShimmerView() {
-        lifecycleScope.launch {
-            delay(300)
-            binding.listView.visibility = View.VISIBLE
-            binding.homeShimmerLayout.stopShimmer()
-            binding.homeShimmerLayout.visibility = View.GONE
-        }
     }
 
     private fun startDetailActivity(notice: Notice){
