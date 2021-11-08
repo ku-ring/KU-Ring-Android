@@ -21,6 +21,7 @@ import com.ku_stacks.ku_ring.ui.feedback.FeedbackActivity
 import com.ku_stacks.ku_ring.ui.home.dialog.HomeBottomSheet
 import com.ku_stacks.ku_ring.ui.home.dialog.NextActivityItem
 import com.ku_stacks.ku_ring.ui.my_notification.NotificationActivity
+import com.ku_stacks.ku_ring.ui.search.SearchActivity
 import com.ku_stacks.ku_ring.util.PreferenceUtil
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -82,14 +83,14 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setupHeader(){
-        val pagerAdapter = HomePagerAdapter(supportFragmentManager,lifecycle)
+        val pagerAdapter = HomePagerAdapter(supportFragmentManager, lifecycle)
         binding.homeViewpager.adapter = pagerAdapter
         binding.homeViewpager.registerOnPageChangeCallback(pageChangeCallback)
         //binding.homeViewpager.offscreenPageLimit = pagerAdapter.itemCount
 
         TabLayoutMediator(binding.homeHeader.tabLayout, binding.homeViewpager,true) { tab, position ->
             //여기서 등록한 푸시알림으로 색깔 변경도 가능할듯?
-            when(position){
+            when (position) {
                 0 -> tab.text = "학사"
                 1 -> tab.text = "장학"
                 2 -> tab.text = "취창업"
@@ -112,8 +113,9 @@ class HomeActivity : AppCompatActivity() {
         }
 
         binding.homeHeader.searchImg.setOnClickListener {
-            //testing
-            //viewModel.deleteDB()
+            val intent = Intent(this, SearchActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
         }
     }
 

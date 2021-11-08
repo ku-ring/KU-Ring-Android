@@ -45,6 +45,7 @@
         <activity android:name=".ui.setting_notification.SettingNotificationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SettingNotificationTheme"/>
+        <activity android:name=".ui.search.SearchActivity" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"

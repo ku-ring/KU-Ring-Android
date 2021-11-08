@@ -24,4 +24,7 @@
     <!--  setting_notification  -->
     <string name="setting_notification_explain"> 어떤 알림들을 받아보시겠습니까?\n알림 받고 싶은 카테고리를 선택해주세요.</string>
 
+    <!--  search  -->
+    <string name="search_enter_keyword">검색어를 입력해주세요</string>
+    <string name="search">검색</string>
 </resources>

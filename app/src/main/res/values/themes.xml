@@ -29,6 +29,7 @@
 
     <style name="tab_text" parent="@android:style/TextAppearance.Widget.TabWidget">
         <item name="android:fontFamily">@font/notosanskr_medium</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
     <style name="OpenSourceMenuTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
