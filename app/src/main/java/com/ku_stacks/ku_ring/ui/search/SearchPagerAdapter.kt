@@ -4,8 +4,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.ku_stacks.ku_ring.ui.search.fragment.SearchNoticeFragment
-import com.ku_stacks.ku_ring.ui.search.fragment.SearchStaffFragment
+import com.ku_stacks.ku_ring.ui.search.fragment_notice.SearchNoticeFragment
+import com.ku_stacks.ku_ring.ui.search.fragment_staff.SearchStaffFragment
 
 class SearchPagerAdapter(fm: FragmentManager, lc: Lifecycle): FragmentStateAdapter(fm, lc) {
     override fun getItemCount() = 2

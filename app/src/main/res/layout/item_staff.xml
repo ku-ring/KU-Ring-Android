@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp">
+
+        <TextView
+            android:id="@+id/staff_name_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="김기천" />
+
+        <TextView
+            android:id="@+id/staff_major_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/staff_name_txt"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Computer Communication and Mobile Computing" />
+
+        <TextView
+            android:id="@+id/staff_lab_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/staff_major_txt"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="공학관 C동 385-2호 / 신공학관 1205호" />
+
+        <TextView
+            android:id="@+id/staff_phone_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/staff_lab_txt"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="02-123-4567" />
+
+        <TextView
+            android:id="@+id/staff_email_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/staff_phone_txt"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="abcd@konkuk.ac.kr" />
+
+        <TextView
+            android:id="@+id/staff_department_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/staff_email_txt"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="컴퓨터공학부" />
+
+        <TextView
+            android:id="@+id/staff_college_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/staff_department_txt"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="공과대학" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

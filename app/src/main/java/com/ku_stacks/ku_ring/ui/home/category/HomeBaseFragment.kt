@@ -44,8 +44,8 @@ abstract class HomeBaseFragment : Fragment(){
             { notice -> (activity as HomeActivity).insertNotice(notice.articleId, notice.category) }
         )
 
-        binding.listView.layoutManager = LinearLayoutManager(activity)
-        binding.listView.adapter = pagingAdapter
+        binding.categoryRecyclerview.layoutManager = LinearLayoutManager(activity)
+        binding.categoryRecyclerview.adapter = pagingAdapter
 
         observePagingState()
     }
@@ -70,13 +70,13 @@ abstract class HomeBaseFragment : Fragment(){
 
     private fun showShimmerView() {
         binding.homeShimmerLayout.startShimmer()
-        binding.listView.visibility = View.GONE
+        binding.categoryRecyclerview.visibility = View.GONE
         binding.homeShimmerLayout.visibility = View.VISIBLE
     }
 
     private fun hideShimmerView() {
         binding.homeShimmerLayout.stopShimmer()
-        binding.listView.visibility = View.VISIBLE
+        binding.categoryRecyclerview.visibility = View.VISIBLE
         binding.homeShimmerLayout.visibility = View.GONE
     }
 
