@@ -61,6 +61,7 @@ class SearchStaffViewModel @Inject constructor(
 
     override fun onCleared() {
         super.onCleared()
+        searchStaffClient.disconnectWebSocket()
         if (!disposable.isDisposed) {
             disposable.dispose()
         }

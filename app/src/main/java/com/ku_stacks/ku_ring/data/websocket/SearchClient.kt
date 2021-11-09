@@ -80,6 +80,10 @@ class SearchClient {
         preparingFlag = true
     }
 
+    fun disconnectWebSocket() {
+        webSocketClient!!.close()
+    }
+
     companion object {
         const val url = "wss://kuring-dev.herokuapp.com/kuring/staff"
     }
