@@ -1,6 +1,7 @@
 package com.ku_stacks.ku_ring.ui.feedback
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -33,6 +34,9 @@ class FeedbackActivity : AppCompatActivity() {
     private fun observeData() {
         viewModel.quit.observe(this) {
             finish()
+        }
+        viewModel.toast.observe(this) {
+            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
         }
     }
 

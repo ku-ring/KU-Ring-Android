@@ -31,6 +31,10 @@ class FeedbackViewModel @Inject constructor(
     val quit: SingleLiveEvent<Unit>
         get() = _quit
 
+    private val _toast = SingleLiveEvent<String>()
+    val toast: SingleLiveEvent<String>
+        get() = _toast
+
     init {
         Timber.e("FeedbackViewModel injected")
     }
@@ -53,12 +57,16 @@ class FeedbackViewModel @Inject constructor(
                     content = content
                 )
             )
-                .filter { it.isSuccess == true }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    Timber.e("feedback success content : $content")
-                    _quit.call()
+                    if (it.isSuccess) {
+                        Timber.e("feedback success content : $content")
+                        _quit.call()
+                    } else {
+                        Timber.e("feedback failed : ${it.resultCode}, ${it.resultMsg}")
+                        _toast.value = it.resultMsg
+                    }
                 }, {
                     Timber.e("feedback fail")
                 })
