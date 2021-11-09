@@ -16,52 +16,40 @@ import javax.net.ssl.SSLSocketFactory
 
 class SearchClient {
 
-    private lateinit var webSocketClient: WebSocketClient
+    private var webSocketClient: WebSocketClient? = null
 
-    private var staffList: StaffListResponse = StaffListResponse(
-        isSuccess = false,
-        resultMsg = "",
-        resultCode = 0,
-        staffList = emptyList()
-    )
+    private var staffList = StaffListResponse(false, "", 0, emptyList())
+    private var preparingFlag = false
+    private var lastKeyword = ""
 
+    fun isOpen() = webSocketClient?.isOpen == true
+    fun isPreparing() = preparingFlag
+    fun setLastKeyword(keyword: String) {
+        lastKeyword = keyword
+    }
 
     fun subscribeStaff(): Flowable<StaffListResponse> {
-
         return Flowable.interval(300, TimeUnit.MILLISECONDS)
             .flatMap {
                 Flowable.just(staffList)
             }
-            //.distinctUntilChanged()
-
-//        return Flowable.create({ emitter ->
-//            emitter?.onNext(staffList)
-//            Thread.sleep(300)
-//            emitter.onNext(staffList)
-//        }, BackpressureStrategy.LATEST)
+            .distinctUntilChanged()
     }
 
     fun searchStaff(keyword: String) {
-
-        webSocketClient.send(
+        webSocketClient?.send(
             Gson().toJson(
                 StaffRequest(type = "search", content = keyword)
             )
         )
-
-        subscribeStaff().subscribeOn(Schedulers.io())
-            .subscribe({
-                if(it.isSuccess)
-                    Timber.e("subscribing data : ${it.staffList[0].email}")
-            }, {
-                Timber.e("subscribe error : $it")
-            })
     }
 
     private fun createWebSocketClient(coinbaseUri: URI) {
         webSocketClient = object : WebSocketClient(coinbaseUri) {
             override fun onOpen(handshakedata: ServerHandshake?) {
                 Timber.e("WebSocket onOpen")
+                preparingFlag = false
+                searchStaff(lastKeyword)
             }
 
             override fun onMessage(message: String?) {
@@ -71,31 +59,28 @@ class SearchClient {
 
             override fun onClose(code: Int, reason: String?, remote: Boolean) {
                 Timber.e("WebSocket onClose : $code, $reason, $remote")
-                //unsubscribe()
-
+                preparingFlag = false
             }
 
             override fun onError(ex: Exception?) {
                 Timber.e("WebSocket error ${ex?.message}")
+                preparingFlag = false
 
             }
-
         }
-
     }
 
     fun initWebSocket() {
-        val coinbaseUri: URI = URI(Companion.url)
+        val coinbaseUri = URI(Companion.url)
         createWebSocketClient(coinbaseUri)
 
         val socketFactory: SSLSocketFactory = SSLSocketFactory.getDefault() as SSLSocketFactory
-        webSocketClient.setSocketFactory(socketFactory)
-        webSocketClient.connect()
+        webSocketClient!!.setSocketFactory(socketFactory)
+        webSocketClient!!.connect()
+        preparingFlag = true
     }
 
     companion object {
         const val url = "wss://kuring-dev.herokuapp.com/kuring/staff"
     }
-
-
 }

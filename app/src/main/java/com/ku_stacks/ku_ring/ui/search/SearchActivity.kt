@@ -1,9 +1,14 @@
 package com.ku_stacks.ku_ring.ui.search
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.findFragment
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.ku_stacks.ku_ring.R
@@ -21,7 +26,7 @@ class SearchActivity: AppCompatActivity() {
         override fun onPageSelected(position: Int) {
             Timber.e("pageSelect detected")
             when (position) {
-
+                //TODO 여기서 Staff or Notice 웹소켓 연결할지 처리하면 될듯
             }
         }
     }

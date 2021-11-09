@@ -2,11 +2,9 @@ package com.ku_stacks.ku_ring.ui.detail
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.webkit.WebView
+import android.webkit.*
 import androidx.appcompat.app.AppCompatActivity
 import com.ku_stacks.ku_ring.R
-import android.webkit.WebSettings
-import android.webkit.WebViewClient
 
 class DetailActivity: AppCompatActivity() {
 
@@ -21,6 +19,7 @@ class DetailActivity: AppCompatActivity() {
 
         webView = findViewById(R.id.detail_webView)
         webView.webViewClient = WebViewClient() // 클릭시 새창 안뜨게
+
 
         webView.settings.apply {
             javaScriptEnabled = true // 웹페이지 자바스크립트 허용 여부
