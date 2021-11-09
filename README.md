@@ -14,17 +14,19 @@
 - Lifecycle(LiveData)
 - DataBinding
 - ViewModel
-- Paging3
+- Paging3 + Coroutine Flow
 - Room
 - Startup - 앱 시작 시 startup 간소화, 초기화 순서 명시
 - CoordinatorLayout
 
 ### Async
-- RxJava
+- RxJava (main)
+- Coroutine (sub)
 
 ### Network
 - OkHttp3
 - Retrofit2 & RxJava3
+- WebSocket
 - Gson
 
 ### other Library
