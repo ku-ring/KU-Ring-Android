@@ -171,6 +171,12 @@ dependencies {
 
     //tag library
     implementation 'co.lujun:androidtagview:1.1.7'
+
+    // WebSocket
+    implementation "org.java-websocket:Java-WebSocket:1.5.1"
+    // Moshi
+    implementation 'com.squareup.moshi:moshi:1.9.2'
+    kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.9.2'
 }
 
 kapt {
