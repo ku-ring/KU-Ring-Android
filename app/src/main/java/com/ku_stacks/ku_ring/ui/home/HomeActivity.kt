@@ -17,10 +17,12 @@ import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.data.entity.Notice
 import com.ku_stacks.ku_ring.databinding.ActivityHomeBinding
+import com.ku_stacks.ku_ring.ui.detail.DetailActivity
 import com.ku_stacks.ku_ring.ui.feedback.FeedbackActivity
 import com.ku_stacks.ku_ring.ui.home.dialog.HomeBottomSheet
 import com.ku_stacks.ku_ring.ui.home.dialog.NextActivityItem
 import com.ku_stacks.ku_ring.ui.my_notification.NotificationActivity
+import com.ku_stacks.ku_ring.ui.personal_info.PersonalDataActivity
 import com.ku_stacks.ku_ring.ui.search.SearchActivity
 import com.ku_stacks.ku_ring.util.PreferenceUtil
 import dagger.hilt.android.AndroidEntryPoint
@@ -174,7 +176,8 @@ class HomeActivity : AppCompatActivity() {
                 }
                 NextActivityItem.PersonalInfo -> {
                     analytics.click("bottomSheet_PersonalInformation btn", "HomeActivity")
-                    Snackbar.make(binding.root,"PersonalInfo Activity",Snackbar.LENGTH_SHORT ).show()
+                    val intent = Intent(this, PersonalDataActivity::class.java)
+                    startActivity(intent)
                 }
             }
         }

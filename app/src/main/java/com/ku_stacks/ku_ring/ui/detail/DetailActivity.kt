@@ -2,13 +2,16 @@ package com.ku_stacks.ku_ring.ui.detail
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.View
 import android.webkit.*
+import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import com.ku_stacks.ku_ring.R
 
 class DetailActivity: AppCompatActivity() {
 
     private lateinit var webView: WebView
+    private lateinit var progressBar: ProgressBar
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,6 +23,7 @@ class DetailActivity: AppCompatActivity() {
         webView = findViewById(R.id.detail_webView)
         webView.webViewClient = WebViewClient() // 클릭시 새창 안뜨게
 
+        progressBar = findViewById(R.id.detail_progressbar)
 
         webView.settings.apply {
             javaScriptEnabled = true // 웹페이지 자바스크립트 허용 여부
@@ -32,7 +36,16 @@ class DetailActivity: AppCompatActivity() {
             builtInZoomControls = true // 화면 확대 축소 허용 여부 (true로 두면 돋보기+- 버튼 생김)
             layoutAlgorithm = WebSettings.LayoutAlgorithm.SINGLE_COLUMN // 컨텐츠 사이즈 맞추기
             cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK // 브라우저 캐시 허용 여부
-            domStorageEnabled = false // 로컬저장소 허용 여부
+            domStorageEnabled = true // 로컬저장소 허용 여부
+        }
+
+        // WebChromeClient
+        webView.webChromeClient = object : WebChromeClient() {
+            override fun onProgressChanged(view: WebView, newProgress: Int) {
+                progressBar.progress = newProgress
+                progressBar.visibility = if (newProgress == 100) View.GONE else View.VISIBLE
+                super.onProgressChanged(view, newProgress)
+            }
         }
 
         url?.let {
