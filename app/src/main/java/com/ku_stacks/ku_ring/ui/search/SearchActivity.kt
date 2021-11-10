@@ -3,6 +3,7 @@ package com.ku_stacks.ku_ring.ui.search
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -68,12 +69,23 @@ class SearchActivity: AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) { }
             override fun afterTextChanged(s: Editable?) {
                 if(s.toString().isNotEmpty()) {
+                    binding.searchAdviceTxt.visibility = View.GONE
                     when(currentPage) {
                         noticeSearchPage -> {
                             searchViewModel.searchNotice(s.toString())
                         }
                         staffSearchPage -> {
                             searchViewModel.searchStaff(s.toString())
+                        }
+                    }
+                } else {
+                    binding.searchAdviceTxt.visibility = View.VISIBLE
+                    when(currentPage) {
+                        noticeSearchPage -> {
+                            searchViewModel.clearNoticeList()
+                        }
+                        staffSearchPage -> {
+                            searchViewModel.clearStaffList()
                         }
                     }
                 }

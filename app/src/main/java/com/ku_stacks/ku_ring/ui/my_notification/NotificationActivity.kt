@@ -31,6 +31,7 @@ class NotificationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setupBinding()
+        setupView()
         setupListAdapter()
         observeData()
 
@@ -40,7 +41,9 @@ class NotificationActivity : AppCompatActivity() {
     private fun setupBinding() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_notification)
         binding.lifecycleOwner = this
+    }
 
+    private fun setupView() {
         binding.backImg.setOnClickListener {
             overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
             finish()
@@ -51,6 +54,11 @@ class NotificationActivity : AppCompatActivity() {
             val intent = Intent(this, SettingNotificationActivity::class.java)
             startActivity(intent)
             overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
+        }
+
+        binding.deleteImg.setOnClickListener {
+            Timber.e("delete pushDB")
+            viewModel.deletePushDB()
         }
     }
 
@@ -69,10 +77,21 @@ class NotificationActivity : AppCompatActivity() {
     private fun observeData() {
         viewModel.pushList.observe(this) {
             notificationAdapter.submitList(it)
-            if(it.isEmpty()){
+            if(it.isEmpty()) {
                 binding.notificationAlertTxt.visibility = View.VISIBLE
             } else {
                 binding.notificationAlertTxt.visibility = View.GONE
+            }
+            refreshAdviceMessage()
+        }
+    }
+
+    private fun refreshAdviceMessage() {
+        if (binding.notificationAlertTxt.visibility == View.VISIBLE) {
+            binding.notificationAlertTxt.text = if (viewModel.hasSubscribingNotification()) {
+                getString(R.string.notification_alert)
+            } else {
+                getString(R.string.notification_no_subscription)
             }
         }
     }

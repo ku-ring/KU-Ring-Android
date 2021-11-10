@@ -67,6 +67,14 @@ class SearchViewModel @Inject constructor(
         searchClient.searchNotice(keyword)
     }
 
+    fun clearNoticeList() {
+        _noticeList.postValue(emptyList())
+    }
+
+    fun clearStaffList() {
+        _staffList.postValue(emptyList())
+    }
+
     private fun subscribeStaff() {
         disposable.add(
             searchClient.subscribeStaff().subscribeOn(Schedulers.io())
