@@ -9,8 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ku_stacks.ku_ring.R
+import com.ku_stacks.ku_ring.data.websocket.response.SearchStaffResponse
 import com.ku_stacks.ku_ring.databinding.FragmentSearchStaffBinding
 import com.ku_stacks.ku_ring.ui.search.SearchViewModel
+import com.ku_stacks.ku_ring.ui.search.fragment_staff.dialog.StaffBottomSheet
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -34,7 +36,9 @@ class SearchStaffFragment: Fragment() {
     }
 
     private fun setupListAdapter() {
-        searchStaffAdapter = SearchStaffAdapter()
+        searchStaffAdapter = SearchStaffAdapter {
+            invokeStaffInfoDialog(it)
+        }
         binding.searchStaffRecyclerview.layoutManager = LinearLayoutManager(activity)
         binding.searchStaffRecyclerview.adapter = searchStaffAdapter
     }
@@ -43,5 +47,13 @@ class SearchStaffFragment: Fragment() {
         searchViewModel.staffList.observe(viewLifecycleOwner) {
             searchStaffAdapter.submitList(it)
         }
+    }
+
+    private fun invokeStaffInfoDialog(staff: SearchStaffResponse) {
+        val bottomSheet = StaffBottomSheet()
+        val bundle = Bundle()
+        bundle.putSerializable("staff",staff)
+        bottomSheet.arguments = bundle
+        bottomSheet.show(requireActivity().supportFragmentManager, bottomSheet.tag)
     }
 }

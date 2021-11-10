@@ -22,5 +22,6 @@
     <color name="kus_gray">#b6b6b6</color>
     <color name="kus_pink">#e45b78</color>
     <color name="kus_label_color">#deffffff</color>
+    <color name="kus_blue">#3d9ebd</color>
 
 </resources>

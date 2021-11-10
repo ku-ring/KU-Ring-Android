@@ -9,13 +9,13 @@ import com.ku_stacks.ku_ring.data.websocket.response.SearchStaffResponse
 import com.ku_stacks.ku_ring.databinding.ItemStaffBinding
 
 class SearchStaffAdapter(
-
+    private val itemClick: (SearchStaffResponse) -> Unit,
 ) : ListAdapter<SearchStaffResponse, SearchStaffViewHolder>(StaffDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchStaffViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_staff, parent, false)
         val binding = ItemStaffBinding.bind(view)
-        return SearchStaffViewHolder(binding)
+        return SearchStaffViewHolder(binding, itemClick)
     }
 
     override fun onBindViewHolder(holder: SearchStaffViewHolder, position: Int) {

@@ -1,6 +1,7 @@
 package com.ku_stacks.ku_ring.data.websocket.response
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class SearchStaffResponse(
     @SerializedName(value = "name")
@@ -17,4 +18,4 @@ data class SearchStaffResponse(
     val department: String,
     @SerializedName(value = "collegeName")
     val college: String
-)
+) : Serializable
