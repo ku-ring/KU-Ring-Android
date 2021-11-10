@@ -19,7 +19,7 @@
             android:layout_marginStart="12dp"
             android:layout_marginTop="20dp"
             android:background="@null"
-            android:src="@drawable/ic_close"
+            android:src="@drawable/ic_check"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:tint="@color/white" />
@@ -31,7 +31,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="12dp"
             android:background="@null"
-            android:src="@drawable/ic_renew"
+            android:src="@drawable/ic_undo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:tint="@color/white" />

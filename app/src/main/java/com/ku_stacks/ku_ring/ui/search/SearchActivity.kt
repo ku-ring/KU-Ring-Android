@@ -58,6 +58,11 @@ class SearchActivity: AppCompatActivity() {
     }
 
     private fun setupView() {
+        binding.searchBackBt.setOnClickListener {
+            overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
+            finish()
+        }
+
         binding.searchKeywordEt.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) { }
