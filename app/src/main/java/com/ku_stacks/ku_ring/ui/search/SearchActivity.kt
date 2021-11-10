@@ -5,10 +5,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.findFragment
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.ku_stacks.ku_ring.R
@@ -20,13 +17,16 @@ import timber.log.Timber
 class SearchActivity: AppCompatActivity() {
 
     private lateinit var binding: ActivitySearchBinding
-    private val viewModel by viewModels<SearchViewModel>()
+    private val searchViewModel by viewModels<SearchViewModel>()
+
+    private var currentPage = noticeSearchPage
 
     private val pageChangeCallback = object: ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
             Timber.e("pageSelect detected")
             when (position) {
-                //TODO 여기서 Staff or Notice 웹소켓 연결할지 처리하면 될듯
+                0 -> currentPage = noticeSearchPage
+                1 -> currentPage = staffSearchPage
             }
         }
     }
@@ -36,12 +36,13 @@ class SearchActivity: AppCompatActivity() {
 
         setupBinding()
         setupFragment()
+        setupView()
     }
 
     private fun setupBinding() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_search)
         binding.lifecycleOwner = this
-        binding.viewModel = viewModel
+        binding.viewModel = searchViewModel
     }
 
     private fun setupFragment() {
@@ -56,8 +57,43 @@ class SearchActivity: AppCompatActivity() {
         }.attach()
     }
 
+    private fun setupView() {
+        binding.searchKeywordEt.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) { }
+            override fun afterTextChanged(s: Editable?) {
+                if(s.toString().isNotEmpty()) {
+                    when(currentPage) {
+                        noticeSearchPage -> {
+                            searchViewModel.searchNotice(s.toString())
+                        }
+                        staffSearchPage -> {
+                            searchViewModel.searchStaff(s.toString())
+                        }
+                    }
+                }
+            }
+
+        })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        searchViewModel.connectWebSocketIfDisconnected()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        searchViewModel.disconnectWebSocket()
+    }
+
     override fun onBackPressed() {
         super.onBackPressed()
         overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
+    }
+
+    companion object {
+        const val noticeSearchPage = 0
+        const val staffSearchPage = 1
     }
 }

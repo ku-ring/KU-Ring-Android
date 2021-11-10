@@ -8,19 +8,19 @@ import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.data.websocket.response.StaffResponse
 import com.ku_stacks.ku_ring.databinding.ItemStaffBinding
 
-class StaffAdapter(
+class SearchStaffAdapter(
 
-) : ListAdapter<StaffResponse, StaffViewHolder>(StaffDiffCallback) {
+) : ListAdapter<StaffResponse, SearchStaffViewHolder>(StaffDiffCallback) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StaffViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchStaffViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_staff, parent, false)
         val binding = ItemStaffBinding.bind(view)
-        return StaffViewHolder(binding)
+        return SearchStaffViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: StaffViewHolder, position: Int) {
+    override fun onBindViewHolder(holderSearch: SearchStaffViewHolder, position: Int) {
         getItem(position)?.let {
-            holder.bind(it)
+            holderSearch.bind(it)
         }
     }
 
