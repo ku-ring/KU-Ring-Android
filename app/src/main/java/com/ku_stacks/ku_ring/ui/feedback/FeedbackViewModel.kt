@@ -61,6 +61,7 @@ class FeedbackViewModel @Inject constructor(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     if (it.isSuccess) {
+                        _toast.value = "피드백이 정상적으로 전송되었습니다"
                         Timber.e("feedback success content : $content")
                         _quit.call()
                     } else {
