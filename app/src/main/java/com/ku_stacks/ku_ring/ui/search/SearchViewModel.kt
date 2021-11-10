@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ku_stacks.ku_ring.data.websocket.SearchClient
 import com.ku_stacks.ku_ring.data.websocket.response.SearchNoticeResponse
-import com.ku_stacks.ku_ring.data.websocket.response.StaffResponse
+import com.ku_stacks.ku_ring.data.websocket.response.SearchStaffResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -23,8 +23,8 @@ class SearchViewModel @Inject constructor(
 
     private val searchClient = SearchClient()
 
-    private val _staffList = MutableLiveData<List<StaffResponse>>()
-    val staffList: LiveData<List<StaffResponse>>
+    private val _staffList = MutableLiveData<List<SearchStaffResponse>>()
+    val staffList: LiveData<List<SearchStaffResponse>>
         get() = _staffList
 
     private val _noticeList = MutableLiveData<List<SearchNoticeResponse>>()

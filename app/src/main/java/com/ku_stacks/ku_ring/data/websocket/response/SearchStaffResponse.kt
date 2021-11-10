@@ -2,7 +2,7 @@ package com.ku_stacks.ku_ring.data.websocket.response
 
 import com.google.gson.annotations.SerializedName
 
-data class StaffResponse(
+data class SearchStaffResponse(
     @SerializedName(value = "name")
     val name: String,
     @SerializedName(value = "major")

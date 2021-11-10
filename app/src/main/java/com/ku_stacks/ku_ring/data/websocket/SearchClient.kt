@@ -5,7 +5,7 @@ import com.ku_stacks.ku_ring.data.websocket.request.HeartBeatRequest
 import com.ku_stacks.ku_ring.data.websocket.request.SearchRequest
 import com.ku_stacks.ku_ring.data.websocket.response.DefaultSearchResponse
 import com.ku_stacks.ku_ring.data.websocket.response.SearchNoticeListResponse
-import com.ku_stacks.ku_ring.data.websocket.response.StaffListResponse
+import com.ku_stacks.ku_ring.data.websocket.response.SearchStaffListResponse
 import io.reactivex.rxjava3.core.*
 import org.java_websocket.client.WebSocketClient
 import org.java_websocket.handshake.ServerHandshake
@@ -21,7 +21,7 @@ class SearchClient {
 
     private var webSocketClient: WebSocketClient? = null
 
-    private var staffList = StaffListResponse(false, "", 0, emptyList())
+    private var staffList = SearchStaffListResponse(false, "", 0, emptyList())
     private var noticeList = SearchNoticeListResponse(false, "", 0, emptyList())
 
     private var preparingFlag = AtomicBoolean(false)
@@ -34,7 +34,7 @@ class SearchClient {
         lastKeyword = keyword
     }
 
-    fun subscribeStaff(): Flowable<StaffListResponse> {
+    fun subscribeStaff(): Flowable<SearchStaffListResponse> {
         return Flowable.interval(200, TimeUnit.MILLISECONDS)
             .flatMap {
                 Flowable.just(staffList)
@@ -95,7 +95,7 @@ class SearchClient {
                         noticeList = gson.fromJson(message, SearchNoticeListResponse::class.java)
                     }
                     staffType -> {
-                        staffList = gson.fromJson(message, StaffListResponse::class.java)
+                        staffList = gson.fromJson(message, SearchStaffListResponse::class.java)
                     }
                     heartbeatType -> {
                         Timber.e("received PONG")

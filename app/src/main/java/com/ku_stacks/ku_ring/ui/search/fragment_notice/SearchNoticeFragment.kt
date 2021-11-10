@@ -1,5 +1,6 @@
 package com.ku_stacks.ku_ring.ui.search.fragment_notice
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,8 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ku_stacks.ku_ring.R
+import com.ku_stacks.ku_ring.data.entity.Notice
 import com.ku_stacks.ku_ring.databinding.FragmentSearchNoticeBinding
+import com.ku_stacks.ku_ring.ui.detail.DetailActivity
 import com.ku_stacks.ku_ring.ui.search.SearchViewModel
+import timber.log.Timber
 
 class SearchNoticeFragment: Fragment() {
 
@@ -32,7 +36,10 @@ class SearchNoticeFragment: Fragment() {
     }
 
     private fun setupListAdapter() {
-        searchNoticeAdapter = SearchNoticeAdapter()
+        searchNoticeAdapter = SearchNoticeAdapter {
+            startDetailActivity(it)
+            Timber.e("category : ${it.category}")
+        }
         binding.searchNoticeRecyclerview.layoutManager = LinearLayoutManager(activity)
         binding.searchNoticeRecyclerview.adapter = searchNoticeAdapter
     }
@@ -41,5 +48,12 @@ class SearchNoticeFragment: Fragment() {
         searchViewModel.noticeList.observe(viewLifecycleOwner) {
             searchNoticeAdapter.submitList(it)
         }
+    }
+
+    private fun startDetailActivity(notice: Notice) {
+        val intent = Intent(requireContext(), DetailActivity::class.java)
+        intent.putExtra("url", notice.url)
+        startActivity(intent)
+        requireActivity().overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
     }
 }

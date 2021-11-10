@@ -5,12 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.data.websocket.response.StaffResponse
+import com.ku_stacks.ku_ring.data.websocket.response.SearchStaffResponse
 import com.ku_stacks.ku_ring.databinding.ItemStaffBinding
 
 class SearchStaffAdapter(
 
-) : ListAdapter<StaffResponse, SearchStaffViewHolder>(StaffDiffCallback) {
+) : ListAdapter<SearchStaffResponse, SearchStaffViewHolder>(StaffDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchStaffViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_staff, parent, false)
@@ -18,18 +18,18 @@ class SearchStaffAdapter(
         return SearchStaffViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holderSearch: SearchStaffViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: SearchStaffViewHolder, position: Int) {
         getItem(position)?.let {
-            holderSearch.bind(it)
+            holder.bind(it)
         }
     }
 
-    object StaffDiffCallback : DiffUtil.ItemCallback<StaffResponse>() {
-        override fun areItemsTheSame(oldItem: StaffResponse, newItem: StaffResponse): Boolean {
+    object StaffDiffCallback : DiffUtil.ItemCallback<SearchStaffResponse>() {
+        override fun areItemsTheSame(oldItem: SearchStaffResponse, newItem: SearchStaffResponse): Boolean {
             return oldItem.email == newItem.email
         }
 
-        override fun areContentsTheSame(oldItem: StaffResponse, newItem: StaffResponse): Boolean {
+        override fun areContentsTheSame(oldItem: SearchStaffResponse, newItem: SearchStaffResponse): Boolean {
             return oldItem.email == newItem.email
         }
 
