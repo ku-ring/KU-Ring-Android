@@ -7,6 +7,7 @@ import android.webkit.*
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import com.ku_stacks.ku_ring.R
+import timber.log.Timber
 
 class DetailActivity: AppCompatActivity() {
 
@@ -19,6 +20,7 @@ class DetailActivity: AppCompatActivity() {
         setContentView(R.layout.activity_detail)
 
         val url = intent.getStringExtra("url")
+        Timber.e("detail url : $url")
 
         webView = findViewById(R.id.detail_webView)
         webView.webViewClient = WebViewClient() // 클릭시 새창 안뜨게

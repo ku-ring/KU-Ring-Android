@@ -14,7 +14,7 @@
         android:layout_marginTop="20dp"
         android:fontFamily="@font/sfpro_display_bold"
         android:textColor="@color/black"
-        android:textSize="32sp"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="교수 이름" />
@@ -26,7 +26,7 @@
         android:layout_marginTop="8dp"
         android:fontFamily="@font/sfpro_display_regular"
         android:textColor="@color/kus_dark_gray"
-        android:textSize="17sp"
+        android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/staff_bottom_sheet_name_txt"
         tools:text="컴퓨터공학과 · 공과대학" />
@@ -38,7 +38,7 @@
         android:layout_marginTop="16dp"
         android:fontFamily="@font/sfpro_display_regular"
         android:textColor="@color/kus_blue"
-        android:textSize="17sp"
+        android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/staff_bottom_sheet_department_txt"
         tools:text="✉️ example@konkuk.ac.kr" />
@@ -50,7 +50,7 @@
         android:layout_marginTop="8dp"
         android:fontFamily="@font/sfpro_display_regular"
         android:textColor="@color/kus_dark_gray"
-        android:textSize="17sp"
+        android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/staff_bottom_sheet_email_txt"
         tools:text="📍교수실 (e.g. 공C384-1 / 신공학관 1206호)" />
@@ -62,7 +62,7 @@
         android:layout_marginTop="8dp"
         android:fontFamily="@font/sfpro_display_regular"
         android:textColor="@color/kus_blue"
-        android:textSize="17sp"
+        android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/staff_bottom_sheet_lab_txt"
         tools:text="📞 02-000-0000" />
@@ -75,7 +75,7 @@
         android:layout_marginBottom="32dp"
         android:fontFamily="@font/sfpro_display_regular"
         android:textColor="@color/kus_dark_gray"
-        android:textSize="17sp"
+        android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/staff_bottom_sheet_phone_txt"

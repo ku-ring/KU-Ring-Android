@@ -43,7 +43,7 @@
             android:src="@drawable/ic_trash"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/black" />
+            app:tint="@color/kus_pink" />
 
         <TextView
             android:id="@+id/notification_alert_txt"
