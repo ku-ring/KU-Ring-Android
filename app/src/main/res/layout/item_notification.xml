@@ -19,15 +19,20 @@
 
         <TextView
             android:id="@+id/notification_date_txt"
+            visibleIf="@{NotificationItem.isNewDay}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
+            android:background="@drawable/bg_notification_date"
             android:fontFamily="@font/sfpro_display_regular"
-            visibleIf="@{NotificationItem.isNewDay}"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingTop="0dp"
+            android:paddingBottom="2dp"
             android:text="@{DateUtil.convertDateToDay(NotificationItem.postedDate)}"
-            android:textColor="@color/kus_dark_gray"
+            android:textColor="@color/white"
             android:textSize="15sp"
             tools:text="2021.10.01 (금)" />
 
