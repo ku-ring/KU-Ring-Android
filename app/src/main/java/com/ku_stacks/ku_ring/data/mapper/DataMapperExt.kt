@@ -11,8 +11,16 @@ fun transformNotice(response : NoticeListResponse, type : String): List<Notice> 
             this.noticeResponse.map {
                 val subjectAndTag = getSubjectAndTag(it.subject.trim())
 
+                val transformedDate = it.postedDate.let { date ->
+                    if (date.length == 19) { //도서관의 경우에는 특별하게 millisecond 단위로 나옴
+                        return@let date.substring(0, 4) + date.substring(5, 7) + date.substring(8, 10)
+                    } else {
+                        return@let date
+                    }
+                }
+
                 Notice(
-                    postedDate = it.postedDate,
+                    postedDate = transformedDate,
                     subject = subjectAndTag.first,
                     category = it.category,
                     url = this.baseUrl + "/" + it.articleId,
