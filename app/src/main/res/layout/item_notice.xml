@@ -12,7 +12,6 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/notice_isRead_layout"
-        backgroundGrayIf="@{noticeItem.isRead}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
@@ -32,6 +31,7 @@
 
         <TextView
             android:id="@+id/notice_title_txt"
+            textColorGrayIf="@{noticeItem.isRead}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
@@ -50,6 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             timeMillis="@{noticeItem.postedDate}"
+            textColorGrayIf="@{noticeItem.isRead}"
             android:textColor="@color/kus_dark_gray"
             app:layout_constraintStart_toStartOf="@+id/notice_title_txt"
             app:layout_constraintTop_toBottomOf="@+id/notice_title_txt"

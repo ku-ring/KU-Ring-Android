@@ -58,4 +58,12 @@ object BindingAdapters {
             setBackgroundColor(Color.parseColor("#ffffff"))
         }
     }
+
+    @JvmStatic
+    @BindingAdapter("textColorGrayIf")
+    fun TextView.textColorGrayIf(value: Boolean) {
+        if (value) {
+            setTextColor(Color.parseColor("#ababab"))
+        }
+    }
 }

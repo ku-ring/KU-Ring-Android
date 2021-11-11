@@ -5,6 +5,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.adapter.BindingAdapters.backgroundGrayIf
+import com.ku_stacks.ku_ring.adapter.BindingAdapters.textColorGrayIf
 import com.ku_stacks.ku_ring.adapter.BindingAdapters.visibleIf
 import com.ku_stacks.ku_ring.data.entity.Notice
 import com.ku_stacks.ku_ring.databinding.ItemNoticeBinding
@@ -17,7 +18,9 @@ class NoticeViewHolder(
         binding.noticeItem = notice
         setupTag(notice.tag)
         binding.root.setOnClickListener {
-            binding.noticeIsReadLayout.backgroundGrayIf(true)
+            //binding.noticeIsReadLayout.backgroundGrayIf(true)
+            binding.noticeTitleTxt.textColorGrayIf(true)
+            binding.noticeDateTxt.textColorGrayIf(true)
             binding.noticeIsNewPoint.visibleIf(false)
             binding.executePendingBindings()
             itemClick(notice)
