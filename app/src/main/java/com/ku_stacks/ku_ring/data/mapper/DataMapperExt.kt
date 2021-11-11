@@ -88,6 +88,6 @@ private fun getSubjectAndTag(subject: String): Pair<String, List<String>> {
     return if (tagList.size == 0) {
         Pair(subject, emptyList())
     } else {
-        Pair(subject.substring(startIdx + 1).trim(), tagList)
+        Pair(subject.substring(startIdx).trim(), tagList)
     }
 }
