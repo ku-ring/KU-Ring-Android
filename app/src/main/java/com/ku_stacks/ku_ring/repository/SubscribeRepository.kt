@@ -25,6 +25,10 @@ class SubscribeRepository @Inject constructor(
         return noticeClient.saveSubscribe(subscribe)
     }
 
+    fun getSubscriptionFromLocal(): Set<String> {
+        return pref.getSubscription() ?: emptySet()
+    }
+
     fun saveSubscriptionToLocal(stringArray: ArrayList<String>) {
         val stringSet = stringArray.map {
             WordConverter.convertKoreanToShortEnglish(it)

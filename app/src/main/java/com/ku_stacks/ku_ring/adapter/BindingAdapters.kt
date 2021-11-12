@@ -2,6 +2,7 @@ package com.ku_stacks.ku_ring.adapter
 
 import android.graphics.Color
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
@@ -64,6 +65,16 @@ object BindingAdapters {
     fun TextView.textColorGrayIf(value: Boolean) {
         if (value) {
             setTextColor(Color.parseColor("#ababab"))
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("confirmedImageIf")
+    fun ImageView.confirmedImageIf(value: Boolean) {
+        if (value) {
+            setImageResource(R.drawable.ic_check)
+        } else {
+            setImageResource(R.drawable.ic_close)
         }
     }
 }

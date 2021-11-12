@@ -31,9 +31,12 @@ class SettingNotificationActivity : AppCompatActivity() {
     private fun setupBinding() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_setting_notification)
         binding.lifecycleOwner = this
+        binding.viewModel = viewModel
 
         binding.settingNotificationDismissBt.setOnClickListener {
-            viewModel.saveSubscribe()
+            if(viewModel.hasUpdate.value == true) {
+                viewModel.saveSubscribe()
+            }
             overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
             finish()
         }
@@ -46,10 +49,12 @@ class SettingNotificationActivity : AppCompatActivity() {
         subscribeAdapter = SubscribeAdapter {
             viewModel.removeSubscription(it)
             viewModel.addUnSubscription(it)
+            viewModel.refreshAfterUpdate()
         }
         unSubscribeListAdapter = UnSubscribeAdapter {
             viewModel.removeUnSubscription(it)
             viewModel.addSubscription(it)
+            viewModel.refreshAfterUpdate()
         }
 
         binding.subscribeRecyclerview.apply {
@@ -77,15 +82,9 @@ class SettingNotificationActivity : AppCompatActivity() {
         viewModel.unSubscriptionList.observe(this) {
             unSubscribeListAdapter.submitList(it.toList())
         }
-
-        viewModel.quit.observe(this) {
-            finish()
-            overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
-        }
     }
 
     override fun onBackPressed() {
-        viewModel.saveSubscribe()
         super.onBackPressed()
         overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
     }

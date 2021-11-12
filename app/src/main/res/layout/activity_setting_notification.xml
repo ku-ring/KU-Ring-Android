@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="viewModel"
+            type="com.ku_stacks.ku_ring.ui.setting_notification.SettingNotificationViewModel" />
 
     </data>
 
@@ -14,18 +17,20 @@
 
         <ImageButton
             android:id="@+id/setting_notification_dismiss_bt"
+            confirmedImageIf="@{viewModel.hasUpdate}"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginStart="12dp"
             android:layout_marginTop="20dp"
             android:background="@null"
-            android:src="@drawable/ic_check"
+            android:src="@drawable/ic_close"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:tint="@color/white" />
 
         <ImageButton
             android:id="@+id/setting_notification_rollback_bt"
+            visibleIf="@{viewModel.hasUpdate}"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginTop="20dp"

@@ -1,5 +1,6 @@
 package com.ku_stacks.ku_ring.ui.setting_notification
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.messaging.FirebaseMessaging
@@ -28,9 +29,9 @@ class SettingNotificationViewModel @Inject constructor(
     private val _unSubscriptionList = ArrayList<String>()
     val unSubscriptionList = MutableLiveData<ArrayList<String>>()
 
-    private val _quit = SingleLiveEvent<Unit>()
-    val quit: SingleLiveEvent<Unit>
-        get() = _quit
+    private val _hasUpdate = MutableLiveData(false)
+    val hasUpdate: LiveData<Boolean>
+        get() = _hasUpdate
 
     private var fcmToken: String? = null
 
@@ -63,8 +64,10 @@ class SettingNotificationViewModel @Inject constructor(
             disposable.add(
                 repository.getSubscribeList(fcmToken!!)
                     .subscribeOn(Schedulers.io())
-                    .subscribe(
-                        { initialSortSubscription(it) },
+                    .subscribe({
+                        initialSortSubscription(it)
+                        refreshAfterUpdate()
+                    },
                         { Timber.e("getSubscribeList fail $it") })
             )
         }
@@ -127,6 +130,21 @@ class SettingNotificationViewModel @Inject constructor(
         }
         _unSubscriptionList.sortWith(CategoryComparator)
         unSubscriptionList.postValue(_unSubscriptionList)
+    }
+
+    fun refreshAfterUpdate() {
+        val localSubscription = repository.getSubscriptionFromLocal()
+        if (localSubscription.size != _subscriptionList.size) {
+            _hasUpdate.postValue(true)
+            return
+        }
+        for (data in _subscriptionList) {
+            if (!localSubscription.contains(WordConverter.convertKoreanToShortEnglish(data))) {
+                _hasUpdate.postValue(true)
+                return
+            }
+        }
+        _hasUpdate.postValue(false)
     }
 
     private fun initialSortSubscription(subscribingList: List<String>) {
