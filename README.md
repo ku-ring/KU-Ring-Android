@@ -24,10 +24,10 @@
 - Coroutine (sub)
 
 ### Network
+- Gson
 - OkHttp3
 - Retrofit2 & RxJava3
-- WebSocket
-- Gson
+- java-WebSocket
 
 ### other Library
 - Timber - Debug 환경일 때는 Log, Release 환경일 때는 Crashlytics
