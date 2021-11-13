@@ -54,7 +54,7 @@
 
         <activity android:name=".ui.search.SearchActivity" />
         
-        <activity android:name=".ui.personal_info.PersonalDataActivity" />
+        <activity android:name=".ui.notion.NotionViewActivity" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"

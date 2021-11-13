@@ -29,4 +29,8 @@
     <string name="search_enter_keyword">검색어를 입력해주세요</string>
     <string name="search">검색</string>
     <string name="search_advice">찾고 싶은 공지사항이나 교직원을 검색해보세요\n(공지 제목 / 교수 이름 / 학과 / 단과대학)</string>
+
+    <!--  notion url  -->
+    <string name="notion_personal_data_url">https://knowing-bamboo-7b4.notion.site/289d8db70bad49cd8ba80ed011281dfc</string>
+    <string name="notion_terms_of_service">https://knowing-bamboo-7b4.notion.site/c480d1b7598b4e97b92f566ed055ef2c</string>
 </resources>

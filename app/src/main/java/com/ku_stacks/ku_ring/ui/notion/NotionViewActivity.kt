@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.ui.personal_info
+package com.ku_stacks.ku_ring.ui.notion
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -9,12 +9,14 @@ import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import com.ku_stacks.ku_ring.R
 
-class PersonalDataActivity : AppCompatActivity() {
+class NotionViewActivity : AppCompatActivity() {
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_personal_data)
+
+        val url = intent.getStringExtra("url")
 
         val webView = findViewById<WebView>(R.id.personal_data_webview)
         val progressBar = findViewById<ProgressBar>(R.id.personal_data_progressbar)
@@ -34,11 +36,8 @@ class PersonalDataActivity : AppCompatActivity() {
                 super.onProgressChanged(view, newProgress)
             }
         }
-
-        webView.loadUrl(url)
-    }
-
-    companion object {
-        const val url = "https://knowing-bamboo-7b4.notion.site/289d8db70bad49cd8ba80ed011281dfc"
+        url?.let {
+            webView.loadUrl(it)
+        }
     }
 }

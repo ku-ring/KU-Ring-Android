@@ -9,7 +9,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.messaging.FirebaseMessaging
@@ -17,12 +16,11 @@ import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.data.entity.Notice
 import com.ku_stacks.ku_ring.databinding.ActivityHomeBinding
-import com.ku_stacks.ku_ring.ui.detail.DetailActivity
 import com.ku_stacks.ku_ring.ui.feedback.FeedbackActivity
 import com.ku_stacks.ku_ring.ui.home.dialog.HomeBottomSheet
 import com.ku_stacks.ku_ring.ui.home.dialog.NextActivityItem
 import com.ku_stacks.ku_ring.ui.my_notification.NotificationActivity
-import com.ku_stacks.ku_ring.ui.personal_info.PersonalDataActivity
+import com.ku_stacks.ku_ring.ui.notion.NotionViewActivity
 import com.ku_stacks.ku_ring.ui.search.SearchActivity
 import com.ku_stacks.ku_ring.util.PreferenceUtil
 import dagger.hilt.android.AndroidEntryPoint
@@ -172,11 +170,18 @@ class HomeActivity : AppCompatActivity() {
                     analytics.click("bottomSheet_OpenSource btn", "HomeActivity")
                     startActivity(Intent(this, OssLicensesMenuActivity::class.java))
                     OssLicensesMenuActivity.setActivityTitle("오픈소스 라이선스")
-
                 }
                 NextActivityItem.PersonalInfo -> {
                     analytics.click("bottomSheet_PersonalInformation btn", "HomeActivity")
-                    val intent = Intent(this, PersonalDataActivity::class.java)
+                    val intent = Intent(this, NotionViewActivity::class.java)
+                    intent.putExtra("url", getString(R.string.notion_personal_data_url))
+                    startActivity(intent)
+                }
+                NextActivityItem.TermsOfService -> {
+                    Timber.e("TermsOfService clicked")
+                    analytics.click("bottomSheet_TermsOfService btn", "HomeActivity")
+                    val intent = Intent(this, NotionViewActivity::class.java)
+                    intent.putExtra("url", getString(R.string.notion_terms_of_service))
                     startActivity(intent)
                 }
             }

@@ -9,7 +9,7 @@ import com.ku_stacks.ku_ring.databinding.DialogHomeBottomSheetBinding
 import timber.log.Timber
 
 enum class NextActivityItem{
-    Feedback, OpenSource, PersonalInfo
+    Feedback, OpenSource, PersonalInfo, TermsOfService
 }
 
 class HomeBottomSheet: BottomSheetDialogFragment() {
@@ -48,6 +48,10 @@ class HomeBottomSheet: BottomSheetDialogFragment() {
         }
         binding.personalDataLayout.setOnClickListener {
             itemClick(NextActivityItem.PersonalInfo)
+            dialog?.dismiss()
+        }
+        binding.termsOfServiceLayout.setOnClickListener {
+            itemClick(NextActivityItem.TermsOfService)
             dialog?.dismiss()
         }
     }
