@@ -1,6 +1,7 @@
 package com.ku_stacks.ku_ring.di
 
 import com.ku_stacks.ku_ring.BuildConfig
+import com.ku_stacks.ku_ring.BuildConfig.API_BASE_URL
 import com.ku_stacks.ku_ring.data.api.FeedbackClient
 import com.ku_stacks.ku_ring.data.api.FeedbackService
 import com.ku_stacks.ku_ring.data.api.NoticeClient
@@ -19,8 +20,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-
-    const val BASE_URL = "https://kuring-dev.herokuapp.com/api/v1/"
 
     @Provides
     @Singleton
@@ -41,7 +40,7 @@ object NetworkModule {
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .client(okHttpClient)
-            .baseUrl(BASE_URL)
+            .baseUrl(API_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .build()

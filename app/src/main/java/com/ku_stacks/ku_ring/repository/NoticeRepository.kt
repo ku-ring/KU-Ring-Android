@@ -56,7 +56,6 @@ class NoticeRepository @Inject constructor(
         } else { //앱을 처음 킨 것이 아닌 경우(일반적인 케이스)
             Timber.e("This is not first connect day")
             return pagingData.map {
-                Timber.e("postedData : ${it.postedDate}, ${startDate}")
                 Notice(
                     postedDate = it.postedDate,
                     subject = it.subject,

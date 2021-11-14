@@ -1,6 +1,7 @@
 package com.ku_stacks.ku_ring.data.websocket
 
 import com.google.gson.Gson
+import com.ku_stacks.ku_ring.BuildConfig.WEB_SOCKET_URL
 import com.ku_stacks.ku_ring.data.websocket.request.HeartBeatRequest
 import com.ku_stacks.ku_ring.data.websocket.request.SearchRequest
 import com.ku_stacks.ku_ring.data.websocket.response.DefaultSearchResponse
@@ -116,7 +117,7 @@ class SearchClient {
     }
 
     fun initWebSocket() {
-        val coinbaseUri = URI(Companion.url)
+        val coinbaseUri = URI(WEB_SOCKET_URL)
         createWebSocketClient(coinbaseUri)
 
         val socketFactory: SSLSocketFactory = SSLSocketFactory.getDefault() as SSLSocketFactory
@@ -130,8 +131,6 @@ class SearchClient {
     }
 
     companion object {
-        const val url = "wss://kuring-dev.herokuapp.com/kuring/search"
-
         const val staffType = "staff"
         const val noticeType = "notice"
         const val heartbeatType = "heartbeat"

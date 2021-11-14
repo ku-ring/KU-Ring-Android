@@ -47,23 +47,28 @@ android {
 
     buildTypes {
         debug {
+            minifyEnabled false
             manifestPlaceholders = [
-                    appName : "KU Ring Debug",
-                    appIcon : "@drawable/ic_ku_ring_launcher"
+                    appName : "@string/app_name_debug",
+                    appIcon : "@drawable/ic_ku_ring_launcher_dev"
             ]
+            buildConfigField "String", "API_BASE_URL", "\"https://kuring-dev.herokuapp.com/api/v1/\""
+            buildConfigField "String", "WEB_SOCKET_URL", "\"wss://kuring-dev.herokuapp.com/kuring/search\""
 
             applicationIdSuffix '.debug'
         }
 
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
 
             manifestPlaceholders = [
                     appName : "@string/app_name",
-                    appIcon : "@mipmap/ic_launcher"
+                    appIcon : "@drawable/ic_ku_ring_launcher"
             ]
+            buildConfigField "String", "API_BASE_URL", "\"https://kuring.herokuapp.com/api/v1/\""
+            buildConfigField "String", "WEB_SOCKET_URL", "\"wss://kuring.herokuapp.com/kuring/search\""
         }
     }
     compileOptions {

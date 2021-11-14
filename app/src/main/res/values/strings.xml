@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">KU Ring</string>
+    <string name="app_name">쿠링</string>
+    <string name="app_name_debug">쿠링 Debug</string>
 
     <!--  splash  -->
     <string name="ku_ring_version">ver. 1.0.0</string>
