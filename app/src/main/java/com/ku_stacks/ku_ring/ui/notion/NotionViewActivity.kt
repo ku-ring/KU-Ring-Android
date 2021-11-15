@@ -21,12 +21,13 @@ class NotionViewActivity : AppCompatActivity() {
         val webView = findViewById<WebView>(R.id.personal_data_webview)
         val progressBar = findViewById<ProgressBar>(R.id.personal_data_progressbar)
 
-        val settings = webView.settings
-        settings.builtInZoomControls = false
-        settings.domStorageEnabled = true
-        settings.javaScriptEnabled = true
-        settings.loadWithOverviewMode = true
-        settings.setSupportZoom(false)
+        webView.settings.apply {
+            builtInZoomControls = false
+            domStorageEnabled = true
+            javaScriptEnabled = true
+            loadWithOverviewMode = true
+            setSupportZoom(false)
+        }
 
         // WebChromeClient
         webView.webChromeClient = object : WebChromeClient() {
