@@ -12,6 +12,7 @@ import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.databinding.ActivityNotificationBinding
 import com.ku_stacks.ku_ring.ui.detail.DetailActivity
+import com.ku_stacks.ku_ring.ui.home.HomeActivity
 import com.ku_stacks.ku_ring.ui.setting_notification.SettingNotificationActivity
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -45,8 +46,7 @@ class NotificationActivity : AppCompatActivity() {
 
     private fun setupView() {
         binding.backImg.setOnClickListener {
-            overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
-            finish()
+            startHomeActivity()
         }
 
         binding.notificationSetNotiBtn.setOnClickListener {
@@ -110,8 +110,15 @@ class NotificationActivity : AppCompatActivity() {
         overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
     }
 
+    private fun startHomeActivity() {
+        val intent = Intent(this, HomeActivity::class.java)
+        startActivity(intent)
+        overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
+        finish()
+    }
+
     override fun onBackPressed() {
         super.onBackPressed()
-        overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
+        startHomeActivity()
     }
 }

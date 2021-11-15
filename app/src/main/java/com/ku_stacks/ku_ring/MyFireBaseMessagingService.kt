@@ -14,6 +14,7 @@ import com.google.firebase.messaging.RemoteMessage
 import com.ku_stacks.ku_ring.data.db.PushDao
 import com.ku_stacks.ku_ring.data.db.PushEntity
 import com.ku_stacks.ku_ring.ui.home.HomeActivity
+import com.ku_stacks.ku_ring.ui.my_notification.NotificationActivity
 import com.ku_stacks.ku_ring.util.DateUtil
 import com.ku_stacks.ku_ring.util.WordConverter
 import dagger.hilt.android.AndroidEntryPoint
@@ -82,7 +83,7 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
     }
 
     private fun sendNotification(title: String?, body: String?){
-        val intent = Intent(this, HomeActivity::class.java)
+        val intent = Intent(this, NotificationActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
         val defaultSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val channelId = "ku_stack_channel_id"
