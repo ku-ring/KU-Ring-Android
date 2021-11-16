@@ -122,6 +122,7 @@ class HomeActivity : AppCompatActivity() {
     private fun observeData(){
         viewModel.homeTabState.observe(this) {
             Timber.e("${it.name} observed")
+            analytics.click("${it.name} Tab showing", "HomeActivity")
         }
 
         viewModel.pushCount.observe(this) {

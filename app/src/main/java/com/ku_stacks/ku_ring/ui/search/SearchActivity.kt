@@ -40,6 +40,10 @@ class SearchActivity: AppCompatActivity() {
         setupView()
     }
 
+    fun searchEditTextString(): String {
+        return binding.searchKeywordEt.text.toString()
+    }
+
     private fun setupBinding() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_search)
         binding.lifecycleOwner = this
