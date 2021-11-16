@@ -110,7 +110,7 @@ class SearchClient {
             }
 
             override fun onError(ex: Exception?) {
-                Timber.e("WebSocket error ${ex?.message}")
+                Timber.e("Search Client WebSocket error ${ex?.message}")
                 preparingFlag.set(false)
             }
         }

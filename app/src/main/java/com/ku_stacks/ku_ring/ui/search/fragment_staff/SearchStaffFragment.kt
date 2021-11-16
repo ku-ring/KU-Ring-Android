@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.data.websocket.response.SearchStaffResponse
 import com.ku_stacks.ku_ring.databinding.FragmentSearchStaffBinding
+import com.ku_stacks.ku_ring.ui.search.SearchActivity
 import com.ku_stacks.ku_ring.ui.search.SearchViewModel
 import com.ku_stacks.ku_ring.ui.search.fragment_staff.dialog.StaffBottomSheet
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,7 +46,9 @@ class SearchStaffFragment: Fragment() {
 
     private fun observeData() {
         searchViewModel.staffList.observe(viewLifecycleOwner) {
-            searchStaffAdapter.submitList(it)
+            if ((activity as SearchActivity).searchEditTextString().isNotEmpty()) {
+                searchStaffAdapter.submitList(it)
+            }
         }
     }
 

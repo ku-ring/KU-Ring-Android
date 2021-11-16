@@ -13,6 +13,7 @@ import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.data.entity.Notice
 import com.ku_stacks.ku_ring.databinding.FragmentSearchNoticeBinding
 import com.ku_stacks.ku_ring.ui.detail.DetailActivity
+import com.ku_stacks.ku_ring.ui.search.SearchActivity
 import com.ku_stacks.ku_ring.ui.search.SearchViewModel
 import timber.log.Timber
 
@@ -46,7 +47,9 @@ class SearchNoticeFragment: Fragment() {
 
     private fun observeData() {
         searchViewModel.noticeList.observe(viewLifecycleOwner) {
-            searchNoticeAdapter.submitList(it)
+            if ((activity as SearchActivity).searchEditTextString().isNotEmpty()) {
+                searchNoticeAdapter.submitList(it)
+            }
         }
     }
 

@@ -39,12 +39,13 @@ class DetailActivity: AppCompatActivity() {
 //            layoutAlgorithm = WebSettings.LayoutAlgorithm.SINGLE_COLUMN // 컨텐츠 사이즈 맞추기
 //            cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK // 브라우저 캐시 허용 여부
 //            domStorageEnabled = true // 로컬저장소 허용 여부
+            //위의 설정으로 하면 일부 안열리는 링크가 있었음 ex. 예술문화관(능동로 방향) 펜스 출입문 통제 안내
+
             builtInZoomControls = false
             domStorageEnabled = true
             javaScriptEnabled = true
             loadWithOverviewMode = true
             setSupportZoom(false)
-            
         }
 
         // WebChromeClient
