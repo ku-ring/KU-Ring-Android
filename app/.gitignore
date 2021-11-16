@@ -1,4 +1,4 @@
 /build
 /src/debug/google-services.json
 /src/release/google-services.json
-/signing/ku_ring/keystore.jks
+/signing/ku_ring_keystore.jks
