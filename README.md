@@ -1,6 +1,6 @@
 # KU Ring-Android
 
-개발 진행중
+걱정마, 쿠링이 알려줄게!
 
 
 ## Tech Stack & Libraries
