@@ -91,14 +91,14 @@ class HomeActivity : AppCompatActivity() {
         TabLayoutMediator(binding.homeHeader.tabLayout, binding.homeViewpager,true) { tab, position ->
             //여기서 등록한 푸시알림으로 색깔 변경도 가능할듯?
             when (position) {
-                0 -> tab.text = "학사"
-                1 -> tab.text = "장학"
-                2 -> tab.text = "취창업"
-                3 -> tab.text = "국제"
-                4 -> tab.text = "학생"
-                5 -> tab.text = "산학"
-                6 -> tab.text = "일반"
-                7 -> tab.text = "도서관"
+                0 -> tab.text = getString(R.string.bachelor)
+                1 -> tab.text = getString(R.string.scholarship)
+                2 -> tab.text = getString(R.string.employ)
+                3 -> tab.text = getString(R.string.nation)
+                4 -> tab.text = getString(R.string.student)
+                5 -> tab.text = getString(R.string.industry)
+                6 -> tab.text = getString(R.string.normal)
+                7 -> tab.text = getString(R.string.library)
             }
         }.attach()
 
@@ -156,8 +156,8 @@ class HomeActivity : AppCompatActivity() {
                 Timber.e("FCM token : $token")
             }
         }
-
     }
+
     private fun invokeMenuDialog() {
         val bottomSheet = HomeBottomSheet()
         bottomSheet.setArgument {

@@ -11,11 +11,30 @@
     <string name="home_bell_icn">home bell img</string>
     <string name="home_search_icn">home search img</string>
 
+    <!--  category  -->
+    <string name="bachelor">학사</string>
+    <string name="scholarship">장학</string>
+    <string name="employ">취창업</string>
+    <string name="nation">국제</string>
+    <string name="student">학생</string>
+    <string name="industry">산학</string>
+    <string name="normal">일반</string>
+    <string name="library">도서관</string>
+
     <!--  feedback  -->
     <string name="feedback_send_content">피드백 보내기</string>
     <string name="feedback_title">피드백을 남겨서 앱이 성장하는데에 \n큰 기여를 해주세요 🙂</string>
     <string name="feedback_hint">피드백을 남겨주세요…</string>
-    
+
+    <!--  open source  -->
+    <string name="open_source">오픈소스</string>
+
+    <!--  personal information  -->
+    <string name="personal_information">개인정보 처리방침</string>
+
+    <!--  term of service  -->
+    <string name="term_of_service">서비스 이용약관</string>
+
     <!--  notification  -->
     <string name="notification_my">내 알림</string>
     <string name="notification_alert">알림이 없어요!</string>

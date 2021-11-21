@@ -115,42 +115,42 @@
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="학사" />
+            android:text="@string/bachelor" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="장학" />
+            android:text="@string/scholarship" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="취창업" />
+            android:text="@string/employ" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="국제" />
+            android:text="@string/nation" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="학생" />
+            android:text="@string/student" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="산학" />
+            android:text="@string/industry" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="일반" />
+            android:text="@string/normal" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="도서관" />
+            android:text="@string/library" />
 
     </com.google.android.material.tabs.TabLayout>
 </com.google.android.material.appbar.AppBarLayout>

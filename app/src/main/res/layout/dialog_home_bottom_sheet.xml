@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
             android:fontFamily="@font/notosanskr_regular"
-            android:text="피드백 보내기"
+            android:text="@string/feedback_send_content"
             android:textColor="@color/black"
             android:textSize="16sp" />
     </LinearLayout>
@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
             android:fontFamily="@font/notosanskr_regular"
-            android:text="오픈소스"
+            android:text="@string/open_source"
             android:textColor="@color/black"
             android:textSize="16sp" />
     </LinearLayout>
@@ -75,7 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
             android:fontFamily="@font/notosanskr_regular"
-            android:text="개인정보 처리방침"
+            android:text="@string/personal_information"
             android:textColor="@color/black"
             android:textSize="16sp" />
     </LinearLayout>
@@ -100,7 +100,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
             android:fontFamily="@font/notosanskr_regular"
-            android:text="서비스 이용약관"
+            android:text="@string/term_of_service"
             android:textColor="@color/black"
             android:textSize="16sp" />
     </LinearLayout>
