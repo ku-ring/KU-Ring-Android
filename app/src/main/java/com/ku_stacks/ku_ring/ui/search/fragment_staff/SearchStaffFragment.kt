@@ -46,8 +46,11 @@ class SearchStaffFragment: Fragment() {
 
     private fun observeData() {
         searchViewModel.staffList.observe(viewLifecycleOwner) {
-            if ((activity as SearchActivity).searchEditTextString().isNotEmpty()) {
-                searchStaffAdapter.submitList(it)
+            searchStaffAdapter.submitList(it)
+            if (it.isEmpty()) {
+                (activity as SearchActivity).showAdviceText()
+            } else {
+                (activity as SearchActivity).hideAdviceText()
             }
         }
     }

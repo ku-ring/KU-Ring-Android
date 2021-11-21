@@ -26,8 +26,22 @@ class SearchActivity: AppCompatActivity() {
         override fun onPageSelected(position: Int) {
             Timber.e("pageSelect detected")
             when (position) {
-                0 -> currentPage = noticeSearchPage
-                1 -> currentPage = staffSearchPage
+                0 -> {
+                    currentPage = noticeSearchPage
+                    if (searchViewModel.noticeList.value?.isEmpty() == false) {
+                        hideAdviceText()
+                    } else {
+                        showAdviceText()
+                    }
+                }
+                1 -> {
+                    currentPage = staffSearchPage
+                    if (searchViewModel.staffList.value?.isEmpty() == false) {
+                        hideAdviceText()
+                    } else {
+                        showAdviceText()
+                    }
+                }
             }
         }
     }
@@ -38,10 +52,6 @@ class SearchActivity: AppCompatActivity() {
         setupBinding()
         setupFragment()
         setupView()
-    }
-
-    fun searchEditTextString(): String {
-        return binding.searchKeywordEt.text.toString()
     }
 
     private fun setupBinding() {
@@ -73,7 +83,6 @@ class SearchActivity: AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) { }
             override fun afterTextChanged(s: Editable?) {
                 if(s.toString().isNotEmpty()) {
-                    binding.searchAdviceTxt.visibility = View.GONE
                     when(currentPage) {
                         noticeSearchPage -> {
                             searchViewModel.searchNotice(s.toString())
@@ -83,7 +92,6 @@ class SearchActivity: AppCompatActivity() {
                         }
                     }
                 } else {
-                    binding.searchAdviceTxt.visibility = View.VISIBLE
                     when(currentPage) {
                         noticeSearchPage -> {
                             searchViewModel.clearNoticeList()
@@ -96,6 +104,14 @@ class SearchActivity: AppCompatActivity() {
             }
 
         })
+    }
+
+    fun showAdviceText() {
+        binding.searchAdviceTxt.visibility = View.VISIBLE
+    }
+
+    fun hideAdviceText() {
+        binding.searchAdviceTxt.visibility = View.GONE
     }
 
     override fun onResume() {

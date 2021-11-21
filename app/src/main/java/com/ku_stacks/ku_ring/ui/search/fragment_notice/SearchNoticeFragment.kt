@@ -47,8 +47,11 @@ class SearchNoticeFragment: Fragment() {
 
     private fun observeData() {
         searchViewModel.noticeList.observe(viewLifecycleOwner) {
-            if ((activity as SearchActivity).searchEditTextString().isNotEmpty()) {
-                searchNoticeAdapter.submitList(it)
+            searchNoticeAdapter.submitList(it)
+            if (it.isEmpty()) {
+                (activity as SearchActivity).showAdviceText()
+            } else {
+                (activity as SearchActivity).hideAdviceText()
             }
         }
     }
