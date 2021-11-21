@@ -55,7 +55,7 @@ class NotificationViewModel @Inject constructor(
 
     fun hasSubscribingNotification(): Boolean {
         Timber.e("get subscription")
-        val numberOfSubscribingList = pref.getSubscription()?.size
+        val numberOfSubscribingList = pref.subscription?.size
         return numberOfSubscribingList != 0
     }
 

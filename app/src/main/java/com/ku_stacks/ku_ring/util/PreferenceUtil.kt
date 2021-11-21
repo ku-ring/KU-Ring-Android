@@ -9,37 +9,25 @@ class PreferenceUtil(@ApplicationContext context: Context) {
     private val prefs: SharedPreferences =
         context.getSharedPreferences("ku_ring_prefs", Context.MODE_PRIVATE)
 
-    fun setStartDate(str: String) {
-        prefs.edit().putString(startDate, str).apply()
-    }
+    var startDate: String?
+        get() = prefs.getString(START_DATE, "")
+        set(value) = prefs.edit().putString(START_DATE, value).apply()
 
-    fun getStartDate(): String? {
-        return prefs.getString(startDate, "")
-    }
+    var fcmToken: String?
+        get() = prefs.getString(FCM_TOKEN, "")
+        set(value) = prefs.edit().putString(FCM_TOKEN, value).apply()
 
-    fun setFcmToken(str: String) {
-        prefs.edit().putString(fcmToken, str).apply()
-    }
-
-    fun getFcmToken(): String? {
-        return prefs.getString(fcmToken, "")
-    }
-
-    fun setSubscription(stringSet: Set<String>) {
-        prefs.edit().putStringSet(subscription, stringSet).apply()
-    }
-
-    fun getSubscription(): Set<String>? {
-        return prefs.getStringSet(subscription, emptySet())
-    }
+    var subscription: Set<String>?
+        get() = prefs.getStringSet(SUBSCRIPTION, emptySet())
+        set(stringSet) = prefs.edit().putStringSet(SUBSCRIPTION, stringSet).apply()
 
     fun deleteStartDate() {
-        prefs.edit().remove(startDate).apply()
+        prefs.edit().remove(START_DATE).apply()
     }
 
     companion object {
-        const val startDate = "START_DATE"
-        const val fcmToken = "FCM_TOKEN"
-        const val subscription = "SUBSCRIPTION"
+        const val START_DATE = "START_DATE"
+        const val FCM_TOKEN = "FCM_TOKEN"
+        const val SUBSCRIPTION = "SUBSCRIPTION"
     }
 }

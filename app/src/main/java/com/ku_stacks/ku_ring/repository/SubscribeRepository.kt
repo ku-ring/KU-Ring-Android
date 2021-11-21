@@ -26,7 +26,7 @@ class SubscribeRepository @Inject constructor(
     }
 
     fun getSubscriptionFromLocal(): Set<String> {
-        return pref.getSubscription() ?: emptySet()
+        return pref.subscription ?: emptySet()
     }
 
     fun saveSubscriptionToLocal(stringArray: ArrayList<String>) {
@@ -34,6 +34,6 @@ class SubscribeRepository @Inject constructor(
             WordConverter.convertKoreanToShortEnglish(it)
         }.toSet()
 
-        pref.setSubscription(stringSet)
+        pref.subscription = stringSet
     }
 }

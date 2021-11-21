@@ -13,7 +13,6 @@ import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class NoticeRepository @Inject constructor(
@@ -30,14 +29,14 @@ class NoticeRepository @Inject constructor(
     }
 
     private fun transformRemoteData(pagingData: PagingData<Notice>, type: String): PagingData<Notice> {
-        val startDate = pref.getStartDate()
-        val subscribingSet = pref.getSubscription()
+        val startDate = pref.startDate
+        val subscribingSet = pref.subscription
         val isSubscribing = subscribingSet?.contains(type) == true
 
         if (startDate.isNullOrEmpty() || DateUtil.isToday(startDate)) { // 설치 이후 앱을 처음 킨 경우
             Timber.e("This is first connect day")
             if (startDate.isNullOrEmpty()) {
-                pref.setStartDate(DateUtil.getToday())
+                pref.startDate = DateUtil.getToday()
             }
             return pagingData.map {
                 val isRead = noticeDao.isReadNotice(it.articleId)
