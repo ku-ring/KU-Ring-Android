@@ -15,7 +15,7 @@ class NoticePagingSource constructor(
     private val service: NoticeService
 ) : RxPagingSource<Int, Notice>(){
 
-    private val itemSize = 10
+    private val itemSize = 20
 
     override fun loadSingle(params: LoadParams<Int>): Single<LoadResult<Int, Notice>> {
         val position = params.key ?: 0
