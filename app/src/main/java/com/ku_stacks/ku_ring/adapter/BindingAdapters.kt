@@ -65,6 +65,8 @@ object BindingAdapters {
     fun TextView.textColorGrayIf(value: Boolean) {
         if (value) {
             setTextColor(Color.parseColor("#ababab"))
+        } else {
+            setTextColor(Color.parseColor("#000000"))
         }
     }
 
