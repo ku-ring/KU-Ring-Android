@@ -7,11 +7,14 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.databinding.ActivitySearchBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -79,31 +82,51 @@ class SearchActivity: AppCompatActivity() {
         }
 
         binding.searchKeywordEt.addTextChangedListener(object : TextWatcher {
+            var lastEditTime = 0L
+
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) { }
             override fun afterTextChanged(s: Editable?) {
-                if(s.toString().isNotEmpty()) {
-                    when(currentPage) {
-                        noticeSearchPage -> {
-                            searchViewModel.searchNotice(s.toString())
-                        }
-                        staffSearchPage -> {
-                            searchViewModel.searchStaff(s.toString())
-                        }
+                synchronized(this) {
+                    lastEditTime = System.currentTimeMillis()
+                }
+
+                lifecycleScope.launch {
+                    // 0.2초 후에 lastEditTime 이 변경되지 않았으면 검색
+                    val now = lastEditTime
+                    delay(200)
+
+                    val searchFlag = synchronized(this) {
+                        lastEditTime == now
                     }
-                } else {
-                    when(currentPage) {
-                        noticeSearchPage -> {
-                            searchViewModel.clearNoticeList()
-                        }
-                        staffSearchPage -> {
-                            searchViewModel.clearStaffList()
-                        }
+                    if (searchFlag) {
+                        searchWithKeyword(s.toString())
                     }
                 }
             }
-
         })
+    }
+
+    private fun searchWithKeyword(keyword: String) {
+        if(keyword.isNotEmpty()) {
+            when(currentPage) {
+                noticeSearchPage -> {
+                    searchViewModel.searchNotice(keyword)
+                }
+                staffSearchPage -> {
+                    searchViewModel.searchStaff(keyword)
+                }
+            }
+        } else {
+            when(currentPage) {
+                noticeSearchPage -> {
+                    searchViewModel.clearNoticeList()
+                }
+                staffSearchPage -> {
+                    searchViewModel.clearStaffList()
+                }
+            }
+        }
     }
 
     fun showAdviceText() {
