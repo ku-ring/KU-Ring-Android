@@ -44,7 +44,7 @@ class SearchViewModel @Inject constructor(
     }
 
     fun searchStaff(keyword: String) {
-        Timber.e("isOpen : ${searchClient.isOpen()}, isPreparing: ${searchClient.isPreparing()}")
+        Timber.e("in searchStaff -> isOpen : ${searchClient.isOpen()}, isPreparing: ${searchClient.isPreparing()}")
         if(!searchClient.isOpen()){
             if(!searchClient.isPreparing()) {
                 connectWebSocket()
@@ -56,7 +56,7 @@ class SearchViewModel @Inject constructor(
     }
 
     fun searchNotice(keyword: String) {
-        Timber.e("isOpen : ${searchClient.isOpen()}, isPreparing: ${searchClient.isPreparing()}")
+        Timber.e("in searchNotice -> isOpen : ${searchClient.isOpen()}, isPreparing: ${searchClient.isPreparing()}")
         if(!searchClient.isOpen()){
             if(!searchClient.isPreparing()) {
                 connectWebSocket()
@@ -76,30 +76,28 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun subscribeStaff() {
-        disposable.add(
-            searchClient.subscribeStaff().subscribeOn(Schedulers.io())
-                .subscribe({
-                    Timber.e("subscribeStaff result : ${it.staffList.size}")
-                    if (it.isSuccess) {
-                        _staffList.postValue(it.staffList)
-                    }
-                }, {
-                    Timber.e("subscribe staff error : $it")
-                })
+        disposable.add(searchClient.publishStaff.subscribeOn(Schedulers.io())
+            .subscribe({
+                Timber.e("subscribeStaff result : ${it.staffList.size}")
+                if (it.isSuccess) {
+                    _staffList.postValue(it.staffList)
+                }
+            }, {
+                Timber.e("subscribe staff error : $it")
+            })
         )
     }
 
     private fun subscribeNotice() {
-        disposable.add(
-            searchClient.subscribeNotice().subscribeOn(Schedulers.io())
-                .subscribe({
-                    Timber.e("subscribeNotice result : ${it.noticeList.size}")
-                    if(it.isSuccess) {
-                        _noticeList.postValue(it.noticeList)
-                    }
-                }, {
-                    Timber.e("subscribe notice error : $it")
-                })
+        disposable.add(searchClient.publishNotice.subscribeOn(Schedulers.io())
+            .subscribe({
+                Timber.e("subscribeNotice result : ${it.noticeList.size}")
+                if (it.isSuccess) {
+                    _noticeList.postValue(it.noticeList)
+                }
+            }, {
+                Timber.e("subscribe notice error : $it")
+            })
         )
     }
 
@@ -139,5 +137,4 @@ class SearchViewModel @Inject constructor(
             disposable.dispose()
         }
     }
-
 }

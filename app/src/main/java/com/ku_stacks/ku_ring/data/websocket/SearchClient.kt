@@ -8,6 +8,7 @@ import com.ku_stacks.ku_ring.data.websocket.response.DefaultSearchResponse
 import com.ku_stacks.ku_ring.data.websocket.response.SearchNoticeListResponse
 import com.ku_stacks.ku_ring.data.websocket.response.SearchStaffListResponse
 import io.reactivex.rxjava3.core.*
+import io.reactivex.rxjava3.subjects.PublishSubject
 import org.java_websocket.client.WebSocketClient
 import org.java_websocket.handshake.ServerHandshake
 import timber.log.Timber
@@ -22,8 +23,8 @@ class SearchClient {
 
     private var webSocketClient: WebSocketClient? = null
 
-    private var staffList = SearchStaffListResponse(false, "", 0, emptyList())
-    private var noticeList = SearchNoticeListResponse(false, "", 0, emptyList())
+    var publishStaff: PublishSubject<SearchStaffListResponse> = PublishSubject.create()
+    var publishNotice: PublishSubject<SearchNoticeListResponse> = PublishSubject.create()
 
     private var preparingFlag = AtomicBoolean(false)
     private var lastKeyword = ""
@@ -33,22 +34,6 @@ class SearchClient {
 
     fun setLastKeyword(keyword: String) {
         lastKeyword = keyword
-    }
-
-    fun subscribeStaff(): Flowable<SearchStaffListResponse> {
-        return Flowable.interval(200, TimeUnit.MILLISECONDS)
-            .flatMap {
-                Flowable.just(staffList)
-            }
-            .distinctUntilChanged()
-    }
-
-    fun subscribeNotice(): Flowable<SearchNoticeListResponse> {
-        return Flowable.interval(200, TimeUnit.MILLISECONDS)
-            .flatMap {
-                Flowable.just(noticeList)
-            }
-            .distinctUntilChanged()
     }
 
     fun searchStaff(keyword: String) {
@@ -93,10 +78,10 @@ class SearchClient {
                 val response = gson.fromJson(message, DefaultSearchResponse::class.java)
                 when (response.type) {
                     noticeType -> {
-                        noticeList = gson.fromJson(message, SearchNoticeListResponse::class.java)
+                        publishNotice.onNext(gson.fromJson(message, SearchNoticeListResponse::class.java))
                     }
                     staffType -> {
-                        staffList = gson.fromJson(message, SearchStaffListResponse::class.java)
+                        publishStaff.onNext(gson.fromJson(message, SearchStaffListResponse::class.java))
                     }
                     heartbeatType -> {
                         Timber.e("received PONG")
