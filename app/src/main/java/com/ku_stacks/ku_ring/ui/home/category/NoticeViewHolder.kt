@@ -18,12 +18,13 @@ class NoticeViewHolder(
         binding.noticeItem = notice
         setupTag(notice.tag)
         binding.root.setOnClickListener {
-            //binding.noticeIsReadLayout.backgroundGrayIf(true)
             binding.noticeTitleTxt.textColorGrayIf(true)
             binding.noticeDateTxt.textColorGrayIf(true)
             binding.noticeIsNewPoint.visibleIf(false)
             binding.executePendingBindings()
             itemClick(notice)
+            notice.isRead = true
+            notice.isNew = false
         }
         binding.executePendingBindings()
     }
