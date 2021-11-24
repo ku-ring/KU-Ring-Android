@@ -37,11 +37,18 @@ object BindingAdapters {
     }
 
     @JvmStatic
-    @BindingAdapter(value = ["isNew", "isSubscribing"])
-    fun View.pointColor(isNew: Boolean, isSubscribing: Boolean) {
-        visibility = when (isNew) {
-            true -> View.VISIBLE
-            else -> View.GONE
+    @BindingAdapter(value = ["isNew", "isRead", "isSubscribing"])
+    fun View.pointColor(isNew: Boolean, isRead: Boolean, isSubscribing: Boolean) {
+        visibility = when {
+            isRead -> {
+                View.GONE
+            }
+            isNew -> {
+                View.VISIBLE
+            }
+            else -> {
+                View.GONE
+            }
         }
         background = when (isSubscribing) {
             true -> ContextCompat.getDrawable(this.context, R.drawable.point_primary_pink)

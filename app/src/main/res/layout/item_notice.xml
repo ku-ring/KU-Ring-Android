@@ -20,6 +20,7 @@
         <View
             android:id="@+id/notice_isNew_point"
             app:isNew="@{noticeItem.isNew}"
+            app:isRead="@{noticeItem.isRead}"
             app:isSubscribing="@{noticeItem.isSubscribing}"
             android:layout_width="8dp"
             android:layout_height="8dp"
