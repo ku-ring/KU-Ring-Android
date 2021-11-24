@@ -23,8 +23,6 @@ class NoticeViewHolder(
             binding.noticeIsNewPoint.visibleIf(false)
             binding.executePendingBindings()
             itemClick(notice)
-            notice.isRead = true
-            notice.isNew = false
         }
         binding.executePendingBindings()
     }

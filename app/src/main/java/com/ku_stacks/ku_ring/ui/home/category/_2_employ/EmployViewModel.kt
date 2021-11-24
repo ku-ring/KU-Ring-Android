@@ -22,7 +22,6 @@ class EmployViewModel @Inject constructor(
 
     fun getNotices(): Flowable<PagingData<Notice>> {
         return repository
-            .getNotices("emp")
-            .cachedIn(viewModelScope)
+            .getNotices("emp", viewModelScope)
     }
 }

@@ -38,8 +38,8 @@ class SearchNoticeFragment: Fragment() {
 
     private fun setupListAdapter() {
         searchNoticeAdapter = SearchNoticeAdapter {
+            searchViewModel.updateNoticeTobeRead(it)
             startDetailActivity(it)
-            Timber.e("category : ${it.category}")
         }
         binding.searchNoticeRecyclerview.layoutManager = LinearLayoutManager(activity)
         binding.searchNoticeRecyclerview.adapter = searchNoticeAdapter

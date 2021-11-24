@@ -14,8 +14,8 @@ interface NoticeDao {
     @Query("SELECT * FROM NoticeEntity")
     fun getNoticeRecord(): Single<List<NoticeEntity>>
 
-    @Query("SELECT * FROM NoticeEntity WHERE isRead = :value")
-    fun getReadNoticeRecord(value: Boolean): Flowable<List<NoticeEntity>>
+    @Query("SELECT articleId FROM NoticeEntity WHERE isRead = :value")
+    fun getReadNoticeRecord(value: Boolean): Flowable<List<String>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun updateNotice(notice: NoticeEntity): Completable

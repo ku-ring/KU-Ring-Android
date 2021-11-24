@@ -40,7 +40,10 @@ abstract class HomeBaseFragment : Fragment(){
         super.onViewCreated(view, savedInstanceState)
 
         pagingAdapter = NoticePagingAdapter(
-            { notice -> startDetailActivity(notice) },
+            { notice ->
+                (activity as HomeActivity).updateNoticeTobeRead(notice)
+                startDetailActivity(notice)
+            },
             { notice -> (activity as HomeActivity).insertNotice(notice.articleId, notice.category) }
         )
 
@@ -81,7 +84,6 @@ abstract class HomeBaseFragment : Fragment(){
     }
 
     private fun startDetailActivity(notice: Notice){
-        (activity as HomeActivity).updateNoticeTobeRead(notice)
         val intent = Intent(requireActivity(), DetailActivity::class.java)
         intent.putExtra("url", notice.url)
         startActivity(intent)

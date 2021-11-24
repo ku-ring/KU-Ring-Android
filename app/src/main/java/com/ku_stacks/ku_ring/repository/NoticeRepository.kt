@@ -1,6 +1,7 @@
 package com.ku_stacks.ku_ring.repository
 
 import androidx.paging.*
+import androidx.paging.rxjava3.cachedIn
 import androidx.paging.rxjava3.flowable
 import com.ku_stacks.ku_ring.data.api.NoticeClient
 import com.ku_stacks.ku_ring.data.db.NoticeDao
@@ -12,6 +13,7 @@ import com.ku_stacks.ku_ring.util.PreferenceUtil
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineScope
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -22,10 +24,43 @@ class NoticeRepository @Inject constructor(
 ) {
     private val isNewRecordHashMap = HashMap<String, NoticeEntity>()
 
-    fun getNotices(type: String): Flowable<PagingData<Notice>> {
-        return getSingleLocal()
+    fun getNotices(type: String, scope: CoroutineScope): Flowable<PagingData<Notice>> {
+        val flowableRemote = getSingleLocal()
             .flatMap { getFlowableRemoteNotice(type) }
             .map { transformRemoteData(it, type) }
+            .cachedIn(scope)
+
+        // 하나의 insert에 대해서 2개 또는 3개의 변화 감지가 발생할 것임.
+        // 그 이유는 양옆 fragment의 viewModel에서 호출하기 때문
+        val flowableLocal = noticeDao.getReadNoticeRecord(true)
+            .distinctUntilChanged { old, new ->
+                // DB insert 되는 경우, 업데이트를 감지하기 위함이므로 성능을 위해
+                // 모든 내용을 비교하기 보다는 size 만 비교하는 것으로 재정의함.
+                old.size == new.size
+            }
+
+        return Flowable.combineLatest(
+            flowableRemote,
+            flowableLocal,
+            { remote, local -> //isRead 의 변동이 있을때 알맞게 변형시켜야함
+                remote.map {
+                    if (local.contains(it.articleId)) {
+                        return@map Notice(
+                            postedDate = it.postedDate,
+                            subject = it.subject,
+                            category = it.category,
+                            url = it.url,
+                            articleId = it.articleId,
+                            isNew = it.isNew,
+                            isRead = true,
+                            isSubscribing = it.isSubscribing,
+                            tag = it.tag
+                        )
+                    } else {
+                        return@map it
+                    }
+                }
+            })
     }
 
     private fun transformRemoteData(pagingData: PagingData<Notice>, type: String): PagingData<Notice> {
@@ -81,12 +116,6 @@ class NoticeRepository @Inject constructor(
                     }
                 }
             }
-    }
-
-    //not using now
-    private fun getFlowableLocal(): Flowable<List<NoticeEntity>> {
-        return noticeDao.getReadNoticeRecord(true) // isRead에 대해 실시간으로 발행
-            .distinctUntilChanged()
     }
 
     private fun getFlowableRemoteNotice(type: String): Flowable<PagingData<Notice>>{

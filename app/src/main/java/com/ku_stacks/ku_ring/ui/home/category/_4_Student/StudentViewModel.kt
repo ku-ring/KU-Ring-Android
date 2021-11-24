@@ -22,7 +22,6 @@ class StudentViewModel @Inject constructor(
 
     fun getNotices(): Flowable<PagingData<Notice>> {
         return repository
-            .getNotices("stu")
-            .cachedIn(viewModelScope)
+            .getNotices("stu", viewModelScope)
     }
 }

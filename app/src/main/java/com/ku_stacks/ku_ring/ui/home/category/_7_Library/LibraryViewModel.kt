@@ -22,7 +22,6 @@ class LibraryViewModel @Inject constructor(
 
     fun getNotices(): Flowable<PagingData<Notice>> {
         return repository
-            .getNotices("lib")
-            .cachedIn(viewModelScope)
+            .getNotices("lib", viewModelScope)
     }
 }

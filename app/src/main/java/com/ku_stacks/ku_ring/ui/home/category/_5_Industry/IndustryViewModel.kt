@@ -22,7 +22,6 @@ class IndustryViewModel @Inject constructor(
 
     fun getNotices(): Flowable<PagingData<Notice>> {
         return repository
-            .getNotices("ind")
-            .cachedIn(viewModelScope)
+            .getNotices("ind", viewModelScope)
     }
 }

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ku_stacks.ku_ring.data.entity.Push
+import com.ku_stacks.ku_ring.repository.NoticeRepository
 import com.ku_stacks.ku_ring.repository.PushRepository
 import com.ku_stacks.ku_ring.util.PreferenceUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NotificationViewModel @Inject constructor(
-    private val repository: PushRepository,
+    private val pushRepository: PushRepository,
+    private val noticeRepository: NoticeRepository,
     private val pref: PreferenceUtil
 ) : ViewModel() {
 
@@ -31,7 +33,7 @@ class NotificationViewModel @Inject constructor(
 
     fun getMyNotification() {
         disposable.add(
-            repository.getMyNotification()
+            pushRepository.getMyNotification()
                 .subscribeOn(Schedulers.io())
                 .subscribe({
                     _pushList.postValue(it)
@@ -43,7 +45,7 @@ class NotificationViewModel @Inject constructor(
 
     fun updateNotification(articleId: String) {
         disposable.add(
-            repository.updateNotification(articleId)
+            pushRepository.updateNotification(articleId)
                 .subscribeOn(Schedulers.io())
                 .subscribe({
                     //Timber.e("update noti success with adapter")
@@ -60,7 +62,17 @@ class NotificationViewModel @Inject constructor(
     }
 
     fun deletePushDB() {
-        repository.deleteAllNotification()
+        pushRepository.deleteAllNotification()
+    }
+
+    fun updateNoticeTobeRead(articleId: String, category: String) {
+        disposable.add(
+            noticeRepository.updateNoticeToBeRead(articleId, category)
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    Timber.e("noticeRecord update true : $category")
+                }, { Timber.e("noticeRecord update fail") })
+        )
     }
 
     override fun onCleared() {

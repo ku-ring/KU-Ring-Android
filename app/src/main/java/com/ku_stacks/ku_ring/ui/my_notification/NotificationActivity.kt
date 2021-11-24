@@ -7,7 +7,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.databinding.ActivityNotificationBinding
@@ -64,7 +63,10 @@ class NotificationActivity : AppCompatActivity() {
 
     private fun setupListAdapter() {
         notificationAdapter = NotificationAdapter (
-            { startDetailActivity(it.articleId, it.baseUrl, it.category) },
+            {
+                viewModel.updateNoticeTobeRead(it.articleId, it.category)
+                startDetailActivity(it.articleId, it.baseUrl, it.category)
+            },
             { it -> viewModel.updateNotification(it.articleId) }
         )
 

@@ -3,9 +3,11 @@ package com.ku_stacks.ku_ring.ui.search
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.ku_stacks.ku_ring.data.entity.Notice
 import com.ku_stacks.ku_ring.data.websocket.SearchClient
 import com.ku_stacks.ku_ring.data.websocket.response.SearchNoticeResponse
 import com.ku_stacks.ku_ring.data.websocket.response.SearchStaffResponse
+import com.ku_stacks.ku_ring.repository.NoticeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -16,7 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-
+    private val noticeRepository: NoticeRepository
 ) : ViewModel() {
 
     private val disposable = CompositeDisposable()
@@ -127,6 +129,16 @@ class SearchViewModel @Inject constructor(
                 }, {
                     Timber.e("make heartbeat failed : $it")
                 })
+        )
+    }
+
+    fun updateNoticeTobeRead(notice: Notice) {
+        disposable.add(
+            noticeRepository.updateNoticeToBeRead(notice.articleId, notice.category)
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    //Timber.e("noticeRecord update true : $category")
+                }, { Timber.e("noticeRecord update fail") })
         )
     }
 

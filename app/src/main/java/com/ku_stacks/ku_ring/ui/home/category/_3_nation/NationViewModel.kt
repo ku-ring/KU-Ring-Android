@@ -22,7 +22,6 @@ class NationViewModel @Inject constructor(
 
     fun getNotices(): Flowable<PagingData<Notice>> {
         return repository
-            .getNotices("nat")
-            .cachedIn(viewModelScope)
+            .getNotices("nat", viewModelScope)
     }
 }
