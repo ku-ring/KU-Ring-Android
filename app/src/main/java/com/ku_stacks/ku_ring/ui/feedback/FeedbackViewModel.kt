@@ -3,6 +3,7 @@ package com.ku_stacks.ku_ring.ui.feedback
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.messaging.FirebaseMessaging
+import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.data.api.FeedbackClient
 import com.ku_stacks.ku_ring.data.entity.Feedback
@@ -35,6 +36,10 @@ class FeedbackViewModel @Inject constructor(
     val toast: SingleLiveEvent<String>
         get() = _toast
 
+    private val _toastByResource = SingleLiveEvent<Int>()
+    val toastByResource: SingleLiveEvent<Int>
+        get() = _toastByResource
+
     init {
         Timber.e("FeedbackViewModel injected")
     }
@@ -51,6 +56,14 @@ class FeedbackViewModel @Inject constructor(
             val fcmToken = task.result ?: throw RuntimeException("Fcm Token is null!")
             val content = feedbackContent.value ?: return@addOnCompleteListener
 
+            if (content.length < 5) {
+                _toastByResource.value = R.string.feedback_too_short
+                return@addOnCompleteListener
+            } else if (content.length > 256) {
+                _toastByResource.value = R.string.feedback_too_short
+                return@addOnCompleteListener
+            }
+
             feedbackClient.sendFeedback(
                 Feedback(
                     token = fcmToken,
@@ -61,7 +74,7 @@ class FeedbackViewModel @Inject constructor(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     if (it.isSuccess) {
-                        _toast.value = "피드백이 정상적으로 전송되었습니다"
+                        _toastByResource.value = R.string.feedback_success
                         Timber.e("feedback success content : $content")
                         _quit.call()
                     } else {

@@ -38,6 +38,9 @@ class FeedbackActivity : AppCompatActivity() {
         viewModel.toast.observe(this) {
             Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
         }
+        viewModel.toastByResource.observe(this) {
+            Toast.makeText(this, getString(it), Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun setupKeyboardListener() {
