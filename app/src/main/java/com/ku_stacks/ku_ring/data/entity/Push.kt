@@ -14,7 +14,7 @@ data class Push(
     @SerializedName(value = "baseUrl")
     val baseUrl: String,
     @SerializedName(value = "isNew")
-    val isNew: Boolean,
+    var isNew: Boolean,
     @SerializedName(value = "receivedDate")
     val receivedDate: String,
     @SerializedName(value = "isNewDay")

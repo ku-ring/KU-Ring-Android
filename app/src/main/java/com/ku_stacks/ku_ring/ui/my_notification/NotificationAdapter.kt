@@ -30,7 +30,11 @@ class NotificationAdapter(
 
     object NotificationDiffCallback : DiffUtil.ItemCallback<Push>() {
         override fun areItemsTheSame(oldItem: Push, newItem: Push): Boolean {
-            return oldItem.articleId == newItem.articleId
+            val areSame = oldItem.articleId == newItem.articleId
+            if (areSame) {
+                newItem.isNew = oldItem.isNew
+            }
+            return areSame
         }
 
         override fun areContentsTheSame(oldItem: Push, newItem: Push): Boolean {

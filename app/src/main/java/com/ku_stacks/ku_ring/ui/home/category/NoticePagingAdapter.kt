@@ -32,7 +32,8 @@ class NoticePagingAdapter(
         }
 
         override fun areContentsTheSame(oldItem: Notice, newItem: Notice): Boolean {
-            return oldItem.url == newItem.url && oldItem.isRead == newItem.isRead
+            return oldItem.url == newItem.url
+                    && oldItem.isRead == newItem.isRead
         }
     }
 }
