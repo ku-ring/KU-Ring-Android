@@ -32,7 +32,7 @@
             android:paddingTop="0dp"
             android:paddingBottom="2dp"
             android:text="@{DateUtil.convertDateToDay(NotificationItem.postedDate)}"
-            android:textColor="@color/white"
+            android:textColor="@color/kus_dark_gray"
             android:textSize="15sp"
             tools:text="2021.10.01 (금)" />
 
