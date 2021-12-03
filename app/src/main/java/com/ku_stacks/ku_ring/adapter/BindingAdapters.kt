@@ -2,6 +2,7 @@ package com.ku_stacks.ku_ring.adapter
 
 import android.graphics.Color
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -84,6 +85,16 @@ object BindingAdapters {
             setImageResource(R.drawable.ic_check)
         } else {
             setImageResource(R.drawable.ic_close)
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("enableButtonIf")
+    fun Button.enableButtonIf(value: Boolean) {
+        background = if (value) {
+            ContextCompat.getDrawable(this.context, R.drawable.button_primary_gradation)
+        } else {
+            ContextCompat.getDrawable(this.context, R.drawable.button_primary_gradation_disabled)
         }
     }
 }

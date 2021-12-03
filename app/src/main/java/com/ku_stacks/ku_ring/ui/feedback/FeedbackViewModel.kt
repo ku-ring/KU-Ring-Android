@@ -27,6 +27,7 @@ class FeedbackViewModel @Inject constructor(
     private val disposable = CompositeDisposable()
 
     val feedbackContent = MutableLiveData("")
+    val canSendFeedback = MutableLiveData(false)
 
     private val _quit = SingleLiveEvent<Unit>()
     val quit: SingleLiveEvent<Unit>
@@ -60,7 +61,7 @@ class FeedbackViewModel @Inject constructor(
                 _toastByResource.value = R.string.feedback_too_short
                 return@addOnCompleteListener
             } else if (content.length > 256) {
-                _toastByResource.value = R.string.feedback_too_short
+                _toastByResource.value = R.string.feedback_too_long
                 return@addOnCompleteListener
             }
 

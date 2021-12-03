@@ -1,9 +1,12 @@
 package com.ku_stacks.ku_ring.ui.feedback
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.databinding.ActivityFeedbackBinding
@@ -22,6 +25,7 @@ class FeedbackActivity : AppCompatActivity() {
 
         setupBinding()
         setupKeyboardListener()
+        setupEditText()
         observeData()
     }
 
@@ -54,10 +58,29 @@ class FeedbackActivity : AppCompatActivity() {
                 AppearanceAnimator.expand(binding.feedbackTitleTxt)
             }
         }
-
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    private fun setupEditText() {
+        binding.feedbackEt.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                val strLength = s.toString().length
+                binding.feedbackAdviceTxt.text = when {
+                    strLength < 5 -> {
+                        viewModel.canSendFeedback.postValue(false)
+                        getString(R.string.feedback_write_more_character)
+                    }
+                    strLength > 256 -> {
+                        viewModel.canSendFeedback.postValue(false)
+                        String.format(getString(R.string.feedback_size_of_character), strLength)
+                    }
+                    else -> {
+                        viewModel.canSendFeedback.postValue(true)
+                        String.format(getString(R.string.feedback_size_of_character), strLength)
+                    }
+                }
+            }
+        })
     }
 }
