@@ -9,7 +9,7 @@ fun transformNotice(response : NoticeListResponse, type : String): List<Notice> 
     return if(type == "lib") {
         with(response) {
             this.noticeResponse.map {
-                val subjectAndTag = getSubjectAndTag(it.subject.trim())
+                val subjectAndTag = splitSubjectAndTag(it.subject.trim())
 
                 val transformedDate = it.postedDate.let { date ->
                     if (date.length == 19) { //도서관의 경우에는 특별하게 millisecond 단위로 나옴
@@ -35,7 +35,7 @@ fun transformNotice(response : NoticeListResponse, type : String): List<Notice> 
     }
     else with(response) {
         this.noticeResponse.map {
-            val subjectAndTag = getSubjectAndTag(it.subject.trim())
+            val subjectAndTag = splitSubjectAndTag(it.subject.trim())
 
             Notice(
                 postedDate = it.postedDate,
@@ -62,7 +62,7 @@ fun transformPush(pushEntityList: List<PushEntity>): List<Push> {
             prevItem.postedDate != it.postedDate
         }
 
-        val subjectAndTag = getSubjectAndTag(it.subject.trim())
+        val subjectAndTag = splitSubjectAndTag(it.subject.trim())
 
         Push(
             articleId = it.articleId,
@@ -78,7 +78,7 @@ fun transformPush(pushEntityList: List<PushEntity>): List<Push> {
     }
 }
 
-private fun getSubjectAndTag(subject: String): Pair<String, List<String>> {
+private fun splitSubjectAndTag(subject: String): Pair<String, List<String>> {
     val tagList = mutableListOf<String>()
     var startIdx = 0
 
