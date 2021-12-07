@@ -111,7 +111,7 @@
 
             <Button
                 android:id="@+id/feedback_send_btn"
-                enableButtonIf="@{viewModel.canSendFeedback}"
+                enableFeedbackButtonIf="@{viewModel.canSendFeedback}"
                 android:layout_width="match_parent"
                 android:layout_height="38dp"
                 android:layout_marginStart="20dp"

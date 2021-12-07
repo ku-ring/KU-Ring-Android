@@ -9,6 +9,10 @@ class PreferenceUtil(@ApplicationContext context: Context) {
     private val prefs: SharedPreferences =
         context.getSharedPreferences("ku_ring_prefs", Context.MODE_PRIVATE)
 
+    var firstRunFlag: Boolean
+        get() = prefs.getBoolean(FIRST_RUN, true)
+        set(value) = prefs.edit().putBoolean(FIRST_RUN, value).apply()
+
     var startDate: String?
         get() = prefs.getString(START_DATE, "")
         set(value) = prefs.edit().putString(START_DATE, value).apply()
@@ -26,6 +30,7 @@ class PreferenceUtil(@ApplicationContext context: Context) {
     }
 
     companion object {
+        const val FIRST_RUN = "FIRST_RUN"
         const val START_DATE = "START_DATE"
         const val FCM_TOKEN = "FCM_TOKEN"
         const val SUBSCRIPTION = "SUBSCRIPTION"
