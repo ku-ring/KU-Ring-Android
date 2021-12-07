@@ -57,6 +57,9 @@
         
         <activity android:name=".ui.notion.NotionViewActivity" />
 
+        <activity android:name=".ui.on_boarding.OnBoardingActivity"
+            android:screenOrientation="portrait" />
+
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
