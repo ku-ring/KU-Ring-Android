@@ -89,12 +89,24 @@ object BindingAdapters {
     }
 
     @JvmStatic
-    @BindingAdapter("enableButtonIf")
-    fun Button.enableButtonIf(value: Boolean) {
+    @BindingAdapter("enableFeedbackButtonIf")
+    fun Button.enableFeedbackButtonIf(value: Boolean) {
         background = if (value) {
             ContextCompat.getDrawable(this.context, R.drawable.button_primary_gradation)
         } else {
             ContextCompat.getDrawable(this.context, R.drawable.button_primary_gradation_disabled)
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("disableStartButtonIf")
+    fun Button.disableStartButtonIf(value: Boolean) {
+        if (value) {
+            background = ContextCompat.getDrawable(this.context, R.drawable.button_white_disabled)
+            setTextColor(Color.parseColor("#3dbd80"))
+        } else {
+            background = ContextCompat.getDrawable(this.context, R.drawable.button_white)
+            setTextColor(Color.parseColor("#036b3f"))
         }
     }
 }

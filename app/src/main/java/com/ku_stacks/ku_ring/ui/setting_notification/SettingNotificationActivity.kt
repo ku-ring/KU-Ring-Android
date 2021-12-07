@@ -1,6 +1,7 @@
 package com.ku_stacks.ku_ring.ui.setting_notification
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -24,6 +25,7 @@ class SettingNotificationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setupBinding()
+        setupView()
         setupListAdapter()
         observeData()
     }
@@ -37,12 +39,32 @@ class SettingNotificationActivity : AppCompatActivity() {
             if(viewModel.hasUpdate.value == true) {
                 viewModel.saveSubscribe()
             }
-            overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
             finish()
+            overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
         }
         binding.settingNotificationRollbackBt.setOnClickListener {
             viewModel.syncWithServer()
         }
+        binding.settingNotificationStartBt.setOnClickListener {
+            if (viewModel.isSubscriptionEmpty.value == false) {
+                viewModel.saveSubscribe()
+                setResult(RESULT_OK)
+                finish()
+                overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
+            }
+        }
+    }
+
+    private fun setupView() {
+        viewModel.firstRunFlag = intent.getBooleanExtra("firstRunFlag", false)
+        if(viewModel.firstRunFlag) {
+            binding.settingNotificationDismissBt.visibility = View.GONE
+            binding.settingNotificationRollbackBt.visibility = View.GONE
+            binding.settingNotificationStartBt.visibility = View.VISIBLE
+        } else {
+            binding.settingNotificationStartBt.visibility = View.GONE
+        }
+
     }
 
     private fun setupListAdapter() {
@@ -77,6 +99,7 @@ class SettingNotificationActivity : AppCompatActivity() {
     private fun observeData() {
         viewModel.subscriptionList.observe(this) {
             subscribeAdapter.submitList(it.toList())
+            viewModel.isSubscriptionEmpty.postValue(it.isNullOrEmpty())
         }
 
         viewModel.unSubscriptionList.observe(this) {

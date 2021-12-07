@@ -7,6 +7,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.ku_stacks.ku_ring.data.entity.Subscribe
 import com.ku_stacks.ku_ring.repository.SubscribeRepository
 import com.ku_stacks.ku_ring.ui.SingleLiveEvent
+import com.ku_stacks.ku_ring.util.PreferenceUtil
 import com.ku_stacks.ku_ring.util.WordConverter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -19,12 +20,14 @@ import kotlin.Comparator
 
 @HiltViewModel
 class SettingNotificationViewModel @Inject constructor(
-    private val repository: SubscribeRepository
+    private val repository: SubscribeRepository,
+    private val pref: PreferenceUtil
 ) : ViewModel(){
     private val disposable = CompositeDisposable()
 
     private val _subscriptionList = ArrayList<String>()
     val subscriptionList = MutableLiveData<ArrayList<String>>()
+    val isSubscriptionEmpty = MutableLiveData(true)
 
     private val _unSubscriptionList = ArrayList<String>()
     val unSubscriptionList = MutableLiveData<ArrayList<String>>()
@@ -37,6 +40,9 @@ class SettingNotificationViewModel @Inject constructor(
 
     //초기 설정이 끝나기 전에 뒤로가기를 하면 빈 목록을 구독하는 경우를 방지하기 위함
     private var initFlag = false
+
+    //첫 앱 구동자에게 보여지는 온보딩 후의 푸시 세팅을 위한 분기처리 용도
+    var firstRunFlag = false
 
     init {
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
@@ -94,7 +100,7 @@ class SettingNotificationViewModel @Inject constructor(
                     if (response.isSuccess) {
                         Timber.e("saveSubscribe success")
                         repository.saveSubscriptionToLocal(_subscriptionList)
-                        //_quit.call()
+                        pref.firstRunFlag = false
                     } else {
                         Timber.e("saveSubscribe failed ${response.resultCode}")
                     }
@@ -133,6 +139,9 @@ class SettingNotificationViewModel @Inject constructor(
     }
 
     fun refreshAfterUpdate() {
+        if(firstRunFlag) {
+            return
+        }
         val localSubscription = repository.getSubscriptionFromLocal()
         if (localSubscription.size != _subscriptionList.size) {
             _hasUpdate.postValue(true)

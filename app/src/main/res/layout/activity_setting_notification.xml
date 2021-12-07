@@ -7,7 +7,6 @@
         <variable
             name="viewModel"
             type="com.ku_stacks.ku_ring.ui.setting_notification.SettingNotificationViewModel" />
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -106,5 +105,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/setting_notification_partition_view"
             tools:itemCount="5" />
+
+        <Button
+            android:id="@+id/setting_notification_start_bt"
+            disableStartButtonIf="@{viewModel.isSubscriptionEmpty}"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginStart="64dp"
+            android:layout_marginEnd="64dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/button_white_disabled"
+            android:fontFamily="@font/sfpro_display_regular"
+            android:gravity="center"
+            android:text="@string/setting_notification_start"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
