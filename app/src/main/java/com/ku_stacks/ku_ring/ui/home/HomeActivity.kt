@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
@@ -39,6 +40,8 @@ class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
     private val viewModel by viewModels<HomeViewModel>()
+
+    private var backPressedTime = 0L
 
     private val pageChangeCallback = object: ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
@@ -196,5 +199,14 @@ class HomeActivity : AppCompatActivity() {
 
     fun insertNotice(articleId: String, category: String) {
         viewModel.insertNotice(articleId, category)
+    }
+
+    override fun onBackPressed() {
+        if (System.currentTimeMillis() - backPressedTime < 2000) {
+            finish()
+        } else {
+            Toast.makeText(this, "뒤로가기를 한 번 더 누르시면 종료됩니다", Toast.LENGTH_SHORT).show()
+            backPressedTime = System.currentTimeMillis()
+        }
     }
 }
