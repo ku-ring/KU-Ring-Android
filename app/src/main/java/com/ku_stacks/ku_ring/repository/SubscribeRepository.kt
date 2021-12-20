@@ -12,7 +12,7 @@ class SubscribeRepository @Inject constructor(
     private val noticeClient: NoticeClient,
     private val pref: PreferenceUtil
 ) {
-    fun getSubscribeList(token: String): Single<List<String>> {
+    fun fetchSubscriptionFromRemote(token: String): Single<List<String>> {
         return noticeClient.fetchSubscribe(token)
             .map { response ->
                 response.categoryList.map { category ->
@@ -21,7 +21,7 @@ class SubscribeRepository @Inject constructor(
             }
     }
 
-    fun saveSubscribe(subscribe: Subscribe): Single<DefaultResponse> {
+    fun saveSubscriptionToRemote(subscribe: Subscribe): Single<DefaultResponse> {
         return noticeClient.saveSubscribe(subscribe)
     }
 

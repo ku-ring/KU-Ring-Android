@@ -6,11 +6,9 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.messaging.FirebaseMessaging
 import com.ku_stacks.ku_ring.data.entity.Subscribe
 import com.ku_stacks.ku_ring.repository.SubscribeRepository
-import com.ku_stacks.ku_ring.ui.SingleLiveEvent
 import com.ku_stacks.ku_ring.util.PreferenceUtil
 import com.ku_stacks.ku_ring.util.WordConverter
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber
@@ -68,7 +66,7 @@ class SettingNotificationViewModel @Inject constructor(
             ))
 
             disposable.add(
-                repository.getSubscribeList(fcmToken!!)
+                repository.fetchSubscriptionFromRemote(fcmToken!!)
                     .subscribeOn(Schedulers.io())
                     .subscribe({
                         initialSortSubscription(it)
@@ -90,16 +88,16 @@ class SettingNotificationViewModel @Inject constructor(
         }
 
         fcmToken?.let {
-            repository.saveSubscribe(
+            repository.saveSubscriptionToLocal(_subscriptionList)
+            repository.saveSubscriptionToRemote(
                 Subscribe(it, _subscriptionList.toList().map { category ->
                     WordConverter.convertKoreanToEnglish(category)
                 })
-            ).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+            )
+                .subscribeOn(Schedulers.io())
                 .subscribe({ response ->
                     if (response.isSuccess) {
                         Timber.e("saveSubscribe success")
-                        repository.saveSubscriptionToLocal(_subscriptionList)
                         pref.firstRunFlag = false
                     } else {
                         Timber.e("saveSubscribe failed ${response.resultCode}")
