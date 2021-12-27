@@ -61,7 +61,7 @@ class NotificationActivity : AppCompatActivity() {
 
         binding.deleteImg.setOnClickListener {
             Timber.e("delete pushDB")
-            viewModel.deletePushDB()
+            viewModel.deleteAllPushDB()
         }
     }
 
@@ -82,6 +82,7 @@ class NotificationActivity : AppCompatActivity() {
         val swipeHandler = HoldableSwipeHandler(this, object : HoldableSwipeHandler.ButtonAction {
             override fun onClickDelete(position: Int) {
                 Timber.e("onClickDelete position : $position")
+                viewModel.deletePushDB(notificationAdapter.currentList[position].articleId)
             }
         })
         swipeHandler.addRecyclerViewListener(binding.notificationRecyclerview)
@@ -92,7 +93,6 @@ class NotificationActivity : AppCompatActivity() {
                 swipeHandler.onDraw(c)
             }
         })
-
     }
 
     private fun observeData() {

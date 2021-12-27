@@ -22,6 +22,9 @@ interface PushDao {
     @Query("SELECT COUNT(articleId) FROM PushEntity WHERE isNew = :value")
     fun getNotificationCount(value: Boolean): Flowable<Int>
 
+    @Query("DELETE From PushEntity WHERE articleId = :articleId")
+    fun deleteNotification(articleId: String): Completable
+
     //not using now
     @Query("DELETE FROM PushEntity")
     fun deleteAllNotification(): Completable

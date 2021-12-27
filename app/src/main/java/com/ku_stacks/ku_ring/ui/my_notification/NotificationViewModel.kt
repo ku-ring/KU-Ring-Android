@@ -61,7 +61,11 @@ class NotificationViewModel @Inject constructor(
         return numberOfSubscribingList != 0
     }
 
-    fun deletePushDB() {
+    fun deletePushDB(articleId: String) {
+        pushRepository.deleteNotification(articleId)
+    }
+
+    fun deleteAllPushDB() {
         pushRepository.deleteAllNotification()
     }
 
