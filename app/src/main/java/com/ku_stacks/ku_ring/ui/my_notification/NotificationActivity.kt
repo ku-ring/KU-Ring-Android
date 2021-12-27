@@ -16,7 +16,7 @@ import com.ku_stacks.ku_ring.databinding.ActivityNotificationBinding
 import com.ku_stacks.ku_ring.ui.detail.DetailActivity
 import com.ku_stacks.ku_ring.ui.home.HomeActivity
 import com.ku_stacks.ku_ring.ui.setting_notification.SettingNotificationActivity
-import com.ku_stacks.ku_ring.util.SwipeToDeleteCallback
+import com.ku_stacks.ku_ring.util.HoldableSwipeHandler
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import javax.inject.Inject
@@ -79,13 +79,12 @@ class NotificationActivity : AppCompatActivity() {
             adapter = notificationAdapter
         }
 
-        val swipeHandler = SwipeToDeleteCallback(this, object : SwipeToDeleteCallback.ButtonAction {
+        val swipeHandler = HoldableSwipeHandler(this, object : HoldableSwipeHandler.ButtonAction {
             override fun onClickDelete(position: Int) {
                 Timber.e("onClickDelete position : $position")
             }
         })
-        swipeHandler.setScrollListener(binding.notificationRecyclerview)
-
+        swipeHandler.addRecyclerViewListener(binding.notificationRecyclerview)
         val itemTouchHelper = ItemTouchHelper(swipeHandler)
         itemTouchHelper.attachToRecyclerView(binding.notificationRecyclerview)
         binding.notificationRecyclerview.addItemDecoration(object : RecyclerView.ItemDecoration() {
@@ -93,7 +92,6 @@ class NotificationActivity : AppCompatActivity() {
                 swipeHandler.onDraw(c)
             }
         })
-
 
     }
 
