@@ -25,6 +25,12 @@ class PushRepository @Inject constructor(
         return dao.getNotificationCount(true)
     }
 
+    fun deleteNotification(articleId: String) {
+        dao.deleteNotification(articleId)
+            .subscribeOn(Schedulers.io())
+            .subscribe({}, {})
+    }
+
     //not using now
     fun deleteAllNotification() {
         dao.deleteAllNotification()
