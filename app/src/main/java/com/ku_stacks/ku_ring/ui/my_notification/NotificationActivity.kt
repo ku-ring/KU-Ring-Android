@@ -1,7 +1,6 @@
 package com.ku_stacks.ku_ring.ui.my_notification
 
 import android.content.Intent
-import android.graphics.Canvas
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
@@ -9,14 +8,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.databinding.ActivityNotificationBinding
 import com.ku_stacks.ku_ring.ui.detail.DetailActivity
 import com.ku_stacks.ku_ring.ui.home.HomeActivity
 import com.ku_stacks.ku_ring.ui.setting_notification.SettingNotificationActivity
-import com.ku_stacks.ku_ring.util.HoldableSwipeHandler
+import com.yeonkyu.HoldableSwipeHelper.HoldableSwipeHelper
+import com.yeonkyu.HoldableSwipeHelper.SwipeButtonAction
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import javax.inject.Inject
@@ -78,21 +77,19 @@ class NotificationActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@NotificationActivity)
             adapter = notificationAdapter
         }
+        //HoldableSwipeHelper
 
-        val swipeHandler = HoldableSwipeHandler(this, object : HoldableSwipeHandler.ButtonAction {
-            override fun onClickDelete(position: Int) {
-                Timber.e("onClickDelete position : $position")
-                viewModel.deletePushDB(notificationAdapter.currentList[position].articleId)
+        val swipeHelper = HoldableSwipeHelper(this, object : SwipeButtonAction {
+            override fun onClickFirstButton(absoluteAdapterPosition: Int) {
+                Timber.e("onClickDelete position : $absoluteAdapterPosition")
+                viewModel.deletePushDB(notificationAdapter.currentList[absoluteAdapterPosition].articleId)
             }
         })
-        swipeHandler.addRecyclerViewListener(binding.notificationRecyclerview)
-        val itemTouchHelper = ItemTouchHelper(swipeHandler)
+        swipeHelper.addRecyclerViewListener(binding.notificationRecyclerview)
+        swipeHelper.addRecyclerViewDecoration(binding.notificationRecyclerview)
+        val itemTouchHelper = ItemTouchHelper(swipeHelper)
         itemTouchHelper.attachToRecyclerView(binding.notificationRecyclerview)
-        binding.notificationRecyclerview.addItemDecoration(object : RecyclerView.ItemDecoration() {
-            override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
-                swipeHandler.onDraw(c)
-            }
-        })
+
     }
 
     private fun observeData() {
