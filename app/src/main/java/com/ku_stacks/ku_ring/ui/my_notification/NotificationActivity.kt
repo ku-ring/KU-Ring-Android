@@ -77,7 +77,6 @@ class NotificationActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@NotificationActivity)
             adapter = notificationAdapter
         }
-        //HoldableSwipeHelper
 
         val swipeHelper = HoldableSwipeHelper(this, object : SwipeButtonAction {
             override fun onClickFirstButton(absoluteAdapterPosition: Int) {
@@ -85,11 +84,11 @@ class NotificationActivity : AppCompatActivity() {
                 viewModel.deletePushDB(notificationAdapter.currentList[absoluteAdapterPosition].articleId)
             }
         })
+
         swipeHelper.addRecyclerViewListener(binding.notificationRecyclerview)
         swipeHelper.addRecyclerViewDecoration(binding.notificationRecyclerview)
         val itemTouchHelper = ItemTouchHelper(swipeHelper)
         itemTouchHelper.attachToRecyclerView(binding.notificationRecyclerview)
-
     }
 
     private fun observeData() {
