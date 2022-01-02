@@ -46,7 +46,7 @@ class SettingNotificationViewModel @Inject constructor(
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             if(!task.isSuccessful){
                 Timber.e("Firebase instanceId fail : ${task.exception}")
-                throw RuntimeException("Failed to get Fcm Token error")
+                throw RuntimeException("Failed to get Fcm Token error, exception : ${task.exception}")
             }
             fcmToken = task.result
             if (fcmToken == null) {
