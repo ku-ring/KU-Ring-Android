@@ -181,7 +181,7 @@ dependencies {
     implementation "org.java-websocket:Java-WebSocket:1.5.1"
 
     //HoldableSwipeHandler
-    implementation 'com.github.yeon-kyu.HoldableSwipeHandler:HoldableSwipeHandler:1.0.7'
+    implementation 'com.github.yeon-kyu.HoldableSwipeHandler:HoldableSwipeHandler:1.0.82'
 }
 
 kapt {
