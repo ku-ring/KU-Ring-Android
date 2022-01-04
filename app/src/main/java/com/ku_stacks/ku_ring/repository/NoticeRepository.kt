@@ -152,9 +152,9 @@ class NoticeRepository @Inject constructor(
         noticeDao.deleteAllNoticeRecord()
             .subscribeOn(Schedulers.io())
             .subscribe ({
-                Timber.e("delete db success")
+                Timber.e("delete Notice db success")
             }, {
-                Timber.e("delete db fail")
+                Timber.e("delete Notice db fail")
             })
     }
 

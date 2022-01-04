@@ -3,7 +3,7 @@
     <string name="app_name_debug">쿠링 Debug</string>
 
     <!--  splash  -->
-    <string name="ku_ring_version">ver. 1.0.2</string>
+    <string name="ku_ring_version">ver. %1$s</string>
     <string name="ku_ring_rights">© 2021 KU Ring. All rights reserved.</string>
 
     <!--  home  -->
