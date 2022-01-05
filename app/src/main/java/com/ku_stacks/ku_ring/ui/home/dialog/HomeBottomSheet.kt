@@ -1,64 +1,74 @@
 package com.ku_stacks.ku_ring.ui.home.dialog
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.ku_stacks.ku_ring.R
+import com.ku_stacks.ku_ring.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.databinding.DialogHomeBottomSheetBinding
+import com.ku_stacks.ku_ring.ui.feedback.FeedbackActivity
+import com.ku_stacks.ku_ring.ui.notion.NotionViewActivity
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
+import javax.inject.Inject
 
-enum class NextActivityItem{
-    Feedback, OpenSource, PersonalInfo, TermsOfService
-}
-
+@AndroidEntryPoint
 class HomeBottomSheet: BottomSheetDialogFragment() {
-    private var _binding: DialogHomeBottomSheetBinding? = null
-    private val binding get() = _binding!!
 
-    private lateinit var itemClick: (NextActivityItem) -> (Unit)
+    @Inject
+    lateinit var analytics : EventAnalytics
 
-    /*
-    Fragment는 기본생성자로 생성해야함.
-    그렇지 않고 생성자에서 인자를 주면 화면회전 시 반드시 Unable to instantiate fragment...의 에러가 발생!
-    따라서 아래와 같이 람다식을 인자로 click listener 를 넘긴다.
-     */
-    fun setArgument(click: (NextActivityItem) -> (Unit)){
-        itemClick = click
-    }
+    private lateinit var binding: DialogHomeBottomSheetBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
-        _binding = DialogHomeBottomSheetBinding.inflate(inflater, container, false)
+    ): View {
+        binding = DialogHomeBottomSheetBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.feedbackLayout.setOnClickListener {
-            itemClick(NextActivityItem.Feedback)
+            analytics.click("bottomSheet_Feedback btn", "HomeActivity")
+
+            val intent = Intent(activity, FeedbackActivity::class.java)
+            startActivity(intent)
             dialog?.dismiss()
         }
         binding.openSourceLayout.setOnClickListener {
-            itemClick(NextActivityItem.OpenSource)
+            analytics.click("bottomSheet_OpenSource btn", "HomeActivity")
+
+            startActivity(Intent(activity, OssLicensesMenuActivity::class.java))
+            OssLicensesMenuActivity.setActivityTitle("오픈소스 라이선스")
             dialog?.dismiss()
         }
         binding.personalDataLayout.setOnClickListener {
-            itemClick(NextActivityItem.PersonalInfo)
+            analytics.click("bottomSheet_PersonalInformation btn", "HomeActivity")
+
+            val intent = Intent(activity, NotionViewActivity::class.java)
+            intent.putExtra("url", getString(R.string.notion_personal_data_url))
+            startActivity(intent)
             dialog?.dismiss()
         }
         binding.termsOfServiceLayout.setOnClickListener {
-            itemClick(NextActivityItem.TermsOfService)
+            analytics.click("bottomSheet_TermsOfService btn", "HomeActivity")
+
+            val intent = Intent(activity, NotionViewActivity::class.java)
+            intent.putExtra("url", getString(R.string.notion_terms_of_service))
+            startActivity(intent)
             dialog?.dismiss()
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
         Timber.e("HomeBottomSheet destroyed")
     }
 }
