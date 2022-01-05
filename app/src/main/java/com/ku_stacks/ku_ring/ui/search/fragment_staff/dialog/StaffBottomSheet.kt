@@ -53,14 +53,20 @@ class StaffBottomSheet: BottomSheetDialogFragment() {
                 val clipboardManager = requireContext().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
                 val clipData = ClipData.newPlainText("email", staff.email)
                 clipboardManager.setPrimaryClip(clipData)
-                Toast.makeText(requireContext(), "이메일이 클립보드에 복사되었습니다", Toast.LENGTH_SHORT).show()
+
+                Toast.makeText(requireContext(),
+                    getString(R.string.search_staff_copy_email_complete),
+                    Toast.LENGTH_SHORT).show()
             }
 
             binding.staffBottomSheetPhoneTxt.setOnClickListener {
                 val clipboardManager = requireContext().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
                 val clipData = ClipData.newPlainText("phone number", staff.phone)
                 clipboardManager.setPrimaryClip(clipData)
-                Toast.makeText(requireContext(), "전화번호가 클립보드에 복사되었습니다", Toast.LENGTH_SHORT).show()
+
+                Toast.makeText(requireContext(),
+                    getString(R.string.search_staff_copy_phone_number_complete),
+                    Toast.LENGTH_SHORT).show()
             }
         }
     }

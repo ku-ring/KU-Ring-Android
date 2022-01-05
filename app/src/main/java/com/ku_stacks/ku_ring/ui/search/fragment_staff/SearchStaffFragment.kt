@@ -58,7 +58,7 @@ class SearchStaffFragment: Fragment() {
     private fun invokeStaffInfoDialog(staff: SearchStaffResponse) {
         val bottomSheet = StaffBottomSheet()
         val bundle = Bundle()
-        bundle.putSerializable("staff",staff)
+        bundle.putSerializable("staff", staff)
         bottomSheet.arguments = bundle
         bottomSheet.show(requireActivity().supportFragmentManager, bottomSheet.tag)
     }

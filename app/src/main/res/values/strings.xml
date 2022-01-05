@@ -55,6 +55,8 @@
     <string name="search_enter_keyword">검색어를 입력해주세요</string>
     <string name="search">검색</string>
     <string name="search_advice">찾고 싶은 공지사항이나 교직원을 검색해보세요\n(공지 제목 / 교수 이름 / 학과 / 단과대학)</string>
+    <string name="search_staff_copy_email_complete">이메일이 클립보드에 복사되었습니다</string>
+    <string name="search_staff_copy_phone_number_complete">전화번호가 클립보드에 복사되었습니다</string>
 
     <!--  notion url  -->
     <string name="notion_personal_data_url">https://knowing-bamboo-7b4.notion.site/289d8db70bad49cd8ba80ed011281dfc</string>
