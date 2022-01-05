@@ -35,36 +35,53 @@ class HomeBottomSheet: BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.feedbackLayout.setOnClickListener {
-            analytics.click("bottomSheet_Feedback btn", "HomeActivity")
 
-            val intent = Intent(activity, FeedbackActivity::class.java)
-            startActivity(intent)
-            dialog?.dismiss()
+        binding.feedbackLayout.setOnClickListener {
+            startFeedbackActivity()
         }
         binding.openSourceLayout.setOnClickListener {
-            analytics.click("bottomSheet_OpenSource btn", "HomeActivity")
-
-            startActivity(Intent(activity, OssLicensesMenuActivity::class.java))
-            OssLicensesMenuActivity.setActivityTitle("오픈소스 라이선스")
-            dialog?.dismiss()
+            startOpenSourceActivity()
         }
         binding.personalDataLayout.setOnClickListener {
-            analytics.click("bottomSheet_PersonalInformation btn", "HomeActivity")
-
-            val intent = Intent(activity, NotionViewActivity::class.java)
-            intent.putExtra("url", getString(R.string.notion_personal_data_url))
-            startActivity(intent)
-            dialog?.dismiss()
+            startPersonalInformationActivity()
         }
         binding.termsOfServiceLayout.setOnClickListener {
-            analytics.click("bottomSheet_TermsOfService btn", "HomeActivity")
-
-            val intent = Intent(activity, NotionViewActivity::class.java)
-            intent.putExtra("url", getString(R.string.notion_terms_of_service))
-            startActivity(intent)
-            dialog?.dismiss()
+            startTermsOfServiceActivity()
         }
+    }
+
+    private fun startFeedbackActivity() {
+        analytics.click("bottomSheet_Feedback btn", "HomeActivity")
+
+        val intent = Intent(activity, FeedbackActivity::class.java)
+        startActivity(intent)
+        dialog?.dismiss()
+    }
+
+    private fun startOpenSourceActivity() {
+        analytics.click("bottomSheet_OpenSource btn", "HomeActivity")
+
+        startActivity(Intent(activity, OssLicensesMenuActivity::class.java))
+        OssLicensesMenuActivity.setActivityTitle("오픈소스 라이선스")
+        dialog?.dismiss()
+    }
+
+    private fun startPersonalInformationActivity() {
+        analytics.click("bottomSheet_PersonalInformation btn", "HomeActivity")
+
+        val intent = Intent(activity, NotionViewActivity::class.java)
+        intent.putExtra("url", getString(R.string.notion_personal_data_url))
+        startActivity(intent)
+        dialog?.dismiss()
+    }
+
+    private fun startTermsOfServiceActivity() {
+        analytics.click("bottomSheet_TermsOfService btn", "HomeActivity")
+
+        val intent = Intent(activity, NotionViewActivity::class.java)
+        intent.putExtra("url", getString(R.string.notion_terms_of_service))
+        startActivity(intent)
+        dialog?.dismiss()
     }
 
     override fun onDestroyView() {
