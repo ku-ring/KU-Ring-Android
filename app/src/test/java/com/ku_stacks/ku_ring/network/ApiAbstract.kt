@@ -6,9 +6,13 @@ import okio.buffer
 import okio.source
 import org.junit.After
 import org.junit.Before
+import retrofit2.Retrofit
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import java.nio.charset.StandardCharsets
+import java.util.concurrent.TimeUnit
 
-abstract class ApiAbstract {
+abstract class ApiAbstract<T> {
 
     lateinit var mockWebServer: MockWebServer
 
@@ -34,6 +38,16 @@ abstract class ApiAbstract {
         for ((key, value) in headers) {
             mockResponse.addHeader(key, value)
         }
-        mockWebServer.enqueue(mockResponse.setBody(source.readString(StandardCharsets.UTF_8)))
+        mockResponse.setBody(source.readString(StandardCharsets.UTF_8))
+        mockWebServer.enqueue(mockResponse)
+    }
+
+    fun createNoticeService(clazz: Class<T>): T {
+        return Retrofit.Builder()
+            .baseUrl(mockWebServer.url("/"))
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+            .build()
+            .create(clazz)
     }
 }

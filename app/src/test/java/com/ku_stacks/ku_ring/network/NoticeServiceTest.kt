@@ -1,19 +1,18 @@
 package com.ku_stacks.ku_ring.network
 
 import com.ku_stacks.ku_ring.data.api.NoticeService
-import com.ku_stacks.ku_ring.di.NetworkModule
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import java.util.concurrent.TimeUnit
 
-class NoticeServiceTest : ApiAbstract() {
+class NoticeServiceTest : ApiAbstract<NoticeService>() {
 
     private lateinit var service: NoticeService
 
     @Before
     fun initService() {
-        service =
-            NetworkModule.provideNoticeService(NetworkModule.provideRetrofit(NetworkModule.provideOkHttpClient()))
+        service = createNoticeService(NoticeService::class.java)
     }
 
     @Test
@@ -21,6 +20,7 @@ class NoticeServiceTest : ApiAbstract() {
         enqueueResponse("/NoticeResponse.json")
         val response = service.fetchNoticeList("bch", 0, 20)
             .blockingGet()
+        mockWebServer.takeRequest()
 
         assertEquals(true, response.isSuccess)
         assertEquals("https://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do", response.baseUrl)
