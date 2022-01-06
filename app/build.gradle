@@ -114,6 +114,7 @@ dependencies {
     def okHttp_version = "4.9.0"
     implementation "com.squareup.okhttp3:okhttp:$okHttp_version"
     implementation "com.squareup.okhttp3:logging-interceptor:$okHttp_version"
+    testImplementation "com.squareup.okhttp3:mockwebserver:$okHttp_version"
 
     //coroutine
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.3"
