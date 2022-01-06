@@ -4,7 +4,6 @@ import com.ku_stacks.ku_ring.data.api.NoticeService
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import java.util.concurrent.TimeUnit
 
 class NoticeServiceTest : ApiAbstract<NoticeService>() {
 
