@@ -1,0 +1,74 @@
+{
+  "isSuccess": true,
+  "resultMsg": "성공",
+  "resultCode": 200,
+  "baseUrl": "https://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do",
+  "noticeList": [
+    {
+      "articleId": "5b49d36",
+      "postedDate": "20220105",
+      "subject": " 2022학년도 1학기 캠퍼스간 다전공 신청 안내(서울→ GLOCAL)",
+      "category": "bachelor"
+    },
+    {
+      "articleId": "5b49cf1",
+      "postedDate": "20220104",
+      "subject": "재입학 안내 (2022학년도 1학기)",
+      "category": "bachelor"
+    },
+    {
+      "articleId": "5b49a74",
+      "postedDate": "20211220",
+      "subject": "2022학년도 전과 신청 안내",
+      "category": "bachelor"
+    },
+    {
+      "articleId": "5b49a79",
+      "postedDate": "20211220",
+      "subject": "2022학년도 다,부,연계,연합,융합전공 신청(포기) 안내",
+      "category": "bachelor"
+    },
+    {
+      "articleId": "5b49a7d",
+      "postedDate": "20211220",
+      "subject": "2022학년도 캠퍼스간 다전공 신청 안내",
+      "category": "bachelor"
+    },
+    {
+      "articleId": "5b49a8f",
+      "postedDate": "20211220",
+      "subject": "2021학년도 동계방학기간 중 증명서발급 업무시간 변경 안내",
+      "category": "bachelor"
+    },
+    {
+      "articleId": "5b4962e",
+      "postedDate": "20211130",
+      "subject": "2021학년도 동계 방학기간 중 학사일정 안내",
+      "category": "bachelor"
+    },
+    {
+      "articleId": "5b49323",
+      "postedDate": "20211112",
+      "subject": "2021학년도 동계계절학기 서울권역 E러닝 안내",
+      "category": "bachelor"
+    },
+    {
+      "articleId": "5b48c78",
+      "postedDate": "20211015",
+      "subject": "2021학년도 동계 계절학기 개설 계획",
+      "category": "bachelor"
+    },
+    {
+      "articleId": "5b4738f",
+      "postedDate": "20210803",
+      "subject": "취득학점포기 일정 안내",
+      "category": "bachelor"
+    },
+    {
+      "articleId": "5b45b56",
+      "postedDate": "20210504",
+      "subject": "증명서 발급 시 본인 인증 방법 변경 안내",
+      "category": "bachelor"
+    }
+  ]
+}
