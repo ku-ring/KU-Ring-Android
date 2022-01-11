@@ -1,6 +1,7 @@
 package com.ku_stacks.ku_ring.network
 
 import com.ku_stacks.ku_ring.data.api.NoticeService
+import com.ku_stacks.ku_ring.data.api.response.NoticeResponse
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -20,6 +21,8 @@ class NoticeServiceTest : ApiAbstract<NoticeService>() {
         val response = service.fetchNoticeList("bch", 0, 20)
             .blockingGet()
         mockWebServer.takeRequest()
+
+        assertEquals(20, response.noticeResponse.size)
 
         assertEquals(true, response.isSuccess)
         assertEquals("https://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do", response.baseUrl)
