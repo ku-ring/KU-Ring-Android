@@ -8,6 +8,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -17,8 +18,10 @@ import android.webkit.*
 import android.widget.ProgressBar
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.util.showToast
+import com.ku_stacks.ku_ring.util.showToastLong
 import timber.log.Timber
 import java.net.URLDecoder
 
@@ -29,8 +32,9 @@ class DetailActivity : AppCompatActivity() {
 
     private val requestReadExternalStorage =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-            if (it == false) {
-                showToast(getString(R.string.invalid_external_storage_permission_msg))
+            when (it) {
+                true -> showToast(getString(R.string.valid_external_storage_permission_msg))
+                else -> showToastLong(getString(R.string.invalid_external_storage_permission_msg))
             }
         }
     private var downloadId = 0L
@@ -79,12 +83,26 @@ class DetailActivity : AppCompatActivity() {
         }
 
         webView.setDownloadListener { downloadUrl, userAgent, contentDisposition, mimetype, _ ->
-            checkExternalReadPermission()
+            if (!haveStoragePermission()) {
+                requestReadExternalStorage.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                return@setDownloadListener
+            }
             startDownload(downloadUrl, userAgent, contentDisposition, mimetype)
         }
 
         url?.let {
             webView.loadUrl(it) //웹뷰에 표시할 웹사이트 주소, 웹뷰 시작
+        }
+    }
+
+    private fun haveStoragePermission(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            true
+        } else {
+            ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED
         }
     }
 
@@ -151,13 +169,6 @@ class DetailActivity : AppCompatActivity() {
         IntentFilter().run {
             addAction(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
             activity.registerReceiver(downloadReceiver, this)
-        }
-    }
-
-    @SuppressLint("ObsoleteSdkInt")
-    private fun checkExternalReadPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestReadExternalStorage.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
         }
     }
 
