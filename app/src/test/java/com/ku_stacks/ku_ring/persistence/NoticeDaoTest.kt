@@ -39,61 +39,67 @@ class NoticeDaoTest : LocalDbAbstract() {
     }
 
     @Test
-    fun insertAndGetNoticeTest() {
+    fun `insertAndGetNotice Test`() {
         val noticeMock = noticeMock()
         noticeDao.insertNotice(noticeMock).blockingSubscribe()
         val noticeFromDB = noticeDao.getNoticeRecord().blockingGet()[0]
+        // 생성하고 insert 한 mock 와 불러온 데이터가 일치
         assertThat(noticeMock, `is`(noticeFromDB))
     }
 
     @Test
-    fun updateNoticeAndGetNoticeRecordTest() {
+    fun `updateNotice and getNoticeRecord Test`() {
         val noticeMock = noticeMock()
         noticeDao.insertNotice(noticeMock).blockingSubscribe()
-        assertThat(noticeDao.getNoticeRecord().blockingGet().size, `is`(1))
 
         val readNoticeMock = readNoticeMock()
         noticeDao.updateNotice(readNoticeMock).blockingSubscribe()
 
+        // insert 후에 update 해도 데이터 수는 1개, 불러온 데이터가 mock 와 일치
         val noticeFromDB = noticeDao.getNoticeRecord().blockingGet()
         assertThat(noticeFromDB.size, `is`(1))
         assertThat(noticeFromDB[0].toString(), `is`(readNoticeMock.toString()))
     }
 
     @Test
-    fun updateNoticeAndGetCountForReadNoticeTest() {
+    fun `updateNotice and getCountForReadNoticeTest`() {
         val noticeMock = noticeMock()
         noticeDao.insertNotice(noticeMock).blockingSubscribe()
-        assertThat(noticeDao.getNoticeRecord().blockingGet().size, `is`(1))
 
         val readNoticeMock = readNoticeMock()
         noticeDao.updateNotice(readNoticeMock).blockingSubscribe()
 
+        // insert 후에 isRead 를 true 로 update 하면 읽은 공지 데이터가 1개
         val countForReadNotice =
-            noticeDao.getCountForReadNotice(true, noticeMock.articleId)
-                .blockingGet()
+            noticeDao.getCountForReadNotice(true, noticeMock.articleId).blockingGet()
         assertThat(countForReadNotice, `is`(1))
     }
 
     @Test
-    fun updateNoticeAndIsReadNoticeTest() {
+    fun `updateNotice and isReadNotice Test`() {
         val noticeMock = noticeMock()
         noticeDao.insertNotice(noticeMock).blockingSubscribe()
-        assertThat(noticeDao.getNoticeRecord().blockingGet().size, `is`(1))
 
+        // isRead 를 true 로 update 한 공지는 불러왔을 때 isRead 값이 true
         val readNoticeMock = readNoticeMock()
         noticeDao.updateNotice(readNoticeMock).blockingSubscribe()
         assertThat(noticeDao.isReadNotice(noticeMock.articleId), `is`(true))
     }
 
     @Test
-    fun updateNoticeAndGetReadNoticeRecordTest() {
+    fun `updateNotice  getReadNoticeRecord Test`() {
         val noticeMock = noticeMock()
         noticeDao.insertNotice(noticeMock).blockingSubscribe()
-        assertThat(noticeDao.getNoticeRecord().blockingGet().size, `is`(1))
+
+        // 공지를 읽기 전엔 isRead 가 true 인 데이터 0개
+        val sizeOfNotReadNotice = noticeDao.getReadNoticeRecord(true).blockingFirst().size
+        assertThat(sizeOfNotReadNotice, `is`(0))
 
         val readNoticeMock = readNoticeMock()
         noticeDao.updateNotice(readNoticeMock).blockingSubscribe()
-        assertThat(noticeDao.getReadNoticeRecord(true).blockingFirst().size, `is`(1))
+
+        // 공지를 읽은 후엔 isRead 가 true 인 데이터 1개
+        val sizeOfReadNotice = noticeDao.getReadNoticeRecord(true).blockingFirst().size
+        assertThat(sizeOfReadNotice, `is`(1))
     }
 }
