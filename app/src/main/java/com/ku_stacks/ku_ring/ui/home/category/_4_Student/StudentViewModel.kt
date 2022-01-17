@@ -8,6 +8,7 @@ import com.ku_stacks.ku_ring.data.entity.Notice
 import com.ku_stacks.ku_ring.repository.NoticeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.core.Flowable
+import kotlinx.coroutines.CoroutineScope
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -20,8 +21,8 @@ class StudentViewModel @Inject constructor(
         Timber.e("StudentViewModel injected")
     }
 
-    fun getNotices(): Flowable<PagingData<Notice>> {
+    fun getNotices(scope: CoroutineScope): Flowable<PagingData<Notice>> {
         return repository
-            .getNotices("stu", viewModelScope)
+            .getNotices("stu", scope)
     }
 }

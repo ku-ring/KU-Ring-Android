@@ -1,10 +1,9 @@
 package com.ku_stacks.ku_ring.ui.home.category._0_Bachelor
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.ku_stacks.ku_ring.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.ui.home.category.HomeBaseFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,14 +17,10 @@ class BachelorFragment : HomeBaseFragment() {
     @Inject
     lateinit var analytics : EventAnalytics
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        disposable.add(viewModel.getNotices().subscribe {
+        disposable.add(viewModel.getNotices(lifecycleScope).subscribe {
             pagingAdapter.submitData(lifecycle, it)
         })
     }

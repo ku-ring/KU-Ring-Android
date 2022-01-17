@@ -185,6 +185,9 @@ dependencies {
 
     //HoldableSwipeHandler
     implementation 'com.github.yeon-kyu.HoldableSwipeHandler:HoldableSwipeHandler:1.1.0'
+
+    // leak canary
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.6'
 }
 
 kapt {
