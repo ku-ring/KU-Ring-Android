@@ -18,4 +18,4 @@ data class SearchStaffResponse(
     val department: String,
     @SerializedName(value = "collegeName")
     val college: String
-) : Serializable
+)

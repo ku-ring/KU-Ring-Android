@@ -8,10 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContextCompat.getSystemService
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.data.websocket.response.SearchStaffResponse
+import com.ku_stacks.ku_ring.data.entity.Staff
 import com.ku_stacks.ku_ring.databinding.DialogStaffBottomSheetBinding
 
 class StaffBottomSheet: BottomSheetDialogFragment() {
@@ -36,11 +35,11 @@ class StaffBottomSheet: BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val staff = arguments?.getSerializable("staff") as SearchStaffResponse
+        val staff = arguments?.getSerializable("staff") as Staff
         setupView(staff)
     }
 
-    private fun setupView(staff: SearchStaffResponse?) {
+    private fun setupView(staff: Staff?) {
         staff?.let {
             binding.staffBottomSheetNameTxt.text = staff.name
             binding.staffBottomSheetDepartmentTxt.text = staff.department +" · "+staff.college

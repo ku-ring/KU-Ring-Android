@@ -9,6 +9,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class IndustryFragment : HomeBaseFragment(){
+
     private val viewModel by viewModels<IndustryViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
