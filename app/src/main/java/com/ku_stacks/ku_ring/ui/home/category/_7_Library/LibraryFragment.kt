@@ -9,6 +9,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class LibraryFragment : HomeBaseFragment(){
+
     private val viewModel by viewModels<LibraryViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
