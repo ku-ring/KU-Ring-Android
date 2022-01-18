@@ -7,17 +7,14 @@ import com.ku_stacks.ku_ring.data.websocket.request.SearchRequest
 import com.ku_stacks.ku_ring.data.websocket.response.DefaultSearchResponse
 import com.ku_stacks.ku_ring.data.websocket.response.SearchNoticeListResponse
 import com.ku_stacks.ku_ring.data.websocket.response.SearchStaffListResponse
-import io.reactivex.rxjava3.core.*
 import io.reactivex.rxjava3.subjects.PublishSubject
 import org.java_websocket.client.WebSocketClient
 import org.java_websocket.handshake.ServerHandshake
 import timber.log.Timber
 import java.lang.Exception
 import java.net.URI
-import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 import javax.net.ssl.SSLSocketFactory
-
 
 class SearchClient {
 

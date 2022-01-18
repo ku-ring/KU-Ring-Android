@@ -1,14 +1,14 @@
 package com.ku_stacks.ku_ring.ui.search.fragment_staff
 
 import androidx.recyclerview.widget.RecyclerView
-import com.ku_stacks.ku_ring.data.websocket.response.SearchStaffResponse
+import com.ku_stacks.ku_ring.data.entity.Staff
 import com.ku_stacks.ku_ring.databinding.ItemStaffBinding
 
 class SearchStaffViewHolder(
     private val binding: ItemStaffBinding,
-    private val itemClick: (SearchStaffResponse) -> Unit
+    private val itemClick: (Staff) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
-    fun bind(staff: SearchStaffResponse) {
+    fun bind(staff: Staff) {
         binding.staffNameTxt.text = staff.name
         binding.staffDepartmentAndCollegeTxt.text = "${staff.department} · ${staff.college}"
         binding.root.setOnClickListener {
