@@ -9,6 +9,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class NationFragment : HomeBaseFragment(){
+
     private val viewModel by viewModels<NationViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -19,5 +19,4 @@ class ScholarshipFragment: HomeBaseFragment() {
             pagingAdapter.submitData(lifecycle, it)
         })
     }
-
 }

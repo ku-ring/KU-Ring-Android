@@ -24,6 +24,4 @@ class BachelorFragment : HomeBaseFragment() {
             pagingAdapter.submitData(lifecycle, it)
         })
     }
-
-
 }

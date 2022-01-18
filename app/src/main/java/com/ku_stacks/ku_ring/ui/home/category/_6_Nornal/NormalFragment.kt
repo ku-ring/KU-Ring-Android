@@ -8,7 +8,8 @@ import com.ku_stacks.ku_ring.ui.home.category.HomeBaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class NormalFragment : HomeBaseFragment(){
+class NormalFragment : HomeBaseFragment() {
+
     private val viewModel by viewModels<NormalViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
