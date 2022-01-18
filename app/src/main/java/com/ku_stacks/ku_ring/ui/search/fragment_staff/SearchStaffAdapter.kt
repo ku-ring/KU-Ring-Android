@@ -5,12 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.ku_stacks.ku_ring.R
+import com.ku_stacks.ku_ring.data.entity.Staff
 import com.ku_stacks.ku_ring.data.websocket.response.SearchStaffResponse
 import com.ku_stacks.ku_ring.databinding.ItemStaffBinding
 
 class SearchStaffAdapter(
-    private val itemClick: (SearchStaffResponse) -> Unit,
-) : ListAdapter<SearchStaffResponse, SearchStaffViewHolder>(StaffDiffCallback) {
+    private val itemClick: (Staff) -> Unit,
+) : ListAdapter<Staff, SearchStaffViewHolder>(StaffDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchStaffViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_staff, parent, false)
@@ -24,12 +25,12 @@ class SearchStaffAdapter(
         }
     }
 
-    object StaffDiffCallback : DiffUtil.ItemCallback<SearchStaffResponse>() {
-        override fun areItemsTheSame(oldItem: SearchStaffResponse, newItem: SearchStaffResponse): Boolean {
+    object StaffDiffCallback : DiffUtil.ItemCallback<Staff>() {
+        override fun areItemsTheSame(oldItem: Staff, newItem: Staff): Boolean {
             return oldItem.email == newItem.email
         }
 
-        override fun areContentsTheSame(oldItem: SearchStaffResponse, newItem: SearchStaffResponse): Boolean {
+        override fun areContentsTheSame(oldItem: Staff, newItem: Staff): Boolean {
             return oldItem.email == newItem.email
         }
 
