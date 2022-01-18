@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ku_stacks.ku_ring.data.entity.Notice
+import com.ku_stacks.ku_ring.data.entity.Staff
+import com.ku_stacks.ku_ring.data.mapper.toStaff
 import com.ku_stacks.ku_ring.data.websocket.SearchClient
 import com.ku_stacks.ku_ring.data.websocket.response.SearchNoticeResponse
 import com.ku_stacks.ku_ring.data.websocket.response.SearchStaffResponse
@@ -25,8 +27,8 @@ class SearchViewModel @Inject constructor(
 
     private val searchClient = SearchClient()
 
-    private val _staffList = MutableLiveData<List<SearchStaffResponse>>()
-    val staffList: LiveData<List<SearchStaffResponse>>
+    private val _staffList = MutableLiveData<List<Staff>>()
+    val staffList: LiveData<List<Staff>>
         get() = _staffList
 
     private val _noticeList = MutableLiveData<List<SearchNoticeResponse>>()
@@ -78,15 +80,18 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun subscribeStaff() {
-        disposable.add(searchClient.publishStaff.subscribeOn(Schedulers.io())
-            .subscribe({
-                Timber.e("subscribeStaff result : ${it.staffList.size}")
-                if (it.isSuccess) {
-                    _staffList.postValue(it.staffList)
+        disposable.add(
+            searchClient.publishStaff
+                .subscribeOn(Schedulers.io())
+                .filter { it.isSuccess }
+                .map { staffList ->
+                    staffList.staffList.map { it.toStaff() }
                 }
-            }, {
-                Timber.e("subscribe staff error : $it")
-            })
+                .subscribe({
+                    _staffList.postValue(it)
+                }, {
+                    Timber.e("subscribe staff error : $it")
+                })
         )
     }
 

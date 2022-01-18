@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.data.websocket.response.SearchStaffResponse
+import com.ku_stacks.ku_ring.data.entity.Staff
 import com.ku_stacks.ku_ring.databinding.FragmentSearchStaffBinding
 import com.ku_stacks.ku_ring.ui.search.SearchActivity
 import com.ku_stacks.ku_ring.ui.search.SearchViewModel
@@ -55,7 +55,7 @@ class SearchStaffFragment: Fragment() {
         }
     }
 
-    private fun invokeStaffInfoDialog(staff: SearchStaffResponse) {
+    private fun invokeStaffInfoDialog(staff: Staff) {
         val bottomSheet = StaffBottomSheet()
         val bundle = Bundle()
         bundle.putSerializable("staff", staff)
