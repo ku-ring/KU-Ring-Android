@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
-abstract class HomeBaseFragment : Fragment(){
+abstract class HomeBaseFragment : Fragment() {
     protected val disposable = CompositeDisposable()
 
     protected lateinit var binding: FragmentHomeCategoryBinding
@@ -31,8 +31,7 @@ abstract class HomeBaseFragment : Fragment(){
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home_category,container,false)
-        binding.lifecycleOwner = activity
-
+        binding.lifecycleOwner = this
         return binding.root
     }
 
