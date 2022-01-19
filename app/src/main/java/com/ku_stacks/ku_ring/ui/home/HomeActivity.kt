@@ -62,15 +62,6 @@ class HomeActivity : AppCompatActivity() {
         setupHeader()
         observeData()
         getFcmToken()
-
-        /*
-        anlytics, crashlytics 예시
-        binding.homeText.setOnClickListener {
-            Timber.e("homeText clicked")
-            analytics.click("home btn", "HomeActivity")
-            // throw RuntimeException("Crash On Release ver")
-        }
-         */
     }
 
     private fun setupBinding(){
@@ -166,6 +157,11 @@ class HomeActivity : AppCompatActivity() {
 
     fun insertNotice(articleId: String, category: String) {
         viewModel.insertNotice(articleId, category)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding.homeViewpager.unregisterOnPageChangeCallback(pageChangeCallback)
     }
 
     override fun onBackPressed() {
