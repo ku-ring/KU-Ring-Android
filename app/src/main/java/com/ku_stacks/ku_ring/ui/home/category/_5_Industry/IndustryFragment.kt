@@ -15,8 +15,9 @@ class IndustryFragment : HomeBaseFragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        disposable.add(viewModel.getNotices(lifecycleScope).subscribe {
-            pagingAdapter.submitData(lifecycle, it)
-        })
+        disposable.add(
+            viewModel.getNotices().subscribe {
+                pagingAdapter.submitData(lifecycle, it)
+            })
     }
 }

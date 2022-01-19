@@ -1,6 +1,7 @@
 package com.ku_stacks.ku_ring.ui.home.category._1_Scholarship
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import com.ku_stacks.ku_ring.data.entity.Notice
 import com.ku_stacks.ku_ring.repository.NoticeRepository
@@ -15,12 +16,19 @@ class ScholarshipViewModel @Inject constructor(
     private val repository: NoticeRepository
 ): ViewModel() {
 
+    private var currentNoticeResult: Flowable<PagingData<Notice>>? = null
+
     init {
         Timber.e("ScholarshipViewModel injected")
     }
 
-    fun getNotices(scope: CoroutineScope): Flowable<PagingData<Notice>> {
-        return repository
-            .getNotices("sch", scope)
+    fun getNotices(): Flowable<PagingData<Notice>> {
+        val lastResult = currentNoticeResult
+        if (lastResult != null) {
+            return lastResult
+        }
+        val newResult = repository.getNotices("sch", viewModelScope)
+        currentNoticeResult = newResult
+        return newResult
     }
 }
