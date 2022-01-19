@@ -46,9 +46,9 @@ class NoticeRepository @Inject constructor(
         return Flowable.combineLatest(
             flowableRemote,
             flowableLocal,
-            { remote, local -> //isRead 의 변동이 있을때 알맞게 변형시켜야함
-                remote.map { notice ->
-                    notice.copy(isRead = local.contains(notice.articleId))
+            { remoteData, localData -> //isRead 의 변동이 있을때 알맞게 변형시켜야함
+                remoteData.map { notice ->
+                    notice.copy(isRead = localData.contains(notice.articleId))
                 }
             })
     }

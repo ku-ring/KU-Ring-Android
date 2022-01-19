@@ -1,7 +1,9 @@
 package com.ku_stacks.ku_ring.ui.home.category._0_Bachelor
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.rxjava3.cachedIn
 import com.ku_stacks.ku_ring.data.entity.Notice
 import com.ku_stacks.ku_ring.repository.NoticeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,12 +17,19 @@ class BachelorViewModel @Inject constructor(
     private val repository: NoticeRepository
 ): ViewModel() {
 
+    private var currentNoticeResult: Flowable<PagingData<Notice>>? = null
+
     init {
         Timber.e("BachelorViewModel injected")
     }
 
-    fun getNotices(scope: CoroutineScope): Flowable<PagingData<Notice>> {
-        return repository
-            .getNotices("bch", scope)
+    fun getNotices(): Flowable<PagingData<Notice>> {
+        val lastResult = currentNoticeResult
+        if (lastResult != null) {
+            return lastResult
+        }
+        val newResult = repository.getNotices("bch", viewModelScope)
+        currentNoticeResult = newResult
+        return newResult
     }
 }

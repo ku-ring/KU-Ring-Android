@@ -15,7 +15,7 @@ class StudentFragment : HomeBaseFragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        disposable.add(viewModel.getNotices(lifecycleScope).subscribe {
+        disposable.add(viewModel.getNotices().subscribe {
             pagingAdapter.submitData(lifecycle, it)
         })
     }

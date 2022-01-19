@@ -17,12 +17,19 @@ class StudentViewModel @Inject constructor(
     private val repository: NoticeRepository
 ): ViewModel() {
 
+    private var currentNoticeResult: Flowable<PagingData<Notice>>? = null
+
     init {
         Timber.e("StudentViewModel injected")
     }
 
-    fun getNotices(scope: CoroutineScope): Flowable<PagingData<Notice>> {
-        return repository
-            .getNotices("stu", scope)
+    fun getNotices(): Flowable<PagingData<Notice>> {
+        val lastResult = currentNoticeResult
+        if (lastResult != null) {
+            return lastResult
+        }
+        val newResult = repository.getNotices("stu", viewModelScope)
+        currentNoticeResult = newResult
+        return newResult
     }
 }

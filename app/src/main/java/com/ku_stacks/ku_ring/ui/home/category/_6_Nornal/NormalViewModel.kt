@@ -1,6 +1,7 @@
 package com.ku_stacks.ku_ring.ui.home.category._6_Nornal
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import com.ku_stacks.ku_ring.data.entity.Notice
 import com.ku_stacks.ku_ring.repository.NoticeRepository
@@ -15,12 +16,19 @@ class NormalViewModel @Inject constructor(
     private val repository: NoticeRepository
 ): ViewModel() {
 
+    private var currentNoticeResult: Flowable<PagingData<Notice>>? = null
+
     init {
         Timber.e("NormalViewModel injected")
     }
 
-    fun getNotices(scope: CoroutineScope): Flowable<PagingData<Notice>> {
-        return repository
-            .getNotices("nor", scope)
+    fun getNotices(): Flowable<PagingData<Notice>> {
+        val lastResult = currentNoticeResult
+        if (lastResult != null) {
+            return lastResult
+        }
+        val newResult = repository.getNotices("nor", viewModelScope)
+        currentNoticeResult = newResult
+        return newResult
     }
 }
