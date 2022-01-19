@@ -13,19 +13,24 @@ import com.ku_stacks.ku_ring.ui.home.category._5_Industry.IndustryFragment
 import com.ku_stacks.ku_ring.ui.home.category._6_Nornal.NormalFragment
 import com.ku_stacks.ku_ring.ui.home.category._7_Library.LibraryFragment
 
-class HomePagerAdapter(fm: FragmentManager, lc: Lifecycle): FragmentStateAdapter(fm, lc) {
-    override fun getItemCount() = 8
-    override fun createFragment(position: Int): Fragment {
-        return when (position) {
-            0 -> BachelorFragment()
-            1 -> ScholarshipFragment()
-            2 -> EmployFragment()
-            3 -> NationFragment()
-            4 -> StudentFragment()
-            5 -> IndustryFragment()
-            6 -> NormalFragment()
-            7 -> LibraryFragment()
-            else -> error("no such position: $position")
-        }
-    }
+class HomePagerAdapter(fm: FragmentManager, lc: Lifecycle) : FragmentStateAdapter(fm, lc) {
+
+    /**
+     * array 의 내부를 lambda 로 하지않으면 memory leak 발생
+     * (Fragment 가 destroy 될 때 참조가 남음)
+     */
+    private val items = arrayOf(
+        { BachelorFragment() },
+        { ScholarshipFragment() },
+        { EmployFragment() },
+        { NationFragment() },
+        { StudentFragment() },
+        { IndustryFragment() },
+        { NormalFragment() },
+        { LibraryFragment() }
+    )
+
+    override fun getItemCount() = items.size
+
+    override fun createFragment(position: Int): Fragment = items[position].invoke()
 }
