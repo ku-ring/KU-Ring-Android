@@ -3,7 +3,8 @@ package com.ku_stacks.ku_ring.data.mapper
 import com.ku_stacks.ku_ring.data.api.response.NoticeListResponse
 import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.data.model.Staff
-import com.ku_stacks.ku_ring.data.websocket.response.SearchStaffResponse
+import com.ku_stacks.ku_ring.data.websocket.response.SearchNoticeListResponse
+import com.ku_stacks.ku_ring.data.websocket.response.SearchStaffListResponse
 
 fun NoticeListResponse.toNoticeList(type: String): List<Notice> {
     return if (type == "lib") {
@@ -29,8 +30,7 @@ fun NoticeListResponse.toNoticeList(type: String): List<Notice> {
                 tag = subjectAndTag.second
             )
         }
-    }
-    else {
+    } else {
         noticeResponse.map {
             val subjectAndTag = splitSubjectAndTag(it.subject.trim())
 
@@ -49,18 +49,38 @@ fun NoticeListResponse.toNoticeList(type: String): List<Notice> {
     }
 }
 
-fun SearchStaffResponse.toStaff(): Staff {
-    return Staff(
-        name = name,
-        major = major,
-        lab = lab,
-        phone = phone,
-        email = email,
-        department = department,
-        college = college
-    )
+fun SearchStaffListResponse.toStaffList(): List<Staff> {
+    return staffList.map {
+        return@map Staff(
+            name = it.name,
+            major = it.major,
+            lab = it.lab,
+            phone = it.phone,
+            email = it.email,
+            department = it.department,
+            college = it.college
+        )
+    }
 }
 
-//fun SearchNoticeResponse.toNotice(): Notice {
-//    return
-//}
+fun SearchNoticeListResponse.toNoticeList(): List<Notice> {
+    return noticeList.map {
+        val url = if (it.category == "library") {
+            "${it.baseUrl}/${it.articleId}"
+        } else {
+            "${it.baseUrl}?id=${it.articleId}"
+        }
+
+        return@map Notice(
+            postedDate = it.postedDate,
+            subject = it.subject,
+            category = it.category,
+            url = url,
+            articleId = it.articleId,
+            isNew = false,
+            isRead = false,
+            isSubscribing = false,
+            tag = emptyList()
+        )
+    }
+}

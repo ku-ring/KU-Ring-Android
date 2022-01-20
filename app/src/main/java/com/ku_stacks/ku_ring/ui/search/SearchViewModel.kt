@@ -3,11 +3,11 @@ package com.ku_stacks.ku_ring.ui.search
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.ku_stacks.ku_ring.data.mapper.toNoticeList
 import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.data.model.Staff
-import com.ku_stacks.ku_ring.data.mapper.toStaff
+import com.ku_stacks.ku_ring.data.mapper.toStaffList
 import com.ku_stacks.ku_ring.data.websocket.SearchClient
-import com.ku_stacks.ku_ring.data.websocket.response.SearchNoticeResponse
 import com.ku_stacks.ku_ring.repository.NoticeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.core.Observable
@@ -30,8 +30,8 @@ class SearchViewModel @Inject constructor(
     val staffList: LiveData<List<Staff>>
         get() = _staffList
 
-    private val _noticeList = MutableLiveData<List<SearchNoticeResponse>>()
-    val noticeList: LiveData<List<SearchNoticeResponse>>
+    private val _noticeList = MutableLiveData<List<Notice>>()
+    val noticeList: LiveData<List<Notice>>
         get() = _noticeList
 
     init {
@@ -82,7 +82,7 @@ class SearchViewModel @Inject constructor(
         disposable.add(
             searchClient.publishStaff.subscribeOn(Schedulers.io())
                 .filter { it.isSuccess }
-                .map { staffListResponse -> staffListResponse.staffList.map { it.toStaff() } }
+                .map { staffListResponse -> staffListResponse.toStaffList() }
                 .subscribe({
                     _staffList.postValue(it)
                 }, {
@@ -95,8 +95,9 @@ class SearchViewModel @Inject constructor(
         disposable.add(
             searchClient.publishNotice.subscribeOn(Schedulers.io())
                 .filter { it.isSuccess }
+                .map { noticeListResponse -> noticeListResponse.toNoticeList() }
                 .subscribe({
-                    _noticeList.postValue(it.noticeList)
+                    _noticeList.postValue(it)
                 }, {
                     Timber.e("subscribe notice error : $it")
                 })
