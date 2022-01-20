@@ -6,7 +6,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.data.api.FeedbackClient
-import com.ku_stacks.ku_ring.data.api.response.FeedbackRequest
+import com.ku_stacks.ku_ring.data.api.request.FeedbackRequest
 import com.ku_stacks.ku_ring.ui.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
