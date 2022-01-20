@@ -21,6 +21,6 @@
 #-renamesourcefileattribute SourceFile
 -keep class com.ku_stacks.ku_ring.data.api.response.** { *; }
 -keep class com.ku_stacks.ku_ring.data.db.** { *; }
--keep class com.ku_stacks.ku_ring.data.entity.** { *; }
+-keep class com.ku_stacks.ku_ring.data.model.** { *; }
 -keep class com.ku_stacks.ku_ring.data.websocket.response.** { *; }
 -keep class com.ku_stacks.ku_ring.data.websocket.request.** { *; }

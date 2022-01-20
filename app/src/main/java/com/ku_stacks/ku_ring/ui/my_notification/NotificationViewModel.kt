@@ -3,7 +3,7 @@ package com.ku_stacks.ku_ring.ui.my_notification
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ku_stacks.ku_ring.data.entity.Push
+import com.ku_stacks.ku_ring.data.model.Push
 import com.ku_stacks.ku_ring.repository.NoticeRepository
 import com.ku_stacks.ku_ring.repository.PushRepository
 import com.ku_stacks.ku_ring.util.PreferenceUtil

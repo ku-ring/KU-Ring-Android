@@ -6,9 +6,8 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.data.api.FeedbackClient
-import com.ku_stacks.ku_ring.data.entity.Feedback
+import com.ku_stacks.ku_ring.data.api.response.FeedbackRequest
 import com.ku_stacks.ku_ring.ui.SingleLiveEvent
-import com.ku_stacks.ku_ring.util.PreferenceUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -66,7 +65,7 @@ class FeedbackViewModel @Inject constructor(
             }
 
             feedbackClient.sendFeedback(
-                Feedback(
+                FeedbackRequest(
                     token = fcmToken,
                     content = content
                 )

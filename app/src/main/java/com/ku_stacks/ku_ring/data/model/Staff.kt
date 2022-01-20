@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.data.entity
+package com.ku_stacks.ku_ring.data.model
 
 import java.io.Serializable
 

@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.data.entity.Push
+import com.ku_stacks.ku_ring.data.model.Push
 import com.ku_stacks.ku_ring.databinding.ItemNotificationBinding
 import com.ku_stacks.ku_ring.ui.my_notification.viewholder.NotificationViewHolder
 

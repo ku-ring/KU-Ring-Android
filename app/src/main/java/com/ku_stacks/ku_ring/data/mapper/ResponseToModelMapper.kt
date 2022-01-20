@@ -1,8 +1,8 @@
 package com.ku_stacks.ku_ring.data.mapper
 
 import com.ku_stacks.ku_ring.data.api.response.NoticeListResponse
-import com.ku_stacks.ku_ring.data.entity.Notice
-import com.ku_stacks.ku_ring.data.entity.Staff
+import com.ku_stacks.ku_ring.data.model.Notice
+import com.ku_stacks.ku_ring.data.model.Staff
 import com.ku_stacks.ku_ring.data.websocket.response.SearchStaffResponse
 
 fun NoticeListResponse.toNoticeList(type: String): List<Notice> {
@@ -60,3 +60,7 @@ fun SearchStaffResponse.toStaff(): Staff {
         college = college
     )
 }
+
+//fun SearchNoticeResponse.toNotice(): Notice {
+//    return
+//}
