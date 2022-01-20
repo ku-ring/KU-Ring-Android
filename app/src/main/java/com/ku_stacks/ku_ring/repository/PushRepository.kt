@@ -2,7 +2,7 @@ package com.ku_stacks.ku_ring.repository
 
 import com.ku_stacks.ku_ring.data.db.PushDao
 import com.ku_stacks.ku_ring.data.entity.Push
-import com.ku_stacks.ku_ring.data.mapper.transformPush
+import com.ku_stacks.ku_ring.data.mapper.toPushList
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -14,7 +14,7 @@ class PushRepository @Inject constructor(
     fun getMyNotification(): Flowable<List<Push>> {
         return dao.getNotification()
             .distinctUntilChanged()
-            .map { transformPush(it) }
+            .map { pushEntityList -> pushEntityList.toPushList() }
     }
 
     fun updateNotification(articleId: String): Completable {
