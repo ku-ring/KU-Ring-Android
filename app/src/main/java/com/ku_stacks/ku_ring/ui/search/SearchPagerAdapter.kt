@@ -7,14 +7,14 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.ku_stacks.ku_ring.ui.search.fragment_notice.SearchNoticeFragment
 import com.ku_stacks.ku_ring.ui.search.fragment_staff.SearchStaffFragment
 
-class SearchPagerAdapter(fm: FragmentManager, lc: Lifecycle): FragmentStateAdapter(fm, lc) {
-    override fun getItemCount() = 2
+class SearchPagerAdapter(fm: FragmentManager, lc: Lifecycle) : FragmentStateAdapter(fm, lc) {
 
-    override fun createFragment(position: Int): Fragment {
-        return when (position) {
-            0 -> SearchNoticeFragment()
-            1 -> SearchStaffFragment()
-            else -> error("no such position fragment in SearchActivity: $position")
-        }
-    }
+    private val items = arrayOf(
+        { SearchNoticeFragment() },
+        { SearchStaffFragment() }
+    )
+
+    override fun getItemCount() = items.size
+
+    override fun createFragment(position: Int): Fragment = items[position].invoke()
 }
