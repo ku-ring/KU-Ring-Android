@@ -152,6 +152,11 @@ class SearchActivity: AppCompatActivity() {
         overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        binding.searchViewpager.unregisterOnPageChangeCallback(pageChangeCallback)
+    }
+
     companion object {
         const val noticeSearchPage = 0
         const val staffSearchPage = 1
