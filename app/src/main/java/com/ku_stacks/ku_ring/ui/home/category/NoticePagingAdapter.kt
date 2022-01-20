@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.data.entity.Notice
+import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.databinding.ItemNoticeBinding
 
 class NoticePagingAdapter(

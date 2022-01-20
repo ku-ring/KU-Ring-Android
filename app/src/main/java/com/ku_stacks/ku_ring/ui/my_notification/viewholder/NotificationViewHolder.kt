@@ -4,7 +4,7 @@ import android.graphics.Color
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.data.entity.Push
+import com.ku_stacks.ku_ring.data.model.Push
 import com.ku_stacks.ku_ring.databinding.ItemNotificationBinding
 
 class NotificationViewHolder(

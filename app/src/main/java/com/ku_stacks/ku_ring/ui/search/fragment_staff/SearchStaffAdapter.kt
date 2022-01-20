@@ -5,8 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.data.entity.Staff
-import com.ku_stacks.ku_ring.data.websocket.response.SearchStaffResponse
+import com.ku_stacks.ku_ring.data.model.Staff
 import com.ku_stacks.ku_ring.databinding.ItemStaffBinding
 
 class SearchStaffAdapter(

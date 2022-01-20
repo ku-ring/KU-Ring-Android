@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.messaging.FirebaseMessaging
-import com.ku_stacks.ku_ring.data.entity.Subscribe
+import com.ku_stacks.ku_ring.data.api.response.SubscribeRequest
 import com.ku_stacks.ku_ring.repository.SubscribeRepository
 import com.ku_stacks.ku_ring.util.PreferenceUtil
 import com.ku_stacks.ku_ring.util.WordConverter
@@ -90,7 +90,7 @@ class SettingNotificationViewModel @Inject constructor(
         fcmToken?.let {
             repository.saveSubscriptionToLocal(_subscriptionList)
             repository.saveSubscriptionToRemote(
-                Subscribe(it, _subscriptionList.toList().map { category ->
+                SubscribeRequest(it, _subscriptionList.toList().map { category ->
                     WordConverter.convertKoreanToEnglish(category)
                 })
             )

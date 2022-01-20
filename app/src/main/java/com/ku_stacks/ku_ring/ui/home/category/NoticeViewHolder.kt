@@ -4,10 +4,9 @@ import android.graphics.Color
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.adapter.BindingAdapters.backgroundGrayIf
-import com.ku_stacks.ku_ring.adapter.BindingAdapters.textColorGrayIf
-import com.ku_stacks.ku_ring.adapter.BindingAdapters.visibleIf
-import com.ku_stacks.ku_ring.data.entity.Notice
+import com.ku_stacks.ku_ring.adapter.textColorGrayIf
+import com.ku_stacks.ku_ring.adapter.visibleIf
+import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.databinding.ItemNoticeBinding
 
 class NoticeViewHolder(

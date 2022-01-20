@@ -2,7 +2,7 @@ package com.ku_stacks.ku_ring.repository
 
 import com.ku_stacks.ku_ring.data.api.NoticeClient
 import com.ku_stacks.ku_ring.data.api.response.DefaultResponse
-import com.ku_stacks.ku_ring.data.entity.Subscribe
+import com.ku_stacks.ku_ring.data.api.response.SubscribeRequest
 import com.ku_stacks.ku_ring.util.PreferenceUtil
 import com.ku_stacks.ku_ring.util.WordConverter
 import io.reactivex.rxjava3.core.Single
@@ -21,8 +21,8 @@ class SubscribeRepository @Inject constructor(
             }
     }
 
-    fun saveSubscriptionToRemote(subscribe: Subscribe): Single<DefaultResponse> {
-        return noticeClient.saveSubscribe(subscribe)
+    fun saveSubscriptionToRemote(subscribeRequest: SubscribeRequest): Single<DefaultResponse> {
+        return noticeClient.saveSubscribe(subscribeRequest)
     }
 
     fun getSubscriptionFromLocal(): Set<String> {

@@ -22,7 +22,7 @@ class NoticeServiceTest : ApiAbstract<NoticeService>() {
             .blockingGet()
         mockWebServer.takeRequest()
 
-        assertEquals(20, response.noticeResponse.size)
+        assertEquals(11, response.noticeResponse.size)
 
         assertEquals(true, response.isSuccess)
         assertEquals("https://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do", response.baseUrl)

@@ -9,7 +9,7 @@
 
         <variable
             name="NotificationItem"
-            type="com.ku_stacks.ku_ring.data.entity.Push" />
+            type="com.ku_stacks.ku_ring.data.model.Push" />
     </data>
 
     <LinearLayout

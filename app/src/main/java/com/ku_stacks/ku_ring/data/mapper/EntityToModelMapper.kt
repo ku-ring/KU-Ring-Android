@@ -1,7 +1,7 @@
 package com.ku_stacks.ku_ring.data.mapper
 
 import com.ku_stacks.ku_ring.data.db.PushEntity
-import com.ku_stacks.ku_ring.data.entity.Push
+import com.ku_stacks.ku_ring.data.model.Push
 
 /** 이전 Item과 날짜를 비교해서 날짜 표시 여부 계산 */
 
