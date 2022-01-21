@@ -23,7 +23,7 @@
     <item>
         <shape android:shape="rectangle" >
             <!-- fill the inside in the color you want (could also be a gradient again if you want to, just change solid to gradient and enter angle, start, maybe center, and end color) -->
-            <solid android:color="#fff" />
+            <solid android:color="@color/kus_background" />
             <corners android:radius="32dp" />
         </shape>
     </item>

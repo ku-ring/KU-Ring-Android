@@ -53,15 +53,6 @@ fun View.pointColor(isNew: Boolean, isRead: Boolean, isSubscribing: Boolean) {
     }
 }
 
-@BindingAdapter("backgroundGrayIf")
-fun View.backgroundGrayIf(value: Boolean) {
-    if (value) {
-        setBackgroundColor(Color.parseColor("#14000000"))
-    } else {
-        setBackgroundColor(Color.parseColor("#ffffff"))
-    }
-}
-
 @BindingAdapter("textColorGrayIf")
 fun TextView.textColorGrayIf(value: Boolean) {
     if (value) {
@@ -93,9 +84,9 @@ fun Button.enableFeedbackButtonIf(value: Boolean) {
 fun Button.disableStartButtonIf(value: Boolean) {
     if (value) {
         background = ContextCompat.getDrawable(this.context, R.drawable.button_white_disabled)
-        setTextColor(Color.parseColor("#3dbd80"))
+        setTextColor(ContextCompat.getColor(this.context, R.color.kus_green))
     } else {
         background = ContextCompat.getDrawable(this.context, R.drawable.button_white)
-        setTextColor(Color.parseColor("#036b3f"))
+        setTextColor(ContextCompat.getColor(this.context, R.color.kus_secondary_green))
     }
 }

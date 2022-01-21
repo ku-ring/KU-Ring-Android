@@ -8,6 +8,7 @@
 
     <!--  common  -->
     <color name="transparent">#00000000</color>
+    <color name="half_transparent">#80ffffff</color>
 
     <!--  KUS  -->
     <color name="kus_background">#ffffff</color>
