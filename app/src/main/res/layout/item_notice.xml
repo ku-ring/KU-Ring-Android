@@ -41,7 +41,7 @@
             android:fontFamily="@font/sfpro_display_regular"
             android:maxLines="2"
             android:text="@{noticeItem.subject}"
-            android:textColor="@color/black"
+            android:textColor="@color/kus_primary"
             android:textSize="15sp"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="2021-2학기 중간고사 이후 수업 운영 가이드라인" />
@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             timeMillis="@{noticeItem.postedDate}"
             textColorGrayIf="@{noticeItem.isRead}"
-            android:textColor="@color/kus_dark_gray"
+            android:textColor="@color/kus_gray"
             app:layout_constraintStart_toStartOf="@+id/notice_title_txt"
             app:layout_constraintTop_toBottomOf="@+id/notice_title_txt"
             android:layout_marginTop="6dp"

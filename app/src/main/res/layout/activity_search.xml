@@ -13,7 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="@color/kus_background">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/search_header_layout"
@@ -34,7 +34,7 @@
                 android:src="@drawable/ic_back"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/black" />
+                app:tint="@color/kus_primary" />
 
             <TextView
                 android:id="@+id/search_header_txt"
@@ -43,7 +43,7 @@
                 android:layout_marginStart="28dp"
                 android:fontFamily="@font/notosanskr_medium"
                 android:text="@string/search"
-                android:textColor="@color/black"
+                android:textColor="@color/kus_primary"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="@+id/search_back_bt"
                 app:layout_constraintStart_toEndOf="@+id/search_back_bt"
@@ -71,8 +71,8 @@
                 android:paddingTop="10dp"
                 android:paddingEnd="20dp"
                 android:paddingBottom="10dp"
-                android:textColor="@color/black"
-                android:textColorHint="@color/kus_primary_30"
+                android:textColor="@color/kus_primary"
+                android:textColorHint="@color/kus_secondary_green"
                 android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@+id/search_header_txt" />
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -89,7 +89,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/search_header_layout"
             app:tabIndicator="@drawable/indicator_home_header"
-            app:tabIndicatorColor="@color/kus_primary_30"
+            app:tabIndicatorColor="@color/kus_secondary_green"
             app:tabIndicatorFullWidth="true"
             app:tabIndicatorGravity="center"
             app:tabIndicatorHeight="40dp"
@@ -98,9 +98,9 @@
             app:tabPaddingEnd="24dp"
             app:tabPaddingStart="24dp"
             app:tabRippleColor="@null"
-            app:tabSelectedTextColor="@color/kus_highlight"
+            app:tabSelectedTextColor="@color/kus_label_green"
             app:tabTextAppearance="@style/tab_text"
-            app:tabTextColor="@color/dark_gray">
+            app:tabTextColor="@color/kus_gray">
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
@@ -133,7 +133,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:text="@string/search_advice"
-            android:textColor="@color/kus_dark_gray"
+            android:textColor="@color/kus_gray"
             android:textSize="15sp"
             android:gravity="center"
             android:fontFamily="@font/sfpro_display_regular"

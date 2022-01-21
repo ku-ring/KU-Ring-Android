@@ -65,9 +65,9 @@ fun View.backgroundGrayIf(value: Boolean) {
 @BindingAdapter("textColorGrayIf")
 fun TextView.textColorGrayIf(value: Boolean) {
     if (value) {
-        setTextColor(Color.parseColor("#ababab"))
+        setTextColor(this.context.getColor(R.color.kus_tertiary))
     } else {
-        setTextColor(Color.parseColor("#000000"))
+        setTextColor(this.context.getColor(R.color.kus_primary))
     }
 }
 
