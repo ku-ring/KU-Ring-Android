@@ -6,6 +6,7 @@ import com.ku_stacks.ku_ring.data.db.PushDao
 import com.ku_stacks.ku_ring.repository.NoticeRepository
 import com.ku_stacks.ku_ring.repository.PushRepository
 import com.ku_stacks.ku_ring.repository.SubscribeRepository
+import com.ku_stacks.ku_ring.repository.SubscribeRepositoryImpl
 import com.ku_stacks.ku_ring.util.PreferenceUtil
 import dagger.Module
 import dagger.Provides
@@ -41,6 +42,6 @@ object RepositoryModule {
         noticeClient: NoticeClient,
         pref: PreferenceUtil
     ): SubscribeRepository {
-        return SubscribeRepository(noticeClient, pref)
+        return SubscribeRepositoryImpl(noticeClient, pref)
     }
 }
