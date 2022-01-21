@@ -27,7 +27,7 @@
             android:fontFamily="@font/sfpro_display_regular"
             android:minWidth="88dp"
             android:text="@{category}"
-            android:textColor="@color/white"
+            android:textColor="@color/kus_background"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

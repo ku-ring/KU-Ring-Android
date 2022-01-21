@@ -15,7 +15,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@color/kus_background"
         android:orientation="vertical">
 
         <TextView
@@ -33,7 +33,7 @@
             android:paddingTop="0dp"
             android:paddingBottom="2dp"
             android:text="@{DateUtil.convertDateToDay(NotificationItem.postedDate)}"
-            android:textColor="@color/kus_dark_gray"
+            android:textColor="@color/kus_gray"
             android:textSize="15sp"
             tools:text="2021.10.01 (금)" />
 
@@ -64,7 +64,7 @@
                 android:fontFamily="@font/sfpro_display_regular"
                 android:maxLines="2"
                 android:text="@{NotificationItem.subject}"
-                android:textColor="@color/black"
+                android:textColor="@color/kus_primary"
                 android:textSize="15sp"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="2021-2학기 중간고사 이후 수업 운영 가이드라인" />
@@ -77,7 +77,7 @@
                 android:layout_marginTop="2dp"
                 android:fontFamily="@font/sfpro_display_regular"
                 android:text="@{NotificationItem.category}"
-                android:textColor="@color/kus_dark_gray"
+                android:textColor="@color/kus_gray"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/notification_subject_txt"

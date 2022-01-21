@@ -5,7 +5,7 @@
 <!--        android:endColor="#3abb7d" />-->
 
     <solid
-        android:color="@color/kus_primary_100" />
+        android:color="@color/kus_green" />
     <corners
         android:radius="32dp" />
 </shape>

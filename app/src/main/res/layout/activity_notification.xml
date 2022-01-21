@@ -4,7 +4,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/kus_background">
 
         <ImageView
             android:id="@+id/back_img"
@@ -16,7 +17,7 @@
             android:background="@null"
             android:padding="4dp"
             android:src="@drawable/ic_back"
-            app:tint="@color/black"
+            app:tint="@color/kus_primary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -26,7 +27,7 @@
             android:layout_marginStart="28dp"
             android:fontFamily="@font/notosanskr_medium"
             android:text="@string/notification_my"
-            android:textColor="@color/black"
+            android:textColor="@color/kus_primary"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@+id/back_img"
             app:layout_constraintStart_toEndOf="@+id/back_img"
@@ -52,7 +53,7 @@
             android:fontFamily="@font/sfpro_display_medium"
             android:gravity="center"
             android:text="@string/notification_alert"
-            android:textColor="@color/kus_dark_gray"
+            android:textColor="@color/kus_gray"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -84,7 +85,7 @@
             android:fontFamily="@font/sfpro_display_regular"
             android:gravity="center"
             android:text="@string/notification_setting"
-            android:textColor="@color/white"
+            android:textColor="@color/kus_background"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent" />
 

@@ -17,7 +17,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="@color/kus_background"
             android:minHeight="56dp">
 
             <ImageView
@@ -41,7 +41,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/black" />
+                app:tint="@color/kus_primary" />
 
             <ImageButton
                 android:id="@+id/search_img"
@@ -54,7 +54,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/menu_img"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/black" />
+                app:tint="@color/kus_primary" />
 
             <ImageButton
                 android:id="@+id/bell_img"
@@ -67,7 +67,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/search_img"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/black" />
+                app:tint="@color/kus_primary" />
 
             <TextView
                 android:id="@+id/noti_count_bt"
@@ -82,7 +82,7 @@
                 android:paddingTop="2dp"
                 android:paddingEnd="4dp"
                 android:paddingBottom="2dp"
-                android:textColor="@color/white"
+                android:textColor="@color/kus_background"
                 android:textSize="8sp"
                 app:layout_constraintStart_toStartOf="@+id/bell_img"
                 app:layout_constraintTop_toTopOf="@+id/bell_img"
@@ -95,22 +95,22 @@
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@color/kus_background"
         android:clipToPadding="false"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:overScrollMode="never"
         app:tabIndicator="@drawable/indicator_home_header"
-        app:tabIndicatorColor="@color/kus_primary_30"
+        app:tabIndicatorColor="@color/kus_secondary_green"
         app:tabIndicatorFullWidth="true"
         app:tabIndicatorGravity="center"
         app:tabIndicatorHeight="36dp"
         app:tabInlineLabel="true"
         app:tabMode="scrollable"
         app:tabRippleColor="@null"
-        app:tabSelectedTextColor="@color/kus_highlight"
+        app:tabSelectedTextColor="@color/kus_label_green"
         app:tabTextAppearance="@style/tab_text"
-        app:tabTextColor="@color/dark_gray">
+        app:tabTextColor="@color/kus_gray">
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"

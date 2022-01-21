@@ -17,7 +17,7 @@
         android:roundIcon="@drawable/ic_ku_ring_launcher_round"
         android:usesCleartextTraffic="true"
         android:supportsRtl="true"
-        android:theme="@style/WhiteTheme">
+        android:theme="@style/Theme.KURing">
 
         <activity
             android:name=".ui.splash.SplashActivity"

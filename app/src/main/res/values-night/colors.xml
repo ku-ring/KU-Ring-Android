@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--  KUS  -->
+    <color name="kus_background">#000000</color>
+    <color name="kus_skeleton">#82ffffff</color>
+
+    <color name="kus_green">#3dbd80</color>
+    <color name="kus_green_50">#803dbd80</color>
+    <color name="kus_secondary_green">#036b3f</color>
+    <color name="kus_gray">#b6b6b6</color>
+    <color name="kus_secondary_gray">#535b5d</color>
+    <color name="kus_pink">#e45b78</color>
+
+    <color name="kus_primary">#ffffff</color>
+    <color name="kus_secondary">#b6b6b6</color>
+    <color name="kus_tertiary">#9f9f9f</color>
+    <color name="kus_label_green">#c6ecda</color>
+</resources>

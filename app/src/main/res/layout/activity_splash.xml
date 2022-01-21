@@ -11,7 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/kus_primary_100"
+        android:background="@color/kus_green"
         tools:viewBindingIgnore="true">
 
         <ImageView
@@ -30,7 +30,7 @@
             android:layout_marginTop="64dp"
             android:fontFamily="@font/sfpro_display_regular"
             android:text="@{@string/ku_ring_version(BuildConfig.VERSION_NAME)}"
-            android:textColor="@color/white"
+            android:textColor="@color/kus_background"
             android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +43,7 @@
             android:layout_marginBottom="32dp"
             android:fontFamily="@font/sfpro_display_regular"
             android:text="@string/ku_ring_rights"
-            android:textColor="@color/white"
+            android:textColor="@color/kus_background"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

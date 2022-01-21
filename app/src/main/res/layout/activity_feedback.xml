@@ -14,7 +14,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/feedback_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/kus_background">
 
         <ImageButton
             android:id="@+id/close_img"
@@ -36,7 +37,7 @@
             android:layout_marginStart="28dp"
             android:fontFamily="@font/notosanskr_medium"
             android:text="@string/feedback_send_content"
-            android:textColor="@color/black"
+            android:textColor="@color/kus_primary"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@+id/close_img"
             app:layout_constraintStart_toEndOf="@+id/close_img"
@@ -68,7 +69,7 @@
                 android:fontFamily="@font/sfpro_display_medium"
                 android:gravity="center"
                 android:text="@string/feedback_title"
-                android:textColor="@color/kus_dark_gray"
+                android:textColor="@color/kus_gray"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -92,8 +93,8 @@
                 android:paddingEnd="20dp"
                 android:paddingBottom="20dp"
                 android:text="@={viewModel.feedbackContent}"
-                android:textColor="@color/kus_dark_gray"
-                android:textColorHint="@color/kus_primary_30"
+                android:textColor="@color/kus_gray"
+                android:textColorHint="@color/kus_secondary_green"
                 android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@+id/feedback_title_txt" />
 
@@ -103,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:fontFamily="@font/sfpro_display_regular"
-                android:textColor="@color/kus_primary_100"
+                android:textColor="@color/kus_green"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="@+id/feedback_et"
                 app:layout_constraintTop_toBottomOf="@+id/feedback_et"
@@ -123,7 +124,7 @@
                 android:paddingTop="4dp"
                 android:paddingBottom="4dp"
                 android:text="@string/feedback_send_content"
-                android:textColor="@color/white"
+                android:textColor="@color/kus_background"
                 android:textSize="15sp"
                 app:layout_constraintTop_toBottomOf="@+id/feedback_advice_txt" />
         </androidx.constraintlayout.widget.ConstraintLayout>

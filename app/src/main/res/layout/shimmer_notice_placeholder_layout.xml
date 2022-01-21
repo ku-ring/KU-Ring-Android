@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="20dp"
-        android:background="@color/kus_gray"
+        android:background="@color/kus_secondary_gray"
         android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,7 +24,7 @@
         android:layout_marginStart="40dp"
         android:layout_marginEnd="80dp"
         android:layout_marginTop="6dp"
-        android:background="@color/kus_gray"
+        android:background="@color/kus_secondary_gray"
         android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/notice_shimmer_subject_line1_txt" />
@@ -36,7 +36,7 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="40dp"
-        android:background="@color/kus_gray"
+        android:background="@color/kus_secondary_gray"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/notice_shimmer_subject_line2_txt" />
@@ -45,7 +45,7 @@
         android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:background="@color/kus_gray"
+        android:background="@color/kus_secondary_gray"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@id/notice_shimmer_category_txt"
         app:layout_constraintStart_toEndOf="@id/notice_shimmer_category_txt"
