@@ -22,7 +22,7 @@ object RepositoryModule {
         noticeDao: NoticeDao,
         pref: PreferenceUtil
     ): NoticeRepository {
-        return NoticeRepository(noticeClient, noticeDao, pref)
+        return NoticeRepositoryImpl(noticeClient, noticeDao, pref)
     }
 
     @Provides
