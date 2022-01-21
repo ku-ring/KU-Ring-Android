@@ -1,30 +1,17 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.KURing" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_700</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
-    </style>
-
-    <style name="WhiteTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimaryDark">@color/white</item>
+    <style name="Theme.KURing" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimaryDark">@color/kus_background</item>
         <item name="android:windowLightStatusBar">true</item>
-        <item name="colorPrimary">@color/kus_highlight</item>
-        <item name="colorPrimaryVariant">@color/kus_highlight</item>
+        <item name="colorPrimary">@color/kus_label_green</item>
+        <item name="colorPrimaryVariant">@color/kus_label_green</item>
+        <item name="android:windowBackground">@color/kus_background</item>
     </style>
 
     <style name="SplashTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <item name="colorPrimaryDark">@color/kus_primary_100</item>
-        <item name="android:windowBackground">@color/kus_primary_100</item>
-        <item name="android:navigationBarColor">@color/kus_primary_100</item>
+        <item name="colorPrimaryDark">@color/kus_green</item>
+        <item name="android:windowBackground">@color/kus_green</item>
+        <item name="android:navigationBarColor">@color/kus_green</item>
     </style>
 
     <style name="tab_text" parent="@android:style/TextAppearance.Widget.TabWidget">
@@ -34,17 +21,17 @@
 
     <style name="OpenSourceMenuTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimaryDark">@color/black</item>
-        <item name="colorPrimary">@color/kus_primary_100</item>
-        <item name="colorPrimaryVariant">@color/white</item>
-        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/kus_primary</item>
+        <item name="colorPrimary">@color/kus_green</item>
+        <item name="colorPrimaryVariant">@color/kus_background</item>
+        <item name="colorOnPrimary">@color/kus_background</item>
 
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/kus_primary_100</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorSecondary">@color/kus_green</item>
+        <item name="colorOnSecondary">@color/kus_primary</item>
 
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:statusBarColor">@color/kus_background</item>
         <item name="android:windowLightStatusBar">true</item>
 
         <!--    actionbar nav icon    -->
@@ -61,7 +48,7 @@
     </style>
 
     <style name="Toolbar.Button.Navigation.Tinted" parent="Widget.AppCompat.Toolbar.Button.Navigation">
-        <item name="tint">@color/white</item>
+        <item name="tint">@color/kus_background</item>
     </style>
 
     <style name="OpenSourceItemAnimation">
@@ -72,15 +59,14 @@
     </style>
 
     <style name="SettingNotificationTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <item name="colorPrimaryDark">@color/kus_primary_100</item>
+        <item name="colorPrimaryDark">@color/kus_green</item>
         <item name="android:windowLightStatusBar">false</item>
-        <item name="colorPrimary">@color/kus_primary_100</item>
-        <item name="colorPrimaryVariant">@color/kus_highlight</item>
+        <item name="colorPrimary">@color/kus_green</item>
+        <item name="colorPrimaryVariant">@color/kus_label_green</item>
     </style>
 
     <!--  Staff BottomSheet  -->
-    <style name="AppBottomSheetDialogTheme"
-        parent="Theme.Design.Light.BottomSheetDialog">
+    <style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/AppModalStyle</item>
     </style>
 
