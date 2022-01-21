@@ -37,10 +37,10 @@ class SettingNotificationViewModel @Inject constructor(
 
     private var fcmToken: String? = null
 
-    //초기 설정이 끝나기 전에 뒤로가기를 하면 빈 목록을 구독하는 경우를 방지하기 위함
+    /** 초기 설정이 끝나기 전에 뒤로가기를 하면 빈 목록을 구독하는 경우를 방지하기 위함 */
     private var initFlag = false
 
-    //첫 앱 구동자에게 보여지는 온보딩 후의 푸시 세팅을 위한 분기처리 용도
+    /** 첫 앱 구동자에게 보여지는 온보딩 후의 푸시 세팅을 위한 분기처리 용도 */
     var firstRunFlag = false
 
     init {
@@ -79,9 +79,9 @@ class SettingNotificationViewModel @Inject constructor(
 
     }
 
-    /*
+    /**
     이 함수는 background 에서 이어서 작동해야하기 때문에
-    disposable에 추가하지 않았음. observable은 Single 이다.
+    disposable 에 추가하지 않았음. observable 은 Single 이다.
      */
     fun saveSubscribe() {
         if(initFlag == false) {
@@ -167,10 +167,9 @@ class SettingNotificationViewModel @Inject constructor(
         initFlag = true
     }
 
-    /*
-    안드로이드에서 priority queue 에서 Comparator 는 api24부터
-    지원해서(현재 minSdk = 23) 변경될때마다 정렬하는 방식 채택
-    getPriority()가 낮을수록 앞쪽으로 정렬
+    /**
+     * 변경될때마다 정렬하는 방식 채택
+     * getPriority()가 낮을수록 앞쪽으로 정렬
      */
     object CategoryComparator : Comparator<String> {
         private fun getPriority(category: String): Int {
