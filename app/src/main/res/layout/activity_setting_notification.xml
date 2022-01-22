@@ -25,7 +25,7 @@
             android:src="@drawable/ic_close"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/kus_background" />
+            app:tint="@color/white" />
 
         <ImageButton
             android:id="@+id/setting_notification_rollback_bt"
@@ -38,7 +38,7 @@
             android:src="@drawable/ic_undo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/kus_background" />
+            app:tint="@color/white" />
 
         <ImageView
             android:id="@+id/setting_notification_bell_img"
@@ -50,7 +50,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/kus_background" />
+            app:tint="@color/white" />
 
         <TextView
             android:id="@+id/setting_notification_explain_txt"
@@ -64,7 +64,7 @@
             android:paddingTop="18dp"
             android:paddingBottom="18dp"
             android:text="@string/setting_notification_explain"
-            android:textColor="@color/kus_label_color"
+            android:textColor="@color/white"
             android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -89,7 +89,7 @@
             android:layout_marginStart="90dp"
             android:layout_marginTop="45dp"
             android:layout_marginEnd="90dp"
-            android:background="@color/kus_background"
+            android:background="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/subscribe_recyclerview" />
@@ -118,7 +118,7 @@
             android:fontFamily="@font/sfpro_display_regular"
             android:gravity="center"
             android:text="@string/setting_notification_start"
-            android:textColor="@color/kus_background"
+            android:textColor="@color/white"
             android:textSize="15sp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent" />
