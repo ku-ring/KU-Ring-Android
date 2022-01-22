@@ -1,10 +1,7 @@
 package com.ku_stacks.ku_ring.util
 
-import android.content.Context
-import android.widget.Toast
+import android.view.View
+import com.google.android.material.snackbar.Snackbar
 
-fun Context.showToast(msg: String) =
-    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
-
-fun Context.showToastLong(msg: String) =
-    Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
+fun View.showSnackBar(msg: String) =
+    Snackbar.make(this, msg, Snackbar.LENGTH_SHORT).show()
