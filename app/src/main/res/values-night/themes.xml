@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.KURing" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.KURing" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="colorPrimaryDark">@color/kus_background</item>
         <item name="android:windowLightStatusBar">false</item>
         <item name="colorPrimary">@color/kus_label_green</item>
