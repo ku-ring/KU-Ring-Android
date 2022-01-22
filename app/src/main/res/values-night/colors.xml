@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--  KUS  -->
-    <color name="kus_background">#000000</color>
+    <color name="kus_background">#ff1c1c1e</color>
     <color name="kus_skeleton">#82ffffff</color>
 
     <color name="kus_green">#3dbd80</color>
