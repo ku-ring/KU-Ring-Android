@@ -118,7 +118,6 @@
             android:fontFamily="@font/sfpro_display_regular"
             android:gravity="center"
             android:text="@string/setting_notification_start"
-            android:textColor="@color/white"
             android:textSize="15sp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent" />

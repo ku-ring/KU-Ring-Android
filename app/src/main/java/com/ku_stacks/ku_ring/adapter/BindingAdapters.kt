@@ -87,6 +87,6 @@ fun Button.disableStartButtonIf(value: Boolean) {
         setTextColor(ContextCompat.getColor(this.context, R.color.kus_green))
     } else {
         background = ContextCompat.getDrawable(this.context, R.drawable.button_white)
-        setTextColor(ContextCompat.getColor(this.context, R.color.kus_secondary_green))
+        setTextColor(ContextCompat.getColor(this.context, R.color.kus_green))
     }
 }
