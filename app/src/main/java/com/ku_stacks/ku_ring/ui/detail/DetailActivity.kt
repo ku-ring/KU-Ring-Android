@@ -1,21 +1,13 @@
 package com.ku_stacks.ku_ring.ui.detail
 
-import android.Manifest
 import android.annotation.SuppressLint
-import android.app.DownloadManager
-import android.content.IntentFilter
-import android.content.pm.PackageManager
-import android.os.Build
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.webkit.*
 import android.widget.ProgressBar
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.util.showSnackBar
 import timber.log.Timber
 
 /*
@@ -37,15 +29,6 @@ class DetailActivity : AppCompatActivity() {
 
     private lateinit var webView: WebView
     private lateinit var progressBar: ProgressBar
-    private val viewModel by viewModels<DetailViewModel>()
-
-    private val requestReadExternalStorage =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-            when (it) {
-                true -> webView.showSnackBar(getString(R.string.valid_external_storage_permission_msg))
-                else -> webView.showSnackBar(getString(R.string.invalid_external_storage_permission_msg))
-            }
-        }
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,7 +41,18 @@ class DetailActivity : AppCompatActivity() {
         webView = findViewById(R.id.detail_webView)
         progressBar = findViewById(R.id.detail_progressbar)
 
-        webView.webViewClient = WebViewClient() // 클릭시 새창 안뜨게
+        webView.webViewClient = object : WebViewClient() {
+            override fun shouldOverrideUrlLoading(
+                view: WebView,
+                request: WebResourceRequest
+            ): Boolean {
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = request.url
+                Timber.e("request url : ${request.url}")
+                startActivity(intent)
+                return true
+            }
+        }
 
         webView.settings.apply {
             builtInZoomControls = false
@@ -77,54 +71,8 @@ class DetailActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
-        observeEvent()
-
-        webView.setDownloadListener { downloadUrl, userAgent, contentDisposition, mimetype, _ ->
-            if (!haveStoragePermission()) {
-                requestReadExternalStorage.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                return@setDownloadListener
-            }
-            viewModel.startDownload(downloadUrl, userAgent, contentDisposition, mimetype)
-        }
-
         url?.let {
             webView.loadUrl(it) //웹뷰에 표시할 웹사이트 주소, 웹뷰 시작
-        }
-    }
-
-    private fun observeEvent() {
-        viewModel.snackBarEvent.observe(this) {
-            webView.showSnackBar(getString(it))
-        }
-    }
-
-    private fun haveStoragePermission(): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            true
-        } else {
-            ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            ) == PackageManager.PERMISSION_GRANTED
-        }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        val intentFilter = IntentFilter().apply {
-            addAction(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
-        }
-        this@DetailActivity.registerReceiver(viewModel.downloadReceiver, intentFilter)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        try {
-            this@DetailActivity.unregisterReceiver(viewModel.downloadReceiver)
-            Timber.e("downloadReceiver unregistered")
-        } catch (e: Exception) {
-            Timber.e("downloadReceiver is not registered")
         }
     }
 
