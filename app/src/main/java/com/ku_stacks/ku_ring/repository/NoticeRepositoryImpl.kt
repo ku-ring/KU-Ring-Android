@@ -104,7 +104,7 @@ class NoticeRepositoryImpl @Inject constructor(
                 pageSize = 20,  /** 이것보다 PagingSource 에서 ItemCount 가 중요함 */
                 enablePlaceholders = true
             ),
-            pagingSourceFactory = { NoticePagingSource(type, noticeClient.noticeService) }
+            pagingSourceFactory = { NoticePagingSource(type, noticeClient) }
         ).flowable
     }
 
