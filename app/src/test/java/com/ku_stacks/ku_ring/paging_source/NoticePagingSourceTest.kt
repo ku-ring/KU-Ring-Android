@@ -14,13 +14,12 @@ import org.junit.Test
 import org.mockito.Mockito
 
 class NoticePagingSourceTest {
-    //참고 자료 : https://github.com/android/architecture-components-samples/blob/main/PagingWithNetworkSample/app/src/test/java/com/android/example/paging/pagingwithnetwork/reddit/repository/SubredditPagingSourceTest.kt
-
-    @get:Rule
-    val instanceExecutorRule = InstantTaskExecutorRule()
 
     private val client: NoticeClient = Mockito.mock(NoticeClient::class.java)
     private lateinit var noticePagingSource: NoticePagingSource
+
+    @get:Rule
+    val instanceExecutorRule = InstantTaskExecutorRule()
 
     @Before
     fun setUp() {
@@ -28,7 +27,7 @@ class NoticePagingSourceTest {
     }
 
     @Test
-    fun `load PagingSource Refresh Successful Test`() {
+    fun `load PagingSource Refresh Success Test`() {
         // given
         val mockData = MockUtil.mockNoticeList()
         Mockito.`when`(client.fetchNoticeList("bch", 0, 20)).thenReturn(Single.just(mockData))
@@ -62,7 +61,7 @@ class NoticePagingSourceTest {
     }
 
     @Test
-    fun `load PagingSource Append Successful Test`() {
+    fun `load PagingSource Append Success Test`() {
         // given
         val mockData = MockUtil.mockNoticeList()
         Mockito.`when`(client.fetchNoticeList("bch", 20, 20)).thenReturn(Single.just(mockData))
