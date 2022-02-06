@@ -115,6 +115,7 @@ dependencies {
 
     //coroutine
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.3"
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.3'
 
     //rxJava
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
