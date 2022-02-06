@@ -10,7 +10,7 @@ import javax.inject.Inject
 class NoticeClient @Inject constructor(
     val noticeService: NoticeService
 ) {
-    fun fetchNotice(
+    fun fetchNoticeList(
         type: String,
         offset: Int,
         max: Int
