@@ -3,6 +3,7 @@ package com.ku_stacks.ku_ring
 import com.ku_stacks.ku_ring.data.api.response.NoticeListResponse
 import com.ku_stacks.ku_ring.data.api.response.NoticeResponse
 import com.ku_stacks.ku_ring.data.db.NoticeEntity
+import com.ku_stacks.ku_ring.data.db.PushEntity
 
 object MockUtil {
 
@@ -14,7 +15,7 @@ object MockUtil {
         noticeResponse = listOf(mockNoticeResponse())
     )
 
-    fun mockNoticeResponse() = NoticeResponse(
+    private fun mockNoticeResponse() = NoticeResponse(
         articleId = "5b4a11b",
         postedDate = "20220203",
         subject = "2022학년도 1학기 재입학 합격자 유의사항 안내",
@@ -33,5 +34,15 @@ object MockUtil {
         category = "bachelor",
         isNew = false,
         isRead = true
+    )
+
+    fun mockPushEntity() = PushEntity(
+        articleId = "5b4a11b",
+        category = "bachelor",
+        postedDate = "!",
+        subject = "!",
+        baseUrl = "!",
+        isNew = false,
+        receivedDate = "!"
     )
 }
