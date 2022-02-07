@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.ui.home.category._1_Scholarship
+package com.ku_stacks.ku_ring.ui.home.category.stage4_Student
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,14 +11,14 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class ScholarshipViewModel @Inject constructor(
+class StudentViewModel @Inject constructor(
     private val repository: NoticeRepository
 ): ViewModel() {
 
     private var currentNoticeResult: Flowable<PagingData<Notice>>? = null
 
     init {
-        Timber.e("ScholarshipViewModel injected")
+        Timber.e("StudentViewModel injected")
     }
 
     fun getNotices(): Flowable<PagingData<Notice>> {
@@ -26,7 +26,7 @@ class ScholarshipViewModel @Inject constructor(
         if (lastResult != null) {
             return lastResult
         }
-        val newResult = repository.getNotices("sch", viewModelScope)
+        val newResult = repository.getNotices("stu", viewModelScope)
         currentNoticeResult = newResult
         return newResult
     }

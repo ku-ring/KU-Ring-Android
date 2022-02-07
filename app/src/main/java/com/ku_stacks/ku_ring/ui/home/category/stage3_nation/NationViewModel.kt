@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.ui.home.category._2_employ
+package com.ku_stacks.ku_ring.ui.home.category.stage3_nation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,14 +11,14 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class EmployViewModel @Inject constructor(
+class NationViewModel @Inject constructor(
     private val repository: NoticeRepository
 ): ViewModel() {
 
     private var currentNoticeResult: Flowable<PagingData<Notice>>? = null
 
     init {
-        Timber.e("EmployViewModel injected")
+        Timber.e("NationViewModel injected")
     }
 
     fun getNotices(): Flowable<PagingData<Notice>> {
@@ -26,7 +26,7 @@ class EmployViewModel @Inject constructor(
         if (lastResult != null) {
             return lastResult
         }
-        val newResult = repository.getNotices("emp", viewModelScope)
+        val newResult = repository.getNotices("nat", viewModelScope)
         currentNoticeResult = newResult
         return newResult
     }

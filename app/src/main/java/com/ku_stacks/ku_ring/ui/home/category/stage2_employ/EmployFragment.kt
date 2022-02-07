@@ -1,21 +1,15 @@
-package com.ku_stacks.ku_ring.ui.home.category._0_Bachelor
+package com.ku_stacks.ku_ring.ui.home.category
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
-import com.ku_stacks.ku_ring.analytics.EventAnalytics
-import com.ku_stacks.ku_ring.ui.home.category.HomeBaseFragment
+import com.ku_stacks.ku_ring.ui.home.category.stage2_employ.EmployViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
-class BachelorFragment : HomeBaseFragment() {
+class EmployFragment : HomeBaseFragment(){
 
-    private val viewModel by viewModels<BachelorViewModel>()
-
-    @Inject
-    lateinit var analytics : EventAnalytics
+    private val viewModel by viewModels<EmployViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

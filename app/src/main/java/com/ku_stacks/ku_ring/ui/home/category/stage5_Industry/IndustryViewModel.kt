@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.ui.home.category._5_Industry
+package com.ku_stacks.ku_ring.ui.home.category.stage5_Industry
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
