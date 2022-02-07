@@ -37,13 +37,15 @@ https://play.google.com/store/apps/details?id=com.ku_stacks.ku_ring
 - Retrofit2 & RxJava3
 - java-WebSocket
 
-### Test
- - Junit4
- - Robolectric
- - Mockito
-
 ### other Library
 - Timber - Debug 환경일 때는 Log, Release 환경일 때는 Crashlytics
 - Firebase Crashlytics
 - Firebase Analytics
-- LeakCanary
+- LeakCanary - 메모리 누수 탐지
+
+### Unit Test
+ - Junit4
+ - Robolectric
+ - Mockito
+
+<img src="https://github.com/KU-Stacks/KU-Ring-Android/blob/main/preview/%EC%9C%A0%EB%8B%9B%20%ED%85%8C%EC%8A%A4%ED%8A%B8.JPG" width="90%"/>
