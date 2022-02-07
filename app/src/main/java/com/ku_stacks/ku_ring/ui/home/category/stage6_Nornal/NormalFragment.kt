@@ -1,9 +1,8 @@
-package com.ku_stacks.ku_ring.ui.home.category._6_Nornal
+package com.ku_stacks.ku_ring.ui.home.category.stage6_Nornal
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import com.ku_stacks.ku_ring.ui.home.category.HomeBaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 

@@ -1,23 +1,21 @@
-package com.ku_stacks.ku_ring.ui.home.category._7_Library
+package com.ku_stacks.ku_ring.ui.home.category.stage4_Student
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import com.ku_stacks.ku_ring.ui.home.category.HomeBaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class LibraryFragment : HomeBaseFragment(){
+class StudentFragment : HomeBaseFragment(){
 
-    private val viewModel by viewModels<LibraryViewModel>()
+    private val viewModel by viewModels<StudentViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        disposable.add(
-            viewModel.getNotices().subscribe {
-                pagingAdapter.submitData(lifecycle, it)
-            })
+        disposable.add(viewModel.getNotices().subscribe {
+            pagingAdapter.submitData(lifecycle, it)
+        })
     }
 }

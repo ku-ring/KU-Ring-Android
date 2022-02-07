@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.ui.home.category._7_Library
+package com.ku_stacks.ku_ring.ui.home.category.stage2_employ
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,14 +11,14 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class LibraryViewModel @Inject constructor(
+class EmployViewModel @Inject constructor(
     private val repository: NoticeRepository
 ): ViewModel() {
 
     private var currentNoticeResult: Flowable<PagingData<Notice>>? = null
 
     init {
-        Timber.e("LibraryViewModel injected")
+        Timber.e("EmployViewModel injected")
     }
 
     fun getNotices(): Flowable<PagingData<Notice>> {
@@ -26,7 +26,7 @@ class LibraryViewModel @Inject constructor(
         if (lastResult != null) {
             return lastResult
         }
-        val newResult = repository.getNotices("lib", viewModelScope)
+        val newResult = repository.getNotices("emp", viewModelScope)
         currentNoticeResult = newResult
         return newResult
     }

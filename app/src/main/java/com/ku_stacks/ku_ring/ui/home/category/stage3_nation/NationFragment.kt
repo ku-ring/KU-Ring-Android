@@ -1,16 +1,15 @@
-package com.ku_stacks.ku_ring.ui.home.category
+package com.ku_stacks.ku_ring.ui.home.category.stage3_nation
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
-import com.ku_stacks.ku_ring.ui.home.category._1_Scholarship.ScholarshipViewModel
+import com.ku_stacks.ku_ring.ui.home.category.HomeBaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ScholarshipFragment: HomeBaseFragment() {
+class NationFragment : HomeBaseFragment(){
 
-    private val viewModel by viewModels<ScholarshipViewModel>()
+    private val viewModel by viewModels<NationViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

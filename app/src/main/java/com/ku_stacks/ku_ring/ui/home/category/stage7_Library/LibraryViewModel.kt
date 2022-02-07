@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.ui.home.category._3_nation
+package com.ku_stacks.ku_ring.ui.home.category.stage7_Library
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,14 +11,14 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class NationViewModel @Inject constructor(
+class LibraryViewModel @Inject constructor(
     private val repository: NoticeRepository
 ): ViewModel() {
 
     private var currentNoticeResult: Flowable<PagingData<Notice>>? = null
 
     init {
-        Timber.e("NationViewModel injected")
+        Timber.e("LibraryViewModel injected")
     }
 
     fun getNotices(): Flowable<PagingData<Notice>> {
@@ -26,7 +26,7 @@ class NationViewModel @Inject constructor(
         if (lastResult != null) {
             return lastResult
         }
-        val newResult = repository.getNotices("nat", viewModelScope)
+        val newResult = repository.getNotices("lib", viewModelScope)
         currentNoticeResult = newResult
         return newResult
     }
