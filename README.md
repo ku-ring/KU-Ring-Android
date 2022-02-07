@@ -40,6 +40,7 @@ https://play.google.com/store/apps/details?id=com.ku_stacks.ku_ring
 ### Test
  - Junit4
  - Robolectric
+ - Mockito
 
 ### other Library
 - Timber - Debug 환경일 때는 Log, Release 환경일 때는 Crashlytics
