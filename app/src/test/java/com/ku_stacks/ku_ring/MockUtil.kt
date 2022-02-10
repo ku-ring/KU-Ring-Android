@@ -7,8 +7,11 @@ import com.ku_stacks.ku_ring.data.api.response.NoticeResponse
 import com.ku_stacks.ku_ring.data.api.response.SubscribeListResponse
 import com.ku_stacks.ku_ring.data.db.NoticeEntity
 import com.ku_stacks.ku_ring.data.db.PushEntity
+import org.mockito.Mockito
 
 object MockUtil {
+
+    inline fun <reified T> mock(): T = Mockito.mock(T::class.java)
 
     fun mockNoticeList() = NoticeListResponse(
         isSuccess = true,
@@ -66,6 +69,4 @@ object MockUtil {
         resultMsg = "성공",
         resultCode = 200
     )
-
-
 }
