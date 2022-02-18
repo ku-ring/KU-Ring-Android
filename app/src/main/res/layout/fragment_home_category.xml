@@ -31,21 +31,26 @@
             </LinearLayout>
         </com.facebook.shimmer.ShimmerFrameLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/category_recyclerview"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/category_swipe_refresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/kus_background"
-            android:clipToPadding="false"
-            android:orientation="vertical"
-            android:overScrollMode="never"
-            android:padding="2dp"
-            android:requiresFadingEdge="none"
-            android:scrollbars="vertical"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:visibility="gone"
-            tools:itemCount="20"
-            tools:visibility="visible" />
+            android:layout_height="match_parent">
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/category_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/kus_background"
+                android:clipToPadding="false"
+                android:orientation="vertical"
+                android:overScrollMode="never"
+                android:padding="2dp"
+                android:requiresFadingEdge="none"
+                android:scrollbars="vertical"
+                android:visibility="gone"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="20"
+                tools:visibility="visible" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -34,23 +34,15 @@ abstract class HomeBaseFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        pagingAdapter = NoticePagingAdapter(
-            { notice ->
-                (activity as HomeActivity).updateNoticeTobeRead(notice)
-                startDetailActivity(notice)
-            },
-            { notice -> (activity as HomeActivity).insertNotice(notice.articleId, notice.category) }
-        )
-
-        binding.categoryRecyclerview.layoutManager = LinearLayoutManager(activity)
-        binding.categoryRecyclerview.adapter = pagingAdapter
-
+        setupListAdapter()
+        setupSwipeRefresh()
         observePagingState()
     }
 
     private fun observePagingState() {
         viewLifecycleOwner.lifecycleScope.launch {
             pagingAdapter.loadStateFlow.collectLatest { loadState ->
+                binding.categorySwipeRefresh.isRefreshing = loadState.refresh is LoadState.Loading
                 when (loadState.refresh) {
                     is LoadState.Loading -> {
                         showShimmerView()
@@ -66,6 +58,28 @@ abstract class HomeBaseFragment : Fragment() {
         }
     }
 
+    private fun setupListAdapter() {
+        pagingAdapter = NoticePagingAdapter(
+            { notice ->
+                (activity as HomeActivity).updateNoticeTobeRead(notice)
+                startDetailActivity(notice)
+            }, { notice ->
+                (activity as HomeActivity).insertNotice(notice.articleId, notice.category)
+            }
+        )
+
+        binding.categoryRecyclerview.apply {
+            layoutManager = LinearLayoutManager(activity)
+            adapter = pagingAdapter
+        }
+    }
+
+    private fun setupSwipeRefresh() {
+        binding.categorySwipeRefresh.setOnRefreshListener {
+            pagingAdapter.refresh()
+        }
+    }
+
     private fun showShimmerView() {
         binding.homeShimmerLayout.startShimmer()
         binding.categoryRecyclerview.visibility = View.GONE
@@ -78,11 +92,14 @@ abstract class HomeBaseFragment : Fragment() {
         binding.homeShimmerLayout.visibility = View.GONE
     }
 
-    private fun startDetailActivity(notice: Notice){
+    private fun startDetailActivity(notice: Notice) {
         val intent = Intent(requireActivity(), DetailActivity::class.java)
         intent.putExtra("url", notice.url)
         startActivity(intent)
-        requireActivity().overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
+        requireActivity().overridePendingTransition(
+            R.anim.anim_slide_right_enter,
+            R.anim.anim_stay_exit
+        )
     }
 
     override fun onDestroyView() {
@@ -90,9 +107,5 @@ abstract class HomeBaseFragment : Fragment() {
             disposable.dispose()
         }
         super.onDestroyView()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
     }
 }
