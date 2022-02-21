@@ -3,14 +3,13 @@ package com.ku_stacks.ku_ring.ui.feedback
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.databinding.ActivityFeedbackBinding
 import com.ku_stacks.ku_ring.util.AppearanceAnimator
+import com.ku_stacks.ku_ring.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 
@@ -40,10 +39,10 @@ class FeedbackActivity : AppCompatActivity() {
             finish()
         }
         viewModel.toast.observe(this) {
-            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+            showToast(it)
         }
         viewModel.toastByResource.observe(this) {
-            Toast.makeText(this, getString(it), Toast.LENGTH_SHORT).show()
+            showToast(getString(it))
         }
     }
 

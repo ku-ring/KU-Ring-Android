@@ -12,6 +12,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.data.model.Staff
 import com.ku_stacks.ku_ring.databinding.DialogStaffBottomSheetBinding
+import com.ku_stacks.ku_ring.util.showToast
 
 class StaffBottomSheet: BottomSheetDialogFragment() {
 
@@ -53,9 +54,7 @@ class StaffBottomSheet: BottomSheetDialogFragment() {
                 val clipData = ClipData.newPlainText("email", staff.email)
                 clipboardManager.setPrimaryClip(clipData)
 
-                Toast.makeText(requireContext(),
-                    getString(R.string.search_staff_copy_email_complete),
-                    Toast.LENGTH_SHORT).show()
+                requireContext().showToast(getString(R.string.search_staff_copy_email_complete))
             }
 
             binding.staffBottomSheetPhoneTxt.setOnClickListener {
@@ -63,9 +62,7 @@ class StaffBottomSheet: BottomSheetDialogFragment() {
                 val clipData = ClipData.newPlainText("phone number", staff.phone)
                 clipboardManager.setPrimaryClip(clipData)
 
-                Toast.makeText(requireContext(),
-                    getString(R.string.search_staff_copy_phone_number_complete),
-                    Toast.LENGTH_SHORT).show()
+                requireContext().showToast(getString(R.string.search_staff_copy_phone_number_complete))
             }
         }
     }
