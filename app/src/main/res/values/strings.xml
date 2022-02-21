@@ -2,6 +2,9 @@
     <string name="app_name">쿠링</string>
     <string name="app_name_debug">쿠링 Debug</string>
 
+    <!--  Common  -->
+    <string name="network_error">네트워크 문제로 연결되지 않았습니다. 다시 시도해주세요</string>
+
     <!--  splash  -->
     <string name="ku_ring_version">ver. %1$s</string>
     <string name="ku_ring_rights">© 2021 KU Ring. All rights reserved.</string>
@@ -10,6 +13,7 @@
     <string name="home_menu_icn">home menu img</string>
     <string name="home_bell_icn">home bell img</string>
     <string name="home_search_icn">home search img</string>
+    <string name="home_finish_if_back_again">"뒤로가기를 한 번 더 누르시면 종료됩니다"</string>
 
     <!--  category  -->
     <string name="bachelor">학사</string>

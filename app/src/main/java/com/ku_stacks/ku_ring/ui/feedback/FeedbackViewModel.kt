@@ -82,7 +82,8 @@ class FeedbackViewModel @Inject constructor(
                         _toast.value = it.resultMsg
                     }
                 }, {
-                    Timber.e("feedback fail")
+                    Timber.e("feedback error : $it")
+                    _toastByResource.value = R.string.network_error
                 })
         }
     }

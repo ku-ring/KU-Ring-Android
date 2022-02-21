@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
@@ -20,6 +19,7 @@ import com.ku_stacks.ku_ring.ui.home.dialog.HomeBottomSheet
 import com.ku_stacks.ku_ring.ui.my_notification.NotificationActivity
 import com.ku_stacks.ku_ring.ui.search.SearchActivity
 import com.ku_stacks.ku_ring.util.PreferenceUtil
+import com.ku_stacks.ku_ring.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import kotlinx.coroutines.launch
@@ -77,7 +77,6 @@ class HomeActivity : AppCompatActivity() {
         //binding.homeViewpager.offscreenPageLimit = pagerAdapter.itemCount
 
         TabLayoutMediator(binding.homeHeader.tabLayout, binding.homeViewpager,true) { tab, position ->
-            //여기서 등록한 푸시알림으로 색깔 변경도 가능할듯?
             when (position) {
                 0 -> tab.text = getString(R.string.bachelor)
                 1 -> tab.text = getString(R.string.scholarship)
@@ -168,7 +167,7 @@ class HomeActivity : AppCompatActivity() {
         if (System.currentTimeMillis() - backPressedTime < 2000) {
             finish()
         } else {
-            Toast.makeText(this, "뒤로가기를 한 번 더 누르시면 종료됩니다", Toast.LENGTH_SHORT).show()
+            showToast(getString(R.string.home_finish_if_back_again))
             backPressedTime = System.currentTimeMillis()
         }
     }
