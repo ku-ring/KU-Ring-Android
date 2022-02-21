@@ -26,7 +26,7 @@ abstract class HomeBaseFragment : Fragment() {
     protected lateinit var pagingAdapter: NoticePagingAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home_category,container,false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home_category, container,false)
         binding.lifecycleOwner = this
         return binding.root
     }
@@ -42,7 +42,6 @@ abstract class HomeBaseFragment : Fragment() {
     private fun observePagingState() {
         viewLifecycleOwner.lifecycleScope.launch {
             pagingAdapter.loadStateFlow.collectLatest { loadState ->
-                binding.categorySwipeRefresh.isRefreshing = loadState.refresh is LoadState.Loading
                 when (loadState.refresh) {
                     is LoadState.Loading -> {
                         showShimmerView()
@@ -60,10 +59,11 @@ abstract class HomeBaseFragment : Fragment() {
 
     private fun setupListAdapter() {
         pagingAdapter = NoticePagingAdapter(
-            { notice ->
+            itemClick = { notice ->
                 (activity as HomeActivity).updateNoticeTobeRead(notice)
                 startDetailActivity(notice)
-            }, { notice ->
+            },
+            onBindItem = { notice ->
                 (activity as HomeActivity).insertNotice(notice.articleId, notice.category)
             }
         )
@@ -76,7 +76,9 @@ abstract class HomeBaseFragment : Fragment() {
 
     private fun setupSwipeRefresh() {
         binding.categorySwipeRefresh.setOnRefreshListener {
+            binding.categorySwipeRefresh.isRefreshing = false
             pagingAdapter.refresh()
+            showShimmerView()
         }
     }
 
