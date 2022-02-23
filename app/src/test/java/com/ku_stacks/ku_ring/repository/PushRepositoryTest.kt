@@ -42,7 +42,7 @@ class PushRepositoryTest {
     fun `update notification Test`() {
         // given
         val mockData = mockPushEntity()
-        Mockito.`when`(dao.updateConfirmedNotification(mockData.articleId, false)).thenReturn(Completable.complete())
+        Mockito.`when`(dao.updateToReadNotification(mockData.articleId, false)).thenReturn(Completable.complete())
 
         // when + then
         repository.updateNotification(mockData.articleId)

@@ -8,6 +8,5 @@ data class Push(
     val baseUrl: String,
     var isNew: Boolean,
     val receivedDate: String,
-    val isNewDay: Boolean,
     val tag: List<String>
 )
