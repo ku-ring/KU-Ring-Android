@@ -66,11 +66,11 @@ class NotificationActivity : AppCompatActivity() {
 
     private fun setupListAdapter() {
         notificationAdapter = NotificationAdapter (
-            {
+            itemClick = {
                 viewModel.updateNoticeTobeRead(it.articleId, it.category)
                 startDetailActivity(it.articleId, it.baseUrl, it.category)
             },
-            { it -> viewModel.updateNotification(it.articleId) }
+            onBindItem = { viewModel.updateNotification(it.articleId) }
         )
 
         binding.notificationRecyclerview.apply {
