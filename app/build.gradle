@@ -191,7 +191,7 @@ dependencies {
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.6'
 
     // swipeRefreshLayout
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01'
 }
 
 kapt {
