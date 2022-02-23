@@ -1,20 +1,23 @@
 package com.ku_stacks.ku_ring.ui.my_notification.diff_callback
 
 import androidx.recyclerview.widget.DiffUtil
-import com.ku_stacks.ku_ring.data.model.Push
-import com.ku_stacks.ku_ring.ui.my_notification.ui_model.NotificationUiModel
+import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushContentUiModel
+import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushDataUiModel
 
-class NotificationDiffCallback : DiffUtil.ItemCallback<NotificationUiModel>() {
-    override fun areItemsTheSame(oldItem: Push, newItem: Push): Boolean {
-        val areSame = oldItem.articleId == newItem.articleId
-        if (areSame) {
-            newItem.isNew = oldItem.isNew
+class NotificationDiffCallback : DiffUtil.ItemCallback<PushDataUiModel>() {
+    override fun areItemsTheSame(oldItem: PushDataUiModel, newItem: PushDataUiModel): Boolean {
+        return if (newItem is PushContentUiModel && oldItem is PushContentUiModel) {
+            oldItem.articleId == newItem.articleId
+        } else {
+            false
         }
-        return areSame
     }
 
-    override fun areContentsTheSame(oldItem: Push, newItem: Push): Boolean {
-        return oldItem.articleId == newItem.articleId
-                && oldItem.isNewDay == newItem.isNewDay
+    override fun areContentsTheSame(oldItem: PushDataUiModel, newItem: PushDataUiModel): Boolean {
+        return if (newItem is PushContentUiModel && oldItem is PushContentUiModel) {
+            return oldItem.articleId == newItem.articleId
+        } else {
+            false
+        }
     }
 }

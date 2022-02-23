@@ -10,20 +10,20 @@ import com.ku_stacks.ku_ring.data.model.Push
 import com.ku_stacks.ku_ring.databinding.ItemDateBinding
 import com.ku_stacks.ku_ring.databinding.ItemNotificationBinding
 import com.ku_stacks.ku_ring.ui.my_notification.diff_callback.NotificationDiffCallback
-import com.ku_stacks.ku_ring.ui.my_notification.ui_model.NotificationUiModel
+import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushContentUiModel
+import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushDataUiModel
+import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushDateHeaderUiModel
 import com.ku_stacks.ku_ring.ui.my_notification.viewholder.DateViewHolder
 import com.ku_stacks.ku_ring.ui.my_notification.viewholder.NotificationViewHolder
 import timber.log.Timber
 
 class NotificationAdapter(
-    private val itemClick: (Push) -> Unit,
-    private val onBindItem: (Push) -> Unit
-): ListAdapter<NotificationUiModel, NotificationAdapter.ViewHolder>(
+    private val itemClick: (PushContentUiModel) -> Unit,
+    private val onBindItem: (PushContentUiModel) -> Unit
+): ListAdapter<PushDataUiModel, NotificationAdapter.ViewHolder>(
     NotificationDiffCallback()
 ) {
-    abstract class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun onBind(any: Any) = Unit
-    }
+    abstract class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return when (viewType) {
@@ -44,24 +44,22 @@ class NotificationAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
 
-        when (holder.itemViewType) {
-            NOTIFICATION_CONTENT -> {
-                (holder as NotificationViewHolder).bind(item)
+        when (holder) {
+            is NotificationViewHolder -> {
+                holder.bind(item as PushContentUiModel)
                 onBindItem(item)
             }
-            NOTIFICATION_DATE -> {
-                val isNewDay = true
-                (holder as DateViewHolder).bind(item, isNewDay)
-            }
-            else -> {
-                Timber.e("no such viewType : ${holder.itemViewType}")
+            is DateViewHolder -> {
+                holder.bind(item as PushDateHeaderUiModel)
             }
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        val item = getItem(position)
-
+        return when (getItem(position)) {
+            is PushContentUiModel -> NOTIFICATION_CONTENT
+            is PushDateHeaderUiModel -> NOTIFICATION_DATE
+        }
     }
 
     companion object {
