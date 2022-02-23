@@ -71,7 +71,9 @@ class NotificationActivity : AppCompatActivity() {
                 viewModel.updateNoticeTobeRead(it.articleId, it.category)
                 startDetailActivity(it.articleId, it.baseUrl, it.category)
             },
-            onBindItem = { viewModel.updateNotification(it.articleId) }
+            onBindItem = {
+                viewModel.updateNotification(it.articleId)
+            }
         )
 
         binding.notificationRecyclerview.apply {
@@ -100,7 +102,7 @@ class NotificationActivity : AppCompatActivity() {
     private fun observeData() {
         viewModel.pushUiModelList.observe(this) {
             notificationAdapter.submitList(it)
-            if(it.isEmpty()) {
+            if (it.isEmpty()) {
                 binding.notificationAlertTxt.visibility = View.VISIBLE
             } else {
                 binding.notificationAlertTxt.visibility = View.GONE

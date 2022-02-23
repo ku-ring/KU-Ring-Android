@@ -18,7 +18,7 @@ class PushRepositoryImpl @Inject constructor(
     }
 
     override fun updateNotification(articleId: String): Completable {
-        return dao.updateConfirmedNotification(articleId, false)
+        return dao.updateToReadNotification(articleId, false)
     }
 
     override fun getNotificationCount(): Flowable<Int> {

@@ -42,38 +42,6 @@ class NotificationViewModel @Inject constructor(
         )
     }
 
-    private fun List<Push>.toPushUiModelList(): List<PushDataUiModel> {
-        val pushDataList = ArrayList<PushDataUiModel>()
-
-        forEachIndexed { index, push ->
-            val isNewDay = if (index == 0) {
-                true
-            } else {
-                val prevItem = this[index - 1]
-                prevItem.postedDate != push.postedDate
-            }
-
-            if (isNewDay) {
-                pushDataList.add(PushDateHeaderUiModel(push.postedDate))
-            }
-            pushDataList.add(push.toPushContentUiModel())
-        }
-        return pushDataList
-    }
-
-    private fun Push.toPushContentUiModel(): PushContentUiModel {
-        return PushContentUiModel(
-            articleId = articleId,
-            category = category,
-            postedDate = postedDate,
-            subject = subject,
-            baseUrl = baseUrl,
-            isNew = isNew,
-            receivedDate = receivedDate,
-            tag = tag
-        )
-    }
-
     fun updateNotification(articleId: String) {
         disposable.add(
             pushRepository.updateNotification(articleId)
@@ -107,6 +75,38 @@ class NotificationViewModel @Inject constructor(
                 .subscribe({
                     Timber.e("noticeRecord update true : $category")
                 }, { Timber.e("noticeRecord update fail") })
+        )
+    }
+
+    private fun List<Push>.toPushUiModelList(): List<PushDataUiModel> {
+        val pushDataList = ArrayList<PushDataUiModel>()
+        forEachIndexed { index, push ->
+            /** 두 알림 날짜를 비교해서 다른 날짜면 PushDateHeaderUiModel 삽입 */
+            val isNewDay = if (index == 0) {
+                true
+            } else {
+                val prevItem = this[index - 1]
+                prevItem.postedDate != push.postedDate
+            }
+
+            if (isNewDay) {
+                pushDataList.add(PushDateHeaderUiModel(push.postedDate))
+            }
+            pushDataList.add(push.toPushContentUiModel())
+        }
+        return pushDataList
+    }
+
+    private fun Push.toPushContentUiModel(): PushContentUiModel {
+        return PushContentUiModel(
+            articleId = articleId,
+            category = category,
+            postedDate = postedDate,
+            subject = subject,
+            baseUrl = baseUrl,
+            isNew = isNew,
+            receivedDate = receivedDate,
+            tag = tag
         )
     }
 
