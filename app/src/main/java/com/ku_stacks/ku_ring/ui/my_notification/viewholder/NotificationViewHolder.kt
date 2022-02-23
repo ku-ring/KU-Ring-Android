@@ -2,21 +2,21 @@ package com.ku_stacks.ku_ring.ui.my_notification.viewholder
 
 import android.graphics.Color
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.RecyclerView
 import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.data.model.Push
 import com.ku_stacks.ku_ring.databinding.ItemNotificationBinding
+import com.ku_stacks.ku_ring.ui.my_notification.NotificationAdapter
+import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushContentUiModel
 
 class NotificationViewHolder(
     private val binding: ItemNotificationBinding,
-    private val itemClick: (Push) -> (Unit)
-) : RecyclerView.ViewHolder(binding.root) {
+    private val itemClick: (PushContentUiModel) -> (Unit)
+) : NotificationAdapter.ViewHolder(binding.root) {
 
-    fun bind(pushInfo: Push) {
-        binding.notificationItem = pushInfo
-        setupTag(pushInfo.tag)
+    fun bind(pushContent: PushContentUiModel) {
+        binding.pushContentUiModel = pushContent
+        setupTag(pushContent.tag)
         binding.notificationMainLayout.setOnClickListener {
-            itemClick(pushInfo)
+            itemClick(pushContent)
         }
         binding.executePendingBindings()
     }

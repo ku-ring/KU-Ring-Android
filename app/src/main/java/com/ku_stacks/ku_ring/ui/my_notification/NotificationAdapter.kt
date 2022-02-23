@@ -1,45 +1,69 @@
 package com.ku_stacks.ku_ring.ui.my_notification
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.data.model.Push
+import com.ku_stacks.ku_ring.databinding.ItemDateBinding
 import com.ku_stacks.ku_ring.databinding.ItemNotificationBinding
+import com.ku_stacks.ku_ring.ui.my_notification.diff_callback.NotificationDiffCallback
+import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushContentUiModel
+import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushDataUiModel
+import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushDateHeaderUiModel
+import com.ku_stacks.ku_ring.ui.my_notification.viewholder.DateViewHolder
 import com.ku_stacks.ku_ring.ui.my_notification.viewholder.NotificationViewHolder
+import timber.log.Timber
 
 class NotificationAdapter(
-    private val itemClick: (Push) -> Unit,
-    private val onBindItem: (Push) -> Unit
-): ListAdapter<Push, NotificationViewHolder>(
-    NotificationDiffCallback
+    private val itemClick: (PushContentUiModel) -> Unit,
+    private val onBindItem: (PushContentUiModel) -> Unit
+): ListAdapter<PushDataUiModel, NotificationAdapter.ViewHolder>(
+    NotificationDiffCallback()
 ) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_notification, parent, false)
-        val binding = ItemNotificationBinding.bind(view)
-        return NotificationViewHolder(binding, itemClick)
-    }
+    abstract class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
-    override fun onBindViewHolder(holder: NotificationViewHolder, position: Int) {
-        getItem(position)?.let {
-            holder.bind(it)
-            onBindItem(it)
-        }
-    }
-
-    object NotificationDiffCallback : DiffUtil.ItemCallback<Push>() {
-        override fun areItemsTheSame(oldItem: Push, newItem: Push): Boolean {
-            val areSame = oldItem.articleId == newItem.articleId
-            if (areSame) {
-                newItem.isNew = oldItem.isNew
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return when (viewType) {
+            NOTIFICATION_CONTENT -> {
+                val view = LayoutInflater.from(parent.context).inflate(R.layout.item_notification, parent, false)
+                val binding = ItemNotificationBinding.bind(view)
+                NotificationViewHolder(binding, itemClick)
             }
-            return areSame
+            NOTIFICATION_DATE -> {
+                val view = LayoutInflater.from(parent.context).inflate(R.layout.item_date, parent, false)
+                val binding = ItemDateBinding.bind(view)
+                DateViewHolder(binding)
+            }
+            else -> throw Exception("no such viewType : $viewType")
         }
+    }
 
-        override fun areContentsTheSame(oldItem: Push, newItem: Push): Boolean {
-            return oldItem.articleId == newItem.articleId
-                    && oldItem.isNewDay == newItem.isNewDay
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val item = getItem(position)
+
+        when (holder) {
+            is NotificationViewHolder -> {
+                holder.bind(item as PushContentUiModel)
+                onBindItem(item)
+            }
+            is DateViewHolder -> {
+                holder.bind(item as PushDateHeaderUiModel)
+            }
         }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return when (getItem(position)) {
+            is PushContentUiModel -> NOTIFICATION_CONTENT
+            is PushDateHeaderUiModel -> NOTIFICATION_DATE
+        }
+    }
+
+    companion object {
+        const val NOTIFICATION_CONTENT = 10
+        const val NOTIFICATION_DATE = 11
     }
 }
