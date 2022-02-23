@@ -6,6 +6,9 @@ import androidx.lifecycle.ViewModel
 import com.ku_stacks.ku_ring.data.model.Push
 import com.ku_stacks.ku_ring.repository.NoticeRepository
 import com.ku_stacks.ku_ring.repository.PushRepository
+import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushContentUiModel
+import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushDataUiModel
+import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushDateHeaderUiModel
 import com.ku_stacks.ku_ring.util.PreferenceUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -22,21 +25,17 @@ class NotificationViewModel @Inject constructor(
 
     private val disposable = CompositeDisposable()
 
-    private val _pushList = MutableLiveData<List<Push>>()
-    val pushList: LiveData<List<Push>>
-        get() = _pushList
-
-    init {
-        Timber.e("NotificationViewModel injected")
-        //repository.deleteAllNotification()
-    }
+    private val _pushUiModelList = MutableLiveData<List<PushDataUiModel>>()
+    val pushUiModelList: LiveData<List<PushDataUiModel>>
+        get() = _pushUiModelList
 
     fun getMyNotification() {
         disposable.add(
             pushRepository.getMyNotification()
                 .subscribeOn(Schedulers.io())
+                .map { pushList -> pushList.toPushUiModelList() }
                 .subscribe({
-                    _pushList.postValue(it)
+                    _pushUiModelList.postValue(it)
                 }, {
                     Timber.e("getMyNotification failed : $it")
                 })
@@ -76,6 +75,38 @@ class NotificationViewModel @Inject constructor(
                 .subscribe({
                     Timber.e("noticeRecord update true : $category")
                 }, { Timber.e("noticeRecord update fail") })
+        )
+    }
+
+    private fun List<Push>.toPushUiModelList(): List<PushDataUiModel> {
+        val pushDataList = ArrayList<PushDataUiModel>()
+        forEachIndexed { index, push ->
+            /** 두 알림 날짜를 비교해서 다른 날짜면 PushDateHeaderUiModel 삽입 */
+            val isNewDay = if (index == 0) {
+                true
+            } else {
+                val prevItem = this[index - 1]
+                prevItem.postedDate != push.postedDate
+            }
+
+            if (isNewDay) {
+                pushDataList.add(PushDateHeaderUiModel(push.postedDate))
+            }
+            pushDataList.add(push.toPushContentUiModel())
+        }
+        return pushDataList
+    }
+
+    private fun Push.toPushContentUiModel(): PushContentUiModel {
+        return PushContentUiModel(
+            articleId = articleId,
+            category = category,
+            postedDate = postedDate,
+            subject = subject,
+            baseUrl = baseUrl,
+            isNew = isNew,
+            receivedDate = receivedDate,
+            tag = tag
         )
     }
 
