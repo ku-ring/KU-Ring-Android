@@ -94,6 +94,7 @@ class NotificationActivity : AppCompatActivity() {
         swipeHelper.setDismissBackgroundOnClickedFirstItem(true)
         swipeHelper.addRecyclerViewListener(binding.notificationRecyclerview)
         swipeHelper.addRecyclerViewDecoration(binding.notificationRecyclerview)
+        swipeHelper.excludeFromHoldableViewHolder(NotificationAdapter.NOTIFICATION_DATE)
 
         val itemTouchHelper = ItemTouchHelper(swipeHelper)
         itemTouchHelper.attachToRecyclerView(binding.notificationRecyclerview)
