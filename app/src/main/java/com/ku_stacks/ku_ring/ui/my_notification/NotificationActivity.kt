@@ -13,6 +13,7 @@ import com.ku_stacks.ku_ring.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.databinding.ActivityNotificationBinding
 import com.ku_stacks.ku_ring.ui.detail.DetailActivity
 import com.ku_stacks.ku_ring.ui.home.HomeActivity
+import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushContentUiModel
 import com.ku_stacks.ku_ring.ui.setting_notification.SettingNotificationActivity
 import com.yeonkyu.HoldableSwipeHelper.HoldableSwipeHelper
 import com.yeonkyu.HoldableSwipeHelper.SwipeButtonAction
@@ -65,7 +66,7 @@ class NotificationActivity : AppCompatActivity() {
     }
 
     private fun setupListAdapter() {
-        notificationAdapter = NotificationAdapter (
+        notificationAdapter = NotificationAdapter(
             itemClick = {
                 viewModel.updateNoticeTobeRead(it.articleId, it.category)
                 startDetailActivity(it.articleId, it.baseUrl, it.category)
@@ -81,7 +82,10 @@ class NotificationActivity : AppCompatActivity() {
         val swipeHelper = HoldableSwipeHelper(this, object : SwipeButtonAction {
             override fun onClickFirstButton(absoluteAdapterPosition: Int) {
                 Timber.e("onClickDelete position : $absoluteAdapterPosition")
-                viewModel.deletePushDB(notificationAdapter.currentList[absoluteAdapterPosition].articleId)
+                val pushContent = notificationAdapter.currentList[absoluteAdapterPosition]
+                if (pushContent is PushContentUiModel) {
+                    viewModel.deletePushDB(pushContent.articleId)
+                }
             }
         })
 
@@ -94,7 +98,7 @@ class NotificationActivity : AppCompatActivity() {
     }
 
     private fun observeData() {
-        viewModel.pushList.observe(this) {
+        viewModel.pushUiModelList.observe(this) {
             notificationAdapter.submitList(it)
             if(it.isEmpty()) {
                 binding.notificationAlertTxt.visibility = View.VISIBLE
