@@ -63,8 +63,8 @@
     <string name="search_staff_copy_phone_number_complete">전화번호가 클립보드에 복사되었습니다</string>
 
     <!--  notion url  -->
-    <string name="notion_personal_data_url">https://knowing-bamboo-7b4.notion.site/289d8db70bad49cd8ba80ed011281dfc</string>
-    <string name="notion_terms_of_service">https://knowing-bamboo-7b4.notion.site/c480d1b7598b4e97b92f566ed055ef2c</string>
+    <string name="notion_personal_data_url">https://kuring.notion.site/65ba27f2367044e0be7061e885e7415c</string>
+    <string name="notion_terms_of_service">https://kuring.notion.site/e88095d4d67d4c4c92983fd85cb693b9</string>
 
     <!--  onBoarding  -->
     <string name="on_boarding_title">우리 대학 공지 \n쿠링이 알려줄게!</string>
