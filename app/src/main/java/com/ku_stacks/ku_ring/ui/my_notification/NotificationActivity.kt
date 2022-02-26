@@ -15,6 +15,7 @@ import com.ku_stacks.ku_ring.ui.detail.DetailActivity
 import com.ku_stacks.ku_ring.ui.home.HomeActivity
 import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushContentUiModel
 import com.ku_stacks.ku_ring.ui.setting_notification.SettingNotificationActivity
+import com.ku_stacks.ku_ring.util.UrlGenerator
 import com.yeonkyu.HoldableSwipeHelper.HoldableSwipeHelper
 import com.yeonkyu.HoldableSwipeHelper.SwipeButtonAction
 import dagger.hilt.android.AndroidEntryPoint
@@ -123,11 +124,7 @@ class NotificationActivity : AppCompatActivity() {
     }
 
     private fun startDetailActivity(articleId: String, baseUrl: String, category: String) {
-        val url = if (category == "도서관") {
-            "$baseUrl/$articleId"
-        } else {
-            "$baseUrl?id=$articleId"
-        }
+        val url = UrlGenerator.generateNoticeUrl(articleId, category, baseUrl)
         Timber.e("url : $url, category : $category")
 
         val intent = Intent(this, DetailActivity::class.java)

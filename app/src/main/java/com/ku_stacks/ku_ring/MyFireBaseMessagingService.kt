@@ -13,9 +13,9 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.ku_stacks.ku_ring.data.db.PushDao
 import com.ku_stacks.ku_ring.data.db.PushEntity
-import com.ku_stacks.ku_ring.ui.home.HomeActivity
-import com.ku_stacks.ku_ring.ui.my_notification.NotificationActivity
+import com.ku_stacks.ku_ring.ui.detail.DetailActivity
 import com.ku_stacks.ku_ring.util.DateUtil
+import com.ku_stacks.ku_ring.util.UrlGenerator
 import com.ku_stacks.ku_ring.util.WordConverter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -48,9 +48,11 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
 
         val categoryKr = WordConverter.convertEnglishToKorean(categoryEng)
         val receivedDate = DateUtil.getCurrentTime()
-
         insertNotificationIntoDatabase(articleId, categoryKr, postedDate, subject, baseUrl, receivedDate)
-        sendNotification(title = subject, body = categoryKr)
+
+        val webUrl = UrlGenerator.generateNoticeUrl(articleId = articleId, category = categoryKr, baseUrl = baseUrl)
+        Timber.e("webUrl : $webUrl")
+        sendNotification(title = subject, body = categoryKr, webUrl = webUrl)
     }
 
     private fun insertNotificationIntoDatabase(
@@ -82,9 +84,17 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
         }
     }
 
-    private fun sendNotification(title: String?, body: String?){
-        val intent = Intent(this, NotificationActivity::class.java)
-        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
+    private fun sendNotification(title: String?, body: String?, webUrl: String){
+        val intent = Intent(this, DetailActivity::class.java).apply {
+            putExtra("url", webUrl)
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        val pendingIntent = PendingIntent.getActivity(
+            this,
+            0,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
         val defaultSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val channelId = "ku_stack_channel_id"
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
