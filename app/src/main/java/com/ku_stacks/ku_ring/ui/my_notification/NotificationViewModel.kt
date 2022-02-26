@@ -81,7 +81,7 @@ class NotificationViewModel @Inject constructor(
     private fun List<Push>.toPushUiModelList(): List<PushDataUiModel> {
         val pushDataList = ArrayList<PushDataUiModel>()
         forEachIndexed { index, push ->
-            /** 두 알림 날짜를 비교해서 다른 날짜면 PushDateHeaderUiModel 삽입 */
+            /** 두 알림 날짜를 비교해서 서로 다른 날짜면 PushDateHeaderUiModel 삽입 */
             val isNewDay = if (index == 0) {
                 true
             } else {
