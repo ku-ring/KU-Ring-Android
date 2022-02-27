@@ -36,6 +36,9 @@ class HomeBottomSheet: BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.newContentsLayout.setOnClickListener {
+            startNewContentsActivity()
+        }
         binding.feedbackLayout.setOnClickListener {
             startFeedbackActivity()
         }
@@ -48,6 +51,15 @@ class HomeBottomSheet: BottomSheetDialogFragment() {
         binding.termsOfServiceLayout.setOnClickListener {
             startTermsOfServiceActivity()
         }
+    }
+
+    private fun startNewContentsActivity() {
+        analytics.click("bottomSheet_NewContents btn", "HomeActivity")
+
+        val intent = Intent(activity, NotionViewActivity::class.java)
+        intent.putExtra("url", getString(R.string.notion_new_contents_url))
+        startActivity(intent)
+        dialog?.dismiss()
     }
 
     private fun startFeedbackActivity() {
@@ -79,7 +91,7 @@ class HomeBottomSheet: BottomSheetDialogFragment() {
         analytics.click("bottomSheet_TermsOfService btn", "HomeActivity")
 
         val intent = Intent(activity, NotionViewActivity::class.java)
-        intent.putExtra("url", getString(R.string.notion_terms_of_service))
+        intent.putExtra("url", getString(R.string.notion_terms_of_service_url))
         startActivity(intent)
         dialog?.dismiss()
     }
