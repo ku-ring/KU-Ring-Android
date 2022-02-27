@@ -192,6 +192,9 @@ dependencies {
 
     // swipeRefreshLayout
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01'
+
+    // appsFlyer
+    implementation 'com.appsflyer:af-android-sdk:6.3.2'
 }
 
 kapt {

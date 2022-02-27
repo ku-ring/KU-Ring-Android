@@ -24,3 +24,4 @@
 -keep class com.ku_stacks.ku_ring.data.model.** { *; }
 -keep class com.ku_stacks.ku_ring.data.websocket.response.** { *; }
 -keep class com.ku_stacks.ku_ring.data.websocket.request.** { *; }
+-keep class com.appsflyer.** { *; }
