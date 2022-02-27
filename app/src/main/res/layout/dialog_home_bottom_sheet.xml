@@ -6,13 +6,39 @@
     android:background="@color/kus_background">
 
     <LinearLayout
-        android:id="@+id/feedback_layout"
+        android:id="@+id/new_contents_layout"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="25dp"
+            android:src="@drawable/ic_star_outline"
+            app:tint="@color/kus_primary" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:fontFamily="@font/notosanskr_regular"
+            android:text="@string/new_contents"
+            android:textColor="@color/kus_primary"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/feedback_layout"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/new_contents_layout">
 
         <ImageView
             android:layout_width="24dp"
