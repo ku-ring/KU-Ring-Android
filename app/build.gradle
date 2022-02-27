@@ -31,8 +31,8 @@ android {
         applicationId "com.ku_stacks.ku_ring"
         minSdk 23
         targetSdk 30
-        versionCode 9
-        versionName "1.1.1"
+        versionCode 10
+        versionName "1.1.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
