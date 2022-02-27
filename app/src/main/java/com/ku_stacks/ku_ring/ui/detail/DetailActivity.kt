@@ -8,7 +8,6 @@ import android.webkit.*
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.ui.home.HomeActivity
 import timber.log.Timber
 
 /*
@@ -77,15 +76,8 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun startHomeActivity() {
-        val intent = Intent(this, HomeActivity::class.java)
-        startActivity(intent)
-        overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
-        finish()
-    }
-
     override fun onBackPressed() {
         super.onBackPressed()
-        startHomeActivity()
+        overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
     }
 }

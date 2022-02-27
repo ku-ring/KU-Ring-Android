@@ -14,6 +14,7 @@ import com.google.firebase.messaging.RemoteMessage
 import com.ku_stacks.ku_ring.data.db.PushDao
 import com.ku_stacks.ku_ring.data.db.PushEntity
 import com.ku_stacks.ku_ring.ui.detail.DetailActivity
+import com.ku_stacks.ku_ring.ui.home.HomeActivity
 import com.ku_stacks.ku_ring.util.DateUtil
 import com.ku_stacks.ku_ring.util.UrlGenerator
 import com.ku_stacks.ku_ring.util.WordConverter
@@ -35,24 +36,50 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
+        if (isNoticeNotification(remoteMessage)) {
+            val articleId = remoteMessage.data["articleId"]!!
+            val categoryEng = remoteMessage.data["category"]!!
+            val postedDate = remoteMessage.data["postedDate"]!!
+            val subject = remoteMessage.data["subject"]!!
+            val baseUrl = remoteMessage.data["baseUrl"]!!
+
+            // insert into db
+            val categoryKr = WordConverter.convertEnglishToKorean(categoryEng)
+            val receivedDate = DateUtil.getCurrentTime()
+            insertNotificationIntoDatabase(articleId, categoryKr, postedDate, subject, baseUrl, receivedDate)
+
+            // show notification
+            val webUrl = UrlGenerator.generateNoticeUrl(articleId = articleId, category = categoryKr, baseUrl = baseUrl)
+            showNotificationWithUrl(title = subject, body = categoryKr, url = webUrl)
+        } else if (isCustomNotification(remoteMessage)) {
+            val type = remoteMessage.data["type"]!!
+            val title = remoteMessage.data["title"]!!
+            val body = remoteMessage.data["body"]!!
+
+            // show notification
+            showNotification(type = type, title = title, body = body)
+        }
+    }
+
+    private fun isNoticeNotification(remoteMessage: RemoteMessage): Boolean {
         val articleId = remoteMessage.data["articleId"]
         val categoryEng = remoteMessage.data["category"]
         val postedDate = remoteMessage.data["postedDate"]
         val subject = remoteMessage.data["subject"]
         val baseUrl = remoteMessage.data["baseUrl"]
 
-        if (articleId.isNullOrEmpty() || categoryEng.isNullOrEmpty() || postedDate.isNullOrEmpty()
-            || subject.isNullOrEmpty() || baseUrl.isNullOrEmpty()) {
-            return
-        }
+        return articleId != null && categoryEng != null && postedDate != null
+                && subject != null && baseUrl != null
+    }
 
-        val categoryKr = WordConverter.convertEnglishToKorean(categoryEng)
-        val receivedDate = DateUtil.getCurrentTime()
-        insertNotificationIntoDatabase(articleId, categoryKr, postedDate, subject, baseUrl, receivedDate)
+    private fun isCustomNotification(remoteMessage: RemoteMessage): Boolean {
+        val customTypeSet = setOf("admin")
 
-        val webUrl = UrlGenerator.generateNoticeUrl(articleId = articleId, category = categoryKr, baseUrl = baseUrl)
-        Timber.e("webUrl : $webUrl")
-        sendNotification(title = subject, body = categoryKr, webUrl = webUrl)
+        val type = remoteMessage.data["type"]?.lowercase()
+        val title = remoteMessage.data["title"]
+        val body = remoteMessage.data["body"]
+
+        return type != null && title != null && body != null && customTypeSet.contains(type)
     }
 
     private fun insertNotificationIntoDatabase(
@@ -77,17 +104,15 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
                     )
                 )
                 Timber.e("insert notification success")
-            }
-            catch (e: Exception) {
+            } catch (e: Exception) {
                 Timber.e("insert notification error : $e")
             }
         }
     }
 
-    private fun sendNotification(title: String?, body: String?, webUrl: String){
-        val intent = Intent(this, DetailActivity::class.java).apply {
-            putExtra("url", webUrl)
-            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+    private fun showNotificationWithUrl(title: String?, body: String?, url: String?){
+        val intent = Intent(this, HomeActivity::class.java).apply {
+            putExtra(HomeActivity.NOTICE_URL, url)
         }
         val pendingIntent = PendingIntent.getActivity(
             this,
@@ -115,5 +140,37 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
             notificationManager.createNotificationChannel(channel)
         }
         notificationManager.notify(0, notificationBuilder.build())
+    }
+
+    private fun showNotification(type: String, title: String, body: String) {
+        val intent = Intent(this, HomeActivity::class.java)
+        val pendingIntent = PendingIntent.getActivity(
+            this,
+            0,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+        val defaultSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+        val channelId = "ku_stack_channel_id"
+        val notificationBuilder = NotificationCompat.Builder(this, channelId)
+            .setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.ic_ku_ring_notification))
+            .setSmallIcon(R.drawable.ic_ku_ring_statusbar)
+            .setContentTitle(title)
+            .setContentText(body)
+            .setSound(defaultSound)
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                channelId,
+                "쿠링",
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            notificationManager.createNotificationChannel(channel)
+        }
+        notificationManager.notify(1, notificationBuilder.build())
     }
 }

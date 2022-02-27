@@ -15,6 +15,7 @@ import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.databinding.ActivityHomeBinding
+import com.ku_stacks.ku_ring.ui.detail.DetailActivity
 import com.ku_stacks.ku_ring.ui.home.dialog.HomeBottomSheet
 import com.ku_stacks.ku_ring.ui.my_notification.NotificationActivity
 import com.ku_stacks.ku_ring.ui.search.SearchActivity
@@ -57,6 +58,10 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        intent?.getStringExtra(NOTICE_URL)?.let {
+            navToDetailActivity(it)
+        }
 
         setupBinding()
         setupHeader()
@@ -158,6 +163,21 @@ class HomeActivity : AppCompatActivity() {
         viewModel.insertNotice(articleId, category)
     }
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+
+        intent?.getStringExtra(NOTICE_URL)?.let {
+            navToDetailActivity(it)
+        }
+    }
+
+    private fun navToDetailActivity(noticeUrl: String?) {
+        val newIntent = Intent(this, DetailActivity::class.java)
+        newIntent.putExtra("url", noticeUrl)
+        startActivity(newIntent)
+        overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         binding.homeViewpager.unregisterOnPageChangeCallback(pageChangeCallback)
@@ -170,5 +190,9 @@ class HomeActivity : AppCompatActivity() {
             showToast(getString(R.string.home_finish_if_back_again))
             backPressedTime = System.currentTimeMillis()
         }
+    }
+
+    companion object {
+        const val NOTICE_URL = "NOTICE_URL"
     }
 }
