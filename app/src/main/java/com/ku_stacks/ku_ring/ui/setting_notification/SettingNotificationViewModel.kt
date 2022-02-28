@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.messaging.FirebaseMessaging
+import com.ku_stacks.ku_ring.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.data.api.request.SubscribeRequest
 import com.ku_stacks.ku_ring.repository.SubscribeRepository
-import com.ku_stacks.ku_ring.repository.SubscribeRepositoryImpl
 import com.ku_stacks.ku_ring.util.PreferenceUtil
 import com.ku_stacks.ku_ring.util.WordConverter
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,7 +20,8 @@ import kotlin.Comparator
 @HiltViewModel
 class SettingNotificationViewModel @Inject constructor(
     private val repository: SubscribeRepository,
-    private val pref: PreferenceUtil
+    private val pref: PreferenceUtil,
+    private val analytics: EventAnalytics
 ) : ViewModel(){
     private val disposable = CompositeDisposable()
 
@@ -45,13 +46,14 @@ class SettingNotificationViewModel @Inject constructor(
 
     init {
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
-            if(!task.isSuccessful){
+            if(!task.isSuccessful) {
                 Timber.e("Firebase instanceId fail : ${task.exception}")
-                throw RuntimeException("Failed to get Fcm Token error, exception : ${task.exception}")
+                analytics.errorEvent("${task.exception}", "SettingNotificationActivity")
             }
             fcmToken = task.result
             if (fcmToken == null) {
-                throw RuntimeException("Fcm Token is null!")
+                Timber.e("Fcm Token is null")
+                analytics.errorEvent("Fcm Token is null!", "SettingNotificationActivity")
             }
 
             syncWithServer()
