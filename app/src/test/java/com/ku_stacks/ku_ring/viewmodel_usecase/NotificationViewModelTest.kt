@@ -4,11 +4,10 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.ku_stacks.ku_ring.MockUtil
 import com.ku_stacks.ku_ring.MockUtil.mock
 import com.ku_stacks.ku_ring.data.mapper.toPushList
+import com.ku_stacks.ku_ring.data.mapper.toPushUiModelList
 import com.ku_stacks.ku_ring.getOrAwaitValue
 import com.ku_stacks.ku_ring.repository.NoticeRepository
-import com.ku_stacks.ku_ring.repository.NoticeRepositoryImpl
 import com.ku_stacks.ku_ring.repository.PushRepository
-import com.ku_stacks.ku_ring.repository.PushRepositoryImpl
 import com.ku_stacks.ku_ring.ui.my_notification.NotificationViewModel
 import com.ku_stacks.ku_ring.util.PreferenceUtil
 import io.reactivex.rxjava3.core.Flowable
@@ -43,10 +42,11 @@ class NotificationViewModelTest {
 
         // when
         viewModel.getMyNotification()
-        viewModel.pushList.getOrAwaitValue()
+        viewModel.pushUiModelList.getOrAwaitValue()
 
         // then
+        val expected = mockData.toPushUiModelList()
         verify(pushRepository, atLeastOnce()).getMyNotification()
-        assertEquals(viewModel.pushList.value, mockData)
+        assertEquals(expected, viewModel.pushUiModelList.value)
     }
 }
