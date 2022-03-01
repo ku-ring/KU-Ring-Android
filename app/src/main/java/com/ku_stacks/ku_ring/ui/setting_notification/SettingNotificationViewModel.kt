@@ -20,9 +20,11 @@ import kotlin.Comparator
 @HiltViewModel
 class SettingNotificationViewModel @Inject constructor(
     private val repository: SubscribeRepository,
-    private val pref: PreferenceUtil,
-    private val analytics: EventAnalytics
+    private val pref: PreferenceUtil
 ) : ViewModel(){
+    @Inject
+    lateinit var analytics : EventAnalytics
+
     private val disposable = CompositeDisposable()
 
     private val _subscriptionList = ArrayList<String>()
@@ -48,15 +50,14 @@ class SettingNotificationViewModel @Inject constructor(
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             if(!task.isSuccessful) {
                 Timber.e("Firebase instanceId fail : ${task.exception}")
-                analytics.errorEvent("${task.exception}", "SettingNotificationActivity")
+                analytics.errorEvent("${task.exception}", className)
             }
-            fcmToken = task.result
-            if (fcmToken == null) {
+            else if (task.result == null) {
                 Timber.e("Fcm Token is null")
-                analytics.errorEvent("Fcm Token is null!", "SettingNotificationActivity")
+                analytics.errorEvent("Fcm Token is null!", className)
+            } else {
+                syncWithServer()
             }
-
-            syncWithServer()
         }
     }
 
@@ -191,5 +192,9 @@ class SettingNotificationViewModel @Inject constructor(
         override fun compare(a: String, b: String): Int {
             return getPriority(a) - getPriority(b)
         }
+    }
+
+    companion object {
+        const val className = "SettingNotificationViewModel"
     }
 }
