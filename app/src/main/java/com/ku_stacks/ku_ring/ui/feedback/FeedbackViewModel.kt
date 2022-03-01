@@ -19,7 +19,6 @@ import javax.inject.Inject
 class FeedbackViewModel @Inject constructor(
     private val feedbackClient: FeedbackClient
 ) : ViewModel() {
-
     @Inject
     lateinit var analytics : EventAnalytics
 
@@ -49,13 +48,19 @@ class FeedbackViewModel @Inject constructor(
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             if (!task.isSuccessful) {
-                Timber.e("Firebase instanceId fail : ${task.exception}")
-                throw RuntimeException("Failed to get Fcm Token error")
+                Timber.e("Firebase get Fcm Token error : ${task.exception}")
+                analytics.errorEvent("Failed to get Fcm Token error : ${task.exception}", className)
+                _toastByResource.postValue(R.string.feedback_cannot_send)
+                return@addOnCompleteListener
+            }
+            val fcmToken = task.result
+            if (fcmToken == null) {
+                analytics.errorEvent("Fcm Token is null!", className)
+                _toastByResource.postValue(R.string.feedback_cannot_send)
+                return@addOnCompleteListener
             }
 
-            val fcmToken = task.result ?: throw RuntimeException("Fcm Token is null!")
-            val content = feedbackContent.value ?: return@addOnCompleteListener
-
+            val content = feedbackContent.value ?: ""
             if (content.length < 5) {
                 _toastByResource.value = R.string.feedback_too_short
                 return@addOnCompleteListener
@@ -74,8 +79,8 @@ class FeedbackViewModel @Inject constructor(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     if (it.isSuccess) {
-                        _toastByResource.value = R.string.feedback_success
                         Timber.e("feedback success content : $content")
+                        _toastByResource.value = R.string.feedback_success
                         _quit.call()
                     } else {
                         Timber.e("feedback failed : ${it.resultCode}, ${it.resultMsg}")
@@ -99,5 +104,9 @@ class FeedbackViewModel @Inject constructor(
         if (!disposable.isDisposed) {
             disposable.dispose()
         }
+    }
+
+    companion object {
+        const val className = "FeedbackViewModel"
     }
 }

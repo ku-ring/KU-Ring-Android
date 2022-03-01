@@ -37,6 +37,7 @@
     <string name="feedback_success">피드백이 정상적으로 전송되었습니다</string>
     <string name="feedback_write_more_character">5글자 이상 입력해주세요</string>
     <string name="feedback_size_of_character">글자수 : %s/256</string>
+    <string name="feedback_cannot_send">피드백을 보낼 수 없습니다. fcm 토큰을 확인해주세요</string>
 
     <!--  open source  -->
     <string name="open_source">오픈소스</string>
