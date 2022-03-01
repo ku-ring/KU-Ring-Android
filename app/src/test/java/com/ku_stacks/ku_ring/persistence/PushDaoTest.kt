@@ -32,19 +32,6 @@ class PushDaoTest : LocalDbAbstract() {
         receivedDate = "20220114-005036"
     )
 
-    private fun updatedPushMock(): PushEntity {
-        val pushMock = pushMock()
-        return PushEntity(
-            articleId = pushMock.articleId,
-            category = pushMock.category,
-            postedDate = pushMock.postedDate,
-            subject = pushMock.subject,
-            baseUrl = pushMock.baseUrl,
-            isNew = false,
-            receivedDate = pushMock.receivedDate
-        )
-    }
-
     @Test
     fun `insertNotification and getNotification Test`() = runBlocking {
         val pushMock = pushMock()
@@ -67,10 +54,10 @@ class PushDaoTest : LocalDbAbstract() {
     }
 
     @Test
-    fun `updateNotification Test`() = runBlocking {
+    fun `updateNotification As Old Test`() = runBlocking {
         val pushMock = pushMock()
         pushDao.insertNotification(pushMock)
-        pushDao.updateToReadNotification(pushMock.articleId, false).blockingSubscribe()
+        pushDao.updateNotificationAsOld(pushMock.articleId, false).blockingSubscribe()
 
         // updateConfirmedNotification 하면 isNew 값이 false
         val pushFromDB = pushDao.getNotification().blockingFirst()[0]
@@ -92,7 +79,7 @@ class PushDaoTest : LocalDbAbstract() {
         assertThat(notiCountFromDB, `is`(1))
 
         // isNew 를 false 로 업데이트하면 0개의 데이터
-        pushDao.updateToReadNotification(pushMock.articleId, false).blockingSubscribe()
+        pushDao.updateNotificationAsOld(pushMock.articleId, false).blockingSubscribe()
         notiCountFromDB = pushDao.getNotificationCount(true).blockingFirst()
         assertThat(notiCountFromDB, `is`(0))
     }

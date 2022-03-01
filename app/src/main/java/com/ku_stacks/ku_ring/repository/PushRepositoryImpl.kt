@@ -17,8 +17,8 @@ class PushRepositoryImpl @Inject constructor(
             .map { pushEntityList -> pushEntityList.toPushList() }
     }
 
-    override fun updateNotification(articleId: String): Completable {
-        return dao.updateToReadNotification(articleId, false)
+    override fun updateNotificationAsOld(articleId: String): Completable {
+        return dao.updateNotificationAsOld(articleId, false)
     }
 
     override fun getNotificationCount(): Flowable<Int> {
