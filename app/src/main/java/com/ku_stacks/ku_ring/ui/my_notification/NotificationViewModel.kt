@@ -4,12 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ku_stacks.ku_ring.data.mapper.toPushUiModelList
-import com.ku_stacks.ku_ring.data.model.Push
 import com.ku_stacks.ku_ring.repository.NoticeRepository
 import com.ku_stacks.ku_ring.repository.PushRepository
-import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushContentUiModel
 import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushDataUiModel
-import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushDateHeaderUiModel
 import com.ku_stacks.ku_ring.util.PreferenceUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -43,9 +40,9 @@ class NotificationViewModel @Inject constructor(
         )
     }
 
-    fun updateNotification(articleId: String) {
+    fun updateNotificationToBeOld(articleId: String) {
         disposable.add(
-            pushRepository.updateNotification(articleId)
+            pushRepository.updateNotificationAsOld(articleId)
                 .subscribeOn(Schedulers.io())
                 .subscribe({
                     //Timber.e("update noti success with adapter")

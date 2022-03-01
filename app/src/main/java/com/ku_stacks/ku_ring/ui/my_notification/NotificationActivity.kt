@@ -73,7 +73,7 @@ class NotificationActivity : AppCompatActivity() {
                 startDetailActivity(it.articleId, it.baseUrl, it.category)
             },
             onBindItem = {
-                viewModel.updateNotification(it.articleId)
+                viewModel.updateNotificationToBeOld(it.articleId)
             }
         )
 
