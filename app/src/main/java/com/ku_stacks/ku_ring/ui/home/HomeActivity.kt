@@ -35,6 +35,9 @@ class HomeActivity : AppCompatActivity() {
     @Inject
     lateinit var pref: PreferenceUtil
 
+    @Inject
+    lateinit var firebaseMessaging: FirebaseMessaging
+
     private lateinit var binding: ActivityHomeBinding
     private val viewModel by viewModels<HomeViewModel>()
 
@@ -136,10 +139,7 @@ class HomeActivity : AppCompatActivity() {
 
     private fun getFcmToken() {
         lifecycleScope.launch {
-            val instance = FirebaseInstallations.getInstance()
-            Timber.e("FCM instance : $instance")
-
-            FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            firebaseMessaging.token.addOnCompleteListener { task ->
                 if(!task.isSuccessful){
                     Timber.e("Firebase instanceId fail : ${task.exception}")
                     return@addOnCompleteListener

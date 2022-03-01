@@ -17,10 +17,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FeedbackViewModel @Inject constructor(
-    private val feedbackClient: FeedbackClient
+    private val feedbackClient: FeedbackClient,
+    private val analytics: EventAnalytics,
+    private val firebaseMessaging: FirebaseMessaging
 ) : ViewModel() {
-    @Inject
-    lateinit var analytics : EventAnalytics
 
     private val disposable = CompositeDisposable()
 
@@ -46,7 +46,7 @@ class FeedbackViewModel @Inject constructor(
     fun sendFeedback() {
         analytics.click("send feedback button", "FeedbackActivity")
 
-        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+        firebaseMessaging.token.addOnCompleteListener { task ->
             if (!task.isSuccessful) {
                 Timber.e("Firebase get Fcm Token error : ${task.exception}")
                 analytics.errorEvent("Failed to get Fcm Token error : ${task.exception}", className)
