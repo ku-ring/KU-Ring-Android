@@ -3,6 +3,7 @@ package com.ku_stacks.ku_ring.ui.my_notification
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.ku_stacks.ku_ring.data.mapper.toPushUiModelList
 import com.ku_stacks.ku_ring.data.model.Push
 import com.ku_stacks.ku_ring.repository.NoticeRepository
 import com.ku_stacks.ku_ring.repository.PushRepository
@@ -75,38 +76,6 @@ class NotificationViewModel @Inject constructor(
                 .subscribe({
                     Timber.e("noticeRecord update true : $category")
                 }, { Timber.e("noticeRecord update fail") })
-        )
-    }
-
-    private fun List<Push>.toPushUiModelList(): List<PushDataUiModel> {
-        val pushDataList = ArrayList<PushDataUiModel>()
-        forEachIndexed { index, push ->
-            /** 두 알림 날짜를 비교해서 서로 다른 날짜면 PushDateHeaderUiModel 삽입 */
-            val isNewDay = if (index == 0) {
-                true
-            } else {
-                val prevItem = this[index - 1]
-                prevItem.postedDate != push.postedDate
-            }
-
-            if (isNewDay) {
-                pushDataList.add(PushDateHeaderUiModel(push.postedDate))
-            }
-            pushDataList.add(push.toPushContentUiModel())
-        }
-        return pushDataList
-    }
-
-    private fun Push.toPushContentUiModel(): PushContentUiModel {
-        return PushContentUiModel(
-            articleId = articleId,
-            category = category,
-            postedDate = postedDate,
-            subject = subject,
-            baseUrl = baseUrl,
-            isNew = isNew,
-            receivedDate = receivedDate,
-            tag = tag
         )
     }
 
