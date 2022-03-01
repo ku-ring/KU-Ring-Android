@@ -29,7 +29,7 @@ class NoticePagingSourceTest {
     @Test
     fun `load PagingSource Refresh Success Test`() {
         // given
-        val mockData = MockUtil.mockNoticeList()
+        val mockData = MockUtil.mockNoticeResponseList()
         Mockito.`when`(client.fetchNoticeList("bch", 0, 20)).thenReturn(Single.just(mockData))
 
         // when, then
@@ -63,7 +63,7 @@ class NoticePagingSourceTest {
     @Test
     fun `load PagingSource Append Success Test`() {
         // given
-        val mockData = MockUtil.mockNoticeList()
+        val mockData = MockUtil.mockNoticeResponseList()
         Mockito.`when`(client.fetchNoticeList("bch", 20, 20)).thenReturn(Single.just(mockData))
 
         // when, then

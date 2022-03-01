@@ -7,13 +7,14 @@ import com.ku_stacks.ku_ring.data.api.response.NoticeResponse
 import com.ku_stacks.ku_ring.data.api.response.SubscribeListResponse
 import com.ku_stacks.ku_ring.data.db.NoticeEntity
 import com.ku_stacks.ku_ring.data.db.PushEntity
+import com.ku_stacks.ku_ring.data.model.Notice
 import org.mockito.Mockito
 
 object MockUtil {
 
     inline fun <reified T> mock(): T = Mockito.mock(T::class.java)
 
-    fun mockNoticeList() = NoticeListResponse(
+    fun mockNoticeResponseList() = NoticeListResponse(
         isSuccess = true,
         resultMsg = "성공",
         resultCode = 200,
@@ -40,6 +41,18 @@ object MockUtil {
         category = "bachelor",
         isNew = false,
         isRead = true
+    )
+
+    fun mockNotice() = Notice(
+        postedDate = "20220203",
+        subject = "2022학년도 1학기 재입학 합격자 유의사항 안내",
+        category = "bachelor",
+        url = "https://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do?id=5b4a11b",
+        articleId = "5b4a11b",
+        isNew = true,
+        isRead = false,
+        isSubscribing = false,
+        tag = emptyList()
     )
 
     fun mockPushEntity() = PushEntity(
