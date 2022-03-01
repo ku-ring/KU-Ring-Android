@@ -21,4 +21,16 @@ class EventAnalytics(@ApplicationContext context: Context) {
             putString(FirebaseAnalytics.Param.SCREEN_NAME, screenName)
         }
     }
+
+    fun errorEvent(errorMsg: String, screenClass: String) {
+        logEvent(KuRing_Error) {
+            putString(Log, errorMsg)
+            putString(FirebaseAnalytics.Param.SCREEN_NAME, screenClass)
+        }
+    }
+
+    companion object {
+        const val KuRing_Error = "com_kuring_application_error"
+        const val Log = "log"
+    }
 }
