@@ -160,6 +160,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     testImplementation 'androidx.test:core:1.4.0'
     testImplementation "org.robolectric:robolectric:4.4"
+    testImplementation "org.mockito.kotlin:mockito-kotlin:4.0.0"
 
     // paging3
     def paging_version = "3.0.1"

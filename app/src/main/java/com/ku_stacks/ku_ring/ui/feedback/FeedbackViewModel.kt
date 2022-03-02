@@ -70,10 +70,7 @@ class FeedbackViewModel @Inject constructor(
             }
 
             feedbackClient.sendFeedback(
-                FeedbackRequest(
-                    token = fcmToken,
-                    content = content
-                )
+                FeedbackRequest(token = fcmToken, content = content)
             )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
