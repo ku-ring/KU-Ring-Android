@@ -41,7 +41,7 @@ abstract class ApiAbstract<T> {
         mockWebServer.enqueue(mockResponse)
     }
 
-    fun createNoticeService(clazz: Class<T>): T {
+    fun createService(clazz: Class<T>): T {
         return Retrofit.Builder()
             .baseUrl(mockWebServer.url("/"))
             .addConverterFactory(GsonConverterFactory.create())

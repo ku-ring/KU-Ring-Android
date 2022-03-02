@@ -12,7 +12,7 @@ class NoticeServiceTest : ApiAbstract<NoticeService>() {
 
     @Before
     fun initService() {
-        service = createNoticeService(NoticeService::class.java)
+        service = createService(NoticeService::class.java)
     }
 
     @Test
