@@ -28,5 +28,3 @@ jobs:
       run: echo "Hello World"
     - name: Print SECRET
       run: echo ${{ secrets.GOOGLE_SERVICES_JSON_DEBUG }}
-    - name: Print SECRET Without Mask
-      run: echo ${{secrets.GOOGLE_SERVICES_JSON_DEBUG} | sed 's/./& /g'}
