@@ -22,7 +22,7 @@ jobs:
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
-    - name: Print SECRET Without Mast
-      run: echo '${{ secrets.GOOGLE_SERVICES_JSON_DEBUG }}' > ./app/src/debug/google-services.json
+    - name: Create google-services
+      run: echo '${{ secrets.GOOGLE_SERVICES_JSON_DEBUG }}' > ./app/google-services.json
     - name: Build with Gradle
       run: ./gradlew build
