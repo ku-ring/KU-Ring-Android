@@ -39,4 +39,4 @@ jobs:
       
     # Run unit test
     - name: Run unit test
-      run: ./gradlew test
+      run: ./gradlew testdebugUnitTest
