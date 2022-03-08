@@ -23,10 +23,10 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Print Hello World
-      run: |
-        echo "Hello World"
-        echo ${{ secrets.GOOGLE_SERVICES_JSON_DEBUG }}
+      run: echo "Hello World"
+    - name: Print SECRET
+      run: echo '${{ secrets.GOOGLE_SERVICES_JSON_DEBUG }}'
     - name: Print SECRET Without Mast
-      run: echo ${{ secrets.GOOGLE_SERVICES_JSON_DEBUG }} | sed 's/./& /g'
+      run: echo '${{ secrets.GOOGLE_SERVICES_JSON_DEBUG }}' | sed 's/./& /g'
     - name: Build with Gradle
       run: ./gradlew build
