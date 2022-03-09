@@ -32,7 +32,7 @@ jobs:
       
     - name: Create google-services
       run: |
-        mkdir ./src/debug
+        mkdir ./app/src/debug
         echo '${{ secrets.GOOGLE_SERVICES_JSON_DEBUG }}' > ./app/src/debug/google-services.json
       
     # Build Debug App
