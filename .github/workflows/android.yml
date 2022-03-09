@@ -31,7 +31,7 @@ jobs:
       run: chmod +x gradlew
       
     - name: Create google-services
-      run: echo '${{ secrets.GOOGLE_SERVICES_JSON_DEBUG }}' > ./app/google-services.json
+      run: echo '${{ secrets.GOOGLE_SERVICES_JSON_DEBUG }}' > ./app/src/debug/google-services.json
       
     # Build Debug App
     - name: Build with Gradle
