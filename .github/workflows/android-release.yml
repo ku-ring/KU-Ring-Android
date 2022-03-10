@@ -31,7 +31,7 @@ jobs:
     - name: Create KeyStore File and Properties
       run: |
         mkdir ./app/signing
-        echo '${{ secrets.KU_RING_KEY_STORE_JKS }}' > ./app/signing/ku_ring_keystore.jks
+        echo '${{ secrets.KU_RING_KEY_STORE_JKS }}' | base64 -d > ./app/signing/ku_ring_keystore.jks
         echo '${{ secrets.KEY_STORE_PROPERTIES }}' > ./app/signing/keystore.properties
 
     # Build Bundle release
