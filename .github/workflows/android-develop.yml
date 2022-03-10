@@ -1,4 +1,4 @@
-name: Android CI
+name: Android-develop CI
 
 # Every new pull request to develop branch must fire CI check
 on:
