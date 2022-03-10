@@ -8,21 +8,20 @@ plugins {
     id 'com.google.android.gms.oss-licenses-plugin'
 }
 
-def useReleaseKeystore = rootProject.file(keystore).exists()
+
+def keystorePropertiesFile = rootProject.file("app/signing/keystore.properties")
 
 android {
     signingConfigs {
         release {
-            keyPassword key_pass
-            keyAlias key_alias
-            storePassword keystore_pass
-            storeFile file(keystore)
-            if (useReleaseKeystore) {
-                storeFile rootProject.file(keystore)
-                storePassword keystore_pass
-                keyAlias key_alias
-                keyPassword key_pass
-            }
+            def keystoreProperties = new Properties()
+            keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+            // storeFile
+            storeFile file(keystoreProperties['storeFile'])
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storePassword keystoreProperties['storePassword']
         }
     }
     compileSdk 30
