@@ -1,0 +1,53 @@
+name: Android-release CI/CD
+
+on:
+  push:
+    branches: [ release ]
+  pull_request:
+    branches: [ release ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: set up JDK 11
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+        cache: gradle
+
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+      
+    - name: Create google-services
+      run: |
+        mkdir ./app/src/release
+        echo '${{ secrets.GOOGLE_SERVICES_JSON_RELEASE }}' > ./app/src/release/google-services.json
+
+    - name: Create KeyStore File and Properties
+      run: |
+        mkdir ./app/signing
+        echo '${{ secrets.KU_RING_KEY_STORE_JKS }}' > ./app/signing/ku_ring_keystore.jks
+        echo '${{ secrets.KEY_STORE_PROPERTIES }}' > ./app/signing/keystore.properties
+
+    # Build Bundle release
+    - name: Build with Gradle
+      run: ./gradlew bundleRelease
+
+    # Run unit test
+    - name: Run unit test
+      run: ./gradlew testreleaseUnitTest
+      
+    # Upload AAB
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v3.0.0
+      with:
+        # Artifact name
+        name: app-release.aab
+        # A file, directory or wildcard pattern that describes what to upload
+        path: ./app/build/outputs/bundle/release/app-release.aab
+        retention-days: 3
