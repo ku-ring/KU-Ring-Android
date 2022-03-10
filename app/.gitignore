@@ -2,3 +2,4 @@
 /src/debug/google-services.json
 /src/release/google-services.json
 /signing/ku_ring_keystore.jks
+/signing/keystore.properties
