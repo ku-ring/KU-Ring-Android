@@ -8,7 +8,6 @@ plugins {
     id 'com.google.android.gms.oss-licenses-plugin'
 }
 
-
 def keystorePropertiesFile = rootProject.file("app/signing/keystore.properties")
 
 android {

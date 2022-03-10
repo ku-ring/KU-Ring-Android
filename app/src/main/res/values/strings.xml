@@ -30,7 +30,7 @@
 
     <!--  feedback  -->
     <string name="feedback_send_content">피드백 보내기</string>
-    <string name="feedback_title">피드백을 남겨서 앱이 성장하는데에 \n큰 기여를 해주세요 🙂</string>
+    <string name="feedback_title">피드백을 남겨서 앱이 성장하는데에 \n큰 기여를 해주세요. 🙂</string>
     <string name="feedback_hint">피드백을 남겨주세요…</string>
     <string name="feedback_too_short">글자 수는 5글자 이상이어야 합니다.</string>
     <string name="feedback_too_long">글자 수는 256글자 이하여야 합니다.</string>
