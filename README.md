@@ -49,3 +49,30 @@ https://play.google.com/store/apps/details?id=com.ku_stacks.ku_ring
  - Mockito
 
 <img src="https://github.com/KU-Stacks/KU-Ring-Android/blob/main/preview/%EC%9C%A0%EB%8B%9B%20%ED%85%8C%EC%8A%A4%ED%8A%B8.JPG" width="90%"/>
+
+## Version Updates
+
+### v.1.1.2
+  - 다크모드 추가
+  - 앱 안정성 향상
+  - 디자인 개선
+
+### v.1.1.1
+  - 버전 싱크 수정
+
+### v.1.1.0
+  - 첫 사용자를 위한 온보딩 추가
+  - 내알림 화면에서 알림 각각 삭제 기능 추가
+  - 앱 내 디자인 일부 수정
+
+### v.1.0.2
+  - 화면 간 읽음 처리 동기화
+  - 내 알림 화면에서 스크롤 시 update 이슈 수정
+
+### v.1.0.1 
+  - 홈 화면에서 읽음 처리 버그 수정
+  - 푸시 커스텀 관련 버그 수정
+  - 검색화면에서 글자 겹침 버그 수정
+
+### v.1.0.0 
+  - 쿠링 첫 출시!
