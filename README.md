@@ -13,6 +13,8 @@ https://play.google.com/store/apps/details?id=com.ku_stacks.ku_ring
 
 ## Tech Stack & Libraries
 
+<img src="https://github.com/KU-Stacks/KU-Ring-Android/blob/main/preview/preview1_gif.gif" align="right" width="30%"/>
+
 ### Architecture
 - MVVM Architecture
 - Repository Pattern
