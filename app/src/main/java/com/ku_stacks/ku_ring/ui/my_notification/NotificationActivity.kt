@@ -40,7 +40,7 @@ class NotificationActivity : AppCompatActivity() {
         setupListAdapter()
         observeData()
 
-        viewModel.getMyNotification()
+        viewModel.getMyNotificationList()
     }
 
     private fun setupBinding() {

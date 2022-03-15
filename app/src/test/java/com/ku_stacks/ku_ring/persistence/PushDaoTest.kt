@@ -33,13 +33,13 @@ class PushDaoTest : LocalDbAbstract() {
     )
 
     @Test
-    fun `insertNotification and getNotification Test`() = runBlocking {
+    fun `insertNotification and getNotificationList Test`() = runBlocking {
         // given
         val pushMock = pushMock()
         pushDao.insertNotification(pushMock)
 
         // when
-        val pushFromDB = pushDao.getNotification().blockingFirst()[0]
+        val pushFromDB = pushDao.getNotificationList().blockingFirst()[0]
 
         // then
         /**
@@ -57,14 +57,14 @@ class PushDaoTest : LocalDbAbstract() {
     }
 
     @Test
-    fun `updateNotification As Old Test`() = runBlocking {
+    fun `update Notification As Old Test`() = runBlocking {
         // given
         val pushMock = pushMock()
         pushDao.insertNotification(pushMock)
         pushDao.updateNotificationAsOld(pushMock.articleId, false).blockingSubscribe()
 
         // when
-        val pushFromDB = pushDao.getNotification().blockingFirst()[0]
+        val pushFromDB = pushDao.getNotificationList().blockingFirst()[0]
 
         // then : updateConfirmedNotification 하면 isNew 값이 false
         assertThat(pushFromDB.articleId, `is`(pushMock.articleId))

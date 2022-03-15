@@ -11,8 +11,8 @@ import javax.inject.Inject
 class PushRepositoryImpl @Inject constructor(
     private val dao: PushDao
 ) : PushRepository {
-    override fun getMyNotification(): Flowable<List<Push>> {
-        return dao.getNotification()
+    override fun getMyNotificationList(): Flowable<List<Push>> {
+        return dao.getNotificationList()
             .distinctUntilChanged()
             .map { pushEntityList -> pushEntityList.toPushList() }
     }

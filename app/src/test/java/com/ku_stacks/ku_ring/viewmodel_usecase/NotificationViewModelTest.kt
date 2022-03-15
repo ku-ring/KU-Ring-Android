@@ -36,18 +36,18 @@ class NotificationViewModelTest {
     }
 
     @Test
-    fun `get MyNotification Test`() {
+    fun `get MyNotification List Test`() {
         // given
         val mockData = listOf(MockUtil.mockPushEntity()).toPushList()
-        Mockito.`when`(pushRepository.getMyNotification()).thenReturn(Flowable.just(mockData))
+        Mockito.`when`(pushRepository.getMyNotificationList()).thenReturn(Flowable.just(mockData))
 
         // when
-        viewModel.getMyNotification()
+        viewModel.getMyNotificationList()
         viewModel.pushUiModelList.getOrAwaitValue()
 
         // then
         val expected = mockData.toPushUiModelList()
-        verify(pushRepository, atLeastOnce()).getMyNotification()
+        verify(pushRepository, atLeastOnce()).getMyNotificationList()
         assertEquals(expected, viewModel.pushUiModelList.value)
     }
 
