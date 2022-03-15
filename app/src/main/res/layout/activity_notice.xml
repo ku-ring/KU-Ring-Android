@@ -7,7 +7,7 @@
     tools:context=".ui.notice_webview.NoticeActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/detail_app_bar"
+        android:id="@+id/notice_app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:stateListAnimator="@animator/appbar_elevation">
@@ -46,7 +46,7 @@
             android:layout_height="match_parent">
 
             <ProgressBar
-                android:id="@+id/detail_progressbar"
+                android:id="@+id/notice_progressbar"
                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
                 app:layout_constraintVertical_bias="0.0" />
 
             <WebView
-                android:id="@+id/detail_webView"
+                android:id="@+id/notice_webView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scrollbars="none"
