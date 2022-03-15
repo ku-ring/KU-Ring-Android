@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.ui.detail
+package com.ku_stacks.ku_ring.ui.notice_webview
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -6,26 +6,16 @@ import android.os.Bundle
 import android.view.View
 import android.webkit.*
 import android.widget.ProgressBar
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.ku_stacks.ku_ring.R
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
-/*
-    javaScriptEnabled = true // 웹페이지 자바스크립트 허용 여부
-    setSupportMultipleWindows(false) // 새창 띄우기 허용 여부
-    javaScriptCanOpenWindowsAutomatically = false // 자바스크립트 새창 띄우기(멀티뷰) 허용 여부
-    loadWithOverviewMode = true // 메타태그 허용 여부
-    useWideViewPort = false // 화면 사이즈 맞추기 허용 여부(true로 두면 pc화면 처럼 보임)
-    setSupportZoom(false) // 화면 줌 허용 여부
-    displayZoomControls = false // 화면 줌 허용할 때 돋보기 보임 여부
-    builtInZoomControls = true // 화면 확대 축소 허용 여부 (true로 두면 돋보기+- 버튼 생김)
-    layoutAlgorithm = WebSettings.LayoutAlgorithm.SINGLE_COLUMN // 컨텐츠 사이즈 맞추기
-    cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK // 브라우저 캐시 허용 여부
-    domStorageEnabled = true // 로컬저장소 허용 여부
-위의 설정으로 하면 일부 안열리는 링크가 있었음 ex. 예술문화관(능동로 방향) 펜스 출입문 통제 안내
- */
+@AndroidEntryPoint
+class NoticeActivity : AppCompatActivity() {
 
-class DetailActivity : AppCompatActivity() {
+    private val viewModel by viewModels<NoticeViewModel>()
 
     private lateinit var webView: WebView
     private lateinit var progressBar: ProgressBar
@@ -33,13 +23,16 @@ class DetailActivity : AppCompatActivity() {
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail)
+        setContentView(R.layout.activity_notice)
 
-        val url = intent.getStringExtra("url")
-        Timber.e("detail url : $url")
+        webView = findViewById(R.id.notice_webView)
+        progressBar = findViewById(R.id.notice_progressbar)
 
-        webView = findViewById(R.id.detail_webView)
-        progressBar = findViewById(R.id.detail_progressbar)
+        val url = intent.getStringExtra(NOTICE_URL)
+        val articleId = intent.getStringExtra(NOTICE_ARTICLE_ID)
+        val category = intent.getStringExtra(NOTICE_CATEGORY)
+
+        Timber.e("notice url : $url")
 
         webView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(
@@ -66,7 +59,13 @@ class DetailActivity : AppCompatActivity() {
         webView.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView, newProgress: Int) {
                 progressBar.progress = newProgress
-                progressBar.visibility = if (newProgress == 100) View.GONE else View.VISIBLE
+                if (newProgress == 100) {
+                    progressBar.visibility = View.GONE
+                    updateNoticeTobeRead(articleId, category)
+                    webView.webChromeClient = null
+                } else {
+                    progressBar.visibility = View.VISIBLE
+                }
                 super.onProgressChanged(view, newProgress)
             }
         }
@@ -76,8 +75,22 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
+    private fun updateNoticeTobeRead(articleId: String?, category: String?) {
+        if (articleId.isNullOrEmpty() || category.isNullOrEmpty()) {
+            Timber.e("articleId or category is null. articleId : $articleId, category : $category")
+        } else {
+            viewModel.updateNoticeTobeRead(articleId, category)
+        }
+    }
+
     override fun onBackPressed() {
         super.onBackPressed()
         overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
+    }
+
+    companion object {
+        const val NOTICE_URL = "url"
+        const val NOTICE_ARTICLE_ID = "articleId"
+        const val NOTICE_CATEGORY = "category"
     }
 }

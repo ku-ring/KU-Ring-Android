@@ -133,16 +133,6 @@ class SearchViewModel @Inject constructor(
         )
     }
 
-    fun updateNoticeTobeRead(notice: Notice) {
-        disposable.add(
-            noticeRepository.updateNoticeToBeRead(notice.articleId, notice.category)
-                .subscribeOn(Schedulers.io())
-                .subscribe({
-                    //Timber.e("noticeRecord update true : $category")
-                }, { Timber.e("noticeRecord update fail") })
-        )
-    }
-
     override fun onCleared() {
         super.onCleared()
         disconnectWebSocket()

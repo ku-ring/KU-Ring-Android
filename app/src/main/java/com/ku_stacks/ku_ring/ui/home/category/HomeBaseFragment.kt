@@ -7,14 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.databinding.FragmentHomeCategoryBinding
-import com.ku_stacks.ku_ring.ui.detail.DetailActivity
-import com.ku_stacks.ku_ring.ui.home.HomeActivity
+import com.ku_stacks.ku_ring.ui.notice_webview.NoticeActivity
+import com.ku_stacks.ku_ring.ui.home.HomeViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -24,6 +25,8 @@ abstract class HomeBaseFragment : Fragment() {
 
     protected lateinit var binding: FragmentHomeCategoryBinding
     protected lateinit var pagingAdapter: NoticePagingAdapter
+
+    private val homeViewModel by activityViewModels<HomeViewModel>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home_category, container,false)
@@ -60,11 +63,10 @@ abstract class HomeBaseFragment : Fragment() {
     private fun setupListAdapter() {
         pagingAdapter = NoticePagingAdapter(
             itemClick = { notice ->
-                (activity as HomeActivity).updateNoticeTobeRead(notice)
-                startDetailActivity(notice)
+                startNoticeActivity(notice)
             },
             onBindItem = { notice ->
-                (activity as HomeActivity).insertNotice(notice.articleId, notice.category)
+                homeViewModel.insertNoticeAsOld(notice.articleId, notice.category)
             }
         )
 
@@ -94,9 +96,12 @@ abstract class HomeBaseFragment : Fragment() {
         binding.homeShimmerLayout.visibility = View.GONE
     }
 
-    private fun startDetailActivity(notice: Notice) {
-        val intent = Intent(requireActivity(), DetailActivity::class.java)
-        intent.putExtra("url", notice.url)
+    private fun startNoticeActivity(notice: Notice) {
+        val intent = Intent(requireActivity(), NoticeActivity::class.java).apply {
+            putExtra(NoticeActivity.NOTICE_URL, notice.url)
+            putExtra(NoticeActivity.NOTICE_ARTICLE_ID, notice.articleId)
+            putExtra(NoticeActivity.NOTICE_CATEGORY, notice.category)
+        }
         startActivity(intent)
         requireActivity().overridePendingTransition(
             R.anim.anim_slide_right_enter,

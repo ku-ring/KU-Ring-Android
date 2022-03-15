@@ -24,7 +24,6 @@ class NotificationViewModelTest {
 
     private lateinit var viewModel: NotificationViewModel
     private val pushRepository: PushRepository = mock()
-    private val noticeRepository: NoticeRepository = mock()
     private val pref: PreferenceUtil = mock()
 
     @get:Rule
@@ -32,22 +31,22 @@ class NotificationViewModelTest {
 
     @Before
     fun setup() {
-        viewModel = NotificationViewModel(pushRepository, noticeRepository, pref)
+        viewModel = NotificationViewModel(pushRepository, pref)
     }
 
     @Test
-    fun `get MyNotification Test`() {
+    fun `get MyNotification List Test`() {
         // given
         val mockData = listOf(MockUtil.mockPushEntity()).toPushList()
-        Mockito.`when`(pushRepository.getMyNotification()).thenReturn(Flowable.just(mockData))
+        Mockito.`when`(pushRepository.getMyNotificationList()).thenReturn(Flowable.just(mockData))
 
         // when
-        viewModel.getMyNotification()
+        viewModel.getMyNotificationList()
         viewModel.pushUiModelList.getOrAwaitValue()
 
         // then
         val expected = mockData.toPushUiModelList()
-        verify(pushRepository, atLeastOnce()).getMyNotification()
+        verify(pushRepository, atLeastOnce()).getMyNotificationList()
         assertEquals(expected, viewModel.pushUiModelList.value)
     }
 
@@ -62,19 +61,5 @@ class NotificationViewModelTest {
 
         // then
         verify(pushRepository, times(1)).updateNotificationAsOld(mockData.articleId)
-    }
-
-    @Test
-    fun `update Notice Tobe Read Test`() {
-        // given
-        val articleId = "ababab"
-        val category = "학사"
-        Mockito.`when`(noticeRepository.updateNoticeToBeRead(articleId, category)).thenReturn(Completable.complete())
-
-        // when
-        viewModel.updateNoticeTobeRead(articleId, category)
-
-        // then
-        verify(noticeRepository, times(1)).updateNoticeToBeRead(articleId, category)
     }
 }

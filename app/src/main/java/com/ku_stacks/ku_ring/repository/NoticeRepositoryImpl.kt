@@ -25,7 +25,7 @@ class NoticeRepositoryImpl @Inject constructor(
     private val isNewRecordHashMap = HashMap<String, NoticeEntity>()
 
     override fun getNotices(type: String, scope: CoroutineScope): Flowable<PagingData<Notice>> {
-        val flowableRemote = getSingleLocal()
+        val flowableRemote = getSingleLocalNotice()
             .flatMap { getFlowableRemoteNotice(type) }
             .map { transformRemoteData(it, type) }
             .cachedIn(scope)
@@ -34,7 +34,7 @@ class NoticeRepositoryImpl @Inject constructor(
          하나의 insert에 대해서 2개 또는 3개의 변화 감지가 발생할 것임.
          그 이유는 양옆 fragment 의 viewModel 에서 호출하기 때문
         */
-        val flowableLocal = noticeDao.getReadNoticeRecord(true)
+        val flowableLocal = noticeDao.getReadNoticeList(true)
             .distinctUntilChanged { old, new ->
                 /**
                  DB insert 되는 경우, 업데이트를 감지하기 위함이므로 성능을 위해
@@ -85,8 +85,8 @@ class NoticeRepositoryImpl @Inject constructor(
         }
     }
 
-    private fun getSingleLocal(): Flowable<List<NoticeEntity>> {
-        return noticeDao.getNoticeRecord()
+    private fun getSingleLocalNotice(): Flowable<List<NoticeEntity>> {
+        return noticeDao.getOldNoticeList()
             .subscribeOn(Schedulers.io())
             .toFlowable()
             .doOnNext { // local 데이터가 처음 발행될때 HashMap 에 저장 (단 한번만 실행)
@@ -108,8 +108,8 @@ class NoticeRepositoryImpl @Inject constructor(
         ).flowable
     }
 
-    override fun insertNotice(articleId: String, category: String): Completable {
-        return noticeDao.insertNotice(
+    override fun insertNoticeAsOld(articleId: String, category: String): Completable {
+        return noticeDao.insertNoticeAsOld(
             NoticeEntity(
                 articleId = articleId,
                 category = category,

@@ -16,7 +16,7 @@ class NotionViewActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_personal_data)
 
-        val url = intent.getStringExtra("url")
+        val url = intent.getStringExtra(NOTION_URL)
 
         val webView = findViewById<WebView>(R.id.personal_data_webview)
         val progressBar = findViewById<ProgressBar>(R.id.personal_data_progressbar)
@@ -40,5 +40,9 @@ class NotionViewActivity : AppCompatActivity() {
         url?.let {
             webView.loadUrl(it)
         }
+    }
+
+    companion object {
+        const val NOTION_URL = "notion_url"
     }
 }

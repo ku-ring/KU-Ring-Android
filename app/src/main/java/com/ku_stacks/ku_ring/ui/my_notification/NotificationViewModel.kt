@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ku_stacks.ku_ring.data.mapper.toPushUiModelList
-import com.ku_stacks.ku_ring.repository.NoticeRepository
 import com.ku_stacks.ku_ring.repository.PushRepository
 import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushDataUiModel
 import com.ku_stacks.ku_ring.util.PreferenceUtil
@@ -17,7 +16,6 @@ import javax.inject.Inject
 @HiltViewModel
 class NotificationViewModel @Inject constructor(
     private val pushRepository: PushRepository,
-    private val noticeRepository: NoticeRepository,
     private val pref: PreferenceUtil
 ) : ViewModel() {
 
@@ -27,9 +25,9 @@ class NotificationViewModel @Inject constructor(
     val pushUiModelList: LiveData<List<PushDataUiModel>>
         get() = _pushUiModelList
 
-    fun getMyNotification() {
+    fun getMyNotificationList() {
         disposable.add(
-            pushRepository.getMyNotification()
+            pushRepository.getMyNotificationList()
                 .subscribeOn(Schedulers.io())
                 .map { pushList -> pushList.toPushUiModelList() }
                 .subscribe({
@@ -64,16 +62,6 @@ class NotificationViewModel @Inject constructor(
 
     fun deleteAllPushDB() {
         pushRepository.deleteAllNotification()
-    }
-
-    fun updateNoticeTobeRead(articleId: String, category: String) {
-        disposable.add(
-            noticeRepository.updateNoticeToBeRead(articleId, category)
-                .subscribeOn(Schedulers.io())
-                .subscribe({
-                    Timber.e("noticeRecord update true : $category")
-                }, { Timber.e("noticeRecord update fail") })
-        )
     }
 
     override fun onCleared() {
