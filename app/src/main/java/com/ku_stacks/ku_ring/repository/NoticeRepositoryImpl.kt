@@ -34,7 +34,7 @@ class NoticeRepositoryImpl @Inject constructor(
          하나의 insert에 대해서 2개 또는 3개의 변화 감지가 발생할 것임.
          그 이유는 양옆 fragment 의 viewModel 에서 호출하기 때문
         */
-        val flowableLocal = noticeDao.getReadNoticeRecord(true)
+        val flowableLocal = noticeDao.getReadNoticeList(true)
             .distinctUntilChanged { old, new ->
                 /**
                  DB insert 되는 경우, 업데이트를 감지하기 위함이므로 성능을 위해

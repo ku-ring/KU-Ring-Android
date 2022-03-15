@@ -98,13 +98,13 @@ class NoticeDaoTest : LocalDbAbstract() {
     }
 
     @Test
-    fun `updateNotice  getReadNoticeRecord Test`() {
+    fun `updateNotice and getReadNoticeList Test`() {
         // given
         val noticeMock = noticeMock()
         noticeDao.insertNoticeAsOld(noticeMock).blockingSubscribe()
 
         // when
-        val sizeOfNotReadNotice = noticeDao.getReadNoticeRecord(true).blockingFirst().size
+        val sizeOfNotReadNotice = noticeDao.getReadNoticeList(true).blockingFirst().size
         // then : 공지를 읽기 전엔 isRead 가 true 인 데이터 0개
         assertThat(sizeOfNotReadNotice, `is`(0))
 
@@ -113,7 +113,7 @@ class NoticeDaoTest : LocalDbAbstract() {
         noticeDao.updateNotice(readNoticeMock).blockingSubscribe()
 
         // when
-        val sizeOfReadNotice = noticeDao.getReadNoticeRecord(true).blockingFirst().size
+        val sizeOfReadNotice = noticeDao.getReadNoticeList(true).blockingFirst().size
         // then : 공지를 읽은 후엔 isRead 가 true 인 데이터 1개
         assertThat(sizeOfReadNotice, `is`(1))
     }
