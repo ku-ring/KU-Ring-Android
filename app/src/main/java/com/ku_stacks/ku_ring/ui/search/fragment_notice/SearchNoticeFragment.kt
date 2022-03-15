@@ -37,7 +37,9 @@ class SearchNoticeFragment: Fragment() {
 
     private fun setupListAdapter() {
         searchNoticeAdapter = SearchNoticeAdapter(
-            itemClick = { startDetailActivity(it) }
+            itemClick = {
+                startNoticeActivity(it)
+            }
         )
         binding.searchNoticeRecyclerview.layoutManager = LinearLayoutManager(activity)
         binding.searchNoticeRecyclerview.adapter = searchNoticeAdapter
@@ -54,7 +56,7 @@ class SearchNoticeFragment: Fragment() {
         }
     }
 
-    private fun startDetailActivity(notice: Notice) {
+    private fun startNoticeActivity(notice: Notice) {
         val intent = Intent(requireContext(), NoticeActivity::class.java).apply {
             putExtra(NoticeActivity.NOTICE_URL, notice.url)
             putExtra(NoticeActivity.NOTICE_ARTICLE_ID, notice.articleId)

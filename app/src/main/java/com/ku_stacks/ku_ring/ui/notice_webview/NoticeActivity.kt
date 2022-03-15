@@ -23,16 +23,16 @@ class NoticeActivity : AppCompatActivity() {
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail)
+        setContentView(R.layout.activity_notice)
 
-        webView = findViewById(R.id.detail_webView)
-        progressBar = findViewById(R.id.detail_progressbar)
+        webView = findViewById(R.id.notice_webView)
+        progressBar = findViewById(R.id.notice_progressbar)
 
         val url = intent.getStringExtra(NOTICE_URL)
         val articleId = intent.getStringExtra(NOTICE_ARTICLE_ID)
         val category = intent.getStringExtra(NOTICE_CATEGORY)
 
-        Timber.e("detail url : $url")
+        Timber.e("notice url : $url")
 
         webView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(

@@ -63,7 +63,7 @@ class HomeActivity : AppCompatActivity() {
         intent?.getStringExtra(NoticeActivity.NOTICE_URL)?.let {
             val articleId = intent.getStringExtra(NoticeActivity.NOTICE_ARTICLE_ID)
             val category = intent.getStringExtra(NoticeActivity.NOTICE_CATEGORY)
-            navToDetailActivity(it, articleId, category)
+            navToNoticeActivity(it, articleId, category)
         }
 
         setupBinding()
@@ -161,11 +161,11 @@ class HomeActivity : AppCompatActivity() {
         intent?.getStringExtra(NoticeActivity.NOTICE_URL)?.let {
             val articleId = intent.getStringExtra(NoticeActivity.NOTICE_ARTICLE_ID)
             val category = intent.getStringExtra(NoticeActivity.NOTICE_CATEGORY)
-            navToDetailActivity(it, articleId, category)
+            navToNoticeActivity(it, articleId, category)
         }
     }
 
-    private fun navToDetailActivity(noticeUrl: String?, articleId: String?, category: String?) {
+    private fun navToNoticeActivity(noticeUrl: String?, articleId: String?, category: String?) {
         val newIntent = Intent(this, NoticeActivity::class.java).apply {
             putExtra(NoticeActivity.NOTICE_URL, noticeUrl)
             putExtra(NoticeActivity.NOTICE_ARTICLE_ID, articleId)

@@ -69,7 +69,7 @@ class NotificationActivity : AppCompatActivity() {
     private fun setupListAdapter() {
         notificationAdapter = NotificationAdapter(
             itemClick = {
-                startDetailActivity(it.articleId, it.baseUrl, it.category)
+                startNoticeActivity(it.articleId, it.baseUrl, it.category)
             },
             onBindItem = {
                 viewModel.updateNotificationToBeOld(it.articleId)
@@ -122,7 +122,7 @@ class NotificationActivity : AppCompatActivity() {
         }
     }
 
-    private fun startDetailActivity(articleId: String, baseUrl: String, category: String) {
+    private fun startNoticeActivity(articleId: String, baseUrl: String, category: String) {
         val url = UrlGenerator.generateNoticeUrl(articleId, category, baseUrl)
         Timber.e("url : $url, category : $category")
 
