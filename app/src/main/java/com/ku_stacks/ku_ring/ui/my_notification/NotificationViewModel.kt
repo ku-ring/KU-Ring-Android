@@ -27,9 +27,9 @@ class NotificationViewModel @Inject constructor(
     val pushUiModelList: LiveData<List<PushDataUiModel>>
         get() = _pushUiModelList
 
-    fun getMyNotification() {
+    fun getMyNotificationList() {
         disposable.add(
-            pushRepository.getMyNotification()
+            pushRepository.getMyNotificationList()
                 .subscribeOn(Schedulers.io())
                 .map { pushList -> pushList.toPushUiModelList() }
                 .subscribe({
