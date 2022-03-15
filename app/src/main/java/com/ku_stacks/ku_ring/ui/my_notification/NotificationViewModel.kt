@@ -66,16 +66,6 @@ class NotificationViewModel @Inject constructor(
         pushRepository.deleteAllNotification()
     }
 
-    fun updateNoticeTobeRead(articleId: String, category: String) {
-        disposable.add(
-            noticeRepository.updateNoticeToBeRead(articleId, category)
-                .subscribeOn(Schedulers.io())
-                .subscribe({
-                    Timber.e("noticeRecord update true : $category")
-                }, { Timber.e("noticeRecord update fail") })
-        )
-    }
-
     override fun onCleared() {
         super.onCleared()
 

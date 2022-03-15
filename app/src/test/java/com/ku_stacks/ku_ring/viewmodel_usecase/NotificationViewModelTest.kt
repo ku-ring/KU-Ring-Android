@@ -63,18 +63,4 @@ class NotificationViewModelTest {
         // then
         verify(pushRepository, times(1)).updateNotificationAsOld(mockData.articleId)
     }
-
-    @Test
-    fun `update Notice Tobe Read Test`() {
-        // given
-        val articleId = "ababab"
-        val category = "학사"
-        Mockito.`when`(noticeRepository.updateNoticeToBeRead(articleId, category)).thenReturn(Completable.complete())
-
-        // when
-        viewModel.updateNoticeTobeRead(articleId, category)
-
-        // then
-        verify(noticeRepository, times(1)).updateNoticeToBeRead(articleId, category)
-    }
 }

@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.databinding.FragmentHomeCategoryBinding
-import com.ku_stacks.ku_ring.ui.detail.DetailActivity
+import com.ku_stacks.ku_ring.ui.notice_webview.NoticeActivity
 import com.ku_stacks.ku_ring.ui.home.HomeActivity
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.flow.collectLatest
@@ -60,7 +60,6 @@ abstract class HomeBaseFragment : Fragment() {
     private fun setupListAdapter() {
         pagingAdapter = NoticePagingAdapter(
             itemClick = { notice ->
-                (activity as HomeActivity).updateNoticeTobeRead(notice)
                 startDetailActivity(notice)
             },
             onBindItem = { notice ->
@@ -95,8 +94,11 @@ abstract class HomeBaseFragment : Fragment() {
     }
 
     private fun startDetailActivity(notice: Notice) {
-        val intent = Intent(requireActivity(), DetailActivity::class.java)
-        intent.putExtra("url", notice.url)
+        val intent = Intent(requireActivity(), NoticeActivity::class.java).apply {
+            putExtra("url", notice.url)
+            putExtra("articleId", notice.articleId)
+            putExtra("category", notice.category)
+        }
         startActivity(intent)
         requireActivity().overridePendingTransition(
             R.anim.anim_slide_right_enter,

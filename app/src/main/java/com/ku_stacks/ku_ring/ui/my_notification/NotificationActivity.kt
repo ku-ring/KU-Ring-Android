@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.databinding.ActivityNotificationBinding
-import com.ku_stacks.ku_ring.ui.detail.DetailActivity
+import com.ku_stacks.ku_ring.ui.notice_webview.NoticeActivity
 import com.ku_stacks.ku_ring.ui.home.HomeActivity
 import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushContentUiModel
 import com.ku_stacks.ku_ring.ui.setting_notification.SettingNotificationActivity
@@ -69,7 +69,6 @@ class NotificationActivity : AppCompatActivity() {
     private fun setupListAdapter() {
         notificationAdapter = NotificationAdapter(
             itemClick = {
-                viewModel.updateNoticeTobeRead(it.articleId, it.category)
                 startDetailActivity(it.articleId, it.baseUrl, it.category)
             },
             onBindItem = {
@@ -127,8 +126,11 @@ class NotificationActivity : AppCompatActivity() {
         val url = UrlGenerator.generateNoticeUrl(articleId, category, baseUrl)
         Timber.e("url : $url, category : $category")
 
-        val intent = Intent(this, DetailActivity::class.java)
-        intent.putExtra("url", url)
+        val intent = Intent(this, NoticeActivity::class.java).apply {
+            putExtra("url", url)
+            putExtra("articleId", articleId)
+            putExtra("category", category)
+        }
         startActivity(intent)
         overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
     }

@@ -34,16 +34,6 @@ class HomeViewModel @Inject constructor(
         getNotificationCount()
     }
 
-    fun updateNoticeTobeRead(notice: Notice) {
-        disposable.add(
-            noticeRepository.updateNoticeToBeRead(notice.articleId, notice.category)
-                .subscribeOn(Schedulers.io())
-                .subscribe({
-                    //Timber.e("noticeRecord update true : $articleId")
-                }, { Timber.e("noticeRecord update fail") })
-        )
-    }
-
     fun insertNotice(articleId: String, category: String) {
         disposable.add(
             noticeRepository.insertNotice(articleId = articleId, category = category)

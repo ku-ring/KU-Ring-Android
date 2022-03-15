@@ -9,13 +9,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
-import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.messaging.FirebaseMessaging
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.analytics.EventAnalytics
-import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.databinding.ActivityHomeBinding
-import com.ku_stacks.ku_ring.ui.detail.DetailActivity
+import com.ku_stacks.ku_ring.ui.notice_webview.NoticeActivity
 import com.ku_stacks.ku_ring.ui.home.dialog.HomeBottomSheet
 import com.ku_stacks.ku_ring.ui.my_notification.NotificationActivity
 import com.ku_stacks.ku_ring.ui.search.SearchActivity
@@ -155,10 +153,6 @@ class HomeActivity : AppCompatActivity() {
         bottomSheet.show(supportFragmentManager, bottomSheet.tag)
     }
 
-    fun updateNoticeTobeRead(notice: Notice) {
-        viewModel.updateNoticeTobeRead(notice)
-    }
-
     fun insertNotice(articleId: String, category: String) {
         viewModel.insertNotice(articleId, category)
     }
@@ -172,7 +166,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun navToDetailActivity(noticeUrl: String?) {
-        val newIntent = Intent(this, DetailActivity::class.java)
+        val newIntent = Intent(this, NoticeActivity::class.java)
         newIntent.putExtra("url", noticeUrl)
         startActivity(newIntent)
         overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
