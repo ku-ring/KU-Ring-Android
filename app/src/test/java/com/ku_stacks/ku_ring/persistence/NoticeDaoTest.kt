@@ -68,7 +68,7 @@ class NoticeDaoTest : LocalDbAbstract() {
     }
 
     @Test
-    fun `updateNotice and getCountForReadNoticeTest`() {
+    fun `updateNotice and getCountOfReadNoticeTest`() {
         // given
         val noticeMock = noticeMock()
         noticeDao.insertNoticeAsOld(noticeMock).blockingSubscribe()
@@ -79,7 +79,7 @@ class NoticeDaoTest : LocalDbAbstract() {
 
         // then : insert 후에 isRead 를 true 로 update 하면 읽은 공지 데이터가 1개
         val countForReadNotice =
-            noticeDao.getCountForReadNotice(true, noticeMock.articleId).blockingGet()
+            noticeDao.getCountOfReadNotice(true, noticeMock.articleId).blockingGet()
         assertThat(countForReadNotice, `is`(1))
     }
 
