@@ -28,13 +28,13 @@ class NoticeRepositoryTest {
     }
 
     @Test
-    fun `insertNotice Test`() {
+    fun `insert Notice As Old Test`() {
         // given
         val mockData = mockNoticeEntity()
-        Mockito.`when`(dao.insertNotice(mockData)).thenReturn(Completable.complete())
+        Mockito.`when`(dao.insertNoticeAsOld(mockData)).thenReturn(Completable.complete())
 
         // when + then
-        repository.insertNotice(mockData.articleId, mockData.category)
+        repository.insertNoticeAsOld(mockData.articleId, mockData.category)
             .test()
             .assertComplete()
     }
