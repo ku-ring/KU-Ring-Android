@@ -48,11 +48,12 @@ class NoticeActivity : AppCompatActivity() {
         }
 
         webView.settings.apply {
-            builtInZoomControls = false
+            builtInZoomControls = true
             domStorageEnabled = true
             javaScriptEnabled = true
             loadWithOverviewMode = true
-            setSupportZoom(false)
+            setSupportZoom(true)
+            displayZoomControls = false
         }
 
         // WebChromeClient
