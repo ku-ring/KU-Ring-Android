@@ -12,7 +12,7 @@ interface NoticeDao {
     fun insertNoticeAsOld(notice: NoticeEntity): Completable
 
     @Query("SELECT * FROM NoticeEntity")
-    fun getNoticeRecord(): Single<List<NoticeEntity>>
+    fun getOldNoticeList(): Single<List<NoticeEntity>>
 
     @Query("SELECT articleId FROM NoticeEntity WHERE isRead = :value")
     fun getReadNoticeRecord(value: Boolean): Flowable<List<String>>
