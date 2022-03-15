@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.databinding.FragmentSearchNoticeBinding
-import com.ku_stacks.ku_ring.ui.detail.DetailActivity
+import com.ku_stacks.ku_ring.ui.notice_webview.NoticeActivity
 import com.ku_stacks.ku_ring.ui.search.SearchActivity
 import com.ku_stacks.ku_ring.ui.search.SearchViewModel
 
@@ -36,10 +36,9 @@ class SearchNoticeFragment: Fragment() {
     }
 
     private fun setupListAdapter() {
-        searchNoticeAdapter = SearchNoticeAdapter {
-            searchViewModel.updateNoticeTobeRead(it)
-            startDetailActivity(it)
-        }
+        searchNoticeAdapter = SearchNoticeAdapter(
+            itemClick = { startDetailActivity(it) }
+        )
         binding.searchNoticeRecyclerview.layoutManager = LinearLayoutManager(activity)
         binding.searchNoticeRecyclerview.adapter = searchNoticeAdapter
     }
@@ -56,8 +55,11 @@ class SearchNoticeFragment: Fragment() {
     }
 
     private fun startDetailActivity(notice: Notice) {
-        val intent = Intent(requireContext(), DetailActivity::class.java)
-        intent.putExtra("url", notice.url)
+        val intent = Intent(requireContext(), NoticeActivity::class.java).apply {
+            putExtra("url", notice.url)
+            putExtra("articleId", notice.articleId)
+            putExtra("category", notice.category)
+        }
         startActivity(intent)
         requireActivity().overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
     }

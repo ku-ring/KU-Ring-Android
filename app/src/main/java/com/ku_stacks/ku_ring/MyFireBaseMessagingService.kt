@@ -13,7 +13,6 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.ku_stacks.ku_ring.data.db.PushDao
 import com.ku_stacks.ku_ring.data.db.PushEntity
-import com.ku_stacks.ku_ring.ui.detail.DetailActivity
 import com.ku_stacks.ku_ring.ui.home.HomeActivity
 import com.ku_stacks.ku_ring.util.DateUtil
 import com.ku_stacks.ku_ring.util.UrlGenerator

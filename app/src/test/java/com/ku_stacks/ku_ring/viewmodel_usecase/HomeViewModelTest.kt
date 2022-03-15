@@ -30,21 +30,6 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun `update Notice Tobe Read Test`() {
-        // given
-        val mockData = mockNotice()
-        Mockito.`when`(noticeRepository.updateNoticeToBeRead(mockData.articleId, mockData.category))
-            .thenReturn(Completable.complete())
-
-        // when
-        viewModel.updateNoticeTobeRead(mockData)
-
-        // then
-        Mockito.verify(noticeRepository, times(1))
-            .updateNoticeToBeRead(mockData.articleId, mockData.category)
-    }
-
-    @Test
     fun `insert Notice Test`() {
         // given
         val mockData = mockNotice()
