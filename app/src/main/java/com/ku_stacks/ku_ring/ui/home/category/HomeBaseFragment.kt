@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +16,7 @@ import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.databinding.FragmentHomeCategoryBinding
 import com.ku_stacks.ku_ring.ui.notice_webview.NoticeActivity
 import com.ku_stacks.ku_ring.ui.home.HomeActivity
+import com.ku_stacks.ku_ring.ui.home.HomeViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -24,6 +26,8 @@ abstract class HomeBaseFragment : Fragment() {
 
     protected lateinit var binding: FragmentHomeCategoryBinding
     protected lateinit var pagingAdapter: NoticePagingAdapter
+
+    private val homeViewModel by activityViewModels<HomeViewModel>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home_category, container,false)
@@ -63,7 +67,7 @@ abstract class HomeBaseFragment : Fragment() {
                 startDetailActivity(notice)
             },
             onBindItem = { notice ->
-                (activity as HomeActivity).insertNotice(notice.articleId, notice.category)
+                homeViewModel.insertNotice(notice.articleId, notice.category)
             }
         )
 

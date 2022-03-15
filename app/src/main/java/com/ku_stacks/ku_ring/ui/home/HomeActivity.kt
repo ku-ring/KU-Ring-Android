@@ -155,10 +155,6 @@ class HomeActivity : AppCompatActivity() {
         bottomSheet.show(supportFragmentManager, bottomSheet.tag)
     }
 
-    fun insertNotice(articleId: String, category: String) {
-        viewModel.insertNotice(articleId, category)
-    }
-
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
 
