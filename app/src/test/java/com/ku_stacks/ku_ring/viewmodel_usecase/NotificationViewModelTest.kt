@@ -24,7 +24,6 @@ class NotificationViewModelTest {
 
     private lateinit var viewModel: NotificationViewModel
     private val pushRepository: PushRepository = mock()
-    private val noticeRepository: NoticeRepository = mock()
     private val pref: PreferenceUtil = mock()
 
     @get:Rule
@@ -32,7 +31,7 @@ class NotificationViewModelTest {
 
     @Before
     fun setup() {
-        viewModel = NotificationViewModel(pushRepository, noticeRepository, pref)
+        viewModel = NotificationViewModel(pushRepository, pref)
     }
 
     @Test
