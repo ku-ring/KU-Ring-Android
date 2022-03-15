@@ -60,8 +60,10 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        intent?.getStringExtra(NOTICE_URL)?.let {
-            navToDetailActivity(it)
+        intent?.getStringExtra(NoticeActivity.NOTICE_URL)?.let {
+            val articleId = intent.getStringExtra(NoticeActivity.NOTICE_ARTICLE_ID)
+            val category = intent.getStringExtra(NoticeActivity.NOTICE_CATEGORY)
+            navToDetailActivity(it, articleId, category)
         }
 
         setupBinding()
@@ -160,14 +162,19 @@ class HomeActivity : AppCompatActivity() {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
 
-        intent?.getStringExtra(NOTICE_URL)?.let {
-            navToDetailActivity(it)
+        intent?.getStringExtra(NoticeActivity.NOTICE_URL)?.let {
+            val articleId = intent.getStringExtra(NoticeActivity.NOTICE_ARTICLE_ID)
+            val category = intent.getStringExtra(NoticeActivity.NOTICE_CATEGORY)
+            navToDetailActivity(it, articleId, category)
         }
     }
 
-    private fun navToDetailActivity(noticeUrl: String?) {
-        val newIntent = Intent(this, NoticeActivity::class.java)
-        newIntent.putExtra("url", noticeUrl)
+    private fun navToDetailActivity(noticeUrl: String?, articleId: String?, category: String?) {
+        val newIntent = Intent(this, NoticeActivity::class.java).apply {
+            putExtra(NoticeActivity.NOTICE_URL, noticeUrl)
+            putExtra(NoticeActivity.NOTICE_ARTICLE_ID, articleId)
+            putExtra(NoticeActivity.NOTICE_CATEGORY, category)
+        }
         startActivity(newIntent)
         overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
     }
@@ -184,9 +191,5 @@ class HomeActivity : AppCompatActivity() {
             showToast(getString(R.string.home_finish_if_back_again))
             backPressedTime = System.currentTimeMillis()
         }
-    }
-
-    companion object {
-        const val NOTICE_URL = "NOTICE_URL"
     }
 }

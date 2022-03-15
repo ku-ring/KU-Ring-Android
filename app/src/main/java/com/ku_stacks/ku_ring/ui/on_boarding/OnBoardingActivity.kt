@@ -39,7 +39,7 @@ class OnBoardingActivity : AppCompatActivity() {
 
         subscribeNoticeButton.setOnClickListener {
             val intent = Intent(this, SettingNotificationActivity::class.java).apply {
-                putExtra("firstRunFlag", true)
+                putExtra(SettingNotificationActivity.FIRST_RUN_FLAG, true)
             }
             getOnBoardingFinishResult.launch(intent)
 
