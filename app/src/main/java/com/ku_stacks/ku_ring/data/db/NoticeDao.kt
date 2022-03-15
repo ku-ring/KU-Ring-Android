@@ -21,10 +21,10 @@ interface NoticeDao {
     fun updateNotice(notice: NoticeEntity): Completable
 
     @Query("SELECT COUNT(*) FROM NoticeEntity WHERE isRead = :value and articleId = :id")
-    fun getCountForReadNotice(value: Boolean, id: String): Single<Int>
+    fun getCountOfReadNotice(value: Boolean, id: String): Single<Int>
 
     fun isReadNotice(id: String): Boolean {
-        return getCountForReadNotice(true, id).subscribeOn(Schedulers.io()).blockingGet() > 0
+        return getCountOfReadNotice(true, id).subscribeOn(Schedulers.io()).blockingGet() > 0
     }
 
     //not using now
