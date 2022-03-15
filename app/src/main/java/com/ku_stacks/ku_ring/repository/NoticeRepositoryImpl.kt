@@ -25,7 +25,7 @@ class NoticeRepositoryImpl @Inject constructor(
     private val isNewRecordHashMap = HashMap<String, NoticeEntity>()
 
     override fun getNotices(type: String, scope: CoroutineScope): Flowable<PagingData<Notice>> {
-        val flowableRemote = getSingleLocal()
+        val flowableRemote = getSingleLocalNotice()
             .flatMap { getFlowableRemoteNotice(type) }
             .map { transformRemoteData(it, type) }
             .cachedIn(scope)
@@ -85,8 +85,8 @@ class NoticeRepositoryImpl @Inject constructor(
         }
     }
 
-    private fun getSingleLocal(): Flowable<List<NoticeEntity>> {
-        return noticeDao.getNoticeRecord()
+    private fun getSingleLocalNotice(): Flowable<List<NoticeEntity>> {
+        return noticeDao.getOldNoticeList()
             .subscribeOn(Schedulers.io())
             .toFlowable()
             .doOnNext { // local 데이터가 처음 발행될때 HashMap 에 저장 (단 한번만 실행)

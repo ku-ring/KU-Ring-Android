@@ -39,20 +39,20 @@ class NoticeDaoTest : LocalDbAbstract() {
     }
 
     @Test
-    fun `insertAndGetNotice Test`() {
+    fun `insertNoticeAsOld and getOldNotice Test`() {
         // given
         val noticeMock = noticeMock()
         noticeDao.insertNoticeAsOld(noticeMock).blockingSubscribe()
 
         // when
-        val noticeFromDB = noticeDao.getNoticeRecord().blockingGet()[0]
+        val noticeFromDB = noticeDao.getOldNoticeList().blockingGet()[0]
 
         // then : 생성하고 insert 한 mock 와 불러온 데이터가 일치
         assertThat(noticeMock, `is`(noticeFromDB))
     }
 
     @Test
-    fun `updateNotice and getNoticeRecord Test`() {
+    fun `updateNoticeAsOld and getOldNoticeList Test`() {
         // given
         val noticeMock = noticeMock()
         noticeDao.insertNoticeAsOld(noticeMock).blockingSubscribe()
@@ -62,7 +62,7 @@ class NoticeDaoTest : LocalDbAbstract() {
         noticeDao.updateNotice(readNoticeMock).blockingSubscribe()
 
         // then : insert 후에 update 해도 데이터 수는 1개, 불러온 데이터가 mock 와 일치
-        val noticeFromDB = noticeDao.getNoticeRecord().blockingGet()
+        val noticeFromDB = noticeDao.getOldNoticeList().blockingGet()
         assertThat(noticeFromDB.size, `is`(1))
         assertThat(noticeFromDB[0].toString(), `is`(readNoticeMock.toString()))
     }
