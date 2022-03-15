@@ -108,8 +108,8 @@ class NoticeRepositoryImpl @Inject constructor(
         ).flowable
     }
 
-    override fun insertNotice(articleId: String, category: String): Completable {
-        return noticeDao.insertNotice(
+    override fun insertNoticeAsOld(articleId: String, category: String): Completable {
+        return noticeDao.insertNoticeAsOld(
             NoticeEntity(
                 articleId = articleId,
                 category = category,

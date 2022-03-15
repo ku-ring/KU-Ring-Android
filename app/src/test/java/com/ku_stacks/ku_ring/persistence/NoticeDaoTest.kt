@@ -42,7 +42,7 @@ class NoticeDaoTest : LocalDbAbstract() {
     fun `insertAndGetNotice Test`() {
         // given
         val noticeMock = noticeMock()
-        noticeDao.insertNotice(noticeMock).blockingSubscribe()
+        noticeDao.insertNoticeAsOld(noticeMock).blockingSubscribe()
 
         // when
         val noticeFromDB = noticeDao.getNoticeRecord().blockingGet()[0]
@@ -55,7 +55,7 @@ class NoticeDaoTest : LocalDbAbstract() {
     fun `updateNotice and getNoticeRecord Test`() {
         // given
         val noticeMock = noticeMock()
-        noticeDao.insertNotice(noticeMock).blockingSubscribe()
+        noticeDao.insertNoticeAsOld(noticeMock).blockingSubscribe()
 
         // when
         val readNoticeMock = readNoticeMock()
@@ -71,7 +71,7 @@ class NoticeDaoTest : LocalDbAbstract() {
     fun `updateNotice and getCountForReadNoticeTest`() {
         // given
         val noticeMock = noticeMock()
-        noticeDao.insertNotice(noticeMock).blockingSubscribe()
+        noticeDao.insertNoticeAsOld(noticeMock).blockingSubscribe()
 
         // when
         val readNoticeMock = readNoticeMock()
@@ -87,7 +87,7 @@ class NoticeDaoTest : LocalDbAbstract() {
     fun `updateNotice and isReadNotice Test`() {
         // given
         val noticeMock = noticeMock()
-        noticeDao.insertNotice(noticeMock).blockingSubscribe()
+        noticeDao.insertNoticeAsOld(noticeMock).blockingSubscribe()
 
         // when
         val readNoticeMock = readNoticeMock()
@@ -101,7 +101,7 @@ class NoticeDaoTest : LocalDbAbstract() {
     fun `updateNotice  getReadNoticeRecord Test`() {
         // given
         val noticeMock = noticeMock()
-        noticeDao.insertNotice(noticeMock).blockingSubscribe()
+        noticeDao.insertNoticeAsOld(noticeMock).blockingSubscribe()
 
         // when
         val sizeOfNotReadNotice = noticeDao.getReadNoticeRecord(true).blockingFirst().size

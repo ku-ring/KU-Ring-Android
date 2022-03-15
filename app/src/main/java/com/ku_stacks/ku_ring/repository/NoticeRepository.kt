@@ -8,7 +8,7 @@ import kotlinx.coroutines.CoroutineScope
 
 interface NoticeRepository {
     fun getNotices(type: String, scope: CoroutineScope): Flowable<PagingData<Notice>>
-    fun insertNotice(articleId: String, category: String): Completable
+    fun insertNoticeAsOld(articleId: String, category: String): Completable
     fun updateNoticeToBeRead(articleId: String, category: String): Completable
     fun deleteAllNoticeRecord()
     fun deleteSharedPreference()
