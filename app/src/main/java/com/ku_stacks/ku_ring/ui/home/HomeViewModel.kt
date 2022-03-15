@@ -3,7 +3,6 @@ package com.ku_stacks.ku_ring.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.repository.NoticeRepository
 import com.ku_stacks.ku_ring.repository.PushRepository
 import com.ku_stacks.ku_ring.ui.home.nav.HomeTabState
@@ -34,19 +33,9 @@ class HomeViewModel @Inject constructor(
         getNotificationCount()
     }
 
-    fun updateNoticeTobeRead(notice: Notice) {
+    fun insertNoticeAsOld(articleId: String, category: String) {
         disposable.add(
-            noticeRepository.updateNoticeToBeRead(notice.articleId, notice.category)
-                .subscribeOn(Schedulers.io())
-                .subscribe({
-                    //Timber.e("noticeRecord update true : $articleId")
-                }, { Timber.e("noticeRecord update fail") })
-        )
-    }
-
-    fun insertNotice(articleId: String, category: String) {
-        disposable.add(
-            noticeRepository.insertNotice(articleId = articleId, category = category)
+            noticeRepository.insertNoticeAsOld(articleId = articleId, category = category)
                 .subscribeOn(Schedulers.io())
                 .subscribe({
                     //Timber.e("noticeRecord Insert true : $articleId")

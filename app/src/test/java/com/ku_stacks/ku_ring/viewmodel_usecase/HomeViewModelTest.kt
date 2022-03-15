@@ -30,32 +30,17 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun `update Notice Tobe Read Test`() {
+    fun `insert Notice As Old Test`() {
         // given
         val mockData = mockNotice()
-        Mockito.`when`(noticeRepository.updateNoticeToBeRead(mockData.articleId, mockData.category))
+        Mockito.`when`(noticeRepository.insertNoticeAsOld(mockData.articleId, mockData.category))
             .thenReturn(Completable.complete())
 
         // when
-        viewModel.updateNoticeTobeRead(mockData)
+        viewModel.insertNoticeAsOld(mockData.articleId, mockData.category)
 
         // then
         Mockito.verify(noticeRepository, times(1))
-            .updateNoticeToBeRead(mockData.articleId, mockData.category)
-    }
-
-    @Test
-    fun `insert Notice Test`() {
-        // given
-        val mockData = mockNotice()
-        Mockito.`when`(noticeRepository.insertNotice(mockData.articleId, mockData.category))
-            .thenReturn(Completable.complete())
-
-        // when
-        viewModel.insertNotice(mockData.articleId, mockData.category)
-
-        // then
-        Mockito.verify(noticeRepository, times(1))
-            .insertNotice(mockData.articleId, mockData.category)
+            .insertNoticeAsOld(mockData.articleId, mockData.category)
     }
 }

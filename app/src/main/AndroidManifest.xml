@@ -53,7 +53,7 @@
             android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
             android:theme="@style/OpenSourceItemTheme" />
 
-        <activity android:name=".ui.detail.DetailActivity" />
+        <activity android:name=".ui.notice_webview.NoticeActivity" />
 
         <activity android:name=".ui.setting_notification.SettingNotificationActivity"
             android:screenOrientation="portrait"

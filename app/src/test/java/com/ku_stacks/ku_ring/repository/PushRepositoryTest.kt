@@ -25,14 +25,14 @@ class PushRepositoryTest {
     }
 
     @Test
-    fun `get MyNotification Test`() {
+    fun `get MyNotification List Test`() {
         // given
         val mockData = listOf(mockPushEntity())
-        Mockito.`when`(dao.getNotification()).thenReturn(Flowable.just(mockData))
+        Mockito.`when`(dao.getNotificationList()).thenReturn(Flowable.just(mockData))
 
         val expectedData = mockData.toPushList()
         // when + then
-        repository.getMyNotification()
+        repository.getMyNotificationList()
             .test()
             .assertNoErrors()
             .assertValue(expectedData)

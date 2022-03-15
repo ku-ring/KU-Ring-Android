@@ -56,7 +56,7 @@ class SettingNotificationActivity : AppCompatActivity() {
     }
 
     private fun setupView() {
-        viewModel.firstRunFlag = intent.getBooleanExtra("firstRunFlag", false)
+        viewModel.firstRunFlag = intent.getBooleanExtra(FIRST_RUN_FLAG, false)
         if(viewModel.firstRunFlag) {
             binding.settingNotificationDismissBt.visibility = View.GONE
             binding.settingNotificationRollbackBt.visibility = View.GONE
@@ -110,5 +110,9 @@ class SettingNotificationActivity : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
+    }
+
+    companion object {
+        const val FIRST_RUN_FLAG = "firstRunFlag"
     }
 }

@@ -9,13 +9,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
-import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.messaging.FirebaseMessaging
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.analytics.EventAnalytics
-import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.databinding.ActivityHomeBinding
-import com.ku_stacks.ku_ring.ui.detail.DetailActivity
+import com.ku_stacks.ku_ring.ui.notice_webview.NoticeActivity
 import com.ku_stacks.ku_ring.ui.home.dialog.HomeBottomSheet
 import com.ku_stacks.ku_ring.ui.my_notification.NotificationActivity
 import com.ku_stacks.ku_ring.ui.search.SearchActivity
@@ -62,8 +60,10 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        intent?.getStringExtra(NOTICE_URL)?.let {
-            navToDetailActivity(it)
+        intent?.getStringExtra(NoticeActivity.NOTICE_URL)?.let {
+            val articleId = intent.getStringExtra(NoticeActivity.NOTICE_ARTICLE_ID)
+            val category = intent.getStringExtra(NoticeActivity.NOTICE_CATEGORY)
+            navToNoticeActivity(it, articleId, category)
         }
 
         setupBinding()
@@ -155,25 +155,22 @@ class HomeActivity : AppCompatActivity() {
         bottomSheet.show(supportFragmentManager, bottomSheet.tag)
     }
 
-    fun updateNoticeTobeRead(notice: Notice) {
-        viewModel.updateNoticeTobeRead(notice)
-    }
-
-    fun insertNotice(articleId: String, category: String) {
-        viewModel.insertNotice(articleId, category)
-    }
-
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
 
-        intent?.getStringExtra(NOTICE_URL)?.let {
-            navToDetailActivity(it)
+        intent?.getStringExtra(NoticeActivity.NOTICE_URL)?.let {
+            val articleId = intent.getStringExtra(NoticeActivity.NOTICE_ARTICLE_ID)
+            val category = intent.getStringExtra(NoticeActivity.NOTICE_CATEGORY)
+            navToNoticeActivity(it, articleId, category)
         }
     }
 
-    private fun navToDetailActivity(noticeUrl: String?) {
-        val newIntent = Intent(this, DetailActivity::class.java)
-        newIntent.putExtra("url", noticeUrl)
+    private fun navToNoticeActivity(noticeUrl: String?, articleId: String?, category: String?) {
+        val newIntent = Intent(this, NoticeActivity::class.java).apply {
+            putExtra(NoticeActivity.NOTICE_URL, noticeUrl)
+            putExtra(NoticeActivity.NOTICE_ARTICLE_ID, articleId)
+            putExtra(NoticeActivity.NOTICE_CATEGORY, category)
+        }
         startActivity(newIntent)
         overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
     }
@@ -190,9 +187,5 @@ class HomeActivity : AppCompatActivity() {
             showToast(getString(R.string.home_finish_if_back_again))
             backPressedTime = System.currentTimeMillis()
         }
-    }
-
-    companion object {
-        const val NOTICE_URL = "NOTICE_URL"
     }
 }

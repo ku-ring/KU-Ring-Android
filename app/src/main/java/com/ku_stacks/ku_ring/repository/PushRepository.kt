@@ -5,7 +5,7 @@ import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
 
 interface PushRepository {
-    fun getMyNotification(): Flowable<List<Push>>
+    fun getMyNotificationList(): Flowable<List<Push>>
     fun updateNotificationAsOld(articleId: String): Completable
     fun getNotificationCount(): Flowable<Int>
     fun deleteNotification(articleId: String)

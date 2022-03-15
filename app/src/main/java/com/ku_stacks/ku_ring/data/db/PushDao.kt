@@ -13,7 +13,7 @@ interface PushDao {
     fun updateNotificationAsOld(articleId: String, value: Boolean): Completable
 
     @Query("SELECT * FROM PushEntity ORDER BY postedDate DESC, receivedDate DESC")
-    fun getNotification(): Flowable<List<PushEntity>>
+    fun getNotificationList(): Flowable<List<PushEntity>>
 
     @Query("SELECT COUNT(articleId) FROM PushEntity WHERE isNew = :value")
     fun getNotificationCount(value: Boolean): Flowable<Int>
