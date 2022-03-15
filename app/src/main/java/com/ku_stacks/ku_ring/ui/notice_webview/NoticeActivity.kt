@@ -25,14 +25,14 @@ class NoticeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
 
-        val url = intent.getStringExtra("url")
-        val articleId = intent.getStringExtra("articleId")
-        val category = intent.getStringExtra("category")
-
-        Timber.e("detail url : $url")
-
         webView = findViewById(R.id.detail_webView)
         progressBar = findViewById(R.id.detail_progressbar)
+
+        val url = intent.getStringExtra(NOTICE_URL)
+        val articleId = intent.getStringExtra(NOTICE_ARTICLE_ID)
+        val category = intent.getStringExtra(NOTICE_CATEGORY)
+
+        Timber.e("detail url : $url")
 
         webView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(
@@ -62,6 +62,7 @@ class NoticeActivity : AppCompatActivity() {
                 if (newProgress == 100) {
                     progressBar.visibility = View.GONE
                     updateNoticeTobeRead(articleId, category)
+                    webView.webChromeClient = null
                 } else {
                     progressBar.visibility = View.VISIBLE
                 }
@@ -85,5 +86,11 @@ class NoticeActivity : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
+    }
+
+    companion object {
+        const val NOTICE_URL = "url"
+        const val NOTICE_ARTICLE_ID = "articleId"
+        const val NOTICE_CATEGORY = "category"
     }
 }

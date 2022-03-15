@@ -127,9 +127,9 @@ class NotificationActivity : AppCompatActivity() {
         Timber.e("url : $url, category : $category")
 
         val intent = Intent(this, NoticeActivity::class.java).apply {
-            putExtra("url", url)
-            putExtra("articleId", articleId)
-            putExtra("category", category)
+            putExtra(NoticeActivity.NOTICE_URL, url)
+            putExtra(NoticeActivity.NOTICE_ARTICLE_ID, articleId)
+            putExtra(NoticeActivity.NOTICE_CATEGORY, category)
         }
         startActivity(intent)
         overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)

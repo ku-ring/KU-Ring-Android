@@ -14,6 +14,7 @@ import com.google.firebase.messaging.RemoteMessage
 import com.ku_stacks.ku_ring.data.db.PushDao
 import com.ku_stacks.ku_ring.data.db.PushEntity
 import com.ku_stacks.ku_ring.ui.home.HomeActivity
+import com.ku_stacks.ku_ring.ui.notice_webview.NoticeActivity
 import com.ku_stacks.ku_ring.util.DateUtil
 import com.ku_stacks.ku_ring.util.UrlGenerator
 import com.ku_stacks.ku_ring.util.WordConverter
@@ -45,11 +46,24 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
             // insert into db
             val categoryKr = WordConverter.convertEnglishToKorean(categoryEng)
             val receivedDate = DateUtil.getCurrentTime()
-            insertNotificationIntoDatabase(articleId, categoryKr, postedDate, subject, baseUrl, receivedDate)
+            insertNotificationIntoDatabase(
+                articleId = articleId,
+                category = categoryKr,
+                postedDate = postedDate,
+                subject = subject,
+                baseUrl = baseUrl,
+                receivedDate = receivedDate
+            )
 
             // show notification
             val webUrl = UrlGenerator.generateNoticeUrl(articleId = articleId, category = categoryKr, baseUrl = baseUrl)
-            showNotificationWithUrl(title = subject, body = categoryKr, url = webUrl)
+            showNotificationWithUrl(
+                title = subject,
+                body = categoryKr,
+                url = webUrl,
+                articleId = articleId,
+                category = categoryEng
+            )
         } else if (isCustomNotification(remoteMessage)) {
             val type = remoteMessage.data["type"]!!
             val title = remoteMessage.data["title"]!!
@@ -109,9 +123,11 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
         }
     }
 
-    private fun showNotificationWithUrl(title: String?, body: String?, url: String?){
+    private fun showNotificationWithUrl(title: String?, body: String?, url: String?, articleId: String?, category: String?){
         val intent = Intent(this, HomeActivity::class.java).apply {
-            putExtra(HomeActivity.NOTICE_URL, url)
+            putExtra(NoticeActivity.NOTICE_URL, url)
+            putExtra(NoticeActivity.NOTICE_ARTICLE_ID, articleId)
+            putExtra(NoticeActivity.NOTICE_CATEGORY, category)
         }
         val pendingIntent = PendingIntent.getActivity(
             this,
@@ -120,37 +136,7 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
         val defaultSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-        val channelId = "ku_stack_channel_id"
-        val notificationBuilder = NotificationCompat.Builder(this, channelId)
-            .setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.ic_ku_ring_notification))
-            .setSmallIcon(R.drawable.ic_ku_ring_statusbar)
-            .setContentTitle(title)
-            .setContentText(body)
-            .setSound(defaultSound)
-            .setContentIntent(pendingIntent)
-            .setAutoCancel(true)
-
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(channelId,
-                "쿠링",
-                NotificationManager.IMPORTANCE_DEFAULT)
-            notificationManager.createNotificationChannel(channel)
-        }
-        notificationManager.notify(0, notificationBuilder.build())
-    }
-
-    private fun showNotification(type: String, title: String, body: String) {
-        val intent = Intent(this, HomeActivity::class.java)
-        val pendingIntent = PendingIntent.getActivity(
-            this,
-            0,
-            intent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
-        val defaultSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-        val channelId = "ku_stack_channel_id"
+        val channelId = CHANNEL_ID
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
             .setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.ic_ku_ring_notification))
             .setSmallIcon(R.drawable.ic_ku_ring_statusbar)
@@ -165,11 +151,48 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 channelId,
-                "쿠링",
+                CHANNEL_NAME,
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            notificationManager.createNotificationChannel(channel)
+        }
+        notificationManager.notify(0, notificationBuilder.build())
+    }
+
+    private fun showNotification(type: String, title: String, body: String) {
+        val intent = Intent(this, HomeActivity::class.java)
+        val pendingIntent = PendingIntent.getActivity(
+            this,
+            0,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+        val defaultSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+        val channelId = CHANNEL_ID
+        val notificationBuilder = NotificationCompat.Builder(this, channelId)
+            .setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.ic_ku_ring_notification))
+            .setSmallIcon(R.drawable.ic_ku_ring_statusbar)
+            .setContentTitle(title)
+            .setContentText(body)
+            .setSound(defaultSound)
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                channelId,
+                CHANNEL_NAME,
                 NotificationManager.IMPORTANCE_DEFAULT
             )
             notificationManager.createNotificationChannel(channel)
         }
         notificationManager.notify(1, notificationBuilder.build())
+    }
+
+    companion object {
+        const val CHANNEL_ID = "ku_stack_channel_id"
+        const val CHANNEL_NAME = "쿠링"
     }
 }

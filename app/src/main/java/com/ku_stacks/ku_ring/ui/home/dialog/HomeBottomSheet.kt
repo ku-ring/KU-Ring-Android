@@ -57,7 +57,7 @@ class HomeBottomSheet: BottomSheetDialogFragment() {
         analytics.click("bottomSheet_NewContents btn", "HomeActivity")
 
         val intent = Intent(activity, NotionViewActivity::class.java)
-        intent.putExtra("url", getString(R.string.notion_new_contents_url))
+        intent.putExtra(NotionViewActivity.NOTION_URL, getString(R.string.notion_new_contents_url))
         startActivity(intent)
         dialog?.dismiss()
     }
@@ -82,7 +82,7 @@ class HomeBottomSheet: BottomSheetDialogFragment() {
         analytics.click("bottomSheet_PersonalInformation btn", "HomeActivity")
 
         val intent = Intent(activity, NotionViewActivity::class.java)
-        intent.putExtra("url", getString(R.string.notion_personal_data_url))
+        intent.putExtra(NotionViewActivity.NOTION_URL, getString(R.string.notion_personal_data_url))
         startActivity(intent)
         dialog?.dismiss()
     }
@@ -91,7 +91,7 @@ class HomeBottomSheet: BottomSheetDialogFragment() {
         analytics.click("bottomSheet_TermsOfService btn", "HomeActivity")
 
         val intent = Intent(activity, NotionViewActivity::class.java)
-        intent.putExtra("url", getString(R.string.notion_terms_of_service_url))
+        intent.putExtra(NotionViewActivity.NOTION_URL, getString(R.string.notion_terms_of_service_url))
         startActivity(intent)
         dialog?.dismiss()
     }

@@ -95,9 +95,9 @@ abstract class HomeBaseFragment : Fragment() {
 
     private fun startDetailActivity(notice: Notice) {
         val intent = Intent(requireActivity(), NoticeActivity::class.java).apply {
-            putExtra("url", notice.url)
-            putExtra("articleId", notice.articleId)
-            putExtra("category", notice.category)
+            putExtra(NoticeActivity.NOTICE_URL, notice.url)
+            putExtra(NoticeActivity.NOTICE_ARTICLE_ID, notice.articleId)
+            putExtra(NoticeActivity.NOTICE_CATEGORY, notice.category)
         }
         startActivity(intent)
         requireActivity().overridePendingTransition(
