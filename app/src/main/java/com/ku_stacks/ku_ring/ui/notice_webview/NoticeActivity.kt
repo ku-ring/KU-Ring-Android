@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.webkit.*
+import android.widget.ImageButton
 import android.widget.ProgressBar
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +20,7 @@ class NoticeActivity : AppCompatActivity() {
 
     private lateinit var webView: WebView
     private lateinit var progressBar: ProgressBar
+    private lateinit var backButton: ImageButton
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,12 +29,18 @@ class NoticeActivity : AppCompatActivity() {
 
         webView = findViewById(R.id.notice_webView)
         progressBar = findViewById(R.id.notice_progressbar)
+        backButton = findViewById(R.id.notice_back_bt)
 
         val url = intent.getStringExtra(NOTICE_URL)
         val articleId = intent.getStringExtra(NOTICE_ARTICLE_ID)
         val category = intent.getStringExtra(NOTICE_CATEGORY)
 
         Timber.e("notice url : $url")
+
+        backButton.setOnClickListener {
+            finish()
+            overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
+        }
 
         webView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(
