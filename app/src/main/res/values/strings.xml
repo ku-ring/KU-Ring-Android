@@ -86,4 +86,10 @@
     <string name="valid_external_storage_permission_msg">권한이 허용되었습니다. 파일을 다시 선택해주세요</string>
     <string name="download_success">다운로드가 완료되었습니다.</string>
     <string name="download_fail">다운로드에 실패하였습니다.</string>
+
+    <!--  setting  -->
+    <string name="setting">설정</string>
+    <string name="setting_subscription_notice">공지 구독</string>
+    <string name="setting_subscribe_notice">공지 구독하기</string>
+    <string name="setting_subscribe_ext">기타 알림 받기</string>
 </resources>

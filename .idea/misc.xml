@@ -17,6 +17,7 @@
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable/edittext_primary_radius32.xml" value="1.009375" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable/home_header_indicator.xml" value="0.1" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable/ic_launcher_background.xml" value="0.20185185185185187" />
+        <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable/ic_share.xml" value="0.37222222222222223" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable/ic_star_outline2.xml" value="0.27239583333333334" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable/indicator_home_header.xml" value="0.16614583333333333" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable/point_primary_gray.xml" value="0.1925925925925926" />
@@ -32,7 +33,8 @@
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/activity_on_boarding.xml" value="0.33" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/activity_personal_data.xml" value="0.28125" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/activity_search.xml" value="0.33" />
-        <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/activity_setting_notification.xml" value="0.33" />
+        <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/activity_setting.xml" value="0.25" />
+        <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/activity_setting_notification.xml" value="0.25" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/activity_splash.xml" value="0.22" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/dialog_home_bottom_sheet.xml" value="0.25" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/dialog_home_more.xml" value="0.33" />
@@ -52,6 +54,10 @@
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/item_subscription.xml" value="0.33" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/item_unsubscription.xml" value="0.1890625" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/layout.xml" value="0.23645833333333333" />
+        <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/setting_feedback.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/setting_information.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/setting_sns.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/setting_subscribe.xml" value="0.33" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/shimmer_notice_placeholder_layout.xml" value="0.228125" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/shimmer_placeholder_layout.xml" value="0.228125" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/menu/toolbar_menu.xml" value="0.25" />
