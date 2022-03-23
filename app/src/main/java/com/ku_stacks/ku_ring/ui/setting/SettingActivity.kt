@@ -2,6 +2,7 @@ package com.ku_stacks.ku_ring.ui.setting
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.databinding.ActivitySettingBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -13,11 +14,24 @@ class SettingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setUpBinding()
+        setupBinding()
+        setupView()
     }
 
-    private fun setUpBinding() {
+    private fun setupBinding() {
         binding = ActivitySettingBinding.inflate(layoutInflater)
         setContentView(binding.root)
+    }
+
+    private fun setupView() {
+        binding.settingBackBt.setOnClickListener {
+            finish()
+            overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
+        }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
     }
 }
