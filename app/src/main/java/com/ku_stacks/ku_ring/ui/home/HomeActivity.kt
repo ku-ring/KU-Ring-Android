@@ -105,8 +105,9 @@ class HomeActivity : AppCompatActivity() {
         }
 
         binding.homeHeader.settingsImg.setOnClickListener {
-            //invokeMenuDialog()
-            startActivity(Intent(this, SettingActivity::class.java))
+            val intent = Intent(this, SettingActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
         }
 
         binding.homeHeader.searchImg.setOnClickListener {
@@ -150,11 +151,6 @@ class HomeActivity : AppCompatActivity() {
                 Timber.e("FCM token : $token")
             }
         }
-    }
-
-    private fun invokeMenuDialog() {
-        val bottomSheet = HomeBottomSheet()
-        bottomSheet.show(supportFragmentManager, bottomSheet.tag)
     }
 
     override fun onNewIntent(intent: Intent?) {
