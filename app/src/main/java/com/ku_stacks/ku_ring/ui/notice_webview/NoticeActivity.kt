@@ -5,11 +5,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.webkit.*
-import android.widget.ImageButton
-import android.widget.ProgressBar
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ShareCompat
 import com.ku_stacks.ku_ring.R
+import com.ku_stacks.ku_ring.databinding.ActivityNoticeBinding
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -17,32 +17,30 @@ import timber.log.Timber
 class NoticeActivity : AppCompatActivity() {
 
     private val viewModel by viewModels<NoticeViewModel>()
-
-    private lateinit var webView: WebView
-    private lateinit var progressBar: ProgressBar
-    private lateinit var backButton: ImageButton
+    private lateinit var binding: ActivityNoticeBinding
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_notice)
-
-        webView = findViewById(R.id.notice_webView)
-        progressBar = findViewById(R.id.notice_progressbar)
-        backButton = findViewById(R.id.notice_back_bt)
+        binding = ActivityNoticeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val url = intent.getStringExtra(NOTICE_URL)
+            ?: throw IllegalStateException("Web Link should not be null.")
         val articleId = intent.getStringExtra(NOTICE_ARTICLE_ID)
         val category = intent.getStringExtra(NOTICE_CATEGORY)
-
         Timber.e("notice url : $url")
 
-        backButton.setOnClickListener {
+        binding.noticeBackBt.setOnClickListener {
             finish()
             overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
         }
 
-        webView.webViewClient = object : WebViewClient() {
+        binding.noticeShareBt.setOnClickListener {
+            shareLinkExternally(url)
+        }
+
+        binding.noticeWebView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(
                 view: WebView,
                 request: WebResourceRequest
@@ -55,7 +53,7 @@ class NoticeActivity : AppCompatActivity() {
             }
         }
 
-        webView.settings.apply {
+        binding.noticeWebView.settings.apply {
             builtInZoomControls = true
             domStorageEnabled = true
             javaScriptEnabled = true
@@ -65,23 +63,21 @@ class NoticeActivity : AppCompatActivity() {
         }
 
         // WebChromeClient
-        webView.webChromeClient = object : WebChromeClient() {
+        binding.noticeWebView.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView, newProgress: Int) {
-                progressBar.progress = newProgress
+                binding.noticeProgressbar.progress = newProgress
                 if (newProgress == 100) {
-                    progressBar.visibility = View.GONE
                     updateNoticeTobeRead(articleId, category)
-                    webView.webChromeClient = null
+                    binding.noticeProgressbar.visibility = View.GONE
+                    binding.noticeWebView.webChromeClient = null
                 } else {
-                    progressBar.visibility = View.VISIBLE
+                    binding.noticeProgressbar.visibility = View.VISIBLE
                 }
                 super.onProgressChanged(view, newProgress)
             }
         }
 
-        url?.let {
-            webView.loadUrl(it) //웹뷰에 표시할 웹사이트 주소, 웹뷰 시작
-        }
+        binding.noticeWebView.loadUrl(url) //웹뷰에 표시할 웹사이트 주소, 웹뷰 시작
     }
 
     private fun updateNoticeTobeRead(articleId: String?, category: String?) {
@@ -90,6 +86,14 @@ class NoticeActivity : AppCompatActivity() {
         } else {
             viewModel.updateNoticeTobeRead(articleId, category)
         }
+    }
+
+    private fun shareLinkExternally(url: String) {
+        ShareCompat.IntentBuilder(this)
+            .setChooserTitle(R.string.share_externally)
+            .setText(url)
+            .setType("text/plain")
+            .startChooser()
     }
 
     override fun onBackPressed() {
