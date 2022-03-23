@@ -31,13 +31,13 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
-                android:id="@+id/menu_img"
+                android:id="@+id/settings_img"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginEnd="12dp"
                 android:background="@null"
                 android:contentDescription="@string/home_menu_icn"
-                android:src="@drawable/ic_menu"
+                android:src="@drawable/ic_settings"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -52,7 +52,7 @@
                 android:contentDescription="@string/home_search_icn"
                 android:src="@drawable/ic_search"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/menu_img"
+                app:layout_constraintEnd_toStartOf="@+id/settings_img"
                 app:layout_constraintTop_toTopOf="parent"
                 app:tint="@color/kus_primary" />
 

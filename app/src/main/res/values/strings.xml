@@ -39,15 +39,6 @@
     <string name="feedback_size_of_character">글자수 : %s/256</string>
     <string name="feedback_cannot_send">피드백을 보낼 수 없습니다. fcm 토큰을 확인해주세요</string>
 
-    <!--  open source  -->
-    <string name="open_source">오픈소스</string>
-
-    <!--  personal information  -->
-    <string name="personal_information">개인정보 처리방침</string>
-
-    <!--  term of service  -->
-    <string name="term_of_service">서비스 이용약관</string>
-
     <!--  notification  -->
     <string name="notification_my">내 알림</string>
     <string name="notification_alert">알림이 없어요!</string>
@@ -93,4 +84,15 @@
     <string name="setting_subscription_notice">공지 구독</string>
     <string name="setting_subscribe_notice">공지 구독하기</string>
     <string name="setting_subscribe_ext">기타 알림 받기</string>
+    <string name="setting_information">정보</string>
+    <string name="setting_version">앱 버전</string>
+    <string name="setting_new_contents">새로운 내용</string>
+    <string name="setting_team">쿠링 팀</string>
+    <string name="privacy_policy">개인정보 처리방침</string>
+    <string name="terms_of_service">서비스 이용약관</string>
+    <string name="open_source">오픈소스</string>
+    <string name="sns">SNS</string>
+    <string name="instagram">인스타그램</string>
+    <string name="kakao_channel">카카오톡 채널</string>
+    <string name="setting_feedback">피드백</string>
 </resources>

@@ -102,7 +102,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
             android:fontFamily="@font/notosanskr_regular"
-            android:text="@string/personal_information"
+            android:text="@string/privacy_policy"
             android:textColor="@color/kus_primary"
             android:textSize="16sp" />
     </LinearLayout>
@@ -127,7 +127,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
             android:fontFamily="@font/notosanskr_regular"
-            android:text="@string/term_of_service"
+            android:text="@string/terms_of_service"
             android:textColor="@color/kus_primary"
             android:textSize="16sp" />
     </LinearLayout>

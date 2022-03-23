@@ -17,6 +17,7 @@ import com.ku_stacks.ku_ring.ui.notice_webview.NoticeActivity
 import com.ku_stacks.ku_ring.ui.home.dialog.HomeBottomSheet
 import com.ku_stacks.ku_ring.ui.my_notification.NotificationActivity
 import com.ku_stacks.ku_ring.ui.search.SearchActivity
+import com.ku_stacks.ku_ring.ui.setting.SettingActivity
 import com.ku_stacks.ku_ring.util.PreferenceUtil
 import com.ku_stacks.ku_ring.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
@@ -103,8 +104,9 @@ class HomeActivity : AppCompatActivity() {
             overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
         }
 
-        binding.homeHeader.menuImg.setOnClickListener {
-            invokeMenuDialog()
+        binding.homeHeader.settingsImg.setOnClickListener {
+            //invokeMenuDialog()
+            startActivity(Intent(this, SettingActivity::class.java))
         }
 
         binding.homeHeader.searchImg.setOnClickListener {
