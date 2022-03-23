@@ -82,7 +82,7 @@ class HomeBottomSheet: BottomSheetDialogFragment() {
         analytics.click("bottomSheet_PersonalInformation btn", "HomeActivity")
 
         val intent = Intent(activity, NotionViewActivity::class.java)
-        intent.putExtra(NotionViewActivity.NOTION_URL, getString(R.string.notion_personal_data_url))
+        intent.putExtra(NotionViewActivity.NOTION_URL, getString(R.string.notion_privacy_policy_url))
         startActivity(intent)
         dialog?.dismiss()
     }

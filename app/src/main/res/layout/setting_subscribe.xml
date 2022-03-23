@@ -32,6 +32,7 @@
             android:layout_height="15dp"
             android:layout_marginStart="20dp"
             android:src="@drawable/ic_close"
+            app:tint="@color/kus_primary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
