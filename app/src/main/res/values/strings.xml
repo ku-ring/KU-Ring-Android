@@ -25,9 +25,6 @@
     <string name="normal">일반</string>
     <string name="library">도서관</string>
 
-    <!--  new contents  -->
-    <string name="new_contents">새로운 내용</string>
-
     <!--  feedback  -->
     <string name="feedback_send_content">피드백 보내기</string>
     <string name="feedback_title">피드백을 남겨서 앱이 성장하는데에 \n큰 기여를 해주세요 🙂</string>
@@ -64,7 +61,6 @@
     <string name="notion_kuring_team_url">https://kuring.notion.site/a69fdf7ff06848c2aedef1fdcf13ca57</string>
     <string name="instagram_url">https://bit.ly/3I30uiG</string>
     <string name="kakao_url">https://bit.ly/3p5LZTI</string>
-
 
     <!--  onBoarding  -->
     <string name="on_boarding_title">우리 대학 공지 \n쿠링이 알려줄게!</string>
