@@ -15,7 +15,7 @@
         android:background="@color/kus_green">
 
         <ImageButton
-            android:id="@+id/setting_notification_dismiss_bt"
+            android:id="@+id/dismiss_bt"
             confirmedImageIf="@{viewModel.hasUpdate}"
             android:layout_width="32dp"
             android:layout_height="32dp"
@@ -28,7 +28,7 @@
             app:tint="@color/white" />
 
         <ImageButton
-            android:id="@+id/setting_notification_rollback_bt"
+            android:id="@+id/rollback_bt"
             visibleIf="@{viewModel.hasUpdate}"
             android:layout_width="32dp"
             android:layout_height="32dp"
@@ -41,7 +41,7 @@
             app:tint="@color/white" />
 
         <ImageView
-            android:id="@+id/setting_notification_bell_img"
+            android:id="@+id/bell_img"
             android:layout_width="44dp"
             android:layout_height="46dp"
             android:layout_marginTop="60dp"
@@ -53,7 +53,7 @@
             app:tint="@color/white" />
 
         <TextView
-            android:id="@+id/setting_notification_explain_txt"
+            android:id="@+id/explain_txt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="18dp"
@@ -68,7 +68,7 @@
             android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/setting_notification_bell_img" />
+            app:layout_constraintTop_toBottomOf="@+id/bell_img" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/subscribe_recyclerview"
@@ -79,11 +79,11 @@
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/setting_notification_explain_txt"
+            app:layout_constraintTop_toBottomOf="@+id/explain_txt"
             tools:itemCount="2" />
 
         <View
-            android:id="@+id/setting_notification_partition_view"
+            android:id="@+id/partition_view"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginStart="90dp"
@@ -103,11 +103,11 @@
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/setting_notification_partition_view"
+            app:layout_constraintTop_toBottomOf="@+id/partition_view"
             tools:itemCount="5" />
 
         <Button
-            android:id="@+id/setting_notification_start_bt"
+            android:id="@+id/start_bt"
             disableStartButtonIf="@{viewModel.isSubscriptionEmpty}"
             android:layout_width="match_parent"
             android:layout_height="52dp"

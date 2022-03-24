@@ -196,6 +196,6 @@ class EditSubscriptionViewModel @Inject constructor(
     }
 
     companion object {
-        const val className = "SettingNotificationViewModel"
+        const val className = "EditSubscriptionViewModel"
     }
 }

@@ -35,17 +35,17 @@ class EditSubscriptionActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        binding.settingNotificationDismissBt.setOnClickListener {
+        binding.dismissBt.setOnClickListener {
             if(viewModel.hasUpdate.value == true) {
                 viewModel.saveSubscribe()
             }
             finish()
             overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
         }
-        binding.settingNotificationRollbackBt.setOnClickListener {
+        binding.rollbackBt.setOnClickListener {
             viewModel.syncWithServer()
         }
-        binding.settingNotificationStartBt.setOnClickListener {
+        binding.startBt.setOnClickListener {
             if (viewModel.isSubscriptionEmpty.value == false) {
                 viewModel.saveSubscribe()
                 setResult(RESULT_OK)
@@ -58,11 +58,11 @@ class EditSubscriptionActivity : AppCompatActivity() {
     private fun setupView() {
         viewModel.firstRunFlag = intent.getBooleanExtra(FIRST_RUN_FLAG, false)
         if(viewModel.firstRunFlag) {
-            binding.settingNotificationDismissBt.visibility = View.GONE
-            binding.settingNotificationRollbackBt.visibility = View.GONE
-            binding.settingNotificationStartBt.visibility = View.VISIBLE
+            binding.dismissBt.visibility = View.GONE
+            binding.rollbackBt.visibility = View.GONE
+            binding.startBt.visibility = View.VISIBLE
         } else {
-            binding.settingNotificationStartBt.visibility = View.GONE
+            binding.startBt.visibility = View.GONE
         }
 
     }

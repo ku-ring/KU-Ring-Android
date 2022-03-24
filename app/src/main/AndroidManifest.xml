@@ -57,7 +57,7 @@
 
         <activity android:name=".ui.edit_subscription.EditSubscriptionActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/SettingNotificationTheme"/>
+            android:theme="@style/EditSubscriptionTheme"/>
 
         <activity android:name=".ui.search.SearchActivity" />
         
