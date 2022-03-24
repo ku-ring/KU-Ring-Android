@@ -55,7 +55,7 @@
 
         <activity android:name=".ui.notice_webview.NoticeActivity" />
 
-        <activity android:name=".ui.setting_notification.SettingNotificationActivity"
+        <activity android:name=".ui.edit_subscription.EditSubscriptionActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SettingNotificationTheme"/>
 

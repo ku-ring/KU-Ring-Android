@@ -1,12 +1,12 @@
-package com.ku_stacks.ku_ring.ui.setting_notification.viewholder
+package com.ku_stacks.ku_ring.ui.edit_subscription.viewholder
 
 import androidx.recyclerview.widget.RecyclerView
-import com.ku_stacks.ku_ring.databinding.ItemSubscriptionBinding
+import com.ku_stacks.ku_ring.databinding.ItemUnsubscriptionBinding
 
-class SubscribeViewHolder(
-    private val binding: ItemSubscriptionBinding,
+class UnSubscribeViewHolder(
+    private val binding: ItemUnsubscriptionBinding,
     private val itemClick: (String) -> Unit,
-    ) : RecyclerView.ViewHolder(binding.root) {
+) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(category: String) {
         binding.category = category

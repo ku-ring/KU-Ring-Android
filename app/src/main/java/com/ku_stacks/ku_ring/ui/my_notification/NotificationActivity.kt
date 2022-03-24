@@ -14,7 +14,7 @@ import com.ku_stacks.ku_ring.databinding.ActivityNotificationBinding
 import com.ku_stacks.ku_ring.ui.notice_webview.NoticeActivity
 import com.ku_stacks.ku_ring.ui.home.HomeActivity
 import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushContentUiModel
-import com.ku_stacks.ku_ring.ui.setting_notification.SettingNotificationActivity
+import com.ku_stacks.ku_ring.ui.edit_subscription.EditSubscriptionActivity
 import com.ku_stacks.ku_ring.util.UrlGenerator
 import com.yeonkyu.HoldableSwipeHelper.HoldableSwipeHelper
 import com.yeonkyu.HoldableSwipeHelper.SwipeButtonAction
@@ -55,7 +55,7 @@ class NotificationActivity : AppCompatActivity() {
 
         binding.notificationSetNotiBtn.setOnClickListener {
             analytics.click("set_notification btn", "NotificationActivity")
-            val intent = Intent(this, SettingNotificationActivity::class.java)
+            val intent = Intent(this, EditSubscriptionActivity::class.java)
             startActivity(intent)
             overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
         }

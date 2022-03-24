@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.ui.setting_notification
+package com.ku_stacks.ku_ring.ui.edit_subscription
 
 import android.os.Bundle
 import android.view.View
@@ -7,16 +7,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.databinding.ActivitySettingNotificationBinding
-import com.ku_stacks.ku_ring.ui.setting_notification.adapter.SubscribeAdapter
-import com.ku_stacks.ku_ring.ui.setting_notification.adapter.UnSubscribeAdapter
+import com.ku_stacks.ku_ring.databinding.ActivityEditSubscriptionBinding
+import com.ku_stacks.ku_ring.ui.edit_subscription.adapter.SubscribeAdapter
+import com.ku_stacks.ku_ring.ui.edit_subscription.adapter.UnSubscribeAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SettingNotificationActivity : AppCompatActivity() {
+class EditSubscriptionActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivitySettingNotificationBinding
-    private val viewModel by viewModels<SettingNotificationViewModel>()
+    private lateinit var binding: ActivityEditSubscriptionBinding
+    private val viewModel by viewModels<EditSubscriptionViewModel>()
 
     private lateinit var subscribeAdapter: SubscribeAdapter
     private lateinit var unSubscribeListAdapter: UnSubscribeAdapter
@@ -31,7 +31,7 @@ class SettingNotificationActivity : AppCompatActivity() {
     }
 
     private fun setupBinding() {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_setting_notification)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_subscription)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
@@ -80,7 +80,7 @@ class SettingNotificationActivity : AppCompatActivity() {
         }
 
         binding.subscribeRecyclerview.apply {
-            layoutManager = GridLayoutManager(this@SettingNotificationActivity,
+            layoutManager = GridLayoutManager(this@EditSubscriptionActivity,
                 3,
                 GridLayoutManager.VERTICAL,
                 false)
@@ -88,7 +88,7 @@ class SettingNotificationActivity : AppCompatActivity() {
         }
 
         binding.unsubscribeRecyclerview.apply {
-            layoutManager = GridLayoutManager(this@SettingNotificationActivity,
+            layoutManager = GridLayoutManager(this@EditSubscriptionActivity,
                 3,
                 GridLayoutManager.VERTICAL,
                 false)

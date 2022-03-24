@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.ui.home.HomeActivity
-import com.ku_stacks.ku_ring.ui.setting_notification.SettingNotificationActivity
+import com.ku_stacks.ku_ring.ui.edit_subscription.EditSubscriptionActivity
 import com.ku_stacks.ku_ring.util.PreferenceUtil
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -38,8 +38,8 @@ class OnBoardingActivity : AppCompatActivity() {
         val subscribeNoticeButton = findViewById<Button>(R.id.on_boarding_subscribe_noti_btn)
 
         subscribeNoticeButton.setOnClickListener {
-            val intent = Intent(this, SettingNotificationActivity::class.java).apply {
-                putExtra(SettingNotificationActivity.FIRST_RUN_FLAG, true)
+            val intent = Intent(this, EditSubscriptionActivity::class.java).apply {
+                putExtra(EditSubscriptionActivity.FIRST_RUN_FLAG, true)
             }
             getOnBoardingFinishResult.launch(intent)
 
