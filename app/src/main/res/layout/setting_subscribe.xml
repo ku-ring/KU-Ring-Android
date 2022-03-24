@@ -31,11 +31,11 @@
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:layout_marginStart="20dp"
-            android:src="@drawable/ic_close"
-            app:tint="@color/kus_primary"
+            android:src="@drawable/ic_ring"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/kus_primary" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -58,7 +58,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/kus_gray" />
+            app:tint="@color/kus_secondary_gray" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -73,10 +73,11 @@
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:layout_marginStart="20dp"
-            android:src="@drawable/ic_close"
+            android:src="@drawable/ic_ring"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/kus_primary" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -99,6 +100,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/kus_gray" />
+            app:tint="@color/kus_secondary_gray" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
