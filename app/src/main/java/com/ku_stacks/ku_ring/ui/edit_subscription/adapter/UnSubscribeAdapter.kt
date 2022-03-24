@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.ui.setting_notification.adapter
+package com.ku_stacks.ku_ring.ui.edit_subscription.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.databinding.ItemUnsubscriptionBinding
-import com.ku_stacks.ku_ring.ui.setting_notification.viewholder.UnSubscribeViewHolder
+import com.ku_stacks.ku_ring.ui.edit_subscription.viewholder.UnSubscribeViewHolder
 
 class UnSubscribeAdapter(
     private val itemClick: (String) -> Unit,

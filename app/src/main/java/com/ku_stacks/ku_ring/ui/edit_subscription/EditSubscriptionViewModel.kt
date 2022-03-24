@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.ui.setting_notification
+package com.ku_stacks.ku_ring.ui.edit_subscription
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -18,7 +18,7 @@ import java.util.*
 import kotlin.Comparator
 
 @HiltViewModel
-class SettingNotificationViewModel @Inject constructor(
+class EditSubscriptionViewModel @Inject constructor(
     private val repository: SubscribeRepository,
     private val pref: PreferenceUtil,
     private val analytics: EventAnalytics,
