@@ -44,41 +44,49 @@ class SettingActivity : AppCompatActivity() {
             val intent = Intent(this, NotionViewActivity::class.java)
             intent.putExtra(NotionViewActivity.NOTION_URL, getString(R.string.notion_new_contents_url))
             startActivity(intent)
+            overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
         }
         binding.informationLayout.teamLayout.setOnClickListener {
             val intent = Intent(this, NotionViewActivity::class.java)
             intent.putExtra(NotionViewActivity.NOTION_URL, getString(R.string.notion_kuring_team_url))
             startActivity(intent)
+            overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
         }
         binding.informationLayout.privacyPolicyLayout.setOnClickListener {
             val intent = Intent(this, NotionViewActivity::class.java)
             intent.putExtra(NotionViewActivity.NOTION_URL, getString(R.string.notion_privacy_policy_url))
             startActivity(intent)
+            overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
         }
         binding.informationLayout.termsOfServiceLayout.setOnClickListener {
             val intent = Intent(this, NotionViewActivity::class.java)
             intent.putExtra(NotionViewActivity.NOTION_URL, getString(R.string.notion_terms_of_service_url))
             startActivity(intent)
+            overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
         }
         binding.informationLayout.openSourceLayout.setOnClickListener {
             startActivity(Intent(this, OssLicensesMenuActivity::class.java))
             OssLicensesMenuActivity.setActivityTitle(getString(R.string.open_source_license))
+            overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
         }
 
         binding.snsLayout.instagramLayout.setOnClickListener {
             val intent = Intent(this, NotionViewActivity::class.java)
             intent.putExtra(NotionViewActivity.NOTION_URL, getString(R.string.instagram_url))
             startActivity(intent)
+            overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
         }
         binding.snsLayout.kakaoChannelLayout.setOnClickListener {
             val intent = Intent(this, NotionViewActivity::class.java)
             intent.putExtra(NotionViewActivity.NOTION_URL, getString(R.string.kakao_url))
             startActivity(intent)
+            overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
         }
 
         binding.feedbackLayout.feedbackSendLayout.setOnClickListener {
             val intent = Intent(this, FeedbackActivity::class.java)
             startActivity(intent)
+            overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
         }
     }
 
