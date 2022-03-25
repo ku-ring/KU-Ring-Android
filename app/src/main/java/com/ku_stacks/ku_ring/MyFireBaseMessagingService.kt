@@ -16,6 +16,7 @@ import com.ku_stacks.ku_ring.data.db.PushEntity
 import com.ku_stacks.ku_ring.ui.home.HomeActivity
 import com.ku_stacks.ku_ring.ui.notice_webview.NoticeActivity
 import com.ku_stacks.ku_ring.util.DateUtil
+import com.ku_stacks.ku_ring.util.PreferenceUtil
 import com.ku_stacks.ku_ring.util.UrlGenerator
 import com.ku_stacks.ku_ring.util.WordConverter
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,9 +30,12 @@ import javax.inject.Inject
 class MyFireBaseMessagingService : FirebaseMessagingService() {
 
     @Inject
-    lateinit var pushDao : PushDao
+    lateinit var pushDao: PushDao
 
-    override fun onNewToken(token: String){
+    @Inject
+    lateinit var pref: PreferenceUtil
+
+    override fun onNewToken(token: String) {
         Timber.e("refreshed token : $token")
     }
 
@@ -69,8 +73,9 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
             val title = remoteMessage.data["title"]!!
             val body = remoteMessage.data["body"]!!
 
-            // show notification
-            showNotification(type = type, title = title, body = body)
+            if (pref.extNotificationAllowed) {
+                showCustomNotification(type = type, title = title, body = body)
+            }
         }
     }
 
@@ -159,7 +164,7 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
         notificationManager.notify(0, notificationBuilder.build())
     }
 
-    private fun showNotification(type: String, title: String, body: String) {
+    private fun showCustomNotification(type: String, title: String, body: String) {
         val intent = Intent(this, HomeActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(
             this,
