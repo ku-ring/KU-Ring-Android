@@ -23,6 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
+        android:background="?attr/selectableItemBackground"
         android:minHeight="42dp"
         app:layout_constraintTop_toBottomOf="@+id/subscribe_notice_label">
 
@@ -66,6 +67,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="42dp"
+        android:paddingTop="14dp"
+        android:paddingBottom="10dp"
         app:layout_constraintTop_toBottomOf="@+id/subscribe_notice_layout">
 
         <ImageView
@@ -74,12 +77,12 @@
             android:layout_height="15dp"
             android:layout_marginStart="20dp"
             android:src="@drawable/ic_ring"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:tint="@color/kus_primary" />
 
         <TextView
+            android:id="@+id/subscribe_ext_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
@@ -87,19 +90,29 @@
             android:text="@string/setting_subscribe_ext"
             android:textColor="@color/kus_primary"
             android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/subscribe_ext_img"
             app:layout_constraintStart_toEndOf="@+id/subscribe_ext_img"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/subscribe_ext_img" />
 
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginEnd="20dp"
-            android:padding="4dp"
-            android:src="@drawable/ic_arrow"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="주요 공지사항, 앱 내 중요사항"
+            android:textColor="@color/kus_gray"
+            android:textSize="13sp"
+            app:layout_constraintStart_toStartOf="@+id/subscribe_ext_img"
+            app:layout_constraintTop_toBottomOf="@+id/subscribe_ext_label" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/subscribe_ext_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="21dp"
+            android:thumb="@drawable/switch_thumb"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/kus_secondary_gray" />
+            app:track="@drawable/switch_track_selector" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
