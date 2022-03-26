@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
         android:background="?attr/selectableItemBackground"
-        android:minHeight="42dp"
+        android:minHeight="45dp"
         app:layout_constraintTop_toBottomOf="@+id/subscribe_notice_label">
 
         <ImageView
@@ -66,8 +66,7 @@
         android:id="@+id/subscribe_ext_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="42dp"
-        android:paddingTop="14dp"
+        android:minHeight="45dp"
         android:paddingBottom="10dp"
         app:layout_constraintTop_toBottomOf="@+id/subscribe_notice_layout">
 
@@ -76,6 +75,7 @@
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="14dp"
             android:src="@drawable/ic_ring"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -97,11 +97,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:text="주요 공지사항, 앱 내 중요사항"
+            android:layout_marginTop="2dp"
+            android:text="@string/setting_subscribe_ext_description"
             android:textColor="@color/kus_gray"
             android:textSize="13sp"
-            app:layout_constraintStart_toStartOf="@+id/subscribe_ext_img"
+            app:layout_constraintStart_toStartOf="@+id/subscribe_ext_label"
             app:layout_constraintTop_toBottomOf="@+id/subscribe_ext_label" />
 
         <androidx.appcompat.widget.SwitchCompat
@@ -110,9 +110,8 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="21dp"
             android:thumb="@drawable/switch_thumb"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/subscribe_ext_label"
             app:track="@drawable/switch_track_selector" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

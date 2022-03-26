@@ -11,5 +11,5 @@
         android:height="21dp" />
 
     <solid
-        android:color="#9b9b9b" />
+        android:color="@color/kus_secondary_gray" />
 </shape>

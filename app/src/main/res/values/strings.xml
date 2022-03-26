@@ -84,6 +84,7 @@
     <string name="setting_subscription_notice">공지 구독</string>
     <string name="setting_subscribe_notice">공지 구독하기</string>
     <string name="setting_subscribe_ext">기타 알림 받기</string>
+    <string name="setting_subscribe_ext_description">주요 공지 사항, 앱 내 중요 사항</string>
     <string name="setting_information">정보</string>
     <string name="setting_version">앱 버전</string>
     <string name="setting_new_contents">새로운 내용</string>
