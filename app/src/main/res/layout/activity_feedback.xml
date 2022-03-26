@@ -27,7 +27,7 @@
             android:background="@null"
             android:onClick="@{() -> viewModel.closeFeedback()}"
             android:padding="4dp"
-            android:src="@drawable/ic_close"
+            android:src="@drawable/ic_back"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

@@ -25,9 +25,6 @@
     <string name="normal">일반</string>
     <string name="library">도서관</string>
 
-    <!--  new contents  -->
-    <string name="new_contents">새로운 내용</string>
-
     <!--  feedback  -->
     <string name="feedback_send_content">피드백 보내기</string>
     <string name="feedback_title">피드백을 남겨서 앱이 성장하는데에 \n큰 기여를 해주세요 🙂</string>
@@ -38,15 +35,6 @@
     <string name="feedback_write_more_character">5글자 이상 입력해주세요</string>
     <string name="feedback_size_of_character">글자수 : %s/256</string>
     <string name="feedback_cannot_send">피드백을 보낼 수 없습니다. fcm 토큰을 확인해주세요</string>
-
-    <!--  open source  -->
-    <string name="open_source">오픈소스</string>
-
-    <!--  personal information  -->
-    <string name="personal_information">개인정보 처리방침</string>
-
-    <!--  term of service  -->
-    <string name="term_of_service">서비스 이용약관</string>
 
     <!--  notification  -->
     <string name="notification_my">내 알림</string>
@@ -68,8 +56,11 @@
 
     <!--  notion url  -->
     <string name="notion_new_contents_url">https://kuring.notion.site/kuring/eec1169151ec4b49abab5e900c617690</string>
-    <string name="notion_personal_data_url">https://kuring.notion.site/65ba27f2367044e0be7061e885e7415c</string>
+    <string name="notion_privacy_policy_url">https://kuring.notion.site/65ba27f2367044e0be7061e885e7415c</string>
     <string name="notion_terms_of_service_url">https://kuring.notion.site/e88095d4d67d4c4c92983fd85cb693b9</string>
+    <string name="notion_kuring_team_url">https://kuring.notion.site/a69fdf7ff06848c2aedef1fdcf13ca57</string>
+    <string name="instagram_url">https://bit.ly/3I30uiG</string>
+    <string name="kakao_url">https://bit.ly/3p5LZTI</string>
 
     <!--  onBoarding  -->
     <string name="on_boarding_title">우리 대학 공지 \n쿠링이 알려줄게!</string>
@@ -87,4 +78,22 @@
     <string name="download_success">다운로드가 완료되었습니다.</string>
     <string name="download_fail">다운로드에 실패하였습니다.</string>
     <string name="share_externally">공유하기</string>
+
+    <!--  setting  -->
+    <string name="setting">설정</string>
+    <string name="setting_subscription_notice">공지 구독</string>
+    <string name="setting_subscribe_notice">공지 구독하기</string>
+    <string name="setting_subscribe_ext">기타 알림 받기</string>
+    <string name="setting_subscribe_ext_description">주요 공지 사항, 앱 내 중요 사항</string>
+    <string name="setting_information">정보</string>
+    <string name="setting_version">앱 버전</string>
+    <string name="setting_new_contents">새로운 내용</string>
+    <string name="setting_team">쿠링 팀</string>
+    <string name="privacy_policy">개인정보 처리방침</string>
+    <string name="terms_of_service">서비스 이용약관</string>
+    <string name="open_source_license">오픈소스 라이선스</string>
+    <string name="sns">SNS</string>
+    <string name="instagram">인스타그램</string>
+    <string name="kakao_channel">카카오톡 채널</string>
+    <string name="setting_feedback">피드백</string>
 </resources>
