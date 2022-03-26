@@ -25,6 +25,10 @@ class PreferenceUtil(@ApplicationContext context: Context) {
         get() = prefs.getStringSet(SUBSCRIPTION, emptySet())
         set(stringSet) = prefs.edit().putStringSet(SUBSCRIPTION, stringSet).apply()
 
+    var extNotificationAllowed: Boolean
+        get() = prefs.getBoolean(DEFAULT_NOTIFICATION, true)
+        set(value) = prefs.edit().putBoolean(DEFAULT_NOTIFICATION, value).apply()
+
     fun deleteStartDate() {
         prefs.edit().remove(START_DATE).apply()
     }
@@ -34,5 +38,6 @@ class PreferenceUtil(@ApplicationContext context: Context) {
         const val START_DATE = "START_DATE"
         const val FCM_TOKEN = "FCM_TOKEN"
         const val SUBSCRIPTION = "SUBSCRIPTION"
+        const val DEFAULT_NOTIFICATION = "DEFAULT_NOTIFICATION"
     }
 }

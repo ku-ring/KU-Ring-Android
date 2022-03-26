@@ -47,7 +47,7 @@
 
         <activity
             android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
-            android:theme="@style/OpenSourceMenuTheme" />
+            android:theme="@style/OpenSourceItemTheme" />
 
         <activity
             android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
@@ -55,9 +55,9 @@
 
         <activity android:name=".ui.notice_webview.NoticeActivity" />
 
-        <activity android:name=".ui.setting_notification.SettingNotificationActivity"
+        <activity android:name=".ui.edit_subscription.EditSubscriptionActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/SettingNotificationTheme"/>
+            android:theme="@style/EditSubscriptionTheme"/>
 
         <activity android:name=".ui.search.SearchActivity" />
         
@@ -65,6 +65,8 @@
 
         <activity android:name=".ui.on_boarding.OnBoardingActivity"
             android:screenOrientation="portrait" />
+
+        <activity android:name=".ui.setting.SettingActivity" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"

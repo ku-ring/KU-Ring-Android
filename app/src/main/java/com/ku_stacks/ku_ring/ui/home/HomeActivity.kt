@@ -14,9 +14,9 @@ import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.databinding.ActivityHomeBinding
 import com.ku_stacks.ku_ring.ui.notice_webview.NoticeActivity
-import com.ku_stacks.ku_ring.ui.home.dialog.HomeBottomSheet
 import com.ku_stacks.ku_ring.ui.my_notification.NotificationActivity
 import com.ku_stacks.ku_ring.ui.search.SearchActivity
+import com.ku_stacks.ku_ring.ui.setting.SettingActivity
 import com.ku_stacks.ku_ring.util.PreferenceUtil
 import com.ku_stacks.ku_ring.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
@@ -103,8 +103,10 @@ class HomeActivity : AppCompatActivity() {
             overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
         }
 
-        binding.homeHeader.menuImg.setOnClickListener {
-            invokeMenuDialog()
+        binding.homeHeader.settingsImg.setOnClickListener {
+            val intent = Intent(this, SettingActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
         }
 
         binding.homeHeader.searchImg.setOnClickListener {
@@ -148,11 +150,6 @@ class HomeActivity : AppCompatActivity() {
                 Timber.e("FCM token : $token")
             }
         }
-    }
-
-    private fun invokeMenuDialog() {
-        val bottomSheet = HomeBottomSheet()
-        bottomSheet.show(supportFragmentManager, bottomSheet.tag)
     }
 
     override fun onNewIntent(intent: Intent?) {
