@@ -1,11 +1,12 @@
 package com.ku_stacks.ku_ring.repository
 
 import com.ku_stacks.ku_ring.data.api.NoticeClient
-import com.ku_stacks.ku_ring.data.api.response.DefaultResponse
 import com.ku_stacks.ku_ring.data.api.request.SubscribeRequest
 import com.ku_stacks.ku_ring.util.PreferenceUtil
 import com.ku_stacks.ku_ring.util.WordConverter
 import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
+import timber.log.Timber
 import javax.inject.Inject
 
 class SubscribeRepositoryImpl @Inject constructor(
@@ -21,8 +22,19 @@ class SubscribeRepositoryImpl @Inject constructor(
             }
     }
 
-    override fun saveSubscriptionToRemote(subscribeRequest: SubscribeRequest): Single<DefaultResponse> {
-        return noticeClient.saveSubscribe(subscribeRequest)
+    override fun saveSubscriptionToRemote(subscribeRequest: SubscribeRequest) {
+        noticeClient.saveSubscribe(subscribeRequest)
+            .subscribeOn(Schedulers.io())
+            .subscribe({ response ->
+                if (response.isSuccess) {
+                    Timber.e("saveSubscribe success")
+                    pref.firstRunFlag = false
+                } else {
+                    Timber.e("saveSubscribe failed ${response.resultCode}")
+                }
+            }, {
+                Timber.e("saveSubscribe failed $it")
+            })
     }
 
     override fun getSubscriptionFromLocal(): Set<String> {
