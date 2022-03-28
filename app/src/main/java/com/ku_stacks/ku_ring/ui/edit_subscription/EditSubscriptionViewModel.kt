@@ -80,13 +80,8 @@ class EditSubscriptionViewModel @Inject constructor(
                         { Timber.e("getSubscribeList fail $it") })
             )
         }
-
     }
 
-    /**
-    이 함수는 background 에서 이어서 작동해야하기 때문에
-    disposable 에 추가하지 않았음. observable 은 Single 이다.
-     */
     fun saveSubscribe() {
         if(initFlag == false) {
             return
@@ -99,17 +94,6 @@ class EditSubscriptionViewModel @Inject constructor(
                     WordConverter.convertKoreanToEnglish(category)
                 })
             )
-                .subscribeOn(Schedulers.io())
-                .subscribe({ response ->
-                    if (response.isSuccess) {
-                        Timber.e("saveSubscribe success")
-                        pref.firstRunFlag = false
-                    } else {
-                        Timber.e("saveSubscribe failed ${response.resultCode}")
-                    }
-                }, {
-                    Timber.e("saveSubscribe failed $it")
-                })
         }
     }
 
