@@ -15,6 +15,8 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
+import org.mockito.kotlin.times
+import org.mockito.kotlin.verify
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
@@ -63,11 +65,12 @@ class SubscribeRepositoryTest {
 
         Mockito.`when`(client.saveSubscribe(mockRequest)).thenReturn(Single.just(mockResponse))
 
-        // when + then
+        // when
         repository.saveSubscriptionToRemote(mockRequest)
-            .test()
-            .assertNoErrors()
-            .assertValue(mockResponse)
+
+        // then
+        Mockito.verify(client, times(1)).saveSubscribe(mockRequest)
+        assertEquals(false, pref.firstRunFlag)
     }
 
     @Test
