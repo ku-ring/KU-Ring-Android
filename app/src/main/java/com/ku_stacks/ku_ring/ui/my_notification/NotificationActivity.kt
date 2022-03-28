@@ -6,7 +6,6 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.analytics.EventAnalytics
@@ -16,7 +15,7 @@ import com.ku_stacks.ku_ring.ui.home.HomeActivity
 import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushContentUiModel
 import com.ku_stacks.ku_ring.ui.edit_subscription.EditSubscriptionActivity
 import com.ku_stacks.ku_ring.util.UrlGenerator
-import com.yeonkyu.HoldableSwipeHelper.HoldableSwipeHelper
+import com.yeonkyu.HoldableSwipeHelper.HoldableSwipeHandler
 import com.yeonkyu.HoldableSwipeHelper.SwipeButtonAction
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -81,23 +80,20 @@ class NotificationActivity : AppCompatActivity() {
             adapter = notificationAdapter
         }
 
-        val swipeHelper = HoldableSwipeHelper(this, object : SwipeButtonAction {
-            override fun onClickFirstButton(absoluteAdapterPosition: Int) {
-                Timber.e("onClickDelete position : $absoluteAdapterPosition")
-                val pushContent = notificationAdapter.currentList[absoluteAdapterPosition]
-                if (pushContent is PushContentUiModel) {
-                    viewModel.deletePushDB(pushContent.articleId)
+        HoldableSwipeHandler.Builder(this)
+            .setSwipeButtonAction(object : SwipeButtonAction {
+                override fun onClickFirstButton(absoluteAdapterPosition: Int) {
+                    Timber.e("onClickDelete position : $absoluteAdapterPosition")
+                    val pushContent = notificationAdapter.currentList[absoluteAdapterPosition]
+                    if (pushContent is PushContentUiModel) {
+                        viewModel.deletePushDB(pushContent.articleId)
+                    }
                 }
-            }
-        })
-
-        swipeHelper.setDismissBackgroundOnClickedFirstItem(true)
-        swipeHelper.addRecyclerViewListener(binding.notificationRecyclerview)
-        swipeHelper.addRecyclerViewDecoration(binding.notificationRecyclerview)
-        swipeHelper.excludeFromHoldableViewHolder(NotificationAdapter.NOTIFICATION_DATE)
-
-        val itemTouchHelper = ItemTouchHelper(swipeHelper)
-        itemTouchHelper.attachToRecyclerView(binding.notificationRecyclerview)
+            })
+            .setDismissOnClickFirstItem(true)
+            .setOnRecyclerView(binding.notificationRecyclerview)
+            .excludeFromHoldableViewHolder(NotificationAdapter.NOTIFICATION_DATE)
+            .build()
     }
 
     private fun observeData() {
