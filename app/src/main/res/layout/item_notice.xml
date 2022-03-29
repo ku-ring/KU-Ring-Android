@@ -72,7 +72,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/notice_date_txt"
             app:layout_constraintTop_toTopOf="@+id/notice_date_txt"
-            app:tag_clickable="false"
             app:tag_text_size="12sp"
             app:tag_vertical_padding="3dp"
             app:vertical_interval="4dp" />
