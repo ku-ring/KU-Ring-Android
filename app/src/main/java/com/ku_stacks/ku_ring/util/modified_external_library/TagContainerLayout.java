@@ -215,8 +215,6 @@ public class TagContainerLayout extends ViewGroup {
 
     private RectF mRectF;
 
-    private ViewDragHelper mViewDragHelper;
-
     private List<View> mChildViews;
 
     private int[] mViewPos;
@@ -357,7 +355,6 @@ public class TagContainerLayout extends ViewGroup {
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mRectF = new RectF();
         mChildViews = new ArrayList<View>();
-        mViewDragHelper = ViewDragHelper.create(this, mSensitivity, new DragHelperCallBack());
         setWillNotDraw(false);
         setTagMaxLength(mTagMaxLength);
         setTagHorizontalPadding(mTagHorizontalPadding);
@@ -481,21 +478,17 @@ public class TagContainerLayout extends ViewGroup {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        return mViewDragHelper.shouldInterceptTouchEvent(ev);
+        return super.onInterceptTouchEvent(ev);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        mViewDragHelper.processTouchEvent(event);
-        return true;
+        return super.onTouchEvent(event);
     }
 
     @Override
     public void computeScroll() {
         super.computeScroll();
-        if (mViewDragHelper.continueSettling(true)) {
-            requestLayout();
-        }
     }
 
     private int getChildLines(int childCount) {
@@ -695,56 +688,6 @@ public class TagContainerLayout extends ViewGroup {
 
     private int ceilTagBorderWidth() {
         return (int) Math.ceil(mTagBorderWidth);
-    }
-
-    private class DragHelperCallBack extends ViewDragHelper.Callback {
-
-        @Override
-        public void onViewDragStateChanged(int state) {
-            super.onViewDragStateChanged(state);
-            mTagViewState = state;
-        }
-
-        @Override
-        public boolean tryCaptureView(View child, int pointerId) {
-            requestDisallowInterceptTouchEvent(true);
-            return mDragEnable;
-        }
-
-        @Override
-        public int clampViewPositionHorizontal(View child, int left, int dx) {
-            final int leftX = getPaddingLeft();
-            final int rightX = getWidth() - child.getWidth() - getPaddingRight();
-            return Math.min(Math.max(left, leftX), rightX);
-        }
-
-        @Override
-        public int clampViewPositionVertical(View child, int top, int dy) {
-            final int topY = getPaddingTop();
-            final int bottomY = getHeight() - child.getHeight() - getPaddingBottom();
-            return Math.min(Math.max(top, topY), bottomY);
-        }
-
-        @Override
-        public int getViewHorizontalDragRange(View child) {
-            return getMeasuredWidth() - child.getMeasuredWidth();
-        }
-
-        @Override
-        public int getViewVerticalDragRange(View child) {
-            return getMeasuredHeight() - child.getMeasuredHeight();
-        }
-
-        @Override
-        public void onViewReleased(View releasedChild, float xvel, float yvel) {
-            super.onViewReleased(releasedChild, xvel, yvel);
-            requestDisallowInterceptTouchEvent(false);
-            int[] pos = onGetNewPosition(releasedChild);
-            int posRefer = onGetCoordinateReferPos(pos[0], pos[1]);
-            onChangeView(releasedChild, posRefer, (int) releasedChild.getTag());
-            mViewDragHelper.settleCapturedViewAt(pos[0], pos[1]);
-            invalidate();
-        }
     }
 
     /**
