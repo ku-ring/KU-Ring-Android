@@ -64,7 +64,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/notification_subject_txt"
                 tools:text="학사" />
 
-            <co.lujun.androidtagview.TagContainerLayout
+            <com.ku_stacks.ku_ring.util.modified_external_library.TagContainerLayout
                 android:id="@+id/notification_tag_container"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -78,7 +78,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/notification_category_txt"
                 app:layout_constraintTop_toTopOf="@+id/notification_category_txt"
-                app:tag_clickable="false"
                 app:tag_text_size="12sp"
                 app:tag_vertical_padding="3dp"
                 app:vertical_interval="4dp" />
