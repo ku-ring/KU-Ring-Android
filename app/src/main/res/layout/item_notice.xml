@@ -58,7 +58,7 @@
             android:layout_marginTop="6dp"
             tools:text="2021.10.01" />
 
-        <co.lujun.androidtagview.TagContainerLayout
+        <com.ku_stacks.ku_ring.util.modified_external_library.TagContainerLayout
             android:id="@+id/notice_tag_container"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -72,7 +72,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/notice_date_txt"
             app:layout_constraintTop_toTopOf="@+id/notice_date_txt"
-            app:tag_clickable="false"
             app:tag_text_size="12sp"
             app:tag_vertical_padding="3dp"
             app:vertical_interval="4dp" />
