@@ -49,6 +49,12 @@ import co.lujun.androidtagview.TagView;
  * Author: lujun(http://blog.lujun.co)
  * Date: 2015-12-30 17:14
  */
+
+/**
+ * Modifier: yeon-kyu
+ * Date: 2022-03-29 23:45
+ * Changed : deleted DragHelperCallback and enabled to perform click on TagContainerLayout
+ */
 public class TagContainerLayout extends ViewGroup {
 
     /**
