@@ -58,7 +58,7 @@
             android:layout_marginTop="6dp"
             tools:text="2021.10.01" />
 
-        <co.lujun.androidtagview.TagContainerLayout
+        <com.ku_stacks.ku_ring.util.modified_external_library.TagContainerLayout
             android:id="@+id/notice_tag_container"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

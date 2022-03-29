@@ -23,6 +23,9 @@ class NoticeViewHolder(
             binding.executePendingBindings()
             itemClick(notice)
         }
+        binding.noticeTagContainer.setOnClickListener {
+            binding.root.performClick()
+        }
         binding.executePendingBindings()
     }
 
