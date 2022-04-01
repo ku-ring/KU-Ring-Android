@@ -64,7 +64,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/notification_subject_txt"
                 tools:text="학사" />
 
-            <com.ku_stacks.ku_ring.util.modified_external_library.TagContainerLayout
+            <co.lujun.androidtagview.TagContainerLayout
                 android:id="@+id/notification_tag_container"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
