@@ -34,6 +34,9 @@ jobs:
       run: |
         mkdir ./app/src/debug
         echo '${{ secrets.GOOGLE_SERVICES_JSON_DEBUG }}' > ./app/src/debug/google-services.json
+
+    - name: Create local.properteis
+      run: echo '${{ secretes.LOCAL_PROPERTIES }}' > ./local.properties
       
     # Build Debug App
     - name: Build with Gradle
