@@ -34,6 +34,9 @@ jobs:
         echo '${{ secrets.KU_RING_KEY_STORE_JKS }}' | base64 -d > ./app/signing/ku_ring_keystore.jks
         echo '${{ secrets.KEY_STORE_PROPERTIES }}' > ./app/signing/keystore.properties
 
+    - name: Create local.properteis
+      run: echo '${{ secrets.LOCAL_PROPERTIES }}' > ./local.properties
+
     # Build APK Release
     - name: Build release Apk
       run: ./gradlew assembleRelease
