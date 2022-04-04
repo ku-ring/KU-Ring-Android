@@ -5,6 +5,7 @@ import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.ku_stacks.ku_ring.MockUtil.mockDefaultResponse
 import com.ku_stacks.ku_ring.MockUtil.mockSubscribeListResponse
 import com.ku_stacks.ku_ring.MockUtil.mockSubscribeRequest
+import com.ku_stacks.ku_ring.SchedulersTestRule
 import com.ku_stacks.ku_ring.data.api.NoticeClient
 import com.ku_stacks.ku_ring.util.PreferenceUtil
 import com.ku_stacks.ku_ring.util.WordConverter
@@ -30,6 +31,10 @@ class SubscribeRepositoryTest {
 
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
+
+    @Rule
+    @JvmField
+    val testSchedulersRule = SchedulersTestRule()
 
     @Before
     fun setup() {
