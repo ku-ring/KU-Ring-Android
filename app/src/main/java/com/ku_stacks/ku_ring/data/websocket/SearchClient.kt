@@ -87,7 +87,7 @@ class SearchClient {
             }
 
             override fun onClose(code: Int, reason: String?, remote: Boolean) {
-                Timber.e("WebSocket onClose : $code, $reason, $remote")
+                Timber.e("WebSocket onClose : [$code] [isRemote : $remote] $reason")
                 preparingFlag.set(false)
             }
 
