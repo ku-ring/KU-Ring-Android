@@ -28,11 +28,17 @@ class EditSubscriptionViewModel @Inject constructor(
     private val disposable = CompositeDisposable()
 
     private val _subscriptionList = ArrayList<String>()
-    val subscriptionList = MutableLiveData<ArrayList<String>>()
+    val subscriptionList = MutableLiveData<List<String>>()
     val isSubscriptionEmpty = MutableLiveData(true)
 
     private val _unSubscriptionList = ArrayList<String>()
-    val unSubscriptionList = MutableLiveData<ArrayList<String>>()
+    val unSubscriptionList = MutableLiveData<List<String>>()
+
+    private val sortedSubscriptionList: List<String>
+        get() = _subscriptionList.sortedWith(CategoryComparator)
+
+    private val sortedUnSubscriptionList: List<String>
+        get() = _unSubscriptionList.sortedWith(CategoryComparator)
 
     private val _hasUpdate = MutableLiveData(false)
     val hasUpdate: LiveData<Boolean>
@@ -99,30 +105,26 @@ class EditSubscriptionViewModel @Inject constructor(
 
     fun removeSubscription(category: String) {
         _subscriptionList.remove(category)
-        _subscriptionList.sortWith(CategoryComparator)
-        subscriptionList.postValue(_subscriptionList)
+        subscriptionList.postValue(sortedSubscriptionList)
     }
 
     fun removeUnSubscription(category: String) {
         _unSubscriptionList.remove(category)
-        _unSubscriptionList.sortWith(CategoryComparator)
-        unSubscriptionList.postValue(_unSubscriptionList)
+        unSubscriptionList.postValue(sortedUnSubscriptionList)
     }
 
     fun addSubscription(category: String) {
         if (!_subscriptionList.contains(category)) {
             _subscriptionList.add(category)
         }
-        _subscriptionList.sortWith(CategoryComparator)
-        subscriptionList.postValue(_subscriptionList)
+        subscriptionList.postValue(sortedSubscriptionList)
     }
 
     fun addUnSubscription(category: String) {
         if (!_unSubscriptionList.contains(category)) {
             _unSubscriptionList.add(category)
         }
-        _unSubscriptionList.sortWith(CategoryComparator)
-        unSubscriptionList.postValue(_unSubscriptionList)
+        unSubscriptionList.postValue(sortedUnSubscriptionList)
     }
 
     fun refreshAfterUpdate() {
@@ -148,10 +150,8 @@ class EditSubscriptionViewModel @Inject constructor(
             _subscriptionList.add(str)
             _unSubscriptionList.remove(str)
         }
-        _subscriptionList.sortWith(CategoryComparator)
-        _unSubscriptionList.sortWith(CategoryComparator)
-        subscriptionList.postValue(_subscriptionList)
-        unSubscriptionList.postValue(_unSubscriptionList)
+        subscriptionList.postValue(sortedSubscriptionList)
+        unSubscriptionList.postValue(sortedUnSubscriptionList)
         initFlag = true
     }
 
