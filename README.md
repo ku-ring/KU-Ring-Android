@@ -54,6 +54,12 @@ https://play.google.com/store/apps/details?id=com.ku_stacks.ku_ring
 
 ## Version Updates
 
+### v.1.1.3
+  - 공지 화면 개선(zoom in/out)
+  - 공지 공유 기능 추가
+  - 새로운 설정 화면 추가
+  - Tag 클릭 안되는 버그 수정
+
 ### v.1.1.2
   - 다크모드 추가
   - 앱 안정성 향상
