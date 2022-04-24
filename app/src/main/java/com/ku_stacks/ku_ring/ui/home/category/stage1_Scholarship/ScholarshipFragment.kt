@@ -1,9 +1,9 @@
-package com.ku_stacks.ku_ring.ui.home.category
+package com.ku_stacks.ku_ring.ui.home.category.stage1_Scholarship
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import com.ku_stacks.ku_ring.ui.home.category.stage1_Scholarship.ScholarshipViewModel
+import com.ku_stacks.ku_ring.ui.home.category.HomeBaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

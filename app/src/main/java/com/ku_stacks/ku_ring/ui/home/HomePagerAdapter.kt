@@ -4,9 +4,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.ku_stacks.ku_ring.ui.home.category.EmployFragment
-import com.ku_stacks.ku_ring.ui.home.category.ScholarshipFragment
 import com.ku_stacks.ku_ring.ui.home.category.stage0_Bachelor.BachelorFragment
+import com.ku_stacks.ku_ring.ui.home.category.stage1_Scholarship.ScholarshipFragment
+import com.ku_stacks.ku_ring.ui.home.category.stage2_employ.EmployFragment
 import com.ku_stacks.ku_ring.ui.home.category.stage3_nation.NationFragment
 import com.ku_stacks.ku_ring.ui.home.category.stage4_Student.StudentFragment
 import com.ku_stacks.ku_ring.ui.home.category.stage5_Industry.IndustryFragment

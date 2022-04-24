@@ -20,7 +20,6 @@ import kotlin.Comparator
 @HiltViewModel
 class EditSubscriptionViewModel @Inject constructor(
     private val repository: SubscribeRepository,
-    private val pref: PreferenceUtil,
     private val analytics: EventAnalytics,
     firebaseMessaging: FirebaseMessaging
 ) : ViewModel(){
@@ -82,8 +81,9 @@ class EditSubscriptionViewModel @Inject constructor(
                     .subscribe({
                         initialSortSubscription(it)
                         refreshAfterUpdate()
-                    },
-                        { Timber.e("getSubscribeList fail $it") })
+                    }, {
+                        Timber.e("getSubscribeList fail $it")
+                    })
             )
         }
     }
@@ -179,7 +179,15 @@ class EditSubscriptionViewModel @Inject constructor(
         }
     }
 
+    override fun onCleared() {
+        super.onCleared()
+
+        if (!disposable.isDisposed) {
+            disposable.dispose()
+        }
+    }
+
     companion object {
-        const val className = "EditSubscriptionViewModel"
+        private val className: String = EditSubscriptionViewModel::class.java.simpleName
     }
 }

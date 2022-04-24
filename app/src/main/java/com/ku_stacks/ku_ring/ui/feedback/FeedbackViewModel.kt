@@ -104,6 +104,6 @@ class FeedbackViewModel @Inject constructor(
     }
 
     companion object {
-        const val className = "FeedbackViewModel"
+        private val className: String = FeedbackViewModel::class.java.simpleName
     }
 }
