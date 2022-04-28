@@ -1,5 +1,6 @@
 package com.ku_stacks.ku_ring.ui.feedback
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.messaging.FirebaseMessaging
@@ -28,15 +29,15 @@ class FeedbackViewModel @Inject constructor(
     val canSendFeedback = MutableLiveData(false)
 
     private val _quit = SingleLiveEvent<Unit>()
-    val quit: SingleLiveEvent<Unit>
+    val quit: LiveData<Unit>
         get() = _quit
 
     private val _toast = SingleLiveEvent<String>()
-    val toast: SingleLiveEvent<String>
+    val toast: LiveData<String>
         get() = _toast
 
     private val _toastByResource = SingleLiveEvent<Int>()
-    val toastByResource: SingleLiveEvent<Int>
+    val toastByResource: LiveData<Int>
         get() = _toastByResource
 
     init {
