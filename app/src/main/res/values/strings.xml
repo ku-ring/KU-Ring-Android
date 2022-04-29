@@ -4,6 +4,8 @@
 
     <!--  Common  -->
     <string name="network_error">네트워크 문제로 연결되지 않았습니다. 다시 시도해주세요</string>
+    <string name="cancel">취소</string>
+    <string name="confirm">확인</string>
 
     <!--  splash  -->
     <string name="ku_ring_version">ver. %1$s</string>
@@ -42,6 +44,7 @@
     <string name="notification_setting">푸시 알림 설정하기</string>
     <string name="push_notification_max_count">99+</string>
     <string name="notification_no_subscription">알림 설정한 항목이 없습니다.\n알림 받고 싶은 공지를 설정해보세요!</string>
+    <string name="confirm_to_delete_notification">정말 삭제하시겠습니까?</string>
 
     <!--  setting_notification  -->
     <string name="setting_notification_explain"> 어떤 알림들을 받아보시겠습니까?\n알림 받고 싶은 카테고리를 선택해주세요.</string>

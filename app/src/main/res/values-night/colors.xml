@@ -11,6 +11,7 @@
     <color name="kus_secondary_gray">#535b5d</color>
     <color name="kus_gray_line">#474747</color>
     <color name="kus_pink">#e45b78</color>
+    <color name="kus_highlight">#ffffff</color>
 
     <color name="kus_primary">#ffffff</color>
     <color name="kus_secondary">#b6b6b6</color>

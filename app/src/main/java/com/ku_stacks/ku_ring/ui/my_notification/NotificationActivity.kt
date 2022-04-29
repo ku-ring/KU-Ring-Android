@@ -15,6 +15,7 @@ import com.ku_stacks.ku_ring.ui.home.HomeActivity
 import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushContentUiModel
 import com.ku_stacks.ku_ring.ui.edit_subscription.EditSubscriptionActivity
 import com.ku_stacks.ku_ring.util.UrlGenerator
+import com.ku_stacks.ku_ring.util.makeDialog
 import com.yeonkyu.HoldableSwipeHelper.HoldableSwipeHandler
 import com.yeonkyu.HoldableSwipeHelper.SwipeButtonAction
 import dagger.hilt.android.AndroidEntryPoint
@@ -60,8 +61,8 @@ class NotificationActivity : AppCompatActivity() {
         }
 
         binding.deleteImg.setOnClickListener {
-            Timber.e("delete pushDB")
-            viewModel.deleteAllPushDB()
+            makeDialog(description = getString(R.string.confirm_to_delete_notification))
+                .setOnConfirmClickListener { viewModel.deleteAllPushDB() }
         }
     }
 
