@@ -34,10 +34,11 @@ class KuringDialog(context: Context) : Dialog(context) {
         cancelButton.setOnClickListener {
             dismiss()
         }
-
         confirmButton.setOnClickListener {
             dismiss()
         }
+
+        setCanceledOnTouchOutside(false)
     }
 
     fun setText(_title: String?, _description: String?) = this.apply {

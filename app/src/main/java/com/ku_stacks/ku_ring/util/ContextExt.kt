@@ -12,9 +12,10 @@ fun View.showSnackBar(msg: String) =
 fun Context.showToast(msg: String) =
     Toast.makeText(applicationContext, msg, Toast.LENGTH_SHORT).show()
 
-fun Context.makeDialog(title: String?, description: String?): KuringDialog {
-    val dialog = KuringDialog(this)
-        .setText(_title = title, _description = description)
-    dialog.show()
-    return dialog
+fun Context.makeDialog(title: String? = null, description: String? = null): KuringDialog {
+    return KuringDialog(this)
+        .apply {
+            setText(_title = title, _description = description)
+            show()
+        }
 }

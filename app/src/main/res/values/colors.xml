@@ -26,7 +26,7 @@
     <color name="kus_secondary">#535b5d</color>
     <color name="kus_tertiary">#ababab</color>
     <color name="kus_label_green">#036b3f</color>
-
+    <color name="kus_highlight">#036b3f</color>
 
     <color name="kus_label_color">#deffffff</color>
     <color name="kus_blue">#3d9ebd</color>
