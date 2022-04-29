@@ -4,6 +4,8 @@
 
     <!--  Common  -->
     <string name="network_error">네트워크 문제로 연결되지 않았습니다. 다시 시도해주세요</string>
+    <string name="cancel">취소</string>
+    <string name="confirm">확인</string>
 
     <!--  splash  -->
     <string name="ku_ring_version">ver. %1$s</string>

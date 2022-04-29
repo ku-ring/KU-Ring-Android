@@ -2,10 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_width="260dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_dialog_kuring">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/dialog_text_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="106dp"
@@ -20,6 +22,7 @@
             android:fontFamily="@font/sfpro_display_bold"
             android:gravity="center_horizontal"
             android:textSize="14sp"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toTopOf="@+id/description_txt"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="경고" />
@@ -31,10 +34,55 @@
             android:fontFamily="@font/sfpro_display_medium"
             android:gravity="center_horizontal"
             android:textSize="14sp"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title_txt"
             tools:text="정말 삭제하시겠습니까?" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_text_layout">
+
+        <View
+            android:id="@+id/dialog_bottom_divider"
+            android:layout_width="1dp"
+            android:layout_height="18dp"
+            android:background="@color/kus_gray_line"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/dialog_cancel_bt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/sfpro_display_medium"
+            android:text="@string/cancel"
+            android:textColor="@color/kus_gray"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/dialog_bottom_divider"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/dialog_confirm_bt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/sfpro_display_medium"
+            android:text="@string/confirm"
+            android:textColor="@color/kus_label_green"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/dialog_bottom_divider"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
