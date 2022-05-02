@@ -103,8 +103,9 @@
     <string name="kakao_channel">카카오톡 채널</string>
     <string name="setting_feedback">피드백</string>
 
-    <!--  chat  -->
+    <!--  campus onBoarding -->
     <string name="kuring_campus">쿠링 캠퍼스</string>
-    <string name="ask_send_message">친구들에게 메세지를 보내보세요</string>
+    <string name="campus_ask_send_message">친구들에게 메세지를 보내보세요</string>
+    <string name="campus_nickname_description">상대에게 보여지는 이름을 설정해주세요</string>
 
 </resources>

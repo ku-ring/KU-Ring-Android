@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
         android:layout_marginEnd="60dp"
-        android:src="@drawable/ic_chungsim"
+        android:src="@drawable/ic_campus_man"
         app:layout_constraintBottom_toTopOf="@+id/description_tv"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/sfpro_display_regular"
         android:gravity="center_horizontal"
-        android:text="@string/ask_send_message"
+        android:text="@string/campus_ask_send_message"
         android:textColor="@color/kus_primary"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"

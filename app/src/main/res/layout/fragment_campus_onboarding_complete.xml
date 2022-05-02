@@ -1,6 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/nickname_description_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:fontFamily="@font/sfpro_display_regular"
+        android:gravity="center"
+        android:text="@string/campus_nickname_description"
+        android:textColor="@color/kus_primary"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/nickname_et"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/nickname_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:autofillHints="no"
+        android:background="@drawable/edittext_primary_radius32"
+        android:elevation="2dp"
+        android:fontFamily="@font/sfpro_display_regular"
+        android:gravity="center_horizontal"
+        android:inputType="text"
+        android:maxLength="20"
+        android:maxLines="1"
+        android:paddingStart="20dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="10dp"
+        android:textColor="@color/kus_primary"
+        android:textColorHint="@color/kus_secondary_green"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nickname_description_tv" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
