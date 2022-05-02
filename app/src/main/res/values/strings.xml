@@ -6,6 +6,8 @@
     <string name="network_error">네트워크 문제로 연결되지 않았습니다. 다시 시도해주세요</string>
     <string name="cancel">취소</string>
     <string name="confirm">확인</string>
+    <string name="start">시작하기</string>
+    <string name="complete">완료하기</string>
 
     <!--  splash  -->
     <string name="ku_ring_version">ver. %1$s</string>
@@ -15,6 +17,7 @@
     <string name="home_menu_icn">home menu img</string>
     <string name="home_bell_icn">home bell img</string>
     <string name="home_search_icn">home search img</string>
+    <string name="home_chat_icn">home search img</string>
     <string name="home_finish_if_back_again">"뒤로가기를 한 번 더 누르시면 종료됩니다"</string>
 
     <!--  category  -->
@@ -99,4 +102,9 @@
     <string name="instagram">인스타그램</string>
     <string name="kakao_channel">카카오톡 채널</string>
     <string name="setting_feedback">피드백</string>
+
+    <!--  chat  -->
+    <string name="kuring_campus">쿠링 캠퍼스</string>
+    <string name="ask_send_message">친구들에게 메세지를 보내보세요</string>
+
 </resources>
