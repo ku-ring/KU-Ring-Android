@@ -13,7 +13,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.databinding.ActivityHomeBinding
-import com.ku_stacks.ku_ring.ui.chat_onboarding.CampusOnBoardingActivity
+import com.ku_stacks.ku_ring.ui.campus_onboarding.CampusOnBoardingActivity
 import com.ku_stacks.ku_ring.ui.notice_webview.NoticeActivity
 import com.ku_stacks.ku_ring.ui.my_notification.NotificationActivity
 import com.ku_stacks.ku_ring.ui.search.SearchActivity

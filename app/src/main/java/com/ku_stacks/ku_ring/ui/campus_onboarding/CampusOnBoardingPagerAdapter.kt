@@ -1,11 +1,11 @@
-package com.ku_stacks.ku_ring.ui.chat_onboarding
+package com.ku_stacks.ku_ring.ui.campus_onboarding
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.ku_stacks.ku_ring.ui.chat_onboarding.fragment.CampusOnBoardingCompleteFragment
-import com.ku_stacks.ku_ring.ui.chat_onboarding.fragment.CampusOnBoardingStartFragment
+import com.ku_stacks.ku_ring.ui.campus_onboarding.fragment.CampusOnBoardingCompleteFragment
+import com.ku_stacks.ku_ring.ui.campus_onboarding.fragment.CampusOnBoardingStartFragment
 
 class CampusOnBoardingPagerAdapter(fm: FragmentManager, lc: Lifecycle) : FragmentStateAdapter(fm, lc) {
 

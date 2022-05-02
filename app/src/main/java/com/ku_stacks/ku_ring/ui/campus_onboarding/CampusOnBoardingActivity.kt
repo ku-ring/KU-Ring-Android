@@ -1,13 +1,13 @@
-package com.ku_stacks.ku_ring.ui.chat_onboarding
+package com.ku_stacks.ku_ring.ui.campus_onboarding
 
 import android.os.Bundle
 import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
-import com.ku_stacks.ku_ring.databinding.ActivityChatOnboardingBinding
+import com.ku_stacks.ku_ring.databinding.ActivityCampusOnboardingBinding
 
 class CampusOnBoardingActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityChatOnboardingBinding
+    private lateinit var binding: ActivityCampusOnboardingBinding
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onCreate(savedInstanceState, persistentState)
@@ -17,7 +17,7 @@ class CampusOnBoardingActivity : AppCompatActivity() {
     }
 
     private fun setupBinding() {
-        binding = ActivityChatOnboardingBinding.inflate(layoutInflater)
+        binding = ActivityCampusOnboardingBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }
 

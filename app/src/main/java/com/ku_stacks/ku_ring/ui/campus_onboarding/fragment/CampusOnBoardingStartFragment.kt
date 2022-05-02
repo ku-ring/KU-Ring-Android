@@ -1,15 +1,15 @@
-package com.ku_stacks.ku_ring.ui.chat_onboarding.fragment
+package com.ku_stacks.ku_ring.ui.campus_onboarding.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.ku_stacks.ku_ring.databinding.FragmentChatOnboardingCompleteBinding
+import com.ku_stacks.ku_ring.databinding.FragmentCampusOnboardingStartBinding
 
-class CampusOnBoardingCompleteFragment : Fragment() {
+class CampusOnBoardingStartFragment : Fragment() {
 
-    private var _binding: FragmentChatOnboardingCompleteBinding? = null
+    private var _binding: FragmentCampusOnboardingStartBinding? = null
     private val binding
         get() = _binding!!
 
@@ -18,7 +18,7 @@ class CampusOnBoardingCompleteFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentChatOnboardingCompleteBinding.inflate(inflater, container, false)
+        _binding = FragmentCampusOnboardingStartBinding.inflate(inflater, container, false)
         return binding.root
     }
 
