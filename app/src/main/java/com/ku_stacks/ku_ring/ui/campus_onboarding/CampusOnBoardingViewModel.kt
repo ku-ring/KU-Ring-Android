@@ -20,8 +20,15 @@ class CampusOnBoardingViewModel @Inject constructor(
     val finishEvent: LiveData<String>
         get() = _finishEvent
 
+    /*
+    (?=.{5,15}$) // 5-15 characters long
+    (?![_.]) // no _ or . at the beginning
+    (?!.*[_.]{2}) // no __ or _. or ._ or .. inside
+    [a-zA-Z0-9가-힣._] // allowed characters
+    (?<![_.]) // no _ or . at the end
+     */
     fun isValidNicknameFormat(nickname: String): Boolean {
-        val pattern = "^(?=.{5,15}\$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])\$"
+        val pattern = "^(?=.{5,15}\$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9가-힣._]+(?<![_.])\$"
         return Pattern.matches(pattern, nickname)
     }
 

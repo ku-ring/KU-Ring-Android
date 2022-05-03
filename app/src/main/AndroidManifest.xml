@@ -57,7 +57,9 @@
         <activity android:name=".ui.on_boarding.OnBoardingActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".ui.setting.SettingActivity" />
-        <activity android:name=".ui.campus_onboarding.CampusOnBoardingActivity" />
+        <activity android:name=".ui.campus_onboarding.CampusOnBoardingActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.chat.ChatActivity" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"

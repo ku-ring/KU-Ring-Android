@@ -107,6 +107,7 @@
     <string name="kuring_campus">쿠링 캠퍼스</string>
     <string name="campus_ask_send_message">학우들에게 메세지를 보내보세요</string>
     <string name="campus_nickname_description">상대에게 보여지는 이름을 설정해주세요</string>
-    <string name="nickname_not_valid_format">유효한 닉네임 형식이 아닙니다.</string>
+    <string name="nickname_not_valid_format">적절한 닉네임 형식이 아닙니다.</string>
+    <string name="nickname_valid_format">적절한 닉네임 형식입니다.</string>
 
 </resources>
