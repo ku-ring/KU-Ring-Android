@@ -11,27 +11,29 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
+        android:layout_marginBottom="120dp"
         android:fontFamily="@font/sfpro_display_regular"
         android:gravity="center"
         android:text="@string/campus_nickname_description"
         android:textColor="@color/kus_primary"
         android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/nickname_et"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <EditText
         android:id="@+id/nickname_et"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="52dp"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
         android:autofillHints="no"
         android:background="@drawable/edittext_primary_radius32"
+        android:drawableStart="@drawable/ic_at"
         android:elevation="2dp"
         android:fontFamily="@font/sfpro_display_regular"
-        android:gravity="center_horizontal"
         android:inputType="text"
-        android:maxLength="20"
+        android:maxLength="15"
         android:maxLines="1"
         android:paddingStart="20dp"
         android:paddingTop="10dp"
@@ -39,8 +41,26 @@
         android:paddingBottom="10dp"
         android:textColor="@color/kus_primary"
         android:textColorHint="@color/kus_secondary_green"
-        android:textSize="14sp"
+        android:textSize="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nickname_description_tv" />
+        app:layout_constraintTop_toBottomOf="@+id/nickname_description_tv"
+        tools:ignore="SpUsage"
+        tools:text="yeonkyuuuuuu" />
 
+    <Button
+        android:id="@+id/start_bt"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/button_primary_gradation"
+        android:fontFamily="@font/sfpro_display_regular"
+        android:gravity="center"
+        android:stateListAnimator="@null"
+        android:text="@string/start"
+        android:textColor="@color/kus_background"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,14 +1,19 @@
 package com.ku_stacks.ku_ring.ui.campus_onboarding
 
+import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.ku_stacks.ku_ring.databinding.ActivityCampusOnboardingBinding
-import timber.log.Timber
+import com.ku_stacks.ku_ring.ui.chat.ChatActivity
+import com.ku_stacks.ku_ring.util.makeDialog
 
 class CampusOnBoardingActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCampusOnboardingBinding
+    private val viewModel by viewModels<CampusOnBoardingViewModel>()
+    private lateinit var pagerAdapter: CampusOnBoardingPagerAdapter
 
     private val pageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
@@ -21,6 +26,7 @@ class CampusOnBoardingActivity : AppCompatActivity() {
 
         setupBinding()
         setupFragment()
+        observeEvent()
     }
 
     private fun setupBinding() {
@@ -29,15 +35,28 @@ class CampusOnBoardingActivity : AppCompatActivity() {
     }
 
     private fun setupFragment() {
+        pagerAdapter = CampusOnBoardingPagerAdapter(supportFragmentManager, lifecycle)
         binding.viewpager.apply {
-            adapter = CampusOnBoardingPagerAdapter(supportFragmentManager, lifecycle)
+            adapter = pagerAdapter
+            registerOnPageChangeCallback(pageChangeCallback)
+        }
+    }
+
+    private fun observeEvent() {
+        viewModel.dialogEvent.observe(this) {
+            makeDialog(description = getString(it))
         }
 
-        binding.indicatorView.apply {
-            count = 2
+        viewModel.finishEvent.observe(this) {
+            startChatActivity(it)
         }
+    }
 
-        binding.viewpager.registerOnPageChangeCallback(pageChangeCallback)
+    private fun startChatActivity(nickname: String) {
+        val intent = Intent(this, ChatActivity::class.java).apply {
+            putExtra("nickname", nickname)
+        }
+        startActivity(intent)
     }
 
     override fun onDestroy() {
