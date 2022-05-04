@@ -38,6 +38,7 @@ android {
         localProperties.load(new FileInputStream(localPropertiesFile))
 
         buildConfigField "String", "APPS_FLYER_DEV_KEY", localProperties['APPS_FLYER_DEV_KEY']
+        buildConfigField "String", "SENDBIRD_APP_ID", localProperties['SENDBIRD_APP_ID']
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -204,6 +205,9 @@ dependencies {
 
     // indicator
     implementation 'com.romandanylyk:pageindicatorview:1.0.3'
+
+    // sendbird sdk
+    implementation 'com.sendbird.sdk:sendbird-chat:4.0.0-beta.2'
 }
 
 kapt {

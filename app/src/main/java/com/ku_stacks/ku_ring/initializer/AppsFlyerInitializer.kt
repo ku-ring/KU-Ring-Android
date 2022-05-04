@@ -20,11 +20,11 @@ class AppsFlyerInitializer: Initializer<Unit> {
             init(devKey, null, context)
             start(context, devKey, object : AppsFlyerRequestListener {
                 override fun onSuccess() {
-                    Timber.e("appsFlyer start success")
+                    Timber.e("AppsFlyer start success")
                 }
 
                 override fun onError(errorCode: Int, errorDesc: String) {
-                    Timber.e("appsFlyer start error : [$errorCode] $errorDesc")
+                    Timber.e("AppsFlyer start error : [$errorCode] $errorDesc")
                 }
             })
         }

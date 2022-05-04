@@ -72,6 +72,9 @@
             <meta-data
                 android:name="com.ku_stacks.ku_ring.initializer.AppsFlyerInitializer"
                 android:value="androidx.startup" />
+            <meta-data
+                android:name="com.ku_stacks.ku_ring.initializer.SendbirdInitializer"
+                android:value="androidx.startup" />
         </provider>
 
         <service android:name="com.ku_stacks.ku_ring.MyFireBaseMessagingService"
