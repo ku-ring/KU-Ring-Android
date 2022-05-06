@@ -61,7 +61,7 @@ class CampusOnBoardingCompleteFragment : Fragment() {
 
         binding.startBt.setOnClickListener {
             val nickname = binding.nicknameEt.text.toString()
-            viewModel.authorizeNickname(nickname)
+            viewModel.login(nickname)
         }
     }
 

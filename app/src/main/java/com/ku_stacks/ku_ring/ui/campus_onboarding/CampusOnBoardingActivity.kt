@@ -8,7 +8,9 @@ import androidx.viewpager2.widget.ViewPager2
 import com.ku_stacks.ku_ring.databinding.ActivityCampusOnboardingBinding
 import com.ku_stacks.ku_ring.ui.chat.ChatActivity
 import com.ku_stacks.ku_ring.util.makeDialog
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CampusOnBoardingActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCampusOnboardingBinding

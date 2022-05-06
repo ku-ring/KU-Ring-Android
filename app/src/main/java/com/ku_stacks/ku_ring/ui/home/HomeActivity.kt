@@ -154,6 +154,7 @@ class HomeActivity : AppCompatActivity() {
                     return@addOnCompleteListener
                 }
                 val token = task.result
+                pref.fcmToken = token
                 Timber.e("FCM token : $token")
             }
         }
