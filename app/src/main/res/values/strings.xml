@@ -113,5 +113,6 @@
 
     <!--  campus chat  -->
     <string name="chat_enter_message">메세지를 입력하세요.</string>
-
+    <string name="chat_get_channel_error">방 정보를 가져오는데 실패하였습니다.</string>
+    <string name="chat_enter_channel_error">방에 입장하는데 실패하였습니다.</string>
 </resources>
