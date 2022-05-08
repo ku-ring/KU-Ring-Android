@@ -59,7 +59,8 @@
         <activity android:name=".ui.setting.SettingActivity" />
         <activity android:name=".ui.campus_onboarding.CampusOnBoardingActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.chat.ChatActivity" />
+        <activity android:name=".ui.chat.ChatActivity"
+            android:windowSoftInputMode="adjustResize" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"
