@@ -5,6 +5,10 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 object DateUtil {
+    /**
+     JvmStatic 붙인 이유 : Java 코드에서도 object 클래스의 함수를 호출할 수 있도록 하기 위함
+     (Kotlin 에서는 없어도 호출 가능)
+     */
     @JvmStatic
     fun getToday(): String {
         val simpleDateFormat = SimpleDateFormat("yyyyMMdd", Locale.KOREA)
@@ -45,5 +49,11 @@ object DateUtil {
         } else {
             newSimpleDateFormat.format(date)
         }
+    }
+
+    @JvmStatic
+    fun convertLongToHHMM(timeMillis: Long): String {
+        val simpleDateFormat = SimpleDateFormat("h:mm a", Locale.US)
+        return simpleDateFormat.format(timeMillis)
     }
 }

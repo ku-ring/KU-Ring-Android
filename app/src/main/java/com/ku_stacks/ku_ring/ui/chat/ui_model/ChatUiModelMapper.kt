@@ -1,5 +1,6 @@
 package com.ku_stacks.ku_ring.ui.chat.ui_model
 
+import com.ku_stacks.ku_ring.util.DateUtil.convertLongToHHMM
 import com.sendbird.android.SendbirdChat
 import com.sendbird.android.message.AdminMessage
 import com.sendbird.android.message.BaseMessage
@@ -38,7 +39,7 @@ private fun UserMessage.toReceivedMessageUiModel(): ReceivedMessageUiModel {
         nickname = this.sender?.nickname ?: "",
         messageId = this.messageId,
         message = this.message,
-        time = this.createdAt.toString() // TODO : 10:30 AM 타입으로 변환
+        time = convertLongToHHMM(this.createdAt)
     )
 }
 
@@ -46,7 +47,7 @@ private fun UserMessage.toSentMessageUiModel(): SentMessageUiModel {
     return SentMessageUiModel(
         messageId = this.messageId,
         message = this.message,
-        time = this.createdAt.toString() // TODO : 10:30 AM 타입으로 변환
+        time = convertLongToHHMM(this.createdAt)
     )
 }
 
@@ -54,6 +55,6 @@ private fun AdminMessage.toAdminMessageUiModel(): AdminMessageUiModel {
     return AdminMessageUiModel(
         messageId = this.messageId,
         message = this.message,
-        time = this.createdAt.toString() // TODO : 10:30 AM 타입으로 변환
+        time = convertLongToHHMM(this.createdAt)
     )
 }
