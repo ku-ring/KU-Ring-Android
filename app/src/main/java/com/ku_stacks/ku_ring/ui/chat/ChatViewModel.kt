@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.ui.SingleLiveEvent
+import com.ku_stacks.ku_ring.ui.chat.ui_model.ChatUiModel
+import com.ku_stacks.ku_ring.ui.chat.ui_model.toChatUiModelList
 import com.sendbird.android.SendbirdChat
 import com.sendbird.android.channel.BaseChannel
 import com.sendbird.android.channel.OpenChannel
@@ -26,7 +28,8 @@ class ChatViewModel @Inject constructor(
     val dialogEvent: LiveData<Int>
         get() = _dialogEvent
 
-    val baseMessageList = mutableListOf<BaseMessage>()
+    private val _chatUiModelList = mutableListOf<ChatUiModel>()
+    val chatUiModelList = MutableLiveData<List<ChatUiModel>>()
 
     val hasPrevious = MutableLiveData<Boolean>()
     val hasNext = MutableLiveData<Boolean>()
@@ -95,7 +98,8 @@ class ChatViewModel @Inject constructor(
                 hasPrevious.value = false
             } else {
                 hasPrevious.value = messageList.size >= params.previousResultSize
-                baseMessageList.addAll(0, messageList)
+                _chatUiModelList.addAll(0, messageList.toChatUiModelList())
+                chatUiModelList.postValue(_chatUiModelList)
             }
             // TODO : 로딩 끝
         }
