@@ -27,6 +27,7 @@
         android:layout_height="52dp"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
+        android:layout_marginBottom="20dp"
         android:autofillHints="no"
         android:background="@drawable/edittext_primary_radius32"
         android:drawableStart="@drawable/ic_at"
@@ -42,7 +43,7 @@
         android:textColor="@color/kus_primary"
         android:textColorHint="@color/kus_secondary_green"
         android:textSize="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/start_bt"
         app:layout_constraintTop_toBottomOf="@+id/nickname_description_tv"
         tools:ignore="SpUsage"
         tools:text="yeonkyuuuuuu" />
