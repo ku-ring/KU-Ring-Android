@@ -60,6 +60,7 @@ android {
             ]
             buildConfigField "String", "API_BASE_URL", "\"https://kuring-dev.herokuapp.com/api/v1/\""
             buildConfigField "String", "WEB_SOCKET_URL", "\"wss://kuring-dev.herokuapp.com/kuring/search\""
+            buildConfigField "String", "KURING_CAMPUS_OPEN_CHANNEL_URL", "\"kuring_main_anonymous\""
 
             applicationIdSuffix '.debug'
         }
@@ -76,6 +77,7 @@ android {
             ]
             buildConfigField "String", "API_BASE_URL", "\"https://kuring.herokuapp.com/api/v1/\""
             buildConfigField "String", "WEB_SOCKET_URL", "\"wss://kuring.herokuapp.com/kuring/search\""
+            buildConfigField "String", "KURING_CAMPUS_OPEN_CHANNEL_URL", "\"kuring_campus_main_anonymous\""
         }
     }
     compileOptions {

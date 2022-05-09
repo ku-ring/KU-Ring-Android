@@ -3,6 +3,7 @@ package com.ku_stacks.ku_ring.ui.chat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.ku_stacks.ku_ring.BuildConfig
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.ui.SingleLiveEvent
 import com.ku_stacks.ku_ring.ui.chat.ui_model.ChatUiModel
@@ -42,7 +43,7 @@ class ChatViewModel @Inject constructor(
     }
 
     private fun enterChannel() {
-        val channelUrl = "kuring_main_anonymous"
+        val channelUrl = BuildConfig.KURING_CAMPUS_OPEN_CHANNEL_URL
         OpenChannel.getChannel(channelUrl) { channel, e1 ->
             if (e1 != null) {
                 Timber.e("Sendbird getChannel error [${e1.code}] : ${e1.message}")
