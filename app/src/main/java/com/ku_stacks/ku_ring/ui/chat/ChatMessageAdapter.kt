@@ -10,14 +10,14 @@ import com.ku_stacks.ku_ring.databinding.ItemChatReceiveBinding
 import com.ku_stacks.ku_ring.databinding.ItemChatSendBinding
 import com.ku_stacks.ku_ring.ui.chat.ui_model.*
 import com.ku_stacks.ku_ring.ui.chat.viewholder.AdminViewHolder
-import com.ku_stacks.ku_ring.ui.chat.viewholder.ChatViewHolder
+import com.ku_stacks.ku_ring.ui.chat.viewholder.SealedChatViewHolder
 import com.ku_stacks.ku_ring.ui.chat.viewholder.ReceiveViewHolder
 import com.ku_stacks.ku_ring.ui.chat.viewholder.SendViewHolder
 
-class ChatMessageAdapter : ListAdapter<ChatUiModel, ChatViewHolder>(
+class ChatMessageAdapter : ListAdapter<ChatUiModel, SealedChatViewHolder>(
     MessageDiffCallback
 ) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SealedChatViewHolder {
         return when (viewType) {
             CHAT_DATE -> {
                 // TODO
@@ -44,7 +44,7 @@ class ChatMessageAdapter : ListAdapter<ChatUiModel, ChatViewHolder>(
         }
     }
 
-    override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: SealedChatViewHolder, position: Int) {
         val item = getItem(position)
 
         when (holder) {
@@ -79,34 +79,64 @@ class ChatMessageAdapter : ListAdapter<ChatUiModel, ChatViewHolder>(
 
     object MessageDiffCallback : DiffUtil.ItemCallback<ChatUiModel>() {
         override fun areItemsTheSame(oldItem: ChatUiModel, newItem: ChatUiModel): Boolean {
-            return if (oldItem is ChatDateUiModel && newItem is ChatDateUiModel) {
-                oldItem.date == newItem.date
-            } else if (oldItem is ReceivedMessageUiModel && newItem is ReceivedMessageUiModel) {
-                oldItem.messageId == newItem.messageId
-            } else if (oldItem is SentMessageUiModel && newItem is SentMessageUiModel) {
-                oldItem.messageId == newItem.messageId
-            } else if (oldItem is AdminMessageUiModel && newItem is AdminMessageUiModel){
+
+            return if (oldItem.messageId == null && newItem.messageId == null) {
+                oldItem.timeStamp == newItem.timeStamp
+            } else if (oldItem.messageId != null && oldItem.messageId != null) {
                 oldItem.messageId == newItem.messageId
             } else {
                 false
             }
+
+
+//            val oldItemType = when (oldItem) {
+//                is ChatDateUiModel -> CHAT_DATE
+//                is ReceivedMessageUiModel -> CHAT_RECEIVED
+//                is SentMessageUiModel -> CHAT_SENT
+//                is AdminMessageUiModel -> CHAT_ADMIN
+//            }
+//            val newItemType = when (newItem) {
+//                is ChatDateUiModel -> CHAT_DATE
+//                is ReceivedMessageUiModel -> CHAT_RECEIVED
+//                is SentMessageUiModel -> CHAT_SENT
+//                is AdminMessageUiModel -> CHAT_ADMIN
+//            }
+//
+//            if (oldItemType != newItemType) {
+//                return false
+//            } else if (oldItemType) {
+//
+//            }
+
+//            return if (oldItem is ChatDateUiModel && newItem is ChatDateUiModel) {
+//                oldItem.timeStamp == newItem.timeStamp
+//            } else if (oldItem is ReceivedMessageUiModel && newItem is ReceivedMessageUiModel) {
+//                oldItem.messageId == newItem.messageId
+//            } else if (oldItem is SentMessageUiModel && newItem is SentMessageUiModel) {
+//                oldItem.messageId == newItem.messageId
+//            } else if (oldItem is AdminMessageUiModel && newItem is AdminMessageUiModel){
+//                oldItem.messageId == newItem.messageId
+//            } else {
+//                false
+//            }
         }
 
         override fun areContentsTheSame(oldItem: ChatUiModel, newItem: ChatUiModel): Boolean {
-            return if (oldItem is ChatDateUiModel && newItem is ChatDateUiModel) {
-                oldItem.date == newItem.date
-            } else if (oldItem is ReceivedMessageUiModel && newItem is ReceivedMessageUiModel) {
-                oldItem.messageId == newItem.messageId
-                        && oldItem.message == newItem.message
-            } else if (oldItem is SentMessageUiModel && newItem is SentMessageUiModel) {
-                oldItem.messageId == newItem.messageId
-                        && oldItem.message == newItem.message
-            } else if (oldItem is AdminMessageUiModel && newItem is AdminMessageUiModel) {
-                oldItem.messageId == newItem.messageId
-                        && oldItem.message == newItem.message
-            } else {
-                false
-            }
+            return false
+//            return if (oldItem is ChatDateUiModel && newItem is ChatDateUiModel) {
+//                oldItem.timeStamp == newItem.timeStamp
+//            } else if (oldItem is ReceivedMessageUiModel && newItem is ReceivedMessageUiModel) {
+//                oldItem.messageId == newItem.messageId
+//                        && oldItem.message == newItem.message
+//            } else if (oldItem is SentMessageUiModel && newItem is SentMessageUiModel) {
+//                oldItem.messageId == newItem.messageId
+//                        && oldItem.message == newItem.message
+//            } else if (oldItem is AdminMessageUiModel && newItem is AdminMessageUiModel) {
+//                oldItem.messageId == newItem.messageId
+//                        && oldItem.message == newItem.message
+//            } else {
+//                false
+//            }
         }
     }
 }

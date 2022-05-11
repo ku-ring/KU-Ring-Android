@@ -5,6 +5,10 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.ku_stacks.ku_ring.ui.chat.ChatViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -49,6 +53,7 @@
             android:id="@+id/chat_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:background="@color/kus_background"
             android:clipToPadding="false"
             android:orientation="vertical"
             android:overScrollMode="never"
@@ -56,7 +61,18 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@+id/chat_footer_layout"
             app:layout_constraintTop_toBottomOf="@+id/chat_header_layout"
+            app:stackFromEnd="true"
             tools:itemCount="20" />
+
+        <ProgressBar
+            visibleIf="@{viewModel.isLoading}"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:indeterminateTint="@color/kus_green"
+            app:layout_constraintBottom_toBottomOf="@+id/chat_recyclerview"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/chat_recyclerview" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/chat_footer_layout"

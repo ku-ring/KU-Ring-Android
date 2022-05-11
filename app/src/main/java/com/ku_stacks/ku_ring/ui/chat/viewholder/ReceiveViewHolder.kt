@@ -5,7 +5,7 @@ import com.ku_stacks.ku_ring.ui.chat.ui_model.ReceivedMessageUiModel
 
 class ReceiveViewHolder(
     private val binding: ItemChatReceiveBinding
-) : ChatViewHolder(binding.root) {
+) : SealedChatViewHolder(binding.root) {
 
     fun bind(message: ReceivedMessageUiModel) {
         binding.receivedMessageUiModel = message

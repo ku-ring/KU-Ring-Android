@@ -5,7 +5,7 @@ import com.ku_stacks.ku_ring.ui.chat.ui_model.SentMessageUiModel
 
 class SendViewHolder(
     private val binding: ItemChatSendBinding
-) : ChatViewHolder(binding.root) {
+) : SealedChatViewHolder(binding.root) {
 
     fun bind(message: SentMessageUiModel) {
         binding.sentMessageUiModel = message

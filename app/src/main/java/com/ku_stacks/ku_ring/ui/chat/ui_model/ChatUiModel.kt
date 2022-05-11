@@ -1,27 +1,30 @@
 package com.ku_stacks.ku_ring.ui.chat.ui_model
 
-sealed class ChatUiModel
+sealed class ChatUiModel(
+    open val timeStamp: Long,
+    open val messageId: Long?
+)
 
 data class ChatDateUiModel(
-    val date: String
-) : ChatUiModel()
+    override val timeStamp: Long
+) : ChatUiModel(timeStamp, null)
 
 data class ReceivedMessageUiModel(
     val userId: String,
     val nickname: String,
-    val messageId: Long,
+    override val messageId: Long,
     val message: String,
-    val time: String
-) : ChatUiModel()
+    override val timeStamp: Long
+) : ChatUiModel(timeStamp, messageId)
 
 data class SentMessageUiModel(
-    val messageId: Long,
+    override val messageId: Long,
     val message: String,
-    val time: String
-) : ChatUiModel()
+    override val timeStamp: Long
+) : ChatUiModel(timeStamp, messageId)
 
 data class AdminMessageUiModel(
-    val messageId: Long,
+    override val messageId: Long,
     val message: String,
-    val time: String
-) : ChatUiModel()
+    override val timeStamp: Long,
+) : ChatUiModel(timeStamp, messageId)

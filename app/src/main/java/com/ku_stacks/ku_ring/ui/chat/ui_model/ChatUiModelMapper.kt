@@ -1,6 +1,5 @@
 package com.ku_stacks.ku_ring.ui.chat.ui_model
 
-import com.ku_stacks.ku_ring.util.DateUtil.convertLongToHHMM
 import com.sendbird.android.SendbirdChat
 import com.sendbird.android.message.AdminMessage
 import com.sendbird.android.message.BaseMessage
@@ -39,7 +38,7 @@ private fun UserMessage.toReceivedMessageUiModel(): ReceivedMessageUiModel {
         nickname = this.sender?.nickname ?: "",
         messageId = this.messageId,
         message = this.message,
-        time = convertLongToHHMM(this.createdAt)
+        timeStamp = this.createdAt
     )
 }
 
@@ -47,7 +46,7 @@ private fun UserMessage.toSentMessageUiModel(): SentMessageUiModel {
     return SentMessageUiModel(
         messageId = this.messageId,
         message = this.message,
-        time = convertLongToHHMM(this.createdAt)
+        timeStamp = this.createdAt
     )
 }
 
@@ -55,6 +54,6 @@ private fun AdminMessage.toAdminMessageUiModel(): AdminMessageUiModel {
     return AdminMessageUiModel(
         messageId = this.messageId,
         message = this.message,
-        time = convertLongToHHMM(this.createdAt)
+        timeStamp = this.createdAt
     )
 }

@@ -9,6 +9,7 @@
             name="sentMessageUiModel"
             type="com.ku_stacks.ku_ring.ui.chat.ui_model.SentMessageUiModel" />
 
+        <import type="com.ku_stacks.ku_ring.util.DateUtil" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -45,7 +46,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginEnd="16dp"
             android:fontFamily="@font/sfpro_display_regular"
-            android:text="@{sentMessageUiModel.time}"
+            android:text="@{DateUtil.convertLongToHHMM(sentMessageUiModel.timeStamp)}"
             android:textColor="@color/kus_gray"
             android:textSize="10sp"
             app:layout_constraintEnd_toEndOf="parent"

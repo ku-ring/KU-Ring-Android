@@ -35,6 +35,8 @@ class ChatViewModel @Inject constructor(
     val hasPrevious = MutableLiveData<Boolean>()
     val hasNext = MutableLiveData<Boolean>()
 
+    val isLoading = MutableLiveData(false)
+
     private var kuringChannel: OpenChannel? = null
 
     init {
@@ -77,22 +79,21 @@ class ChatViewModel @Inject constructor(
     }
 
     fun fetchPreviousMessageList(timeStamp: Long) {
+        isLoading.value = true
+
         val params = MessageListParams().apply {
             previousResultSize = 20
         }
         kuringChannel?.getMessagesByTimestamp(timeStamp, params) { messageList, e ->
             if (e != null) {
+                isLoading.postValue(false)
                 Timber.e("fetchPreviousMessageList error [${e.code}] : ${e.message}")
                 return@getMessagesByTimestamp
             }
             if (messageList == null) {
+                isLoading.postValue(false)
                 Timber.e("fetchPreviousMessageList is null")
                 return@getMessagesByTimestamp
-            }
-
-            Timber.e("messageList size : ${messageList.size}")
-            for(msg in messageList) {
-                Timber.e("message : ${msg.message}")
             }
 
             if (messageList.isEmpty()) {
@@ -102,7 +103,6 @@ class ChatViewModel @Inject constructor(
                 _chatUiModelList.addAll(0, messageList.toChatUiModelList())
                 chatUiModelList.postValue(_chatUiModelList)
             }
-            // TODO : 로딩 끝
         }
     }
 
