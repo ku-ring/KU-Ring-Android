@@ -1,5 +1,6 @@
 package com.ku_stacks.ku_ring.util.modified_external_library
 
+import androidx.annotation.MainThread
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -8,6 +9,7 @@ import timber.log.Timber
 
 class RecyclerViewPager(
     recyclerView: RecyclerView,
+    private val isReversed: Boolean,
     private val isLoading: () -> Boolean,
     private val loadNext: (Int) -> Unit,
     private val isEnd: () -> Boolean
@@ -20,6 +22,7 @@ class RecyclerViewPager(
         recyclerView.addOnScrollListener(this)
     }
 
+    @MainThread
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)
 
@@ -31,18 +34,36 @@ class RecyclerViewPager(
         }
 
         recyclerView.layoutManager?.let {
-            val totalItemCount = it.itemCount
-            val lastVisibleItemPosition = when (it) {
-                is GridLayoutManager -> it.findLastVisibleItemPosition()
-                is LinearLayoutManager -> it.findLastVisibleItemPosition()
-                is StaggeredGridLayoutManager -> throw Exception("StaggeredGridLayoutManager is not supported")
-                else -> return
-            }
+            if (isReversed) {
+                val visibleItemCount = it.childCount
 
-            if (lastVisibleItemPosition + prefetchDistance >= totalItemCount) {
-                val page = ++currentPage
-                Timber.e("nextPage: $page")
-                loadNext(page)
+                val firstVisibleItemPosition = when (it) {
+                    is GridLayoutManager -> it.findLastVisibleItemPosition()
+                    is LinearLayoutManager -> it.findLastVisibleItemPosition()
+                    is StaggeredGridLayoutManager -> throw Exception("StaggeredGridLayoutManager is not supported")
+                    else -> return
+                }
+
+                if (firstVisibleItemPosition - visibleItemCount <= prefetchDistance) {
+                    val page = ++currentPage
+                    Timber.e(" nextPage: $page")
+                    loadNext(page)
+                }
+            } else {
+                val totalItemCount = it.itemCount
+
+                val lastVisibleItemPosition = when (it) {
+                    is GridLayoutManager -> it.findLastVisibleItemPosition()
+                    is LinearLayoutManager -> it.findLastVisibleItemPosition()
+                    is StaggeredGridLayoutManager -> throw Exception("StaggeredGridLayoutManager is not supported")
+                    else -> return
+                }
+
+                if (lastVisibleItemPosition + prefetchDistance >= totalItemCount) {
+                    val page = ++currentPage
+                    Timber.e(" nextPage: $page")
+                    loadNext(page)
+                }
             }
         }
     }
