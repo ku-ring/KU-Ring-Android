@@ -13,6 +13,7 @@ import com.ku_stacks.ku_ring.ui.chat.viewholder.AdminViewHolder
 import com.ku_stacks.ku_ring.ui.chat.viewholder.SealedChatViewHolder
 import com.ku_stacks.ku_ring.ui.chat.viewholder.ReceiveViewHolder
 import com.ku_stacks.ku_ring.ui.chat.viewholder.SendViewHolder
+import timber.log.Timber
 
 class ChatMessageAdapter : ListAdapter<ChatUiModel, SealedChatViewHolder>(
     MessageDiffCallback
@@ -39,7 +40,7 @@ class ChatMessageAdapter : ListAdapter<ChatUiModel, SealedChatViewHolder>(
                 AdminViewHolder(binding)
             }
             else -> {
-                throw Exception("no such viewType : $viewType")
+                throw IllegalStateException("no such viewType : $viewType")
             }
         }
     }
@@ -61,7 +62,7 @@ class ChatMessageAdapter : ListAdapter<ChatUiModel, SealedChatViewHolder>(
     }
 
     override fun getItemViewType(position: Int): Int {
-        return when(getItem(position)) {
+        return when (getItem(position)) {
             is ChatDateUiModel -> CHAT_DATE
             is ReceivedMessageUiModel -> CHAT_RECEIVED
             is SentMessageUiModel -> CHAT_SENT
@@ -88,7 +89,6 @@ class ChatMessageAdapter : ListAdapter<ChatUiModel, SealedChatViewHolder>(
         }
 
         override fun areContentsTheSame(oldItem: ChatUiModel, newItem: ChatUiModel): Boolean {
-            //return false
             return if (oldItem is ChatDateUiModel && newItem is ChatDateUiModel) {
                 oldItem.timeStamp == newItem.timeStamp
             } else if (oldItem is ReceivedMessageUiModel && newItem is ReceivedMessageUiModel) {
@@ -97,6 +97,7 @@ class ChatMessageAdapter : ListAdapter<ChatUiModel, SealedChatViewHolder>(
             } else if (oldItem is SentMessageUiModel && newItem is SentMessageUiModel) {
                 oldItem.messageId == newItem.messageId
                         && oldItem.message == newItem.message
+                        && oldItem.isPending == newItem.isPending
             } else if (oldItem is AdminMessageUiModel && newItem is AdminMessageUiModel) {
                 oldItem.messageId == newItem.messageId
                         && oldItem.message == newItem.message

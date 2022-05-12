@@ -89,5 +89,9 @@ class ChatActivity : AppCompatActivity() {
         viewModel.dialogEvent.observe(this) {
             makeDialog(description = getString(it))
         }
+
+        viewModel.scrollToBottomEvent.observe(this) {
+            binding.chatRecyclerview.scrollToPosition(chatMessageAdapter.itemCount - 1)
+        }
     }
 }

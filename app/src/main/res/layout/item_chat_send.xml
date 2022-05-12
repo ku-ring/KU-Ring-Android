@@ -43,15 +43,38 @@
             android:id="@+id/chat_time_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="6dp"
             android:fontFamily="@font/sfpro_display_regular"
             android:text="@{DateUtil.convertLongToHHMM(sentMessageUiModel.timeStamp)}"
             android:textColor="@color/kus_gray"
             android:textSize="10sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/chat_message_tv"
+            app:layout_constraintBottom_toBottomOf="@+id/chat_message_tv"
+            app:layout_constraintEnd_toStartOf="@+id/chat_message_tv"
             tools:ignore="SmallSp"
-            tools:text="10:30 AM" />
+            tools:text="10:30 AM"
+            tools:visibility="gone" />
+
+        <ImageButton
+            android:id="@+id/chat_send_error_iv"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="10dp"
+            android:background="@null"
+            android:src="@drawable/ic_error"
+            app:layout_constraintBottom_toBottomOf="@+id/chat_message_tv"
+            app:layout_constraintEnd_toStartOf="@+id/chat_message_tv"
+            app:tint="@color/kus_pink"
+            tools:visibility="visible" />
+
+        <ProgressBar
+            android:id="@+id/chat_pending_progressbar"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginEnd="10dp"
+            android:indeterminateTint="@color/kus_green"
+            app:layout_constraintBottom_toBottomOf="@+id/chat_message_tv"
+            app:layout_constraintEnd_toStartOf="@+id/chat_message_tv"
+            tools:visibility="gone" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

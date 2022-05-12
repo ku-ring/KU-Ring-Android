@@ -1,19 +1,22 @@
 package com.ku_stacks.ku_ring.ui.chat
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ku_stacks.ku_ring.BuildConfig
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.ui.SingleLiveEvent
-import com.ku_stacks.ku_ring.ui.chat.ui_model.ChatUiModel
-import com.ku_stacks.ku_ring.ui.chat.ui_model.toChatUiModelList
+import com.ku_stacks.ku_ring.ui.chat.ui_model.*
 import com.sendbird.android.SendbirdChat
 import com.sendbird.android.channel.BaseChannel
 import com.sendbird.android.channel.OpenChannel
 import com.sendbird.android.handler.ConnectionHandler
 import com.sendbird.android.handler.OpenChannelHandler
+import com.sendbird.android.message.AdminMessage
 import com.sendbird.android.message.BaseMessage
+import com.sendbird.android.message.UserMessage
 import com.sendbird.android.params.MessageListParams
 import com.sendbird.android.params.UserMessageCreateParams
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -36,6 +39,10 @@ class ChatViewModel @Inject constructor(
     val hasNext = MutableLiveData<Boolean>()
 
     val isLoading = MutableLiveData(false)
+
+    private val _scrollToBottomEvent = SingleLiveEvent<Unit>()
+    val scrollToBottomEvent: LiveData<Unit>
+        get() = _scrollToBottomEvent
 
     private var kuringChannel: OpenChannel? = null
 
@@ -66,15 +73,51 @@ class ChatViewModel @Inject constructor(
         }
     }
 
-    fun sendMessage(message: String) {
-        val params = UserMessageCreateParams(message)
-        kuringChannel?.sendUserMessage(params) { msg, e ->
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun sendMessage(text: String) {
+        if (text.isEmpty()) {
+            return
+        }
+        val params = UserMessageCreateParams(text)
+        val pendingMessage = kuringChannel?.sendUserMessage(params) { message, e ->
             if (e != null) {
                 Timber.e("Sendbird sendMessage error [${e.code}] : ${e.message}")
-                // TODO alert
+                updateErrorMessage(message)
                 return@sendUserMessage
             }
             Timber.e("Sendbird sendMessage success")
+            updateSucceedMessage(message)
+        }
+        addPendingMessage(pendingMessage)
+        // TODO : _scrollToBottomEvent.call() //addPendingMessage의 postValue가 비동기라 여기서 call 하는건 의미가 없다.
+    }
+
+    private fun addPendingMessage(message: UserMessage?) {
+        message?.let {
+            _chatUiModelList.add(it.toSentMessageUiModel(isPending = true))
+            chatUiModelList.postValue(_chatUiModelList)
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun updateErrorMessage(message: UserMessage?) {
+        message?.let { msg ->
+            _chatUiModelList.forEachIndexed { index, chatUiModel ->
+                if (chatUiModel is SentMessageUiModel && chatUiModel.requestId == msg.requestId) {
+                    _chatUiModelList[index] = msg.toSentMessageUiModel(null)
+                    return@forEachIndexed
+                }
+            }
+            chatUiModelList.postValue(_chatUiModelList)
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun updateSucceedMessage(message: UserMessage?) {
+        message?.let { msg ->
+            _chatUiModelList.removeIf { (it is SentMessageUiModel) && it.requestId == msg.requestId }
+            _chatUiModelList.add(msg.toSentMessageUiModel(isPending = false))
+            chatUiModelList.postValue(_chatUiModelList)
         }
     }
 
@@ -140,7 +183,12 @@ class ChatViewModel @Inject constructor(
             CHANNEL_HANDLER_ID,
             object : OpenChannelHandler() {
                 override fun onMessageReceived(channel: BaseChannel, message: BaseMessage) {
-                    //TODO
+                    Timber.e("onMessageReceived")
+                    when (message) {
+                        is UserMessage -> _chatUiModelList.add(message.toReceivedMessageUiModel())
+                        is AdminMessage -> _chatUiModelList.add(message.toAdminMessageUiModel())
+                    }
+                    chatUiModelList.postValue(_chatUiModelList)
                 }
 
                 override fun onMessageDeleted(channel: BaseChannel, msgId: Long) {

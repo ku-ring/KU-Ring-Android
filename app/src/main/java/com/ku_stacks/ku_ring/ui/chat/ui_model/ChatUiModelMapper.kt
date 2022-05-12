@@ -20,7 +20,7 @@ fun List<BaseMessage>.toChatUiModelList(): List<ChatUiModel> {
         }
         else if (message is UserMessage) {
             if (message.sender?.userId == currentUser?.userId) {
-                chatUiModelList.add(message.toSentMessageUiModel())
+                chatUiModelList.add(message.toSentMessageUiModel(isPending = false))
             } else {
                 chatUiModelList.add(message.toReceivedMessageUiModel())
             }
@@ -32,7 +32,7 @@ fun List<BaseMessage>.toChatUiModelList(): List<ChatUiModel> {
     return chatUiModelList
 }
 
-private fun UserMessage.toReceivedMessageUiModel(): ReceivedMessageUiModel {
+fun UserMessage.toReceivedMessageUiModel(): ReceivedMessageUiModel {
     return ReceivedMessageUiModel(
         userId = this.sender?.userId ?: "",
         nickname = this.sender?.nickname ?: "",
@@ -42,15 +42,17 @@ private fun UserMessage.toReceivedMessageUiModel(): ReceivedMessageUiModel {
     )
 }
 
-private fun UserMessage.toSentMessageUiModel(): SentMessageUiModel {
+fun UserMessage.toSentMessageUiModel(isPending: Boolean?): SentMessageUiModel {
     return SentMessageUiModel(
         messageId = this.messageId,
         message = this.message,
-        timeStamp = this.createdAt
+        timeStamp = this.createdAt,
+        requestId = this.requestId,
+        isPending = isPending
     )
 }
 
-private fun AdminMessage.toAdminMessageUiModel(): AdminMessageUiModel {
+fun AdminMessage.toAdminMessageUiModel(): AdminMessageUiModel {
     return AdminMessageUiModel(
         messageId = this.messageId,
         message = this.message,

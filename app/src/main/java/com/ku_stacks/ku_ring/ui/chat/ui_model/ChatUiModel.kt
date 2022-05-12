@@ -10,21 +10,23 @@ data class ChatDateUiModel(
 ) : ChatUiModel(timeStamp, null)
 
 data class ReceivedMessageUiModel(
+    override val timeStamp: Long,
+    override val messageId: Long,
     val userId: String,
     val nickname: String,
-    override val messageId: Long,
-    val message: String,
-    override val timeStamp: Long
+    val message: String
 ) : ChatUiModel(timeStamp, messageId)
 
 data class SentMessageUiModel(
+    override val timeStamp: Long,
     override val messageId: Long,
     val message: String,
-    override val timeStamp: Long
+    val requestId: String,
+    val isPending: Boolean?
 ) : ChatUiModel(timeStamp, messageId)
 
 data class AdminMessageUiModel(
-    override val messageId: Long,
-    val message: String,
     override val timeStamp: Long,
+    override val messageId: Long,
+    val message: String
 ) : ChatUiModel(timeStamp, messageId)

@@ -33,7 +33,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
+            <TextView
                 android:id="@+id/chat_nickname_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -61,14 +61,13 @@
             android:id="@+id/chat_time_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginStart="6dp"
             android:fontFamily="@font/sfpro_display_regular"
             android:text="@{DateUtil.convertLongToHHMM(receivedMessageUiModel.timeStamp)}"
             android:textColor="@color/kus_gray"
             android:textSize="10sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/chat_message_layout"
+            app:layout_constraintBottom_toBottomOf="@+id/chat_message_layout"
+            app:layout_constraintStart_toEndOf="@+id/chat_message_layout"
             tools:ignore="SmallSp"
             tools:text="10:30 AM" />
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,6 +19,7 @@
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable/edittext_primary_gradation.xml" value="0.22870370370370371" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable/edittext_primary_radius32.xml" value="1.009375" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable/home_header_indicator.xml" value="0.1" />
+        <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable/ic_error.xml" value="0.2109375" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable/ic_launcher_background.xml" value="0.20185185185185187" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable/ic_outline_settings_24.xml" value="0.31851851851851853" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable/ic_settings.xml" value="0.2916666666666667" />
@@ -67,7 +68,7 @@
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/header_home.xml" value="0.33" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/item_chat_admin.xml" value="0.33" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/item_chat_receive.xml" value="0.33" />
-        <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/item_chat_send.xml" value="0.25" />
+        <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/item_chat_send.xml" value="0.33" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/item_date.xml" value="0.246875" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/item_notice.xml" value="0.33" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/item_notification.xml" value="0.25" />
