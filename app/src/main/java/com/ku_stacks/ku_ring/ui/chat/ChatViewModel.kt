@@ -32,17 +32,20 @@ class ChatViewModel @Inject constructor(
     val dialogEvent: LiveData<Int>
         get() = _dialogEvent
 
-    private val _chatUiModelList = mutableListOf<ChatUiModel>()
-    val chatUiModelList = MutableLiveData<List<ChatUiModel>>()
+    private val uiModelList = mutableListOf<ChatUiModel>()
+    private val pendingMessageList = mutableListOf<SentMessageUiModel>()
+    private val _chatUiModelList = MutableLiveData<List<ChatUiModel>>()
+    val chatUiModelList: LiveData<List<ChatUiModel>>
+        get() = _chatUiModelList
 
     val hasPrevious = MutableLiveData<Boolean>()
     val hasNext = MutableLiveData<Boolean>()
 
     val isLoading = MutableLiveData(false)
 
-    private val _scrollToBottomEvent = SingleLiveEvent<Unit>()
-    val scrollToBottomEvent: LiveData<Unit>
-        get() = _scrollToBottomEvent
+    private val _readyToBottomScrollEvent = SingleLiveEvent<Unit>()
+    val readyToBottomScrollEvent: LiveData<Unit>
+        get() = _readyToBottomScrollEvent
 
     private var kuringChannel: OpenChannel? = null
 
@@ -85,45 +88,44 @@ class ChatViewModel @Inject constructor(
                 updateErrorMessage(message)
                 return@sendUserMessage
             }
-            Timber.e("Sendbird sendMessage success")
             updateSucceedMessage(message)
         }
+        _readyToBottomScrollEvent.call()
         addPendingMessage(pendingMessage)
-        // TODO : _scrollToBottomEvent.call() //addPendingMessage의 postValue가 비동기라 여기서 call 하는건 의미가 없다.
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
     fun deletePendingMessage(sentMessageUiModel: SentMessageUiModel) {
-        _chatUiModelList.removeIf { (it is SentMessageUiModel) && it.requestId == sentMessageUiModel.requestId }
-        chatUiModelList.postValue(_chatUiModelList)
+        pendingMessageList.removeIf { it.requestId == sentMessageUiModel.requestId }
+        _chatUiModelList.postValue(uiModelList + pendingMessageList)
     }
 
     private fun addPendingMessage(message: UserMessage?) {
         message?.let {
-            _chatUiModelList.add(it.toSentMessageUiModel(isPending = true))
-            chatUiModelList.postValue(_chatUiModelList)
+            pendingMessageList.add(it.toSentMessageUiModel(isPending = true))
+            _chatUiModelList.postValue(uiModelList + pendingMessageList)
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
     private fun updateErrorMessage(message: UserMessage?) {
         message?.let { msg ->
-            _chatUiModelList.forEachIndexed { index, chatUiModel ->
-                if (chatUiModel is SentMessageUiModel && chatUiModel.requestId == msg.requestId) {
-                    _chatUiModelList[index] = msg.toSentMessageUiModel(null)
+            pendingMessageList.forEachIndexed { index, pendingMessage ->
+                if (pendingMessage.requestId == msg.requestId) {
+                    pendingMessageList[index] = msg.toSentMessageUiModel(null)
                     return@forEachIndexed
                 }
             }
-            chatUiModelList.postValue(_chatUiModelList)
+            _chatUiModelList.postValue(uiModelList + pendingMessageList)
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
     private fun updateSucceedMessage(message: UserMessage?) {
         message?.let { msg ->
-            _chatUiModelList.removeIf { (it is SentMessageUiModel) && it.requestId == msg.requestId }
-            _chatUiModelList.add(msg.toSentMessageUiModel(isPending = false))
-            chatUiModelList.postValue(_chatUiModelList)
+            pendingMessageList.removeIf { it.requestId == msg.requestId }
+            uiModelList.add(msg.toSentMessageUiModel(isPending = false))
+            _chatUiModelList.postValue(uiModelList + pendingMessageList)
         }
     }
 
@@ -149,8 +151,8 @@ class ChatViewModel @Inject constructor(
                 hasPrevious.value = false
             } else {
                 hasPrevious.value = messageList.size >= params.previousResultSize
-                _chatUiModelList.addAll(0, messageList.toChatUiModelList())
-                chatUiModelList.postValue(_chatUiModelList)
+                uiModelList.addAll(0, messageList.toChatUiModelList())
+                _chatUiModelList.postValue(uiModelList + pendingMessageList)
             }
         }
     }
@@ -191,10 +193,10 @@ class ChatViewModel @Inject constructor(
                 override fun onMessageReceived(channel: BaseChannel, message: BaseMessage) {
                     Timber.e("onMessageReceived")
                     when (message) {
-                        is UserMessage -> _chatUiModelList.add(message.toReceivedMessageUiModel())
-                        is AdminMessage -> _chatUiModelList.add(message.toAdminMessageUiModel())
+                        is UserMessage -> uiModelList.add(message.toReceivedMessageUiModel())
+                        is AdminMessage -> uiModelList.add(message.toAdminMessageUiModel())
                     }
-                    chatUiModelList.postValue(_chatUiModelList)
+                    _chatUiModelList.postValue(uiModelList + pendingMessageList)
                 }
             }
         )
