@@ -16,7 +16,6 @@ import com.ku_stacks.ku_ring.ui.chat.ui_model.SentMessageUiModel
 import com.ku_stacks.ku_ring.util.makeDialog
 import com.ku_stacks.ku_ring.util.modified_external_library.RecyclerViewPager
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class ChatActivity : AppCompatActivity() {
@@ -25,6 +24,7 @@ class ChatActivity : AppCompatActivity() {
     private val viewModel by viewModels<ChatViewModel>()
 
     private lateinit var chatMessageAdapter: ChatMessageAdapter
+    private lateinit var recyclerObserver: ChatRecyclerDataObserver
     private lateinit var pager: RecyclerViewPager
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -84,6 +84,11 @@ class ChatActivity : AppCompatActivity() {
                 isEnd = { viewModel.hasPrevious.value == false }
             )
         }
+
+        recyclerObserver = ChatRecyclerDataObserver(
+            recyclerView = binding.chatRecyclerview
+        )
+        chatMessageAdapter.registerAdapterDataObserver(recyclerObserver)
     }
 
     private fun observeData() {
@@ -99,8 +104,8 @@ class ChatActivity : AppCompatActivity() {
             makeDialog(description = getString(it))
         }
 
-        viewModel.scrollToBottomEvent.observe(this) {
-            binding.chatRecyclerview.scrollToPosition(chatMessageAdapter.itemCount - 1)
+        viewModel.readyToBottomScrollEvent.observe(this) {
+            recyclerObserver.readyToBottomScroll(true)
         }
     }
 
