@@ -85,10 +85,19 @@ class ChatMessageAdapter(
 
     private object MessageDiffCallback : DiffUtil.ItemCallback<ChatUiModel>() {
         override fun areItemsTheSame(oldItem: ChatUiModel, newItem: ChatUiModel): Boolean {
-            return if (oldItem.messageId == null && newItem.messageId == null) {
+            return if (oldItem.messageId == null && newItem.messageId == null) { // 둘 다 ChatDateUiModel 인 경우
                 oldItem.timeStamp == newItem.timeStamp
             } else if (oldItem.messageId != null && oldItem.messageId != null) {
-                oldItem.messageId == newItem.messageId
+                // SentMessageUiModel 은 같은 말풍선에 대해서 messageId 가 (전송 시작) : 0, (전송 후) > 0 로 변하기 때문에 분기처리
+                if (oldItem is SentMessageUiModel && newItem is SentMessageUiModel) {
+                    if (oldItem.messageId > 0 && newItem.messageId > 0) {
+                        oldItem.messageId == newItem.messageId
+                    } else {
+                        oldItem.requestId == newItem.requestId
+                    }
+                } else {
+                    oldItem.messageId == newItem.messageId
+                }
             } else {
                 false
             }
