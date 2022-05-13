@@ -92,6 +92,12 @@ class ChatViewModel @Inject constructor(
         // TODO : _scrollToBottomEvent.call() //addPendingMessage의 postValue가 비동기라 여기서 call 하는건 의미가 없다.
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun deletePendingMessage(sentMessageUiModel: SentMessageUiModel) {
+        _chatUiModelList.removeIf { (it is SentMessageUiModel) && it.requestId == sentMessageUiModel.requestId }
+        chatUiModelList.postValue(_chatUiModelList)
+    }
+
     private fun addPendingMessage(message: UserMessage?) {
         message?.let {
             _chatUiModelList.add(it.toSentMessageUiModel(isPending = true))
@@ -189,14 +195,6 @@ class ChatViewModel @Inject constructor(
                         is AdminMessage -> _chatUiModelList.add(message.toAdminMessageUiModel())
                     }
                     chatUiModelList.postValue(_chatUiModelList)
-                }
-
-                override fun onMessageDeleted(channel: BaseChannel, msgId: Long) {
-                    //TODO
-                }
-
-                override fun onMessageUpdated(channel: BaseChannel, message: BaseMessage) {
-                    //TODO
                 }
             }
         )

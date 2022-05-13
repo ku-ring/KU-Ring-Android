@@ -1,18 +1,22 @@
 package com.ku_stacks.ku_ring.ui.chat
 
 import android.content.res.ColorStateList
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.ImageViewCompat
 import androidx.databinding.DataBindingUtil
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.databinding.ActivityChatBinding
+import com.ku_stacks.ku_ring.ui.chat.ui_model.SentMessageUiModel
 import com.ku_stacks.ku_ring.util.makeDialog
 import com.ku_stacks.ku_ring.util.modified_external_library.RecyclerViewPager
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class ChatActivity : AppCompatActivity() {
@@ -23,6 +27,7 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var chatMessageAdapter: ChatMessageAdapter
     private lateinit var pager: RecyclerViewPager
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -39,6 +44,7 @@ class ChatActivity : AppCompatActivity() {
         binding.viewModel = viewModel
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     private fun setupView() {
         binding.chatBackBt.setOnClickListener {
             finish()
@@ -62,8 +68,11 @@ class ChatActivity : AppCompatActivity() {
         })
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     private fun setupRecyclerView() {
-        chatMessageAdapter = ChatMessageAdapter()
+        chatMessageAdapter = ChatMessageAdapter(
+            onErrorClick = { makeResendDialog(it) }
+        )
 
         binding.chatRecyclerview.apply {
             adapter = chatMessageAdapter
@@ -93,5 +102,21 @@ class ChatActivity : AppCompatActivity() {
         viewModel.scrollToBottomEvent.observe(this) {
             binding.chatRecyclerview.scrollToPosition(chatMessageAdapter.itemCount - 1)
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun makeResendDialog(sentMessageUiModel : SentMessageUiModel) {
+        makeDialog(
+            description = getString(R.string.chat_resend_message),
+            leftText = getString(R.string.chat_delete),
+            rightText = getString(R.string.chat_resend)
+        )
+            .setOnCancelClickListener {
+                viewModel.deletePendingMessage(sentMessageUiModel)
+            }
+            .setOnConfirmClickListener {
+                viewModel.deletePendingMessage(sentMessageUiModel)
+                viewModel.sendMessage(sentMessageUiModel.message)
+            }
     }
 }

@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView.NO_POSITION
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.databinding.ItemChatAdminBinding
 import com.ku_stacks.ku_ring.databinding.ItemChatReceiveBinding
@@ -13,11 +14,10 @@ import com.ku_stacks.ku_ring.ui.chat.viewholder.AdminViewHolder
 import com.ku_stacks.ku_ring.ui.chat.viewholder.SealedChatViewHolder
 import com.ku_stacks.ku_ring.ui.chat.viewholder.ReceiveViewHolder
 import com.ku_stacks.ku_ring.ui.chat.viewholder.SendViewHolder
-import timber.log.Timber
 
-class ChatMessageAdapter : ListAdapter<ChatUiModel, SealedChatViewHolder>(
-    MessageDiffCallback
-) {
+class ChatMessageAdapter(
+    private val onErrorClick: (SentMessageUiModel) -> Unit
+) : ListAdapter<ChatUiModel, SealedChatViewHolder>(MessageDiffCallback) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SealedChatViewHolder {
         return when (viewType) {
             CHAT_DATE -> {
@@ -32,7 +32,13 @@ class ChatMessageAdapter : ListAdapter<ChatUiModel, SealedChatViewHolder>(
             CHAT_SENT -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.item_chat_send, parent, false)
                 val binding = ItemChatSendBinding.bind(view)
-                SendViewHolder(binding)
+                SendViewHolder(binding).apply {
+                    binding.chatSendErrorIv.setOnClickListener {
+                        val position = absoluteAdapterPosition.takeIf { it != NO_POSITION }
+                            ?: return@setOnClickListener
+                        onErrorClick(getItem(position) as SentMessageUiModel)
+                    }
+                }
             }
             CHAT_ADMIN -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.item_chat_admin, parent, false)
@@ -77,7 +83,7 @@ class ChatMessageAdapter : ListAdapter<ChatUiModel, SealedChatViewHolder>(
         const val CHAT_ADMIN = 4
     }
 
-    object MessageDiffCallback : DiffUtil.ItemCallback<ChatUiModel>() {
+    private object MessageDiffCallback : DiffUtil.ItemCallback<ChatUiModel>() {
         override fun areItemsTheSame(oldItem: ChatUiModel, newItem: ChatUiModel): Boolean {
             return if (oldItem.messageId == null && newItem.messageId == null) {
                 oldItem.timeStamp == newItem.timeStamp
