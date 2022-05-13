@@ -14,6 +14,8 @@ class KuringDialog(context: Context) : Dialog(context) {
 
     private var title: String? = null
     private var description: String? = null
+    private var leftButtonText: String? = null
+    private var rightButtonText: String? = null
 
     private lateinit var titleTextView: TextView
     private lateinit var descriptionTextView: TextView
@@ -46,8 +48,20 @@ class KuringDialog(context: Context) : Dialog(context) {
         description = _description
     }
 
+    fun setButtonText(leftText: String?, rightText: String?) = this.apply {
+        leftButtonText = leftText
+        rightButtonText = rightText
+    }
+
     fun setOnConfirmClickListener(onClickListener: View.OnClickListener) = this.apply {
         confirmButton.setOnClickListener { v ->
+            onClickListener.onClick(v)
+            dismiss()
+        }
+    }
+
+    fun setOnCancelClickListener(onClickListener: View.OnClickListener) = this.apply {
+        cancelButton.setOnClickListener { v ->
             onClickListener.onClick(v)
             dismiss()
         }
@@ -60,6 +74,13 @@ class KuringDialog(context: Context) : Dialog(context) {
         }
         description?.let {
             descriptionTextView.text = it
+        }
+
+        leftButtonText?.let {
+            cancelButton.text = it
+        }
+        rightButtonText?.let {
+            confirmButton.text = it
         }
 
         titleTextView.visibleIf(title != null)
