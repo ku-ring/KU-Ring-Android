@@ -15,6 +15,7 @@ import com.ku_stacks.ku_ring.databinding.ActivityChatBinding
 import com.ku_stacks.ku_ring.ui.chat.ui_model.SentMessageUiModel
 import com.ku_stacks.ku_ring.util.makeDialog
 import com.ku_stacks.ku_ring.util.modified_external_library.RecyclerViewPager
+import com.ku_stacks.ku_ring.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -63,6 +64,15 @@ class ChatActivity : AppCompatActivity() {
                     ImageViewCompat.setImageTintList(binding.chatSendBt, ColorStateList.valueOf(getColor(R.color.kus_green_50)))
                 } else {
                     ImageViewCompat.setImageTintList(binding.chatSendBt, ColorStateList.valueOf(getColor(R.color.kus_green)))
+                }
+
+                s?.length?.let { len ->
+                    val maxLen = 300
+                    if (len > maxLen) {
+                        showToast(getString(R.string.chat_max_message_length, maxLen.toString()))
+                        binding.chatMessageEt.setText(s.substring(0, maxLen))
+                        binding.chatMessageEt.setSelection(binding.chatMessageEt.length())
+                    }
                 }
             }
         })
