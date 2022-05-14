@@ -8,8 +8,9 @@ class SendViewHolder(
     private val binding: ItemChatSendBinding
 ) : SealedChatViewHolder(binding.root) {
 
-    fun bind(message: SentMessageUiModel) {
+    fun bind(message: SentMessageUiModel, showDate: Boolean) {
         binding.sentMessageUiModel = message
+        binding.chatDateTv.visibleIf(showDate)
 
         message.isPending.let { isPending ->
             binding.chatTimeTv.visibleIf(isPending == false)

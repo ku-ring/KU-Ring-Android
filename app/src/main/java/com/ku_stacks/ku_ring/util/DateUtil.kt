@@ -56,4 +56,16 @@ object DateUtil {
         val simpleDateFormat = SimpleDateFormat("h:mm a", Locale.US)
         return simpleDateFormat.format(timeMillis)
     }
+
+    @JvmStatic
+    fun convertLongToDate(timeMillis: Long): String {
+        val simpleDateFormat = SimpleDateFormat("yyyy년 M월 d일", Locale.KOREA)
+        return simpleDateFormat.format(timeMillis)
+    }
+
+    @JvmStatic
+    fun areSameDate(a: Long, b: Long): Boolean {
+        val simpleDateFormat = SimpleDateFormat("yyyyMMdd", Locale.KOREA)
+        return simpleDateFormat.format(a) == simpleDateFormat.format(b)
+    }
 }

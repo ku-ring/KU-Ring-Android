@@ -83,6 +83,7 @@ class ChatActivity : AppCompatActivity() {
                 loadNext = { viewModel.fetchPreviousMessageList(chatMessageAdapter.currentList.first().timeStamp) },
                 isEnd = { viewModel.hasPrevious.value == false }
             )
+            pager.prefetchDistance = 30
         }
 
         recyclerObserver = ChatRecyclerDataObserver(
