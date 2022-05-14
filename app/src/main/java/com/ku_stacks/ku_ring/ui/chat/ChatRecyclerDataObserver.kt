@@ -30,7 +30,6 @@ class ChatRecyclerDataObserver(
             // 스크롤을 강제로 내려야 하는 경우(메세지 전송 등)
             if (scrollToBottom) {
                 notifyUpdate()
-                scrollToBottom = false
             }
         }
         super.onItemRangeInserted(positionStart, itemCount)
@@ -38,6 +37,7 @@ class ChatRecyclerDataObserver(
 
     private fun notifyUpdate() {
         recyclerView.scrollToPosition(adapter.itemCount - 1)
+        scrollToBottom = false
     }
 
     fun readyToBottomScroll(value: Boolean) {
