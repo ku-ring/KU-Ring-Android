@@ -1,9 +1,7 @@
 package com.ku_stacks.ku_ring.network
 
 import com.ku_stacks.ku_ring.data.api.SendbirdService
-import com.ku_stacks.ku_ring.di.NetworkModule.provideSendbirdOkHttpClient
-import com.ku_stacks.ku_ring.di.NetworkModule.provideSendbirdRetrofit
-import com.ku_stacks.ku_ring.di.NetworkModule.provideSendbirdService
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
@@ -13,13 +11,21 @@ class SendbirdServiceTest : ApiAbstract<SendbirdService>() {
 
     @Before
     fun initService() {
-        //service = createService(SendbirdService::class.java)
-        service = provideSendbirdService(provideSendbirdRetrofit(provideSendbirdOkHttpClient()))
+        service = createService(SendbirdService::class.java)
     }
 
     @Test
-    fun test() {
-        val response = service.hasDuplicateNickname("건국오리들입니다").blockingGet()
-        print(response.users[0].nickname)
+    fun `has Duplicate Nickname Test`() {
+        // given
+        val mockNickname = "건국오리들입니다"
+        enqueueResponse("/UserListResponse.json")
+
+        // when
+        val response = service.hasDuplicateNickname(mockNickname).blockingGet()
+        mockWebServer.takeRequest()
+
+        // then
+        assertEquals(1, response.users.size)
+        assertEquals(mockNickname, response.users[0].nickname)
     }
 }
