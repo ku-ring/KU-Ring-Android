@@ -70,8 +70,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="6dp"
+                android:bufferType="spannable"
                 android:fontFamily="@font/sfpro_display_regular"
-                android:text="@{receivedMessageUiModel.message}"
                 android:textColor="@color/kus_primary"
                 android:textSize="14sp"
                 tools:text="축제 언제 열리나요?" />
