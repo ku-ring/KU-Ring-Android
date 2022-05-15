@@ -39,6 +39,7 @@ android {
 
         buildConfigField "String", "APPS_FLYER_DEV_KEY", localProperties['APPS_FLYER_DEV_KEY']
         buildConfigField "String", "SENDBIRD_APP_ID", localProperties['SENDBIRD_APP_ID']
+        buildConfigField "String", "SENDBIRD_API_TOKEN", localProperties['SENDBIRD_API_TOKEN']
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
