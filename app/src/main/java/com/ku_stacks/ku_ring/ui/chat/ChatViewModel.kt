@@ -38,8 +38,9 @@ class ChatViewModel @Inject constructor(
     val chatUiModelList: LiveData<List<ChatUiModel>>
         get() = _chatUiModelList
 
-    val hasPrevious = MutableLiveData<Boolean>()
-    val hasNext = MutableLiveData<Boolean>()
+    private val _hasPrevious = MutableLiveData<Boolean>()
+    val hasPrevious: LiveData<Boolean>
+        get() = _hasPrevious
 
     val isLoading = MutableLiveData(false)
 
@@ -141,6 +142,7 @@ class ChatViewModel @Inject constructor(
                 Timber.e("fetchPreviousMessageList error [${e.code}] : ${e.message}")
                 return@getMessagesByTimestamp
             }
+
             if (messageList == null) {
                 isLoading.postValue(false)
                 Timber.e("fetchPreviousMessageList is null")
@@ -148,9 +150,10 @@ class ChatViewModel @Inject constructor(
             }
 
             if (messageList.isEmpty()) {
-                hasPrevious.value = false
+                _hasPrevious.value = false
+                isLoading.postValue(false)
             } else {
-                hasPrevious.value = messageList.size >= params.previousResultSize
+                _hasPrevious.value = messageList.size >= params.previousResultSize
                 normalMessageList.addAll(0, messageList.toChatUiModelList())
                 _chatUiModelList.postValue(normalMessageList + pendingMessageList)
             }
@@ -158,7 +161,30 @@ class ChatViewModel @Inject constructor(
     }
 
     fun fetchLatestMessageList(timeStamp: Long) {
-        // TODO
+        isLoading.value = true
+
+        val params = MessageListParams().apply {
+            nextResultSize = 100
+        }
+        kuringChannel?.getMessagesByTimestamp(timeStamp, params) { messageList, e ->
+            if (e != null) {
+                isLoading.postValue(false)
+                Timber.e("fetchLatestMessageList error [${e.code}] : ${e.message}")
+                return@getMessagesByTimestamp
+            }
+
+            if (messageList.isNullOrEmpty()) {
+                isLoading.postValue(false)
+                return@getMessagesByTimestamp
+            }
+
+            normalMessageList.addAll(messageList.toChatUiModelList())
+            _chatUiModelList.postValue(normalMessageList + pendingMessageList)
+            val hasNext = messageList.size >= params.nextResultSize
+            if (hasNext) {
+                fetchLatestMessageList(messageList.last().createdAt)
+            }
+        }
     }
 
     private fun addSendbirdHandler() {
@@ -183,7 +209,11 @@ class ChatViewModel @Inject constructor(
 
                 override fun onReconnectSucceeded() {
                     Timber.e("Sendbird reconnection succeed")
-                    // TODO : 연결이 끊어진 사이의 메세지들에 대한 load 해야함
+
+                    val lastMessageTime = normalMessageList.lastOrNull()?.timeStamp
+                    lastMessageTime?.let { timeStamp ->
+                        fetchLatestMessageList(timeStamp)
+                    }
                 }
             })
 
