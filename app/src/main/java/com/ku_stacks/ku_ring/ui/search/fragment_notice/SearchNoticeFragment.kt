@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.databinding.FragmentSearchNoticeBinding
-import com.ku_stacks.ku_ring.ui.notice_webview.NoticeActivity
+import com.ku_stacks.ku_ring.ui.notice_webview.NoticeWebActivity
 import com.ku_stacks.ku_ring.ui.search.SearchActivity
 import com.ku_stacks.ku_ring.ui.search.SearchViewModel
 
@@ -57,10 +57,10 @@ class SearchNoticeFragment: Fragment() {
     }
 
     private fun startNoticeActivity(notice: Notice) {
-        val intent = Intent(requireContext(), NoticeActivity::class.java).apply {
-            putExtra(NoticeActivity.NOTICE_URL, notice.url)
-            putExtra(NoticeActivity.NOTICE_ARTICLE_ID, notice.articleId)
-            putExtra(NoticeActivity.NOTICE_CATEGORY, notice.category)
+        val intent = Intent(requireContext(), NoticeWebActivity::class.java).apply {
+            putExtra(NoticeWebActivity.NOTICE_URL, notice.url)
+            putExtra(NoticeWebActivity.NOTICE_ARTICLE_ID, notice.articleId)
+            putExtra(NoticeWebActivity.NOTICE_CATEGORY, notice.category)
         }
         startActivity(intent)
         requireActivity().overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)

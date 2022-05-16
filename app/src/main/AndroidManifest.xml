@@ -34,7 +34,7 @@
         </activity>
 
         <activity
-            android:name="com.ku_stacks.ku_ring.ui.home.HomeActivity"
+            android:name=".ui.main.MainActivity"
             android:launchMode="singleTask" />
         <activity
             android:name=".ui.feedback.FeedbackActivity"
@@ -48,7 +48,7 @@
         <activity
             android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
             android:theme="@style/OpenSourceItemTheme" />
-        <activity android:name=".ui.notice_webview.NoticeActivity" />
+        <activity android:name=".ui.notice_webview.NoticeWebActivity" />
         <activity android:name=".ui.edit_subscription.EditSubscriptionActivity"
             android:screenOrientation="portrait"
             android:theme="@style/EditSubscriptionTheme"/>

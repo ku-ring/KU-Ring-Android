@@ -10,10 +10,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.databinding.ActivityNotificationBinding
-import com.ku_stacks.ku_ring.ui.notice_webview.NoticeActivity
-import com.ku_stacks.ku_ring.ui.home.HomeActivity
+import com.ku_stacks.ku_ring.ui.notice_webview.NoticeWebActivity
 import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushContentUiModel
 import com.ku_stacks.ku_ring.ui.edit_subscription.EditSubscriptionActivity
+import com.ku_stacks.ku_ring.ui.main.MainActivity
 import com.ku_stacks.ku_ring.util.UrlGenerator
 import com.ku_stacks.ku_ring.util.makeDialog
 import com.yeonkyu.HoldableSwipeHelper.HoldableSwipeHandler
@@ -50,7 +50,7 @@ class NotificationActivity : AppCompatActivity() {
 
     private fun setupView() {
         binding.backImg.setOnClickListener {
-            startHomeActivity()
+            startMainActivity()
         }
 
         binding.notificationSetNotiBtn.setOnClickListener {
@@ -123,17 +123,17 @@ class NotificationActivity : AppCompatActivity() {
         val url = UrlGenerator.generateNoticeUrl(articleId, category, baseUrl)
         Timber.e("url : $url, category : $category")
 
-        val intent = Intent(this, NoticeActivity::class.java).apply {
-            putExtra(NoticeActivity.NOTICE_URL, url)
-            putExtra(NoticeActivity.NOTICE_ARTICLE_ID, articleId)
-            putExtra(NoticeActivity.NOTICE_CATEGORY, category)
+        val intent = Intent(this, NoticeWebActivity::class.java).apply {
+            putExtra(NoticeWebActivity.NOTICE_URL, url)
+            putExtra(NoticeWebActivity.NOTICE_ARTICLE_ID, articleId)
+            putExtra(NoticeWebActivity.NOTICE_CATEGORY, category)
         }
         startActivity(intent)
         overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
     }
 
-    private fun startHomeActivity() {
-        val intent = Intent(this, HomeActivity::class.java)
+    private fun startMainActivity() {
+        val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
         finish()
@@ -141,6 +141,6 @@ class NotificationActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        startHomeActivity()
+        startMainActivity()
     }
 }
