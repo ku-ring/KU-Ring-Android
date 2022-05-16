@@ -7,6 +7,6 @@ import javax.inject.Inject
 class SendbirdClient @Inject constructor(
     private val sendbirdService: SendbirdService
 ) {
-    fun hasDuplicateNickname(nickname: String): Single<UserListResponse> =
-        sendbirdService.hasDuplicateNickname(nickname)
+    fun fetchNicknameList(nickname: String): Single<UserListResponse> =
+        sendbirdService.fetchNicknameList(nickname)
 }

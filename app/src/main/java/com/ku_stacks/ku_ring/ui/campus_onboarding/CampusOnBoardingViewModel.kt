@@ -3,19 +3,24 @@ package com.ku_stacks.ku_ring.ui.campus_onboarding
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.ku_stacks.ku_ring.R
+import com.ku_stacks.ku_ring.repository.SendbirdRepository
 import com.ku_stacks.ku_ring.ui.SingleLiveEvent
 import com.ku_stacks.ku_ring.util.PreferenceUtil
 import com.sendbird.android.SendbirdChat
 import com.sendbird.android.params.UserUpdateParams
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import timber.log.Timber
 import java.util.regex.Pattern
 import javax.inject.Inject
 
 @HiltViewModel
 class CampusOnBoardingViewModel @Inject constructor(
-    private val pref: PreferenceUtil
+    private val pref: PreferenceUtil,
+    private val repository: SendbirdRepository
 ) : ViewModel() {
+
+    private val disposable = CompositeDisposable()
 
     private val _dialogEvent = SingleLiveEvent<Int>()
     val dialogEvent: LiveData<Int>
@@ -51,22 +56,33 @@ class CampusOnBoardingViewModel @Inject constructor(
     }
 
     fun login(nickname: String) {
-        if (authorizeNickname(nickname)) {
+        authorizeNickname(nickname) {
             setNickname(nickname) {
                 _finishEvent.postValue(nickname)
             }
         }
     }
 
-    private fun authorizeNickname(nickname: String): Boolean {
+    private fun authorizeNickname(nickname: String, isAuthorized: () -> Unit) {
         if (!isValidNicknameFormat(nickname)) {
             Timber.e("nickname: $nickname")
             _dialogEvent.postValue(R.string.nickname_not_valid_format)
-            return false
+            return
         }
 
-        // TODO : 중복 닉네임 체크
-        return true
+        disposable.add(
+            repository.hasDuplicateNickname(nickname)
+                .subscribe({
+                    if (it == false) {
+                        isAuthorized()
+                    } else {
+                        _dialogEvent.postValue(R.string.nickname_duplicated)
+                    }
+                }, {
+                    Timber.e("authorizeNickname error : $it")
+                    _dialogEvent.postValue(R.string.nickname_check_error)
+                })
+        )
     }
 
     private fun setNickname(nickname: String, isDone: () -> Unit) {
@@ -80,6 +96,14 @@ class CampusOnBoardingViewModel @Inject constructor(
             }
             Timber.e("updateCurrentUserInfo success")
             isDone()
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+
+        if (!disposable.isDisposed) {
+            disposable.dispose()
         }
     }
 }

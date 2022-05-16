@@ -15,17 +15,19 @@ class SendbirdServiceTest : ApiAbstract<SendbirdService>() {
     }
 
     @Test
-    fun `has Duplicate Nickname Test`() {
+    fun `fetch Nickname List Test`() {
         // given
         val mockNickname = "건국오리들입니다"
+        val mockId = "jj7g68k6pf@privaterelay.appleid.com"
         enqueueResponse("/UserListResponse.json")
 
         // when
-        val response = service.hasDuplicateNickname(mockNickname).blockingGet()
+        val response = service.fetchNicknameList(mockNickname).blockingGet()
         mockWebServer.takeRequest()
 
         // then
         assertEquals(1, response.users.size)
         assertEquals(mockNickname, response.users[0].nickname)
+        assertEquals(mockId, response.users[0].userId)
     }
 }

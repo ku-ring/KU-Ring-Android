@@ -110,6 +110,8 @@
     <string name="campus_nickname_description">상대에게 보여지는 이름을 설정해주세요</string>
     <string name="nickname_not_valid_format">적절한 닉네임 형식이 아닙니다.</string>
     <string name="nickname_valid_format">적절한 닉네임 형식입니다.</string>
+    <string name="nickname_duplicated">중복된 닉네임이 있습니다.</string>
+    <string name="nickname_check_error">"닉네임 확인에 문제가 발생하였습니다."</string>
 
     <!--  campus chat  -->
     <string name="chat_enter_message">메세지를 입력하세요.</string>

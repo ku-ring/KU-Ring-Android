@@ -7,7 +7,7 @@ import retrofit2.http.Query
 
 interface SendbirdService {
     @GET("users")
-    fun hasDuplicateNickname(
+    fun fetchNicknameList(
         @Query("nickname") nickname: String
     ): Single<UserListResponse>
 }
