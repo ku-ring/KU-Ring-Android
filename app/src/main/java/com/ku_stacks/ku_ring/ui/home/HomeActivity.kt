@@ -13,6 +13,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.databinding.ActivityHomeBinding
+import com.ku_stacks.ku_ring.ui.campus_onboarding.CampusOnBoardingActivity
 import com.ku_stacks.ku_ring.ui.notice_webview.NoticeActivity
 import com.ku_stacks.ku_ring.ui.my_notification.NotificationActivity
 import com.ku_stacks.ku_ring.ui.search.SearchActivity
@@ -72,7 +73,7 @@ class HomeActivity : AppCompatActivity() {
         getFcmToken()
     }
 
-    private fun setupBinding(){
+    private fun setupBinding() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
@@ -99,6 +100,12 @@ class HomeActivity : AppCompatActivity() {
 
         binding.homeHeader.bellImg.setOnClickListener {
             val intent = Intent(this, NotificationActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
+        }
+
+        binding.homeHeader.chatImg.setOnClickListener {
+            val intent = Intent(this, CampusOnBoardingActivity::class.java)
             startActivity(intent)
             overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
         }
@@ -147,6 +154,7 @@ class HomeActivity : AppCompatActivity() {
                     return@addOnCompleteListener
                 }
                 val token = task.result
+                pref.fcmToken = token
                 Timber.e("FCM token : $token")
             }
         }

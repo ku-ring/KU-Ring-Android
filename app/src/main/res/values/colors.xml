@@ -11,7 +11,7 @@
     <color name="half_transparent">#80ffffff</color>
 
     <!--  KUS  -->
-    <color name="kus_background">#ffffff</color>
+    <color name="kus_background">#ffffffff</color>
     <color name="kus_skeleton">#41000000</color>
 
     <color name="kus_green">#3dbd80</color>

@@ -13,9 +13,16 @@ fun Context.showToast(msg: String) =
     Toast.makeText(applicationContext, msg, Toast.LENGTH_SHORT).show()
 
 fun Context.makeDialog(title: String? = null, description: String? = null): KuringDialog {
-    return KuringDialog(this)
-        .apply {
-            setText(_title = title, _description = description)
-            show()
-        }
+    return KuringDialog(this).apply {
+        setText(_title = title, _description = description)
+        show()
+    }
+}
+
+fun Context.makeDialog(title: String? = null, description: String? = null, leftText: String?, rightText: String): KuringDialog {
+    return KuringDialog(this).apply {
+        setText(_title = title, _description = description)
+        setButtonText(leftText = leftText, rightText = rightText)
+        show()
+    }
 }

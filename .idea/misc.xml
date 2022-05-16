@@ -5,6 +5,8 @@
       <map>
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.240625" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable/bg_dialog_kuring.xml" value="0.1" />
+        <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable/bg_gray.xml" value="0.2578125" />
+        <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable/bg_green.xml" value="0.24722222222222223" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable/bg_notification_date.xml" value="0.30648148148148147" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable/bg_pink.xml" value="0.275" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable/bg_staff_bottom_sheet.xml" value="0.20729166666666668" />
@@ -17,6 +19,7 @@
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable/edittext_primary_gradation.xml" value="0.22870370370370371" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable/edittext_primary_radius32.xml" value="1.009375" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable/home_header_indicator.xml" value="0.1" />
+        <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable/ic_error.xml" value="0.2109375" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable/ic_launcher_background.xml" value="0.20185185185185187" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable/ic_outline_settings_24.xml" value="0.31851851851851853" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable/ic_settings.xml" value="0.2916666666666667" />
@@ -31,9 +34,12 @@
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable/switch_track_on.xml" value="0.22314814814814815" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable/switch_track_selector.xml" value="0.22314814814814815" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/drawable/textview_round_gray.xml" value="0.3104166666666667" />
+        <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/activity_campus_onboarding.xml" value="0.33" />
+        <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/activity_chat.xml" value="0.25" />
+        <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/activity_chat_onboarding.xml" value="0.33" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/activity_detail.xml" value="0.25" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/activity_edit_subscription.xml" value="0.2" />
-        <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/activity_feedback.xml" value="0.2" />
+        <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/activity_feedback.xml" value="0.33" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/activity_home.xml" value="0.25" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/activity_main.xml" value="0.11322463768115942" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/activity_noti_custom.xml" value="0.19895833333333332" />
@@ -50,12 +56,20 @@
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/dialog_kuring.xml" value="0.5" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/dialog_staff_bottom_sheet.xml" value="0.25" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/fragment_bachelor.xml" value="0.2328125" />
+        <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/fragment_campus_onboarding_complete.xml" value="0.33" />
+        <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/fragment_campus_onboarding_start.xml" value="0.16614583333333333" />
+        <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/fragment_chat_onboarding_complete.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/fragment_chat_onboarding_start.xml" value="0.25" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/fragment_home_category.xml" value="0.20208333333333334" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/fragment_scholarship.xml" value="0.17980072463768115" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/fragment_search_notice.xml" value="0.21693840579710144" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/fragment_search_staff.xml" value="0.18568840579710144" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/fragment_staff_bottom_sheet.xml" value="0.33" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/header_home.xml" value="0.33" />
+        <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/item_chat_admin.xml" value="0.33" />
+        <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/item_chat_date.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/item_chat_receive.xml" value="0.27247191011235955" />
+        <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/item_chat_send.xml" value="0.33" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/item_date.xml" value="0.246875" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/item_notice.xml" value="0.33" />
         <entry key="..\:/Users/user/Desktop/androidWorkspace/KUStack/app/src/main/res/layout/item_notification.xml" value="0.25" />

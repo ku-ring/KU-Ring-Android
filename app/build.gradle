@@ -38,6 +38,8 @@ android {
         localProperties.load(new FileInputStream(localPropertiesFile))
 
         buildConfigField "String", "APPS_FLYER_DEV_KEY", localProperties['APPS_FLYER_DEV_KEY']
+        buildConfigField "String", "SENDBIRD_APP_ID", localProperties['SENDBIRD_APP_ID']
+        buildConfigField "String", "SENDBIRD_API_TOKEN", localProperties['SENDBIRD_API_TOKEN']
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -59,6 +61,7 @@ android {
             ]
             buildConfigField "String", "API_BASE_URL", "\"https://kuring-dev.herokuapp.com/api/v1/\""
             buildConfigField "String", "WEB_SOCKET_URL", "\"wss://kuring-dev.herokuapp.com/kuring/search\""
+            buildConfigField "String", "KURING_CAMPUS_OPEN_CHANNEL_URL", "\"kuring_main_anonymous\""
 
             applicationIdSuffix '.debug'
         }
@@ -75,6 +78,7 @@ android {
             ]
             buildConfigField "String", "API_BASE_URL", "\"https://kuring.herokuapp.com/api/v1/\""
             buildConfigField "String", "WEB_SOCKET_URL", "\"wss://kuring.herokuapp.com/kuring/search\""
+            buildConfigField "String", "KURING_CAMPUS_OPEN_CHANNEL_URL", "\"kuring_campus_main_anonymous\""
         }
     }
     compileOptions {
@@ -201,6 +205,12 @@ dependencies {
 
     // appsFlyer
     implementation 'com.appsflyer:af-android-sdk:6.3.2'
+
+    // indicator
+    implementation 'com.romandanylyk:pageindicatorview:1.0.3'
+
+    // sendbird sdk
+    implementation 'com.sendbird.sdk:sendbird-chat:4.0.0-beta.2'
 }
 
 kapt {

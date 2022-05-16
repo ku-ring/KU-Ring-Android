@@ -6,7 +6,7 @@ import com.ku_stacks.ku_ring.BuildConfig
 import com.ku_stacks.ku_ring.crashlytics.CrashlyticsTree
 import timber.log.Timber
 
-class TimberInitializer: Initializer<Unit> {
+class TimberInitializer : Initializer<Unit> {
 
     override fun create(context: Context) {
         if (BuildConfig.DEBUG) {

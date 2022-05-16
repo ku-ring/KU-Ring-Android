@@ -1,0 +1,21 @@
+{
+  "users": [
+    {
+      "phone_number": "",
+      "discovery_keys": [],
+      "is_active": true,
+      "is_hide_me_from_friends": false,
+      "is_online": false,
+      "user_id": "jj7g68k6pf@privaterelay.appleid.com",
+      "nickname": "건국오리들입니다",
+      "has_ever_logged_in": true,
+      "require_auth_for_profile_image": false,
+      "created_at": 1652632138,
+      "last_seen_at": 1652633145803,
+      "preferred_languages": [],
+      "profile_url": "",
+      "metadata": {}
+    }
+  ],
+  "next": ""
+}

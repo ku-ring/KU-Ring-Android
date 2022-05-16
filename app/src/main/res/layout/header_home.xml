@@ -44,6 +44,19 @@
                 app:tint="@color/kus_primary" />
 
             <ImageButton
+                android:id="@+id/chat_img"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="16dp"
+                android:background="@null"
+                android:contentDescription="@string/home_chat_icn"
+                android:src="@drawable/ic_trash"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/settings_img"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/kus_primary" />
+
+            <ImageButton
                 android:id="@+id/search_img"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
@@ -52,7 +65,7 @@
                 android:contentDescription="@string/home_search_icn"
                 android:src="@drawable/ic_search"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/settings_img"
+                app:layout_constraintEnd_toStartOf="@+id/chat_img"
                 app:layout_constraintTop_toTopOf="parent"
                 app:tint="@color/kus_primary" />
 
