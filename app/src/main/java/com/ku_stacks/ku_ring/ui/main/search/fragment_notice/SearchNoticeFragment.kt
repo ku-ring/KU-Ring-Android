@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.ui.search.fragment_notice
+package com.ku_stacks.ku_ring.ui.main.search.fragment_notice
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,19 +7,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.databinding.FragmentSearchNoticeBinding
+import com.ku_stacks.ku_ring.ui.main.search.SearchFragment
 import com.ku_stacks.ku_ring.ui.notice_webview.NoticeWebActivity
-import com.ku_stacks.ku_ring.ui.search.SearchActivity
-import com.ku_stacks.ku_ring.ui.search.SearchViewModel
+import com.ku_stacks.ku_ring.ui.main.search.SearchViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SearchNoticeFragment: Fragment() {
 
     private lateinit var binding: FragmentSearchNoticeBinding
-    private val searchViewModel by activityViewModels<SearchViewModel>()
+    private val searchViewModel by viewModels<SearchViewModel>({ requireParentFragment() })
     private lateinit var searchNoticeAdapter: SearchNoticeAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -49,9 +51,9 @@ class SearchNoticeFragment: Fragment() {
         searchViewModel.noticeList.observe(viewLifecycleOwner) {
             searchNoticeAdapter.submitList(it)
             if (it.isEmpty()) {
-                (activity as SearchActivity).showAdviceText()
+                (parentFragment as SearchFragment).showAdviceText()
             } else {
-                (activity as SearchActivity).hideAdviceText()
+                (parentFragment as SearchFragment).hideAdviceText()
             }
         }
     }

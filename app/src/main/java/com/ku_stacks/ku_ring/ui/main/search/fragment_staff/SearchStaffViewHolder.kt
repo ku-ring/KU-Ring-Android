@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.ui.search.fragment_staff
+package com.ku_stacks.ku_ring.ui.main.search.fragment_staff
 
 import androidx.recyclerview.widget.RecyclerView
 import com.ku_stacks.ku_ring.data.model.Staff

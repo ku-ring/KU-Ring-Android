@@ -35,6 +35,7 @@
 
         <activity
             android:name=".ui.main.MainActivity"
+            android:windowSoftInputMode="adjustPan"
             android:launchMode="singleTask" />
         <activity
             android:name=".ui.feedback.FeedbackActivity"
@@ -52,7 +53,6 @@
         <activity android:name=".ui.edit_subscription.EditSubscriptionActivity"
             android:screenOrientation="portrait"
             android:theme="@style/EditSubscriptionTheme"/>
-        <activity android:name=".ui.search.SearchActivity" />
         <activity android:name=".ui.notion.NotionViewActivity" />
         <activity android:name=".ui.on_boarding.OnBoardingActivity"
             android:screenOrientation="portrait" />

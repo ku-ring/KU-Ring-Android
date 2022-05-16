@@ -1,36 +1,36 @@
-package com.ku_stacks.ku_ring.ui.search
+package com.ku_stacks.ku_ring.ui.main.search
 
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.LayoutInflater
 import android.view.View
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
-import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.databinding.ActivitySearchBinding
+import com.ku_stacks.ku_ring.databinding.FragmentSearchBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @AndroidEntryPoint
-class SearchActivity: AppCompatActivity() {
+class SearchFragment : Fragment() {
 
-    private lateinit var binding: ActivitySearchBinding
+    private var _binding: FragmentSearchBinding? = null
+    private val binding
+        get() = _binding!!
+
     private val searchViewModel by viewModels<SearchViewModel>()
-
-    private var currentPage = noticeSearchPage
 
     private val pageChangeCallback = object: ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
             Timber.e("pageSelect detected")
             when (position) {
                 0 -> {
-                    currentPage = noticeSearchPage
                     if (searchViewModel.noticeList.value?.isEmpty() == false) {
                         hideAdviceText()
                     } else {
@@ -38,7 +38,6 @@ class SearchActivity: AppCompatActivity() {
                     }
                 }
                 1 -> {
-                    currentPage = staffSearchPage
                     if (searchViewModel.staffList.value?.isEmpty() == false) {
                         hideAdviceText()
                     } else {
@@ -49,22 +48,24 @@ class SearchActivity: AppCompatActivity() {
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentSearchBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        setupBinding()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         setupFragment()
         setupView()
     }
 
-    private fun setupBinding() {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_search)
-        binding.lifecycleOwner = this
-        binding.viewModel = searchViewModel
-    }
-
     private fun setupFragment() {
-        val pagerAdapter = SearchPagerAdapter(supportFragmentManager, lifecycle)
+        val pagerAdapter = SearchPagerAdapter(childFragmentManager, lifecycle)
         binding.searchViewpager.adapter = pagerAdapter
         binding.searchViewpager.registerOnPageChangeCallback(pageChangeCallback)
         TabLayoutMediator(binding.searchTabLayout, binding.searchViewpager, false) { tab, position ->
@@ -76,11 +77,6 @@ class SearchActivity: AppCompatActivity() {
     }
 
     private fun setupView() {
-        binding.searchBackBt.setOnClickListener {
-            finish()
-            overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
-        }
-
         binding.searchKeywordEt.addTextChangedListener(object : TextWatcher {
             var lastEditTime = 0L
 
@@ -109,22 +105,15 @@ class SearchActivity: AppCompatActivity() {
 
     private fun searchWithKeyword(keyword: String) {
         if(keyword.isNotEmpty()) {
-            when(currentPage) {
-                noticeSearchPage -> {
-                    searchViewModel.searchNotice(keyword)
-                }
-                staffSearchPage -> {
-                    searchViewModel.searchStaff(keyword)
-                }
+            when(binding.searchViewpager.currentItem) {
+                //TODO : 다시 체크 0, 1 맞는지
+                0 -> searchViewModel.searchNotice(keyword)
+                1 -> searchViewModel.searchStaff(keyword)
             }
         } else {
-            when(currentPage) {
-                noticeSearchPage -> {
-                    searchViewModel.clearNoticeList()
-                }
-                staffSearchPage -> {
-                    searchViewModel.clearStaffList()
-                }
+            when(binding.searchViewpager.currentItem) {
+                0 -> searchViewModel.clearNoticeList()
+                1 -> searchViewModel.clearStaffList()
             }
         }
     }
@@ -147,18 +136,13 @@ class SearchActivity: AppCompatActivity() {
         searchViewModel.disconnectWebSocket()
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         binding.searchViewpager.unregisterOnPageChangeCallback(pageChangeCallback)
     }
 
-    companion object {
-        const val noticeSearchPage = 0
-        const val staffSearchPage = 1
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

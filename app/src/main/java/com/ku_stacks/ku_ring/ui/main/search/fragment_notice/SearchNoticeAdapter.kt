@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.ui.search.fragment_notice
+package com.ku_stacks.ku_ring.ui.main.search.fragment_notice
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

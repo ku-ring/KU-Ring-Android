@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.ui.search.fragment_staff
+package com.ku_stacks.ku_ring.ui.main.search.fragment_staff
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,21 +6,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.data.model.Staff
 import com.ku_stacks.ku_ring.databinding.FragmentSearchStaffBinding
-import com.ku_stacks.ku_ring.ui.search.SearchActivity
-import com.ku_stacks.ku_ring.ui.search.SearchViewModel
-import com.ku_stacks.ku_ring.ui.search.fragment_staff.dialog.StaffBottomSheet
+import com.ku_stacks.ku_ring.ui.main.search.SearchFragment
+import com.ku_stacks.ku_ring.ui.main.search.SearchViewModel
+import com.ku_stacks.ku_ring.ui.main.search.fragment_staff.dialog.StaffBottomSheet
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SearchStaffFragment: Fragment() {
 
     private lateinit var binding: FragmentSearchStaffBinding
-    private val searchViewModel by activityViewModels<SearchViewModel>()
+    private val searchViewModel by viewModels<SearchViewModel>({ requireParentFragment() })
     private lateinit var searchStaffAdapter: SearchStaffAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -48,9 +48,9 @@ class SearchStaffFragment: Fragment() {
         searchViewModel.staffList.observe(viewLifecycleOwner) {
             searchStaffAdapter.submitList(it)
             if (it.isEmpty()) {
-                (activity as SearchActivity).showAdviceText()
+                (parentFragment as SearchFragment).showAdviceText()
             } else {
-                (activity as SearchActivity).hideAdviceText()
+                (parentFragment as SearchFragment).hideAdviceText()
             }
         }
     }

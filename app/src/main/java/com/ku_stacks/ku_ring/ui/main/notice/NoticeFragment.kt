@@ -14,7 +14,6 @@ import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.databinding.FragmentNoticeBinding
 import com.ku_stacks.ku_ring.ui.campus_onboarding.CampusOnBoardingActivity
 import com.ku_stacks.ku_ring.ui.my_notification.NotificationActivity
-import com.ku_stacks.ku_ring.ui.search.SearchActivity
 import com.ku_stacks.ku_ring.ui.setting.SettingActivity
 import com.ku_stacks.ku_ring.util.PreferenceUtil
 import dagger.hilt.android.AndroidEntryPoint
@@ -58,7 +57,7 @@ class NoticeFragment : Fragment() {
         val pagerAdapter = CategoryPagerAdapter(childFragmentManager, lifecycle)
         binding.homeViewpager.adapter = pagerAdapter
 
-        TabLayoutMediator(binding.homeHeader.tabLayout, binding.homeViewpager,true) { tab, position ->
+        TabLayoutMediator(binding.mainHeader.tabLayout, binding.homeViewpager,true) { tab, position ->
             when (position) {
                 0 -> tab.text = getString(R.string.bachelor)
                 1 -> tab.text = getString(R.string.scholarship)
@@ -71,26 +70,20 @@ class NoticeFragment : Fragment() {
             }
         }.attach()
 
-        binding.homeHeader.bellImg.setOnClickListener {
+        binding.mainHeader.bellImg.setOnClickListener {
             val intent = Intent(requireActivity(), NotificationActivity::class.java)
             startActivity(intent)
             requireActivity().overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
         }
 
-        binding.homeHeader.chatImg.setOnClickListener {
+        binding.mainHeader.chatImg.setOnClickListener {
             val intent = Intent(requireActivity(), CampusOnBoardingActivity::class.java)
             startActivity(intent)
             requireActivity().overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
         }
 
-        binding.homeHeader.settingsImg.setOnClickListener {
+        binding.mainHeader.settingsImg.setOnClickListener {
             val intent = Intent(requireActivity(), SettingActivity::class.java)
-            startActivity(intent)
-            requireActivity().overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
-        }
-
-        binding.homeHeader.searchImg.setOnClickListener {
-            val intent = Intent(requireActivity(), SearchActivity::class.java)
             startActivity(intent)
             requireActivity().overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
         }
@@ -100,15 +93,15 @@ class NoticeFragment : Fragment() {
         viewModel.pushCount.observe(viewLifecycleOwner) {
             when (it)  {
                 0 -> {
-                    binding.homeHeader.notiCountBt.visibility = View.GONE
+                    binding.mainHeader.notiCountBt.visibility = View.GONE
                 }
                 in 1..99 -> {
-                    binding.homeHeader.notiCountBt.visibility = View.VISIBLE
-                    binding.homeHeader.notiCountBt.text = it.toString()
+                    binding.mainHeader.notiCountBt.visibility = View.VISIBLE
+                    binding.mainHeader.notiCountBt.text = it.toString()
                 }
                 else -> {
-                    binding.homeHeader.notiCountBt.visibility = View.VISIBLE
-                    binding.homeHeader.notiCountBt.text = getString(R.string.push_notification_max_count)
+                    binding.mainHeader.notiCountBt.visibility = View.VISIBLE
+                    binding.mainHeader.notiCountBt.text = getString(R.string.push_notification_max_count)
                 }
             }
         }

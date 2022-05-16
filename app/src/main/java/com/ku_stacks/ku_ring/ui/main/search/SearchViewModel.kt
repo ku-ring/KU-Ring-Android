@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.ui.search
+package com.ku_stacks.ku_ring.ui.main.search
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -35,6 +35,7 @@ class SearchViewModel @Inject constructor(
         get() = _noticeList
 
     init {
+        Timber.e("SearchViewModel init")
         connectWebSocket()
         subscribeStaff()
         subscribeNotice()

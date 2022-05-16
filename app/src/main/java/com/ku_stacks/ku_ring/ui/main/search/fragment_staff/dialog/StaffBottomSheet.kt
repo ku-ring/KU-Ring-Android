@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.ui.search.fragment_staff.dialog
+package com.ku_stacks.ku_ring.ui.main.search.fragment_staff.dialog
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.data.model.Staff

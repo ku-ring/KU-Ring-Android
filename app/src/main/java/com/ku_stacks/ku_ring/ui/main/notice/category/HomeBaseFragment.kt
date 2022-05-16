@@ -26,7 +26,7 @@ abstract class HomeBaseFragment : Fragment() {
     protected lateinit var binding: FragmentHomeCategoryBinding
     protected lateinit var pagingAdapter: NoticePagingAdapter
 
-    private val noticeViewModel: NoticeViewModel by viewModels({ requireParentFragment() })
+    private val noticeViewModel by viewModels<NoticeViewModel>({ requireParentFragment() })
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home_category, container,false)
