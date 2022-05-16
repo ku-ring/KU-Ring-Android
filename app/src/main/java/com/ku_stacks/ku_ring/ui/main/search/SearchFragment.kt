@@ -26,9 +26,9 @@ class SearchFragment : Fragment() {
 
     private val searchViewModel by viewModels<SearchViewModel>()
 
-    private val pageChangeCallback = object: ViewPager2.OnPageChangeCallback() {
+    private val pageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
-            Timber.e("pageSelect detected")
+            Timber.e("pageSelect detected, position : $position")
             when (position) {
                 0 -> {
                     if (searchViewModel.noticeList.value?.isEmpty() == false) {
@@ -80,8 +80,8 @@ class SearchFragment : Fragment() {
         binding.searchKeywordEt.addTextChangedListener(object : TextWatcher {
             var lastEditTime = 0L
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) { }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
             override fun afterTextChanged(s: Editable?) {
                 synchronized(this) {
                     lastEditTime = System.currentTimeMillis()
@@ -104,14 +104,13 @@ class SearchFragment : Fragment() {
     }
 
     private fun searchWithKeyword(keyword: String) {
-        if(keyword.isNotEmpty()) {
-            when(binding.searchViewpager.currentItem) {
-                //TODO : 다시 체크 0, 1 맞는지
+        if (keyword.isNotEmpty()) {
+            when (binding.searchViewpager.currentItem) {
                 0 -> searchViewModel.searchNotice(keyword)
                 1 -> searchViewModel.searchStaff(keyword)
             }
         } else {
-            when(binding.searchViewpager.currentItem) {
+            when (binding.searchViewpager.currentItem) {
                 0 -> searchViewModel.clearNoticeList()
                 1 -> searchViewModel.clearStaffList()
             }
@@ -131,8 +130,8 @@ class SearchFragment : Fragment() {
         searchViewModel.connectWebSocketIfDisconnected()
     }
 
-    override fun onStop() {
-        super.onStop()
+    override fun onPause() {
+        super.onPause()
         searchViewModel.disconnectWebSocket()
     }
 
