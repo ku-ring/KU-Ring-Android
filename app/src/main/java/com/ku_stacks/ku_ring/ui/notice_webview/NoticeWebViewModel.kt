@@ -9,7 +9,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class NoticeViewModel @Inject constructor(
+class NoticeWebViewModel @Inject constructor(
     private val repository: NoticeRepository
 ) : ViewModel() {
 

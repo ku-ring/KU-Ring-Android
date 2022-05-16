@@ -14,9 +14,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
-class NoticeActivity : AppCompatActivity() {
+class NoticeWebActivity : AppCompatActivity() {
 
-    private val viewModel by viewModels<NoticeViewModel>()
+    private val viewModel by viewModels<NoticeWebViewModel>()
     private lateinit var binding: ActivityNoticeBinding
 
     @SuppressLint("SetJavaScriptEnabled")
