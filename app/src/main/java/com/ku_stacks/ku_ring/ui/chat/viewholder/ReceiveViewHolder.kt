@@ -35,12 +35,6 @@ class ReceiveViewHolder(
                 index + nickname.length,
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
             )
-            spannableStringBuilder.setSpan(
-                RelativeSizeSpan(1.1f),
-                index,
-                index + nickname.length,
-                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
         }
 
         return spannableStringBuilder
