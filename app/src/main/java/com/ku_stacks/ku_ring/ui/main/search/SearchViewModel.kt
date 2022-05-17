@@ -36,7 +36,6 @@ class SearchViewModel @Inject constructor(
 
     init {
         Timber.e("SearchViewModel init")
-        connectWebSocket()
         subscribeStaff()
         subscribeNotice()
         makeHeartBeat()
