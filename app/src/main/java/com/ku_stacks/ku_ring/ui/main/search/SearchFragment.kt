@@ -135,13 +135,9 @@ class SearchFragment : Fragment() {
         searchViewModel.disconnectWebSocket()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        binding.searchViewpager.unregisterOnPageChangeCallback(pageChangeCallback)
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
+        binding.searchViewpager.unregisterOnPageChangeCallback(pageChangeCallback)
         _binding = null
     }
 }
