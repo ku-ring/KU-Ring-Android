@@ -1,48 +1,51 @@
-package com.ku_stacks.ku_ring.ui.setting
+package com.ku_stacks.ku_ring.ui.main.setting_fragment
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.databinding.ActivitySettingBinding
+import com.ku_stacks.ku_ring.databinding.FragmentSettingBinding
 import com.ku_stacks.ku_ring.ui.edit_subscription.EditSubscriptionActivity
 import com.ku_stacks.ku_ring.ui.feedback.FeedbackActivity
 import com.ku_stacks.ku_ring.ui.notion.NotionViewActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SettingActivity : AppCompatActivity() {
+class SettingFragment : Fragment() {
 
-    private lateinit var binding: ActivitySettingBinding
+    private var _binding: FragmentSettingBinding? = null
+    private val binding
+        get() = _binding!!
+
     private val viewModel by viewModels<SettingViewModel>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentSettingBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        setupBinding()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         setupView()
-
         binding.subscribeLayout.subscribeExtSwitch.isChecked = viewModel.isExtNotificationAllowed()
     }
 
-    private fun setupBinding() {
-        binding = ActivitySettingBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-    }
-
     private fun setupView() {
-        binding.settingBackBt.setOnClickListener {
-            finish()
-            overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
-        }
-
         /** subscribe layout */
         binding.subscribeLayout.subscribeNoticeLayout.setOnClickListener {
-            val intent = Intent(this, EditSubscriptionActivity::class.java)
+            val intent = Intent(requireContext(), EditSubscriptionActivity::class.java)
             startActivity(intent)
-            overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
+            requireActivity().overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
         }
         binding.subscribeLayout.subscribeExtSwitch.setOnCheckedChangeListener { _, isChecked ->
             viewModel.setExtNotificationAllowed(isChecked)
@@ -62,9 +65,10 @@ class SettingActivity : AppCompatActivity() {
             startWebViewActivity(getString(R.string.notion_terms_of_service_url))
         }
         binding.informationLayout.openSourceLayout.setOnClickListener {
-            startActivity(Intent(this, OssLicensesMenuActivity::class.java))
+            val intent = Intent(requireContext(), OssLicensesMenuActivity::class.java)
+            startActivity(intent)
             OssLicensesMenuActivity.setActivityTitle(getString(R.string.open_source_license))
-            overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
+            requireActivity().overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
         }
 
         /** sns layout */
@@ -77,21 +81,21 @@ class SettingActivity : AppCompatActivity() {
 
         /** feedback layout */
         binding.feedbackLayout.feedbackSendLayout.setOnClickListener {
-            val intent = Intent(this, FeedbackActivity::class.java)
+            val intent = Intent(requireContext(), FeedbackActivity::class.java)
             startActivity(intent)
-            overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
+            requireActivity().overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
         }
     }
 
     private fun startWebViewActivity(url: String) {
-        val intent = Intent(this, NotionViewActivity::class.java)
+        val intent = Intent(requireContext(), NotionViewActivity::class.java)
         intent.putExtra(NotionViewActivity.NOTION_URL, url)
         startActivity(intent)
-        overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
+        requireActivity().overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

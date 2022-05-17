@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.ui.setting
+package com.ku_stacks.ku_ring.ui.main.setting_fragment
 
 import androidx.lifecycle.ViewModel
 import com.ku_stacks.ku_ring.util.PreferenceUtil
