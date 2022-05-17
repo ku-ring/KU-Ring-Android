@@ -31,7 +31,7 @@ class CampusViewModel @Inject constructor(
         get() = _finishEvent
 
     init {
-        Timber.e("CampusViewModel created")
+        Timber.e("CampusViewModel init")
     }
 
     fun connectToSendbird(userId: String, nickname: (String?) -> Unit) {
@@ -56,7 +56,7 @@ class CampusViewModel @Inject constructor(
     (?<![_.]) // no _ or . at the end
      */
     fun isValidNicknameFormat(nickname: String): Boolean {
-        val pattern = "^(?=.{5,15}\$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9가-힣._]+(?<![_.])\$"
+        val pattern = "^(?=.{2,15}\$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9가-힣._]+(?<![_.])\$"
         return Pattern.matches(pattern, nickname)
     }
 

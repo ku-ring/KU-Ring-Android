@@ -73,7 +73,7 @@ class CampusFragment : Fragment() {
 
     private fun setupView() {
         val campusUserId = pref.campusUserId
-        if (!campusUserId.isNullOrEmpty()) { // 저장된 ID 있음
+        if (campusUserId.isNotEmpty()) { // 저장된 ID 있음
             changeState(CampusState.AUTO_LOGIN_STATE)
 
             binding.campusAutoLoginLayout.campusNextBt.setOnClickListener {
@@ -172,6 +172,7 @@ class CampusFragment : Fragment() {
 
         val intent = Intent(requireActivity(), ChatActivity::class.java)
         startActivity(intent)
+        requireActivity().overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
     }
 
     override fun onDestroyView() {

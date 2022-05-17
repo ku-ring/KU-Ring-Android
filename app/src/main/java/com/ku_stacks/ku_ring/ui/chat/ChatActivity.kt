@@ -49,6 +49,7 @@ class ChatActivity : AppCompatActivity() {
     private fun setupView() {
         binding.chatBackBt.setOnClickListener {
             finish()
+            overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
         }
 
         binding.chatSendBt.setOnClickListener {
@@ -134,5 +135,10 @@ class ChatActivity : AppCompatActivity() {
                 viewModel.deletePendingMessage(sentMessageUiModel)
                 viewModel.sendMessage(sentMessageUiModel.message)
             }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
     }
 }
