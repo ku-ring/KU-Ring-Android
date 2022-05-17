@@ -75,18 +75,6 @@ class NoticeFragment : Fragment() {
             startActivity(intent)
             requireActivity().overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
         }
-
-        binding.mainHeader.chatImg.setOnClickListener {
-            val intent = Intent(requireActivity(), CampusOnBoardingActivity::class.java)
-            startActivity(intent)
-            requireActivity().overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
-        }
-
-        binding.mainHeader.settingsImg.setOnClickListener {
-            val intent = Intent(requireActivity(), SettingActivity::class.java)
-            startActivity(intent)
-            requireActivity().overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
-        }
     }
 
     private fun observeData(){
@@ -120,7 +108,6 @@ class NoticeFragment : Fragment() {
             }
         }
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()
