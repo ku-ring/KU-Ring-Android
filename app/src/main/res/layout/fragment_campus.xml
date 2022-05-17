@@ -29,8 +29,8 @@
         tools:visibility="invisible" />
 
     <include
-        android:id="@+id/campus_connect_layout"
-        layout="@layout/campus_connect"
+        android:id="@+id/campus_set_nickname_layout"
+        layout="@layout/campus_set_nickname"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -7,7 +7,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.ku_stacks.ku_ring.ui.main.campus_onboarding.CampusFragment
 import com.ku_stacks.ku_ring.ui.main.notice.NoticeFragment
 import com.ku_stacks.ku_ring.ui.main.search.SearchFragment
-import com.ku_stacks.ku_ring.ui.main.setting_fragment.SettingFragment
+import com.ku_stacks.ku_ring.ui.main.setting.SettingFragment
 
 class MainPagerAdapter(fm: FragmentManager, lc: Lifecycle) : FragmentStateAdapter(fm, lc) {
     private val items = arrayOf(

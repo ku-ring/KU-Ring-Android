@@ -9,7 +9,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ShareCompat
 import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.databinding.ActivityNoticeBinding
+import com.ku_stacks.ku_ring.databinding.ActivityNoticeWebBinding
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -17,12 +17,12 @@ import timber.log.Timber
 class NoticeWebActivity : AppCompatActivity() {
 
     private val viewModel by viewModels<NoticeWebViewModel>()
-    private lateinit var binding: ActivityNoticeBinding
+    private lateinit var binding: ActivityNoticeWebBinding
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityNoticeBinding.inflate(layoutInflater)
+        binding = ActivityNoticeWebBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val url = intent.getStringExtra(NOTICE_URL)

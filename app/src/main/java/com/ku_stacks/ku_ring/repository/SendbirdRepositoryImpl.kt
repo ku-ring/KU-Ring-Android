@@ -9,9 +9,20 @@ class SendbirdRepositoryImpl @Inject constructor(
     private val sendbirdClient: SendbirdClient
 ) : SendbirdRepository {
 
-    override fun hasDuplicateNickname(nickname: String): Single<Boolean> {
+    override fun hasDuplicateNickname(nickname: String, userId: String): Single<Boolean> {
         return sendbirdClient.fetchNicknameList(nickname)
             .subscribeOn(Schedulers.io())
-            .map { it.users.isNotEmpty() }
+            .map {
+                if (it.users.isEmpty()) {
+                    return@map false
+                } else {
+                    for (userResponse in it.users) {
+                        if (userResponse.userId == userId) {
+                            return@map false
+                        }
+                    }
+                    return@map true
+                }
+            }
     }
 }

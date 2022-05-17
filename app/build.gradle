@@ -211,6 +211,9 @@ dependencies {
 
     // sendbird sdk
     implementation 'com.sendbird.sdk:sendbird-chat:4.0.0-beta.2'
+
+    // google play-auth
+    implementation 'com.google.android.gms:play-services-auth:20.2.0'
 }
 
 kapt {

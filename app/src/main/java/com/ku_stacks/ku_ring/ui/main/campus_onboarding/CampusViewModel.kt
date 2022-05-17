@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.ui.campus_onboarding
+package com.ku_stacks.ku_ring.ui.main.campus_onboarding
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -15,7 +15,7 @@ import java.util.regex.Pattern
 import javax.inject.Inject
 
 @HiltViewModel
-class CampusOnBoardingViewModel @Inject constructor(
+class CampusViewModel @Inject constructor(
     private val pref: PreferenceUtil,
     private val repository: SendbirdRepository
 ) : ViewModel() {
@@ -31,15 +31,20 @@ class CampusOnBoardingViewModel @Inject constructor(
         get() = _finishEvent
 
     init {
-        pref.fcmToken?.let { token ->
-            // TODO : fcmToken 은 userId의 길이 제한보다 길어서 사용할 수 없음. 임시적으로 fcmToken 앞의 4글자만 사용
-            SendbirdChat.connect(token.substring(0, 4)) { user, e ->
-                if (e != null) {
-                    Timber.e("Sendbird connect error [${e.code}] : ${e.message}")
-                    return@connect
-                }
-                Timber.e("Sendbird connect success. nickname : ${user?.nickname}")
+        Timber.e("CampusViewModel created")
+    }
+
+    fun connectToSendbird(userId: String, nickname: (String?) -> Unit) {
+        SendbirdChat.connect(userId) { user, e ->
+            if (e != null) {
+                Timber.e("Sendbird connect error [${e.code}] : ${e.message}")
+                _dialogEvent.postValue(R.string.chat_connect_error)
+                return@connect
             }
+            Timber.e("Sendbird connect success. nickname : ${user?.nickname}")
+
+            pref.campusUserId = userId
+            nickname(user?.nickname)
         }
     }
 
@@ -70,8 +75,10 @@ class CampusOnBoardingViewModel @Inject constructor(
             return
         }
 
+        val userId = pref.campusUserId
+
         disposable.add(
-            repository.hasDuplicateNickname(nickname)
+            repository.hasDuplicateNickname(nickname, userId)
                 .subscribe({
                     if (it == false) {
                         isAuthorized()
@@ -96,14 +103,6 @@ class CampusOnBoardingViewModel @Inject constructor(
             }
             Timber.e("updateCurrentUserInfo success")
             isDone()
-        }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-
-        if (!disposable.isDisposed) {
-            disposable.dispose()
         }
     }
 }

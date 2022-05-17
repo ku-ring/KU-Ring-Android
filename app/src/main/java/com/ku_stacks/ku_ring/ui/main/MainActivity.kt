@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         override fun onPageSelected(position: Int) {
             binding.mainBottomNavigation.selectedItemId = when (position) {
                 0 -> R.id.notice_screen
-                1 -> R.id.screen
+                1 -> R.id.search_screen
                 2 -> R.id.campus_screen
                 3 -> R.id.setting_screen
                 else -> throw IllegalStateException("no such main viewpager position")

@@ -109,6 +109,7 @@
     <string name="nickname_valid_format">적절한 닉네임 형식입니다.</string>
     <string name="nickname_duplicated">중복된 닉네임이 있습니다.</string>
     <string name="nickname_check_error">"닉네임 확인에 문제가 발생하였습니다."</string>
+    <string name="chat_connect_error">채팅 서버와의 연결에 문제가 발생했습니다.</string>
 
     <!--  campus chat  -->
     <string name="chat_enter_message">메세지를 입력하세요.</string>
