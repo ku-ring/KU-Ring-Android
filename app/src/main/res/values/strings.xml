@@ -52,7 +52,7 @@
 
     <!--  search  -->
     <string name="search_enter_keyword">검색어를 입력해주세요</string>
-    <string name="search">검색</string>
+    <string name="search">🔍 검색</string>
     <string name="search_advice">찾고 싶은 공지사항이나 교직원을 검색해보세요\n(공지 제목 / 교수 이름 / 학과 / 단과대학)</string>
     <string name="search_staff_copy_email_complete">이메일이 클립보드에 복사되었습니다</string>
     <string name="search_staff_copy_phone_number_complete">전화번호가 클립보드에 복사되었습니다</string>
@@ -103,7 +103,7 @@
     <!--  campus onBoarding -->
     <string name="kuring_campus">쿠링 캠퍼스</string>
     <string name="kuring_chungsim">쿠링청심대</string>
-    <string name="campus_ask_send_message">학우들에게 메세지를 보내보세요</string>
+    <string name="campus_ask_send_message">쿠링 청심대에서 다같이 모여 메세지를 보내세요</string>
     <string name="campus_nickname_description">상대에게 보여지는 이름을 설정해주세요</string>
     <string name="nickname_not_valid_format">적절한 닉네임 형식이 아닙니다.</string>
     <string name="nickname_valid_format">적절한 닉네임 형식입니다.</string>
