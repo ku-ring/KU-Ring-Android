@@ -83,8 +83,6 @@ class SearchFragment : Fragment() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
             override fun afterTextChanged(s: Editable?) {
-                searchViewModel.connectWebSocketIfDisconnected()
-
                 synchronized(this) {
                     lastEditTime = System.currentTimeMillis()
                 }
@@ -125,6 +123,11 @@ class SearchFragment : Fragment() {
 
     fun hideAdviceText() {
         binding.searchAdviceTxt.visibility = View.GONE
+    }
+
+    override fun onResume() {
+        super.onResume()
+        searchViewModel.connectWebSocketIfDisconnected()
     }
 
     override fun onPause() {

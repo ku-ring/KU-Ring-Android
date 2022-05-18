@@ -3,7 +3,6 @@ package com.ku_stacks.ku_ring.ui.chat.viewholder
 import android.graphics.Typeface
 import android.text.SpannableStringBuilder
 import android.text.Spanned
-import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
 import com.ku_stacks.ku_ring.adapter.visibleIf
 import com.ku_stacks.ku_ring.databinding.ItemChatReceiveBinding
