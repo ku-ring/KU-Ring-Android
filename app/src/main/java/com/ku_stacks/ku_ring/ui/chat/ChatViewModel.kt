@@ -1,7 +1,5 @@
 package com.ku_stacks.ku_ring.ui.chat
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -90,7 +88,6 @@ class ChatViewModel @Inject constructor(
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     fun sendMessage(text: String) {
         if (text.isEmpty()) {
             return
@@ -108,7 +105,6 @@ class ChatViewModel @Inject constructor(
         addPendingMessage(pendingMessage)
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     fun deletePendingMessage(sentMessageUiModel: SentMessageUiModel) {
         pendingMessageList.removeIf { it.requestId == sentMessageUiModel.requestId }
         _chatUiModelList.postValue(normalMessageList + pendingMessageList)
@@ -121,7 +117,6 @@ class ChatViewModel @Inject constructor(
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     private fun updateErrorMessage(message: UserMessage?) {
         message?.let { msg ->
             pendingMessageList.forEachIndexed { index, pendingMessage ->
@@ -134,7 +129,6 @@ class ChatViewModel @Inject constructor(
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     private fun updateSucceedMessage(message: UserMessage?) {
         message?.let { msg ->
             pendingMessageList.removeIf { it.requestId == msg.requestId }

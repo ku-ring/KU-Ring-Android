@@ -3,12 +3,10 @@ package com.ku_stacks.ku_ring.ui.chat
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.res.ColorStateList
-import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.activity.viewModels
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.ImageViewCompat
 import androidx.databinding.DataBindingUtil
@@ -32,7 +30,6 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var recyclerObserver: ChatRecyclerDataObserver
     private lateinit var pager: RecyclerViewPager
 
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -49,7 +46,6 @@ class ChatActivity : AppCompatActivity() {
         binding.viewModel = viewModel
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     private fun setupView() {
         binding.chatBackBt.setOnClickListener {
             finish()
@@ -83,7 +79,6 @@ class ChatActivity : AppCompatActivity() {
         })
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     private fun setupRecyclerView() {
         chatMessageAdapter = ChatMessageAdapter(
             onErrorClick = { sentMessageUiModel ->  makeResendDialog(sentMessageUiModel) },
@@ -130,7 +125,6 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     private fun makeResendDialog(sentMessageUiModel : SentMessageUiModel) {
         makeDialog(
             description = getString(R.string.chat_resend_message),
