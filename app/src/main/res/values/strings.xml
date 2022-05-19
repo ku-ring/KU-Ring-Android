@@ -120,4 +120,10 @@
     <string name="chat_resend">재전송</string>
     <string name="chat_delete">삭제</string>
     <string name="chat_max_message_length">글자는 최대 %s자입니다.</string>
+    <string name="copy_content">복사하기</string>
+    <string name="copy_nickname">닉네임 복사하기</string>
+    <string name="report_user">신고하기</string>
+    <string name="report_success">신고가 접수되었습니다.</string>
+    <string name="report_fail">신고에 실패하였습니다.</string>
+    <string name="report_error">신고에 문제가 발생하였습니다.</string>
 </resources>

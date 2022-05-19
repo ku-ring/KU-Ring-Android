@@ -7,8 +7,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ku_stacks.ku_ring.BuildConfig
 import com.ku_stacks.ku_ring.R
+import com.ku_stacks.ku_ring.data.api.FeedbackClient
+import com.ku_stacks.ku_ring.data.api.request.FeedbackRequest
 import com.ku_stacks.ku_ring.ui.SingleLiveEvent
 import com.ku_stacks.ku_ring.ui.chat.ui_model.*
+import com.ku_stacks.ku_ring.util.PreferenceUtil
 import com.sendbird.android.SendbirdChat
 import com.sendbird.android.channel.BaseChannel
 import com.sendbird.android.channel.OpenChannel
@@ -20,17 +23,27 @@ import com.sendbird.android.message.UserMessage
 import com.sendbird.android.params.MessageListParams
 import com.sendbird.android.params.UserMessageCreateParams
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class ChatViewModel @Inject constructor(
-
+    private val pref: PreferenceUtil,
+    private val feedbackClient: FeedbackClient
 ) : ViewModel() {
+
+    private val disposable = CompositeDisposable()
 
     private val _dialogEvent = SingleLiveEvent<Int>()
     val dialogEvent: LiveData<Int>
         get() = _dialogEvent
+
+    private val _toastEvent = SingleLiveEvent<Int>()
+    val toastEvent: LiveData<Int>
+        get() = _toastEvent
 
     private val normalMessageList = mutableListOf<ChatUiModel>()
     private val pendingMessageList = mutableListOf<SentMessageUiModel>()
@@ -232,10 +245,67 @@ class ChatViewModel @Inject constructor(
         )
     }
 
+    fun reportMessage(messageUiModel: ReceivedMessageUiModel) {
+        val reporter = SendbirdChat.currentUser?.userId ?: ""
+        val feedbackContent =
+            "🤬 $reporter 가 ${messageUiModel.userId} 를 신고했습니다 - 메세지 내용 : ${messageUiModel.message}"
+
+        // send to Kuring server
+        disposable.add(
+            feedbackClient.sendFeedback(
+                FeedbackRequest(token = pref.fcmToken ?: "", content = feedbackContent)
+            )
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    if (it.isSuccess) {
+                        _toastEvent.postValue(R.string.report_success)
+                    } else {
+                        _toastEvent.postValue(R.string.report_fail)
+                    }
+                }, {
+                    _toastEvent.postValue(R.string.report_error)
+                })
+        )
+
+        // send to sendbird server
+        reportToSendbirdServer(messageUiModel)
+    }
+
+    private fun reportToSendbirdServer(messageUiModel: ReceivedMessageUiModel) {
+        val params = MessageListParams().apply {
+            isInclusive = true
+            previousResultSize = 0
+            nextResultSize = 0
+        }
+        kuringChannel?.getMessagesByMessageId(messageUiModel.messageId, params) { messages, e1 ->
+            if (e1 != null) {
+                Timber.e("getMessagesByMessageId error [${e1.code}] ${e1.message}")
+                return@getMessagesByMessageId
+            }
+            if (messages?.size == 1) {
+                kuringChannel?.reportMessage(
+                    message = messages[0],
+                    reportCategory = BaseChannel.ReportCategory.INAPPROPRIATE,
+                    reportDescription = "",
+                ) { e2 ->
+                    if (e2 != null) {
+                        Timber.e("reportToSendbirdServer error [${e2.code}] : ${e2.message}")
+                        return@reportMessage
+                    }
+                    Timber.e("reportToSendbirdServer success")
+                }
+            }
+        }
+    }
+
     override fun onCleared() {
         super.onCleared()
         SendbirdChat.removeConnectionHandler(CONNECTION_HANDLER_ID)
         SendbirdChat.removeChannelHandler(CHANNEL_HANDLER_ID)
+
+        if (!disposable.isDisposed) {
+            disposable.dispose()
+        }
     }
 
     companion object {
