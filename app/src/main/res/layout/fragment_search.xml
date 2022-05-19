@@ -23,7 +23,7 @@
             android:fontFamily="@font/notosanskr_medium"
             android:text="@string/search"
             android:textColor="@color/kus_primary"
-            android:textSize="16sp"
+            android:textSize="20sp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

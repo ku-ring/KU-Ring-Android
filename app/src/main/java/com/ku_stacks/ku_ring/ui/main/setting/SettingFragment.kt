@@ -73,10 +73,10 @@ class SettingFragment : Fragment() {
 
         /** sns layout */
         binding.snsLayout.instagramLayout.setOnClickListener {
-            startWebViewActivity(getString(R.string.instagram_url))
+            binding.webview.loadUrl(getString(R.string.instagram_url))
         }
         binding.snsLayout.kakaoChannelLayout.setOnClickListener {
-            startWebViewActivity(getString(R.string.kakao_url))
+            binding.webview.loadUrl(getString(R.string.kakao_url))
         }
 
         /** feedback layout */
