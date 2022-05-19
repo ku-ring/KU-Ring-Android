@@ -50,6 +50,8 @@ class ChatViewModel @Inject constructor(
     val chatUiModelList: LiveData<List<ChatUiModel>>
         get() = _chatUiModelList
 
+    private lateinit var blackUserList: List<String>
+
     private val _hasPrevious = MutableLiveData<Boolean>()
     val hasPrevious: LiveData<Boolean>
         get() = _hasPrevious
@@ -63,13 +65,17 @@ class ChatViewModel @Inject constructor(
     private var kuringChannel: OpenChannel? = null
 
     init {
+        updateBlackUserList()
         enterChannel()
         addSendbirdHandler()
+    }
+
+    private fun updateBlackUserList() {
         disposable.add(
             repository.getBlackUserList()
                 .subscribeOn(Schedulers.io())
                 .subscribe({
-                    Timber.e("blackUser : ${it}")
+                    blackUserList = it
                 }, {
                     Timber.e("getBlackUserList error $it")
                 })
@@ -171,7 +177,7 @@ class ChatViewModel @Inject constructor(
                 isLoading.postValue(false)
             } else {
                 _hasPrevious.value = messageList.size >= params.previousResultSize
-                normalMessageList.addAll(0, messageList.toChatUiModelList())
+                normalMessageList.addAll(0, messageList.toChatUiModelList(blackUserList))
                 _chatUiModelList.postValue(normalMessageList + pendingMessageList)
             }
         }
@@ -195,7 +201,7 @@ class ChatViewModel @Inject constructor(
                 return@getMessagesByTimestamp
             }
 
-            normalMessageList.addAll(messageList.toChatUiModelList())
+            normalMessageList.addAll(messageList.toChatUiModelList(blackUserList))
             _chatUiModelList.postValue(normalMessageList + pendingMessageList)
             val hasNext = messageList.size >= params.nextResultSize
             if (hasNext) {
@@ -312,6 +318,7 @@ class ChatViewModel @Inject constructor(
                 .subscribe({
                     Timber.e("blockUser success")
                     _toastEvent.postValue(R.string.block_success)
+                    updateBlackUserList()
                 }, {
                     Timber.e("blockUser error $it")
                     _toastEvent.postValue(R.string.block_fail)

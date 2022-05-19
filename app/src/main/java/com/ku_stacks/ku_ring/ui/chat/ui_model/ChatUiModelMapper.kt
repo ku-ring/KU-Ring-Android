@@ -6,7 +6,7 @@ import com.sendbird.android.message.BaseMessage
 import com.sendbird.android.message.UserMessage
 import timber.log.Timber
 
-fun List<BaseMessage>.toChatUiModelList(): List<ChatUiModel> {
+fun List<BaseMessage>.toChatUiModelList(blackUserList: List<String>): List<ChatUiModel> {
     val currentUser = SendbirdChat.currentUser
     val chatUiModelList = mutableListOf<ChatUiModel>()
 
@@ -22,7 +22,9 @@ fun List<BaseMessage>.toChatUiModelList(): List<ChatUiModel> {
             if (message.sender?.userId == currentUser?.userId) {
                 chatUiModelList.add(message.toSentMessageUiModel(isPending = false))
             } else {
-                chatUiModelList.add(message.toReceivedMessageUiModel())
+                if (!blackUserList.contains(message.sender?.userId)) {
+                    chatUiModelList.add(message.toReceivedMessageUiModel())
+                }
             }
         }
         else {
