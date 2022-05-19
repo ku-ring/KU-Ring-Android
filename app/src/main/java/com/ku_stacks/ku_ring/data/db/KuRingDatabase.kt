@@ -6,11 +6,14 @@ import androidx.room.RoomDatabase
 @Database(
     entities = [
         NoticeEntity::class,
-        PushEntity::class
+        PushEntity::class,
+        BlackUserEntity::class
     ],
-    version = 1
+    version = 2,
+    exportSchema = false
 )
 abstract class KuRingDatabase : RoomDatabase() {
     abstract fun noticeDao(): NoticeDao
     abstract fun pushDao(): PushDao
+    abstract fun blackUserDao(): BlackUserDao
 }

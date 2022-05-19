@@ -7,6 +7,7 @@ import com.ku_stacks.ku_ring.BuildConfig
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.data.api.FeedbackClient
 import com.ku_stacks.ku_ring.data.api.request.FeedbackRequest
+import com.ku_stacks.ku_ring.repository.UserRepository
 import com.ku_stacks.ku_ring.ui.SingleLiveEvent
 import com.ku_stacks.ku_ring.ui.chat.ui_model.*
 import com.ku_stacks.ku_ring.util.PreferenceUtil
@@ -21,7 +22,6 @@ import com.sendbird.android.message.UserMessage
 import com.sendbird.android.params.MessageListParams
 import com.sendbird.android.params.UserMessageCreateParams
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber
@@ -30,7 +30,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ChatViewModel @Inject constructor(
     private val pref: PreferenceUtil,
-    private val feedbackClient: FeedbackClient
+    private val feedbackClient: FeedbackClient,
+    private val repository: UserRepository
 ) : ViewModel() {
 
     private val disposable = CompositeDisposable()
@@ -64,6 +65,15 @@ class ChatViewModel @Inject constructor(
     init {
         enterChannel()
         addSendbirdHandler()
+        disposable.add(
+            repository.getBlackUserList()
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    Timber.e("blackUser : ${it}")
+                }, {
+                    Timber.e("getBlackUserList error $it")
+                })
+        )
     }
 
     private fun enterChannel() {
@@ -290,6 +300,23 @@ class ChatViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun blockUser(messageUiModel: ReceivedMessageUiModel) {
+        val userId = messageUiModel.userId
+        val nickname = messageUiModel.nickname
+
+        disposable.add(
+            repository.blockUser(userId, nickname)
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    Timber.e("blockUser success")
+                    _toastEvent.postValue(R.string.block_success)
+                }, {
+                    Timber.e("blockUser error $it")
+                    _toastEvent.postValue(R.string.block_fail)
+                })
+        )
     }
 
     override fun onCleared() {

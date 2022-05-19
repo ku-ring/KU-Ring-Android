@@ -42,6 +42,17 @@ android {
         buildConfigField "String", "SENDBIRD_API_TOKEN", localProperties['SENDBIRD_API_TOKEN']
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += ["room.schemaLocation":
+                                      "$projectDir/schemas".toString()]
+            }
+        }
+    }
+
+    sourceSets {
+        androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
     }
 
     viewBinding {
@@ -124,6 +135,7 @@ dependencies {
 
     // coroutine
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.3"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3"
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.3'
 
     // rxJava

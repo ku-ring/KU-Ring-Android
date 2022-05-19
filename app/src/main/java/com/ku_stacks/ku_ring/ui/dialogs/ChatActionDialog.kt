@@ -21,7 +21,7 @@ class ChatActionDialog(context: Context) : Dialog(context) {
         setContentView(binding.root)
     }
 
-    fun setOnCopyContentClickListener(onClickListener: View.OnClickListener) = this.apply {
+    fun setOnCopyMessageClickListener(onClickListener: View.OnClickListener) = this.apply {
         binding.actionCopyContentTv.setOnClickListener { v ->
             onClickListener.onClick(v)
             dismiss()
@@ -37,6 +37,13 @@ class ChatActionDialog(context: Context) : Dialog(context) {
 
     fun setOnReportClickListener(onClickListener: View.OnClickListener) = this.apply {
         binding.actionReportTv.setOnClickListener { v ->
+            onClickListener.onClick(v)
+            dismiss()
+        }
+    }
+
+    fun setOnBlockClickListener(onClickListener: View.OnClickListener) = this.apply {
+        binding.actionBlockTv.setOnClickListener { v ->
             onClickListener.onClick(v)
             dismiss()
         }

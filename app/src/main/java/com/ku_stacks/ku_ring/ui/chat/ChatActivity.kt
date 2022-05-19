@@ -144,20 +144,26 @@ class ChatActivity : AppCompatActivity() {
         ChatActionDialog(this).apply {
             show()
         }
-            .setOnCopyContentClickListener {
+            .setOnCopyMessageClickListener {
                 val clipboardManager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
                 val clipData = ClipData.newPlainText("message", messageUiModel.message)
                 clipboardManager.setPrimaryClip(clipData)
-
-                showToast("메세지가 복사되었습니다.")
+                showToast(getString(R.string.chat_copied_message))
             }.setOnCopyNicknameClickListener {
                 val clipboardManager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
                 val clipData = ClipData.newPlainText("nickname", messageUiModel.nickname)
                 clipboardManager.setPrimaryClip(clipData)
-
-                showToast("닉네임이 복사되었습니다.")
+                showToast(getString(R.string.chat_copied_nickname))
             }.setOnReportClickListener {
-                viewModel.reportMessage(messageUiModel)
+                makeDialog(description = getString(R.string.report_ask_again))
+                    .setOnConfirmClickListener {
+                        viewModel.reportMessage(messageUiModel)
+                    }
+            }.setOnBlockClickListener {
+                makeDialog(description = getString(R.string.block_ask_again))
+                    .setOnConfirmClickListener {
+                        viewModel.blockUser(messageUiModel)
+                    }
             }
     }
 
