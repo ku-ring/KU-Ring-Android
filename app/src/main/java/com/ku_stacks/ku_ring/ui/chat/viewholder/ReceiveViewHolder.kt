@@ -3,7 +3,9 @@ package com.ku_stacks.ku_ring.ui.chat.viewholder
 import android.graphics.Typeface
 import android.text.SpannableStringBuilder
 import android.text.Spanned
+import android.text.style.BackgroundColorSpan
 import android.text.style.StyleSpan
+import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.adapter.visibleIf
 import com.ku_stacks.ku_ring.databinding.ItemChatReceiveBinding
 import com.ku_stacks.ku_ring.ui.chat.ui_model.ReceivedMessageUiModel
@@ -18,8 +20,8 @@ class ReceiveViewHolder(
         binding.chatDateTv.visibleIf(showDate)
 
         binding.chatContentTv.text = spanNickname(
-            receivedMessageUiModel.message,
-            SendbirdChat.currentUser?.nickname ?: ""
+            message = receivedMessageUiModel.message,
+            nickname = SendbirdChat.currentUser?.nickname ?: ""
         )
     }
 
@@ -30,6 +32,13 @@ class ReceiveViewHolder(
         nicknameIndexList.forEach { index ->
             spannableStringBuilder.setSpan(
                 StyleSpan(Typeface.BOLD),
+                index,
+                index + nickname.length,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+
+            spannableStringBuilder.setSpan(
+                BackgroundColorSpan(binding.root.context.getColor(R.color.kus_green_50)),
                 index,
                 index + nickname.length,
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE

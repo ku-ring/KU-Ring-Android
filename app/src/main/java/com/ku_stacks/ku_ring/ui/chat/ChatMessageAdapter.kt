@@ -24,7 +24,7 @@ class ChatMessageAdapter(
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.item_chat_receive, parent, false)
                 val binding = ItemChatReceiveBinding.bind(view)
                 ReceiveViewHolder(binding).apply {
-                    binding.root.setOnLongClickListener {
+                    binding.chatMessageLayout.setOnLongClickListener {
                         val position = absoluteAdapterPosition.takeIf { it != NO_POSITION }
                             ?: return@setOnLongClickListener false
                         onMessageLongClick(getItem(position) as ReceivedMessageUiModel)
