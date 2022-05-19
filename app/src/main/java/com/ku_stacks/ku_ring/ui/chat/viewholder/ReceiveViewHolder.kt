@@ -3,7 +3,6 @@ package com.ku_stacks.ku_ring.ui.chat.viewholder
 import android.graphics.Typeface
 import android.text.SpannableStringBuilder
 import android.text.Spanned
-import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
 import com.ku_stacks.ku_ring.adapter.visibleIf
 import com.ku_stacks.ku_ring.databinding.ItemChatReceiveBinding
@@ -31,12 +30,6 @@ class ReceiveViewHolder(
         nicknameIndexList.forEach { index ->
             spannableStringBuilder.setSpan(
                 StyleSpan(Typeface.BOLD),
-                index,
-                index + nickname.length,
-                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-            spannableStringBuilder.setSpan(
-                RelativeSizeSpan(1.1f),
                 index,
                 index + nickname.length,
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE

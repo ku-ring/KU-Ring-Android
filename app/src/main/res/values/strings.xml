@@ -14,10 +14,7 @@
     <string name="ku_ring_rights">© 2021 KU Ring. All rights reserved.</string>
 
     <!--  home  -->
-    <string name="home_menu_icn">home menu img</string>
     <string name="home_bell_icn">home bell img</string>
-    <string name="home_search_icn">home search img</string>
-    <string name="home_chat_icn">home search img</string>
     <string name="home_finish_if_back_again">"뒤로가기를 한 번 더 누르시면 종료됩니다"</string>
 
     <!--  category  -->
@@ -106,12 +103,13 @@
     <!--  campus onBoarding -->
     <string name="kuring_campus">쿠링 캠퍼스</string>
     <string name="kuring_chungsim">쿠링청심대</string>
-    <string name="campus_ask_send_message">학우들에게 메세지를 보내보세요</string>
+    <string name="campus_ask_send_message">쿠링 청심대에서 다같이 모여 메세지를 보내세요</string>
     <string name="campus_nickname_description">상대에게 보여지는 이름을 설정해주세요</string>
     <string name="nickname_not_valid_format">적절한 닉네임 형식이 아닙니다.</string>
     <string name="nickname_valid_format">적절한 닉네임 형식입니다.</string>
     <string name="nickname_duplicated">중복된 닉네임이 있습니다.</string>
     <string name="nickname_check_error">"닉네임 확인에 문제가 발생하였습니다."</string>
+    <string name="chat_connect_error">채팅 서버와의 연결에 문제가 발생했습니다.</string>
 
     <!--  campus chat  -->
     <string name="chat_enter_message">메세지를 입력하세요.</string>
@@ -122,4 +120,10 @@
     <string name="chat_resend">재전송</string>
     <string name="chat_delete">삭제</string>
     <string name="chat_max_message_length">글자는 최대 %s자입니다.</string>
+    <string name="copy_content">복사하기</string>
+    <string name="copy_nickname">닉네임 복사하기</string>
+    <string name="report_user">신고하기</string>
+    <string name="report_success">신고가 접수되었습니다.</string>
+    <string name="report_fail">신고에 실패하였습니다.</string>
+    <string name="report_error">신고에 문제가 발생하였습니다.</string>
 </resources>

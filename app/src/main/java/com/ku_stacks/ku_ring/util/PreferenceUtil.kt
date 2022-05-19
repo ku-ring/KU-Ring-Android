@@ -29,6 +29,10 @@ class PreferenceUtil(@ApplicationContext context: Context) {
         get() = prefs.getBoolean(DEFAULT_NOTIFICATION, true)
         set(value) = prefs.edit().putBoolean(DEFAULT_NOTIFICATION, value).apply()
 
+    var campusUserId: String
+        get() = prefs.getString(CAMPUS_USER_ID, null) ?: ""
+        set(value) = prefs.edit().putString(CAMPUS_USER_ID, value).apply()
+
     fun deleteStartDate() {
         prefs.edit().remove(START_DATE).apply()
     }
@@ -39,5 +43,6 @@ class PreferenceUtil(@ApplicationContext context: Context) {
         const val FCM_TOKEN = "FCM_TOKEN"
         const val SUBSCRIPTION = "SUBSCRIPTION"
         const val DEFAULT_NOTIFICATION = "DEFAULT_NOTIFICATION"
+        const val CAMPUS_USER_ID = "CAMPUS_USER_ID"
     }
 }

@@ -31,4 +31,5 @@
     <color name="kus_label_color">#deffffff</color>
     <color name="kus_blue">#3d9ebd</color>
 
+    <color name="kus_primary03">#08000000</color>
 </resources>

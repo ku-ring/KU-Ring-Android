@@ -89,11 +89,11 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="6dp"
                 android:autofillHints="no"
-                android:background="@drawable/edittext_primary_radius32"
+                android:background="@drawable/edittext_primary_radius24"
                 android:fontFamily="@font/sfpro_display_regular"
                 android:hint="@string/chat_enter_message"
                 android:inputType="none"
-                android:maxLines="3"
+                android:maxLines="4"
                 android:paddingStart="16dp"
                 android:paddingTop="10dp"
                 android:paddingEnd="16dp"
@@ -113,10 +113,10 @@
                 android:layout_marginEnd="12dp"
                 android:background="@null"
                 android:src="@drawable/ic_send"
+                android:layout_marginBottom="4dp"
                 app:layout_constraintBaseline_toBottomOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 app:tint="@color/kus_green_50" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

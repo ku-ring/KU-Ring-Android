@@ -109,7 +109,7 @@ class SearchClient {
     }
 
     fun disconnectWebSocket() {
-        webSocketClient!!.close()
+        webSocketClient?.close()
     }
 
     companion object {

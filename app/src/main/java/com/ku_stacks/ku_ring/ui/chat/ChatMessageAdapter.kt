@@ -15,14 +15,22 @@ import com.ku_stacks.ku_ring.util.DateUtil.areSameDate
 import timber.log.Timber
 
 class ChatMessageAdapter(
-    private val onErrorClick: (SentMessageUiModel) -> Unit
+    private val onErrorClick: (SentMessageUiModel) -> Unit,
+    private val onMessageLongClick: (ReceivedMessageUiModel) -> Unit
 ) : ListAdapter<ChatUiModel, SealedChatViewHolder>(MessageDiffCallback) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SealedChatViewHolder {
         return when (viewType) {
             CHAT_RECEIVED -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.item_chat_receive, parent, false)
                 val binding = ItemChatReceiveBinding.bind(view)
-                ReceiveViewHolder(binding)
+                ReceiveViewHolder(binding).apply {
+                    binding.root.setOnLongClickListener {
+                        val position = absoluteAdapterPosition.takeIf { it != NO_POSITION }
+                            ?: return@setOnLongClickListener false
+                        onMessageLongClick(getItem(position) as ReceivedMessageUiModel)
+                        return@setOnLongClickListener true
+                    }
+                }
             }
             CHAT_SENT -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.item_chat_send, parent, false)
