@@ -143,8 +143,8 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
         val defaultSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val channelId = CHANNEL_ID
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
-            .setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.ic_ku_ring_notification))
-            .setSmallIcon(R.drawable.ic_ku_ring_statusbar)
+            .setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.ic_notification))
+            .setSmallIcon(R.drawable.ic_status_bar)
             .setContentTitle(title)
             .setContentText(body)
             .setSound(defaultSound)
@@ -175,8 +175,8 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
         val defaultSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val channelId = CHANNEL_ID
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
-            .setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.ic_ku_ring_notification))
-            .setSmallIcon(R.drawable.ic_ku_ring_statusbar)
+            .setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.ic_notification))
+            .setSmallIcon(R.drawable.ic_status_bar)
             .setContentTitle(title)
             .setContentText(body)
             .setSound(defaultSound)

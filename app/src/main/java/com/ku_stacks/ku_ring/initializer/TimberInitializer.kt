@@ -9,10 +9,16 @@ import timber.log.Timber
 class TimberInitializer : Initializer<Unit> {
 
     override fun create(context: Context) {
-        if (BuildConfig.DEBUG) {
-            Timber.plant(Timber.DebugTree())
-        } else {
-            Timber.plant(CrashlyticsTree())
+        when (BuildConfig.BUILD_TYPE) {
+            "debug" -> {
+                Timber.plant(Timber.DebugTree())
+            }
+            "release" -> {
+                Timber.plant(CrashlyticsTree())
+            }
+            else -> {
+                Timber.plant(Timber.DebugTree())
+            }
         }
     }
 

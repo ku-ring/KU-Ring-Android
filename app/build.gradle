@@ -31,8 +31,8 @@ android {
         applicationId "com.ku_stacks.ku_ring"
         minSdk 24
         targetSdk 30
-        versionCode 12
-        versionName "1.2.0"
+        versionCode 14
+        versionName "1.2.2"
 
         def localProperties = new Properties()
         localProperties.load(new FileInputStream(localPropertiesFile))
@@ -85,7 +85,7 @@ android {
 
             manifestPlaceholders = [
                     appName : "@string/app_name",
-                    appIcon : "@drawable/ic_ku_ring_launcher"
+                    appIcon : "@drawable/ic_kuring_launcher"
             ]
             buildConfigField "String", "API_BASE_URL", "\"https://kuring.herokuapp.com/api/v1/\""
             buildConfigField "String", "WEB_SOCKET_URL", "\"wss://kuring.herokuapp.com/kuring/search\""

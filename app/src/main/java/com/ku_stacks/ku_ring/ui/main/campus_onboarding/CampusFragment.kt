@@ -48,10 +48,10 @@ class CampusFragment : Fragment() {
             }
         } catch (e: ApiException) {
             Timber.e("signInResult failed [${e.statusCode}]")
-            requireContext().makeDialog(description = "구글 로그인에 실패하였습니다.")
+            requireContext().makeDialog(description = "구글 로그인에 실패하였습니다. [${e.statusCode}]")
         } catch (e: Exception) {
             Timber.e("signInResult failed : $e")
-            requireContext().makeDialog(description = "구글 로그인에 실패하였습니다.")
+            requireContext().makeDialog(description = "구글 로그인에 실패하였습니다. ${e.message}")
         }
     }
 
