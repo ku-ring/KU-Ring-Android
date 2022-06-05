@@ -54,6 +54,12 @@ https://play.google.com/store/apps/details?id=com.ku_stacks.ku_ring
 
 ## Version Updates
 
+### v.1.2.3
+  - 플레이스토어에서 다운받은 apk에서 구글 로그인 인증 이슈 수정
+
+### v1.2.0
+  - 쿠링캠퍼스(익명의 오픈채팅방) 기능 추가
+
 ### v.1.1.3
   - 공지 화면 개선(zoom in/out)
   - 공지 공유 기능 추가
