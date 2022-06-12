@@ -71,14 +71,6 @@ class SettingFragment : Fragment() {
             requireActivity().overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
         }
 
-        /** sns layout */
-        binding.snsLayout.instagramLayout.setOnClickListener {
-            binding.webview.loadUrl(getString(R.string.instagram_url))
-        }
-        binding.snsLayout.kakaoChannelLayout.setOnClickListener {
-            binding.webview.loadUrl(getString(R.string.kakao_url))
-        }
-
         /** feedback layout */
         binding.feedbackLayout.feedbackSendLayout.setOnClickListener {
             val intent = Intent(requireContext(), FeedbackActivity::class.java)

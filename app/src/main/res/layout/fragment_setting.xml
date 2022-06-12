@@ -45,10 +45,6 @@
                 layout="@layout/setting_information" />
 
             <include
-                android:id="@+id/sns_layout"
-                layout="@layout/setting_sns" />
-
-            <include
                 android:id="@+id/feedback_layout"
                 layout="@layout/setting_feedback" />
         </LinearLayout>
