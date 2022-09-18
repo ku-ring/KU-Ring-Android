@@ -162,7 +162,7 @@ dependencies {
     debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
 
     // firebase
-    implementation platform('com.google.firebase:firebase-bom:28.4.2')
+    implementation platform('com.google.firebase:firebase-bom:30.1.0')
     implementation 'com.google.firebase:firebase-messaging-ktx'
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
@@ -227,7 +227,10 @@ dependencies {
     implementation 'com.sendbird.sdk:sendbird-chat:4.0.0-beta.2'
 
     // google play-auth
-    implementation 'com.google.android.gms:play-services-auth:20.2.0'
+    implementation 'com.google.android.gms:play-services-auth:20.3.0'
+
+    // google AdMob
+    implementation 'com.google.android.gms:play-services-ads:21.2.0'
 }
 
 kapt {

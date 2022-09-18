@@ -102,6 +102,9 @@
             <meta-data
                 android:name="com.ku_stacks.ku_ring.initializer.SendbirdInitializer"
                 android:value="androidx.startup" />
+            <meta-data
+                android:name="com.ku_stacks.ku_ring.initializer.AdMobInitializer"
+                android:value="androidx.startup" />
         </provider>
 
         <service android:name="com.ku_stacks.ku_ring.MyFireBaseMessagingService"
@@ -113,6 +116,10 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
         </service>
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-6671968113098923~7129948779" />
 
     </application>
 
