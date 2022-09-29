@@ -18,7 +18,7 @@ https://play.google.com/store/apps/details?id=com.ku_stacks.ku_ring
 ### Architecture
 - MVVM Architecture
 - Repository Pattern
-- Dagger Hilt - 의존성 주입
+- Dagger Hilt
 
 ### Jetpack Library
 - Lifecycle(LiveData)
