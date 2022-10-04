@@ -133,4 +133,7 @@
     <string name="block_ask_again">정말 차단하시겠습니까?</string>
     <string name="block_success">사용자를 차단되었습니다.</string>
     <string name="block_fail">차단에 실패하였습니다.</string>
+
+    <!--  common-advertise  -->
+    <string name="admob_test_banner_id">ca-app-pub-3940256099942544/6300978111</string>
 </resources>
