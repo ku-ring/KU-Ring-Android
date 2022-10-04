@@ -82,12 +82,6 @@
             android:exported="true"
             android:windowSoftInputMode="adjustResize" />
 
-        <activity-alias
-            android:name="leakcanary.internal.activity.LeakLauncherActivity"
-            android:exported="true"
-            android:targetActivity="leakcanary.internal.activity.LeakActivity"
-            tools:node="merge" />
-
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
