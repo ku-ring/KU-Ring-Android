@@ -78,7 +78,7 @@ class NoticeWebActivity : AppCompatActivity() {
         }
 
         binding.noticeWebView.loadUrl(url)
-        initBannerAdView()
+        // initBannerAdView()
     }
 
     private fun updateNoticeTobeRead(articleId: String?, category: String?) {
