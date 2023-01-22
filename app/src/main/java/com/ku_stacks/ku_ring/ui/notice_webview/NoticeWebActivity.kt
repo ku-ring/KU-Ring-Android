@@ -8,10 +8,8 @@ import android.webkit.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ShareCompat
-import com.google.android.gms.ads.*
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.databinding.ActivityNoticeWebBinding
-import com.ku_stacks.ku_ring.util.or
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -20,7 +18,6 @@ class NoticeWebActivity : AppCompatActivity() {
 
     private val viewModel by viewModels<NoticeWebViewModel>()
     private lateinit var binding: ActivityNoticeWebBinding
-    private lateinit var adView: AdView
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,7 +75,6 @@ class NoticeWebActivity : AppCompatActivity() {
         }
 
         binding.noticeWebView.loadUrl(url)
-        // initBannerAdView()
     }
 
     private fun updateNoticeTobeRead(articleId: String?, category: String?) {
@@ -97,40 +93,12 @@ class NoticeWebActivity : AppCompatActivity() {
             .startChooser()
     }
 
-    private fun initBannerAdView() {
-        binding.noticeAdViewLayout.run {
-            adView = AdView(context).apply {
-                setAdSize(AdSize.BANNER)
-                adUnitId = getString(R.string.admob_test_banner_id) or ADMOB_NOTICE_BANNER_PROD_ID
-            }
-            addView(adView)
-            adView.loadAd(AdRequest.Builder().build())
-        }
-    }
-
-    override fun onPause() {
-        adView.pause()
-        super.onPause()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        adView.resume()
-    }
-
-    override fun onDestroy() {
-        adView.destroy()
-        super.onDestroy()
-    }
-
     override fun finish() {
         super.finish()
         overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
     }
 
     companion object {
-        private const val ADMOB_NOTICE_BANNER_PROD_ID = "ca-app-pub-6671968113098923/4236260617"
-
         const val NOTICE_URL = "url"
         const val NOTICE_ARTICLE_ID = "articleId"
         const val NOTICE_CATEGORY = "category"
