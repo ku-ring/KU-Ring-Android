@@ -102,5 +102,7 @@ class NoticeWebActivity : AppCompatActivity() {
         const val NOTICE_URL = "url"
         const val NOTICE_ARTICLE_ID = "articleId"
         const val NOTICE_CATEGORY = "category"
+        const val NOTICE_POSTED_DATE = "postedDate"
+        const val NOTICE_SUBJECT = "subject"
     }
 }
