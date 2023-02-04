@@ -1,9 +1,11 @@
 package com.ku_stacks.ku_ring.data.mapper
 
 import com.ku_stacks.ku_ring.data.model.Push
+import com.ku_stacks.ku_ring.data.model.SavedNotice
 import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushContentUiModel
 import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushDataUiModel
 import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushDateHeaderUiModel
+import com.ku_stacks.ku_ring.ui.notice_storage.ui_model.SavedNoticeUiModel
 
 fun List<Push>.toPushUiModelList(): List<PushDataUiModel> {
     val pushDataList = ArrayList<PushDataUiModel>()
@@ -35,4 +37,9 @@ fun Push.toPushContentUiModel(): PushContentUiModel {
         receivedDate = receivedDate,
         tag = tag
     )
+}
+
+fun SavedNotice.toUiModel(): SavedNoticeUiModel {
+    val (subject, tag) = splitSubjectAndTag(subject)
+    return SavedNoticeUiModel(articleId, category, baseUrl, postedDate, subject, tag)
 }
