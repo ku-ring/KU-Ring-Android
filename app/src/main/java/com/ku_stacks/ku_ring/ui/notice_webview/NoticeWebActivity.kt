@@ -8,9 +8,11 @@ import android.webkit.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ShareCompat
+import androidx.lifecycle.lifecycleScope
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.databinding.ActivityNoticeWebBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -36,6 +38,8 @@ class NoticeWebActivity : AppCompatActivity() {
         binding.noticeShareBt.setOnClickListener {
             shareLinkExternally(url)
         }
+
+        initSaveButton()
 
         binding.noticeWebView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(
@@ -75,6 +79,22 @@ class NoticeWebActivity : AppCompatActivity() {
         }
 
         binding.noticeWebView.loadUrl(url)
+    }
+
+    private fun initSaveButton() {
+        binding.noticeSaveButton.apply {
+            setOnClickListener { viewModel.onSaveButtonClick() }
+            lifecycleScope.launchWhenResumed {
+                viewModel.isSaved.collectLatest { isSaved ->
+                    val sourceId = if (isSaved) {
+                        R.drawable.baseline_bookmark_24
+                    } else {
+                        R.drawable.baseline_bookmark_border_24
+                    }
+                    setImageResource(sourceId)
+                }
+            }
+        }
     }
 
     private fun updateNoticeTobeRead(articleId: String?, category: String?) {
