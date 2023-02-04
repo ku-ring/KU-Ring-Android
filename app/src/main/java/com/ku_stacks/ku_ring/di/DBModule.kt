@@ -4,10 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.ku_stacks.ku_ring.data.db.BlackUserDao
-import com.ku_stacks.ku_ring.data.db.NoticeDao
-import com.ku_stacks.ku_ring.data.db.KuRingDatabase
-import com.ku_stacks.ku_ring.data.db.PushDao
+import com.ku_stacks.ku_ring.data.db.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,6 +22,22 @@ object DBModule {
         }
     }
 
+    private val MIGRATION_2_3 = object : Migration(2, 3) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL(
+                """
+                CREATE TABLE IF NOT EXISTS SavedNoticeEntity(
+                    `articleId` TEXT NOT NULL, 
+                    `category` TEXT NOT NULL,
+                    `baseUrl` TEXT NOT NULL,
+                    `postedDate` TEXT NOT NULL,
+                    `subject` TEXT NOT NULL,
+                    PRIMARY KEY(`articleId`)
+                )""".trimIndent()
+            )
+        }
+    }
+
     @Singleton
     @Provides
     fun provideKuRingDatabase(@ApplicationContext context: Context): KuRingDatabase {
@@ -33,7 +46,7 @@ object DBModule {
             KuRingDatabase::class.java,
             "ku-ring-db"
         )
-            .addMigrations(MIGRATION_1_2)
+            .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
             .build()
     }
 
@@ -51,4 +64,8 @@ object DBModule {
     @Provides
     fun provideBlackUserDao(database: KuRingDatabase): BlackUserDao
         = database.blackUserDao()
+
+    @Singleton
+    @Provides
+    fun provideSavedNoticeDao(database: KuRingDatabase): SavedNoticeDao = database.savedNoticeDao()
 }

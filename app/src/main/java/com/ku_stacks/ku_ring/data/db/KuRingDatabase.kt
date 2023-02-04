@@ -7,9 +7,10 @@ import androidx.room.RoomDatabase
     entities = [
         NoticeEntity::class,
         PushEntity::class,
-        BlackUserEntity::class
+        BlackUserEntity::class,
+        SavedNoticeEntity::class,
     ],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 abstract class KuRingDatabase : RoomDatabase() {
