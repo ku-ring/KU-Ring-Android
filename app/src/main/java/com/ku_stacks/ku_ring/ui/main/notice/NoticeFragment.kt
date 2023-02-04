@@ -13,6 +13,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.databinding.FragmentNoticeBinding
 import com.ku_stacks.ku_ring.ui.my_notification.NotificationActivity
+import com.ku_stacks.ku_ring.ui.notice_storage.NoticeStorageActivity
 import com.ku_stacks.ku_ring.util.PreferenceUtil
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -67,6 +68,12 @@ class NoticeFragment : Fragment() {
                 7 -> tab.text = getString(R.string.library)
             }
         }.attach()
+
+        binding.mainHeader.inventoryImg.setOnClickListener {
+            val intent = Intent(requireActivity(), NoticeStorageActivity::class.java)
+            startActivity(intent)
+            requireActivity().overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
+        }
 
         binding.mainHeader.bellImg.setOnClickListener {
             val intent = Intent(requireActivity(), NotificationActivity::class.java)
