@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="savedNotificationUiModel"
+            type="com.ku_stacks.ku_ring.ui.notice_storage.ui_model.SavedNoticeUiModel" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/kus_background"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/main_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingBottom="20dp">
+
+            <View
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/point_primary_green"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/notice_title_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="20dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/sfpro_display_regular"
+                android:maxLines="2"
+                android:text="@{savedNotificationUiModel.subject}"
+                android:textColor="@color/kus_primary"
+                android:textSize="15sp"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="재입학 합격자 발표 및 유의사항 안내" />
+
+            <TextView
+                android:id="@+id/notice_date_text"
+                timeMillis="@{savedNotificationUiModel.postedDate}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:textColor="@color/kus_gray"
+                app:layout_constraintStart_toStartOf="@id/notice_title_text"
+                app:layout_constraintTop_toBottomOf="@id/notice_title_text"
+                tools:text="2023.02.03" />
+
+            <co.lujun.androidtagview.TagContainerLayout
+                android:id="@+id/notice_tag_container"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="1.2dp"
+                android:layout_marginEnd="20dp"
+                app:container_background_color="@color/transparent"
+                app:container_border_color="@color/transparent"
+                app:container_enable_drag="false"
+                app:horizontal_interval="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/notice_date_text"
+                app:layout_constraintTop_toTopOf="@id/notice_date_text"
+                app:tag_text_size="12sp"
+                app:tag_vertical_padding="3dp"
+                app:vertical_interval="4dp" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+</layout>
