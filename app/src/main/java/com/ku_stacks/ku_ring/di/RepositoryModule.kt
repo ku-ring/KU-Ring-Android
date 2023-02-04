@@ -5,6 +5,7 @@ import com.ku_stacks.ku_ring.data.api.SendbirdClient
 import com.ku_stacks.ku_ring.data.db.BlackUserDao
 import com.ku_stacks.ku_ring.data.db.NoticeDao
 import com.ku_stacks.ku_ring.data.db.PushDao
+import com.ku_stacks.ku_ring.data.db.SavedNoticeDao
 import com.ku_stacks.ku_ring.repository.*
 import com.ku_stacks.ku_ring.util.PreferenceUtil
 import dagger.Module
@@ -59,4 +60,10 @@ object RepositoryModule {
     ): UserRepository {
         return UserRepositoryImpl(blackUserDao)
     }
+
+    @Provides
+    @Singleton
+    fun provideSavedNoticeRepository(
+        savedNoticeDao: SavedNoticeDao
+    ): SavedNoticeRepository = SavedNoticeRepositoryImpl(savedNoticeDao)
 }
