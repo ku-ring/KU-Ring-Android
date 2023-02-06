@@ -10,12 +10,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.databinding.ActivityNotificationBinding
-import com.ku_stacks.ku_ring.ui.notice_webview.NoticeWebActivity
-import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushContentUiModel
 import com.ku_stacks.ku_ring.ui.edit_subscription.EditSubscriptionActivity
 import com.ku_stacks.ku_ring.ui.main.MainActivity
-import com.ku_stacks.ku_ring.util.UrlGenerator
+import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushContentUiModel
+import com.ku_stacks.ku_ring.ui.notice_webview.NoticeWebActivity
 import com.ku_stacks.ku_ring.util.makeDialog
+import com.ku_stacks.ku_ring.util.putNoticeWebActivityExtras
 import com.yeonkyu.HoldableSwipeHelper.HoldableSwipeHandler
 import com.yeonkyu.HoldableSwipeHelper.SwipeButtonAction
 import dagger.hilt.android.AndroidEntryPoint
@@ -69,7 +69,7 @@ class NotificationActivity : AppCompatActivity() {
     private fun setupListAdapter() {
         notificationAdapter = NotificationAdapter(
             itemClick = {
-                startNoticeActivity(it.articleId, it.baseUrl, it.category)
+                startNoticeActivity(it)
             },
             onBindItem = {
                 viewModel.updateNotificationToBeOld(it.articleId)
@@ -119,15 +119,9 @@ class NotificationActivity : AppCompatActivity() {
         }
     }
 
-    private fun startNoticeActivity(articleId: String, baseUrl: String, category: String) {
-        val url = UrlGenerator.generateNoticeUrl(articleId, category, baseUrl)
-        Timber.e("url : $url, category : $category")
-
-        val intent = Intent(this, NoticeWebActivity::class.java).apply {
-            putExtra(NoticeWebActivity.NOTICE_URL, url)
-            putExtra(NoticeWebActivity.NOTICE_ARTICLE_ID, articleId)
-            putExtra(NoticeWebActivity.NOTICE_CATEGORY, category)
-        }
+    private fun startNoticeActivity(pushContent: PushContentUiModel) {
+        val intent = Intent(this, NoticeWebActivity::class.java)
+            .putNoticeWebActivityExtras(pushContent)
         startActivity(intent)
         overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
     }

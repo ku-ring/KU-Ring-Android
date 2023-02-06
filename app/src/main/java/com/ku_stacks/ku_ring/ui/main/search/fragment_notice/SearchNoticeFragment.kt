@@ -15,6 +15,7 @@ import com.ku_stacks.ku_ring.databinding.FragmentSearchNoticeBinding
 import com.ku_stacks.ku_ring.ui.main.search.SearchFragment
 import com.ku_stacks.ku_ring.ui.notice_webview.NoticeWebActivity
 import com.ku_stacks.ku_ring.ui.main.search.SearchViewModel
+import com.ku_stacks.ku_ring.util.putNoticeWebActivityExtras
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -59,11 +60,8 @@ class SearchNoticeFragment: Fragment() {
     }
 
     private fun startNoticeActivity(notice: Notice) {
-        val intent = Intent(requireContext(), NoticeWebActivity::class.java).apply {
-            putExtra(NoticeWebActivity.NOTICE_URL, notice.url)
-            putExtra(NoticeWebActivity.NOTICE_ARTICLE_ID, notice.articleId)
-            putExtra(NoticeWebActivity.NOTICE_CATEGORY, notice.category)
-        }
+        val intent = Intent(requireContext(), NoticeWebActivity::class.java)
+            .putNoticeWebActivityExtras(notice)
         startActivity(intent)
         requireActivity().overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
     }

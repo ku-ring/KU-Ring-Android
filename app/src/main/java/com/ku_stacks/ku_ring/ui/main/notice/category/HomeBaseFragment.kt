@@ -14,8 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.databinding.FragmentHomeCategoryBinding
-import com.ku_stacks.ku_ring.ui.notice_webview.NoticeWebActivity
 import com.ku_stacks.ku_ring.ui.main.notice.NoticeViewModel
+import com.ku_stacks.ku_ring.ui.notice_webview.NoticeWebActivity
+import com.ku_stacks.ku_ring.util.putNoticeWebActivityExtras
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -97,11 +98,8 @@ abstract class HomeBaseFragment : Fragment() {
     }
 
     private fun startNoticeActivity(notice: Notice) {
-        val intent = Intent(requireActivity(), NoticeWebActivity::class.java).apply {
-            putExtra(NoticeWebActivity.NOTICE_URL, notice.url)
-            putExtra(NoticeWebActivity.NOTICE_ARTICLE_ID, notice.articleId)
-            putExtra(NoticeWebActivity.NOTICE_CATEGORY, notice.category)
-        }
+        val intent = Intent(requireActivity(), NoticeWebActivity::class.java)
+            .putNoticeWebActivityExtras(notice)
         startActivity(intent)
         requireActivity().overridePendingTransition(
             R.anim.anim_slide_right_enter,
