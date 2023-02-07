@@ -8,12 +8,10 @@ import com.ku_stacks.ku_ring.repository.SavedNoticeRepository
 import com.ku_stacks.ku_ring.ui.notice_storage.ui_model.SavedNoticeUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -45,7 +43,7 @@ class NoticeStorageViewModel @Inject constructor(
         }
     }
 
-    fun onClear() {
+    fun clearNotices() {
         viewModelScope.launch(ioDispatcher) {
             savedNoticeRepository.clearNotices()
         }

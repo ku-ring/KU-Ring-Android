@@ -48,7 +48,7 @@ class NoticeStorageActivity : AppCompatActivity() {
             finish()
         }
         binding.clearNoticesImage.setOnClickListener {
-            makeDialog(title = "모두 삭제할까요?").setOnConfirmClickListener { viewModel.onClear() }
+            makeDialog(title = "모두 삭제할까요?").setOnConfirmClickListener { viewModel.clearNotices() }
         }
     }
 
