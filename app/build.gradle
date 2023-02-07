@@ -209,7 +209,7 @@ dependencies {
     implementation "org.java-websocket:Java-WebSocket:1.5.1"
 
     // HoldableSwipeHandler
-    implementation 'com.github.yeon-kyu.HoldableSwipeHandler:HoldableSwipeHandler:1.2.0'
+    implementation 'com.github.yeon-kyu.HoldableSwipeHandler:HoldableSwipeHandler:1.2.2'
 
     // leak canary
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'

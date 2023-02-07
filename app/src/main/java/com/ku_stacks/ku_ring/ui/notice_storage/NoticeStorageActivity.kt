@@ -12,11 +12,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.data.mapper.concatSubjectAndTag
 import com.ku_stacks.ku_ring.databinding.ActivityNoticeStorageBinding
-import com.ku_stacks.ku_ring.ui.notice_storage.right_swipe.RightSwipeHandler
 import com.ku_stacks.ku_ring.ui.notice_storage.ui_model.SavedNoticeUiModel
 import com.ku_stacks.ku_ring.ui.notice_webview.NoticeWebActivity
 import com.ku_stacks.ku_ring.util.UrlGenerator
 import com.ku_stacks.ku_ring.util.makeDialog
+import com.yeonkyu.HoldableSwipeHelper.HoldableSwipeHandler
 import com.yeonkyu.HoldableSwipeHelper.SwipeButtonAction
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -63,13 +63,14 @@ class NoticeStorageActivity : AppCompatActivity() {
 
         val removeDrawable =
             AppCompatResources.getDrawable(this, R.drawable.ic_bookmark_remove)!!
-        RightSwipeHandler.Builder(this)
+        HoldableSwipeHandler.Builder(this)
             .setSwipeButtonAction(object : SwipeButtonAction {
                 override fun onClickFirstButton(absoluteAdapterPosition: Int) {
                     val notice = storageAdapter.currentList[absoluteAdapterPosition]
                     viewModel.deleteNotice(notice.articleId)
                 }
             })
+            .setDirectionAsRightToLeft(false)
             .setBackgroundColor(getColor(R.color.kus_green))
             .setFirstItemDrawable(removeDrawable)
             .setDismissOnClickFirstItem(true)
