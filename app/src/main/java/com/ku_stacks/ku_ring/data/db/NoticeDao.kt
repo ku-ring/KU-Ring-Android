@@ -20,6 +20,9 @@ interface NoticeDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun updateNotice(notice: NoticeEntity): Completable
 
+    @Query("UPDATE NoticeEntity SET isRead = 1 WHERE articleId = :articleId")
+    fun updateNoticeAsRead(articleId: String): Completable
+
     @Query("SELECT COUNT(*) FROM NoticeEntity WHERE isRead = :value and articleId = :id")
     fun getCountOfReadNotice(value: Boolean, id: String): Single<Int>
 

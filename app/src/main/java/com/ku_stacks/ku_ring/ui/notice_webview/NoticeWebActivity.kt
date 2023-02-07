@@ -101,7 +101,7 @@ class NoticeWebActivity : AppCompatActivity() {
         if (articleId.isNullOrEmpty() || category.isNullOrEmpty()) {
             Timber.e("articleId or category is null. articleId : $articleId, category : $category")
         } else {
-            viewModel.updateNoticeTobeRead(articleId, category)
+            viewModel.updateNoticeTobeRead(articleId)
         }
     }
 

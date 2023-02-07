@@ -118,14 +118,8 @@ class NoticeRepositoryImpl @Inject constructor(
         )
     }
 
-    override fun updateNoticeToBeRead(articleId: String, category: String): Completable {
-        return noticeDao.updateNotice(
-            NoticeEntity(
-                articleId = articleId,
-                category = category,
-                isNew = false,
-                isRead = true)
-        )
+    override fun updateNoticeToBeRead(articleId: String): Completable {
+        return noticeDao.updateNoticeAsRead(articleId)
     }
 
     override fun deleteAllNoticeRecord() { // for testing

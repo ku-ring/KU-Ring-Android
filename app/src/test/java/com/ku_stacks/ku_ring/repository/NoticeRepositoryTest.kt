@@ -43,10 +43,10 @@ class NoticeRepositoryTest {
     fun `updateNotice Test`() {
         // given
         val mockData = mockReadNoticeEntity()
-        Mockito.`when`(dao.updateNotice(mockData)).thenReturn(Completable.complete())
+        Mockito.`when`(dao.updateNoticeAsRead(mockData.articleId)).thenReturn(Completable.complete())
 
         // when + then
-        repository.updateNoticeToBeRead(mockData.articleId, mockData.category)
+        repository.updateNoticeToBeRead(mockData.articleId)
             .test()
             .assertComplete()
     }

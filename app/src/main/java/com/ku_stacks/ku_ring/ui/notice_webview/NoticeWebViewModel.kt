@@ -11,7 +11,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -47,9 +46,9 @@ class NoticeWebViewModel @Inject constructor(
         }
     }
 
-    fun updateNoticeTobeRead(articleId: String, category: String) {
+    fun updateNoticeTobeRead(articleId: String) {
         disposable.add(
-            noticeRepository.updateNoticeToBeRead(articleId, category)
+            noticeRepository.updateNoticeToBeRead(articleId)
                 .subscribeOn(Schedulers.io())
                 .subscribe({
                     Timber.e("noticeRecord update true : $articleId")
