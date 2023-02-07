@@ -87,9 +87,9 @@ class NoticeWebActivity : AppCompatActivity() {
             lifecycleScope.launchWhenResumed {
                 viewModel.isSaved.collectLatest { isSaved ->
                     val sourceId = if (isSaved) {
-                        R.drawable.baseline_bookmark_24
+                        R.drawable.ic_bookmark_filled
                     } else {
-                        R.drawable.baseline_bookmark_border_24
+                        R.drawable.ic_bookmark_border
                     }
                     setImageResource(sourceId)
                 }

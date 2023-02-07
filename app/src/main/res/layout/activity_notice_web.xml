@@ -46,7 +46,7 @@
             android:background="@null"
             android:contentDescription="@string/save_button_description"
             android:padding="4dp"
-            android:src="@drawable/baseline_bookmark_border_24"
+            android:src="@drawable/ic_bookmark_border"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/notice_share_bt"
             app:layout_constraintTop_toTopOf="parent"

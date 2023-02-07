@@ -62,7 +62,7 @@ class NoticeStorageActivity : AppCompatActivity() {
         }
 
         val removeDrawable =
-            AppCompatResources.getDrawable(this, R.drawable.baseline_bookmark_remove_24)!!
+            AppCompatResources.getDrawable(this, R.drawable.ic_bookmark_remove)!!
         RightSwipeHandler.Builder(this)
             .setSwipeButtonAction(object : SwipeButtonAction {
                 override fun onClickFirstButton(absoluteAdapterPosition: Int) {
