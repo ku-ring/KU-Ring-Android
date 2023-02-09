@@ -26,7 +26,7 @@ class NoticeStorageViewModel @Inject constructor(
         get() = _savedNotices
 
     init {
-        viewModelScope.launch(ioDispatcher) {
+        viewModelScope.launch {
             savedNoticeRepository.getSavedNotices().collect { savedNotices ->
                 _savedNotices.value = savedNotices
                     .map { it.toUiModel() }
@@ -37,14 +37,14 @@ class NoticeStorageViewModel @Inject constructor(
     }
 
     fun deleteNotice(articleId: String) {
-        viewModelScope.launch(ioDispatcher) {
+        viewModelScope.launch {
             savedNoticeRepository.deleteNotice(articleId)
             Timber.d("Notice $articleId deleted.")
         }
     }
 
     fun clearNotices() {
-        viewModelScope.launch(ioDispatcher) {
+        viewModelScope.launch {
             savedNoticeRepository.clearNotices()
         }
     }

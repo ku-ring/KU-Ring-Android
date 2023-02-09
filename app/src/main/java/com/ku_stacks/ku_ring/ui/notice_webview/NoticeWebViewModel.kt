@@ -39,7 +39,7 @@ class NoticeWebViewModel @Inject constructor(
         get() = _isSaved
 
     init {
-        viewModelScope.launch(ioDispatcher) {
+        viewModelScope.launch {
             savedNoticeRepository.getSavedNotices().collectLatest { savedNotices ->
                 _isSaved.value = savedNotices.any { it.articleId == articleId }
             }
@@ -60,7 +60,7 @@ class NoticeWebViewModel @Inject constructor(
 
     fun onSaveButtonClick() {
         if (articleId == null || category == null || url == null || postedDate == null || subject == null) return
-        viewModelScope.launch(ioDispatcher) {
+        viewModelScope.launch {
             if (isSaved.value) {
                 savedNoticeRepository.deleteNotice(articleId)
             } else {
