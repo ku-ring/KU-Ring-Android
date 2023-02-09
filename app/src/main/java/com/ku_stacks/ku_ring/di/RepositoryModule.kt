@@ -12,6 +12,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Singleton
 
 @Module
@@ -64,6 +65,7 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideSavedNoticeRepository(
-        savedNoticeDao: SavedNoticeDao
-    ): SavedNoticeRepository = SavedNoticeRepositoryImpl(savedNoticeDao)
+        savedNoticeDao: SavedNoticeDao,
+        @IODispatcher ioDispatcher: CoroutineDispatcher,
+    ): SavedNoticeRepository = SavedNoticeRepositoryImpl(savedNoticeDao, ioDispatcher)
 }
