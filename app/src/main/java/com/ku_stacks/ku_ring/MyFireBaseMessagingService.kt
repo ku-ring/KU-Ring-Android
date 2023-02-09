@@ -14,7 +14,11 @@ import com.google.firebase.messaging.RemoteMessage
 import com.ku_stacks.ku_ring.data.db.PushDao
 import com.ku_stacks.ku_ring.data.db.PushEntity
 import com.ku_stacks.ku_ring.ui.main.MainActivity
-import com.ku_stacks.ku_ring.util.*
+import com.ku_stacks.ku_ring.ui.notice_webview.NoticeWebActivity
+import com.ku_stacks.ku_ring.util.DateUtil
+import com.ku_stacks.ku_ring.util.PreferenceUtil
+import com.ku_stacks.ku_ring.util.UrlGenerator
+import com.ku_stacks.ku_ring.util.WordConverter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -125,8 +129,14 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
     }
 
     private fun showNotificationWithUrl(title: String?, body: String?, url: String?, articleId: String?, category: String?){
-        val intent = Intent(this, MainActivity::class.java)
-            .putNoticeWebActivityExtras(url, articleId, category, DateUtil.getToday(), title)
+        val intent = NoticeWebActivity.createIntent(
+            this,
+            url,
+            articleId,
+            category,
+            DateUtil.getToday(),
+            title
+        )
         val pendingIntent = PendingIntent.getActivity(
             this,
             0,
