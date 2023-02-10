@@ -5,6 +5,7 @@ import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface NoticeDao {
@@ -17,11 +18,23 @@ interface NoticeDao {
     @Query("SELECT articleId FROM NoticeEntity WHERE isRead = :value")
     fun getReadNoticeList(value: Boolean): Flowable<List<String>>
 
+    @Query("SELECT * FROM NoticeEntity WHERE isSaved = :isSaved")
+    fun getNoticesBySaved(isSaved: Boolean): Flow<List<NoticeEntity>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun updateNotice(notice: NoticeEntity): Completable
 
     @Query("UPDATE NoticeEntity SET isRead = 1 WHERE articleId = :articleId")
     fun updateNoticeAsRead(articleId: String): Completable
+
+    @Query("UPDATE NoticeEntity SET isSaved = :isSaved WHERE articleId = :articleId")
+    suspend fun updateNoticeSaveState(articleId: String, isSaved: Boolean)
+
+    @Query("UPDATE NoticeEntity SET isReadOnStorage = :isSaved WHERE articleId = :articleId")
+    suspend fun updateNoticeAsReadOnStorage(articleId: String, isSaved: Boolean)
+
+    @Query("UPDATE NoticeEntity SET isSaved = 0")
+    suspend fun clearSavedNotices()
 
     @Query("SELECT COUNT(*) FROM NoticeEntity WHERE isRead = :value and articleId = :id")
     fun getCountOfReadNotice(value: Boolean, id: String): Single<Int>
