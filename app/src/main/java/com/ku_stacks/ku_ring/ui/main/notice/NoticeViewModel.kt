@@ -3,6 +3,7 @@ package com.ku_stacks.ku_ring.ui.main.notice
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.repository.NoticeRepository
 import com.ku_stacks.ku_ring.repository.PushRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,9 +29,9 @@ class NoticeViewModel @Inject constructor(
         getNotificationCount()
     }
 
-    fun insertNoticeAsOld(articleId: String, category: String) {
+    fun insertNoticeAsOld(notice: Notice) {
         disposable.add(
-            noticeRepository.insertNoticeAsOld(articleId = articleId, category = category)
+            noticeRepository.insertNoticeAsOld(notice)
                 .subscribeOn(Schedulers.io())
                 .subscribe({
                     //Timber.e("noticeRecord Insert true : $articleId")

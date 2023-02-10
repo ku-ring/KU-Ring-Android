@@ -65,7 +65,7 @@ abstract class HomeBaseFragment : Fragment() {
                 startNoticeActivity(notice)
             },
             onBindItem = { notice ->
-                noticeViewModel.insertNoticeAsOld(notice.articleId, notice.category)
+                noticeViewModel.insertNoticeAsOld(notice)
             }
         )
 

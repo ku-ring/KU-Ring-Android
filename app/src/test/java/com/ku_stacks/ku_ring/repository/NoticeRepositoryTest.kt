@@ -48,7 +48,7 @@ class NoticeRepositoryTest {
         Mockito.`when`(dao.insertNoticeAsOld(mockData)).thenReturn(Completable.complete())
 
         // when + then
-        repository.insertNoticeAsOld(mockData.articleId, mockData.category)
+        repository.insertNoticeAsOld(mockData.toNotice())
             .test()
             .assertComplete()
     }
