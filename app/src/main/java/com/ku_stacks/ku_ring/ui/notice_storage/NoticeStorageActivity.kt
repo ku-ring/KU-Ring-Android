@@ -52,6 +52,7 @@ class NoticeStorageActivity : AppCompatActivity() {
     private fun setListAdapter() {
         storageAdapter = NoticeStorageAdapter {
             startNoticeActivity(it)
+            viewModel.updateNoticeAsReadOnStorage(it.articleId)
         }
         binding.notificationStorageRecyclerview.apply {
             layoutManager = LinearLayoutManager(this@NoticeStorageActivity)
