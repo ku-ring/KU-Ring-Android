@@ -27,6 +27,8 @@ fun NoticeListResponse.toNoticeList(type: String): List<Notice> {
                 isNew = false,
                 isRead = false,
                 isSubscribing = false,
+                isSaved = false,
+                isReadOnStorage = false,
                 tag = subjectAndTag.second
             )
         }
@@ -43,6 +45,8 @@ fun NoticeListResponse.toNoticeList(type: String): List<Notice> {
                 isNew = false,
                 isRead = false,
                 isSubscribing = false,
+                isSaved = false,
+                isReadOnStorage = false,
                 tag = subjectAndTag.second
             )
         }
@@ -80,6 +84,8 @@ fun SearchNoticeListResponse.toNoticeList(): List<Notice> {
             isNew = false,
             isRead = false,
             isSubscribing = false,
+            isSaved = false,
+            isReadOnStorage = false,
             tag = emptyList()
         )
     }
