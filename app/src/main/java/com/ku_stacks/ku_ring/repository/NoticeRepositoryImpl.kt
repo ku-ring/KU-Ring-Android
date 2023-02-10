@@ -20,7 +20,8 @@ import javax.inject.Inject
 class NoticeRepositoryImpl @Inject constructor(
     private val noticeClient: NoticeClient,
     private val noticeDao: NoticeDao,
-    private val pref: PreferenceUtil
+    private val pref: PreferenceUtil,
+    @IODispatcher private val ioDispatcher: CoroutineDispatcher,
 ) : NoticeRepository {
     private val isNewRecordHashMap = HashMap<String, NoticeEntity>()
 
