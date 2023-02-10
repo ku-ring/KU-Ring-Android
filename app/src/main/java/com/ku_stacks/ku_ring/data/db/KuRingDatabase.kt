@@ -8,14 +8,12 @@ import androidx.room.RoomDatabase
         NoticeEntity::class,
         PushEntity::class,
         BlackUserEntity::class,
-        SavedNoticeEntity::class,
     ],
-    version = 3,
+    version = 5,
     exportSchema = false
 )
 abstract class KuRingDatabase : RoomDatabase() {
     abstract fun noticeDao(): NoticeDao
     abstract fun pushDao(): PushDao
     abstract fun blackUserDao(): BlackUserDao
-    abstract fun savedNoticeDao(): SavedNoticeDao
 }
