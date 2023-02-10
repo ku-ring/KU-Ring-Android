@@ -1,19 +1,30 @@
 package com.ku_stacks.ku_ring.repository
 
-import androidx.paging.*
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.map
 import androidx.paging.rxjava3.cachedIn
 import androidx.paging.rxjava3.flowable
 import com.ku_stacks.ku_ring.data.api.NoticeClient
 import com.ku_stacks.ku_ring.data.db.NoticeDao
 import com.ku_stacks.ku_ring.data.db.NoticeEntity
+import com.ku_stacks.ku_ring.data.mapper.toEntity
+import com.ku_stacks.ku_ring.data.mapper.toNoticeList
 import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.data.source.NoticePagingSource
+import com.ku_stacks.ku_ring.di.IODispatcher
 import com.ku_stacks.ku_ring.util.DateUtil
 import com.ku_stacks.ku_ring.util.PreferenceUtil
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.reactive.asPublisher
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -44,14 +55,22 @@ class NoticeRepositoryImpl @Inject constructor(
                 old.size == new.size
             }
 
+        val savedPublisherLocal = noticeDao.getNoticesBySaved(true)
+            .map { notices -> notices.map { it.articleId } }
+            .asPublisher(scope.coroutineContext)
+
         return Flowable.combineLatest(
             flowableRemote,
             flowableLocal,
-            { remotePagingData, localNoticeData -> //isRead 의 변동이 있을때 알맞게 변형시켜야함
-                remotePagingData.map { notice ->
-                    notice.copy(isRead = localNoticeData.contains(notice.articleId))
-                }
-            })
+            savedPublisherLocal,
+        ) { remotePagingData, localNoticeData, savedArticleIds -> //isRead 의 변동이 있을때 알맞게 변형시켜야함
+            remotePagingData.map { notice ->
+                notice.copy(
+                    isRead = localNoticeData.contains(notice.articleId),
+                    isSaved = savedArticleIds.contains(notice.articleId),
+                )
+            }
+        }
     }
 
     private fun transformRemoteData(
@@ -113,8 +132,35 @@ class NoticeRepositoryImpl @Inject constructor(
         return noticeDao.insertNoticeAsOld(notice.copy(isNew = false, isRead = false).toEntity())
     }
 
+    override fun getSavedNotices(): Flow<List<Notice>> {
+        return noticeDao.getNoticesBySaved(true).map {
+            it.toNoticeList().sortedByDescending { notice -> notice.postedDate }
+        }
+    }
+
     override fun updateNoticeToBeRead(articleId: String): Completable {
         return noticeDao.updateNoticeAsRead(articleId)
+    }
+
+    override suspend fun updateSavedStatus(articleId: String, isSaved: Boolean) {
+        withContext(ioDispatcher) {
+            noticeDao.updateNoticeSaveState(articleId, isSaved)
+            if (!isSaved) {
+                noticeDao.updateNoticeAsReadOnStorage(articleId, false)
+            }
+        }
+    }
+
+    override suspend fun updateNoticeToBeReadOnStorage(articleId: String) {
+        withContext(ioDispatcher) {
+            noticeDao.updateNoticeAsReadOnStorage(articleId, true)
+        }
+    }
+
+    override suspend fun clearSavedNotices() {
+        withContext(ioDispatcher) {
+            noticeDao.clearSavedNotices()
+        }
     }
 
     override fun deleteAllNoticeRecord() { // for testing
