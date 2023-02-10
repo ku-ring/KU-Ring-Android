@@ -3,23 +3,27 @@ package com.ku_stacks.ku_ring.ui.main.search
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.ku_stacks.ku_ring.data.mapper.toNoticeList
+import com.ku_stacks.ku_ring.data.mapper.toStaffList
 import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.data.model.Staff
-import com.ku_stacks.ku_ring.data.mapper.toStaffList
 import com.ku_stacks.ku_ring.data.websocket.SearchClient
 import com.ku_stacks.ku_ring.repository.NoticeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val noticeRepository: NoticeRepository
+    private val noticeRepository: NoticeRepository,
 ) : ViewModel() {
 
     private val disposable = CompositeDisposable()
@@ -34,11 +38,14 @@ class SearchViewModel @Inject constructor(
     val noticeList: LiveData<List<Notice>>
         get() = _noticeList
 
+    private val savedNotices = Collections.synchronizedSet(mutableSetOf<String>())
+
     init {
         Timber.e("SearchViewModel init")
         subscribeStaff()
         subscribeNotice()
         makeHeartBeat()
+        collectSavedNotices()
     }
 
     private fun connectWebSocket() {
@@ -96,12 +103,17 @@ class SearchViewModel @Inject constructor(
             searchClient.publishNotice.subscribeOn(Schedulers.io())
                 .filter { it.isSuccess }
                 .map { noticeListResponse -> noticeListResponse.toNoticeList() }
+                .map { notices -> markSavedNotices(notices) }
                 .subscribe({
                     _noticeList.postValue(it)
                 }, {
                     Timber.e("subscribe notice error : $it")
                 })
         )
+    }
+
+    private fun markSavedNotices(notices: List<Notice>) = notices.map {
+        it.copy(isSaved = savedNotices.contains(it.articleId))
     }
 
     fun disconnectWebSocket() {
@@ -131,6 +143,15 @@ class SearchViewModel @Inject constructor(
                     Timber.e("make heartbeat failed : $it")
                 })
         )
+    }
+
+    private fun collectSavedNotices() {
+        viewModelScope.launch {
+            noticeRepository.getSavedNotices().collectLatest {
+                savedNotices.clear()
+                savedNotices.addAll(it.map { notice -> notice.articleId })
+            }
+        }
     }
 
     override fun onCleared() {
