@@ -2,6 +2,9 @@ package com.ku_stacks.ku_ring.persistence
 
 import com.ku_stacks.ku_ring.data.db.NoticeDao
 import com.ku_stacks.ku_ring.data.db.NoticeEntity
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.runTest
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
@@ -10,6 +13,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
+@ExperimentalCoroutinesApi
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [23])
 class NoticeDaoTest : LocalDbAbstract() {
@@ -115,5 +119,36 @@ class NoticeDaoTest : LocalDbAbstract() {
         val sizeOfReadNotice = noticeDao.getReadNoticeList(true).blockingFirst().size
         // then : 공지를 읽은 후엔 isRead 가 true 인 데이터 1개
         assertThat(sizeOfReadNotice, `is`(1))
+    }
+
+    @Test
+    fun `updateNoticeSaveState and getSavedNotices Test`() = runTest {
+        // given
+        val notice = noticeMock()
+        noticeDao.insertNoticeAsOld(notice).blockingSubscribe()
+
+        // when
+        noticeDao.updateNoticeSaveState(notice.articleId, true)
+
+        // then
+        val savedNotice = notice.copy(isSaved = true)
+        val noticeFromDB = noticeDao.getNoticesBySaved(true).first()[0]
+        assertThat(noticeFromDB, `is`(savedNotice))
+    }
+
+    @Test
+    fun `updateNoticeAsReadOnStorage and getSavedNotices Test`() = runTest {
+        // given
+        val notice = noticeMock()
+        noticeDao.insertNoticeAsOld(notice).blockingSubscribe()
+
+        // when
+        noticeDao.updateNoticeSaveState(notice.articleId, true)
+        noticeDao.updateNoticeAsReadOnStorage(notice.articleId, true)
+
+        // then
+        val savedAndReadNotice = notice.copy(isSaved = true, isReadOnStorage = true)
+        val noticeFromDB = noticeDao.getNoticesBySaved(true).first()[0]
+        assertThat(noticeFromDB, `is`(savedAndReadNotice))
     }
 }
