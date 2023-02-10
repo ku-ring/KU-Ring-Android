@@ -22,20 +22,19 @@ class NoticeDaoTest : LocalDbAbstract() {
     }
 
     private fun noticeMock() = NoticeEntity(
-        articleId = "ababab",
+        articleId = "5b4a11b",
         category = "bachelor",
+        subject = "2023학년도 전과 선발자 안내",
+        postedDate = "20230208",
+        url = "http://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do?forum=notice&sort=6&id=5b4f972&cat=0000300001",
         isNew = false,
-        isRead = false
+        isRead = false,
+        isSaved = false,
+        isReadOnStorage = false,
     )
 
     private fun readNoticeMock(): NoticeEntity {
-        val noticeMock = noticeMock()
-        return NoticeEntity(
-            articleId = noticeMock.articleId,
-            category = noticeMock.category,
-            isNew = true,
-            isRead = true
-        )
+        return noticeMock().copy(isNew = true, isRead = true)
     }
 
     @Test
