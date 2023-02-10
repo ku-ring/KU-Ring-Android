@@ -44,7 +44,9 @@ class NoticeWebActivity : AppCompatActivity() {
             shareLinkExternally(url)
         }
 
-        initSaveButton()
+        binding.noticeSaveButton.setOnClickListener { viewModel.onSaveButtonClick() }
+
+        collectSavedStatus()
 
         binding.noticeWebView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(
@@ -86,18 +88,10 @@ class NoticeWebActivity : AppCompatActivity() {
         binding.noticeWebView.loadUrl(url)
     }
 
-    private fun initSaveButton() {
-        binding.noticeSaveButton.apply {
-            setOnClickListener { viewModel.onSaveButtonClick() }
-            lifecycleScope.launchWhenResumed {
-                viewModel.isSaved.collectLatest { isSaved ->
-                    val sourceId = if (isSaved) {
-                        R.drawable.ic_bookmark_filled
-                    } else {
-                        R.drawable.ic_bookmark_border
-                    }
-                    setImageResource(sourceId)
-                }
+    private fun collectSavedStatus() {
+        lifecycleScope.launchWhenResumed {
+            viewModel.isSaved.collectLatest { isSaved ->
+                binding.isNoticeSaved = isSaved
             }
         }
     }
