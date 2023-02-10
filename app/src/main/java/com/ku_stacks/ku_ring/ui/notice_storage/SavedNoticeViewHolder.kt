@@ -2,19 +2,20 @@ package com.ku_stacks.ku_ring.ui.notice_storage
 
 import android.graphics.Color
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import com.ku_stacks.ku_ring.R
+import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.databinding.ItemSavedNoticeBinding
-import com.ku_stacks.ku_ring.ui.notice_storage.ui_model.SavedNoticeUiModel
 
 class SavedNoticeViewHolder(
     private val binding: ItemSavedNoticeBinding,
-    private val onClick: (SavedNoticeUiModel) -> Unit
-) : NoticeStorageAdapter.ViewHolder(binding.root) {
-    fun bind(savedNoticeUiModel: SavedNoticeUiModel) {
-        setupTag(savedNoticeUiModel.tag)
+    private val onClick: (Notice) -> Unit
+) : RecyclerView.ViewHolder(binding.root) {
+    fun bind(notice: Notice) {
+        setupTag(notice.tag)
         binding.apply {
-            mainLayout.setOnClickListener { onClick(savedNoticeUiModel) }
-            savedNotificationUiModel = savedNoticeUiModel
+            mainLayout.setOnClickListener { onClick(notice) }
+            noticeItem = notice
             executePendingBindings()
         }
     }

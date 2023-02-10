@@ -2,48 +2,48 @@ package com.ku_stacks.ku_ring.ui.notice_storage
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ku_stacks.ku_ring.data.mapper.toUiModel
-import com.ku_stacks.ku_ring.di.IODispatcher
-import com.ku_stacks.ku_ring.repository.SavedNoticeRepository
-import com.ku_stacks.ku_ring.ui.notice_storage.ui_model.SavedNoticeUiModel
+import com.ku_stacks.ku_ring.data.model.Notice
+import com.ku_stacks.ku_ring.repository.NoticeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class NoticeStorageViewModel @Inject constructor(
-    private val savedNoticeRepository: SavedNoticeRepository,
+    private val noticeRepository: NoticeRepository,
 ) : ViewModel() {
 
-    private val _savedNotices = MutableStateFlow(emptyList<SavedNoticeUiModel>())
-    val savedNotices: StateFlow<List<SavedNoticeUiModel>>
+    private val _savedNotices = MutableStateFlow<List<Notice>>(emptyList())
+    val savedNotices: StateFlow<List<Notice>>
         get() = _savedNotices
 
     init {
         viewModelScope.launch {
-            savedNoticeRepository.getSavedNotices().collect { savedNotices ->
+            noticeRepository.getSavedNotices().collect { savedNotices ->
                 _savedNotices.value = savedNotices
-                    .map { it.toUiModel() }
-                    .sortedByDescending { it.postedDate }
-                Timber.d("Saved Notice Update: $savedNotices")
             }
+        }
+    }
+
+    fun updateNoticeAsReadOnStorage(articleId: String) {
+        viewModelScope.launch {
+            noticeRepository.updateNoticeToBeReadOnStorage(articleId)
         }
     }
 
     fun deleteNotice(articleId: String) {
         viewModelScope.launch {
-            savedNoticeRepository.deleteNotice(articleId)
+            noticeRepository.updateSavedStatus(articleId, false)
             Timber.d("Notice $articleId deleted.")
         }
     }
 
     fun clearNotices() {
         viewModelScope.launch {
-            savedNoticeRepository.clearNotices()
+            noticeRepository.clearSavedNotices()
         }
     }
 }
