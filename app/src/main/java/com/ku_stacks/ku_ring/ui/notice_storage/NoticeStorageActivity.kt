@@ -10,17 +10,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.data.mapper.concatSubjectAndTag
+import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.databinding.ActivityNoticeStorageBinding
-import com.ku_stacks.ku_ring.ui.notice_storage.ui_model.SavedNoticeUiModel
 import com.ku_stacks.ku_ring.ui.notice_webview.NoticeWebActivity
-import com.ku_stacks.ku_ring.util.UrlGenerator
 import com.ku_stacks.ku_ring.util.makeDialog
 import com.yeonkyu.HoldableSwipeHelper.HoldableSwipeHandler
 import com.yeonkyu.HoldableSwipeHelper.SwipeButtonAction
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import timber.log.Timber
 
 @AndroidEntryPoint
 class NoticeStorageActivity : AppCompatActivity() {
@@ -88,18 +85,8 @@ class NoticeStorageActivity : AppCompatActivity() {
         }
     }
 
-    private fun startNoticeActivity(model: SavedNoticeUiModel) {
-        val (articleId, category, baseUrl, postedDate, subject, tag) = model
-        val url = UrlGenerator.generateNoticeUrl(articleId, category, baseUrl)
-        Timber.e("URL: $url, category: $category")
-
-        val intent = Intent(this, NoticeWebActivity::class.java).apply {
-            putExtra(NoticeWebActivity.NOTICE_URL, url)
-            putExtra(NoticeWebActivity.NOTICE_ARTICLE_ID, articleId)
-            putExtra(NoticeWebActivity.NOTICE_CATEGORY, category)
-            putExtra(NoticeWebActivity.NOTICE_POSTED_DATE, postedDate)
-            putExtra(NoticeWebActivity.NOTICE_SUBJECT, concatSubjectAndTag(subject, tag))
-        }
+    private fun startNoticeActivity(notice: Notice) {
+        val intent = NoticeWebActivity.createIntent(this, notice)
         startActivity(intent)
         overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
     }

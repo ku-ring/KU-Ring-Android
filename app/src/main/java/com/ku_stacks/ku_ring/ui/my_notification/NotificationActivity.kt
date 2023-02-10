@@ -15,7 +15,6 @@ import com.ku_stacks.ku_ring.ui.main.MainActivity
 import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushContentUiModel
 import com.ku_stacks.ku_ring.ui.notice_webview.NoticeWebActivity
 import com.ku_stacks.ku_ring.util.makeDialog
-import com.ku_stacks.ku_ring.util.putNoticeWebActivityExtras
 import com.yeonkyu.HoldableSwipeHelper.HoldableSwipeHandler
 import com.yeonkyu.HoldableSwipeHelper.SwipeButtonAction
 import dagger.hilt.android.AndroidEntryPoint
@@ -120,8 +119,7 @@ class NotificationActivity : AppCompatActivity() {
     }
 
     private fun startNoticeActivity(pushContent: PushContentUiModel) {
-        val intent = Intent(this, NoticeWebActivity::class.java)
-            .putNoticeWebActivityExtras(pushContent)
+        val intent = NoticeWebActivity.createIntent(this, pushContent)
         startActivity(intent)
         overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
     }
