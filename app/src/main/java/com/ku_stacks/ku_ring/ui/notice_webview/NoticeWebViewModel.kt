@@ -4,13 +4,11 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ku_stacks.ku_ring.data.model.SavedNotice
-import com.ku_stacks.ku_ring.di.IODispatcher
 import com.ku_stacks.ku_ring.repository.NoticeRepository
 import com.ku_stacks.ku_ring.repository.SavedNoticeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -22,7 +20,6 @@ import javax.inject.Inject
 class NoticeWebViewModel @Inject constructor(
     private val noticeRepository: NoticeRepository,
     private val savedNoticeRepository: SavedNoticeRepository,
-    @IODispatcher private val ioDispatcher: CoroutineDispatcher,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -39,7 +36,7 @@ class NoticeWebViewModel @Inject constructor(
         get() = _isSaved
 
     init {
-        viewModelScope.launch(ioDispatcher) {
+        viewModelScope.launch {
             savedNoticeRepository.getSavedNotices().collectLatest { savedNotices ->
                 _isSaved.value = savedNotices.any { it.articleId == articleId }
             }
@@ -60,7 +57,7 @@ class NoticeWebViewModel @Inject constructor(
 
     fun onSaveButtonClick() {
         if (articleId == null || category == null || url == null || postedDate == null || subject == null) return
-        viewModelScope.launch(ioDispatcher) {
+        viewModelScope.launch {
             if (isSaved.value) {
                 savedNoticeRepository.deleteNotice(articleId)
             } else {
