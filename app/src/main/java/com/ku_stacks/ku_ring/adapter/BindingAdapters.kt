@@ -34,9 +34,10 @@ fun View.visibleIf(value: Boolean) {
     }
 }
 
-@BindingAdapter(value = ["isNew", "isRead", "isSubscribing"])
-fun View.pointColor(isNew: Boolean, isRead: Boolean, isSubscribing: Boolean) {
+@BindingAdapter(value = ["isNew", "isRead", "isSubscribing", "isSaved"])
+fun View.pointColor(isNew: Boolean, isRead: Boolean, isSubscribing: Boolean, isSaved: Boolean) {
     visibility = when {
+        isSaved -> View.VISIBLE
         isRead -> {
             View.GONE
         }
@@ -47,8 +48,9 @@ fun View.pointColor(isNew: Boolean, isRead: Boolean, isSubscribing: Boolean) {
             View.GONE
         }
     }
-    background = when (isSubscribing) {
-        true -> ContextCompat.getDrawable(this.context, R.drawable.point_primary_pink)
+    background = when {
+        isSaved -> ContextCompat.getDrawable(this.context, R.drawable.point_primary_green)
+        isSubscribing -> ContextCompat.getDrawable(this.context, R.drawable.point_primary_pink)
         else -> ContextCompat.getDrawable(this.context, R.drawable.point_primary_gray)
     }
 }
