@@ -2,6 +2,14 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.ku_stacks.ku_ring.ui.notice_storage.NoticeStorageViewModel" />
+
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -55,6 +63,7 @@
             android:layout_marginTop="100dp"
             android:fontFamily="@font/sfpro_display_medium"
             android:text="@string/notice_storage_alert"
+            visibleIf="@{ viewModel.savedNotices.isEmpty() }"
             android:textColor="@color/kus_gray"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"

@@ -1,8 +1,6 @@
 package com.ku_stacks.ku_ring.ui.notice_storage
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
@@ -38,6 +36,7 @@ class NoticeStorageActivity : AppCompatActivity() {
     private fun setBinding() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_notice_storage)
         binding.lifecycleOwner = this
+        binding.viewModel = viewModel
     }
 
     private fun setView() {
@@ -79,8 +78,6 @@ class NoticeStorageActivity : AppCompatActivity() {
     private fun collectData() {
         lifecycleScope.launchWhenResumed {
             viewModel.savedNotices.collectLatest {
-                binding.notificationStorageAlert.visibility =
-                    if (it.isEmpty()) View.VISIBLE else View.GONE
                 storageAdapter.submitList(it)
             }
         }
