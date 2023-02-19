@@ -21,6 +21,9 @@ interface NoticeDao {
     @Query("SELECT * FROM NoticeEntity WHERE isSaved = :isSaved")
     fun getNoticesBySaved(isSaved: Boolean): Flow<List<NoticeEntity>>
 
+    @Query("SELECT * FROM NoticeEntity WHERE isSaved = :isSaved")
+    fun getSavedNoticeList(isSaved: Boolean): List<NoticeEntity>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun updateNotice(notice: NoticeEntity): Completable
 

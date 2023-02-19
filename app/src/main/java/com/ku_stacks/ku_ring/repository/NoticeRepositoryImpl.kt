@@ -18,6 +18,7 @@ import com.ku_stacks.ku_ring.util.DateUtil
 import com.ku_stacks.ku_ring.util.PreferenceUtil
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -136,6 +137,10 @@ class NoticeRepositoryImpl @Inject constructor(
         return noticeDao.getNoticesBySaved(true).map {
             it.toNoticeList().sortedByDescending { notice -> notice.postedDate }
         }
+    }
+
+    override fun getSavedNoticeList(): List<Notice> {
+        return noticeDao.getSavedNoticeList(true).toNoticeList()
     }
 
     override fun updateNoticeToBeRead(articleId: String): Completable {
