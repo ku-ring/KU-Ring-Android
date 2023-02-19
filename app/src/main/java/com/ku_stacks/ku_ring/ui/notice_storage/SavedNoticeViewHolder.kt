@@ -11,10 +11,16 @@ class SavedNoticeViewHolder(
     private val binding: ItemSavedNoticeBinding,
     private val onClick: (Notice) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
+
+    init {
+        binding.mainLayout.setOnClickListener {
+            binding.noticeItem?.let(onClick)
+        }
+    }
+
     fun bind(notice: Notice) {
         setupTag(notice.tag)
         binding.apply {
-            mainLayout.setOnClickListener { onClick(notice) }
             noticeItem = notice
             executePendingBindings()
         }
