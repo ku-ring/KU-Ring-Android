@@ -27,14 +27,14 @@ interface NoticeDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun updateNotice(notice: NoticeEntity): Completable
 
-    @Query("UPDATE NoticeEntity SET isRead = 1 WHERE articleId = :articleId")
-    fun updateNoticeAsRead(articleId: String): Completable
+    @Query("UPDATE NoticeEntity SET isRead = 1 WHERE articleId = :articleId AND category = :category")
+    fun updateNoticeAsRead(articleId: String, category: String): Completable
 
-    @Query("UPDATE NoticeEntity SET isSaved = :isSaved WHERE articleId = :articleId")
-    suspend fun updateNoticeSaveState(articleId: String, isSaved: Boolean)
+    @Query("UPDATE NoticeEntity SET isSaved = :isSaved WHERE articleId = :articleId AND category = :category")
+    suspend fun updateNoticeSaveState(articleId: String, category: String, isSaved: Boolean)
 
-    @Query("UPDATE NoticeEntity SET isReadOnStorage = :isSaved WHERE articleId = :articleId")
-    suspend fun updateNoticeAsReadOnStorage(articleId: String, isSaved: Boolean)
+    @Query("UPDATE NoticeEntity SET isReadOnStorage = :isSaved WHERE articleId = :articleId AND category = :category")
+    suspend fun updateNoticeAsReadOnStorage(articleId: String, category: String, isSaved: Boolean)
 
     @Query("UPDATE NoticeEntity SET isSaved = 0")
     suspend fun clearSavedNotices()
