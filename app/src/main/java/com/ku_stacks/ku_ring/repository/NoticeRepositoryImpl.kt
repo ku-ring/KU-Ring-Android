@@ -129,7 +129,7 @@ class NoticeRepositoryImpl @Inject constructor(
     }
 
     override fun insertNoticeAsOld(notice: Notice): Completable {
-        return noticeDao.insertNoticeAsOld(notice.copy(isNew = false, isRead = false).toEntity())
+        return noticeDao.insertNoticeAsOld(notice.copy(isNew = false).toEntity())
     }
 
     override fun getSavedNotices(): Flow<List<Notice>> {
