@@ -134,17 +134,17 @@ class NoticeWebActivity : AppCompatActivity() {
         )
 
         fun createIntent(context: Context, pushContent: PushContentUiModel): Intent {
-            val (articleId, category, postedDate, subject, baseUrl, _, _, tag) = pushContent
-            val url = UrlGenerator.generateNoticeUrl(articleId, category, baseUrl)
-
-            return createIntent(
-                context,
-                url,
-                articleId,
-                category,
-                postedDate,
-                concatSubjectAndTag(subject, tag)
-            )
+            with(pushContent) {
+                val url = UrlGenerator.generateNoticeUrl(articleId, category, baseUrl)
+                return createIntent(
+                    context,
+                    url,
+                    articleId,
+                    category,
+                    postedDate,
+                    concatSubjectAndTag(subject, tag)
+                )
+            }
         }
 
         fun createIntent(
