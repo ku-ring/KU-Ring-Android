@@ -4,6 +4,7 @@ import com.ku_stacks.ku_ring.data.db.NoticeEntity
 import com.ku_stacks.ku_ring.data.db.PushEntity
 import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.data.model.Push
+import com.ku_stacks.ku_ring.data.model.SavedNotice
 
 fun List<PushEntity>.toPushList(): List<Push> {
     return map {
