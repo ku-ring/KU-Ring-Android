@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="savedNotificationUiModel"
-            type="com.ku_stacks.ku_ring.ui.notice_storage.ui_model.SavedNoticeUiModel" />
+            name="noticeItem"
+            type="com.ku_stacks.ku_ring.data.model.Notice" />
 
     </data>
 
@@ -40,9 +40,10 @@
                 android:layout_marginStart="40dp"
                 android:layout_marginEnd="20dp"
                 android:ellipsize="end"
+                app:textColorGrayIf="@{noticeItem.isReadOnStorage}"
                 android:fontFamily="@font/sfpro_display_regular"
                 android:maxLines="2"
-                android:text="@{savedNotificationUiModel.subject}"
+                android:text="@{noticeItem.subject}"
                 android:textColor="@color/kus_primary"
                 android:textSize="15sp"
                 app:layout_constraintTop_toTopOf="parent"
@@ -50,7 +51,7 @@
 
             <TextView
                 android:id="@+id/notice_date_text"
-                timeMillis="@{savedNotificationUiModel.postedDate}"
+                timeMillis="@{noticeItem.postedDate}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"

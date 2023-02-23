@@ -1,20 +1,17 @@
 package com.ku_stacks.ku_ring.ui.notice_storage
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.ku_stacks.ku_ring.R
+import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.databinding.ItemSavedNoticeBinding
-import com.ku_stacks.ku_ring.ui.notice_storage.ui_model.SavedNoticeUiModel
+import com.ku_stacks.ku_ring.ui.main.notice.category.NoticePagingAdapter
 
 class NoticeStorageAdapter(
-    private val onItemClick: (SavedNoticeUiModel) -> Unit
-) : ListAdapter<SavedNoticeUiModel, NoticeStorageAdapter.ViewHolder>(
-    SavedNoticeDiffCallback()
-) {
-    abstract class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    private val onItemClick: (Notice) -> Unit
+) : ListAdapter<Notice, ViewHolder>(NoticePagingAdapter.NoticeDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)

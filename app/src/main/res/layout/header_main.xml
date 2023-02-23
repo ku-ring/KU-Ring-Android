@@ -31,6 +31,19 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
+                android:id="@+id/inventory_img"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="10dp"
+                android:background="@null"
+                android:contentDescription="@string/home_inventory_icn"
+                android:src="@drawable/ic_notice_storage"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/bell_img"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/kus_primary" />
+
+            <ImageButton
                 android:id="@+id/bell_img"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
