@@ -32,15 +32,25 @@ object MockUtil {
     fun mockNoticeEntity() = NoticeEntity(
         articleId = "5b4a11b",
         category = "bachelor",
+        subject = "2023학년도 전과 선발자 안내",
+        postedDate = "20230208",
+        url = "http://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do?forum=notice&sort=6&id=5b4f972&cat=0000300001",
         isNew = false,
-        isRead = false
+        isRead = false,
+        isSaved = false,
+        isReadOnStorage = false,
     )
 
     fun mockReadNoticeEntity() = NoticeEntity(
         articleId = "5b4a11b",
         category = "bachelor",
+        subject = "2023학년도 전과 선발자 안내",
+        postedDate = "20230208",
+        url = "http://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do?forum=notice&sort=6&id=5b4f972&cat=0000300001",
         isNew = false,
-        isRead = true
+        isRead = true,
+        isSaved = false,
+        isReadOnStorage = false,
     )
 
     fun mockNotice() = Notice(
@@ -52,6 +62,8 @@ object MockUtil {
         isNew = true,
         isRead = false,
         isSubscribing = false,
+        isSaved = false,
+        isReadOnStorage = false,
         tag = emptyList()
     )
 
@@ -70,7 +82,7 @@ object MockUtil {
         resultMsg = "성공",
         resultCode = 200,
         categoryList = listOf("bachelor", "employment")
-   )
+    )
 
     fun mockSubscribeRequest() = SubscribeRequest(
         token = "AAAAn6eQM_Y:APA91bES4rjrFwPY5i_Hz-kT0u32SzIUxreYm9qaQHZeYKGGV_BmHZNJhHvlDjyQA6LveNdxCVrwzsq78jgsnCw8OumbtM5L3cc17XgdqZ_dlpsPzR7TlJwBFTXRFLPst663IeX27sb0",

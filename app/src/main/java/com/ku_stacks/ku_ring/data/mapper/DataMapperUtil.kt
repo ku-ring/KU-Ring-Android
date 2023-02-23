@@ -21,3 +21,8 @@ fun splitSubjectAndTag(subject: String): Pair<String, List<String>> {
         Pair(subject.substring(startIdx).trim(), tagList)
     }
 }
+
+fun concatSubjectAndTag(subject: String, tags: List<String>): String {
+    val tagStrings = tags.map { "[$it]" }
+    return tagStrings.joinToString() + subject
+}

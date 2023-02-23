@@ -129,11 +129,14 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
     }
 
     private fun showNotificationWithUrl(title: String?, body: String?, url: String?, articleId: String?, category: String?){
-        val intent = Intent(this, MainActivity::class.java).apply {
-            putExtra(NoticeWebActivity.NOTICE_URL, url)
-            putExtra(NoticeWebActivity.NOTICE_ARTICLE_ID, articleId)
-            putExtra(NoticeWebActivity.NOTICE_CATEGORY, category)
-        }
+        val intent = NoticeWebActivity.createIntent(
+            this,
+            url,
+            articleId,
+            category,
+            DateUtil.getToday(),
+            title
+        )
         val pendingIntent = PendingIntent.getActivity(
             this,
             0,
