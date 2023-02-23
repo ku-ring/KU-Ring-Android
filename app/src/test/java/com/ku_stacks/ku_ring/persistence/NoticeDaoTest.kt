@@ -128,7 +128,7 @@ class NoticeDaoTest : LocalDbAbstract() {
         noticeDao.insertNoticeAsOld(notice).blockingSubscribe()
 
         // when
-        noticeDao.updateNoticeSaveState(notice.articleId, true)
+        noticeDao.updateNoticeSaveState(notice.articleId, notice.category, true)
 
         // then
         val savedNotice = notice.copy(isSaved = true)
@@ -143,8 +143,8 @@ class NoticeDaoTest : LocalDbAbstract() {
         noticeDao.insertNoticeAsOld(notice).blockingSubscribe()
 
         // when
-        noticeDao.updateNoticeSaveState(notice.articleId, true)
-        noticeDao.updateNoticeAsReadOnStorage(notice.articleId, true)
+        noticeDao.updateNoticeSaveState(notice.articleId, notice.category, true)
+        noticeDao.updateNoticeAsReadOnStorage(notice.articleId, notice.category, true)
 
         // then
         val savedAndReadNotice = notice.copy(isSaved = true, isReadOnStorage = true)

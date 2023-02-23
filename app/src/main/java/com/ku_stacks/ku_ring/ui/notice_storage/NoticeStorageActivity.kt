@@ -51,7 +51,7 @@ class NoticeStorageActivity : AppCompatActivity() {
     private fun setListAdapter() {
         storageAdapter = NoticeStorageAdapter {
             startNoticeActivity(it)
-            viewModel.updateNoticeAsReadOnStorage(it.articleId)
+            viewModel.updateNoticeAsReadOnStorage(it.articleId, it.category)
         }
         binding.notificationStorageRecyclerview.apply {
             layoutManager = LinearLayoutManager(this@NoticeStorageActivity)
@@ -64,7 +64,7 @@ class NoticeStorageActivity : AppCompatActivity() {
             .setSwipeButtonAction(object : SwipeButtonAction {
                 override fun onClickFirstButton(absoluteAdapterPosition: Int) {
                     val notice = storageAdapter.currentList[absoluteAdapterPosition]
-                    viewModel.deleteNotice(notice.articleId)
+                    viewModel.deleteNotice(notice.articleId, notice.category)
                 }
             })
             .setDirectionAsRightToLeft(false)

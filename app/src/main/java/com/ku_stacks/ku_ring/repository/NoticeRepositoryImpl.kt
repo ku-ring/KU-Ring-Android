@@ -18,7 +18,6 @@ import com.ku_stacks.ku_ring.util.DateUtil
 import com.ku_stacks.ku_ring.util.PreferenceUtil
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
-import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -130,7 +129,7 @@ class NoticeRepositoryImpl @Inject constructor(
     }
 
     override fun insertNoticeAsOld(notice: Notice): Completable {
-        return noticeDao.insertNoticeAsOld(notice.copy(isNew = false, isRead = false).toEntity())
+        return noticeDao.insertNoticeAsOld(notice.copy(isNew = false).toEntity())
     }
 
     override fun getSavedNotices(): Flow<List<Notice>> {
@@ -143,22 +142,22 @@ class NoticeRepositoryImpl @Inject constructor(
         return noticeDao.getSavedNoticeList(true).toNoticeList()
     }
 
-    override fun updateNoticeToBeRead(articleId: String): Completable {
-        return noticeDao.updateNoticeAsRead(articleId)
+    override fun updateNoticeToBeRead(articleId: String, category: String): Completable {
+        return noticeDao.updateNoticeAsRead(articleId, category)
     }
 
-    override suspend fun updateSavedStatus(articleId: String, isSaved: Boolean) {
+    override suspend fun updateSavedStatus(articleId: String, category: String, isSaved: Boolean) {
         withContext(ioDispatcher) {
-            noticeDao.updateNoticeSaveState(articleId, isSaved)
+            noticeDao.updateNoticeSaveState(articleId, category, isSaved)
             if (!isSaved) {
-                noticeDao.updateNoticeAsReadOnStorage(articleId, false)
+                noticeDao.updateNoticeAsReadOnStorage(articleId, category, false)
             }
         }
     }
 
-    override suspend fun updateNoticeToBeReadOnStorage(articleId: String) {
+    override suspend fun updateNoticeToBeReadOnStorage(articleId: String, category: String) {
         withContext(ioDispatcher) {
-            noticeDao.updateNoticeAsReadOnStorage(articleId, true)
+            noticeDao.updateNoticeAsReadOnStorage(articleId, category, true)
         }
     }
 
