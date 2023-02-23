@@ -8,7 +8,6 @@ import androidx.viewpager2.widget.ViewPager2
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.databinding.ActivityMainBinding
 import com.ku_stacks.ku_ring.ui.notice_webview.NoticeWebActivity
-import com.ku_stacks.ku_ring.util.putNoticeWebActivityExtras
 import com.ku_stacks.ku_ring.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -97,7 +96,8 @@ class MainActivity : AppCompatActivity() {
         postedDate: String?,
         subject: String?,
     ) {
-        val newIntent = Intent(this, NoticeWebActivity::class.java).putNoticeWebActivityExtras(
+        val newIntent = NoticeWebActivity.createIntent(
+            this,
             noticeUrl,
             articleId,
             category,

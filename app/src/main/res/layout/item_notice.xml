@@ -22,6 +22,7 @@
             app:isNew="@{noticeItem.isNew}"
             app:isRead="@{noticeItem.isRead}"
             app:isSubscribing="@{noticeItem.isSubscribing}"
+            app:isSaved="@{noticeItem.isSaved}"
             android:layout_width="8dp"
             android:layout_height="8dp"
             android:layout_marginStart="20dp"

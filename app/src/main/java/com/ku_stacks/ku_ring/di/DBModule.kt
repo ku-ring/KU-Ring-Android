@@ -24,17 +24,11 @@ object DBModule {
 
     private val MIGRATION_2_3 = object : Migration(2, 3) {
         override fun migrate(database: SupportSQLiteDatabase) {
-            database.execSQL(
-                """
-                CREATE TABLE IF NOT EXISTS SavedNoticeEntity(
-                    `articleId` TEXT NOT NULL, 
-                    `category` TEXT NOT NULL,
-                    `baseUrl` TEXT NOT NULL,
-                    `postedDate` TEXT NOT NULL,
-                    `subject` TEXT NOT NULL,
-                    PRIMARY KEY(`articleId`)
-                )""".trimIndent()
-            )
+            database.execSQL("ALTER TABLE NoticeEntity ADD COLUMN subject TEXT NOT NULL DEFAULT ''")
+            database.execSQL("ALTER TABLE NoticeEntity ADD COLUMN postedDate TEXT NOT NULL DEFAULT ''")
+            database.execSQL("ALTER TABLE NoticeEntity ADD COLUMN url TEXT NOT NULL DEFAULT ''")
+            database.execSQL("ALTER TABLE NoticeEntity ADD COLUMN isSaved INT NOT NULL DEFAULT 0")
+            database.execSQL("ALTER TABLE NoticeEntity ADD COLUMN isReadOnStorage INT NOT NULL DEFAULT 0")
         }
     }
 
@@ -65,7 +59,4 @@ object DBModule {
     fun provideBlackUserDao(database: KuRingDatabase): BlackUserDao
         = database.blackUserDao()
 
-    @Singleton
-    @Provides
-    fun provideSavedNoticeDao(database: KuRingDatabase): SavedNoticeDao = database.savedNoticeDao()
 }

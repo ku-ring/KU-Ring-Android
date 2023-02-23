@@ -1,6 +1,7 @@
 package com.ku_stacks.ku_ring.ui.notice_webview
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -10,7 +11,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ShareCompat
 import androidx.lifecycle.lifecycleScope
 import com.ku_stacks.ku_ring.R
+import com.ku_stacks.ku_ring.data.mapper.concatSubjectAndTag
+import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.databinding.ActivityNoticeWebBinding
+import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushContentUiModel
+import com.ku_stacks.ku_ring.util.UrlGenerator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
@@ -39,7 +44,9 @@ class NoticeWebActivity : AppCompatActivity() {
             shareLinkExternally(url)
         }
 
-        initSaveButton()
+        binding.noticeSaveButton.setOnClickListener { viewModel.onSaveButtonClick() }
+
+        collectSavedStatus()
 
         binding.noticeWebView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(
@@ -81,18 +88,10 @@ class NoticeWebActivity : AppCompatActivity() {
         binding.noticeWebView.loadUrl(url)
     }
 
-    private fun initSaveButton() {
-        binding.noticeSaveButton.apply {
-            setOnClickListener { viewModel.onSaveButtonClick() }
-            lifecycleScope.launchWhenResumed {
-                viewModel.isSaved.collectLatest { isSaved ->
-                    val sourceId = if (isSaved) {
-                        R.drawable.baseline_bookmark_24
-                    } else {
-                        R.drawable.baseline_bookmark_border_24
-                    }
-                    setImageResource(sourceId)
-                }
+    private fun collectSavedStatus() {
+        lifecycleScope.launchWhenResumed {
+            viewModel.isSaved.collectLatest { isSaved ->
+                binding.isNoticeSaved = isSaved
             }
         }
     }
@@ -124,5 +123,45 @@ class NoticeWebActivity : AppCompatActivity() {
         const val NOTICE_CATEGORY = "category"
         const val NOTICE_POSTED_DATE = "postedDate"
         const val NOTICE_SUBJECT = "subject"
+
+        fun createIntent(context: Context, notice: Notice) = createIntent(
+            context,
+            notice.url,
+            notice.articleId,
+            notice.category,
+            notice.postedDate,
+            concatSubjectAndTag(notice.subject, notice.tag)
+        )
+
+        fun createIntent(context: Context, pushContent: PushContentUiModel): Intent {
+            with(pushContent) {
+                val url = UrlGenerator.generateNoticeUrl(articleId, category, baseUrl)
+                return createIntent(
+                    context,
+                    url,
+                    articleId,
+                    category,
+                    postedDate,
+                    concatSubjectAndTag(subject, tag)
+                )
+            }
+        }
+
+        fun createIntent(
+            context: Context,
+            url: String?,
+            articleId: String?,
+            category: String?,
+            postedDate: String?,
+            subject: String?
+        ) = Intent(context, NoticeWebActivity::class.java).apply {
+            Timber.e("url: $url, category: $category")
+
+            putExtra(NOTICE_URL, url)
+            putExtra(NOTICE_ARTICLE_ID, articleId)
+            putExtra(NOTICE_CATEGORY, category)
+            putExtra(NOTICE_POSTED_DATE, postedDate)
+            putExtra(NOTICE_SUBJECT, subject)
+        }
     }
 }

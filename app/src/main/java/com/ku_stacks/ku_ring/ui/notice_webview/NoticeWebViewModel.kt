@@ -3,16 +3,12 @@ package com.ku_stacks.ku_ring.ui.notice_webview
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ku_stacks.ku_ring.data.model.SavedNotice
 import com.ku_stacks.ku_ring.repository.NoticeRepository
-import com.ku_stacks.ku_ring.repository.SavedNoticeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -20,7 +16,6 @@ import javax.inject.Inject
 @HiltViewModel
 class NoticeWebViewModel @Inject constructor(
     private val noticeRepository: NoticeRepository,
-    private val savedNoticeRepository: SavedNoticeRepository,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -38,7 +33,7 @@ class NoticeWebViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            savedNoticeRepository.getSavedNotices().collectLatest { savedNotices ->
+            noticeRepository.getSavedNotices().collect { savedNotices ->
                 _isSaved.value = savedNotices.any { it.articleId == articleId }
             }
         }
@@ -58,15 +53,8 @@ class NoticeWebViewModel @Inject constructor(
 
     fun onSaveButtonClick() {
         if (articleId == null || category == null || url == null || postedDate == null || subject == null) return
-        viewModelScope.launch(Dispatchers.IO) {
-            if (isSaved.value) {
-                savedNoticeRepository.deleteNotice(articleId)
-            } else {
-                val baseUrl = url.substringBefore('?')
-                savedNoticeRepository.saveNotice(
-                    SavedNotice(articleId, category, baseUrl, postedDate, subject)
-                )
-            }
+        viewModelScope.launch {
+            noticeRepository.updateSavedStatus(articleId, category, !isSaved.value)
         }
     }
 
