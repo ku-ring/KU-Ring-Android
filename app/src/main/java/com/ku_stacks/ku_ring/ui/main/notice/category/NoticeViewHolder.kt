@@ -19,7 +19,7 @@ class NoticeViewHolder(
         binding.root.setOnClickListener {
             binding.noticeTitleTxt.textColorGrayIf(true)
             binding.noticeDateTxt.textColorGrayIf(true)
-            binding.noticeIsNewPoint.visibleIf(false)
+            binding.noticeIsNewPoint.visibleIf(notice.isSaved)
             binding.executePendingBindings()
             itemClick(notice)
         }

@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ku_stacks.ku_ring.data.mapper.toNoticeList
+import com.ku_stacks.ku_ring.data.mapper.toStaffList
 import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.data.model.Staff
-import com.ku_stacks.ku_ring.data.mapper.toStaffList
 import com.ku_stacks.ku_ring.data.websocket.SearchClient
 import com.ku_stacks.ku_ring.repository.NoticeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val noticeRepository: NoticeRepository
+    private val noticeRepository: NoticeRepository,
 ) : ViewModel() {
 
     private val disposable = CompositeDisposable()
@@ -96,12 +96,22 @@ class SearchViewModel @Inject constructor(
             searchClient.publishNotice.subscribeOn(Schedulers.io())
                 .filter { it.isSuccess }
                 .map { noticeListResponse -> noticeListResponse.toNoticeList() }
+                .map { notices -> markSavedNotices(notices) }
                 .subscribe({
                     _noticeList.postValue(it)
                 }, {
                     Timber.e("subscribe notice error : $it")
                 })
         )
+    }
+
+    private fun markSavedNotices(notices: List<Notice>): List<Notice> {
+        val savedNotice2 = noticeRepository.getSavedNoticeList()
+            .map { it.articleId }
+
+        return notices.map {
+            it.copy(isSaved = savedNotice2.contains(it.articleId))
+        }
     }
 
     fun disconnectWebSocket() {

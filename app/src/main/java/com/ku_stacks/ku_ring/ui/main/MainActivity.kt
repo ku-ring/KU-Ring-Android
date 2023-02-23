@@ -36,7 +36,9 @@ class MainActivity : AppCompatActivity() {
         intent?.getStringExtra(NoticeWebActivity.NOTICE_URL)?.let {
             val articleId = intent.getStringExtra(NoticeWebActivity.NOTICE_ARTICLE_ID)
             val category = intent.getStringExtra(NoticeWebActivity.NOTICE_CATEGORY)
-            navToNoticeActivity(it, articleId, category)
+            val postedDate = intent.getStringExtra(NoticeWebActivity.NOTICE_POSTED_DATE)
+            val subject = intent.getStringExtra(NoticeWebActivity.NOTICE_SUBJECT)
+            navToNoticeActivity(it, articleId, category, postedDate, subject)
         }
     }
 
@@ -46,7 +48,9 @@ class MainActivity : AppCompatActivity() {
         intent?.getStringExtra(NoticeWebActivity.NOTICE_URL)?.let {
             val articleId = intent.getStringExtra(NoticeWebActivity.NOTICE_ARTICLE_ID)
             val category = intent.getStringExtra(NoticeWebActivity.NOTICE_CATEGORY)
-            navToNoticeActivity(it, articleId, category)
+            val postedDate = intent.getStringExtra(NoticeWebActivity.NOTICE_POSTED_DATE)
+            val subject = intent.getStringExtra(NoticeWebActivity.NOTICE_SUBJECT)
+            navToNoticeActivity(it, articleId, category, postedDate, subject)
         }
 
         setupBinding()
@@ -85,12 +89,21 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    private fun navToNoticeActivity(noticeUrl: String?, articleId: String?, category: String?) {
-        val newIntent = Intent(this, NoticeWebActivity::class.java).apply {
-            putExtra(NoticeWebActivity.NOTICE_URL, noticeUrl)
-            putExtra(NoticeWebActivity.NOTICE_ARTICLE_ID, articleId)
-            putExtra(NoticeWebActivity.NOTICE_CATEGORY, category)
-        }
+    private fun navToNoticeActivity(
+        noticeUrl: String?,
+        articleId: String?,
+        category: String?,
+        postedDate: String?,
+        subject: String?,
+    ) {
+        val newIntent = NoticeWebActivity.createIntent(
+            this,
+            noticeUrl,
+            articleId,
+            category,
+            postedDate,
+            subject
+        )
         startActivity(newIntent)
         overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
     }
