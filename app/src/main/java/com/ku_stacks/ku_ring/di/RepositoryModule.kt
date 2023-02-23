@@ -11,6 +11,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Singleton
 
 @Module
@@ -22,9 +23,10 @@ object RepositoryModule {
     fun provideNoticeRepository(
         noticeClient: NoticeClient,
         noticeDao: NoticeDao,
-        pref: PreferenceUtil
+        pref: PreferenceUtil,
+        @IODispatcher ioDispatcher: CoroutineDispatcher,
     ): NoticeRepository {
-        return NoticeRepositoryImpl(noticeClient, noticeDao, pref)
+        return NoticeRepositoryImpl(noticeClient, noticeDao, pref, ioDispatcher)
     }
 
     @Provides
@@ -59,4 +61,5 @@ object RepositoryModule {
     ): UserRepository {
         return UserRepositoryImpl(blackUserDao)
     }
+
 }
