@@ -5,13 +5,13 @@ import com.ku_stacks.ku_ring.data.api.SendbirdClient
 import com.ku_stacks.ku_ring.data.db.BlackUserDao
 import com.ku_stacks.ku_ring.data.db.NoticeDao
 import com.ku_stacks.ku_ring.data.db.PushDao
-import com.ku_stacks.ku_ring.data.db.SavedNoticeDao
 import com.ku_stacks.ku_ring.repository.*
 import com.ku_stacks.ku_ring.util.PreferenceUtil
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Singleton
 
 @Module
@@ -23,9 +23,10 @@ object RepositoryModule {
     fun provideNoticeRepository(
         noticeClient: NoticeClient,
         noticeDao: NoticeDao,
-        pref: PreferenceUtil
+        pref: PreferenceUtil,
+        @IODispatcher ioDispatcher: CoroutineDispatcher,
     ): NoticeRepository {
-        return NoticeRepositoryImpl(noticeClient, noticeDao, pref)
+        return NoticeRepositoryImpl(noticeClient, noticeDao, pref, ioDispatcher)
     }
 
     @Provides
@@ -61,9 +62,4 @@ object RepositoryModule {
         return UserRepositoryImpl(blackUserDao)
     }
 
-    @Provides
-    @Singleton
-    fun provideSavedNoticeRepository(
-        savedNoticeDao: SavedNoticeDao
-    ): SavedNoticeRepository = SavedNoticeRepositoryImpl(savedNoticeDao)
 }

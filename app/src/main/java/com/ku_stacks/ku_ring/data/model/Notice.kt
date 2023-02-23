@@ -9,5 +9,7 @@ data class Notice(
     var isNew: Boolean,
     var isRead: Boolean,
     var isSubscribing: Boolean,
+    val isSaved: Boolean,
+    val isReadOnStorage: Boolean,
     val tag: List<String>
 )

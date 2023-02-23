@@ -36,3 +36,4 @@ fun Push.toPushContentUiModel(): PushContentUiModel {
         tag = tag
     )
 }
+
