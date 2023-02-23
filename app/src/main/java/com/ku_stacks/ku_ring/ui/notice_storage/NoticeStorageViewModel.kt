@@ -28,15 +28,15 @@ class NoticeStorageViewModel @Inject constructor(
         }
     }
 
-    fun updateNoticeAsReadOnStorage(articleId: String) {
+    fun updateNoticeAsReadOnStorage(articleId: String, category: String) {
         viewModelScope.launch {
-            noticeRepository.updateNoticeToBeReadOnStorage(articleId)
+            noticeRepository.updateNoticeToBeReadOnStorage(articleId, category)
         }
     }
 
-    fun deleteNotice(articleId: String) {
+    fun deleteNotice(articleId: String, category: String) {
         viewModelScope.launch {
-            noticeRepository.updateSavedStatus(articleId, false)
+            noticeRepository.updateSavedStatus(articleId, category, false)
             Timber.d("Notice $articleId deleted.")
         }
     }

@@ -24,33 +24,11 @@ object DBModule {
 
     private val MIGRATION_2_3 = object : Migration(2, 3) {
         override fun migrate(database: SupportSQLiteDatabase) {
-            database.execSQL(
-                """
-                CREATE TABLE IF NOT EXISTS SavedNoticeEntity(
-                    `articleId` TEXT NOT NULL, 
-                    `category` TEXT NOT NULL,
-                    `baseUrl` TEXT NOT NULL,
-                    `postedDate` TEXT NOT NULL,
-                    `subject` TEXT NOT NULL,
-                    PRIMARY KEY(`articleId`)
-                )""".trimIndent()
-            )
-        }
-    }
-
-    private val MIGRATION_3_4 = object : Migration(3, 4) {
-        override fun migrate(database: SupportSQLiteDatabase) {
             database.execSQL("ALTER TABLE NoticeEntity ADD COLUMN subject TEXT NOT NULL DEFAULT ''")
             database.execSQL("ALTER TABLE NoticeEntity ADD COLUMN postedDate TEXT NOT NULL DEFAULT ''")
             database.execSQL("ALTER TABLE NoticeEntity ADD COLUMN url TEXT NOT NULL DEFAULT ''")
             database.execSQL("ALTER TABLE NoticeEntity ADD COLUMN isSaved INT NOT NULL DEFAULT 0")
             database.execSQL("ALTER TABLE NoticeEntity ADD COLUMN isReadOnStorage INT NOT NULL DEFAULT 0")
-        }
-    }
-
-    private val MIGRATION_4_5 = object: Migration(4, 5) {
-        override fun migrate(database: SupportSQLiteDatabase) {
-            database.execSQL("DROP TABLE SavedNoticeEntity")
         }
     }
 
@@ -62,7 +40,7 @@ object DBModule {
             KuRingDatabase::class.java,
             "ku-ring-db"
         )
-            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
+            .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
             .build()
     }
 

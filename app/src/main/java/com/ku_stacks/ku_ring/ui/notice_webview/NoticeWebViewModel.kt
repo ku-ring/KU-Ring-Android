@@ -39,9 +39,9 @@ class NoticeWebViewModel @Inject constructor(
         }
     }
 
-    fun updateNoticeTobeRead(articleId: String) {
+    fun updateNoticeTobeRead(articleId: String, category: String) {
         disposable.add(
-            noticeRepository.updateNoticeToBeRead(articleId)
+            noticeRepository.updateNoticeToBeRead(articleId, category)
                 .subscribeOn(Schedulers.io())
                 .subscribe({
                     Timber.e("noticeRecord update true : $articleId")
@@ -54,7 +54,7 @@ class NoticeWebViewModel @Inject constructor(
     fun onSaveButtonClick() {
         if (articleId == null || category == null || url == null || postedDate == null || subject == null) return
         viewModelScope.launch {
-            noticeRepository.updateSavedStatus(articleId, !isSaved.value)
+            noticeRepository.updateSavedStatus(articleId, category, !isSaved.value)
         }
     }
 
