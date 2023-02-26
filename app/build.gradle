@@ -31,8 +31,8 @@ android {
         applicationId "com.ku_stacks.ku_ring"
         minSdk 24
         targetSdk 31
-        versionCode 19
-        versionName "1.2.7"
+        versionCode 20
+        versionName "1.2.8"
 
         def localProperties = new Properties()
         localProperties.load(new FileInputStream(localPropertiesFile))
