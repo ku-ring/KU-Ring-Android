@@ -2,6 +2,7 @@ package com.ku_stacks.ku_ring.adapter
 
 import android.view.View
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -33,9 +34,10 @@ fun View.visibleIf(value: Boolean) {
     }
 }
 
-@BindingAdapter(value = ["isNew", "isRead", "isSubscribing"])
-fun View.pointColor(isNew: Boolean, isRead: Boolean, isSubscribing: Boolean) {
+@BindingAdapter(value = ["isNew", "isRead", "isSubscribing", "isSaved"])
+fun View.pointColor(isNew: Boolean, isRead: Boolean, isSubscribing: Boolean, isSaved: Boolean) {
     visibility = when {
+        isSaved -> View.VISIBLE
         isRead -> {
             View.GONE
         }
@@ -46,8 +48,9 @@ fun View.pointColor(isNew: Boolean, isRead: Boolean, isSubscribing: Boolean) {
             View.GONE
         }
     }
-    background = when (isSubscribing) {
-        true -> ContextCompat.getDrawable(this.context, R.drawable.point_primary_pink)
+    background = when {
+        isSaved -> ContextCompat.getDrawable(this.context, R.drawable.point_primary_green)
+        isSubscribing -> ContextCompat.getDrawable(this.context, R.drawable.point_primary_pink)
         else -> ContextCompat.getDrawable(this.context, R.drawable.point_primary_gray)
     }
 }
@@ -88,4 +91,14 @@ fun Button.disableStartButtonIf(value: Boolean) {
         background = ContextCompat.getDrawable(this.context, R.drawable.button_white)
         setTextColor(ContextCompat.getColor(this.context, R.color.kus_green))
     }
+}
+
+@BindingAdapter("isNoticeSaved")
+fun ImageButton.setBookmarkButtonResource(value: Boolean) {
+    val sourceId = if (value) {
+        R.drawable.ic_bookmark_filled
+    } else {
+        R.drawable.ic_bookmark_border
+    }
+    setImageResource(sourceId)
 }

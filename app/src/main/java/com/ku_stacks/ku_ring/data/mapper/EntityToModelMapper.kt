@@ -1,6 +1,8 @@
 package com.ku_stacks.ku_ring.data.mapper
 
+import com.ku_stacks.ku_ring.data.db.NoticeEntity
 import com.ku_stacks.ku_ring.data.db.PushEntity
+import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.data.model.Push
 
 fun List<PushEntity>.toPushList(): List<Push> {
@@ -17,4 +19,23 @@ fun List<PushEntity>.toPushList(): List<Push> {
             tag = subjectAndTag.second
         )
     }
+}
+
+fun List<NoticeEntity>.toNoticeList() = map { it.toNotice() }
+
+fun NoticeEntity.toNotice(): Notice {
+    val (subject, tag) = splitSubjectAndTag(subject)
+    return Notice(
+        postedDate = postedDate,
+        subject = subject,
+        category = category,
+        url = url,
+        articleId = articleId,
+        isNew = isNew,
+        isRead = isRead,
+        isSubscribing = false,
+        isSaved = isSaved,
+        isReadOnStorage = isReadOnStorage,
+        tag = tag
+    )
 }

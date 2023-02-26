@@ -33,14 +33,14 @@ class HomeViewModelTest {
     fun `insert Notice As Old Test`() {
         // given
         val mockData = mockNotice()
-        Mockito.`when`(noticeRepository.insertNoticeAsOld(mockData.articleId, mockData.category))
+        Mockito.`when`(noticeRepository.insertNoticeAsOld(mockData))
             .thenReturn(Completable.complete())
 
         // when
-        viewModel.insertNoticeAsOld(mockData.articleId, mockData.category)
+        viewModel.insertNoticeAsOld(mockData)
 
         // then
         Mockito.verify(noticeRepository, times(1))
-            .insertNoticeAsOld(mockData.articleId, mockData.category)
+            .insertNoticeAsOld(mockData)
     }
 }
