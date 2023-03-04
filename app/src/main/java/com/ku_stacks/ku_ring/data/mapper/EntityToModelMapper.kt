@@ -6,20 +6,20 @@ import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.data.model.Push
 import timber.log.Timber
 
-fun List<PushEntity>.toPushList(): List<Push> {
-    return map {
-        val subjectAndTag = splitSubjectAndTag(it.subject.trim())
-        Push(
-            articleId = it.articleId,
-            category = it.category,
-            postedDate = it.postedDate,
-            subject = subjectAndTag.first,
-            baseUrl = it.baseUrl,
-            isNew = it.isNew,
-            receivedDate = it.receivedDate,
-            tag = subjectAndTag.second
-        )
-    }
+fun List<PushEntity>.toPushList(): List<Push> = map { it.toPush() }
+
+fun PushEntity.toPush(): Push {
+    val subjectAndTag = splitSubjectAndTag(subject.trim())
+    return Push(
+        articleId = articleId,
+        category = category,
+        postedDate = postedDate,
+        subject = subjectAndTag.first,
+        baseUrl = baseUrl,
+        isNew = isNew,
+        receivedDate = receivedDate,
+        tag = subjectAndTag.second
+    )
 }
 
 fun List<NoticeEntity>.toNoticeList() = map { it.toNotice() }
