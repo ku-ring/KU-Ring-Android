@@ -4,15 +4,23 @@ import com.ku_stacks.ku_ring.data.db.NoticeEntity
 import com.ku_stacks.ku_ring.data.db.PushEntity
 import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.data.model.Push
+import com.ku_stacks.ku_ring.util.WordConverter
+import com.ku_stacks.ku_ring.util.isOnlyAlphabets
 import timber.log.Timber
 
 fun List<PushEntity>.toPushList(): List<Push> = map { it.toPush() }
 
 fun PushEntity.toPush(): Push {
     val subjectAndTag = splitSubjectAndTag(subject.trim())
+    // DO NOT ERASE: legacy version stores category to korean.
+    val categoryEng = if (category.isOnlyAlphabets()) {
+        category
+    } else {
+        WordConverter.convertKoreanToEnglish(category)
+    }
     return Push(
         articleId = articleId,
-        category = category,
+        category = categoryEng,
         postedDate = postedDate,
         subject = subjectAndTag.first,
         baseUrl = baseUrl,
