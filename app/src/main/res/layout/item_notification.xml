@@ -57,7 +57,7 @@
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="2dp"
                 android:fontFamily="@font/sfpro_display_regular"
-                android:text="@{pushContentUiModel.category}"
+                android:text="@{pushContentUiModel.categoryKor}"
                 android:textColor="@color/kus_gray"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"

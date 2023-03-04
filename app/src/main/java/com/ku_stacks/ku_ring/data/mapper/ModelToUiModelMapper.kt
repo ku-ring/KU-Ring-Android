@@ -4,6 +4,8 @@ import com.ku_stacks.ku_ring.data.model.Push
 import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushContentUiModel
 import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushDataUiModel
 import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushDateHeaderUiModel
+import com.ku_stacks.ku_ring.util.WordConverter
+import com.ku_stacks.ku_ring.util.isOnlyAlphabets
 
 fun List<Push>.toPushUiModelList(): List<PushDataUiModel> {
     val pushDataList = ArrayList<PushDataUiModel>()
@@ -25,9 +27,14 @@ fun List<Push>.toPushUiModelList(): List<PushDataUiModel> {
 }
 
 fun Push.toPushContentUiModel(): PushContentUiModel {
+    val categoryKor = if (category.isOnlyAlphabets()) {
+        WordConverter.convertEnglishToKorean(category)
+    } else {
+        category
+    }
     return PushContentUiModel(
         articleId = articleId,
-        category = category,
+        categoryKor = categoryKor,
         postedDate = postedDate,
         subject = subject,
         baseUrl = baseUrl,

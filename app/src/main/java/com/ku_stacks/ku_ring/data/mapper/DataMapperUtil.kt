@@ -1,6 +1,13 @@
 package com.ku_stacks.ku_ring.data.mapper
 
+import timber.log.Timber
+
 fun splitSubjectAndTag(subject: String): Pair<String, List<String>> {
+    if (subject.isEmpty()) {
+        Timber.e("subject split failed (empty), so empty contents are returned.")
+        return Pair("", emptyList())
+    }
+
     val tagList = mutableListOf<String>()
     var startIdx = 0
 
