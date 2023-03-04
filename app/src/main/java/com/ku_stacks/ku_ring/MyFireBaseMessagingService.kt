@@ -42,17 +42,16 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         if (isNoticeNotification(remoteMessage)) {
             val articleId = remoteMessage.data["articleId"]!!
-            val categoryEng = remoteMessage.data["category"]!!
+            val category = remoteMessage.data["category"]!!
             val postedDate = remoteMessage.data["postedDate"]!!
             val subject = remoteMessage.data["subject"]!!
             val baseUrl = remoteMessage.data["baseUrl"]!!
 
             // insert into db
-            val categoryKr = WordConverter.convertEnglishToKorean(categoryEng)
             val receivedDate = DateUtil.getCurrentTime()
             insertNotificationIntoDatabase(
                 articleId = articleId,
-                category = categoryKr,
+                category = category,
                 postedDate = postedDate,
                 subject = subject,
                 baseUrl = baseUrl,
@@ -60,13 +59,14 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
             )
 
             // show notification
-            val webUrl = UrlGenerator.generateNoticeUrl(articleId = articleId, category = categoryKr, baseUrl = baseUrl)
+            val webUrl = UrlGenerator.generateNoticeUrl(articleId = articleId, category = category, baseUrl = baseUrl)
+            val categoryKr = WordConverter.convertEnglishToKorean(category)
             showNotificationWithUrl(
                 title = subject,
                 body = categoryKr,
                 url = webUrl,
                 articleId = articleId,
-                category = categoryEng
+                category = category
             )
         } else if (isCustomNotification(remoteMessage)) {
             val type = remoteMessage.data["type"]!!
