@@ -4,6 +4,7 @@ import com.ku_stacks.ku_ring.data.db.NoticeEntity
 import com.ku_stacks.ku_ring.data.db.PushEntity
 import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.data.model.Push
+import timber.log.Timber
 
 fun List<PushEntity>.toPushList(): List<Push> {
     return map {
@@ -24,6 +25,10 @@ fun List<PushEntity>.toPushList(): List<Push> {
 fun List<NoticeEntity>.toNoticeList() = map { it.toNotice() }
 
 fun NoticeEntity.toNotice(): Notice {
+    if (this.subject.isEmpty()) {
+        Timber.e("Notice.subject is empty: $this")
+    }
+
     val (subject, tag) = splitSubjectAndTag(subject)
     return Notice(
         postedDate = postedDate,
