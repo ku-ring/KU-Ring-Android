@@ -52,6 +52,7 @@ class NoticeWebViewModel @Inject constructor(
     }
 
     fun onSaveButtonClick() {
+        Timber.e("Save button click: $articleId, $category, $url, $postedDate, $subject")
         if (articleId == null || category == null || url == null || postedDate == null || subject == null) return
         viewModelScope.launch {
             noticeRepository.updateSavedStatus(articleId, category, !isSaved.value)
