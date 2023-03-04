@@ -16,6 +16,7 @@ import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.databinding.ActivityNoticeWebBinding
 import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushContentUiModel
 import com.ku_stacks.ku_ring.util.UrlGenerator
+import com.ku_stacks.ku_ring.util.WordConverter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
@@ -135,12 +136,13 @@ class NoticeWebActivity : AppCompatActivity() {
 
         fun createIntent(context: Context, pushContent: PushContentUiModel): Intent {
             with(pushContent) {
-                val url = UrlGenerator.generateNoticeUrl(articleId, category, baseUrl)
+                val categoryEng = WordConverter.convertKoreanToEnglish(categoryKor)
+                val url = UrlGenerator.generateNoticeUrl(articleId, categoryEng, baseUrl)
                 return createIntent(
                     context,
                     url,
                     articleId,
-                    category,
+                    categoryEng,
                     postedDate,
                     concatSubjectAndTag(subject, tag)
                 )

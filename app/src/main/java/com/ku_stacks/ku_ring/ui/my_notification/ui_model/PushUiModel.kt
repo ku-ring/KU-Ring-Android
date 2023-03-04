@@ -8,7 +8,7 @@ data class PushDateHeaderUiModel (
 
 data class PushContentUiModel (
     val articleId: String,
-    val category: String,
+    val categoryKor: String,
     val postedDate: String,
     val subject: String,
     val baseUrl: String,
