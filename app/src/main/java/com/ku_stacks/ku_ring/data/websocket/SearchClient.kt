@@ -11,7 +11,6 @@ import io.reactivex.rxjava3.subjects.PublishSubject
 import org.java_websocket.client.WebSocketClient
 import org.java_websocket.handshake.ServerHandshake
 import timber.log.Timber
-import java.lang.Exception
 import java.net.URI
 import java.util.concurrent.atomic.AtomicBoolean
 import javax.net.ssl.SSLSocketFactory
@@ -62,7 +61,7 @@ class SearchClient {
             override fun onOpen(handshakedata: ServerHandshake?) {
                 Timber.e("WebSocket onOpen")
                 preparingFlag.set(false)
-                if(lastKeyword.isNotEmpty()) {
+                if (lastKeyword.isNotEmpty()) {
                     searchStaff(lastKeyword)
                     searchNotice(lastKeyword)
                 }
@@ -75,10 +74,20 @@ class SearchClient {
                 val response = gson.fromJson(message, DefaultSearchResponse::class.java)
                 when (response.type) {
                     noticeType -> {
-                        publishNotice.onNext(gson.fromJson(message, SearchNoticeListResponse::class.java))
+                        publishNotice.onNext(
+                            gson.fromJson(
+                                message,
+                                SearchNoticeListResponse::class.java
+                            )
+                        )
                     }
                     staffType -> {
-                        publishStaff.onNext(gson.fromJson(message, SearchStaffListResponse::class.java))
+                        publishStaff.onNext(
+                            gson.fromJson(
+                                message,
+                                SearchStaffListResponse::class.java
+                            )
+                        )
                     }
                     heartbeatType -> {
                         Timber.e("received PONG")

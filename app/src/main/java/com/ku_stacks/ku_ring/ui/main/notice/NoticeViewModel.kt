@@ -16,12 +16,12 @@ import javax.inject.Inject
 class NoticeViewModel @Inject constructor(
     private val noticeRepository: NoticeRepository,
     private val pushRepository: PushRepository
-): ViewModel() {
+) : ViewModel() {
 
     private val disposable = CompositeDisposable()
 
     private val _pushCount = MutableLiveData<Int>()
-    val pushCount : LiveData<Int>
+    val pushCount: LiveData<Int>
         get() = _pushCount
 
     init {

@@ -52,11 +52,15 @@ class NoticeFragment : Fragment() {
         getFcmToken()
     }
 
-    private fun setupHeader(){
+    private fun setupHeader() {
         val pagerAdapter = CategoryPagerAdapter(childFragmentManager, lifecycle)
         binding.homeViewpager.adapter = pagerAdapter
 
-        TabLayoutMediator(binding.mainHeader.tabLayout, binding.homeViewpager,true) { tab, position ->
+        TabLayoutMediator(
+            binding.mainHeader.tabLayout,
+            binding.homeViewpager,
+            true
+        ) { tab, position ->
             when (position) {
                 0 -> tab.text = getString(R.string.bachelor)
                 1 -> tab.text = getString(R.string.scholarship)
@@ -72,19 +76,25 @@ class NoticeFragment : Fragment() {
         binding.mainHeader.inventoryImg.setOnClickListener {
             val intent = Intent(requireActivity(), NoticeStorageActivity::class.java)
             startActivity(intent)
-            requireActivity().overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
+            requireActivity().overridePendingTransition(
+                R.anim.anim_slide_right_enter,
+                R.anim.anim_stay_exit
+            )
         }
 
         binding.mainHeader.bellImg.setOnClickListener {
             val intent = Intent(requireActivity(), NotificationActivity::class.java)
             startActivity(intent)
-            requireActivity().overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
+            requireActivity().overridePendingTransition(
+                R.anim.anim_slide_right_enter,
+                R.anim.anim_stay_exit
+            )
         }
     }
 
-    private fun observeData(){
+    private fun observeData() {
         viewModel.pushCount.observe(viewLifecycleOwner) {
-            when (it)  {
+            when (it) {
                 0 -> {
                     binding.mainHeader.notiCountBt.visibility = View.GONE
                 }
@@ -94,7 +104,8 @@ class NoticeFragment : Fragment() {
                 }
                 else -> {
                     binding.mainHeader.notiCountBt.visibility = View.VISIBLE
-                    binding.mainHeader.notiCountBt.text = getString(R.string.push_notification_max_count)
+                    binding.mainHeader.notiCountBt.text =
+                        getString(R.string.push_notification_max_count)
                 }
             }
         }
@@ -103,7 +114,7 @@ class NoticeFragment : Fragment() {
     private fun getFcmToken() {
         lifecycleScope.launch {
             firebaseMessaging.token.addOnCompleteListener { task ->
-                if(!task.isSuccessful){
+                if (!task.isSuccessful) {
                     Timber.e("Firebase instanceId fail : ${task.exception}")
                     return@addOnCompleteListener
                 }

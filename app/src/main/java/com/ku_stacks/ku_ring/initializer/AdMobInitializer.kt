@@ -5,7 +5,7 @@ import androidx.startup.Initializer
 import com.google.android.gms.ads.MobileAds
 import timber.log.Timber
 
-class AdMobInitializer: Initializer<Unit> {
+class AdMobInitializer : Initializer<Unit> {
 
     override fun create(context: Context) {
         MobileAds.initialize(context) { initializerStatus ->

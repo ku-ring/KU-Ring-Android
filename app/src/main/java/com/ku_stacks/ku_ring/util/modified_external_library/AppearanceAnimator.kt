@@ -9,8 +9,10 @@ object AppearanceAnimator {
 
     @Synchronized
     fun expand(v: View) {
-        val matchParentMeasureSpec = View.MeasureSpec.makeMeasureSpec((v.parent as View).width, View.MeasureSpec.EXACTLY)
-        val wrapContentMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+        val matchParentMeasureSpec =
+            View.MeasureSpec.makeMeasureSpec((v.parent as View).width, View.MeasureSpec.EXACTLY)
+        val wrapContentMeasureSpec =
+            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
         v.measure(matchParentMeasureSpec, wrapContentMeasureSpec)
         val targetHeight = v.measuredHeight
 
@@ -29,14 +31,17 @@ object AppearanceAnimator {
         }
 
         // Expansion speed of 1dp/ms
-        a.duration = (duration * (targetHeight / v.context.resources.displayMetrics.density).toInt()).toLong()
+        a.duration =
+            (duration * (targetHeight / v.context.resources.displayMetrics.density).toInt()).toLong()
         v.startAnimation(a)
     }
 
     @Synchronized
     fun expand(v: View, targetHeight: Int) {
-        val matchParentMeasureSpec = View.MeasureSpec.makeMeasureSpec((v.parent as View).width, View.MeasureSpec.EXACTLY)
-        val wrapContentMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+        val matchParentMeasureSpec =
+            View.MeasureSpec.makeMeasureSpec((v.parent as View).width, View.MeasureSpec.EXACTLY)
+        val wrapContentMeasureSpec =
+            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
         v.measure(matchParentMeasureSpec, wrapContentMeasureSpec)
 
         // Older versions of android (pre API 21) cancel animations for views with a height of 0.
@@ -54,7 +59,8 @@ object AppearanceAnimator {
         }
 
         // Expansion speed of 1dp/ms
-        a.duration = (duration * (targetHeight / v.context.resources.displayMetrics.density).toInt()).toLong()
+        a.duration =
+            (duration * (targetHeight / v.context.resources.displayMetrics.density).toInt()).toLong()
         v.startAnimation(a)
     }
 
@@ -66,7 +72,8 @@ object AppearanceAnimator {
                 if (interpolatedTime == 1f) {
                     v.visibility = View.GONE
                 } else {
-                    v.layoutParams.height = initialHeight - (initialHeight * interpolatedTime).toInt()
+                    v.layoutParams.height =
+                        initialHeight - (initialHeight * interpolatedTime).toInt()
                     v.requestLayout()
                 }
             }
@@ -77,7 +84,8 @@ object AppearanceAnimator {
         }
 
         // Collapse speed of 1dp/ms
-        a.duration = (duration * (initialHeight / v.context.resources.displayMetrics.density).toInt()).toLong()
+        a.duration =
+            (duration * (initialHeight / v.context.resources.displayMetrics.density).toInt()).toLong()
         v.startAnimation(a)
     }
 }

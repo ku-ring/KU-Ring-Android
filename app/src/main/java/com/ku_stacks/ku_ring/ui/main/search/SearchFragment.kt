@@ -68,7 +68,11 @@ class SearchFragment : Fragment() {
         val pagerAdapter = SearchPagerAdapter(childFragmentManager, lifecycle)
         binding.searchViewpager.adapter = pagerAdapter
         binding.searchViewpager.registerOnPageChangeCallback(pageChangeCallback)
-        TabLayoutMediator(binding.searchTabLayout, binding.searchViewpager, false) { tab, position ->
+        TabLayoutMediator(
+            binding.searchTabLayout,
+            binding.searchViewpager,
+            false
+        ) { tab, position ->
             when (position) {
                 0 -> tab.text = "공지"
                 1 -> tab.text = "교직원"
@@ -80,7 +84,9 @@ class SearchFragment : Fragment() {
         binding.searchKeywordEt.addTextChangedListener(object : TextWatcher {
             var lastEditTime = 0L
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) =
+                Unit
+
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
             override fun afterTextChanged(s: Editable?) {
                 synchronized(this) {

@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 object DateUtil {
-    
+
     @JvmStatic
     fun getToday(): String {
         val simpleDateFormat = SimpleDateFormat("yyyyMMdd", Locale.KOREA)

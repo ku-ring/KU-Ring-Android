@@ -116,13 +116,27 @@ class CampusFragment : Fragment() {
                 binding.campusSetNicknameLayout.root.visibility = View.VISIBLE
                 binding.campusAutoLoginLayout.root.visibility = View.GONE
 
-                binding.campusSetNicknameLayout.nicknameEt.addTextChangedListener(object : TextWatcher {
-                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
-                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
+                binding.campusSetNicknameLayout.nicknameEt.addTextChangedListener(object :
+                    TextWatcher {
+                    override fun beforeTextChanged(
+                        s: CharSequence?,
+                        start: Int,
+                        count: Int,
+                        after: Int
+                    ) = Unit
+
+                    override fun onTextChanged(
+                        s: CharSequence?,
+                        start: Int,
+                        before: Int,
+                        count: Int
+                    ) = Unit
+
                     override fun afterTextChanged(s: Editable?) {
                         val isValidFormat = viewModel.isValidNicknameFormat(s.toString())
                         if (isValidFormat) {
-                            binding.campusSetNicknameLayout.nicknameFormatDescTv.text = getString(R.string.nickname_valid_format)
+                            binding.campusSetNicknameLayout.nicknameFormatDescTv.text =
+                                getString(R.string.nickname_valid_format)
                             binding.campusSetNicknameLayout.nicknameFormatDescTv.setTextColor(
                                 ContextCompat.getColor(
                                     requireContext(),
@@ -130,7 +144,8 @@ class CampusFragment : Fragment() {
                                 )
                             )
                         } else {
-                            binding.campusSetNicknameLayout.nicknameFormatDescTv.text = getString(R.string.nickname_not_valid_format)
+                            binding.campusSetNicknameLayout.nicknameFormatDescTv.text =
+                                getString(R.string.nickname_not_valid_format)
                             binding.campusSetNicknameLayout.nicknameFormatDescTv.setTextColor(
                                 ContextCompat.getColor(
                                     requireContext(),
@@ -172,7 +187,10 @@ class CampusFragment : Fragment() {
 
         val intent = Intent(requireActivity(), ChatActivity::class.java)
         startActivity(intent)
-        requireActivity().overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
+        requireActivity().overridePendingTransition(
+            R.anim.anim_slide_right_enter,
+            R.anim.anim_stay_exit
+        )
     }
 
     override fun onDestroyView() {

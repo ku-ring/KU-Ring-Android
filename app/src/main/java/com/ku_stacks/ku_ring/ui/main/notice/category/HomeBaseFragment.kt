@@ -27,8 +27,13 @@ abstract class HomeBaseFragment : Fragment() {
 
     private val noticeViewModel by viewModels<NoticeViewModel>({ requireParentFragment() })
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home_category, container,false)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_home_category, container, false)
         binding.lifecycleOwner = this
         return binding.root
     }

@@ -43,15 +43,15 @@ class NoticeRepositoryImpl @Inject constructor(
             .cachedIn(scope)
 
         /**
-         하나의 insert에 대해서 2개 또는 3개의 변화 감지가 발생할 것임.
-         그 이유는 양옆 fragment 의 viewModel 에서 호출하기 때문
-        */
+        하나의 insert에 대해서 2개 또는 3개의 변화 감지가 발생할 것임.
+        그 이유는 양옆 fragment 의 viewModel 에서 호출하기 때문
+         */
         val flowableLocal = noticeDao.getReadNoticeList(true)
             .distinctUntilChanged { old, new ->
                 /**
-                 DB insert 되는 경우, 업데이트를 감지하기 위함이므로 성능을 위해
-                 모든 내용을 비교하기 보다는 size 만 비교하는 것으로 재정의함.
-                */
+                DB insert 되는 경우, 업데이트를 감지하기 위함이므로 성능을 위해
+                모든 내용을 비교하기 보다는 size 만 비교하는 것으로 재정의함.
+                 */
                 old.size == new.size
             }
 
@@ -110,18 +110,19 @@ class NoticeRepositoryImpl @Inject constructor(
             .subscribeOn(Schedulers.io())
             .toFlowable()
             .doOnNext { // local 데이터가 처음 발행될때 HashMap 에 저장 (단 한번만 실행)
-                if(isNewRecordHashMap.size == 0){
-                    for(localNotice in it){
+                if (isNewRecordHashMap.size == 0) {
+                    for (localNotice in it) {
                         isNewRecordHashMap[localNotice.articleId] = localNotice
                     }
                 }
             }
     }
 
-    private fun getFlowableRemoteNotice(type: String): Flowable<PagingData<Notice>>{
-         return Pager(
+    private fun getFlowableRemoteNotice(type: String): Flowable<PagingData<Notice>> {
+        return Pager(
             config = PagingConfig(
-                pageSize = 20,  /** 이것보다 PagingSource 에서 ItemCount 가 중요함 */
+                pageSize = 20,
+                /** 이것보다 PagingSource 에서 ItemCount 가 중요함 */
                 enablePlaceholders = true
             ),
             pagingSourceFactory = { NoticePagingSource(type, noticeClient) }
@@ -170,7 +171,7 @@ class NoticeRepositoryImpl @Inject constructor(
     override fun deleteAllNoticeRecord() { // for testing
         noticeDao.deleteAllNoticeRecord()
             .subscribeOn(Schedulers.io())
-            .subscribe ({
+            .subscribe({
                 Timber.e("delete Notice db success")
             }, {
                 Timber.e("delete Notice db fail")

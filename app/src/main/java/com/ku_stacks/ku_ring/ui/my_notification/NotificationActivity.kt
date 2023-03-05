@@ -25,7 +25,7 @@ import javax.inject.Inject
 class NotificationActivity : AppCompatActivity() {
 
     @Inject
-    lateinit var analytics : EventAnalytics
+    lateinit var analytics: EventAnalytics
 
     private lateinit var binding: ActivityNotificationBinding
     private val viewModel by viewModels<NotificationViewModel>()

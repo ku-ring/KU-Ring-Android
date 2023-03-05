@@ -1,7 +1,6 @@
 package com.ku_stacks.ku_ring.data.websocket.response
 
 import com.google.gson.annotations.SerializedName
-import java.io.Serializable
 
 data class SearchStaffResponse(
     @SerializedName(value = "name")

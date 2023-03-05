@@ -11,8 +11,8 @@ class EventAnalytics(@ApplicationContext context: Context) {
         FirebaseAnalytics.getInstance(context)
     }
 
-    private fun logEvent(name: String, params: Bundle.() -> Unit){
-        delegate.logEvent(name, Bundle().apply{ params() })
+    private fun logEvent(name: String, params: Bundle.() -> Unit) {
+        delegate.logEvent(name, Bundle().apply { params() })
     }
 
     fun click(screenName: String, screenClass: String) {

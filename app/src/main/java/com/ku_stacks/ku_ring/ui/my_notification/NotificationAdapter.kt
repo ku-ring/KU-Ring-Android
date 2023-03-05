@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.data.model.Push
 import com.ku_stacks.ku_ring.databinding.ItemDateBinding
 import com.ku_stacks.ku_ring.databinding.ItemNotificationBinding
 import com.ku_stacks.ku_ring.ui.my_notification.diff_callback.NotificationDiffCallback
@@ -15,12 +14,11 @@ import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushDataUiModel
 import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushDateHeaderUiModel
 import com.ku_stacks.ku_ring.ui.my_notification.viewholder.DateViewHolder
 import com.ku_stacks.ku_ring.ui.my_notification.viewholder.NotificationViewHolder
-import timber.log.Timber
 
 class NotificationAdapter(
     private val itemClick: (PushContentUiModel) -> Unit,
     private val onBindItem: (PushContentUiModel) -> Unit
-): ListAdapter<PushDataUiModel, NotificationAdapter.ViewHolder>(
+) : ListAdapter<PushDataUiModel, NotificationAdapter.ViewHolder>(
     NotificationDiffCallback()
 ) {
     abstract class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
@@ -28,12 +26,14 @@ class NotificationAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return when (viewType) {
             NOTIFICATION_CONTENT -> {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.item_notification, parent, false)
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_notification, parent, false)
                 val binding = ItemNotificationBinding.bind(view)
                 NotificationViewHolder(binding, itemClick)
             }
             NOTIFICATION_DATE -> {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.item_date, parent, false)
+                val view =
+                    LayoutInflater.from(parent.context).inflate(R.layout.item_date, parent, false)
                 val binding = ItemDateBinding.bind(view)
                 DateViewHolder(binding)
             }

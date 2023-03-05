@@ -7,7 +7,7 @@ import com.ku_stacks.ku_ring.ui.main.notice.category.HomeBaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class NationFragment : HomeBaseFragment(){
+class NationFragment : HomeBaseFragment() {
 
     private val viewModel by viewModels<NationViewModel>()
 

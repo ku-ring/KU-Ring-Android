@@ -36,7 +36,7 @@ class EditSubscriptionActivity : AppCompatActivity() {
         binding.viewModel = viewModel
 
         binding.dismissBt.setOnClickListener {
-            if(viewModel.hasUpdate.value == true) {
+            if (viewModel.hasUpdate.value == true) {
                 viewModel.saveSubscribe()
             }
             finish()
@@ -57,7 +57,7 @@ class EditSubscriptionActivity : AppCompatActivity() {
 
     private fun setupView() {
         viewModel.firstRunFlag = intent.getBooleanExtra(FIRST_RUN_FLAG, false)
-        if(viewModel.firstRunFlag) {
+        if (viewModel.firstRunFlag) {
             binding.dismissBt.visibility = View.GONE
             binding.rollbackBt.visibility = View.GONE
             binding.startBt.visibility = View.VISIBLE
@@ -80,18 +80,22 @@ class EditSubscriptionActivity : AppCompatActivity() {
         }
 
         binding.subscribeRecyclerview.apply {
-            layoutManager = GridLayoutManager(this@EditSubscriptionActivity,
+            layoutManager = GridLayoutManager(
+                this@EditSubscriptionActivity,
                 3,
                 GridLayoutManager.VERTICAL,
-                false)
+                false
+            )
             adapter = subscribeAdapter
         }
 
         binding.unsubscribeRecyclerview.apply {
-            layoutManager = GridLayoutManager(this@EditSubscriptionActivity,
+            layoutManager = GridLayoutManager(
+                this@EditSubscriptionActivity,
                 3,
                 GridLayoutManager.VERTICAL,
-                false)
+                false
+            )
             adapter = unSubscribeListAdapter
         }
     }

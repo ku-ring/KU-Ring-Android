@@ -6,7 +6,7 @@ import com.ku_stacks.ku_ring.databinding.ItemSubscriptionBinding
 class SubscribeViewHolder(
     private val binding: ItemSubscriptionBinding,
     private val itemClick: (String) -> Unit,
-    ) : RecyclerView.ViewHolder(binding.root) {
+) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(category: String) {
         binding.category = category

@@ -58,13 +58,21 @@ class ChatActivity : AppCompatActivity() {
             viewModel.sendMessage(message)
         }
         binding.chatMessageEt.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) =
+                Unit
+
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
             override fun afterTextChanged(s: Editable?) {
                 if (s.isNullOrEmpty()) { // modify tint color
-                    ImageViewCompat.setImageTintList(binding.chatSendBt, ColorStateList.valueOf(getColor(R.color.kus_green_50)))
+                    ImageViewCompat.setImageTintList(
+                        binding.chatSendBt,
+                        ColorStateList.valueOf(getColor(R.color.kus_green_50))
+                    )
                 } else {
-                    ImageViewCompat.setImageTintList(binding.chatSendBt, ColorStateList.valueOf(getColor(R.color.kus_green)))
+                    ImageViewCompat.setImageTintList(
+                        binding.chatSendBt,
+                        ColorStateList.valueOf(getColor(R.color.kus_green))
+                    )
                 }
 
                 s?.length?.let { len ->
@@ -81,8 +89,12 @@ class ChatActivity : AppCompatActivity() {
 
     private fun setupRecyclerView() {
         chatMessageAdapter = ChatMessageAdapter(
-            onErrorClick = { sentMessageUiModel ->  makeResendDialog(sentMessageUiModel) },
-            onMessageLongClick = { receivedMessageUiModel ->  makeChatActionDialog(receivedMessageUiModel) }
+            onErrorClick = { sentMessageUiModel -> makeResendDialog(sentMessageUiModel) },
+            onMessageLongClick = { receivedMessageUiModel ->
+                makeChatActionDialog(
+                    receivedMessageUiModel
+                )
+            }
         )
 
         binding.chatRecyclerview.apply {
@@ -125,7 +137,7 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
-    private fun makeResendDialog(sentMessageUiModel : SentMessageUiModel) {
+    private fun makeResendDialog(sentMessageUiModel: SentMessageUiModel) {
         makeDialog(
             description = getString(R.string.chat_resend_message),
             leftText = getString(R.string.chat_delete),

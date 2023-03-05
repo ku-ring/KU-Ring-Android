@@ -17,14 +17,19 @@ import com.ku_stacks.ku_ring.ui.main.search.fragment_staff.dialog.StaffBottomShe
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SearchStaffFragment: Fragment() {
+class SearchStaffFragment : Fragment() {
 
     private lateinit var binding: FragmentSearchStaffBinding
     private val searchViewModel by viewModels<SearchViewModel>({ requireParentFragment() })
     private lateinit var searchStaffAdapter: SearchStaffAdapter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_search_staff, container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_search_staff, container, false)
         binding.lifecycleOwner = this
         return binding.root
     }

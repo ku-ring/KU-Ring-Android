@@ -14,7 +14,7 @@ class BachelorFragment : HomeBaseFragment() {
     private val viewModel by viewModels<BachelorViewModel>()
 
     @Inject
-    lateinit var analytics : EventAnalytics
+    lateinit var analytics: EventAnalytics
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

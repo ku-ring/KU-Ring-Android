@@ -7,7 +7,7 @@ import com.appsflyer.attribution.AppsFlyerRequestListener
 import com.ku_stacks.ku_ring.BuildConfig
 import timber.log.Timber
 
-class AppsFlyerInitializer: Initializer<Unit> {
+class AppsFlyerInitializer : Initializer<Unit> {
 
     private val devKey = BuildConfig.APPS_FLYER_DEV_KEY
 

@@ -13,8 +13,6 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
-import java.util.*
-import kotlin.Comparator
 
 @HiltViewModel
 class EditSubscriptionViewModel @Inject constructor(
@@ -52,11 +50,10 @@ class EditSubscriptionViewModel @Inject constructor(
 
     init {
         firebaseMessaging.token.addOnCompleteListener { task ->
-            if(!task.isSuccessful) {
+            if (!task.isSuccessful) {
                 Timber.e("Firebase instanceId fail : ${task.exception}")
                 analytics.errorEvent("${task.exception}", className)
-            }
-            else if (task.result == null) {
+            } else if (task.result == null) {
                 Timber.e("Fcm Token is null")
                 analytics.errorEvent("Fcm Token is null!", className)
             } else {
@@ -70,9 +67,11 @@ class EditSubscriptionViewModel @Inject constructor(
         fcmToken?.let {
             _subscriptionList.clear()
             _unSubscriptionList.clear()
-            _unSubscriptionList.addAll(listOf(
-                "학사", "장학", "취창업", "국제", "학생", "산학", "일반", "도서관"
-            ))
+            _unSubscriptionList.addAll(
+                listOf(
+                    "학사", "장학", "취창업", "국제", "학생", "산학", "일반", "도서관"
+                )
+            )
 
             disposable.add(
                 repository.fetchSubscriptionFromRemote(fcmToken!!)
@@ -88,7 +87,7 @@ class EditSubscriptionViewModel @Inject constructor(
     }
 
     fun saveSubscribe() {
-        if(initFlag == false) {
+        if (initFlag == false) {
             return
         }
 
@@ -127,7 +126,7 @@ class EditSubscriptionViewModel @Inject constructor(
     }
 
     fun refreshAfterUpdate() {
-        if(firstRunFlag) {
+        if (firstRunFlag) {
             return
         }
         val localSubscription = repository.getSubscriptionFromLocal()
@@ -145,7 +144,7 @@ class EditSubscriptionViewModel @Inject constructor(
     }
 
     private fun initialSortSubscription(subscribingList: List<String>) {
-        for(str in subscribingList){
+        for (str in subscribingList) {
             _subscriptionList.add(str)
             _unSubscriptionList.remove(str)
         }

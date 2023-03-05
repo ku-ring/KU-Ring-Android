@@ -7,7 +7,7 @@ import com.ku_stacks.ku_ring.ui.main.notice.category.HomeBaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class LibraryFragment : HomeBaseFragment(){
+class LibraryFragment : HomeBaseFragment() {
 
     private val viewModel by viewModels<LibraryViewModel>()
 
