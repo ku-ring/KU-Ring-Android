@@ -91,7 +91,7 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
         val baseUrl = remoteMessage.data["baseUrl"]
 
         return articleId != null && categoryEng != null && postedDate != null
-                && subject != null && baseUrl != null
+            && subject != null && baseUrl != null
     }
 
     private fun isCustomNotification(remoteMessage: RemoteMessage): Boolean {

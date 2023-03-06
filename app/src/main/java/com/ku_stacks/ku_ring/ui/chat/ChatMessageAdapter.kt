@@ -117,14 +117,14 @@ class ChatMessageAdapter(
         override fun areContentsTheSame(oldItem: ChatUiModel, newItem: ChatUiModel): Boolean {
             return if (oldItem is ReceivedMessageUiModel && newItem is ReceivedMessageUiModel) {
                 oldItem.messageId == newItem.messageId
-                        && oldItem.message == newItem.message
+                    && oldItem.message == newItem.message
             } else if (oldItem is SentMessageUiModel && newItem is SentMessageUiModel) {
                 oldItem.messageId == newItem.messageId
-                        && oldItem.message == newItem.message
-                        && oldItem.isPending == newItem.isPending
+                    && oldItem.message == newItem.message
+                    && oldItem.isPending == newItem.isPending
             } else if (oldItem is AdminMessageUiModel && newItem is AdminMessageUiModel) {
                 oldItem.messageId == newItem.messageId
-                        && oldItem.message == newItem.message
+                    && oldItem.message == newItem.message
             } else {
                 false
             }
