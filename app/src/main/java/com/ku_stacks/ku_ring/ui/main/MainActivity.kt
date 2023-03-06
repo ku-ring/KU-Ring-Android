@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private val pageChangeCallback = object: ViewPager2.OnPageChangeCallback() {
+    private val pageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
             binding.mainBottomNavigation.selectedItemId = when (position) {
                 0 -> R.id.notice_screen

@@ -45,7 +45,10 @@ class SettingFragment : Fragment() {
         binding.subscribeLayout.subscribeNoticeLayout.setOnClickListener {
             val intent = Intent(requireContext(), EditSubscriptionActivity::class.java)
             startActivity(intent)
-            requireActivity().overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
+            requireActivity().overridePendingTransition(
+                R.anim.anim_slide_right_enter,
+                R.anim.anim_stay_exit
+            )
         }
         binding.subscribeLayout.subscribeExtSwitch.setOnCheckedChangeListener { _, isChecked ->
             viewModel.setExtNotificationAllowed(isChecked)
@@ -68,14 +71,20 @@ class SettingFragment : Fragment() {
             val intent = Intent(requireContext(), OssLicensesMenuActivity::class.java)
             startActivity(intent)
             OssLicensesMenuActivity.setActivityTitle(getString(R.string.open_source_license))
-            requireActivity().overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
+            requireActivity().overridePendingTransition(
+                R.anim.anim_slide_right_enter,
+                R.anim.anim_stay_exit
+            )
         }
 
         /** feedback layout */
         binding.feedbackLayout.feedbackSendLayout.setOnClickListener {
             val intent = Intent(requireContext(), FeedbackActivity::class.java)
             startActivity(intent)
-            requireActivity().overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
+            requireActivity().overridePendingTransition(
+                R.anim.anim_slide_right_enter,
+                R.anim.anim_stay_exit
+            )
         }
     }
 
@@ -83,7 +92,10 @@ class SettingFragment : Fragment() {
         val intent = Intent(requireContext(), NotionViewActivity::class.java)
         intent.putExtra(NotionViewActivity.NOTION_URL, url)
         startActivity(intent)
-        requireActivity().overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
+        requireActivity().overridePendingTransition(
+            R.anim.anim_slide_right_enter,
+            R.anim.anim_stay_exit
+        )
     }
 
     override fun onDestroyView() {

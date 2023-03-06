@@ -14,7 +14,8 @@ class UnSubscribeAdapter(
     UnSubscriptionDiffCallback
 ) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UnSubscribeViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_unsubscription, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_unsubscription, parent, false)
         val binding = ItemUnsubscriptionBinding.bind(view)
         return UnSubscribeViewHolder(binding, itemClick)
     }

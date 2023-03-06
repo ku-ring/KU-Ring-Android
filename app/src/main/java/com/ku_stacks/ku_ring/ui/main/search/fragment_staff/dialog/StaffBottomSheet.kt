@@ -13,9 +13,9 @@ import com.ku_stacks.ku_ring.data.model.Staff
 import com.ku_stacks.ku_ring.databinding.DialogStaffBottomSheetBinding
 import com.ku_stacks.ku_ring.util.showToast
 
-class StaffBottomSheet: BottomSheetDialogFragment() {
+class StaffBottomSheet : BottomSheetDialogFragment() {
 
-    private var _binding : DialogStaffBottomSheetBinding? = null
+    private var _binding: DialogStaffBottomSheetBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,14 +42,15 @@ class StaffBottomSheet: BottomSheetDialogFragment() {
     private fun setupView(staff: Staff?) {
         staff?.let {
             binding.staffBottomSheetNameTxt.text = staff.name
-            binding.staffBottomSheetDepartmentTxt.text = staff.department +" · "+staff.college
+            binding.staffBottomSheetDepartmentTxt.text = staff.department + " · " + staff.college
             binding.staffBottomSheetEmailTxt.text = "✉ ${staff.email}"
             binding.staffBottomSheetLabTxt.text = "📍 ${staff.lab}"
             binding.staffBottomSheetPhoneTxt.text = "📞 ${staff.phone}"
             binding.staffBottomSheetMajorTxt.text = "📖 ${staff.major}"
 
             binding.staffBottomSheetEmailTxt.setOnClickListener {
-                val clipboardManager = requireContext().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                val clipboardManager =
+                    requireContext().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
                 val clipData = ClipData.newPlainText("email", staff.email)
                 clipboardManager.setPrimaryClip(clipData)
 
@@ -57,7 +58,8 @@ class StaffBottomSheet: BottomSheetDialogFragment() {
             }
 
             binding.staffBottomSheetPhoneTxt.setOnClickListener {
-                val clipboardManager = requireContext().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                val clipboardManager =
+                    requireContext().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
                 val clipData = ClipData.newPlainText("phone number", staff.phone)
                 clipboardManager.setPrimaryClip(clipData)
 

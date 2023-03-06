@@ -13,7 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ScholarshipViewModel @Inject constructor(
     private val repository: NoticeRepository
-): ViewModel() {
+) : ViewModel() {
 
     private var currentNoticeResult: Flowable<PagingData<Notice>>? = null
 

@@ -14,11 +14,10 @@ fun List<BaseMessage>.toChatUiModelList(blackUserList: List<String>): List<ChatU
         Timber.e("currentUser is null!")
     }
 
-    for(message in this) {
+    for (message in this) {
         if (message is AdminMessage) {
             chatUiModelList.add(message.toAdminMessageUiModel())
-        }
-        else if (message is UserMessage) {
+        } else if (message is UserMessage) {
             if (message.sender?.userId == currentUser?.userId) {
                 chatUiModelList.add(message.toSentMessageUiModel(isPending = false))
             } else {
@@ -26,8 +25,7 @@ fun List<BaseMessage>.toChatUiModelList(blackUserList: List<String>): List<ChatU
                     chatUiModelList.add(message.toReceivedMessageUiModel())
                 }
             }
-        }
-        else {
+        } else {
             Timber.e("message type is strange! ${message.messageId}")
         }
     }

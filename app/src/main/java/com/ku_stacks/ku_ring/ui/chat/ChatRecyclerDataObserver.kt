@@ -2,7 +2,6 @@ package com.ku_stacks.ku_ring.ui.chat
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import java.lang.IllegalStateException
 
 // Reference : https://github.com/sendbird/sendbird-chat-sample-android/blob/main/commonmodule/src/main/java/com/sendbird/chat/module/utils/ChatRecyclerDataObserver.kt
 

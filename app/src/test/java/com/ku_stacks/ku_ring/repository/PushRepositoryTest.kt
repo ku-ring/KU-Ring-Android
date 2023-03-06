@@ -42,7 +42,8 @@ class PushRepositoryTest {
     fun `update Notification As Old Test`() {
         // given
         val mockData = mockPushEntity()
-        Mockito.`when`(dao.updateNotificationAsOld(mockData.articleId, false)).thenReturn(Completable.complete())
+        Mockito.`when`(dao.updateNotificationAsOld(mockData.articleId, false))
+            .thenReturn(Completable.complete())
 
         // when + then
         repository.updateNotificationAsOld(mockData.articleId)
@@ -68,7 +69,8 @@ class PushRepositoryTest {
     fun `delete notification Test`() {
         //given
         val mockData = mockPushEntity()
-        Mockito.`when`(dao.deleteNotification(mockData.articleId)).thenReturn(Completable.complete())
+        Mockito.`when`(dao.deleteNotification(mockData.articleId))
+            .thenReturn(Completable.complete())
 
         // when + then
         dao.deleteNotification(mockData.articleId)

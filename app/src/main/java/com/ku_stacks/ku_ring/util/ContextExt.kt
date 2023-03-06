@@ -19,7 +19,12 @@ fun Context.makeDialog(title: String? = null, description: String? = null): Kuri
     }
 }
 
-fun Context.makeDialog(title: String? = null, description: String? = null, leftText: String?, rightText: String): KuringDialog {
+fun Context.makeDialog(
+    title: String? = null,
+    description: String? = null,
+    leftText: String?,
+    rightText: String
+): KuringDialog {
     return KuringDialog(this).apply {
         setText(_title = title, _description = description)
         setButtonText(leftText = leftText, rightText = rightText)

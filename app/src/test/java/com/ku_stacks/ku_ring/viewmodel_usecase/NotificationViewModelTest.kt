@@ -7,18 +7,17 @@ import com.ku_stacks.ku_ring.MockUtil.mockPushEntity
 import com.ku_stacks.ku_ring.data.mapper.toPushList
 import com.ku_stacks.ku_ring.data.mapper.toPushUiModelList
 import com.ku_stacks.ku_ring.getOrAwaitValue
-import com.ku_stacks.ku_ring.repository.NoticeRepository
 import com.ku_stacks.ku_ring.repository.PushRepository
 import com.ku_stacks.ku_ring.ui.my_notification.NotificationViewModel
 import com.ku_stacks.ku_ring.util.PreferenceUtil
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mockito.*
-import org.junit.Assert.assertEquals
 import org.mockito.Mockito
+import org.mockito.Mockito.*
 
 class NotificationViewModelTest {
 
@@ -54,7 +53,8 @@ class NotificationViewModelTest {
     fun `updateNotification As Old Test`() {
         // given
         val mockData = mockPushEntity()
-        Mockito.`when`(pushRepository.updateNotificationAsOld(mockData.articleId)).thenReturn(Completable.complete())
+        Mockito.`when`(pushRepository.updateNotificationAsOld(mockData.articleId))
+            .thenReturn(Completable.complete())
 
         // when
         viewModel.updateNotificationToBeOld(mockData.articleId)

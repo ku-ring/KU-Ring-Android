@@ -24,10 +24,14 @@ class NotificationViewHolder(
     private fun setupTag(tagList: List<String>) {
         val colors: MutableList<IntArray> = arrayListOf()
         val color = intArrayOf(
-            ContextCompat.getColor(binding.root.context, R.color.kus_secondary_gray), //tag background color
+            ContextCompat.getColor(
+                binding.root.context,
+                R.color.kus_secondary_gray
+            ), //tag background color
             Color.TRANSPARENT, //tag border color
             Color.WHITE, //tag text color
-            Color.TRANSPARENT) //tag selected background color
+            Color.TRANSPARENT
+        ) //tag selected background color
 
         for (item in tagList) {
             colors.add(color)

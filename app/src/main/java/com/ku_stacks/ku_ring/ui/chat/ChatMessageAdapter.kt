@@ -9,10 +9,15 @@ import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.databinding.ItemChatAdminBinding
 import com.ku_stacks.ku_ring.databinding.ItemChatReceiveBinding
 import com.ku_stacks.ku_ring.databinding.ItemChatSendBinding
-import com.ku_stacks.ku_ring.ui.chat.ui_model.*
-import com.ku_stacks.ku_ring.ui.chat.viewholder.*
+import com.ku_stacks.ku_ring.ui.chat.ui_model.AdminMessageUiModel
+import com.ku_stacks.ku_ring.ui.chat.ui_model.ChatUiModel
+import com.ku_stacks.ku_ring.ui.chat.ui_model.ReceivedMessageUiModel
+import com.ku_stacks.ku_ring.ui.chat.ui_model.SentMessageUiModel
+import com.ku_stacks.ku_ring.ui.chat.viewholder.AdminViewHolder
+import com.ku_stacks.ku_ring.ui.chat.viewholder.ReceiveViewHolder
+import com.ku_stacks.ku_ring.ui.chat.viewholder.SealedChatViewHolder
+import com.ku_stacks.ku_ring.ui.chat.viewholder.SendViewHolder
 import com.ku_stacks.ku_ring.util.DateUtil.areSameDate
-import timber.log.Timber
 
 class ChatMessageAdapter(
     private val onErrorClick: (SentMessageUiModel) -> Unit,
@@ -21,7 +26,8 @@ class ChatMessageAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SealedChatViewHolder {
         return when (viewType) {
             CHAT_RECEIVED -> {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.item_chat_receive, parent, false)
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_chat_receive, parent, false)
                 val binding = ItemChatReceiveBinding.bind(view)
                 ReceiveViewHolder(binding).apply {
                     binding.chatMessageLayout.setOnLongClickListener {
@@ -33,7 +39,8 @@ class ChatMessageAdapter(
                 }
             }
             CHAT_SENT -> {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.item_chat_send, parent, false)
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_chat_send, parent, false)
                 val binding = ItemChatSendBinding.bind(view)
                 SendViewHolder(binding).apply {
                     binding.chatSendErrorIv.setOnClickListener {
@@ -44,7 +51,8 @@ class ChatMessageAdapter(
                 }
             }
             CHAT_ADMIN -> {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.item_chat_admin, parent, false)
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_chat_admin, parent, false)
                 val binding = ItemChatAdminBinding.bind(view)
                 AdminViewHolder(binding)
             }
@@ -109,14 +117,14 @@ class ChatMessageAdapter(
         override fun areContentsTheSame(oldItem: ChatUiModel, newItem: ChatUiModel): Boolean {
             return if (oldItem is ReceivedMessageUiModel && newItem is ReceivedMessageUiModel) {
                 oldItem.messageId == newItem.messageId
-                        && oldItem.message == newItem.message
+                    && oldItem.message == newItem.message
             } else if (oldItem is SentMessageUiModel && newItem is SentMessageUiModel) {
                 oldItem.messageId == newItem.messageId
-                        && oldItem.message == newItem.message
-                        && oldItem.isPending == newItem.isPending
+                    && oldItem.message == newItem.message
+                    && oldItem.isPending == newItem.isPending
             } else if (oldItem is AdminMessageUiModel && newItem is AdminMessageUiModel) {
                 oldItem.messageId == newItem.messageId
-                        && oldItem.message == newItem.message
+                    && oldItem.message == newItem.message
             } else {
                 false
             }

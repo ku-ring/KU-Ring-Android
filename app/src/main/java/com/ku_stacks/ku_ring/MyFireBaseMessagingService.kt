@@ -59,7 +59,11 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
             )
 
             // show notification
-            val webUrl = UrlGenerator.generateNoticeUrl(articleId = articleId, category = category, baseUrl = baseUrl)
+            val webUrl = UrlGenerator.generateNoticeUrl(
+                articleId = articleId,
+                category = category,
+                baseUrl = baseUrl
+            )
             val categoryKr = WordConverter.convertEnglishToKorean(category)
             showNotificationWithUrl(
                 title = subject,
@@ -87,7 +91,7 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
         val baseUrl = remoteMessage.data["baseUrl"]
 
         return articleId != null && categoryEng != null && postedDate != null
-                && subject != null && baseUrl != null
+            && subject != null && baseUrl != null
     }
 
     private fun isCustomNotification(remoteMessage: RemoteMessage): Boolean {
@@ -128,7 +132,13 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
         }
     }
 
-    private fun showNotificationWithUrl(title: String?, body: String?, url: String?, articleId: String?, category: String?){
+    private fun showNotificationWithUrl(
+        title: String?,
+        body: String?,
+        url: String?,
+        articleId: String?,
+        category: String?
+    ) {
         val intent = NoticeWebActivity.createIntent(
             this,
             url,
@@ -154,7 +164,8 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
 
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
@@ -186,7 +197,8 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
 
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(

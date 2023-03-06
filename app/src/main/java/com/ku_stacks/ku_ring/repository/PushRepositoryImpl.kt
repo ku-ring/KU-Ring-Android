@@ -1,8 +1,8 @@
 package com.ku_stacks.ku_ring.repository
 
 import com.ku_stacks.ku_ring.data.db.PushDao
-import com.ku_stacks.ku_ring.data.model.Push
 import com.ku_stacks.ku_ring.data.mapper.toPushList
+import com.ku_stacks.ku_ring.data.model.Push
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -35,6 +35,6 @@ class PushRepositoryImpl @Inject constructor(
     override fun deleteAllNotification() {
         dao.deleteAllNotification()
             .subscribeOn(Schedulers.io())
-            .subscribe({},{})
+            .subscribe({}, {})
     }
 }

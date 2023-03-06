@@ -17,14 +17,19 @@ import com.ku_stacks.ku_ring.ui.notice_webview.NoticeWebActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SearchNoticeFragment: Fragment() {
+class SearchNoticeFragment : Fragment() {
 
     private lateinit var binding: FragmentSearchNoticeBinding
     private val searchViewModel by viewModels<SearchViewModel>({ requireParentFragment() })
     private lateinit var searchNoticeAdapter: SearchNoticeAdapter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_search_notice, container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_search_notice, container, false)
         binding.lifecycleOwner = this
         return binding.root
     }
@@ -60,6 +65,9 @@ class SearchNoticeFragment: Fragment() {
     private fun startNoticeActivity(notice: Notice) {
         val intent = NoticeWebActivity.createIntent(requireContext(), notice)
         startActivity(intent)
-        requireActivity().overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
+        requireActivity().overridePendingTransition(
+            R.anim.anim_slide_right_enter,
+            R.anim.anim_stay_exit
+        )
     }
 }

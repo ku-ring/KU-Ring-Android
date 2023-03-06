@@ -39,25 +39,27 @@ class NoticePagingSourceTest {
             .await()
             .assertNoErrors()
             .assertValueCount(1)
-            .assertValue(LoadResult.Page<Int, Notice>(
-                data = listOf(
-                    Notice(
-                        postedDate = "20220203",
-                        subject = "2022학년도 1학기 재입학 합격자 유의사항 안내",
-                        category = "bachelor",
-                        url = "https://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do?id=5b4a11b",
-                        articleId = "5b4a11b",
-                        isNew = false,
-                        isRead = false,
-                        isSubscribing = false,
-                        isSaved = false,
-                        isReadOnStorage = false,
-                        tag = emptyList()
-                    )
-                ),
-                prevKey = null,
-                nextKey = 20
-            ))
+            .assertValue(
+                LoadResult.Page<Int, Notice>(
+                    data = listOf(
+                        Notice(
+                            postedDate = "20220203",
+                            subject = "2022학년도 1학기 재입학 합격자 유의사항 안내",
+                            category = "bachelor",
+                            url = "https://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do?id=5b4a11b",
+                            articleId = "5b4a11b",
+                            isNew = false,
+                            isRead = false,
+                            isSubscribing = false,
+                            isSaved = false,
+                            isReadOnStorage = false,
+                            tag = emptyList()
+                        )
+                    ),
+                    prevKey = null,
+                    nextKey = 20
+                )
+            )
 
         Mockito.verify(client, Mockito.atLeastOnce()).fetchNoticeList("bch", 0, 20)
     }
@@ -75,25 +77,27 @@ class NoticePagingSourceTest {
             .await()
             .assertNoErrors()
             .assertValueCount(1)
-            .assertValue(LoadResult.Page<Int, Notice>(
-                data = listOf(
-                    Notice(
-                        postedDate = "20220203",
-                        subject = "2022학년도 1학기 재입학 합격자 유의사항 안내",
-                        category = "bachelor",
-                        url = "https://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do?id=5b4a11b",
-                        articleId = "5b4a11b",
-                        isNew = false,
-                        isRead = false,
-                        isSubscribing = false,
-                        isSaved = false,
-                        isReadOnStorage = false,
-                        tag = emptyList()
-                    )
-                ),
-                prevKey = 0,
-                nextKey = 40
-            ))
+            .assertValue(
+                LoadResult.Page<Int, Notice>(
+                    data = listOf(
+                        Notice(
+                            postedDate = "20220203",
+                            subject = "2022학년도 1학기 재입학 합격자 유의사항 안내",
+                            category = "bachelor",
+                            url = "https://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do?id=5b4a11b",
+                            articleId = "5b4a11b",
+                            isNew = false,
+                            isRead = false,
+                            isSubscribing = false,
+                            isSaved = false,
+                            isReadOnStorage = false,
+                            tag = emptyList()
+                        )
+                    ),
+                    prevKey = 0,
+                    nextKey = 40
+                )
+            )
 
         Mockito.verify(client, Mockito.atLeastOnce()).fetchNoticeList("bch", 20, 20)
     }

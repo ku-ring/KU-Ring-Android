@@ -46,17 +46,14 @@ object DBModule {
 
     @Singleton
     @Provides
-    fun provideNoticeDao(database: KuRingDatabase): NoticeDao
-        = database.noticeDao()
+    fun provideNoticeDao(database: KuRingDatabase): NoticeDao = database.noticeDao()
 
     @Singleton
     @Provides
-    fun providePushDao(database: KuRingDatabase): PushDao
-        = database.pushDao()
+    fun providePushDao(database: KuRingDatabase): PushDao = database.pushDao()
 
     @Singleton
     @Provides
-    fun provideBlackUserDao(database: KuRingDatabase): BlackUserDao
-        = database.blackUserDao()
+    fun provideBlackUserDao(database: KuRingDatabase): BlackUserDao = database.blackUserDao()
 
 }

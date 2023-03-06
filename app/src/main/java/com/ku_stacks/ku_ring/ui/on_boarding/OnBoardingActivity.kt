@@ -16,7 +16,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class OnBoardingActivity : AppCompatActivity() {
     @Inject
-    lateinit var analytics : EventAnalytics
+    lateinit var analytics: EventAnalytics
 
     @Inject
     lateinit var pref: PreferenceUtil

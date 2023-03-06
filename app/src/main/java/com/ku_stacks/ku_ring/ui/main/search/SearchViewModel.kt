@@ -48,8 +48,8 @@ class SearchViewModel @Inject constructor(
 
     fun searchStaff(keyword: String) {
         Timber.e("in searchStaff -> isOpen : ${searchClient.isOpen()}, isPreparing: ${searchClient.isPreparing()}")
-        if(!searchClient.isOpen()){
-            if(!searchClient.isPreparing()) {
+        if (!searchClient.isOpen()) {
+            if (!searchClient.isPreparing()) {
                 connectWebSocket()
             }
             searchClient.setLastKeyword(keyword)
@@ -60,8 +60,8 @@ class SearchViewModel @Inject constructor(
 
     fun searchNotice(keyword: String) {
         Timber.e("in searchNotice -> isOpen : ${searchClient.isOpen()}, isPreparing: ${searchClient.isPreparing()}")
-        if(!searchClient.isOpen()){
-            if(!searchClient.isPreparing()) {
+        if (!searchClient.isOpen()) {
+            if (!searchClient.isPreparing()) {
                 connectWebSocket()
             }
             searchClient.setLastKeyword(keyword)
@@ -120,8 +120,8 @@ class SearchViewModel @Inject constructor(
     }
 
     fun connectWebSocketIfDisconnected() {
-        if(!searchClient.isOpen()){
-            if(!searchClient.isPreparing()) {
+        if (!searchClient.isOpen()) {
+            if (!searchClient.isPreparing()) {
                 connectWebSocket()
             }
         }
@@ -134,8 +134,8 @@ class SearchViewModel @Inject constructor(
                 .map { searchClient.makeHeartBeat() }
                 .repeat()
                 .subscribeOn(Schedulers.io())
-                .doOnError{Timber.e("make heartbeat failed")}
-                .subscribe ({
+                .doOnError { Timber.e("make heartbeat failed") }
+                .subscribe({
                     Timber.e("make heartbeat success")
                 }, {
                     Timber.e("make heartbeat failed : $it")

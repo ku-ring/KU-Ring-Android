@@ -2,7 +2,7 @@ package com.ku_stacks.ku_ring.data.api.response
 
 import com.google.gson.annotations.SerializedName
 
-data class NoticeListResponse (
+data class NoticeListResponse(
     @SerializedName(value = "isSuccess")
     val isSuccess: Boolean,
     @SerializedName(value = "resultMsg")
