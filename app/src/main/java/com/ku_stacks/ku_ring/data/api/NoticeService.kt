@@ -11,19 +11,19 @@ import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface NoticeService {
-    @GET("notice?")
+    @GET("v1/notice?")
     fun fetchNoticeList(
         @Query("type") type: String,
         @Query("offset") offset: Int,
         @Query("max") max: Int,
     ): Single<NoticeListResponse>
 
-    @GET("notice/subscribe")
+    @GET("v1/notice/subscribe")
     fun fetchSubscribeList(
         @Query("id") token: String
     ): Single<SubscribeListResponse>
 
-    @POST("notice/subscribe")
+    @POST("v1/notice/subscribe")
     fun saveSubscribeList(
         @Body subscribeRequest: SubscribeRequest
     ): Single<DefaultResponse>

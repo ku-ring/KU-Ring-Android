@@ -70,7 +70,7 @@ android {
                     appName : "@string/app_name_debug",
                     appIcon : "@drawable/ic_ku_ring_launcher_dev"
             ]
-            buildConfigField "String", "API_BASE_URL", "\"http://ec2-13-113-178-212.ap-northeast-1.compute.amazonaws.com/api/v1/\""
+            buildConfigField "String", "API_BASE_URL", "\"http://ec2-13-113-178-212.ap-northeast-1.compute.amazonaws.com/api/\""
             buildConfigField "String", "WEB_SOCKET_URL", "\"wss://kuring-dev.herokuapp.com/kuring/search\""
             buildConfigField "String", "KURING_CAMPUS_OPEN_CHANNEL_URL", "\"kuring_main_anonymous\""
 
@@ -87,7 +87,7 @@ android {
                     appName : "@string/app_name",
                     appIcon : "@drawable/ic_kuring_launcher"
             ]
-            buildConfigField "String", "API_BASE_URL", "\"https://kuring.herokuapp.com/api/v1/\""
+            buildConfigField "String", "API_BASE_URL", "\"https://kuring.herokuapp.com/api/\""
             buildConfigField "String", "WEB_SOCKET_URL", "\"wss://kuring.herokuapp.com/kuring/search\""
             buildConfigField "String", "KURING_CAMPUS_OPEN_CHANNEL_URL", "\"kuring_campus_main_anonymous\""
         }
