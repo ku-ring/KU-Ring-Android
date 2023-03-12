@@ -24,7 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class ChatActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityChatBinding
-    private val viewModel by viewModels<ChatViewModel>()
+    private val viewModel by viewModels<ChatViewModel>()///
 
     private lateinit var chatMessageAdapter: ChatMessageAdapter
     private lateinit var recyclerObserver: ChatRecyclerDataObserver
