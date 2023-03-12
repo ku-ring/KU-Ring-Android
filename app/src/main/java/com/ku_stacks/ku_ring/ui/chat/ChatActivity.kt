@@ -22,7 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ChatActivity : AppCompatActivity() {
-
+//
     private lateinit var binding: ActivityChatBinding
     private val viewModel by viewModels<ChatViewModel>()
 
