@@ -46,6 +46,7 @@ class HomeBaseFragment(private val shortCategory: String) : Fragment() {
         setupListAdapter()
         setupSwipeRefresh()
         observePagingState()
+        subscribeNotices()
     }
 
     private fun observePagingState() {
@@ -88,6 +89,13 @@ class HomeBaseFragment(private val shortCategory: String) : Fragment() {
             pagingAdapter.refresh()
             showShimmerView()
         }
+    }
+
+    private fun subscribeNotices() {
+        val noticeDisposable = noticeViewModel.getNotices(shortCategory, lifecycleScope).subscribe {
+            pagingAdapter.submitData(lifecycle, it)
+        }
+        disposable.add(noticeDisposable)
     }
 
     private fun showShimmerView() {
