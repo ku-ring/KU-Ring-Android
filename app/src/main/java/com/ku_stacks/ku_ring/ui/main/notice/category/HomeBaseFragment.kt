@@ -15,15 +15,17 @@ import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.databinding.FragmentHomeCategoryBinding
 import com.ku_stacks.ku_ring.ui.main.notice.NoticeViewModel
 import com.ku_stacks.ku_ring.ui.notice_webview.NoticeWebActivity
+import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-abstract class HomeBaseFragment : Fragment() {
-    protected val disposable = CompositeDisposable()
+@AndroidEntryPoint
+class HomeBaseFragment(private val shortCategory: String) : Fragment() {
+    private val disposable = CompositeDisposable()
 
-    protected lateinit var binding: FragmentHomeCategoryBinding
-    protected lateinit var pagingAdapter: NoticePagingAdapter
+    private lateinit var binding: FragmentHomeCategoryBinding
+    private lateinit var pagingAdapter: NoticePagingAdapter
 
     private val noticeViewModel by viewModels<NoticeViewModel>({ requireParentFragment() })
 
@@ -31,7 +33,7 @@ abstract class HomeBaseFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_home_category, container, false)
         binding.lifecycleOwner = this
