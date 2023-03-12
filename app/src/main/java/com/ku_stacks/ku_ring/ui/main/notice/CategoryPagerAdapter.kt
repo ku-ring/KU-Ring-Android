@@ -13,7 +13,7 @@ class CategoryPagerAdapter(fm: FragmentManager, lc: Lifecycle) : FragmentStateAd
      * (Fragment 가 destroy 될 때 참조가 남음)
      */
     private val items = listOf("bch", "sch", "emp", "nat", "stu", "ind", "nor", "lib")
-        .map { shortCategory -> { HomeBaseFragment(shortCategory) } }
+        .map { shortCategory -> { HomeBaseFragment.newInstance(shortCategory) } }
 
     override fun getItemCount() = items.size
 
