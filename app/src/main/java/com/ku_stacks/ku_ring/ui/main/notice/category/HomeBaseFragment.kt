@@ -19,9 +19,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @AndroidEntryPoint
-class HomeBaseFragment(private val shortCategory: String) : Fragment() {
+class HomeBaseFragment : Fragment() {
     private val disposable = CompositeDisposable()
 
     private lateinit var binding: FragmentHomeCategoryBinding
@@ -92,6 +93,13 @@ class HomeBaseFragment(private val shortCategory: String) : Fragment() {
     }
 
     private fun subscribeNotices() {
+        val shortCategory = arguments?.getString(SHORT_CATEGORY)
+
+        if (shortCategory.isNullOrEmpty()) {
+            Timber.e("shortCategory is null")
+            return
+        }
+
         val scope = viewLifecycleOwner.lifecycleScope
         val noticeDisposable = noticeViewModel.getNotices(shortCategory, scope).subscribe {
             pagingAdapter.submitData(lifecycle, it)
@@ -125,5 +133,18 @@ class HomeBaseFragment(private val shortCategory: String) : Fragment() {
             disposable.dispose()
         }
         super.onDestroyView()
+    }
+
+    companion object {
+        private const val SHORT_CATEGORY = "SHORT_CATEGORY"
+
+        fun newInstance(shortCategory: String): HomeBaseFragment {
+            val args = Bundle().apply {
+                putString(SHORT_CATEGORY, shortCategory)
+            }
+            return HomeBaseFragment().apply {
+                arguments = args
+            }
+        }
     }
 }
