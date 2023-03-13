@@ -92,7 +92,8 @@ class HomeBaseFragment(private val shortCategory: String) : Fragment() {
     }
 
     private fun subscribeNotices() {
-        val noticeDisposable = noticeViewModel.getNotices(shortCategory, lifecycleScope).subscribe {
+        val scope = viewLifecycleOwner.lifecycleScope
+        val noticeDisposable = noticeViewModel.getNotices(shortCategory, scope).subscribe {
             pagingAdapter.submitData(lifecycle, it)
         }
         disposable.add(noticeDisposable)
