@@ -21,7 +21,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class NoticeFragment : Fragment() {
+class NoticesParentFragment : Fragment() {
 
     @Inject
     lateinit var pref: PreferenceUtil
@@ -53,7 +53,7 @@ class NoticeFragment : Fragment() {
     }
 
     private fun setupHeader() {
-        val pagerAdapter = CategoryPagerAdapter(childFragmentManager, lifecycle)
+        val pagerAdapter = NoticesPagerAdapter(childFragmentManager, lifecycle)
         binding.homeViewpager.adapter = pagerAdapter
 
         TabLayoutMediator(

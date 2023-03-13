@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @AndroidEntryPoint
-class HomeBaseFragment : Fragment() {
+class NoticesChildFragment : Fragment() {
     private val disposable = CompositeDisposable()
 
     private lateinit var binding: FragmentHomeCategoryBinding
@@ -138,11 +138,11 @@ class HomeBaseFragment : Fragment() {
     companion object {
         private const val SHORT_CATEGORY = "SHORT_CATEGORY"
 
-        fun newInstance(shortCategory: String): HomeBaseFragment {
+        fun newInstance(shortCategory: String): NoticesChildFragment {
             val args = Bundle().apply {
                 putString(SHORT_CATEGORY, shortCategory)
             }
-            return HomeBaseFragment().apply {
+            return NoticesChildFragment().apply {
                 arguments = args
             }
         }
