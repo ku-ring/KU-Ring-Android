@@ -101,9 +101,10 @@ class NoticesChildFragment : Fragment() {
         }
 
         val scope = viewLifecycleOwner.lifecycleScope
-        val noticeDisposable = noticeViewModel.getNotices(shortCategory, scope).subscribe {
-            pagingAdapter.submitData(lifecycle, it)
-        }
+        val noticeDisposable = noticeViewModel.getNotices(shortCategory, scope).subscribe(
+            { pagingAdapter.submitData(lifecycle, it) },
+            { Timber.e("Subscribe error: $it") },
+        )
         disposable.add(noticeDisposable)
     }
 
