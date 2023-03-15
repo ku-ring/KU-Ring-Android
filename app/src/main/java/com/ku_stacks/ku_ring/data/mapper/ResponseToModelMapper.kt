@@ -3,8 +3,6 @@ package com.ku_stacks.ku_ring.data.mapper
 import com.ku_stacks.ku_ring.data.api.response.NoticeListResponse
 import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.data.model.Staff
-import com.ku_stacks.ku_ring.data.websocket.response.SearchNoticeListResponse
-import com.ku_stacks.ku_ring.data.websocket.response.SearchStaffListResponse
 
 fun NoticeListResponse.toNoticeList(type: String): List<Notice> {
     return if (type == "lib") {
@@ -50,44 +48,6 @@ fun NoticeListResponse.toNoticeList(type: String): List<Notice> {
                 tag = subjectAndTag.second
             )
         }
-    }
-}
-
-fun SearchStaffListResponse.toStaffList(): List<Staff> {
-    return staffList.map {
-        return@map Staff(
-            name = it.name,
-            major = it.major,
-            lab = it.lab,
-            phone = it.phone,
-            email = it.email,
-            department = it.department,
-            college = it.college
-        )
-    }
-}
-
-fun SearchNoticeListResponse.toNoticeList(): List<Notice> {
-    return noticeList.map {
-        val url = if (it.category == "library") {
-            "${it.baseUrl}/${it.articleId}"
-        } else {
-            "${it.baseUrl}?id=${it.articleId}"
-        }
-
-        return@map Notice(
-            postedDate = it.postedDate,
-            subject = it.subject,
-            category = it.category,
-            url = url,
-            articleId = it.articleId,
-            isNew = false,
-            isRead = false,
-            isSubscribing = false,
-            isSaved = false,
-            isReadOnStorage = false,
-            tag = emptyList()
-        )
     }
 }
 
