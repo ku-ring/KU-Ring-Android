@@ -3,28 +3,25 @@ package com.ku_stacks.ku_ring.ui.main.search
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.ku_stacks.ku_ring.data.api.SearchClient
 import com.ku_stacks.ku_ring.data.mapper.toNoticeList
 import com.ku_stacks.ku_ring.data.mapper.toStaffList
 import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.data.model.Staff
-import com.ku_stacks.ku_ring.data.websocket.SearchClient
 import com.ku_stacks.ku_ring.repository.NoticeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val noticeRepository: NoticeRepository,
+    private val searchClient: SearchClient,
 ) : ViewModel() {
 
     private val disposable = CompositeDisposable()
-
-    private val searchClient = SearchClient()
 
     private val _staffList = MutableLiveData<List<Staff>>()
     val staffList: LiveData<List<Staff>>
@@ -36,38 +33,35 @@ class SearchViewModel @Inject constructor(
 
     init {
         Timber.e("SearchViewModel init")
-        subscribeStaff()
-        subscribeNotice()
-        makeHeartBeat()
-    }
-
-    private fun connectWebSocket() {
-        searchClient.initWebSocket()
-        Timber.e("connectWebSocket")
     }
 
     fun searchStaff(keyword: String) {
-        Timber.e("in searchStaff -> isOpen : ${searchClient.isOpen()}, isPreparing: ${searchClient.isPreparing()}")
-        if (!searchClient.isOpen()) {
-            if (!searchClient.isPreparing()) {
-                connectWebSocket()
-            }
-            searchClient.setLastKeyword(keyword)
-            return
-        }
-        searchClient.searchStaff(keyword)
+        Timber.e("search staff $keyword")
+        disposable.add(
+            searchClient.fetchStaffList(keyword)
+                .subscribeOn(Schedulers.io())
+                .filter { it.isSuccess }
+                .map { staffResponse -> staffResponse.toStaffList() }
+                .subscribe(
+                    { _staffList.postValue(it) },
+                    { Timber.e("search staff error: $it") }
+                )
+        )
     }
 
     fun searchNotice(keyword: String) {
-        Timber.e("in searchNotice -> isOpen : ${searchClient.isOpen()}, isPreparing: ${searchClient.isPreparing()}")
-        if (!searchClient.isOpen()) {
-            if (!searchClient.isPreparing()) {
-                connectWebSocket()
-            }
-            searchClient.setLastKeyword(keyword)
-            return
-        }
-        searchClient.searchNotice(keyword)
+        Timber.e("search notice $keyword")
+        disposable.add(
+            searchClient.fetchNoticeList(keyword)
+                .subscribeOn(Schedulers.io())
+                .filter { it.isSuccess }
+                .map { noticeResponse -> noticeResponse.toNoticeList() }
+                .map { noticeList -> markSavedNotices(noticeList) }
+                .subscribe(
+                    { _noticeList.postValue(it) },
+                    { Timber.e("search notice error: $it") }
+                )
+        )
     }
 
     fun clearNoticeList() {
@@ -76,33 +70,6 @@ class SearchViewModel @Inject constructor(
 
     fun clearStaffList() {
         _staffList.postValue(emptyList())
-    }
-
-    private fun subscribeStaff() {
-        disposable.add(
-            searchClient.publishStaff.subscribeOn(Schedulers.io())
-                .filter { it.isSuccess }
-                .map { staffListResponse -> staffListResponse.toStaffList() }
-                .subscribe({
-                    _staffList.postValue(it)
-                }, {
-                    Timber.e("subscribe staff error : $it")
-                })
-        )
-    }
-
-    private fun subscribeNotice() {
-        disposable.add(
-            searchClient.publishNotice.subscribeOn(Schedulers.io())
-                .filter { it.isSuccess }
-                .map { noticeListResponse -> noticeListResponse.toNoticeList() }
-                .map { notices -> markSavedNotices(notices) }
-                .subscribe({
-                    _noticeList.postValue(it)
-                }, {
-                    Timber.e("subscribe notice error : $it")
-                })
-        )
     }
 
     private fun markSavedNotices(notices: List<Notice>): List<Notice> {
@@ -114,38 +81,8 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun disconnectWebSocket() {
-        searchClient.disconnectWebSocket()
-        Timber.e("disconnectWebSocket")
-    }
-
-    fun connectWebSocketIfDisconnected() {
-        if (!searchClient.isOpen()) {
-            if (!searchClient.isPreparing()) {
-                connectWebSocket()
-            }
-        }
-    }
-
-    private fun makeHeartBeat() {
-        disposable.add(
-            Observable.timer(30, TimeUnit.SECONDS)
-                .filter { searchClient.isOpen() } //서버가 열려있는 경우에만 보내야함
-                .map { searchClient.makeHeartBeat() }
-                .repeat()
-                .subscribeOn(Schedulers.io())
-                .doOnError { Timber.e("make heartbeat failed") }
-                .subscribe({
-                    Timber.e("make heartbeat success")
-                }, {
-                    Timber.e("make heartbeat failed : $it")
-                })
-        )
-    }
-
     override fun onCleared() {
         super.onCleared()
-        disconnectWebSocket()
         if (!disposable.isDisposed) {
             disposable.dispose()
         }
