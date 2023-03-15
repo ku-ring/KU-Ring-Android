@@ -90,3 +90,41 @@ fun SearchNoticeListResponse.toNoticeList(): List<Notice> {
         )
     }
 }
+
+fun com.ku_stacks.ku_ring.data.api.response.SearchNoticeListResponse.toNoticeList(): List<Notice> {
+    return data.noticeList.map {
+        val url = if (it.category == "library") {
+            "${it.baseUrl}/${it.articleId}"
+        } else {
+            "${it.baseUrl}?id=${it.articleId}"
+        }
+
+        return@map Notice(
+            postedDate = it.postedDate,
+            subject = it.subject,
+            category = it.category,
+            url = url,
+            articleId = it.articleId,
+            isNew = false,
+            isRead = false,
+            isSubscribing = false,
+            isSaved = false,
+            isReadOnStorage = false,
+            tag = emptyList()
+        )
+    }
+}
+
+fun com.ku_stacks.ku_ring.data.api.response.SearchStaffListResponse.toStaffList(): List<Staff> {
+    return data.staffList.map {
+        Staff(
+            name = it.name,
+            major = it.major,
+            lab = it.lab,
+            phone = it.phone,
+            email = it.email,
+            department = it.deptName,
+            college = it.collegeName,
+        )
+    }
+}
