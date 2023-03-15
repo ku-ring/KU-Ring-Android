@@ -131,16 +131,6 @@ class SearchFragment : Fragment() {
         binding.searchAdviceTxt.visibility = View.GONE
     }
 
-    override fun onResume() {
-        super.onResume()
-        searchViewModel.connectWebSocketIfDisconnected()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        searchViewModel.disconnectWebSocket()
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         binding.searchViewpager.unregisterOnPageChangeCallback(pageChangeCallback)
