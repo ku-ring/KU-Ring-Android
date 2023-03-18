@@ -1,10 +1,10 @@
 package com.ku_stacks.ku_ring.data.mapper
 
 import com.ku_stacks.ku_ring.data.api.response.NoticeListResponse
+import com.ku_stacks.ku_ring.data.api.response.SearchNoticeListResponse
+import com.ku_stacks.ku_ring.data.api.response.SearchStaffListResponse
 import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.data.model.Staff
-import com.ku_stacks.ku_ring.data.websocket.response.SearchNoticeListResponse
-import com.ku_stacks.ku_ring.data.websocket.response.SearchStaffListResponse
 
 fun NoticeListResponse.toNoticeList(type: String): List<Notice> {
     return if (type == "lib") {
@@ -53,22 +53,8 @@ fun NoticeListResponse.toNoticeList(type: String): List<Notice> {
     }
 }
 
-fun SearchStaffListResponse.toStaffList(): List<Staff> {
-    return staffList.map {
-        return@map Staff(
-            name = it.name,
-            major = it.major,
-            lab = it.lab,
-            phone = it.phone,
-            email = it.email,
-            department = it.department,
-            college = it.college
-        )
-    }
-}
-
 fun SearchNoticeListResponse.toNoticeList(): List<Notice> {
-    return noticeList.map {
+    return data.noticeList.map {
         val url = if (it.category == "library") {
             "${it.baseUrl}/${it.articleId}"
         } else {
@@ -87,6 +73,20 @@ fun SearchNoticeListResponse.toNoticeList(): List<Notice> {
             isSaved = false,
             isReadOnStorage = false,
             tag = emptyList()
+        )
+    }
+}
+
+fun SearchStaffListResponse.toStaffList(): List<Staff> {
+    return data.staffList.map {
+        Staff(
+            name = it.name,
+            major = it.major,
+            lab = it.lab,
+            phone = it.phone,
+            email = it.email,
+            department = it.deptName,
+            college = it.collegeName,
         )
     }
 }

@@ -7,7 +7,7 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface FeedbackService {
-    @POST("feedback")
+    @POST("v1/feedback")
     fun sendFeedback(
         @Body feedbackRequest: FeedbackRequest
     ): Single<DefaultResponse>
