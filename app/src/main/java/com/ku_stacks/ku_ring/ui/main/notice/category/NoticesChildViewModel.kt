@@ -19,6 +19,8 @@ class NoticesChildViewModel @Inject constructor(
 
     private val disposable = CompositeDisposable()
 
+    private var currentNotices: Flowable<PagingData<Notice>>? = null
+
     fun insertNoticeAsOld(notice: Notice) {
         disposable.add(
             noticeRepository.insertNoticeAsOld(notice)
@@ -29,8 +31,12 @@ class NoticesChildViewModel @Inject constructor(
         )
     }
 
-    fun getNotices(shortCategory: String): Flowable<PagingData<Notice>> =
-        noticeRepository.getNotices(shortCategory, viewModelScope)
+    fun getNotices(shortCategory: String): Flowable<PagingData<Notice>> {
+        if (currentNotices == null) {
+            currentNotices = noticeRepository.getNotices(shortCategory, viewModelScope)
+        }
+        return currentNotices!!
+    }
 
     override fun onCleared() {
         super.onCleared()
