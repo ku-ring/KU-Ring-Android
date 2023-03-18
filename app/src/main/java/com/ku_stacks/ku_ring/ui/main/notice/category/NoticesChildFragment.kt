@@ -28,7 +28,7 @@ class NoticesChildFragment : Fragment() {
     private lateinit var binding: FragmentHomeCategoryBinding
     private lateinit var pagingAdapter: NoticePagingAdapter
 
-    private val noticeViewModel by viewModels<NoticeViewModel>({ requireParentFragment() })
+    private val noticesChildViewModel by viewModels<NoticesChildViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -74,7 +74,7 @@ class NoticesChildFragment : Fragment() {
                 startNoticeActivity(notice)
             },
             onBindItem = { notice ->
-                noticeViewModel.insertNoticeAsOld(notice)
+                noticesChildViewModel.insertNoticeAsOld(notice)
             }
         )
 
@@ -100,8 +100,7 @@ class NoticesChildFragment : Fragment() {
             return
         }
 
-        val scope = viewLifecycleOwner.lifecycleScope
-        val noticeDisposable = noticeViewModel.getNotices(shortCategory, scope).subscribe(
+        val noticeDisposable = noticesChildViewModel.getNotices(shortCategory).subscribe(
             { pagingAdapter.submitData(lifecycle, it) },
             { Timber.e("Subscribe error: $it") },
         )
