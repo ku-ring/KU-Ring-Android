@@ -1,6 +1,8 @@
 package com.ku_stacks.ku_ring.data.mapper
 
 import com.ku_stacks.ku_ring.data.api.response.NoticeListResponse
+import com.ku_stacks.ku_ring.data.api.response.SearchNoticeListResponse
+import com.ku_stacks.ku_ring.data.api.response.SearchStaffListResponse
 import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.data.model.Staff
 
@@ -51,7 +53,7 @@ fun NoticeListResponse.toNoticeList(type: String): List<Notice> {
     }
 }
 
-fun com.ku_stacks.ku_ring.data.api.response.SearchNoticeListResponse.toNoticeList(): List<Notice> {
+fun SearchNoticeListResponse.toNoticeList(): List<Notice> {
     return data.noticeList.map {
         val url = if (it.category == "library") {
             "${it.baseUrl}/${it.articleId}"
@@ -75,7 +77,7 @@ fun com.ku_stacks.ku_ring.data.api.response.SearchNoticeListResponse.toNoticeLis
     }
 }
 
-fun com.ku_stacks.ku_ring.data.api.response.SearchStaffListResponse.toStaffList(): List<Staff> {
+fun SearchStaffListResponse.toStaffList(): List<Staff> {
     return data.staffList.map {
         Staff(
             name = it.name,
