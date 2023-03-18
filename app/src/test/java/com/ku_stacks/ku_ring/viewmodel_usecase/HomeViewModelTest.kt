@@ -5,7 +5,7 @@ import com.ku_stacks.ku_ring.MockUtil.mock
 import com.ku_stacks.ku_ring.MockUtil.mockNotice
 import com.ku_stacks.ku_ring.repository.NoticeRepository
 import com.ku_stacks.ku_ring.repository.PushRepository
-import com.ku_stacks.ku_ring.ui.main.notice.NoticeViewModel
+import com.ku_stacks.ku_ring.ui.main.notice.category.NoticesChildViewModel
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
 import org.junit.Before
@@ -16,7 +16,7 @@ import org.mockito.Mockito.times
 
 class HomeViewModelTest {
 
-    private lateinit var viewModel: NoticeViewModel
+    private lateinit var viewModel: NoticesChildViewModel
     private val pushRepository: PushRepository = mock()
     private val noticeRepository: NoticeRepository = mock()
 
@@ -26,7 +26,7 @@ class HomeViewModelTest {
     @Before
     fun setup() {
         Mockito.`when`(pushRepository.getNotificationCount()).thenReturn(Flowable.just(0))
-        viewModel = NoticeViewModel(noticeRepository, pushRepository)
+        viewModel = NoticesChildViewModel(noticeRepository)
     }
 
     @Test
