@@ -32,16 +32,6 @@ class NoticeViewModel @Inject constructor(
         getNotificationCount()
     }
 
-    fun insertNoticeAsOld(notice: Notice) {
-        disposable.add(
-            noticeRepository.insertNoticeAsOld(notice)
-                .subscribeOn(Schedulers.io())
-                .subscribe({
-                    //Timber.e("noticeRecord Insert true : $articleId")
-                }, { Timber.e("noticeRecord Insert fail $it") })
-        )
-    }
-
     private fun getNotificationCount() {
         disposable.add(
             pushRepository.getNotificationCount()
@@ -52,10 +42,6 @@ class NoticeViewModel @Inject constructor(
                     Timber.e("getNotificationCount error $it")
                 })
         )
-    }
-
-    fun getNotices(shortCategory: String, scope: CoroutineScope): Flowable<PagingData<Notice>> {
-        return noticeRepository.getNotices(shortCategory, scope)
     }
 
     fun deleteDB() {
