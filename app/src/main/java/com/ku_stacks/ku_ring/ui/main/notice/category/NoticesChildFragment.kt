@@ -15,23 +15,26 @@ import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.databinding.FragmentHomeCategoryBinding
 import com.ku_stacks.ku_ring.ui.main.notice.NoticeViewModel
 import com.ku_stacks.ku_ring.ui.notice_webview.NoticeWebActivity
+import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
-abstract class HomeBaseFragment : Fragment() {
-    protected val disposable = CompositeDisposable()
+@AndroidEntryPoint
+class NoticesChildFragment : Fragment() {
+    private val disposable = CompositeDisposable()
 
-    protected lateinit var binding: FragmentHomeCategoryBinding
-    protected lateinit var pagingAdapter: NoticePagingAdapter
+    private lateinit var binding: FragmentHomeCategoryBinding
+    private lateinit var pagingAdapter: NoticePagingAdapter
 
-    private val noticeViewModel by viewModels<NoticeViewModel>({ requireParentFragment() })
+    private val noticesChildViewModel by viewModels<NoticesChildViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_home_category, container, false)
         binding.lifecycleOwner = this
@@ -44,6 +47,7 @@ abstract class HomeBaseFragment : Fragment() {
         setupListAdapter()
         setupSwipeRefresh()
         observePagingState()
+        subscribeNotices()
     }
 
     private fun observePagingState() {
@@ -70,7 +74,7 @@ abstract class HomeBaseFragment : Fragment() {
                 startNoticeActivity(notice)
             },
             onBindItem = { notice ->
-                noticeViewModel.insertNoticeAsOld(notice)
+                noticesChildViewModel.insertNoticeAsOld(notice)
             }
         )
 
@@ -86,6 +90,21 @@ abstract class HomeBaseFragment : Fragment() {
             pagingAdapter.refresh()
             showShimmerView()
         }
+    }
+
+    private fun subscribeNotices() {
+        val shortCategory = arguments?.getString(SHORT_CATEGORY)
+
+        if (shortCategory.isNullOrEmpty()) {
+            Timber.e("shortCategory is null")
+            return
+        }
+
+        val noticeDisposable = noticesChildViewModel.getNotices(shortCategory).subscribe(
+            { pagingAdapter.submitData(lifecycle, it) },
+            { Timber.e("Subscribe error: $it") },
+        )
+        disposable.add(noticeDisposable)
     }
 
     private fun showShimmerView() {
@@ -114,5 +133,18 @@ abstract class HomeBaseFragment : Fragment() {
             disposable.dispose()
         }
         super.onDestroyView()
+    }
+
+    companion object {
+        private const val SHORT_CATEGORY = "SHORT_CATEGORY"
+
+        fun newInstance(shortCategory: String): NoticesChildFragment {
+            val args = Bundle().apply {
+                putString(SHORT_CATEGORY, shortCategory)
+            }
+            return NoticesChildFragment().apply {
+                arguments = args
+            }
+        }
     }
 }
