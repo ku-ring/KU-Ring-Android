@@ -12,7 +12,7 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.widget.addTextChangedListener
 import com.ku_stacks.ku_ring.R
 
-class ClearEditText : AppCompatEditText, View.OnTouchListener, View.OnFocusChangeListener {
+class ClearableEditText : AppCompatEditText, View.OnTouchListener, View.OnFocusChangeListener {
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
