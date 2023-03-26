@@ -12,7 +12,7 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.widget.addTextChangedListener
 import com.ku_stacks.ku_ring.R
 
-class ClearableEditText : AppCompatEditText, View.OnTouchListener, View.OnFocusChangeListener {
+class ClearableEditText : AppCompatEditText, View.OnTouchListener {
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
@@ -39,7 +39,6 @@ class ClearableEditText : AppCompatEditText, View.OnTouchListener, View.OnFocusC
         }
 
         super.setOnTouchListener(this)
-        super.setOnFocusChangeListener(this)
     }
 
     override fun onTouch(view: View?, motionEvent: MotionEvent?): Boolean {
@@ -54,15 +53,6 @@ class ClearableEditText : AppCompatEditText, View.OnTouchListener, View.OnFocusC
         }
 
         return false
-    }
-
-    override fun onFocusChange(view: View?, hasFocus: Boolean) {
-        val newVisibility = if (hasFocus) {
-            text?.isNotEmpty() == true
-        } else {
-            false
-        }
-        showOrHideClearDrawable(newVisibility)
     }
 
     private fun showOrHideClearDrawable(visible: Boolean) {
