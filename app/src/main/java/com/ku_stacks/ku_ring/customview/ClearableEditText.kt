@@ -22,9 +22,6 @@ class ClearableEditText : AppCompatEditText, View.OnTouchListener, View.OnFocusC
     private lateinit var clearDrawable: Drawable
 
     @JvmField
-    var onFocusChangeListener: OnFocusChangeListener? = null
-
-    @JvmField
     var onTouchListener: OnTouchListener? = null
 
     init {
@@ -69,8 +66,6 @@ class ClearableEditText : AppCompatEditText, View.OnTouchListener, View.OnFocusC
             false
         }
         setClearDrawableVisibility(newVisibility)
-
-        onFocusChangeListener?.onFocusChange(view, hasFocus)
     }
 
     private fun setClearDrawableVisibility(visible: Boolean) {
