@@ -5,14 +5,13 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.MotionEvent
-import android.view.View
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.widget.addTextChangedListener
 import com.ku_stacks.ku_ring.R
 
-class ClearableEditText : AppCompatEditText, View.OnTouchListener {
+class ClearableEditText : AppCompatEditText {
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
@@ -38,21 +37,18 @@ class ClearableEditText : AppCompatEditText, View.OnTouchListener {
             showOrHideClearDrawable(isVisible)
         }
 
-        super.setOnTouchListener(this)
-    }
-
-    override fun onTouch(view: View?, motionEvent: MotionEvent?): Boolean {
-        motionEvent?.x?.let { x ->
-            if (clearDrawable.isVisible && x > width - paddingRight - clearDrawable.intrinsicWidth) {
-                if (motionEvent.action == MotionEvent.ACTION_UP) {
-                    error = null
-                    text = null
+        setOnTouchListener { _, motionEvent ->
+            motionEvent?.x?.let { x ->
+                if (clearDrawable.isVisible && x > width - paddingRight - clearDrawable.intrinsicWidth) {
+                    if (motionEvent.action == MotionEvent.ACTION_UP) {
+                        error = null
+                        text = null
+                    }
+                    return@setOnTouchListener true
                 }
-                return true
             }
+            return@setOnTouchListener false
         }
-
-        return false
     }
 
     private fun showOrHideClearDrawable(visible: Boolean) {
