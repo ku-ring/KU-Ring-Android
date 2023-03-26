@@ -35,7 +35,7 @@ class ClearableEditText : AppCompatEditText, View.OnTouchListener, View.OnFocusC
 
         addTextChangedListener { editable ->
             val isVisible = editable?.isNotEmpty() ?: false
-            setClearDrawableVisibility(isVisible)
+            showOrHideClearDrawable(isVisible)
         }
 
         super.setOnTouchListener(this)
@@ -62,11 +62,10 @@ class ClearableEditText : AppCompatEditText, View.OnTouchListener, View.OnFocusC
         } else {
             false
         }
-        setClearDrawableVisibility(newVisibility)
+        showOrHideClearDrawable(newVisibility)
     }
 
-    private fun setClearDrawableVisibility(visible: Boolean) {
-        clearDrawable.setVisible(visible, false)
+    private fun showOrHideClearDrawable(visible: Boolean) {
         setCompoundDrawables(compoundDrawables[0], null, if (visible) clearDrawable else null, null)
     }
 
