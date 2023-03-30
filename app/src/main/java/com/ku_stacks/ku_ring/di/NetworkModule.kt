@@ -124,4 +124,10 @@ object NetworkModule {
     fun provideSendbirdClient(sendbirdService: SendbirdService): SendbirdClient {
         return SendbirdClient(sendbirdService)
     }
+
+    @Provides
+    @Singleton
+    fun provideDepartmentService(@Named("Default") retrofit: Retrofit): DepartmentService {
+        return retrofit.create(DepartmentService::class.java)
+    }
 }
