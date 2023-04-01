@@ -8,8 +8,9 @@ import androidx.room.RoomDatabase
         NoticeEntity::class,
         PushEntity::class,
         BlackUserEntity::class,
+        DepartmentEntity::class,
     ],
-    version = 3,
+    version = 4,
     exportSchema = false
 )
 abstract class KuRingDatabase : RoomDatabase() {
