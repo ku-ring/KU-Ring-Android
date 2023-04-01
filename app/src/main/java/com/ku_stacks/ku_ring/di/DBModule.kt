@@ -56,4 +56,8 @@ object DBModule {
     @Provides
     fun provideBlackUserDao(database: KuRingDatabase): BlackUserDao = database.blackUserDao()
 
+    @Singleton
+    @Provides
+    fun provideDepartmentDao(database: KuRingDatabase): DepartmentDao = database.departmentDao()
+
 }
