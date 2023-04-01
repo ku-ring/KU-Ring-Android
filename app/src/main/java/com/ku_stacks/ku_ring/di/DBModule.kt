@@ -32,6 +32,18 @@ object DBModule {
         }
     }
 
+    private val MIGRATION_3_4 = object : Migration(3, 4) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL(
+                "CREATE TABLE IF NOT EXISTS departments (" +
+                    "name TEXT PRIMARY KEY NOT NULL, " +
+                    "shortName TEXT NOT NULL DEFAULT '', " +
+                    "koreanName TEXT NOT NULL DEFAULT '', " +
+                    "isSubscribed INTEGER NOT NULL DEFAULT 0)"
+            )
+        }
+    }
+
     @Singleton
     @Provides
     fun provideKuRingDatabase(@ApplicationContext context: Context): KuRingDatabase {
@@ -40,7 +52,7 @@ object DBModule {
             KuRingDatabase::class.java,
             "ku-ring-db"
         )
-            .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
+            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
             .build()
     }
 
