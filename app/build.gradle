@@ -70,7 +70,7 @@ android {
                     appName : "@string/app_name_debug",
                     appIcon : "@drawable/ic_ku_ring_launcher_dev"
             ]
-            buildConfigField "String", "API_BASE_URL", "\"http://ec2-13-113-178-212.ap-northeast-1.compute.amazonaws.com/api/\""
+            buildConfigField "String", "API_BASE_URL", "\"http://api-test.ku-ring.com/api/\""
             buildConfigField "String", "KURING_CAMPUS_OPEN_CHANNEL_URL", "\"kuring_main_anonymous\""
 
             applicationIdSuffix '.debug'
