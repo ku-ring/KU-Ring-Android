@@ -1,7 +1,9 @@
 package com.ku_stacks.ku_ring.data.mapper
 
+import com.ku_stacks.ku_ring.data.db.DepartmentEntity
 import com.ku_stacks.ku_ring.data.db.NoticeEntity
 import com.ku_stacks.ku_ring.data.db.PushEntity
+import com.ku_stacks.ku_ring.data.model.Department
 import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.data.model.Push
 import com.ku_stacks.ku_ring.util.WordConverter
@@ -52,3 +54,13 @@ fun NoticeEntity.toNotice(): Notice {
         tag = tag
     )
 }
+
+fun List<DepartmentEntity>.toDepartmentList() = map { it.toDepartment() }
+
+fun DepartmentEntity.toDepartment() = Department(
+    name = name,
+    shortName = shortName,
+    koreanName = koreanName,
+    isSubscribed = isSubscribed,
+    isSelected = false
+)
