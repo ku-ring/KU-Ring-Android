@@ -16,35 +16,44 @@ class DepartmentRepositoryImpl @Inject constructor(
     private val departmentDao: DepartmentDao,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : DepartmentRepository {
+    private lateinit var departments: List<Department>
+    private var isUpdated: Boolean = false
+
     override suspend fun insertDepartment(department: Department) {
         withIOContext {
             departmentDao.insertDepartment(department.toEntity())
         }
+        isUpdated = true
     }
 
     override suspend fun insertDepartments(departments: List<Department>) {
         withIOContext {
             departmentDao.insertDepartments(departments.toEntityList())
         }
+        isUpdated = true
     }
 
     override suspend fun getAllDepartments(): List<Department> {
-        return withIOContext {
-            departmentDao.getAllDepartments().toDepartmentList()
+        return if (::departments.isInitialized && !isUpdated) {
+            departments
+        } else {
+            withIOContext {
+                departmentDao.getAllDepartments().toDepartmentList().also {
+                    departments = it
+                }
+            }
         }
     }
 
     override suspend fun getDepartmentsByKoreanName(koreanName: String): List<Department> {
-        // TODO: Repository에서 List<Department>를 cache한 후, 이 데이터에서 검색하기
-        return withIOContext {
-            departmentDao.getDepartmentsByKoreanName(koreanName).toDepartmentList()
+        val latestDepartments = getAllDepartments()
+        return latestDepartments.filter {
+            it.koreanName.contains(koreanName)
         }
     }
 
     override suspend fun getSubscribedDepartments(): List<Department> {
-        return withIOContext {
-            departmentDao.getDepartmentsBySubscribed(true).toDepartmentList()
-        }
+        return getAllDepartments().filter { it.isSubscribed }
     }
 
     override suspend fun getSubscribedDepartmentsAsFlow(): Flow<List<Department>> {
@@ -59,18 +68,21 @@ class DepartmentRepositoryImpl @Inject constructor(
         withIOContext {
             departmentDao.updateSubscribeStatus(name, isSubscribed)
         }
+        isUpdated = true
     }
 
     override suspend fun removeDepartments(departments: List<Department>) {
         withIOContext {
             departmentDao.removeDepartments(departments.toEntityList())
         }
+        isUpdated = true
     }
 
     override suspend fun clearDepartments() {
         withIOContext {
             departmentDao.clearDepartments()
         }
+        isUpdated = true
     }
 
     private suspend fun <T> withIOContext(block: suspend () -> T): T {
