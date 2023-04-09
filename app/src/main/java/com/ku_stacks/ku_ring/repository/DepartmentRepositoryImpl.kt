@@ -16,31 +16,28 @@ class DepartmentRepositoryImpl @Inject constructor(
     private val departmentDao: DepartmentDao,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : DepartmentRepository {
-    private lateinit var departments: List<Department>
-    private var isUpdated: Boolean = false
+    // not null: 최신 데이터가 캐시됨
+    // null: 데이터가 업데이트되어 새 데이터를 가져와야 함
+    private var departments: List<Department>? = null
 
     override suspend fun insertDepartment(department: Department) {
         withContext(ioDispatcher) {
             departmentDao.insertDepartment(department.toEntity())
         }
-        isUpdated = true
+        departments = null
     }
 
     override suspend fun insertDepartments(departments: List<Department>) {
         withContext(ioDispatcher) {
             departmentDao.insertDepartments(departments.toEntityList())
         }
-        isUpdated = true
+        this.departments = null
     }
 
     override suspend fun getAllDepartments(): List<Department> {
-        return if (::departments.isInitialized && !isUpdated) {
-            departments
-        } else {
-            withContext(ioDispatcher) {
-                departmentDao.getAllDepartments().toDepartmentList().also {
-                    departments = it
-                }
+        return departments ?: withContext(ioDispatcher) {
+            departmentDao.getAllDepartments().toDepartmentList().also {
+                departments = it
             }
         }
     }
@@ -68,20 +65,20 @@ class DepartmentRepositoryImpl @Inject constructor(
         withContext(ioDispatcher) {
             departmentDao.updateSubscribeStatus(name, isSubscribed)
         }
-        isUpdated = true
+        departments = null
     }
 
     override suspend fun removeDepartments(departments: List<Department>) {
         withContext(ioDispatcher) {
             departmentDao.removeDepartments(departments.toEntityList())
         }
-        isUpdated = true
+        this.departments = null
     }
 
     override suspend fun clearDepartments() {
         withContext(ioDispatcher) {
             departmentDao.clearDepartments()
         }
-        isUpdated = true
+        departments = null
     }
 }
