@@ -20,14 +20,14 @@ class DepartmentRepositoryImpl @Inject constructor(
     private var isUpdated: Boolean = false
 
     override suspend fun insertDepartment(department: Department) {
-        withIOContext {
+        withContext(ioDispatcher) {
             departmentDao.insertDepartment(department.toEntity())
         }
         isUpdated = true
     }
 
     override suspend fun insertDepartments(departments: List<Department>) {
-        withIOContext {
+        withContext(ioDispatcher) {
             departmentDao.insertDepartments(departments.toEntityList())
         }
         isUpdated = true
@@ -37,7 +37,7 @@ class DepartmentRepositoryImpl @Inject constructor(
         return if (::departments.isInitialized && !isUpdated) {
             departments
         } else {
-            withIOContext {
+            withContext(ioDispatcher) {
                 departmentDao.getAllDepartments().toDepartmentList().also {
                     departments = it
                 }
@@ -57,7 +57,7 @@ class DepartmentRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getSubscribedDepartmentsAsFlow(): Flow<List<Department>> {
-        return withIOContext {
+        return withContext(ioDispatcher) {
             departmentDao.getDepartmentsBySubscribedAsFlow(true).map {
                 it.toDepartmentList()
             }
@@ -65,29 +65,23 @@ class DepartmentRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateSubscribeStatus(name: String, isSubscribed: Boolean) {
-        withIOContext {
+        withContext(ioDispatcher) {
             departmentDao.updateSubscribeStatus(name, isSubscribed)
         }
         isUpdated = true
     }
 
     override suspend fun removeDepartments(departments: List<Department>) {
-        withIOContext {
+        withContext(ioDispatcher) {
             departmentDao.removeDepartments(departments.toEntityList())
         }
         isUpdated = true
     }
 
     override suspend fun clearDepartments() {
-        withIOContext {
+        withContext(ioDispatcher) {
             departmentDao.clearDepartments()
         }
         isUpdated = true
-    }
-
-    private suspend fun <T> withIOContext(block: suspend () -> T): T {
-        return withContext(ioDispatcher) {
-            block()
-        }
     }
 }
