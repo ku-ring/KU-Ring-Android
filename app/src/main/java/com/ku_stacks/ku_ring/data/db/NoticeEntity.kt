@@ -8,6 +8,7 @@ import androidx.room.PrimaryKey
 data class NoticeEntity(
     @PrimaryKey @ColumnInfo(name = "articleId") val articleId: String,
     @ColumnInfo(name = "category") val category: String,
+    @ColumnInfo(name = "department") val department: String = "",
     @ColumnInfo(name = "subject") val subject: String,
     @ColumnInfo(name = "postedDate") val postedDate: String,
     @ColumnInfo(name = "url") val url: String,
