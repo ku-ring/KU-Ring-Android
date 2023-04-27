@@ -6,7 +6,7 @@ data class DefaultResponse(
     @SerializedName(value = "isSuccess")
     val isSuccess: Boolean,
     @SerializedName(value = "resultMsg")
-    val resultMsg: String,
+    val resultMsg: String?,
     @SerializedName(value = "resultCode")
     val resultCode: Int
 )

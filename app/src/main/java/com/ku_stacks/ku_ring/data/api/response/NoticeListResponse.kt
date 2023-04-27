@@ -6,11 +6,11 @@ data class NoticeListResponse(
     @SerializedName(value = "isSuccess")
     val isSuccess: Boolean,
     @SerializedName(value = "resultMsg")
-    val resultMsg: String,
+    val resultMsg: String?,
     @SerializedName(value = "resultCode")
     val resultCode: Int,
     @SerializedName(value = "baseUrl")
-    val baseUrl: String,
+    val baseUrl: String?,
     @SerializedName(value = "noticeList")
-    val noticeResponse: List<NoticeResponse>
+    val noticeResponse: List<NoticeResponse>?
 )

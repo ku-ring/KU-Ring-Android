@@ -6,9 +6,9 @@ data class SubscribeListResponse(
     @SerializedName(value = "isSuccess")
     val isSuccess: Boolean,
     @SerializedName(value = "resultMsg")
-    val resultMsg: String,
+    val resultMsg: String?,
     @SerializedName(value = "resultCode")
     val resultCode: Int,
     @SerializedName(value = "categories")
-    val categoryList: List<String>
+    val categoryList: List<String>?
 )

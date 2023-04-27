@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class SearchNoticeListResponse(
     @SerializedName("code") val code: Int,
-    @SerializedName("message") val message: String,
+    @SerializedName("message") val message: String?,
     @SerializedName("data") val data: List<SearchNoticeResponse>?,
 ) {
     val isSuccess: Boolean
