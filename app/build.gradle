@@ -155,7 +155,7 @@ dependencies {
     implementation "androidx.viewpager2:viewpager2:1.0.0"
 
     // fragment
-    def fragment_version = '1.4.0-alpha03'
+    def fragment_version = '1.5.0'
     implementation "androidx.fragment:fragment-ktx:$fragment_version"
     debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
 
