@@ -54,7 +54,7 @@ fun NoticeListResponse.toNoticeList(type: String): List<Notice> {
 }
 
 fun SearchNoticeListResponse.toNoticeList(): List<Notice> {
-    return data.noticeList.map {
+    return data?.map {
         val url = if (it.category == "library") {
             "${it.baseUrl}/${it.articleId}"
         } else {
@@ -74,11 +74,11 @@ fun SearchNoticeListResponse.toNoticeList(): List<Notice> {
             isReadOnStorage = false,
             tag = emptyList()
         )
-    }
+    } ?: emptyList()
 }
 
 fun SearchStaffListResponse.toStaffList(): List<Staff> {
-    return data.staffList.map {
+    return data?.map {
         Staff(
             name = it.name,
             major = it.major,
@@ -88,5 +88,5 @@ fun SearchStaffListResponse.toStaffList(): List<Staff> {
             department = it.deptName,
             college = it.collegeName,
         )
-    }
+    } ?: emptyList()
 }
