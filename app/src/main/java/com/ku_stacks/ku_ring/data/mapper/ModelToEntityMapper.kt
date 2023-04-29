@@ -8,6 +8,7 @@ import com.ku_stacks.ku_ring.data.model.Notice
 fun Notice.toEntity(): NoticeEntity = NoticeEntity(
     articleId = articleId,
     category = category,
+    department = department,
     subject = concatSubjectAndTag(subject, tag),
     postedDate = postedDate,
     url = url,

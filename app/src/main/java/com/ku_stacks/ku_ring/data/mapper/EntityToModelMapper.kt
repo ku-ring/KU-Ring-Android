@@ -44,6 +44,7 @@ fun NoticeEntity.toNotice(): Notice {
         postedDate = postedDate,
         subject = subject,
         category = category,
+        department = department,
         url = url,
         articleId = articleId,
         isNew = isNew,
