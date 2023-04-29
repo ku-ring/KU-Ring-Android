@@ -1,17 +1,17 @@
 package com.ku_stacks.ku_ring.repository
 
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import androidx.paging.map
+import androidx.paging.*
 import androidx.paging.rxjava3.cachedIn
 import androidx.paging.rxjava3.flowable
 import com.ku_stacks.ku_ring.data.api.NoticeClient
+import com.ku_stacks.ku_ring.data.db.KuRingDatabase
 import com.ku_stacks.ku_ring.data.db.NoticeDao
 import com.ku_stacks.ku_ring.data.db.NoticeEntity
 import com.ku_stacks.ku_ring.data.mapper.toEntity
+import com.ku_stacks.ku_ring.data.mapper.toNotice
 import com.ku_stacks.ku_ring.data.mapper.toNoticeList
 import com.ku_stacks.ku_ring.data.model.Notice
+import com.ku_stacks.ku_ring.data.source.DepartmentNoticeMediator
 import com.ku_stacks.ku_ring.data.source.NoticePagingSource
 import com.ku_stacks.ku_ring.di.IODispatcher
 import com.ku_stacks.ku_ring.util.DateUtil
@@ -28,8 +28,10 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 
+@OptIn(ExperimentalPagingApi::class)
 class NoticeRepositoryImpl @Inject constructor(
     private val noticeClient: NoticeClient,
+    private val kuringDatabase: KuRingDatabase,
     private val noticeDao: NoticeDao,
     private val pref: PreferenceUtil,
     @IODispatcher private val ioDispatcher: CoroutineDispatcher,
@@ -168,6 +170,24 @@ class NoticeRepositoryImpl @Inject constructor(
         }
     }
 
+    // 학과별 공지
+    override fun getDepartmentNotices(shortName: String): Flow<PagingData<Notice>> {
+        val pagingSourceFactory = { noticeDao.getDepartmentNotices(shortName) }
+        return Pager(
+            config = PagingConfig(
+                pageSize = pageSize,
+                enablePlaceholders = true,
+            ),
+            remoteMediator = DepartmentNoticeMediator(
+                shortName,
+                noticeClient,
+                kuringDatabase
+            ),
+            pagingSourceFactory = pagingSourceFactory
+        ).flow.map { noticeEntityPagingData -> noticeEntityPagingData.map { it.toNotice() } }
+            .map { noticePagingData -> transformRemoteData(noticePagingData, type = "dep") }
+    }
+
     override fun deleteAllNoticeRecord() { // for testing
         noticeDao.deleteAllNoticeRecord()
             .subscribeOn(Schedulers.io())
@@ -180,5 +200,9 @@ class NoticeRepositoryImpl @Inject constructor(
 
     override fun deleteSharedPreference() { //for testing
         pref.deleteStartDate()
+    }
+
+    companion object {
+        private const val pageSize = 20
     }
 }

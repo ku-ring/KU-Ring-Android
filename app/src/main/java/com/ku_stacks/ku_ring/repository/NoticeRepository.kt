@@ -16,6 +16,7 @@ interface NoticeRepository {
     suspend fun updateSavedStatus(articleId: String, category: String, isSaved: Boolean)
     suspend fun updateNoticeToBeReadOnStorage(articleId: String, category: String)
     suspend fun clearSavedNotices()
+    fun getDepartmentNotices(shortName: String): Flow<PagingData<Notice>>
     fun deleteAllNoticeRecord()
     fun deleteSharedPreference()
 }

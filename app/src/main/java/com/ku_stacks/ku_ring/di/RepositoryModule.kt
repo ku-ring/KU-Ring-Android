@@ -3,6 +3,7 @@ package com.ku_stacks.ku_ring.di
 import com.ku_stacks.ku_ring.data.api.NoticeClient
 import com.ku_stacks.ku_ring.data.api.SendbirdClient
 import com.ku_stacks.ku_ring.data.db.BlackUserDao
+import com.ku_stacks.ku_ring.data.db.KuRingDatabase
 import com.ku_stacks.ku_ring.data.db.NoticeDao
 import com.ku_stacks.ku_ring.data.db.PushDao
 import com.ku_stacks.ku_ring.repository.*
@@ -22,11 +23,12 @@ object RepositoryModule {
     @Singleton
     fun provideNoticeRepository(
         noticeClient: NoticeClient,
+        kuringDatabase: KuRingDatabase,
         noticeDao: NoticeDao,
         pref: PreferenceUtil,
         @IODispatcher ioDispatcher: CoroutineDispatcher,
     ): NoticeRepository {
-        return NoticeRepositoryImpl(noticeClient, noticeDao, pref, ioDispatcher)
+        return NoticeRepositoryImpl(noticeClient, kuringDatabase, noticeDao, pref, ioDispatcher)
     }
 
     @Provides
