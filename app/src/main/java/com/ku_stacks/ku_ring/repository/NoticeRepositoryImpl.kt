@@ -123,7 +123,7 @@ class NoticeRepositoryImpl @Inject constructor(
     private fun getFlowableRemoteNotice(type: String): Flowable<PagingData<Notice>> {
         return Pager(
             config = PagingConfig(
-                pageSize = 20,
+                pageSize = pageSize,
                 /** 이것보다 PagingSource 에서 ItemCount 가 중요함 */
                 enablePlaceholders = true
             ),
