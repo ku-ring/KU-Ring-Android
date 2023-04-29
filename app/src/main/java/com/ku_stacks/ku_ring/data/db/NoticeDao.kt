@@ -1,5 +1,6 @@
 package com.ku_stacks.ku_ring.data.db
 
+import androidx.paging.PagingSource
 import androidx.room.*
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
@@ -45,6 +46,19 @@ interface NoticeDao {
     fun isReadNotice(id: String): Boolean {
         return getCountOfReadNotice(true, id).subscribeOn(Schedulers.io()).blockingGet() > 0
     }
+
+    // 학과별 공지 쿼리
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertDepartmentNotices(notices: List<NoticeEntity>)
+
+    @Query(
+        "SELECT * FROM NoticeEntity WHERE department LIKE :shortName " /*+
+            "ORDER BY postedDate DESC, articleId DESC"*/
+    )
+    fun getDepartmentNotices(shortName: String): PagingSource<Int, NoticeEntity>
+
+    @Query("DELETE FROM NoticeEntity WHERE department LIKE :shortName")
+    suspend fun clearDepartment(shortName: String)
 
     //not using now
     @Query("DELETE FROM NoticeEntity")
