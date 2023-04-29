@@ -9,6 +9,7 @@ import androidx.room.RoomDatabase
         PushEntity::class,
         BlackUserEntity::class,
         DepartmentEntity::class,
+        PageKeyEntity::class,
     ],
     version = 5,
     exportSchema = false
@@ -18,4 +19,5 @@ abstract class KuRingDatabase : RoomDatabase() {
     abstract fun pushDao(): PushDao
     abstract fun blackUserDao(): BlackUserDao
     abstract fun departmentDao(): DepartmentDao
+    abstract fun pageKeyDao(): PageKeyDao
 }

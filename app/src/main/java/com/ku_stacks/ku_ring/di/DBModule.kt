@@ -47,6 +47,11 @@ object DBModule {
     private val MIGRATION_4_5 = object : Migration(4, 5) {
         override fun migrate(database: SupportSQLiteDatabase) {
             database.execSQL("ALTER TABLE NoticeEntity ADD COLUMN department TEXT NOT NULL DEFAULT ''")
+            database.execSQL(
+                "CREATE TABLE IF NOT EXISTS pageKeys(" +
+                    "articleId TEXT PRIMARY KEY NOT NULL, " +
+                    "page INTEGER NOT NULL DEFAULT 0)"
+            )
         }
     }
 
@@ -77,5 +82,9 @@ object DBModule {
     @Singleton
     @Provides
     fun provideDepartmentDao(database: KuRingDatabase): DepartmentDao = database.departmentDao()
+
+    @Singleton
+    @Provides
+    fun providePageKeyDao(database: KuRingDatabase): PageKeyDao = database.pageKeyDao()
 
 }
