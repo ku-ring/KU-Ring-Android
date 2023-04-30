@@ -19,6 +19,7 @@
     <string name="home_finish_if_back_again">"뒤로가기를 한 번 더 누르시면 종료됩니다"</string>
 
     <!--  category  -->
+    <string name="department">학과</string>
     <string name="bachelor">학사</string>
     <string name="scholarship">장학</string>
     <string name="employ">취창업</string>

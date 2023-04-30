@@ -20,7 +20,7 @@ fun TextView.getDay(str: String) {
             str.substring(0, 4) + "." + str.substring(5, 7) + "." + str.substring(8, 10)
         }
         else -> {
-            Timber.e("timeMillis String length is not normal in BindingAdapter")
+            Timber.e("timeMillis String length is not normal in BindingAdapter: $str")
             str
         }
     }
