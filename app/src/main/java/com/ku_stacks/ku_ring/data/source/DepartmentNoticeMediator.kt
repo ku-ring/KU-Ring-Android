@@ -11,6 +11,8 @@ import com.ku_stacks.ku_ring.data.db.KuRingDatabase
 import com.ku_stacks.ku_ring.data.db.NoticeEntity
 import com.ku_stacks.ku_ring.data.db.PageKeyEntity
 import com.ku_stacks.ku_ring.data.mapper.toEntityList
+import com.ku_stacks.ku_ring.util.DateUtil
+import com.ku_stacks.ku_ring.util.PreferenceUtil
 import timber.log.Timber
 
 @OptIn(ExperimentalPagingApi::class)
@@ -18,6 +20,7 @@ class DepartmentNoticeMediator(
     private val shortName: String,
     private val noticeClient: NoticeClient,
     private val database: KuRingDatabase,
+    private val preferences: PreferenceUtil,
 ) : RemoteMediator<Int, NoticeEntity>() {
 
     override suspend fun load(
@@ -59,13 +62,21 @@ class DepartmentNoticeMediator(
     }
 
     private suspend fun insertNotices(notices: List<DepartmentNoticeResponse>, page: Int) {
-        val noticeEntities = notices.toEntityList(shortName)
+        val startDate = getAppStartedDate()
+        val noticeEntities = notices.toEntityList(shortName, startDate)
         val pageKeyEntities = noticeEntities.map {
             PageKeyEntity(articleId = it.articleId, page = page)
         }
         database.withTransaction {
             database.noticeDao().insertDepartmentNotices(noticeEntities)
             database.pageKeyDao().insertPageKeys(pageKeyEntities)
+        }
+    }
+
+    private fun getAppStartedDate(): String {
+        // TODO: NoticeRepositoryImpl.transformRemoteData()에도 있는 이 로직을 PrefUtil로 옮기기
+        return preferences.startDate ?: DateUtil.getToday().apply {
+            preferences.startDate = this
         }
     }
 
