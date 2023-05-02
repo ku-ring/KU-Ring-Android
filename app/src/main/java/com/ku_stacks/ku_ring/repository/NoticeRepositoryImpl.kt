@@ -181,11 +181,11 @@ class NoticeRepositoryImpl @Inject constructor(
             remoteMediator = DepartmentNoticeMediator(
                 shortName,
                 noticeClient,
-                kuringDatabase
+                kuringDatabase,
+                pref,
             ),
             pagingSourceFactory = pagingSourceFactory
         ).flow.map { noticeEntityPagingData -> noticeEntityPagingData.map { it.toNotice() } }
-            .map { noticePagingData -> transformRemoteData(noticePagingData, type = "dep") }
     }
 
     override fun deleteAllNoticeRecord() { // for testing

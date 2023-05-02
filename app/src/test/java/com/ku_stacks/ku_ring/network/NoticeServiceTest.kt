@@ -2,6 +2,8 @@ package com.ku_stacks.ku_ring.network
 
 import com.ku_stacks.ku_ring.data.api.NoticeService
 import com.ku_stacks.ku_ring.data.api.request.SubscribeRequest
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -70,5 +72,35 @@ class NoticeServiceTest : ApiAbstract<NoticeService>() {
         assertEquals(true, response.isSuccess)
         assertEquals("성공", response.resultMsg)
         assertEquals(201, response.resultCode)
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun `fetchDepartmentNoticeList Test`() = runTest {
+        // given
+        enqueueResponse("/DepartmentNoticeResponse.json")
+
+        // when
+        val mockResponse = service.fetchDepartmentNoticeList(
+            type = "dept",
+            shortName = "cse",
+            page = 0,
+            size = 20
+        )
+        mockWebServer.takeRequest()
+
+        assertEquals(200, mockResponse.code)
+        assertEquals(20, mockResponse.data.size)
+
+        val notice = mockResponse.data[0]
+        assertEquals("182677", notice.articleId)
+        assertEquals("2023-05-02", notice.postedDate)
+        assertEquals(
+            "http://cse.konkuk.ac.kr/noticeView.do?siteId=CSE&boardSeq=882&menuSeq=6097&seq=182677",
+            notice.url
+        )
+        assertEquals("2023학년도 진로총조사 설문 요청", notice.subject)
+        assertEquals("department", notice.category)
+        assertEquals(false, notice.important)
     }
 }
