@@ -40,8 +40,6 @@ class DepartmentNoticeMediator(
         }
 
         return try {
-            clearNoticesWhenRefresh(loadType)
-
             val noticeResponse = noticeClient.fetchDepartmentNoticeList(
                 shortName = shortName,
                 page = page,
@@ -77,14 +75,6 @@ class DepartmentNoticeMediator(
         // TODO: NoticeRepositoryImpl.transformRemoteData()에도 있는 이 로직을 PrefUtil로 옮기기
         return preferences.startDate ?: DateUtil.getToday().apply {
             preferences.startDate = this
-        }
-    }
-
-    private suspend fun clearNoticesWhenRefresh(loadType: LoadType) {
-        if (loadType == LoadType.REFRESH) {
-            database.withTransaction {
-                database.noticeDao().clearDepartment(shortName)
-            }
         }
     }
 
