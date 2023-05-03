@@ -85,7 +85,8 @@ class NoticeServiceTest : ApiAbstract<NoticeService>() {
             type = "dept",
             shortName = "cse",
             page = 0,
-            size = 20
+            size = 20,
+            important = false,
         )
         mockWebServer.takeRequest()
 
