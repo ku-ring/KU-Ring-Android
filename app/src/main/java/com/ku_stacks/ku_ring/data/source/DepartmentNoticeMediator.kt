@@ -73,7 +73,7 @@ class DepartmentNoticeMediator(
 
     private fun getAppStartedDate(): String {
         // TODO: NoticeRepositoryImpl.transformRemoteData()에도 있는 이 로직을 PrefUtil로 옮기기
-        return preferences.startDate ?: DateUtil.getToday().apply {
+        return preferences.startDate?.takeIf { it.isNotEmpty() } ?: DateUtil.getToday().apply {
             preferences.startDate = this
         }
     }
