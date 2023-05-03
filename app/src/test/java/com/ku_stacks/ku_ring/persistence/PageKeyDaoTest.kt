@@ -14,7 +14,7 @@ import org.robolectric.annotation.Config
 
 @ExperimentalCoroutinesApi
 @RunWith(RobolectricTestRunner::class)
-@Config(sdk = [23])
+@Config(sdk = [24])
 class PageKeyDaoTest : LocalDbAbstract() {
 
     private lateinit var pageKeyDao: PageKeyDao
