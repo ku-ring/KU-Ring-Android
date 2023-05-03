@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.ku_stacks.ku_ring.MockUtil.mockNoticeEntity
 import com.ku_stacks.ku_ring.MockUtil.mockReadNoticeEntity
 import com.ku_stacks.ku_ring.data.api.NoticeClient
+import com.ku_stacks.ku_ring.data.db.KuRingDatabase
 import com.ku_stacks.ku_ring.data.db.NoticeDao
 import com.ku_stacks.ku_ring.data.mapper.toNotice
 import com.ku_stacks.ku_ring.util.PreferenceUtil
@@ -22,6 +23,7 @@ class NoticeRepositoryTest {
 
     private lateinit var repository: NoticeRepository
     private val client: NoticeClient = Mockito.mock(NoticeClient::class.java)
+    private val kuringDatabase: KuRingDatabase = Mockito.mock(KuRingDatabase::class.java)
     private val dao: NoticeDao = Mockito.mock(NoticeDao::class.java)
     private val pref: PreferenceUtil = Mockito.mock(PreferenceUtil::class.java)
 
@@ -33,7 +35,7 @@ class NoticeRepositoryTest {
     @Before
     fun setup() {
         Dispatchers.setMain(testDispatcher)
-        repository = NoticeRepositoryImpl(client, dao, pref, testDispatcher)
+        repository = NoticeRepositoryImpl(client, kuringDatabase, dao, pref, testDispatcher)
     }
 
     @After
