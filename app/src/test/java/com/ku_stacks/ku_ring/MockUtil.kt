@@ -2,6 +2,8 @@ package com.ku_stacks.ku_ring
 
 import com.ku_stacks.ku_ring.data.api.request.SubscribeRequest
 import com.ku_stacks.ku_ring.data.api.response.DefaultResponse
+import com.ku_stacks.ku_ring.data.api.response.DepartmentNoticeListResponse
+import com.ku_stacks.ku_ring.data.api.response.DepartmentNoticeResponse
 import com.ku_stacks.ku_ring.data.api.response.NoticeListResponse
 import com.ku_stacks.ku_ring.data.api.response.NoticeResponse
 import com.ku_stacks.ku_ring.data.api.response.SubscribeListResponse
@@ -93,5 +95,26 @@ object MockUtil {
         isSuccess = true,
         resultMsg = "성공",
         resultCode = 200
+    )
+
+    fun mockSucceededDepartmentNoticeListResponse(dataSize: Int) = DepartmentNoticeListResponse(
+        code = 200,
+        message = "공지 조회에 성공하였습니다",
+        data = (1..dataSize).map {
+            DepartmentNoticeResponse(
+                articleId = it.toString(),
+                postedDate = "2023-05-02",
+                url = "http://cse.konkuk.ac.kr/noticeView.do?siteId=CSE&boardSeq=882&menuSeq=6097&seq=182677",
+                subject = "2023학년도 진로총조사 설문 요청",
+                category = "department",
+                important = false
+            )
+        }
+    )
+
+    fun mockEmptyDepartmentNoticeListResponse() = DepartmentNoticeListResponse(
+        code = 200,
+        message = "공지 조회에 성공하였습니다",
+        data = emptyList()
     )
 }
