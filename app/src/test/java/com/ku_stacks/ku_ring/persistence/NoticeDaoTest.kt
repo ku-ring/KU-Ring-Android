@@ -17,7 +17,7 @@ import org.robolectric.annotation.Config
 
 @ExperimentalCoroutinesApi
 @RunWith(RobolectricTestRunner::class)
-@Config(sdk = [23])
+@Config(sdk = [24])
 class NoticeDaoTest : LocalDbAbstract() {
 
     private lateinit var noticeDao: NoticeDao
