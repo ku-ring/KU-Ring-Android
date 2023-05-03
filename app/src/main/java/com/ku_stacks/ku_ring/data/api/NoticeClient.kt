@@ -30,6 +30,7 @@ class NoticeClient @Inject constructor(
         shortName: String,
         page: Int,
         size: Int,
+        important: Boolean = false,
     ): DepartmentNoticeListResponse =
-        noticeService.fetchDepartmentNoticeList(type, shortName, page, size)
+        noticeService.fetchDepartmentNoticeList(type, shortName, page, size, important)
 }
