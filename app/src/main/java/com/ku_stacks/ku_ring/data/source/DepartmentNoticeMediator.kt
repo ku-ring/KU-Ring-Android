@@ -40,6 +40,9 @@ class DepartmentNoticeMediator(
         }
 
         return try {
+            if (page == 0) {
+                loadAndSaveImportantNotices()
+            }
             val noticeResponse = noticeClient.fetchDepartmentNoticeList(
                 shortName = shortName,
                 page = page,
@@ -57,6 +60,16 @@ class DepartmentNoticeMediator(
             Timber.e("Dept notices exception: ${e.message}")
             MediatorResult.Error(e)
         }
+    }
+
+    private suspend fun loadAndSaveImportantNotices() {
+        val importNoticesResponse = noticeClient.fetchDepartmentNoticeList(
+            shortName = shortName,
+            page = 0,
+            size = itemSize,
+            important = true
+        )
+        insertNotices(importNoticesResponse.data, 0)
     }
 
     private suspend fun insertNotices(notices: List<DepartmentNoticeResponse>, page: Int) {
