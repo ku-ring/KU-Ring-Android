@@ -35,5 +35,6 @@ interface NoticeService {
         @Query("department") shortName: String,
         @Query("page") page: Int,
         @Query("size") size: Int,
+        @Query("important") important: Boolean,
     ): DepartmentNoticeListResponse
 }
