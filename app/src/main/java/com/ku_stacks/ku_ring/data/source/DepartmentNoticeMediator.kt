@@ -40,9 +40,10 @@ class DepartmentNoticeMediator(
         }
 
         return try {
-            if (page == 0) {
-                loadAndSaveImportantNotices()
-            }
+            // TODO: 나중에 중요 공지 보여줄 때 주석 해제하기
+//            if (page == 0) {
+//                loadAndSaveImportantNotices()
+//            }
             val noticeResponse = noticeClient.fetchDepartmentNoticeList(
                 shortName = shortName,
                 page = page,
