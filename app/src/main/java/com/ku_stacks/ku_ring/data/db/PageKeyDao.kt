@@ -10,6 +10,6 @@ interface PageKeyDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPageKeys(pageKeyEntities: List<PageKeyEntity>)
 
-    @Query("SELECT * FROM pageKeys WHERE articleId = :articleId")
-    suspend fun getPageKey(articleId: String): PageKeyEntity?
+    @Query("SELECT * FROM pageKeys WHERE articleId = :articleId and shortName = :shortName")
+    suspend fun getPageKey(articleId: String, shortName: String): PageKeyEntity?
 }

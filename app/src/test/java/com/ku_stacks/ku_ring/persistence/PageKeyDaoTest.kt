@@ -27,11 +27,11 @@ class PageKeyDaoTest : LocalDbAbstract() {
     @Test
     fun `insert and get PageKey Test`() = runTest {
         // given
-        val pageKeyEntity = PageKeyEntity(articleId = "123456", page = 1)
+        val pageKeyEntity = PageKeyEntity(articleId = "123456", shortName = "cse", page = 1)
         pageKeyDao.insertPageKeys(listOf(pageKeyEntity))
 
         // when
-        val storedEntity = pageKeyDao.getPageKey(pageKeyEntity.articleId)
+        val storedEntity = pageKeyDao.getPageKey(pageKeyEntity.articleId, pageKeyEntity.shortName)
 
         // then
         assertThat(pageKeyEntity, `is`(storedEntity))

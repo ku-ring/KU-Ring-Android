@@ -1,10 +1,10 @@
 package com.ku_stacks.ku_ring.data.db
 
 import androidx.room.Entity
-import androidx.room.PrimaryKey
 
-@Entity(tableName = "pageKeys")
+@Entity(tableName = "pageKeys", primaryKeys = ["articleId", "shortName"])
 data class PageKeyEntity(
-    @PrimaryKey val articleId: String,
+    val articleId: String,
+    val shortName: String,
     val page: Int,
 )
