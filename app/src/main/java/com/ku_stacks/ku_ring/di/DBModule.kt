@@ -50,6 +50,7 @@ object DBModule {
             database.execSQL(
                 "CREATE TABLE IF NOT EXISTS pageKeys(" +
                     "articleId TEXT PRIMARY KEY NOT NULL, " +
+                    "shortName TEXT PRIMARY KEY NOT NULL, " +
                     "page INTEGER NOT NULL DEFAULT 0)"
             )
         }
