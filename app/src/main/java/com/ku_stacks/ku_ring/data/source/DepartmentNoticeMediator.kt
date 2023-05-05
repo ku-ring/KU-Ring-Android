@@ -76,7 +76,7 @@ class DepartmentNoticeMediator(
         val startDate = getAppStartedDate()
         val noticeEntities = notices.toEntityList(shortName, startDate)
         val pageKeyEntities = noticeEntities.map {
-            PageKeyEntity(articleId = it.articleId, page = page)
+            PageKeyEntity(articleId = it.articleId, shortName = shortName, page = page)
         }
         database.withTransaction {
             database.noticeDao().insertDepartmentNotices(noticeEntities)
@@ -94,7 +94,7 @@ class DepartmentNoticeMediator(
     private suspend fun getRefreshKey(state: PagingState<Int, NoticeEntity>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             state.closestItemToPosition(anchorPosition)?.articleId?.let { articleId ->
-                database.pageKeyDao().getPageKey(articleId)?.page
+                database.pageKeyDao().getPageKey(articleId, shortName)?.page
             }
         }
     }
@@ -102,14 +102,14 @@ class DepartmentNoticeMediator(
     private suspend fun getPrependKey(state: PagingState<Int, NoticeEntity>): Int? {
         val firstItem = state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
         return firstItem?.let {
-            database.pageKeyDao().getPageKey(firstItem.articleId)?.page?.minus(1)
+            database.pageKeyDao().getPageKey(firstItem.articleId, shortName)?.page?.minus(1)
         }
     }
 
     private suspend fun getAppendKey(state: PagingState<Int, NoticeEntity>): Int? {
         val lastItem = state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
         return lastItem?.let {
-            database.pageKeyDao().getPageKey(lastItem.articleId)?.page?.plus(1)
+            database.pageKeyDao().getPageKey(lastItem.articleId, shortName)?.page?.plus(1)
         }
     }
 
