@@ -4,10 +4,9 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
-import androidx.room.withTransaction
 import com.ku_stacks.ku_ring.data.api.NoticeClient
 import com.ku_stacks.ku_ring.data.api.response.DepartmentNoticeResponse
-import com.ku_stacks.ku_ring.data.db.KuRingDatabase
+import com.ku_stacks.ku_ring.data.db.NoticeDao
 import com.ku_stacks.ku_ring.data.db.NoticeEntity
 import com.ku_stacks.ku_ring.data.mapper.toEntityList
 import com.ku_stacks.ku_ring.util.DateUtil
@@ -18,7 +17,7 @@ import timber.log.Timber
 class DepartmentNoticeMediator(
     private val shortName: String,
     private val noticeClient: NoticeClient,
-    private val database: KuRingDatabase,
+    private val noticeDao: NoticeDao,
     private val preferences: PreferenceUtil,
 ) : RemoteMediator<Int, NoticeEntity>() {
 

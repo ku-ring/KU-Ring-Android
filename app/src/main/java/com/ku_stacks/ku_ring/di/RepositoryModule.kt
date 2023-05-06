@@ -28,7 +28,7 @@ object RepositoryModule {
         pref: PreferenceUtil,
         @IODispatcher ioDispatcher: CoroutineDispatcher,
     ): NoticeRepository {
-        return NoticeRepositoryImpl(noticeClient, kuringDatabase, noticeDao, pref, ioDispatcher)
+        return NoticeRepositoryImpl(noticeClient, noticeDao, pref, ioDispatcher)
     }
 
     @Provides

@@ -23,7 +23,6 @@ class NoticeRepositoryTest {
 
     private lateinit var repository: NoticeRepository
     private val client: NoticeClient = Mockito.mock(NoticeClient::class.java)
-    private val kuringDatabase: KuRingDatabase = Mockito.mock(KuRingDatabase::class.java)
     private val dao: NoticeDao = Mockito.mock(NoticeDao::class.java)
     private val pref: PreferenceUtil = Mockito.mock(PreferenceUtil::class.java)
 
@@ -35,7 +34,7 @@ class NoticeRepositoryTest {
     @Before
     fun setup() {
         Dispatchers.setMain(testDispatcher)
-        repository = NoticeRepositoryImpl(client, kuringDatabase, dao, pref, testDispatcher)
+        repository = NoticeRepositoryImpl(client, dao, pref, testDispatcher)
     }
 
     @After
