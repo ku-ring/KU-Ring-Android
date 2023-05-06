@@ -80,9 +80,7 @@ class DepartmentNoticeMediator(
         noticeEntities.map {
             pageNumberMap[PageKey(it.articleId, shortName)] = page
         }
-        database.withTransaction {
-            database.noticeDao().insertDepartmentNotices(noticeEntities)
-        }
+        noticeDao.insertDepartmentNotices(noticeEntities)
     }
 
     private fun getAppStartedDate(): String {
