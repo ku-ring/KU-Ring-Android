@@ -4,7 +4,6 @@ import androidx.paging.*
 import androidx.paging.rxjava3.cachedIn
 import androidx.paging.rxjava3.flowable
 import com.ku_stacks.ku_ring.data.api.NoticeClient
-import com.ku_stacks.ku_ring.data.db.KuRingDatabase
 import com.ku_stacks.ku_ring.data.db.NoticeDao
 import com.ku_stacks.ku_ring.data.db.NoticeEntity
 import com.ku_stacks.ku_ring.data.mapper.toEntity
@@ -31,7 +30,6 @@ import javax.inject.Inject
 @OptIn(ExperimentalPagingApi::class)
 class NoticeRepositoryImpl @Inject constructor(
     private val noticeClient: NoticeClient,
-    private val kuringDatabase: KuRingDatabase,
     private val noticeDao: NoticeDao,
     private val pref: PreferenceUtil,
     @IODispatcher private val ioDispatcher: CoroutineDispatcher,
@@ -181,7 +179,7 @@ class NoticeRepositoryImpl @Inject constructor(
             remoteMediator = DepartmentNoticeMediator(
                 shortName,
                 noticeClient,
-                kuringDatabase,
+                noticeDao,
                 pref,
             ),
             pagingSourceFactory = pagingSourceFactory
