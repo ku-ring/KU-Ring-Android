@@ -10,12 +10,14 @@ import androidx.paging.RemoteMediator
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.ku_stacks.ku_ring.MockUtil
 import com.ku_stacks.ku_ring.data.api.NoticeClient
+import com.ku_stacks.ku_ring.data.db.NoticeDao
 import com.ku_stacks.ku_ring.data.db.NoticeEntity
 import com.ku_stacks.ku_ring.data.source.DepartmentNoticeMediator
 import com.ku_stacks.ku_ring.persistence.LocalDbAbstract
 import com.ku_stacks.ku_ring.util.PreferenceUtil
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
+import org.junit.Assert.assertFalse
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -30,6 +32,7 @@ import org.robolectric.annotation.Config
 class DepartmentNoticeMediatorTest : LocalDbAbstract() {
 
     private val client: NoticeClient = Mockito.mock(NoticeClient::class.java)
+    private val noticeDao: NoticeDao = Mockito.mock(NoticeDao::class.java)
     private lateinit var mediator: DepartmentNoticeMediator
     private lateinit var preferenceUtil: PreferenceUtil
 
@@ -46,7 +49,7 @@ class DepartmentNoticeMediatorTest : LocalDbAbstract() {
         mediator = DepartmentNoticeMediator(
             shortName = shortName,
             noticeClient = client,
-            database = db,
+            noticeDao = noticeDao,
             preferences = preferenceUtil,
         )
     }
