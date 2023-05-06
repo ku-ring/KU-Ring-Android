@@ -62,4 +62,12 @@ object RepositoryModule {
         return UserRepositoryImpl(blackUserDao)
     }
 
+    @Provides
+    @Singleton
+    fun provideDepartmentNoticeRepository(
+        noticeClient: NoticeClient,
+        noticeDao: NoticeDao,
+        pref: PreferenceUtil,
+    ): DepartmentNoticeRepository = DepartmentNoticeRepositoryImpl(noticeClient, noticeDao, pref)
+
 }
