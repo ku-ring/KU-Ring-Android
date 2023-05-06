@@ -168,24 +168,6 @@ class NoticeRepositoryImpl @Inject constructor(
         }
     }
 
-    // 학과별 공지
-    override fun getDepartmentNotices(shortName: String): Flow<PagingData<Notice>> {
-        val pagingSourceFactory = { noticeDao.getDepartmentNotices(shortName) }
-        return Pager(
-            config = PagingConfig(
-                pageSize = pageSize,
-                enablePlaceholders = true,
-            ),
-            remoteMediator = DepartmentNoticeMediator(
-                shortName,
-                noticeClient,
-                noticeDao,
-                pref,
-            ),
-            pagingSourceFactory = pagingSourceFactory
-        ).flow.map { noticeEntityPagingData -> noticeEntityPagingData.map { it.toNotice() } }
-    }
-
     override fun deleteAllNoticeRecord() { // for testing
         noticeDao.deleteAllNoticeRecord()
             .subscribeOn(Schedulers.io())
