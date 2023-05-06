@@ -54,61 +54,60 @@ class DepartmentNoticeMediatorTest : LocalDbAbstract() {
         )
     }
 
-    //    @Test
-//    @OptIn(ExperimentalPagingApi::class)
-//    fun `noticeClient succeeds and returns some notices`() = runTest {
-//        // TODO: Mock하면 response가 영원히 반환되지 않음
-//        // given
-//        val mockResponse = MockUtil.mockSucceededDepartmentNoticeListResponse(pageSize)
-//        Mockito.`when`(
-//            client.fetchDepartmentNoticeList(
-//                type = "dep",
-//                shortName = shortName,
-//                page = 0,
-//                size = pageSize
-//            )
-//        ).thenReturn(mockResponse)
-//
-//        // when
-//        val pagingState = PagingState<Int, NoticeEntity>(
-//            pages = emptyList(),
-//            anchorPosition = null,
-//            config = PagingConfig(pageSize),
-//            leadingPlaceholderCount = pageSize,
-//        )
-//        val result = mediator.load(loadType = LoadType.REFRESH, state = pagingState)
-//
-//        // then
-//        assert(result is RemoteMediator.MediatorResult.Success)
-//        assertFalse((result as RemoteMediator.MediatorResult.Success).endOfPaginationReached)
-//    }
-//
-//    @Test
-//    @OptIn(ExperimentalPagingApi::class)
-//    fun `noticeClient succeeds but returns empty list`() = runTest {
-//        // given
-//        val mockResponse = MockUtil.mockEmptyDepartmentNoticeListResponse()
-//        Mockito.`when`(
-//            client.fetchDepartmentNoticeList(
-//                shortName = shortName,
-//                page = 0,
-//                size = pageSize
-//            )
-//        ).thenReturn(mockResponse)
-//
-//        // when
-//        val pagingState = PagingState<Int, NoticeEntity>(
-//            pages = emptyList(),
-//            anchorPosition = null,
-//            config = PagingConfig(pageSize),
-//            leadingPlaceholderCount = pageSize,
-//        )
-//        val result = mediator.load(loadType = LoadType.REFRESH, state = pagingState)
-//
-//        // then
-//        assert(result is RemoteMediator.MediatorResult.Success)
-//        assert((result as RemoteMediator.MediatorResult.Success).endOfPaginationReached)
-//    }
+    @Test
+    @OptIn(ExperimentalPagingApi::class)
+    fun `noticeClient succeeds and returns some notices`() = runTest {
+        // given
+        val mockResponse = MockUtil.mockSucceededDepartmentNoticeListResponse(pageSize)
+        Mockito.`when`(
+            client.fetchDepartmentNoticeList(
+                type = "dep",
+                shortName = shortName,
+                page = 0,
+                size = pageSize
+            )
+        ).thenReturn(mockResponse)
+
+        // when
+        val pagingState = PagingState<Int, NoticeEntity>(
+            pages = emptyList(),
+            anchorPosition = null,
+            config = PagingConfig(pageSize),
+            leadingPlaceholderCount = pageSize,
+        )
+        val result = mediator.load(loadType = LoadType.REFRESH, state = pagingState)
+
+        // then
+        assert(result is RemoteMediator.MediatorResult.Success)
+        assertFalse((result as RemoteMediator.MediatorResult.Success).endOfPaginationReached)
+    }
+
+    @Test
+    @OptIn(ExperimentalPagingApi::class)
+    fun `noticeClient succeeds but returns empty list`() = runTest {
+        // given
+        val mockResponse = MockUtil.mockEmptyDepartmentNoticeListResponse()
+        Mockito.`when`(
+            client.fetchDepartmentNoticeList(
+                shortName = shortName,
+                page = 0,
+                size = pageSize
+            )
+        ).thenReturn(mockResponse)
+
+        // when
+        val pagingState = PagingState<Int, NoticeEntity>(
+            pages = emptyList(),
+            anchorPosition = null,
+            config = PagingConfig(pageSize),
+            leadingPlaceholderCount = pageSize,
+        )
+        val result = mediator.load(loadType = LoadType.REFRESH, state = pagingState)
+
+        // then
+        assert(result is RemoteMediator.MediatorResult.Success)
+        assert((result as RemoteMediator.MediatorResult.Success).endOfPaginationReached)
+    }
 
     @Test
     @OptIn(ExperimentalPagingApi::class)
