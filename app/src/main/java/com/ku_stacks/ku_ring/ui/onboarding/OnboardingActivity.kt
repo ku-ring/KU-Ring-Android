@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.ui.on_boarding
+package com.ku_stacks.ku_ring.ui.onboarding
 
 import android.content.Intent
 import android.os.Bundle
@@ -14,14 +14,14 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class OnBoardingActivity : AppCompatActivity() {
+class OnboardingActivity : AppCompatActivity() {
     @Inject
     lateinit var analytics: EventAnalytics
 
     @Inject
     lateinit var pref: PreferenceUtil
 
-    private val getOnBoardingFinishResult = registerForActivityResult(
+    private val getOnboardingFinishResult = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == RESULT_OK) {
@@ -41,10 +41,10 @@ class OnBoardingActivity : AppCompatActivity() {
             val intent = Intent(this, EditSubscriptionActivity::class.java).apply {
                 putExtra(EditSubscriptionActivity.FIRST_RUN_FLAG, true)
             }
-            getOnBoardingFinishResult.launch(intent)
+            getOnboardingFinishResult.launch(intent)
 
             overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
-            analytics.click("start first Subscription Notification", "OnBoardingActivity")
+            analytics.click("start first Subscription Notification", "OnboardingActivity")
         }
     }
 }

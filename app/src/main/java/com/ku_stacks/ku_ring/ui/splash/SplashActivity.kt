@@ -8,7 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.databinding.ActivitySplashBinding
 import com.ku_stacks.ku_ring.ui.main.MainActivity
-import com.ku_stacks.ku_ring.ui.on_boarding.OnBoardingActivity
+import com.ku_stacks.ku_ring.ui.onboarding.OnboardingActivity
 import com.ku_stacks.ku_ring.util.DateUtil
 import com.ku_stacks.ku_ring.util.FcmUtil
 import com.ku_stacks.ku_ring.util.PreferenceUtil
@@ -45,8 +45,8 @@ class SplashActivity : AppCompatActivity() {
                 launchedFromCustomNotificationEvent(intent) -> {
                     handleCustomNotification()
                 }
-                onBoardingNotFinished() -> {
-                    startActivity(Intent(this@SplashActivity, OnBoardingActivity::class.java))
+                onboadingRequired() -> {
+                    startActivity(Intent(this@SplashActivity, OnboardingActivity::class.java))
                     overridePendingTransition(0, 0)
                     finish()
                 }
@@ -118,7 +118,7 @@ class SplashActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun onBoardingNotFinished(): Boolean {
+    private fun onboadingRequired(): Boolean {
         return pref.firstRunFlag && pref.subscription.isNullOrEmpty()
     }
 }
