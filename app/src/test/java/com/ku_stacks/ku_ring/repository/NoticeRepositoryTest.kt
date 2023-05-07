@@ -4,7 +4,6 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.ku_stacks.ku_ring.MockUtil.mockNoticeEntity
 import com.ku_stacks.ku_ring.MockUtil.mockReadNoticeEntity
 import com.ku_stacks.ku_ring.data.api.NoticeClient
-import com.ku_stacks.ku_ring.data.db.KuRingDatabase
 import com.ku_stacks.ku_ring.data.db.NoticeDao
 import com.ku_stacks.ku_ring.data.mapper.toNotice
 import com.ku_stacks.ku_ring.util.PreferenceUtil

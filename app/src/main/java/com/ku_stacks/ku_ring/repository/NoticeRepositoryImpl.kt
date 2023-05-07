@@ -7,10 +7,8 @@ import com.ku_stacks.ku_ring.data.api.NoticeClient
 import com.ku_stacks.ku_ring.data.db.NoticeDao
 import com.ku_stacks.ku_ring.data.db.NoticeEntity
 import com.ku_stacks.ku_ring.data.mapper.toEntity
-import com.ku_stacks.ku_ring.data.mapper.toNotice
 import com.ku_stacks.ku_ring.data.mapper.toNoticeList
 import com.ku_stacks.ku_ring.data.model.Notice
-import com.ku_stacks.ku_ring.data.source.DepartmentNoticeMediator
 import com.ku_stacks.ku_ring.data.source.NoticePagingSource
 import com.ku_stacks.ku_ring.di.IODispatcher
 import com.ku_stacks.ku_ring.util.DateUtil
