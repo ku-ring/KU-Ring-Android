@@ -20,8 +20,7 @@ class DepartmentNoticeRepositoryImpl @Inject constructor(
     private val noticeClient: NoticeClient,
     private val noticeDao: NoticeDao,
     private val pref: PreferenceUtil,
-) :
-    DepartmentNoticeRepository {
+) : DepartmentNoticeRepository {
     override fun getDepartmentNotices(shortName: String): Flow<PagingData<Notice>> {
         val pagingSourceFactory = { noticeDao.getDepartmentNotices(shortName) }
         return Pager(
