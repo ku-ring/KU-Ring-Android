@@ -1,9 +1,11 @@
 package com.ku_stacks.ku_ring.ui.main
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.viewpager2.widget.ViewPager2
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.databinding.ActivityMainBinding
@@ -120,5 +122,29 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         binding.mainViewPager.unregisterOnPageChangeCallback(pageChangeCallback)
+    }
+
+    companion object {
+        fun start(
+            activity: Activity,
+            url: String,
+            articleId: String,
+            category: String,
+            postedDate: String,
+            subject: String
+        ) {
+            val intent = Intent(activity, MainActivity::class.java).apply {
+                putExtras(
+                    bundleOf(
+                        NoticeWebActivity.NOTICE_URL to url,
+                        NoticeWebActivity.NOTICE_ARTICLE_ID to articleId,
+                        NoticeWebActivity.NOTICE_CATEGORY to category,
+                        NoticeWebActivity.NOTICE_POSTED_DATE to postedDate,
+                        NoticeWebActivity.NOTICE_SUBJECT to subject
+                    )
+                )
+            }
+            activity.startActivity(intent)
+        }
     }
 }
