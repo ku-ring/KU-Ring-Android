@@ -16,6 +16,7 @@ import com.ku_stacks.ku_ring.data.db.PushEntity
 import com.ku_stacks.ku_ring.ui.main.MainActivity
 import com.ku_stacks.ku_ring.ui.notice_webview.NoticeWebActivity
 import com.ku_stacks.ku_ring.util.DateUtil
+import com.ku_stacks.ku_ring.util.FcmUtil
 import com.ku_stacks.ku_ring.util.PreferenceUtil
 import com.ku_stacks.ku_ring.util.UrlGenerator
 import com.ku_stacks.ku_ring.util.WordConverter
@@ -35,12 +36,15 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
     @Inject
     lateinit var pref: PreferenceUtil
 
+    @Inject
+    lateinit var fcmUtil: FcmUtil
+
     override fun onNewToken(token: String) {
         Timber.e("refreshed token : $token")
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        if (isNoticeNotification(remoteMessage)) {
+        if (fcmUtil.isNoticeNotification(remoteMessage.data)) {
             val articleId = remoteMessage.data["articleId"]!!
             val category = remoteMessage.data["category"]!!
             val postedDate = remoteMessage.data["postedDate"]!!
@@ -49,7 +53,7 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
 
             // insert into db
             val receivedDate = DateUtil.getCurrentTime()
-            insertNotificationIntoDatabase(
+            fcmUtil.insertNotificationIntoDatabase(
                 articleId = articleId,
                 category = category,
                 postedDate = postedDate,
@@ -72,62 +76,13 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
                 articleId = articleId,
                 category = category
             )
-        } else if (isCustomNotification(remoteMessage)) {
+        } else if (fcmUtil.isCustomNotification(remoteMessage.data)) {
             val type = remoteMessage.data["type"]!!
             val title = remoteMessage.data["title"]!!
             val body = remoteMessage.data["body"]!!
 
             if (pref.extNotificationAllowed) {
                 showCustomNotification(type = type, title = title, body = body)
-            }
-        }
-    }
-
-    private fun isNoticeNotification(remoteMessage: RemoteMessage): Boolean {
-        val articleId = remoteMessage.data["articleId"]
-        val categoryEng = remoteMessage.data["category"]
-        val postedDate = remoteMessage.data["postedDate"]
-        val subject = remoteMessage.data["subject"]
-        val baseUrl = remoteMessage.data["baseUrl"]
-
-        return articleId != null && categoryEng != null && postedDate != null
-            && subject != null && baseUrl != null
-    }
-
-    private fun isCustomNotification(remoteMessage: RemoteMessage): Boolean {
-        val customTypeSet = setOf("admin")
-
-        val type = remoteMessage.data["type"]?.lowercase()
-        val title = remoteMessage.data["title"]
-        val body = remoteMessage.data["body"]
-
-        return type != null && title != null && body != null && customTypeSet.contains(type)
-    }
-
-    private fun insertNotificationIntoDatabase(
-        articleId: String,
-        category: String,
-        postedDate: String,
-        subject: String,
-        baseUrl: String,
-        receivedDate: String
-    ) {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                pushDao.insertNotification(
-                    PushEntity(
-                        articleId = articleId,
-                        category = category,
-                        postedDate = postedDate,
-                        subject = subject,
-                        baseUrl = baseUrl,
-                        isNew = true,
-                        receivedDate = receivedDate
-                    )
-                )
-                Timber.e("insert notification success")
-            } catch (e: Exception) {
-                Timber.e("insert notification error : $e")
             }
         }
     }
