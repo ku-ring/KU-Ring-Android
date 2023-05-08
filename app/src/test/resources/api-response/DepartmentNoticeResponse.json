@@ -1,0 +1,166 @@
+{
+    "code": 200,
+    "message": "공지 조회에 성공하였습니다",
+    "data": [
+        {
+            "articleId": "182677",
+            "postedDate": "2023-05-02",
+            "url": "http://cse.konkuk.ac.kr/noticeView.do?siteId=CSE&boardSeq=882&menuSeq=6097&seq=182677",
+            "subject": "2023학년도 진로총조사 설문 요청",
+            "category": "department",
+            "important": false
+        },
+        {
+            "articleId": "182693",
+            "postedDate": "2023-05-02",
+            "url": "http://cse.konkuk.ac.kr/noticeView.do?siteId=CSE&boardSeq=882&menuSeq=6097&seq=182693",
+            "subject": "[교양교육센터] 2023학년도 성 · 신 · 의 에세이 경진대회, 성 · 신 · 의 논제 공모전 시행 안내",
+            "category": "department",
+            "important": false
+        },
+        {
+            "articleId": "182634",
+            "postedDate": "2023-04-28",
+            "url": "http://cse.konkuk.ac.kr/noticeView.do?siteId=CSE&boardSeq=882&menuSeq=6097&seq=182634",
+            "subject": "[혁신공유대학사업단] CO-WEEK ACADEMY 강좌 소개 및 수강신청 일정 안내",
+            "category": "department",
+            "important": false
+        },
+        {
+            "articleId": "182629",
+            "postedDate": "2023-04-28",
+            "url": "http://cse.konkuk.ac.kr/noticeView.do?siteId=CSE&boardSeq=882&menuSeq=6097&seq=182629",
+            "subject": "[현장실습] 2023학년도 2학기 IPP장기현장실습 실습생 모집 안내",
+            "category": "department",
+            "important": false
+        },
+        {
+            "articleId": "182567",
+            "postedDate": "2023-04-27",
+            "url": "http://cse.konkuk.ac.kr/noticeView.do?siteId=CSE&boardSeq=882&menuSeq=6097&seq=182567",
+            "subject": "[SW사업단] 2023 K-SW스퀘어 가을 프로그램(SW해외교육 프로그램) 참가자 모집 안내",
+            "category": "department",
+            "important": false
+        },
+        {
+            "articleId": "182487",
+            "postedDate": "2023-04-25",
+            "url": "http://cse.konkuk.ac.kr/noticeView.do?siteId=CSE&boardSeq=882&menuSeq=6097&seq=182487",
+            "subject": "[SW사업단] 2023년 1학기 \"StartUp 인턴\" 교육 개최",
+            "category": "department",
+            "important": false
+        },
+        {
+            "articleId": "182450",
+            "postedDate": "2023-04-24",
+            "url": "http://cse.konkuk.ac.kr/noticeView.do?siteId=CSE&boardSeq=882&menuSeq=6097&seq=182450",
+            "subject": "[캠퍼스타운사업단] 2023년 K-이노스 창업아이디어 경진대회",
+            "category": "department",
+            "important": false
+        },
+        {
+            "articleId": "182355",
+            "postedDate": "2023-04-19",
+            "url": "http://cse.konkuk.ac.kr/noticeView.do?siteId=CSE&boardSeq=882&menuSeq=6097&seq=182355",
+            "subject": "[현장실습] 2023학년도 하계방학 현장실습학기제 안내",
+            "category": "department",
+            "important": false
+        },
+        {
+            "articleId": "182371",
+            "postedDate": "2023-04-19",
+            "url": "http://cse.konkuk.ac.kr/noticeView.do?siteId=CSE&boardSeq=882&menuSeq=6097&seq=182371",
+            "subject": "[교직] 2023학년도 1학기 교원양성과정 성인지교육 실시 안내",
+            "category": "department",
+            "important": false
+        },
+        {
+            "articleId": "182318",
+            "postedDate": "2023-04-17",
+            "url": "http://cse.konkuk.ac.kr/noticeView.do?siteId=CSE&boardSeq=882&menuSeq=6097&seq=182318",
+            "subject": "[대학일자리+] 국가정보원 채용설명회 안내",
+            "category": "department",
+            "important": false
+        },
+        {
+            "articleId": "182229",
+            "postedDate": "2023-04-13",
+            "url": "http://cse.konkuk.ac.kr/noticeView.do?siteId=CSE&boardSeq=882&menuSeq=6097&seq=182229",
+            "subject": "[SW사업단] 2023년 글로벌 SW교육 프로그램 신청 안내(SW Pioneer Program at USC)",
+            "category": "department",
+            "important": false
+        },
+        {
+            "articleId": "182163",
+            "postedDate": "2023-04-12",
+            "url": "http://cse.konkuk.ac.kr/noticeView.do?siteId=CSE&boardSeq=882&menuSeq=6097&seq=182163",
+            "subject": "[학사] 2023학년도 하계 계절학기 예비수강신청 안내",
+            "category": "department",
+            "important": false
+        },
+        {
+            "articleId": "182173",
+            "postedDate": "2023-04-12",
+            "url": "http://cse.konkuk.ac.kr/noticeView.do?siteId=CSE&boardSeq=882&menuSeq=6097&seq=182173",
+            "subject": "2023학년도 하계방학 국제단기프로그램 모집 안내",
+            "category": "department",
+            "important": false
+        },
+        {
+            "articleId": "182110",
+            "postedDate": "2023-04-11",
+            "url": "http://cse.konkuk.ac.kr/noticeView.do?siteId=CSE&boardSeq=882&menuSeq=6097&seq=182110",
+            "subject": "[SW사업단] 2023년 AI Development Project 참가자 모집",
+            "category": "department",
+            "important": false
+        },
+        {
+            "articleId": "182094",
+            "postedDate": "2023-04-10",
+            "url": "http://cse.konkuk.ac.kr/noticeView.do?siteId=CSE&boardSeq=882&menuSeq=6097&seq=182094",
+            "subject": "[SW사업단] \"2023 창업을 위한 서울시 빅데이터 캠퍼스분원 경진대회\" 개최 안내",
+            "category": "department",
+            "important": false
+        },
+        {
+            "articleId": "181988",
+            "postedDate": "2023-04-05",
+            "url": "http://cse.konkuk.ac.kr/noticeView.do?siteId=CSE&boardSeq=882&menuSeq=6097&seq=181988",
+            "subject": "[교양] 2023학년도 1학기 기초교양(외국어영역) 교과목 의무이수 면제 시행 안내",
+            "category": "department",
+            "important": false
+        },
+        {
+            "articleId": "181805",
+            "postedDate": "2023-04-03",
+            "url": "http://cse.konkuk.ac.kr/noticeView.do?siteId=CSE&boardSeq=882&menuSeq=6097&seq=181805",
+            "subject": "[학사] 2023학년도 하계 계절학기 개설 계획 안내",
+            "category": "department",
+            "important": false
+        },
+        {
+            "articleId": "181759",
+            "postedDate": "2023-04-03",
+            "url": "http://cse.konkuk.ac.kr/noticeView.do?siteId=CSE&boardSeq=882&menuSeq=6097&seq=181759",
+            "subject": "2023학년도 1학기 '글쓰기 클리닉' 안내",
+            "category": "department",
+            "important": false
+        },
+        {
+            "articleId": "181059",
+            "postedDate": "2023-03-29",
+            "url": "http://cse.konkuk.ac.kr/noticeView.do?siteId=CSE&boardSeq=882&menuSeq=6097&seq=181059",
+            "subject": "[SW사업단] 2023 제19회 TOPCIT 정기평가 시행 접수 안내",
+            "category": "department",
+            "important": false
+        },
+        {
+            "articleId": "181025",
+            "postedDate": "2023-03-28",
+            "url": "http://cse.konkuk.ac.kr/noticeView.do?siteId=CSE&boardSeq=882&menuSeq=6097&seq=181025",
+            "subject": "[SW사업단] 2023년 KU 전국 대학생 창업 아이디어 경진대회",
+            "category": "department",
+            "important": false
+        }
+    ]
+}

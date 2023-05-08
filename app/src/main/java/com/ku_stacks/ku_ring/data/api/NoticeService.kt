@@ -33,7 +33,8 @@ interface NoticeService {
     suspend fun fetchDepartmentNoticeList(
         @Query("type") type: String,
         @Query("department") shortName: String,
-        @Query("offset") offset: Int,
-        @Query("max") max: Int,
+        @Query("page") page: Int,
+        @Query("size") size: Int,
+        @Query("important") important: Boolean,
     ): DepartmentNoticeListResponse
 }

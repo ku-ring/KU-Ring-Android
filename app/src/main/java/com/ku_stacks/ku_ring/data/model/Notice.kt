@@ -4,6 +4,7 @@ data class Notice(
     val postedDate: String,
     val subject: String,
     val category: String,
+    val department: String = "",
     val url: String,
     val articleId: String,
     var isNew: Boolean,

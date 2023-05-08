@@ -1,9 +1,6 @@
 package com.ku_stacks.ku_ring.repository
 
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import androidx.paging.map
+import androidx.paging.*
 import androidx.paging.rxjava3.cachedIn
 import androidx.paging.rxjava3.flowable
 import com.ku_stacks.ku_ring.data.api.NoticeClient
@@ -28,6 +25,7 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 
+@OptIn(ExperimentalPagingApi::class)
 class NoticeRepositoryImpl @Inject constructor(
     private val noticeClient: NoticeClient,
     private val noticeDao: NoticeDao,
@@ -121,7 +119,7 @@ class NoticeRepositoryImpl @Inject constructor(
     private fun getFlowableRemoteNotice(type: String): Flowable<PagingData<Notice>> {
         return Pager(
             config = PagingConfig(
-                pageSize = 20,
+                pageSize = pageSize,
                 /** 이것보다 PagingSource 에서 ItemCount 가 중요함 */
                 enablePlaceholders = true
             ),
@@ -180,5 +178,9 @@ class NoticeRepositoryImpl @Inject constructor(
 
     override fun deleteSharedPreference() { //for testing
         pref.deleteStartDate()
+    }
+
+    companion object {
+        private const val pageSize = 20
     }
 }

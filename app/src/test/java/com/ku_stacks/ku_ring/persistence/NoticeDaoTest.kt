@@ -1,5 +1,6 @@
 package com.ku_stacks.ku_ring.persistence
 
+import androidx.paging.PagingSource
 import com.ku_stacks.ku_ring.data.db.NoticeDao
 import com.ku_stacks.ku_ring.data.db.NoticeEntity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -7,6 +8,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -31,6 +33,19 @@ class NoticeDaoTest : LocalDbAbstract() {
         subject = "2023학년도 전과 선발자 안내",
         postedDate = "20230208",
         url = "http://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do?forum=notice&sort=6&id=5b4f972&cat=0000300001",
+        isNew = false,
+        isRead = false,
+        isSaved = false,
+        isReadOnStorage = false,
+    )
+
+    private fun departmentNoticeMock() = NoticeEntity(
+        articleId = "182677",
+        category = "department",
+        subject = "2023학년도 진로총조사 설문 요청",
+        department = "cse",
+        postedDate = "2023-05-02",
+        url = "http://cse.konkuk.ac.kr/noticeView.do?siteId=CSE&boardSeq=882&menuSeq=6097&seq=182677",
         isNew = false,
         isRead = false,
         isSaved = false,
@@ -150,5 +165,49 @@ class NoticeDaoTest : LocalDbAbstract() {
         val savedAndReadNotice = notice.copy(isSaved = true, isReadOnStorage = true)
         val noticeFromDB = noticeDao.getNoticesBySaved(true).first()[0]
         assertThat(noticeFromDB, `is`(savedAndReadNotice))
+    }
+
+    @Test
+    fun `insertDepartmentNotices and getDepartmentNotices Test`() = runTest {
+        // given
+        val departmentNotice = departmentNoticeMock()
+        noticeDao.insertDepartmentNotices(listOf(departmentNotice))
+
+        // when
+        noticeDao.updateNoticeAsRead(
+            articleId = departmentNotice.articleId,
+            category = departmentNotice.category
+        ).blockingAwait()
+
+        // then
+        val departmentNoticePage = noticeDao.getDepartmentNotices(departmentNotice.department)
+            .load(PagingSource.LoadParams.Append(0, 20, false))
+        assert(departmentNoticePage is PagingSource.LoadResult.Page)
+
+        val departmentNotices = (departmentNoticePage as PagingSource.LoadResult.Page).data
+        assertEquals(1, departmentNotices.size)
+        assert(departmentNotices[0].isRead)
+        assertEquals(departmentNotice.copy(isRead = true), departmentNotices[0])
+    }
+
+    @Test
+    fun `insertDepartmentNotices and clearDepartment Test`() = runTest {
+        // given
+        val departmentNoticeMocks = (1..10).map {
+            departmentNoticeMock().copy(articleId = it.toString())
+        }
+        noticeDao.insertDepartmentNotices(departmentNoticeMocks)
+
+        // when
+        val department = departmentNoticeMocks[0].department
+        noticeDao.clearDepartment(department)
+
+        // then
+        val departmentNoticePage = noticeDao.getDepartmentNotices(department)
+            .load(PagingSource.LoadParams.Append(0, 20, false))
+        assert(departmentNoticePage is PagingSource.LoadResult.Page)
+
+        val departmentNotices = (departmentNoticePage as PagingSource.LoadResult.Page).data
+        assert(departmentNotices.isEmpty())
     }
 }
