@@ -1,8 +1,10 @@
 package com.ku_stacks.ku_ring.data.mapper
 
+import com.ku_stacks.ku_ring.data.api.response.DepartmentResponse
 import com.ku_stacks.ku_ring.data.api.response.NoticeListResponse
 import com.ku_stacks.ku_ring.data.api.response.SearchNoticeListResponse
 import com.ku_stacks.ku_ring.data.api.response.SearchStaffListResponse
+import com.ku_stacks.ku_ring.data.model.Department
 import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.data.model.Staff
 
@@ -90,3 +92,12 @@ fun SearchStaffListResponse.toStaffList(): List<Staff> {
         )
     } ?: emptyList()
 }
+
+fun DepartmentResponse.toDepartment() = Department(
+    name = name!!,
+    shortName = shortName!!,
+    koreanName = this.korName!!,
+    isSubscribed = false,
+    isSelected = false,
+    isNotificationEnabled = false
+)

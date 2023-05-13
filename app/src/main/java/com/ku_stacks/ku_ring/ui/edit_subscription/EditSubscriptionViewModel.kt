@@ -1,49 +1,72 @@
 package com.ku_stacks.ku_ring.ui.edit_subscription
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.messaging.FirebaseMessaging
 import com.ku_stacks.ku_ring.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.data.api.request.SubscribeRequest
+import com.ku_stacks.ku_ring.data.model.Department
+import com.ku_stacks.ku_ring.repository.DepartmentRepository
 import com.ku_stacks.ku_ring.repository.SubscribeRepository
 import com.ku_stacks.ku_ring.util.WordConverter
+import com.ku_stacks.ku_ring.util.modifyMap
+import com.ku_stacks.ku_ring.util.modifySet
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class EditSubscriptionViewModel @Inject constructor(
     private val repository: SubscribeRepository,
+    private val departmentRepository: DepartmentRepository,
+    private val subscribeRepository: SubscribeRepository,
     private val analytics: EventAnalytics,
     firebaseMessaging: FirebaseMessaging
 ) : ViewModel() {
 
     private val disposable = CompositeDisposable()
 
-    private val _subscriptionList = ArrayList<String>()
-    val subscriptionList = MutableLiveData<List<String>>()
-    val isSubscriptionEmpty = MutableLiveData(true)
+    private val initialCategories = MutableStateFlow(mutableSetOf<SubscriptionUiModel>())
+    private val initialDepartments = MutableStateFlow(mutableSetOf<Department>())
 
-    private val _unSubscriptionList = ArrayList<String>()
-    val unSubscriptionList = MutableLiveData<List<String>>()
+    private val categories = MutableStateFlow(mutableMapOf<String, SubscriptionUiModel>())
+    val sortedCategories: Flow<List<SubscriptionUiModel>> =
+        categories.map { it.values.sortedWith(CategoryComparator) }
 
-    private val sortedSubscriptionList: List<String>
-        get() = _subscriptionList.sortedWith(CategoryComparator)
+    private val departmentsByKoreanName = MutableStateFlow(mutableMapOf<String, Department>())
 
-    private val sortedUnSubscriptionList: List<String>
-        get() = _unSubscriptionList.sortedWith(CategoryComparator)
+    val sortedDepartments: Flow<List<SubscriptionUiModel>> =
+        departmentsByKoreanName.map { departments ->
+            departments.values.map { it.toSubscriptionUiModel() }.sortedWith(DepartmentComparator)
+        }
 
-    private val _hasUpdate = MutableLiveData(false)
-    val hasUpdate: LiveData<Boolean>
-        get() = _hasUpdate
+    val hasUpdate: StateFlow<Boolean> =
+        combine(
+            categories,
+            departmentsByKoreanName,
+            initialCategories,
+            initialDepartments
+        ) { categories, departments, initialCategories, initialDepartments ->
+            (categories.values.toSet() != initialCategories) || (departments.values.toSet() != initialDepartments)
+        }.stateIn(viewModelScope, SharingStarted.Lazily, false)
 
     private var fcmToken: String? = null
 
     /** 초기 설정이 끝나기 전에 뒤로가기를 하면 빈 목록을 구독하는 경우를 방지하기 위함 */
-    private var initFlag = false
+    private var isInitialCategoryLoaded = false
+    private var isInitialDepartmentLoaded = false
+    val isInitialLoadDone: Boolean
+        get() = isInitialCategoryLoaded && isInitialDepartmentLoaded
 
     /** 첫 앱 구동자에게 보여지는 온보딩 후의 푸시 세팅을 위한 분기처리 용도 */
     var firstRunFlag = false
@@ -65,99 +88,115 @@ class EditSubscriptionViewModel @Inject constructor(
 
     fun syncWithServer() {
         fcmToken?.let {
-            _subscriptionList.clear()
-            _unSubscriptionList.clear()
-            _unSubscriptionList.addAll(
-                listOf(
-                    "학사", "장학", "취창업", "국제", "학생", "산학", "일반", "도서관"
-                )
-            )
-
             disposable.add(
                 repository.fetchSubscriptionFromRemote(fcmToken!!)
                     .subscribeOn(Schedulers.io())
                     .subscribe({
                         initialSortSubscription(it)
-                        refreshAfterUpdate()
                     }, {
                         Timber.e("getSubscribeList fail $it")
                     })
             )
         }
+
+        viewModelScope.launch {
+            departmentRepository.insertAllDepartmentsFromRemote()
+            val subscribedDepartments = departmentRepository.getSubscribedDepartments()
+            addDepartmentsToMap(subscribedDepartments)
+            val notificationEnabledDepartments = repository.fetchSubscribedDepartments()
+            markDepartmentsAsEnabled(notificationEnabledDepartments)
+            isInitialDepartmentLoaded = true
+            initialDepartments.modifySet { addAll(departmentsByKoreanName.value.values) }
+        }
+    }
+
+    private fun addDepartmentsToMap(departments: List<Department>) {
+        departmentsByKoreanName.modifyMap {
+            departments.forEach {
+                this[it.koreanName] = it
+            }
+        }
     }
 
     fun saveSubscribe() {
-        if (initFlag == false) {
+        if (!isInitialLoadDone) {
+            Timber.d("return because category: $isInitialCategoryLoaded, department: $isInitialDepartmentLoaded")
             return
         }
 
-        fcmToken?.let {
-            repository.saveSubscriptionToLocal(_subscriptionList)
+        fcmToken?.let { fcmToken ->
+            val notificationEnabledCategories =
+                categories.value.values.filter { it.isNotificationEnabled }.map { it.content }
+            repository.saveSubscriptionToLocal(ArrayList(notificationEnabledCategories))
             repository.saveSubscriptionToRemote(
-                SubscribeRequest(it, _subscriptionList.toList().map { category ->
+                SubscribeRequest(fcmToken, notificationEnabledCategories.map { category ->
                     WordConverter.convertKoreanToEnglish(category)
                 })
             )
         }
-    }
-
-    fun removeSubscription(category: String) {
-        _subscriptionList.remove(category)
-        subscriptionList.postValue(sortedSubscriptionList)
-    }
-
-    fun removeUnSubscription(category: String) {
-        _unSubscriptionList.remove(category)
-        unSubscriptionList.postValue(sortedUnSubscriptionList)
-    }
-
-    fun addSubscription(category: String) {
-        if (!_subscriptionList.contains(category)) {
-            _subscriptionList.add(category)
+        viewModelScope.launch {
+            val subscribedDepartments =
+                departmentsByKoreanName.value.values.filter { it.isNotificationEnabled }
+            subscribeRepository.saveSubscribedDepartmentsToRemote(subscribedDepartments)
         }
-        subscriptionList.postValue(sortedSubscriptionList)
     }
 
-    fun addUnSubscription(category: String) {
-        if (!_unSubscriptionList.contains(category)) {
-            _unSubscriptionList.add(category)
-        }
-        unSubscriptionList.postValue(sortedUnSubscriptionList)
-    }
-
-    fun refreshAfterUpdate() {
-        if (firstRunFlag) {
-            return
-        }
-        val localSubscription = repository.getSubscriptionFromLocal()
-        if (localSubscription.size != _subscriptionList.size) {
-            _hasUpdate.postValue(true)
-            return
-        }
-        for (data in _subscriptionList) {
-            if (!localSubscription.contains(WordConverter.convertKoreanToShortEnglish(data))) {
-                _hasUpdate.postValue(true)
-                return
+    private fun markDepartmentsAsEnabled(departments: List<Department>) {
+        Timber.d("Mark: add $departments to $departmentsByKoreanName")
+        departmentsByKoreanName.modifyMap {
+            departments.forEach {
+                this[it.koreanName] = this[it.koreanName]!!.copy(isNotificationEnabled = true)
             }
         }
-        _hasUpdate.postValue(false)
+    }
+
+    fun onItemClick(item: SubscriptionUiModel) {
+        val content = item.content
+        if (content in departmentsByKoreanName.value) {
+            // department
+            departmentsByKoreanName.modifyMap {
+                this[content] = this[content]!!.toggle()
+            }
+        } else {
+            // category
+            categories.modifyMap {
+                this[content] = this[content]!!.toggle()
+            }
+        }
+    }
+
+    fun rollback() {
+        categories.modifyMap {
+            this.clear()
+            initialCategories.value.forEach {
+                this[it.content] = it
+            }
+        }
+
+        departmentsByKoreanName.modifyMap {
+            this.clear()
+            initialDepartments.value.forEach {
+                this[it.koreanName] = it
+            }
+        }
     }
 
     private fun initialSortSubscription(subscribingList: List<String>) {
-        for (str in subscribingList) {
-            _subscriptionList.add(str)
-            _unSubscriptionList.remove(str)
+        val subscribingSet = subscribingList.toSet()
+        categories.modifyMap {
+            listOf("학사", "장학", "취창업", "국제", "학생", "산학", "일반", "도서관").forEach {
+                this[it] = SubscriptionUiModel(it, it in subscribingSet)
+            }
         }
-        subscriptionList.postValue(sortedSubscriptionList)
-        unSubscriptionList.postValue(sortedUnSubscriptionList)
-        initFlag = true
+        initialCategories.modifySet { addAll(categories.value.values) }
+        isInitialCategoryLoaded = true
     }
 
     /**
      * 변경될때마다 정렬하는 방식 채택
      * getPriority()가 낮을수록 앞쪽으로 정렬
      */
-    object CategoryComparator : Comparator<String> {
+    object CategoryComparator : Comparator<SubscriptionUiModel> {
         private fun getPriority(category: String): Int {
             return when (category) {
                 "학사" -> 1
@@ -172,10 +211,24 @@ class EditSubscriptionViewModel @Inject constructor(
             }
         }
 
-        override fun compare(a: String, b: String): Int {
-            return getPriority(a) - getPriority(b)
+        override fun compare(a: SubscriptionUiModel, b: SubscriptionUiModel): Int {
+            return getPriority(a.content) - getPriority(b.content)
         }
     }
+
+    object DepartmentComparator : Comparator<SubscriptionUiModel> {
+        override fun compare(p0: SubscriptionUiModel, p1: SubscriptionUiModel): Int {
+            return p0.content.compareTo(p1.content)
+        }
+    }
+
+    private fun Department.toSubscriptionUiModel() = SubscriptionUiModel(
+        content = koreanName,
+        isNotificationEnabled = isNotificationEnabled
+    )
+
+    private fun Department.toggle() =
+        Department(name, shortName, koreanName, isSubscribed, isSelected, !isNotificationEnabled)
 
     override fun onCleared() {
         super.onCleared()

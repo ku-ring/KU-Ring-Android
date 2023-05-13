@@ -6,4 +6,5 @@ data class Department(
     val koreanName: String,
     val isSubscribed: Boolean,
     val isSelected: Boolean,
+    val isNotificationEnabled: Boolean,
 )

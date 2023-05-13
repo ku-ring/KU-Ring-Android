@@ -12,7 +12,6 @@ import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.ku_stacks.ku_ring.data.db.PushDao
-import com.ku_stacks.ku_ring.data.db.PushEntity
 import com.ku_stacks.ku_ring.ui.main.MainActivity
 import com.ku_stacks.ku_ring.ui.notice_webview.NoticeWebActivity
 import com.ku_stacks.ku_ring.util.DateUtil
@@ -21,9 +20,6 @@ import com.ku_stacks.ku_ring.util.PreferenceUtil
 import com.ku_stacks.ku_ring.util.UrlGenerator
 import com.ku_stacks.ku_ring.util.WordConverter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -41,6 +37,9 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
 
     override fun onNewToken(token: String) {
         Timber.e("refreshed token : $token")
+        if (pref.fcmToken != token) {
+            pref.fcmToken = token
+        }
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {

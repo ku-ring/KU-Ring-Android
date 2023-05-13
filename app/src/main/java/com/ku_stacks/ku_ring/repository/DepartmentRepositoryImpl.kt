@@ -1,6 +1,8 @@
 package com.ku_stacks.ku_ring.repository
 
+import com.ku_stacks.ku_ring.data.api.DepartmentClient
 import com.ku_stacks.ku_ring.data.db.DepartmentDao
+import com.ku_stacks.ku_ring.data.mapper.toDepartment
 import com.ku_stacks.ku_ring.data.mapper.toDepartmentList
 import com.ku_stacks.ku_ring.data.mapper.toEntity
 import com.ku_stacks.ku_ring.data.mapper.toEntityList
@@ -14,11 +16,21 @@ import javax.inject.Inject
 
 class DepartmentRepositoryImpl @Inject constructor(
     private val departmentDao: DepartmentDao,
+    private val departmentClient: DepartmentClient,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : DepartmentRepository {
     // not null: 최신 데이터가 캐시됨
     // null: 데이터가 업데이트되어 새 데이터를 가져와야 함
     private var departments: List<Department>? = null
+
+    override suspend fun insertAllDepartmentsFromRemote() {
+        val departments = fetchAllDepartmentsFromRemote()
+        departmentDao.insertDepartments(departments.map { it.toEntity() })
+    }
+
+    override suspend fun fetchAllDepartmentsFromRemote(): List<Department> {
+        return departmentClient.fetchDepartmentList().data?.map { it.toDepartment() } ?: emptyList()
+    }
 
     override suspend fun insertDepartment(department: Department) {
         withContext(ioDispatcher) {

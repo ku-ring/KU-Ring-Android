@@ -6,6 +6,7 @@ import com.ku_stacks.ku_ring.MockUtil.mockDefaultResponse
 import com.ku_stacks.ku_ring.MockUtil.mockSubscribeListResponse
 import com.ku_stacks.ku_ring.MockUtil.mockSubscribeRequest
 import com.ku_stacks.ku_ring.SchedulersTestRule
+import com.ku_stacks.ku_ring.data.api.DepartmentClient
 import com.ku_stacks.ku_ring.data.api.NoticeClient
 import com.ku_stacks.ku_ring.util.PreferenceUtil
 import com.ku_stacks.ku_ring.util.WordConverter
@@ -26,6 +27,7 @@ class SubscribeRepositoryTest {
 
     private lateinit var repository: SubscribeRepository
     private val client: NoticeClient = Mockito.mock(NoticeClient::class.java)
+    private val departmentClient: DepartmentClient = Mockito.mock(DepartmentClient::class.java)
     private lateinit var pref: PreferenceUtil
 
     @get:Rule
@@ -38,7 +40,7 @@ class SubscribeRepositoryTest {
     @Before
     fun setup() {
         pref = PreferenceUtil(getApplicationContext())
-        repository = SubscribeRepositoryImpl(client, pref)
+        repository = SubscribeRepositoryImpl(client, departmentClient, pref)
     }
 
     @Test
