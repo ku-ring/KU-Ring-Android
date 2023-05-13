@@ -9,6 +9,8 @@ import com.ku_stacks.ku_ring.data.model.Department
 import com.ku_stacks.ku_ring.repository.DepartmentRepository
 import com.ku_stacks.ku_ring.repository.SubscribeRepository
 import com.ku_stacks.ku_ring.util.WordConverter
+import com.ku_stacks.ku_ring.util.modifyMap
+import com.ku_stacks.ku_ring.util.modifySet
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -223,18 +225,6 @@ class EditSubscriptionViewModel @Inject constructor(
         content = koreanName,
         isNotificationEnabled = isNotificationEnabled
     )
-
-    private fun <K, V> MutableStateFlow<MutableMap<K, V>>.modifyMap(block: MutableMap<K, V>.() -> Unit) {
-        val newValue = this.value.toMutableMap().apply { block() }
-        Timber.d("before: $value, after: $newValue")
-        this.value = newValue
-    }
-
-    private fun <E> MutableStateFlow<MutableSet<E>>.modifySet(block: MutableSet<E>.() -> Unit) {
-        val newValue = this.value.toMutableSet().apply { block() }
-        Timber.d("before: $value, after: $newValue")
-        this.value = newValue
-    }
 
     private fun Department.toggle() =
         Department(name, shortName, koreanName, isSubscribed, isSelected, !isNotificationEnabled)
