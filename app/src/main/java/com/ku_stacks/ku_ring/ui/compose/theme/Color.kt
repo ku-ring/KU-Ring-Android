@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.ui.edit_subscription.compose.theme
+package com.ku_stacks.ku_ring.ui.compose.theme
 
 import androidx.compose.material.Colors
 import androidx.compose.material.lightColors

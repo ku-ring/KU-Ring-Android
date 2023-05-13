@@ -16,7 +16,7 @@ import com.ku_stacks.ku_ring.databinding.ActivityEditSubscriptionBinding
 import com.ku_stacks.ku_ring.ui.edit_subscription.adapter.SubscribeAdapter
 import com.ku_stacks.ku_ring.ui.edit_subscription.adapter.UnSubscribeAdapter
 import com.ku_stacks.ku_ring.ui.edit_subscription.compose.Subscriptions
-import com.ku_stacks.ku_ring.ui.edit_subscription.compose.theme.KuringTheme
+import com.ku_stacks.ku_ring.ui.compose.theme.KuringTheme
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
