@@ -19,6 +19,7 @@
     <string name="home_finish_if_back_again">"뒤로가기를 한 번 더 누르시면 종료됩니다"</string>
 
     <!--  category  -->
+    <string name="department">학과</string>
     <string name="bachelor">학사</string>
     <string name="scholarship">장학</string>
     <string name="employ">취창업</string>
@@ -27,6 +28,9 @@
     <string name="industry">산학</string>
     <string name="normal">일반</string>
     <string name="library">도서관</string>
+
+    <!--  department notice  -->
+    <string name="add_department_text">학과 추가하기</string>
 
     <!--  feedback  -->
     <string name="feedback_send_content">피드백 보내기</string>

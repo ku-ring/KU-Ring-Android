@@ -62,14 +62,15 @@ class NoticesParentFragment : Fragment() {
             true
         ) { tab, position ->
             when (position) {
-                0 -> tab.text = getString(R.string.bachelor)
-                1 -> tab.text = getString(R.string.scholarship)
-                2 -> tab.text = getString(R.string.employ)
-                3 -> tab.text = getString(R.string.nation)
-                4 -> tab.text = getString(R.string.student)
-                5 -> tab.text = getString(R.string.industry)
-                6 -> tab.text = getString(R.string.normal)
-                7 -> tab.text = getString(R.string.library)
+                0 -> tab.text = getString(R.string.department)
+                1 -> tab.text = getString(R.string.bachelor)
+                2 -> tab.text = getString(R.string.scholarship)
+                3 -> tab.text = getString(R.string.employ)
+                4 -> tab.text = getString(R.string.nation)
+                5 -> tab.text = getString(R.string.student)
+                6 -> tab.text = getString(R.string.industry)
+                7 -> tab.text = getString(R.string.normal)
+                8 -> tab.text = getString(R.string.library)
             }
         }.attach()
 
