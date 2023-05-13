@@ -6,6 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -14,6 +18,7 @@ import com.ku_stacks.ku_ring.data.model.Department
 import com.ku_stacks.ku_ring.databinding.FragmentDepartmentSubscribeBottomSheetBinding
 import com.ku_stacks.ku_ring.ui.main.notice.department.fragment_subscribe.listener.DepartmentEventListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class DepartmentSubscribeBottomSheet : BottomSheetDialogFragment() {
@@ -58,6 +63,7 @@ class DepartmentSubscribeBottomSheet : BottomSheetDialogFragment() {
             adapter = DepartmentListAdapter(
                 departmentEventListener = getDepartmentEventListener()
             )
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         }
     }
 
@@ -70,6 +76,20 @@ class DepartmentSubscribeBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun observeViewModel() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                mainViewModel.departmentStateFlow.collect { state ->
+                    when (state) {
+                        is DepartmentStateData.Success -> {
+                            (binding.recyclerView.adapter as? DepartmentListAdapter)?.apply {
+                                submitList(state.list)
+                            }
+                        }
+                        else -> Unit
+                    }
+                }
+            }
+        }
 
     }
 

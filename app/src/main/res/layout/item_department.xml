@@ -7,6 +7,11 @@
 
     <data>
 
+        <variable
+            name="uiModel"
+            type="com.ku_stacks.ku_ring.data.model.Department"
+            />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,8 +26,9 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:fontFamily="@font/sfpro_display_medium"
+            android:fontFamily="@font/sfpro_display_regular"
             android:textColor="@color/kus_primary"
+            android:text="@{ uiModel.koreanName }"
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

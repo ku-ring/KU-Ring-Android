@@ -12,7 +12,7 @@ class DepartmentViewHolder constructor(
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(department: Department) {
-        // TODO : impl
+        binding.uiModel = department
     }
 
     companion object {
