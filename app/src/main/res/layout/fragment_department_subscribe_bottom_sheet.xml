@@ -6,6 +6,11 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.ku_stacks.ku_ring.ui.main.notice.department.fragment_subscribe.DepartmentSubscribeViewModel"
+            />
+
     </data>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -42,6 +47,7 @@
                 android:hint="학과를 검색해주세요."
                 android:inputType="text"
                 android:maxLines="1"
+                android:text="@={ viewModel.searchKeyword }"
                 android:paddingStart="22dp"
                 android:paddingTop="10dp"
                 android:paddingEnd="20dp"
@@ -53,6 +59,7 @@
                 />
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="500dp"
                 android:layout_marginStart="16dp"
