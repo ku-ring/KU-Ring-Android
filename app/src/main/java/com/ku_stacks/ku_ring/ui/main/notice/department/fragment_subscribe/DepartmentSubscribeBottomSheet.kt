@@ -50,12 +50,21 @@ class DepartmentSubscribeBottomSheet : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         bindViewModel()
+        initView()
         initRecyclerView()
         observeViewModel()
     }
 
     private fun bindViewModel() {
         binding.viewModel = mainViewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+    }
+
+    private fun initView() {
+        initRecyclerView()
+        binding.confirmButton.setOnClickListener {
+            dismiss()
+        }
     }
 
     private fun initRecyclerView() {
@@ -69,8 +78,8 @@ class DepartmentSubscribeBottomSheet : BottomSheetDialogFragment() {
 
     private fun getDepartmentEventListener(): DepartmentEventListener {
         return object : DepartmentEventListener {
-            override fun onClickDepartment(uiData: Department) {
-                // TODO : impl
+            override fun onClickDepartment(department: Department) {
+                mainViewModel.onSubscribeClick(department)
             }
         }
     }

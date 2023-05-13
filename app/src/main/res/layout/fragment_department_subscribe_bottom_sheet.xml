@@ -70,6 +70,19 @@
                 app:layout_constraintTop_toBottomOf="@id/search_department_et"
                 />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/sfpro_display_regular"
+                android:gravity="center"
+                android:text="검색하신 학과가 없습니다. \n 확인 후 다시 검색해 주세요."
+                android:textColor="@color/kus_gray"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toTopOf="@id/confirm_button"
+                app:layout_constraintTop_toBottomOf="@id/search_department_et"
+                app:visibleIf="@{ viewModel.emptyResultVisible }"
+                />
+
             <Button
                 android:id="@+id/confirm_button"
                 android:layout_width="match_parent"
