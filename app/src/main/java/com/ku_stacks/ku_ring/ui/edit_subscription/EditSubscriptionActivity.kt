@@ -26,9 +26,6 @@ class EditSubscriptionActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEditSubscriptionBinding
     private val viewModel by viewModels<EditSubscriptionViewModel>()
 
-    private lateinit var subscribeAdapter: SubscribeAdapter
-    private lateinit var unSubscribeListAdapter: UnSubscribeAdapter
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -52,8 +49,8 @@ class EditSubscriptionActivity : AppCompatActivity() {
             viewModel.rollback()
         }
         binding.startBt.setOnClickListener {
-            Timber.d("Init count = ${viewModel.initCount}")
-            if (viewModel.initCount == 2) {
+            Timber.d("Init status = ${viewModel.isInitialLoadDone}")
+            if (viewModel.isInitialLoadDone) {
                 viewModel.saveSubscribe()
                 setResult(RESULT_OK)
                 finish()

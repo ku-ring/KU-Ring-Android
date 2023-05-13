@@ -63,9 +63,10 @@ class EditSubscriptionViewModel @Inject constructor(
     private var fcmToken: String? = null
 
     /** 초기 설정이 끝나기 전에 뒤로가기를 하면 빈 목록을 구독하는 경우를 방지하기 위함 */
-    private var _initCount = 0
-    val initCount: Int
-        get() = _initCount
+    private var isInitialCategoryLoaded = false
+    private var isInitialDepartmentLoaded = false
+    val isInitialLoadDone: Boolean
+        get() = isInitialCategoryLoaded && isInitialDepartmentLoaded
 
     /** 첫 앱 구동자에게 보여지는 온보딩 후의 푸시 세팅을 위한 분기처리 용도 */
     var firstRunFlag = false
@@ -104,7 +105,7 @@ class EditSubscriptionViewModel @Inject constructor(
             addDepartmentsToMap(subscribedDepartments)
             val notificationEnabledDepartments = repository.fetchSubscribedDepartments()
             markDepartmentsAsEnabled(notificationEnabledDepartments)
-            _initCount++
+            isInitialDepartmentLoaded = true
             initialDepartments.modifySet { addAll(departmentsByKoreanName.value.values) }
         }
     }
@@ -118,8 +119,8 @@ class EditSubscriptionViewModel @Inject constructor(
     }
 
     fun saveSubscribe() {
-        if (_initCount < 2) {
-            Timber.d("return because init count is $_initCount")
+        if (!isInitialLoadDone) {
+            Timber.d("return because category: $isInitialCategoryLoaded, department: $isInitialDepartmentLoaded")
             return
         }
 
@@ -188,7 +189,7 @@ class EditSubscriptionViewModel @Inject constructor(
             }
         }
         initialCategories.modifySet { addAll(categories.value.values) }
-        _initCount++
+        isInitialCategoryLoaded = true
     }
 
     /**
