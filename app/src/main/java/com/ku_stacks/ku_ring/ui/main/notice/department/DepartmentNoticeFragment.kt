@@ -12,8 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.databinding.FragmentDepartmentNoticeBinding
 import com.ku_stacks.ku_ring.ui.compose.theme.KuringTheme
-import com.ku_stacks.ku_ring.ui.main.notice.category.NoticePagingAdapter
-import com.ku_stacks.ku_ring.util.showToast
+import com.ku_stacks.ku_ring.ui.main.notice.department.fragment_subscribe.DepartmentSubscribeBottomSheet
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -45,8 +44,8 @@ class DepartmentNoticeFragment : Fragment() {
 
     private fun setupAddButtonClickListener() {
         binding.addDepartmentButton.setOnClickListener {
-            // TODO: 공지 검색 Fragment 연결하기
-            requireContext().showToast("클릭!")
+            DepartmentSubscribeBottomSheet.newInstance()
+                .show(requireActivity().supportFragmentManager, DepartmentSubscribeBottomSheet::class.java.name)
         }
     }
 
