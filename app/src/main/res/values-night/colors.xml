@@ -18,5 +18,10 @@
     <color name="kus_tertiary">#9f9f9f</color>
     <color name="kus_label_green">#c6ecda</color>
 
+    <color name="kus_label">#ffffff</color>
+    <color name="kus_secondary_label">#535b5d</color>
+    <color name="kus_tertiary_label">#0f2f20</color>
+    <color name="kus_on_tertiary_label">#deede6</color>
+
     <color name="kus_primary03">#08ffffff</color>
 </resources>
