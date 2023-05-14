@@ -25,11 +25,15 @@ class DepartmentRepositoryImpl @Inject constructor(
 
     override suspend fun insertAllDepartmentsFromRemote() {
         val departments = fetchAllDepartmentsFromRemote()
-        departmentDao.insertDepartments(departments.map { it.toEntity() })
+        departments?.let {
+            departmentDao.insertDepartments(departments.map { it.toEntity() })
+        }
     }
 
-    override suspend fun fetchAllDepartmentsFromRemote(): List<Department> {
-        return departmentClient.fetchDepartmentList().data?.map { it.toDepartment() } ?: emptyList()
+    override suspend fun fetchAllDepartmentsFromRemote(): List<Department>? {
+        return runCatching {
+            departmentClient.fetchDepartmentList().data?.map { it.toDepartment() } ?: emptyList()
+        }.getOrNull()
     }
 
     override suspend fun insertDepartment(department: Department) {
