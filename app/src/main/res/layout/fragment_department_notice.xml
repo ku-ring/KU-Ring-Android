@@ -12,7 +12,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/transparent"
-            android:drawableEnd="@drawable/ic_add_circle"
+            android:drawableEnd="@drawable/ic_plus"
             android:drawablePadding="6dp"
             android:drawableTint="@color/kus_label"
             android:text="@string/add_department_text"
