@@ -110,6 +110,7 @@ fun DepartmentNoticeScreen(
                 DepartmentHeader(
                     selectedDepartmentName = selectedDepartment?.koreanName ?: "d",
                     onClick = { scope.launch { sheetState.show() } },
+                    isClickable = selectedDepartments.size > 1,
                     showArrow = selectedDepartments.size > 1,
                     modifier = Modifier.constrainAs(selector) {
                         top.linkTo(parent.top, margin = 18.dp)

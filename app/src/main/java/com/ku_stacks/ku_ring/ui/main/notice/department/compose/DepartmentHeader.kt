@@ -1,6 +1,5 @@
 package com.ku_stacks.ku_ring.ui.main.notice.department.compose
 
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
@@ -25,7 +24,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.R
@@ -39,12 +37,17 @@ fun DepartmentHeader(
     onClick: () -> Unit,
     showArrow: Boolean,
     modifier: Modifier = Modifier,
+    isClickable: Boolean = true,
 ) {
     val description =
         if (showArrow) stringResource(id = R.string.department_selector_description) else ""
 
     Button(
-        onClick = onClick,
+        onClick = {
+            if (isClickable) {
+                onClick()
+            }
+        },
         modifier = modifier
             .clip(RoundedCornerShape(15.dp))
             .clearAndSetSemantics {
