@@ -27,10 +27,9 @@ import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.databinding.FragmentDepartmentNoticeBinding
 import com.ku_stacks.ku_ring.ui.compose.theme.KuringTheme
-import com.ku_stacks.ku_ring.ui.main.notice.department.fragment_subscribe.DepartmentSubscribeBottomSheet
 import com.ku_stacks.ku_ring.ui.main.notice.department.compose.DepartmentNoticeScreen
+import com.ku_stacks.ku_ring.ui.main.notice.department.fragment_subscribe.DepartmentSubscribeBottomSheet
 import com.ku_stacks.ku_ring.ui.notice_webview.NoticeWebActivity
-import com.ku_stacks.ku_ring.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -62,9 +61,16 @@ class DepartmentNoticeFragment : Fragment() {
 
     private fun setupAddButtonClickListener() {
         binding.addDepartmentButton.setOnClickListener {
-            DepartmentSubscribeBottomSheet.newInstance()
-                .show(requireActivity().supportFragmentManager, DepartmentSubscribeBottomSheet::class.java.name)
+            showDepartmentSubscribeBottomSheet()
         }
+    }
+
+    private fun showDepartmentSubscribeBottomSheet() {
+        DepartmentSubscribeBottomSheet.newInstance()
+            .show(
+                requireActivity().supportFragmentManager,
+                DepartmentSubscribeBottomSheet::class.java.name
+            )
     }
 
     @OptIn(ExperimentalMaterialApi::class)
@@ -90,7 +96,7 @@ class DepartmentNoticeFragment : Fragment() {
                     onSelectDepartment = viewModel::selectDepartment,
                     notices = notices,
                     onNoticeClick = ::startNoticeActivity,
-                    onFabClick = {},
+                    onFabClick = ::showDepartmentSubscribeBottomSheet,
                     isRefreshing = isRefreshing,
                     refreshState = refreshState,
                     modifier = Modifier
