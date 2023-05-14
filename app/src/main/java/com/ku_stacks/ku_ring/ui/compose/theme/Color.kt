@@ -1,6 +1,7 @@
 package com.ku_stacks.ku_ring.ui.compose.theme
 
 import androidx.compose.material.Colors
+import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
@@ -14,8 +15,15 @@ private val KuringGreen50: Color
 private val KuringSecondaryGreen: Color
     @Composable get() = colorResource(R.color.kus_secondary_green)
 
-val colorPalette: Colors
+val lightColorPalette: Colors
     @Composable get() = lightColors(
+        primary = KuringGreen,
+        primaryVariant = KuringGreen50,
+        secondary = KuringSecondaryGreen,
+    )
+
+val darkColorPalette: Colors
+    @Composable get() = darkColors(
         primary = KuringGreen,
         primaryVariant = KuringGreen50,
         secondary = KuringSecondaryGreen,
