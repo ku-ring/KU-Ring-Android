@@ -79,14 +79,14 @@ class DepartmentNoticeFragment : Fragment() {
             KuringTheme {
                 val selectedDepartments by viewModel.subscribedDepartments.collectAsState()
                 val noticesFlow by viewModel.currentDepartmentNotice.collectAsState()
-                val notices = noticesFlow.collectAsLazyPagingItems()
+                val notices = noticesFlow?.collectAsLazyPagingItems()
 
                 var isRefreshing by remember { mutableStateOf(false) }
                 val refreshState = rememberPullRefreshState(
                     refreshing = isRefreshing,
                     onRefresh = {
                         isRefreshing = true
-                        notices.refresh()
+                        notices?.refresh()
                         isRefreshing = false
                     },
                     refreshThreshold = 100.dp,

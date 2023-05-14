@@ -108,7 +108,7 @@ fun DepartmentNoticeScreen(
                 val (selector, noticesList, refreshIndicator) = createRefs()
                 val selectedDepartment = selectedDepartments.firstOrNull { it.isSelected }
                 DepartmentHeader(
-                    selectedDepartmentName = selectedDepartment?.koreanName ?: "d",
+                    selectedDepartmentName = selectedDepartment?.koreanName ?: "",
                     onClick = { scope.launch { sheetState.show() } },
                     isClickable = selectedDepartments.size > 1,
                     showArrow = selectedDepartments.size > 1,
