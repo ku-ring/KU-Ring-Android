@@ -31,6 +31,10 @@
 
     <!--  department notice  -->
     <string name="add_department_text">학과 추가하기</string>
+    <string name="department_selector_description">다른 학과 선택하기</string>
+    <string name="selected_department_description">%1$s 선택된 학과입니다.</string>
+    <string name="department_selector_bottom_sheet_title">학과 선택</string>
+    <string name="notice_refresh_error_message">공지 로드 중 에러가 발생했습니다.\n잠시 후 다시 시도해 주세요.</string>
 
     <!--  feedback  -->
     <string name="feedback_send_content">피드백 보내기</string>
@@ -91,7 +95,7 @@
     <string name="on_boarding_mega_phone_explain">학교 홈페이지에 들어갈 필요 없이 첫 화면에서 공지사항을 확인해보세요.</string>
     <string name="on_boarding_search_explain">공지사항과 교직원 정보를 가장 빠르게 검색해볼 수 있습니다.</string>
     <string name="on_boarding_subscribe_notice">공지 알림 설정하기</string>
-    
+
     <!--  WebView  -->
     <string name="save_button_description">공지 보관하기</string>
     <string name="invalid_external_storage_permission_msg">외부저장소의 읽기 권한이 거부되었습니다. 파일 다운로드가 제한되며, 안드로이드 설정에서 권한을 수정할 수 있습니다.</string>

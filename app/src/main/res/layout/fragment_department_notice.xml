@@ -14,14 +14,14 @@
             android:background="@color/transparent"
             android:drawableEnd="@drawable/ic_plus"
             android:drawablePadding="6dp"
-            android:drawableTint="@color/kus_primary"
+            android:drawableTint="@color/kus_label"
             android:text="@string/add_department_text"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
+
 
         <com.facebook.shimmer.ShimmerFrameLayout
             android:id="@+id/home_shimmer_layout"

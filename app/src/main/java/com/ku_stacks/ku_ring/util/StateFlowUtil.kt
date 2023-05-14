@@ -22,3 +22,13 @@ fun <E> MutableStateFlow<MutableSet<E>>.modifySet(block: MutableSet<E>.() -> Uni
     Timber.d("before: $value, after: $newValue")
     this.value = newValue
 }
+
+fun <E> MutableStateFlow<List<E>>.modifyList(block: MutableList<E>.() -> Unit) {
+    val newValue = try {
+        this.value.toMutableList().apply { block() }
+    } catch (e: Exception) {
+        return
+    }
+    Timber.d("before: $value, after: $newValue")
+    this.value = newValue
+}

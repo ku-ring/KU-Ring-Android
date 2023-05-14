@@ -107,7 +107,9 @@ class DepartmentNoticeMediator(
     private fun getAppendKey(state: PagingState<Int, NoticeEntity>): Int? {
         val lastItem = state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
         return lastItem?.let {
-            pageNumberMap[PageKey(it.articleId, shortName)]?.plus(1)
+            // page number가 존재하지 않는 공지: 이전 실행에서 로드된 공지
+            // 따라서 page size를 통해 간접적으로 page key를 계산해야 한다.
+            (pageNumberMap[PageKey(it.articleId, shortName)] ?: state.pages.size).plus(1)
         }
     }
 
