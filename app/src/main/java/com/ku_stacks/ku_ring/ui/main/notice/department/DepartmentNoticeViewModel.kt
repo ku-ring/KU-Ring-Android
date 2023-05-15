@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -48,11 +49,15 @@ class DepartmentNoticeViewModel @Inject constructor(
         initialValue = DepartmentNoticeScreenState.InitialLoading
     )
 
-    private var _currentDepartmentNotice: MutableStateFlow<Flow<PagingData<Notice>>> =
-        MutableStateFlow(departmentNoticeRepository.getDepartmentNotices("empty dept"))
-    val currentDepartmentNotice: StateFlow<Flow<PagingData<Notice>>>
-        get() = _currentDepartmentNotice
-
+    val currentDepartmentNotice: StateFlow<Flow<PagingData<Notice>>?> =
+        subscribedDepartments.map { departments ->
+            val selectedDepartment = departments.firstOrNull { it.isSelected }
+            if (selectedDepartment == null) {
+                null
+            } else {
+                departmentNoticeRepository.getDepartmentNotices(selectedDepartment.shortName)
+            }
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
 
     init {
         collectSubscribedDepartments()
@@ -61,18 +66,41 @@ class DepartmentNoticeViewModel @Inject constructor(
     private fun collectSubscribedDepartments() {
         viewModelScope.launch {
             departmentRepository.getSubscribedDepartmentsAsFlow().collectLatest { departments ->
-                val sortedDepartments = departments.sortedBy { it.koreanName }
-                _subscribedDepartments.value = sortedDepartments
-                selectFirstDepartmentIfInitialLoad()
+                val beforeSelected = subscribedDepartments.value.firstOrNull { it.isSelected }
 
+                val markedDepartment =
+                    if (beforeSelected != null && departments.containsSelected(beforeSelected)) {
+                        departments.markDepartment(beforeSelected)
+                    } else {
+                        departments.selectFirstDepartment()
+                    }
+
+                _subscribedDepartments.value = markedDepartment
                 isInitialLoading.value = false
             }
         }
     }
 
-    private fun selectFirstDepartmentIfInitialLoad() {
-        if (isInitialLoading.value && _subscribedDepartments.value.isNotEmpty()) {
-            selectDepartment(_subscribedDepartments.value.first())
+    private fun List<Department>.containsSelected(selected: Department) =
+        this.any { it.koreanName == selected.koreanName }
+
+    private fun List<Department>.selectFirstDepartment(): List<Department> {
+        return if (this.isEmpty()) {
+            this
+        } else {
+            this.toMutableList().apply {
+                this[0] = this[0].copy(isSelected = true)
+            }
+        }
+    }
+
+    private fun List<Department>.markDepartment(department: Department): List<Department> {
+        return this.map {
+            if (it.koreanName == department.koreanName) {
+                it.copy(isSelected = true)
+            } else {
+                it
+            }
         }
     }
 
@@ -90,8 +118,6 @@ class DepartmentNoticeViewModel @Inject constructor(
                 this[currentSelectedIndex] = this[currentSelectedIndex].copy(isSelected = false)
             }
         }
-        _currentDepartmentNotice.value =
-            departmentNoticeRepository.getDepartmentNotices(department.shortName)
     }
 }
 
