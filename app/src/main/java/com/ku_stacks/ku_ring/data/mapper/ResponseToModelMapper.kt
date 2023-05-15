@@ -56,18 +56,13 @@ fun NoticeListResponse.toNoticeList(type: String): List<Notice> {
 }
 
 fun SearchNoticeListResponse.toNoticeList(): List<Notice> {
-    return data?.map {
-        val url = if (it.category == "library") {
-            "${it.baseUrl}/${it.articleId}"
-        } else {
-            "${it.baseUrl}?id=${it.articleId}"
-        }
+    return data?.noticeList?.map {
 
         return@map Notice(
             postedDate = it.postedDate,
             subject = it.subject,
             category = it.category,
-            url = url,
+            url = it.baseUrl,
             articleId = it.articleId,
             isNew = false,
             isRead = false,
@@ -80,7 +75,7 @@ fun SearchNoticeListResponse.toNoticeList(): List<Notice> {
 }
 
 fun SearchStaffListResponse.toStaffList(): List<Staff> {
-    return data?.map {
+    return data?.staffList?.map {
         Staff(
             name = it.name,
             major = it.major,
