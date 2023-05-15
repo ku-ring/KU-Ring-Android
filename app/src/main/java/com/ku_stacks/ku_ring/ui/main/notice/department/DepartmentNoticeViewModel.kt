@@ -95,10 +95,11 @@ class DepartmentNoticeViewModel @Inject constructor(
     }
 
     private fun List<Department>.markDepartment(department: Department): List<Department> {
-        return this.toMutableList().apply {
-            val index = this.indexOfFirst { it.koreanName == department.koreanName }
-            if (index != -1) {
-                this[index] = this[index].copy(isSelected = true)
+        return this.map {
+            if (it.koreanName == department.koreanName) {
+                it.copy(isSelected = true)
+            } else {
+                it
             }
         }
     }
