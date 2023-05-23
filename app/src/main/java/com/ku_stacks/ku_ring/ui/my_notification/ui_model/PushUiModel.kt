@@ -11,7 +11,7 @@ data class PushContentUiModel(
     val categoryKor: String,
     val postedDate: String,
     val subject: String,
-    val baseUrl: String,
+    val fullUrl: String,
     val isNew: Boolean,
     val receivedDate: String,
     val tag: List<String>

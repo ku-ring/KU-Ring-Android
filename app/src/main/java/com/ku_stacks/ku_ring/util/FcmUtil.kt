@@ -19,10 +19,10 @@ class FcmUtil @Inject constructor(
         val categoryEng = data["category"]
         val postedDate = data["postedDate"]
         val subject = data["subject"]
-        val baseUrl = data["baseUrl"]
+        val fullUrl = data["baseUrl"]
 
         return articleId != null && categoryEng != null && postedDate != null
-            && subject != null && baseUrl != null
+            && subject != null && fullUrl != null
     }
 
     fun isCustomNotification(data: Map<String, String?>): Boolean {
@@ -40,7 +40,7 @@ class FcmUtil @Inject constructor(
         category: String,
         postedDate: String,
         subject: String,
-        baseUrl: String,
+        fullUrl: String,
         receivedDate: String
     ) {
         CoroutineScope(ioDispatcher).launch {
@@ -51,7 +51,7 @@ class FcmUtil @Inject constructor(
                         category = category,
                         postedDate = postedDate,
                         subject = subject,
-                        baseUrl = baseUrl,
+                        fullUrl = fullUrl,
                         isNew = true,
                         receivedDate = receivedDate
                     )
