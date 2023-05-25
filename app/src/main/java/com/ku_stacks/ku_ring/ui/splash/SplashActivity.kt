@@ -12,10 +12,10 @@ import com.ku_stacks.ku_ring.ui.onboarding.OnboardingActivity
 import com.ku_stacks.ku_ring.util.DateUtil
 import com.ku_stacks.ku_ring.util.FcmUtil
 import com.ku_stacks.ku_ring.util.PreferenceUtil
-import com.ku_stacks.ku_ring.util.UrlGenerator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -42,14 +42,17 @@ class SplashActivity : AppCompatActivity() {
                 launchedFromNoticeNotificationEvent(intent) -> {
                     handleNoticeNotification(intent)
                 }
+
                 launchedFromCustomNotificationEvent(intent) -> {
                     handleCustomNotification()
                 }
+
                 onboadingRequired() -> {
                     startActivity(Intent(this@SplashActivity, OnboardingActivity::class.java))
                     overridePendingTransition(0, 0)
                     finish()
                 }
+
                 else -> {
                     startActivity(Intent(this@SplashActivity, MainActivity::class.java))
                     overridePendingTransition(0, 0)
@@ -71,6 +74,7 @@ class SplashActivity : AppCompatActivity() {
         for (key in this.keySet()) {
             map[key] = this.getString(key)
         }
+        Timber.d("Notification result: $map")
         return map
     }
 
@@ -80,25 +84,20 @@ class SplashActivity : AppCompatActivity() {
             val category = map["category"] ?: return
             val postedDate = map["postedDate"] ?: return
             val subject = map["subject"] ?: return
-            val baseUrl = map["baseUrl"] ?: return
-            val url = UrlGenerator.generateNoticeUrl(
-                articleId = articleId,
-                category = category,
-                baseUrl = baseUrl
-            )
+            val fullUrl = map["baseUrl"] ?: return
 
             fcmUtil.insertNotificationIntoDatabase(
                 articleId = articleId,
                 category = category,
                 postedDate = postedDate,
                 subject = subject,
-                baseUrl = baseUrl,
+                fullUrl = fullUrl,
                 receivedDate = DateUtil.getCurrentTime()
             )
 
             MainActivity.start(
                 activity = this@SplashActivity,
-                url = url,
+                url = fullUrl,
                 articleId = articleId,
                 category = category,
                 postedDate = postedDate,

@@ -25,7 +25,7 @@ fun PushEntity.toPush(): Push {
         category = categoryEng,
         postedDate = postedDate,
         subject = subjectAndTag.first,
-        baseUrl = baseUrl,
+        fullUrl = fullUrl,
         isNew = isNew,
         receivedDate = receivedDate,
         tag = subjectAndTag.second

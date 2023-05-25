@@ -37,7 +37,7 @@ fun Push.toPushContentUiModel(): PushContentUiModel {
         categoryKor = categoryKor,
         postedDate = postedDate,
         subject = subject,
-        baseUrl = baseUrl,
+        fullUrl = fullUrl,
         isNew = isNew,
         receivedDate = receivedDate,
         tag = tag

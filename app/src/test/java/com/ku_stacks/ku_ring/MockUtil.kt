@@ -74,7 +74,7 @@ object MockUtil {
         category = "bachelor",
         postedDate = "20220203",
         subject = "2022학년도 1학기 재입학 합격자 유의사항 안내",
-        baseUrl = "https://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do",
+        fullUrl = "https://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do",
         isNew = false,
         receivedDate = "20220207-132051"
     )
