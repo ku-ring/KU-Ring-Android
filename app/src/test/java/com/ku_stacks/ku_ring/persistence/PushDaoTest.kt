@@ -27,7 +27,7 @@ class PushDaoTest : LocalDbAbstract() {
         category = "bachelor",
         postedDate = "2022-01-14 00:50:33",
         subject = "실감미디어 혁신 공유대학 융합전공 안내",
-        baseUrl = "https://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do",
+        fullUrl = "http://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do?forum=notice&sort=6&id=ababab",
         isNew = true,
         receivedDate = "20220114-005036"
     )
@@ -51,7 +51,7 @@ class PushDaoTest : LocalDbAbstract() {
         assertThat(pushFromDB.category, `is`(pushMock.category))
         assertThat(pushFromDB.postedDate, `is`(pushMock.postedDate))
         assertThat(pushFromDB.subject, `is`(pushMock.subject))
-        assertThat(pushFromDB.baseUrl, `is`(pushMock.baseUrl))
+        assertThat(pushFromDB.fullUrl, `is`(pushMock.fullUrl))
         assertThat(pushFromDB.isNew, `is`(pushMock.isNew))
         assertThat(pushFromDB.receivedDate, `is`(pushMock.receivedDate))
     }

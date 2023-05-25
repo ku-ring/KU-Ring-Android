@@ -12,6 +12,7 @@ import com.ku_stacks.ku_ring.databinding.ActivityMainBinding
 import com.ku_stacks.ku_ring.ui.notice_webview.NoticeWebActivity
 import com.ku_stacks.ku_ring.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -52,6 +53,7 @@ class MainActivity : AppCompatActivity() {
             val category = intent.getStringExtra(NoticeWebActivity.NOTICE_CATEGORY)
             val postedDate = intent.getStringExtra(NoticeWebActivity.NOTICE_POSTED_DATE)
             val subject = intent.getStringExtra(NoticeWebActivity.NOTICE_SUBJECT)
+            Timber.d("Notification: received $articleId, $category, $postedDate, $subject, $it")
             navToNoticeActivity(it, articleId, category, postedDate, subject)
         }
 

@@ -17,7 +17,6 @@ import com.ku_stacks.ku_ring.ui.notice_webview.NoticeWebActivity
 import com.ku_stacks.ku_ring.util.DateUtil
 import com.ku_stacks.ku_ring.util.FcmUtil
 import com.ku_stacks.ku_ring.util.PreferenceUtil
-import com.ku_stacks.ku_ring.util.UrlGenerator
 import com.ku_stacks.ku_ring.util.WordConverter
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -43,12 +42,15 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
+        Timber.d("Notification hello")
         if (fcmUtil.isNoticeNotification(remoteMessage.data)) {
             val articleId = remoteMessage.data["articleId"]!!
             val category = remoteMessage.data["category"]!!
             val postedDate = remoteMessage.data["postedDate"]!!
             val subject = remoteMessage.data["subject"]!!
-            val baseUrl = remoteMessage.data["baseUrl"]!!
+            // 키 이름은 baseUrl이지만, 실제로는 full url이 내려오고 있음
+            val fullUrl = remoteMessage.data["baseUrl"]!!
+            Timber.d("Notification fullUrl at firebase messaging: $fullUrl")
 
             // insert into db
             val receivedDate = DateUtil.getCurrentTime()
@@ -57,21 +59,16 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
                 category = category,
                 postedDate = postedDate,
                 subject = subject,
-                baseUrl = baseUrl,
+                fullUrl = fullUrl,
                 receivedDate = receivedDate
             )
 
             // show notification
-            val webUrl = UrlGenerator.generateNoticeUrl(
-                articleId = articleId,
-                category = category,
-                baseUrl = baseUrl
-            )
             val categoryKr = WordConverter.convertEnglishToKorean(category)
             showNotificationWithUrl(
                 title = subject,
                 body = categoryKr,
-                url = webUrl,
+                url = fullUrl,
                 articleId = articleId,
                 category = category
             )

@@ -5,7 +5,7 @@ data class Push(
     val category: String,
     val postedDate: String,
     val subject: String,
-    val baseUrl: String,
+    val fullUrl: String,
     var isNew: Boolean,
     val receivedDate: String,
     val tag: List<String>
