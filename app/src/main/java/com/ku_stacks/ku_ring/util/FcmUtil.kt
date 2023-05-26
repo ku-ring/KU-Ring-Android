@@ -2,17 +2,19 @@ package com.ku_stacks.ku_ring.util
 
 import com.ku_stacks.ku_ring.data.db.PushDao
 import com.ku_stacks.ku_ring.data.db.PushEntity
-import com.ku_stacks.ku_ring.di.IODispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
-class FcmUtil @Inject constructor(
+class FcmUtil(
     private val pushDao: PushDao,
-    @IODispatcher private val ioDispatcher: CoroutineDispatcher,
+    private val ioDispatcher: CoroutineDispatcher,
 ) {
+    @Inject
+    constructor(pushDao: PushDao) : this(pushDao, Dispatchers.IO)
 
     fun isNoticeNotification(data: Map<String, String?>): Boolean {
         val articleId = data["articleId"]
