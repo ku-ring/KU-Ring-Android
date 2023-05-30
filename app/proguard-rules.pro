@@ -19,6 +19,7 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-keep class com.ku_stacks.ku_ring.data.api.request.** { *; }
 -keep class com.ku_stacks.ku_ring.data.api.response.** { *; }
 -keep class com.ku_stacks.ku_ring.data.db.** { *; }
 -keep class com.ku_stacks.ku_ring.data.model.** { *; }
