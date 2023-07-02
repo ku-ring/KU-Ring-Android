@@ -50,8 +50,10 @@ class NoticeServiceTest : ApiAbstract<NoticeService>() {
 
         // then
         assertEquals(true, response.isSuccess)
-        assertEquals(1, response.categoryList.size)
-        assertEquals("bachelor", response.categoryList[0])
+        assertEquals(2, response.categoryList.size)
+        assertEquals("student", response.categoryList[0].name)
+        assertEquals("stu", response.categoryList[0].shortName)
+        assertEquals("학생", response.categoryList[0].koreanName)
     }
 
     @Test

@@ -24,9 +24,7 @@ class SubscribeRepositoryImpl @Inject constructor(
     override fun fetchSubscriptionFromRemote(token: String): Single<List<String>> {
         return noticeClient.fetchSubscribe(token)
             .map { response ->
-                response.categoryList.map { category ->
-                    WordConverter.convertEnglishToKorean(category)
-                }
+                response.categoryList.map { it.koreanName }
             }
     }
 

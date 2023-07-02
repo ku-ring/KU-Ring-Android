@@ -9,7 +9,6 @@ import com.ku_stacks.ku_ring.SchedulersTestRule
 import com.ku_stacks.ku_ring.data.api.DepartmentClient
 import com.ku_stacks.ku_ring.data.api.NoticeClient
 import com.ku_stacks.ku_ring.util.PreferenceUtil
-import com.ku_stacks.ku_ring.util.WordConverter
 import io.reactivex.rxjava3.core.Single
 import junit.framework.Assert.assertEquals
 import org.junit.Before
@@ -51,9 +50,7 @@ class SubscribeRepositoryTest {
         val mockSubscribeList = mockSubscribeListResponse()
 
         Mockito.`when`(client.fetchSubscribe(mockToken)).thenReturn(Single.just(mockSubscribeList))
-        val expected = mockSubscribeList.categoryList.map { category ->
-            WordConverter.convertEnglishToKorean(category)
-        }
+        val expected = mockSubscribeList.categoryList.map { it.koreanName }
 
         // when + then
         repository.fetchSubscriptionFromRemote(mockToken)

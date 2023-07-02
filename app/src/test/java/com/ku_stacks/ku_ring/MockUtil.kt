@@ -1,6 +1,7 @@
 package com.ku_stacks.ku_ring
 
 import com.ku_stacks.ku_ring.data.api.request.SubscribeRequest
+import com.ku_stacks.ku_ring.data.api.response.CategoryResponse
 import com.ku_stacks.ku_ring.data.api.response.DefaultResponse
 import com.ku_stacks.ku_ring.data.api.response.DepartmentNoticeListResponse
 import com.ku_stacks.ku_ring.data.api.response.DepartmentNoticeResponse
@@ -80,10 +81,12 @@ object MockUtil {
     )
 
     fun mockSubscribeListResponse() = SubscribeListResponse(
-        isSuccess = true,
         resultMsg = "성공",
         resultCode = 200,
-        categoryList = listOf("bachelor", "employment")
+        categoryList = listOf(
+            CategoryResponse("student", "stu", "학생"),
+            CategoryResponse("employment", "emp", "취창업"),
+        )
     )
 
     fun mockSubscribeRequest() = SubscribeRequest(
