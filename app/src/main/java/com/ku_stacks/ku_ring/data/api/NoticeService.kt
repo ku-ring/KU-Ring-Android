@@ -8,6 +8,7 @@ import com.ku_stacks.ku_ring.data.api.response.SubscribeListResponse
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Query
 
@@ -19,9 +20,9 @@ interface NoticeService {
         @Query("size") size: Int,
     ): Single<NoticeListResponse>
 
-    @GET("v1/notice/subscribe")
+    @GET("v2/users/subscriptions/categories")
     fun fetchSubscribeList(
-        @Query("id") token: String
+        @Header("User-Token") token: String
     ): Single<SubscribeListResponse>
 
     @POST("v1/notice/subscribe")
