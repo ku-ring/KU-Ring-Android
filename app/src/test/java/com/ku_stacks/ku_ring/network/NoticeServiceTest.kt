@@ -59,20 +59,20 @@ class NoticeServiceTest : ApiAbstract<NoticeService>() {
     @Test
     fun `save SubscribeList Test`() {
         // given
-        enqueueResponse("/DefaultResponse.json")
+        enqueueResponse("/DefaultV2Response.json")
 
         // when
         val mockRequest = SubscribeRequest(
-            token = "mockToken",
             categories = listOf("bachelor")
         )
-        val response = service.saveSubscribeList(mockRequest).blockingGet()
+        val response = service.saveSubscribeList(token = "mockToken", mockRequest).blockingGet()
         mockWebServer.takeRequest()
 
         // then
         assertEquals(true, response.isSuccess)
         assertEquals("성공", response.resultMsg)
-        assertEquals(201, response.resultCode)
+        assertEquals(200, response.resultCode)
+        assertEquals(null, response.data)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)

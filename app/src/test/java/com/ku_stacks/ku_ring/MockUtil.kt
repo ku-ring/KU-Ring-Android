@@ -2,7 +2,7 @@ package com.ku_stacks.ku_ring
 
 import com.ku_stacks.ku_ring.data.api.request.SubscribeRequest
 import com.ku_stacks.ku_ring.data.api.response.CategoryResponse
-import com.ku_stacks.ku_ring.data.api.response.DefaultResponse
+import com.ku_stacks.ku_ring.data.api.response.DefaultV2Response
 import com.ku_stacks.ku_ring.data.api.response.DepartmentNoticeListResponse
 import com.ku_stacks.ku_ring.data.api.response.DepartmentNoticeResponse
 import com.ku_stacks.ku_ring.data.api.response.NoticeListResponse
@@ -90,14 +90,13 @@ object MockUtil {
     )
 
     fun mockSubscribeRequest() = SubscribeRequest(
-        token = "AAAAn6eQM_Y:APA91bES4rjrFwPY5i_Hz-kT0u32SzIUxreYm9qaQHZeYKGGV_BmHZNJhHvlDjyQA6LveNdxCVrwzsq78jgsnCw8OumbtM5L3cc17XgdqZ_dlpsPzR7TlJwBFTXRFLPst663IeX27sb0",
         categories = listOf("bachelor", "scholarship")
     )
 
-    fun mockDefaultResponse() = DefaultResponse(
-        isSuccess = true,
+    fun mockDefaultV2Response() = DefaultV2Response(
+        resultCode = 200,
         resultMsg = "성공",
-        resultCode = 200
+        data = null,
     )
 
     fun mockSucceededDepartmentNoticeListResponse(dataSize: Int) = DepartmentNoticeListResponse(

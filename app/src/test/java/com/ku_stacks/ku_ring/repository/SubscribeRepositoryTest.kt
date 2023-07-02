@@ -2,7 +2,7 @@ package com.ku_stacks.ku_ring.repository
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
-import com.ku_stacks.ku_ring.MockUtil.mockDefaultResponse
+import com.ku_stacks.ku_ring.MockUtil.mockDefaultV2Response
 import com.ku_stacks.ku_ring.MockUtil.mockSubscribeListResponse
 import com.ku_stacks.ku_ring.MockUtil.mockSubscribeRequest
 import com.ku_stacks.ku_ring.SchedulersTestRule
@@ -65,15 +65,17 @@ class SubscribeRepositoryTest {
     fun `save Subscription To Remote Test`() {
         // given
         val mockRequest = mockSubscribeRequest()
-        val mockResponse = mockDefaultResponse()
+        val mockResponse = mockDefaultV2Response()
+        val mockToken = "mockToken"
 
-        Mockito.`when`(client.saveSubscribe(mockRequest)).thenReturn(Single.just(mockResponse))
+        Mockito.`when`(client.saveSubscribe(mockToken, mockRequest))
+            .thenReturn(Single.just(mockResponse))
 
         // when
-        repository.saveSubscriptionToRemote(mockRequest)
+        repository.saveSubscriptionToRemote(mockToken, mockRequest)
 
         // then
-        Mockito.verify(client, times(1)).saveSubscribe(mockRequest)
+        Mockito.verify(client, times(1)).saveSubscribe(mockToken, mockRequest)
         assertEquals(false, pref.firstRunFlag)
     }
 
