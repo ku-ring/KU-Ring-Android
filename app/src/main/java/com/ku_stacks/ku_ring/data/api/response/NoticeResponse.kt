@@ -9,6 +9,10 @@ data class NoticeResponse(
     val postedDate: String,
     @SerializedName(value = "subject")
     val subject: String,
+    @SerializedName(value = "url")
+    val url: String,
     @SerializedName(value = "category")
-    val category: String
+    val category: String,
+    @SerializedName("important")
+    val isImportant: Boolean,
 )

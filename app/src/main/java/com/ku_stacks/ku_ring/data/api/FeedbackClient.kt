@@ -9,6 +9,7 @@ class FeedbackClient @Inject constructor(
     private val feedbackService: FeedbackService
 ) {
     fun sendFeedback(
-        feedbackRequest: FeedbackRequest
-    ): Single<DefaultResponse> = feedbackService.sendFeedback(feedbackRequest)
+        token: String,
+        feedbackRequest: FeedbackRequest,
+    ): Single<DefaultResponse> = feedbackService.sendFeedback(token, feedbackRequest)
 }

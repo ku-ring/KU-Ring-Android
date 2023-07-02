@@ -28,14 +28,13 @@ class NoticeServiceTest : ApiAbstract<NoticeService>() {
         mockWebServer.takeRequest()
 
         // then
-        assertEquals(11, response.noticeResponse.size)
+        assertEquals(3, response.noticeResponse.size)
 
         assertEquals(true, response.isSuccess)
-        assertEquals("https://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do", response.baseUrl)
-        assertEquals("5b49d36", response.noticeResponse[0].articleId)
-        assertEquals("bachelor", response.noticeResponse[0].category)
+        assertEquals("5b45b56", response.noticeResponse[0].articleId)
+        assertEquals("student", response.noticeResponse[0].category)
         assertEquals("20220105", response.noticeResponse[0].postedDate)
-        assertEquals(" 2022학년도 1학기 캠퍼스간 다전공 신청 안내(서울→ GLOCAL)", response.noticeResponse[0].subject)
+        assertEquals("subject_1", response.noticeResponse[0].subject)
     }
 
     @Test
@@ -51,8 +50,10 @@ class NoticeServiceTest : ApiAbstract<NoticeService>() {
 
         // then
         assertEquals(true, response.isSuccess)
-        assertEquals(1, response.categoryList.size)
-        assertEquals("bachelor", response.categoryList[0])
+        assertEquals(2, response.categoryList.size)
+        assertEquals("student", response.categoryList[0].name)
+        assertEquals("stu", response.categoryList[0].shortName)
+        assertEquals("학생", response.categoryList[0].koreanName)
     }
 
     @Test
@@ -62,16 +63,16 @@ class NoticeServiceTest : ApiAbstract<NoticeService>() {
 
         // when
         val mockRequest = SubscribeRequest(
-            token = "mockToken",
             categories = listOf("bachelor")
         )
-        val response = service.saveSubscribeList(mockRequest).blockingGet()
+        val response = service.saveSubscribeList(token = "mockToken", mockRequest).blockingGet()
         mockWebServer.takeRequest()
 
         // then
         assertEquals(true, response.isSuccess)
         assertEquals("성공", response.resultMsg)
-        assertEquals(201, response.resultCode)
+        assertEquals(200, response.resultCode)
+        assertEquals(null, response.data)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)

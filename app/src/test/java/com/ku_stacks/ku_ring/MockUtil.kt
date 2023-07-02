@@ -1,6 +1,7 @@
 package com.ku_stacks.ku_ring
 
 import com.ku_stacks.ku_ring.data.api.request.SubscribeRequest
+import com.ku_stacks.ku_ring.data.api.response.CategoryResponse
 import com.ku_stacks.ku_ring.data.api.response.DefaultResponse
 import com.ku_stacks.ku_ring.data.api.response.DepartmentNoticeListResponse
 import com.ku_stacks.ku_ring.data.api.response.DepartmentNoticeResponse
@@ -17,18 +18,18 @@ object MockUtil {
     inline fun <reified T> mock(): T = Mockito.mock(T::class.java)
 
     fun mockNoticeResponseList() = NoticeListResponse(
-        isSuccess = true,
         resultMsg = "성공",
         resultCode = 200,
-        baseUrl = "https://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do",
-        noticeResponse = listOf(mockNoticeResponse())
+        noticeResponse = listOf(mockNoticeResponse()),
     )
 
     private fun mockNoticeResponse() = NoticeResponse(
         articleId = "5b4a11b",
         postedDate = "20220203",
         subject = "2022학년도 1학기 재입학 합격자 유의사항 안내",
-        category = "bachelor"
+        category = "bachelor",
+        url = "https://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do?forum=notice&sort=6&id=5b4f972&cat=0000300001",
+        isImportant = false,
     )
 
     fun mockNoticeEntity() = NoticeEntity(
@@ -80,21 +81,22 @@ object MockUtil {
     )
 
     fun mockSubscribeListResponse() = SubscribeListResponse(
-        isSuccess = true,
         resultMsg = "성공",
         resultCode = 200,
-        categoryList = listOf("bachelor", "employment")
+        categoryList = listOf(
+            CategoryResponse("student", "stu", "학생"),
+            CategoryResponse("employment", "emp", "취창업"),
+        )
     )
 
     fun mockSubscribeRequest() = SubscribeRequest(
-        token = "AAAAn6eQM_Y:APA91bES4rjrFwPY5i_Hz-kT0u32SzIUxreYm9qaQHZeYKGGV_BmHZNJhHvlDjyQA6LveNdxCVrwzsq78jgsnCw8OumbtM5L3cc17XgdqZ_dlpsPzR7TlJwBFTXRFLPst663IeX27sb0",
         categories = listOf("bachelor", "scholarship")
     )
 
     fun mockDefaultResponse() = DefaultResponse(
-        isSuccess = true,
+        resultCode = 200,
         resultMsg = "성공",
-        resultCode = 200
+        data = null,
     )
 
     fun mockSucceededDepartmentNoticeListResponse(dataSize: Int) = DepartmentNoticeListResponse(

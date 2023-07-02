@@ -21,16 +21,16 @@ class FeedbackServiceTest : ApiAbstract<FeedbackService>() {
         enqueueResponse("/DefaultResponse.json")
 
         // when
+        val token = "mockToken"
         val mockRequest = FeedbackRequest(
-            token = "mockToken",
             content = "쿠링은 좋은 어플리케이션입니다."
         )
-        val response = service.sendFeedback(mockRequest).blockingGet()
+        val response = service.sendFeedback(token, mockRequest).blockingGet()
         mockWebServer.takeRequest()
 
         // then
         assertEquals(true, response.isSuccess)
         assertEquals("성공", response.resultMsg)
-        assertEquals(201, response.resultCode)
+        assertEquals(null, response.data)
     }
 }

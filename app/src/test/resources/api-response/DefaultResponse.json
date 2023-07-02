@@ -1,5 +1,5 @@
 {
-  "isSuccess": true,
-  "resultMsg": "성공",
-  "resultCode": 201
+  "code": 200,
+  "message": "성공",
+  "data": null
 }

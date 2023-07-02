@@ -129,7 +129,8 @@ class EditSubscriptionViewModel @Inject constructor(
                 categories.value.values.filter { it.isNotificationEnabled }.map { it.content }
             repository.saveSubscriptionToLocal(ArrayList(notificationEnabledCategories))
             repository.saveSubscriptionToRemote(
-                SubscribeRequest(fcmToken, notificationEnabledCategories.map { category ->
+                token = fcmToken,
+                subscribeRequest = SubscribeRequest(notificationEnabledCategories.map { category ->
                     WordConverter.convertKoreanToEnglish(category)
                 })
             )
