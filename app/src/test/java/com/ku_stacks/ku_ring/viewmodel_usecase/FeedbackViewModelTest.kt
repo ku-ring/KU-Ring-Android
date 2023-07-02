@@ -13,7 +13,7 @@ import com.ku_stacks.ku_ring.SchedulersTestRule
 import com.ku_stacks.ku_ring.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.data.api.FeedbackClient
 import com.ku_stacks.ku_ring.data.api.request.FeedbackRequest
-import com.ku_stacks.ku_ring.data.api.response.DefaultResponse
+import com.ku_stacks.ku_ring.data.api.response.DefaultV2Response
 import com.ku_stacks.ku_ring.ui.feedback.FeedbackViewModel
 import io.reactivex.rxjava3.core.Single
 import org.junit.Assert.assertEquals
@@ -124,19 +124,20 @@ class FeedbackViewModelTest {
 
         Mockito.`when`(firebaseMessaging.token).thenReturn(successTask)
 
-        val mockFeedback = FeedbackRequest(mockToken, mockFeedbackContent)
-        val mockResponse = DefaultResponse(
-            isSuccess = true,
+        val mockFeedback = FeedbackRequest(mockFeedbackContent)
+        val mockResponse = DefaultV2Response(
             resultMsg = "성공",
-            resultCode = 201
+            resultCode = 200,
+            data = null,
         )
-        Mockito.`when`(client.sendFeedback(mockFeedback)).thenReturn(Single.just(mockResponse))
+        Mockito.`when`(client.sendFeedback(mockToken, mockFeedback))
+            .thenReturn(Single.just(mockResponse))
 
         // when
         viewModel.sendFeedback()
 
         // then
-        verify(client, times(1)).sendFeedback(mockFeedback)
+        verify(client, times(1)).sendFeedback(mockToken, mockFeedback)
         assertEquals(R.string.feedback_success, viewModel.toastByResource.value)
     }
 
@@ -152,7 +153,7 @@ class FeedbackViewModelTest {
         viewModel.sendFeedback()
 
         // then
-        verify(client, times(0)).sendFeedback(any())
+        verify(client, times(0)).sendFeedback(any(), any())
         assertEquals(R.string.feedback_too_short, viewModel.toastByResource.value)
     }
 
@@ -173,7 +174,7 @@ class FeedbackViewModelTest {
 
         // then
         assertEquals(257, mockFeedbackContent.length)
-        verify(client, times(0)).sendFeedback(any())
+        verify(client, times(0)).sendFeedback(any(), any())
         assertEquals(R.string.feedback_too_long, viewModel.toastByResource.value)
     }
 
@@ -185,20 +186,21 @@ class FeedbackViewModelTest {
 
         Mockito.`when`(firebaseMessaging.token).thenReturn(successTask)
 
-        val mockFeedback = FeedbackRequest(mockToken, mockFeedbackContent)
+        val mockFeedback = FeedbackRequest(mockFeedbackContent)
         val expectedResponseMsg = "알 수 없는 서버 오류"
-        val mockResponse = DefaultResponse(
-            isSuccess = false,
+        val mockResponse = DefaultV2Response(
             resultMsg = expectedResponseMsg,
-            resultCode = 500
+            resultCode = 500,
+            data = null,
         )
-        Mockito.`when`(client.sendFeedback(mockFeedback)).thenReturn(Single.just(mockResponse))
+        Mockito.`when`(client.sendFeedback(mockToken, mockFeedback))
+            .thenReturn(Single.just(mockResponse))
 
         // when
         viewModel.sendFeedback()
 
         // then
-        verify(client, times(1)).sendFeedback(mockFeedback)
+        verify(client, times(1)).sendFeedback(mockToken, mockFeedback)
         assertEquals(expectedResponseMsg, viewModel.toast.value)
     }
 }

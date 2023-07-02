@@ -9,7 +9,13 @@ import com.ku_stacks.ku_ring.data.api.FeedbackClient
 import com.ku_stacks.ku_ring.data.api.request.FeedbackRequest
 import com.ku_stacks.ku_ring.repository.UserRepository
 import com.ku_stacks.ku_ring.ui.SingleLiveEvent
-import com.ku_stacks.ku_ring.ui.chat.ui_model.*
+import com.ku_stacks.ku_ring.ui.chat.ui_model.ChatUiModel
+import com.ku_stacks.ku_ring.ui.chat.ui_model.ReceivedMessageUiModel
+import com.ku_stacks.ku_ring.ui.chat.ui_model.SentMessageUiModel
+import com.ku_stacks.ku_ring.ui.chat.ui_model.toAdminMessageUiModel
+import com.ku_stacks.ku_ring.ui.chat.ui_model.toChatUiModelList
+import com.ku_stacks.ku_ring.ui.chat.ui_model.toReceivedMessageUiModel
+import com.ku_stacks.ku_ring.ui.chat.ui_model.toSentMessageUiModel
 import com.ku_stacks.ku_ring.util.PreferenceUtil
 import com.sendbird.android.SendbirdChat
 import com.sendbird.android.channel.BaseChannel
@@ -263,7 +269,8 @@ class ChatViewModel @Inject constructor(
         // send to Kuring server
         disposable.add(
             feedbackClient.sendFeedback(
-                FeedbackRequest(token = pref.fcmToken ?: "", content = feedbackContent)
+                token = pref.fcmToken ?: "",
+                feedbackRequest = FeedbackRequest(content = feedbackContent),
             )
                 .subscribeOn(Schedulers.io())
                 .subscribe({

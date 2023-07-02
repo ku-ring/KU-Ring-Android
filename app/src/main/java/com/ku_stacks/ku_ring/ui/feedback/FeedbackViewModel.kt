@@ -71,11 +71,13 @@ class FeedbackViewModel @Inject constructor(
             }
 
             feedbackClient.sendFeedback(
-                FeedbackRequest(token = fcmToken, content = content)
+                token = fcmToken,
+                feedbackRequest = FeedbackRequest(content = content),
             )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
+                    Timber.d(it.resultCode.toString())
                     if (it.isSuccess) {
                         Timber.e("feedback success content : $content")
                         _toastByResource.value = R.string.feedback_success
