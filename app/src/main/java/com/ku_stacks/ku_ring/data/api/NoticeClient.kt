@@ -1,7 +1,7 @@
 package com.ku_stacks.ku_ring.data.api
 
 import com.ku_stacks.ku_ring.data.api.request.SubscribeRequest
-import com.ku_stacks.ku_ring.data.api.response.DefaultV2Response
+import com.ku_stacks.ku_ring.data.api.response.DefaultResponse
 import com.ku_stacks.ku_ring.data.api.response.DepartmentNoticeListResponse
 import com.ku_stacks.ku_ring.data.api.response.NoticeListResponse
 import com.ku_stacks.ku_ring.data.api.response.SubscribeListResponse
@@ -24,7 +24,7 @@ class NoticeClient @Inject constructor(
     fun saveSubscribe(
         token: String,
         subscribeRequest: SubscribeRequest
-    ): Single<DefaultV2Response> = noticeService.saveSubscribeList(token, subscribeRequest)
+    ): Single<DefaultResponse> = noticeService.saveSubscribeList(token, subscribeRequest)
 
     suspend fun fetchDepartmentNoticeList(
         type: String = "dep",

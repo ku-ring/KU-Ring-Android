@@ -2,7 +2,7 @@ package com.ku_stacks.ku_ring
 
 import com.ku_stacks.ku_ring.data.api.request.SubscribeRequest
 import com.ku_stacks.ku_ring.data.api.response.CategoryResponse
-import com.ku_stacks.ku_ring.data.api.response.DefaultV2Response
+import com.ku_stacks.ku_ring.data.api.response.DefaultResponse
 import com.ku_stacks.ku_ring.data.api.response.DepartmentNoticeListResponse
 import com.ku_stacks.ku_ring.data.api.response.DepartmentNoticeResponse
 import com.ku_stacks.ku_ring.data.api.response.NoticeListResponse
@@ -93,7 +93,7 @@ object MockUtil {
         categories = listOf("bachelor", "scholarship")
     )
 
-    fun mockDefaultV2Response() = DefaultV2Response(
+    fun mockDefaultResponse() = DefaultResponse(
         resultCode = 200,
         resultMsg = "성공",
         data = null,

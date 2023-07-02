@@ -1,7 +1,7 @@
 package com.ku_stacks.ku_ring.data.api
 
 import com.ku_stacks.ku_ring.data.api.request.FeedbackRequest
-import com.ku_stacks.ku_ring.data.api.response.DefaultV2Response
+import com.ku_stacks.ku_ring.data.api.response.DefaultResponse
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.Body
 import retrofit2.http.Header
@@ -12,5 +12,5 @@ interface FeedbackService {
     fun sendFeedback(
         @Header("User-Token") token: String,
         @Body feedbackRequest: FeedbackRequest,
-    ): Single<DefaultV2Response>
+    ): Single<DefaultResponse>
 }

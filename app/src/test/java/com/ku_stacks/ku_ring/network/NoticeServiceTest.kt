@@ -59,7 +59,7 @@ class NoticeServiceTest : ApiAbstract<NoticeService>() {
     @Test
     fun `save SubscribeList Test`() {
         // given
-        enqueueResponse("/DefaultV2Response.json")
+        enqueueResponse("/DefaultResponse.json")
 
         // when
         val mockRequest = SubscribeRequest(

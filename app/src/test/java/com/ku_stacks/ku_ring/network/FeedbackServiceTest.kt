@@ -18,7 +18,7 @@ class FeedbackServiceTest : ApiAbstract<FeedbackService>() {
     @Test
     fun `send Feedback Test`() {
         // given
-        enqueueResponse("/DefaultV2Response.json")
+        enqueueResponse("/DefaultResponse.json")
 
         // when
         val token = "mockToken"

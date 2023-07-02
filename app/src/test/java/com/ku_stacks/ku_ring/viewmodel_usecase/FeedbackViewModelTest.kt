@@ -13,7 +13,7 @@ import com.ku_stacks.ku_ring.SchedulersTestRule
 import com.ku_stacks.ku_ring.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.data.api.FeedbackClient
 import com.ku_stacks.ku_ring.data.api.request.FeedbackRequest
-import com.ku_stacks.ku_ring.data.api.response.DefaultV2Response
+import com.ku_stacks.ku_ring.data.api.response.DefaultResponse
 import com.ku_stacks.ku_ring.ui.feedback.FeedbackViewModel
 import io.reactivex.rxjava3.core.Single
 import org.junit.Assert.assertEquals
@@ -125,7 +125,7 @@ class FeedbackViewModelTest {
         Mockito.`when`(firebaseMessaging.token).thenReturn(successTask)
 
         val mockFeedback = FeedbackRequest(mockFeedbackContent)
-        val mockResponse = DefaultV2Response(
+        val mockResponse = DefaultResponse(
             resultMsg = "성공",
             resultCode = 200,
             data = null,
@@ -188,7 +188,7 @@ class FeedbackViewModelTest {
 
         val mockFeedback = FeedbackRequest(mockFeedbackContent)
         val expectedResponseMsg = "알 수 없는 서버 오류"
-        val mockResponse = DefaultV2Response(
+        val mockResponse = DefaultResponse(
             resultMsg = expectedResponseMsg,
             resultCode = 500,
             data = null,
