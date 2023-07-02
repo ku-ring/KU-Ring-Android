@@ -1,7 +1,7 @@
 package com.ku_stacks.ku_ring.data.api
 
 import com.ku_stacks.ku_ring.data.api.request.SubscribeRequest
-import com.ku_stacks.ku_ring.data.api.response.DefaultResponse
+import com.ku_stacks.ku_ring.data.api.response.DefaultV2Response
 import com.ku_stacks.ku_ring.data.api.response.DepartmentNoticeListResponse
 import com.ku_stacks.ku_ring.data.api.response.NoticeListResponse
 import com.ku_stacks.ku_ring.data.api.response.SubscribeListResponse
@@ -25,10 +25,11 @@ interface NoticeService {
         @Header("User-Token") token: String
     ): Single<SubscribeListResponse>
 
-    @POST("v1/notice/subscribe")
+    @POST("v2/users/subscriptions/categories")
     fun saveSubscribeList(
+        @Header("User-Token") token: String,
         @Body subscribeRequest: SubscribeRequest
-    ): Single<DefaultResponse>
+    ): Single<DefaultV2Response>
 
     @GET("v2/notices")
     suspend fun fetchDepartmentNoticeList(
