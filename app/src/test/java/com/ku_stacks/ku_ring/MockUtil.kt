@@ -17,18 +17,18 @@ object MockUtil {
     inline fun <reified T> mock(): T = Mockito.mock(T::class.java)
 
     fun mockNoticeResponseList() = NoticeListResponse(
-        isSuccess = true,
         resultMsg = "성공",
         resultCode = 200,
-        baseUrl = "https://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do",
-        noticeResponse = listOf(mockNoticeResponse())
+        noticeResponse = listOf(mockNoticeResponse()),
     )
 
     private fun mockNoticeResponse() = NoticeResponse(
         articleId = "5b4a11b",
         postedDate = "20220203",
         subject = "2022학년도 1학기 재입학 합격자 유의사항 안내",
-        category = "bachelor"
+        category = "bachelor",
+        url = "https://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do?forum=notice&sort=6&id=5b4f972&cat=0000300001",
+        isImportant = false,
     )
 
     fun mockNoticeEntity() = NoticeEntity(

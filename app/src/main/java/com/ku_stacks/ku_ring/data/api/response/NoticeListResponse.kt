@@ -3,14 +3,13 @@ package com.ku_stacks.ku_ring.data.api.response
 import com.google.gson.annotations.SerializedName
 
 data class NoticeListResponse(
-    @SerializedName(value = "isSuccess")
-    val isSuccess: Boolean,
-    @SerializedName(value = "resultMsg")
+    @SerializedName(value = "message")
     val resultMsg: String,
-    @SerializedName(value = "resultCode")
+    @SerializedName(value = "code")
     val resultCode: Int,
-    @SerializedName(value = "baseUrl")
-    val baseUrl: String,
-    @SerializedName(value = "noticeList")
-    val noticeResponse: List<NoticeResponse>
-)
+    @SerializedName(value = "data")
+    val noticeResponse: List<NoticeResponse>,
+) {
+    val isSuccess: Boolean
+        get() = (resultCode == 200)
+}

@@ -28,14 +28,13 @@ class NoticeServiceTest : ApiAbstract<NoticeService>() {
         mockWebServer.takeRequest()
 
         // then
-        assertEquals(11, response.noticeResponse.size)
+        assertEquals(3, response.noticeResponse.size)
 
         assertEquals(true, response.isSuccess)
-        assertEquals("https://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do", response.baseUrl)
-        assertEquals("5b49d36", response.noticeResponse[0].articleId)
-        assertEquals("bachelor", response.noticeResponse[0].category)
+        assertEquals("5b45b56", response.noticeResponse[0].articleId)
+        assertEquals("student", response.noticeResponse[0].category)
         assertEquals("20220105", response.noticeResponse[0].postedDate)
-        assertEquals(" 2022학년도 1학기 캠퍼스간 다전공 신청 안내(서울→ GLOCAL)", response.noticeResponse[0].subject)
+        assertEquals("subject_1", response.noticeResponse[0].subject)
     }
 
     @Test
