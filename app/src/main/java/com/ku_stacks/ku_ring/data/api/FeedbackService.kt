@@ -11,6 +11,8 @@ interface FeedbackService {
     @POST("v2/users/feedbacks")
     fun sendFeedback(
         @Header("User-Token") token: String,
+        @Header("User-Agent") appVersion: String,
+        @Header("User-Agent") androidVersion: String,
         @Body feedbackRequest: FeedbackRequest,
     ): Single<DefaultResponse>
 }
