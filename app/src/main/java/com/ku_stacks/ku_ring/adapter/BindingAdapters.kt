@@ -22,7 +22,7 @@ fun TextView.getDay(str: String) {
         }
 
         else -> {
-            Timber.e("timeMillis String length is not normal in BindingAdapter")
+            Timber.e("timeMillis String length error: $str")
             str
         }
     }
