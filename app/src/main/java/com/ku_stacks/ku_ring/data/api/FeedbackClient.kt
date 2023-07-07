@@ -11,5 +11,10 @@ class FeedbackClient @Inject constructor(
     fun sendFeedback(
         token: String,
         feedbackRequest: FeedbackRequest,
-    ): Single<DefaultResponse> = feedbackService.sendFeedback(token, feedbackRequest)
+    ): Single<DefaultResponse> {
+        return feedbackService.sendFeedback(
+            token = token,
+            feedbackRequest = feedbackRequest
+        )
+    }
 }

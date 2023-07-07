@@ -31,6 +31,7 @@ object NetworkModule {
                     HttpLoggingInterceptor.Level.NONE
                 }
             })
+            .addInterceptor(HeaderInterceptor())
             .build()
     }
 
