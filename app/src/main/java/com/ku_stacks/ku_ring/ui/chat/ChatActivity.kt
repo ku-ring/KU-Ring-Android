@@ -63,17 +63,15 @@ class ChatActivity : AppCompatActivity() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
             override fun afterTextChanged(s: Editable?) {
-                if (s.isNullOrEmpty()) { // modify tint color
-                    ImageViewCompat.setImageTintList(
-                        binding.chatSendBt,
-                        ColorStateList.valueOf(getColor(R.color.kus_green_50))
-                    )
+                val textTintColor = if (s.isNullOrEmpty()) {
+                    R.color.kus_green_50
                 } else {
-                    ImageViewCompat.setImageTintList(
-                        binding.chatSendBt,
-                        ColorStateList.valueOf(getColor(R.color.kus_green))
-                    )
+                    R.color.kus_green
                 }
+                ImageViewCompat.setImageTintList(
+                    binding.chatSendBt,
+                    ColorStateList.valueOf(getColor(textTintColor))
+                )
 
                 s?.length?.let { len ->
                     val maxLen = 300
