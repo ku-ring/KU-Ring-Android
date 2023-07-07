@@ -38,15 +38,9 @@ fun View.visibleIf(value: Boolean) {
 fun View.pointColor(isNew: Boolean, isRead: Boolean, isSubscribing: Boolean, isSaved: Boolean) {
     visibility = when {
         isSaved -> View.VISIBLE
-        isRead -> {
-            View.GONE
-        }
-        isNew -> {
-            View.VISIBLE
-        }
-        else -> {
-            View.GONE
-        }
+        isRead -> View.GONE
+        isNew -> View.VISIBLE
+        else -> View.GONE
     }
     background = when {
         isSaved -> ContextCompat.getDrawable(this.context, R.drawable.point_primary_green)
