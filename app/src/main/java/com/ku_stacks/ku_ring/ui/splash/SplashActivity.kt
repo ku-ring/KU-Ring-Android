@@ -45,7 +45,7 @@ class SplashActivity : AppCompatActivity() {
                 launchedFromCustomNotificationEvent(intent) -> {
                     handleCustomNotification()
                 }
-                onboadingRequired() -> {
+                onboardingRequired() -> {
                     startActivity(Intent(this@SplashActivity, OnboardingActivity::class.java))
                 }
                 else -> {
@@ -112,7 +112,7 @@ class SplashActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun onboadingRequired(): Boolean {
+    private fun onboardingRequired(): Boolean {
         return pref.firstRunFlag && pref.subscription.isNullOrEmpty()
     }
 
