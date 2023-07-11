@@ -140,41 +140,38 @@ class ChatActivity : AppCompatActivity() {
             description = getString(R.string.chat_resend_message),
             leftText = getString(R.string.chat_delete),
             rightText = getString(R.string.chat_resend)
-        )
-            .setOnCancelClickListener {
-                viewModel.deletePendingMessage(sentMessageUiModel)
-            }
-            .setOnConfirmClickListener {
-                viewModel.deletePendingMessage(sentMessageUiModel)
-                viewModel.sendMessage(sentMessageUiModel.message)
-            }
+        ).setOnCancelClickListener {
+            viewModel.deletePendingMessage(sentMessageUiModel)
+        }.setOnConfirmClickListener {
+            viewModel.deletePendingMessage(sentMessageUiModel)
+            viewModel.sendMessage(sentMessageUiModel.message)
+        }
     }
 
     private fun makeChatActionDialog(messageUiModel: ReceivedMessageUiModel) {
         ChatActionDialog(this).apply {
             show()
+        }.setOnCopyMessageClickListener {
+            val clipboardManager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+            val clipData = ClipData.newPlainText("message", messageUiModel.message)
+            clipboardManager.setPrimaryClip(clipData)
+            showToast(getString(R.string.chat_copied_message))
+        }.setOnCopyNicknameClickListener {
+            val clipboardManager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+            val clipData = ClipData.newPlainText("nickname", messageUiModel.nickname)
+            clipboardManager.setPrimaryClip(clipData)
+            showToast(getString(R.string.chat_copied_nickname))
+        }.setOnReportClickListener {
+            makeDialog(description = getString(R.string.report_ask_again))
+                .setOnConfirmClickListener {
+                    viewModel.reportMessage(messageUiModel)
+                }
+        }.setOnBlockClickListener {
+            makeDialog(description = getString(R.string.block_ask_again))
+                .setOnConfirmClickListener {
+                    viewModel.blockUser(messageUiModel)
+                }
         }
-            .setOnCopyMessageClickListener {
-                val clipboardManager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-                val clipData = ClipData.newPlainText("message", messageUiModel.message)
-                clipboardManager.setPrimaryClip(clipData)
-                showToast(getString(R.string.chat_copied_message))
-            }.setOnCopyNicknameClickListener {
-                val clipboardManager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-                val clipData = ClipData.newPlainText("nickname", messageUiModel.nickname)
-                clipboardManager.setPrimaryClip(clipData)
-                showToast(getString(R.string.chat_copied_nickname))
-            }.setOnReportClickListener {
-                makeDialog(description = getString(R.string.report_ask_again))
-                    .setOnConfirmClickListener {
-                        viewModel.reportMessage(messageUiModel)
-                    }
-            }.setOnBlockClickListener {
-                makeDialog(description = getString(R.string.block_ask_again))
-                    .setOnConfirmClickListener {
-                        viewModel.blockUser(messageUiModel)
-                    }
-            }
     }
 
     override fun onBackPressed() {
