@@ -26,38 +26,53 @@ class ChatMessageAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SealedChatViewHolder {
         return when (viewType) {
             CHAT_RECEIVED -> {
-                val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_chat_receive, parent, false)
-                val binding = ItemChatReceiveBinding.bind(view)
-                ReceiveViewHolder(binding).apply {
-                    binding.chatMessageLayout.setOnLongClickListener {
-                        val position = absoluteAdapterPosition.takeIf { it != NO_POSITION }
-                            ?: return@setOnLongClickListener false
-                        onMessageLongClick(getItem(position) as ReceivedMessageUiModel)
-                        return@setOnLongClickListener true
-                    }
-                }
+                createReceivedViewHolder(parent)
             }
+
             CHAT_SENT -> {
-                val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_chat_send, parent, false)
-                val binding = ItemChatSendBinding.bind(view)
-                SendViewHolder(binding).apply {
-                    binding.chatSendErrorIv.setOnClickListener {
-                        val position = absoluteAdapterPosition.takeIf { it != NO_POSITION }
-                            ?: return@setOnClickListener
-                        onErrorClick(getItem(position) as SentMessageUiModel)
-                    }
-                }
+                createSendViewHolder(parent)
             }
+
             CHAT_ADMIN -> {
-                val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_chat_admin, parent, false)
-                val binding = ItemChatAdminBinding.bind(view)
-                AdminViewHolder(binding)
+                createAdminViewHolder(parent)
             }
+
             else -> {
                 throw IllegalStateException("no such viewType : $viewType")
+            }
+        }
+    }
+
+    private fun createAdminViewHolder(parent: ViewGroup): AdminViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_chat_admin, parent, false)
+        val binding = ItemChatAdminBinding.bind(view)
+        return AdminViewHolder(binding)
+    }
+
+    private fun createSendViewHolder(parent: ViewGroup): SendViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_chat_send, parent, false)
+        val binding = ItemChatSendBinding.bind(view)
+        return SendViewHolder(binding).apply {
+            binding.chatSendErrorIv.setOnClickListener {
+                val position = absoluteAdapterPosition.takeIf { it != NO_POSITION }
+                    ?: return@setOnClickListener
+                onErrorClick(getItem(position) as SentMessageUiModel)
+            }
+        }
+    }
+
+    private fun createReceivedViewHolder(parent: ViewGroup): ReceiveViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_chat_receive, parent, false)
+        val binding = ItemChatReceiveBinding.bind(view)
+        return ReceiveViewHolder(binding).apply {
+            binding.chatMessageLayout.setOnLongClickListener {
+                val position = absoluteAdapterPosition.takeIf { it != NO_POSITION }
+                    ?: return@setOnLongClickListener false
+                onMessageLongClick(getItem(position) as ReceivedMessageUiModel)
+                return@setOnLongClickListener true
             }
         }
     }
@@ -76,9 +91,11 @@ class ChatMessageAdapter(
             is ReceiveViewHolder -> {
                 holder.bind(item as ReceivedMessageUiModel, showDate)
             }
+
             is SendViewHolder -> {
                 holder.bind(item as SentMessageUiModel, showDate)
             }
+
             is AdminViewHolder -> {
                 holder.bind(item as AdminMessageUiModel, showDate)
             }
