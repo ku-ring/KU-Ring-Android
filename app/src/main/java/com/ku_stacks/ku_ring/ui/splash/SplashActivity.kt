@@ -42,23 +42,18 @@ class SplashActivity : AppCompatActivity() {
                 launchedFromNoticeNotificationEvent(intent) -> {
                     handleNoticeNotification(intent)
                 }
-
                 launchedFromCustomNotificationEvent(intent) -> {
                     handleCustomNotification()
                 }
-
-                onboadingRequired() -> {
+                onboardingRequired() -> {
                     startActivity(Intent(this@SplashActivity, OnboardingActivity::class.java))
-                    overridePendingTransition(0, 0)
-                    finish()
                 }
-
                 else -> {
                     startActivity(Intent(this@SplashActivity, MainActivity::class.java))
-                    overridePendingTransition(0, 0)
-                    finish()
                 }
             }
+
+            finish()
         }
     }
 
@@ -117,7 +112,12 @@ class SplashActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun onboadingRequired(): Boolean {
+    private fun onboardingRequired(): Boolean {
         return pref.firstRunFlag && pref.subscription.isNullOrEmpty()
+    }
+
+    override fun finish() {
+        overridePendingTransition(0, 0)
+        super.finish()
     }
 }
