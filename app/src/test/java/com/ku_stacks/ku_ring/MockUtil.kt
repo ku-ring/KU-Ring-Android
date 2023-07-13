@@ -122,6 +122,8 @@ object MockUtil {
         data = emptyList()
     )
 
+    fun mockUserResponse() = UserResponse(nickname = "kuring", userId = "kuring")
+
     fun mockUserListResponse(): UserListResponse = UserListResponse(
         "abcde"
             .map { it.toString() }

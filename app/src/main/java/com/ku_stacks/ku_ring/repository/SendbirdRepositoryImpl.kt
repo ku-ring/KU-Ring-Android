@@ -13,7 +13,7 @@ class SendbirdRepositoryImpl @Inject constructor(
         return sendbirdClient.fetchNicknameList(nickname)
             .subscribeOn(Schedulers.io())
             .map {
-                it.users.any { userResponse -> userResponse.userId == userId }
+                it.users.any { userResponse -> userResponse.userId != userId }
             }
     }
 }

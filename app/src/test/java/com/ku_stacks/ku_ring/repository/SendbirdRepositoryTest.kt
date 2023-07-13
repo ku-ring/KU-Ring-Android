@@ -50,12 +50,11 @@ class SendbirdRepositoryTest {
 
     @Test
     fun `given no duplicates then false`() {
-        val nickname = "kuring"
-        val mockResponse = MockUtil.mockUserListResponse()
+        val mockResponse = MockUtil.mockUserResponse()
+        val (nickname, userId) = mockResponse
         Mockito.`when`(sendbirdClient.fetchNicknameList(nickname))
-            .thenReturn(Single.just(mockResponse))
+            .thenReturn(Single.just(UserListResponse(listOf(mockResponse))))
 
-        val userId = "someUserId"
         sendbirdRepository.hasDuplicateNickname(nickname, userId)
             .test()
             .assertComplete()
