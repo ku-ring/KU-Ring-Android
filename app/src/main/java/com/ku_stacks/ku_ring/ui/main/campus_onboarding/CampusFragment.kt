@@ -135,11 +135,17 @@ class CampusFragment : Fragment() {
 
                     override fun afterTextChanged(s: Editable?) {
                         val isValidFormat = viewModel.isValidNicknameFormat(s.toString())
-                        val (formatText, formatTextColor) = if (isValidFormat) {
-                            listOf(R.string.nickname_valid_format, R.color.kus_gray)
+                        val formatText = if (isValidFormat) {
+                            R.string.nickname_valid_format
                         } else {
-                            listOf(R.string.nickname_not_valid_format, R.color.kus_pink)
+                            R.string.nickname_not_valid_format
                         }
+                        val formatTextColor = if (isValidFormat) {
+                            R.color.kus_gray
+                        } else {
+                            R.color.kus_pink
+                        }
+
                         binding.campusSetNicknameLayout.nicknameFormatDescTv.apply {
                             text = getString(formatText)
                             setTextColor(ContextCompat.getColor(requireContext(), formatTextColor))
