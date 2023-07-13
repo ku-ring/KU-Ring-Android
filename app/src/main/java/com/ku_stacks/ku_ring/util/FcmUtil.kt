@@ -1,5 +1,7 @@
 package com.ku_stacks.ku_ring.util
 
+import com.ku_stacks.ku_ring.data.db.NoticeDao
+import com.ku_stacks.ku_ring.data.db.NoticeEntity
 import com.ku_stacks.ku_ring.data.db.PushDao
 import com.ku_stacks.ku_ring.data.db.PushEntity
 import com.ku_stacks.ku_ring.di.IODispatcher
@@ -11,6 +13,7 @@ import javax.inject.Inject
 
 class FcmUtil @Inject constructor(
     private val pushDao: PushDao,
+    private val noticeDao: NoticeDao,
     @IODispatcher private val ioDispatcher: CoroutineDispatcher,
 ) {
 
@@ -54,6 +57,19 @@ class FcmUtil @Inject constructor(
                         fullUrl = fullUrl,
                         isNew = true,
                         receivedDate = receivedDate
+                    )
+                )
+                noticeDao.insertNotice(
+                    NoticeEntity(
+                        articleId = articleId,
+                        category = category,
+                        subject = subject,
+                        postedDate = postedDate,
+                        url = fullUrl,
+                        isNew = true,
+                        isRead = false,
+                        isSaved = false,
+                        isReadOnStorage = false
                     )
                 )
                 Timber.e("insert notification success")
