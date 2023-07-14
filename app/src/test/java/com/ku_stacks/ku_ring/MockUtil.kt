@@ -8,6 +8,8 @@ import com.ku_stacks.ku_ring.data.api.response.DepartmentNoticeResponse
 import com.ku_stacks.ku_ring.data.api.response.NoticeListResponse
 import com.ku_stacks.ku_ring.data.api.response.NoticeResponse
 import com.ku_stacks.ku_ring.data.api.response.SubscribeListResponse
+import com.ku_stacks.ku_ring.data.api.response.UserListResponse
+import com.ku_stacks.ku_ring.data.api.response.UserResponse
 import com.ku_stacks.ku_ring.data.db.NoticeEntity
 import com.ku_stacks.ku_ring.data.db.PushEntity
 import com.ku_stacks.ku_ring.data.model.Notice
@@ -118,5 +120,13 @@ object MockUtil {
         code = 200,
         message = "공지 조회에 성공하였습니다",
         data = emptyList()
+    )
+
+    fun mockUserResponse() = UserResponse(nickname = "kuring", userId = "kuring")
+
+    fun mockUserListResponse(): UserListResponse = UserListResponse(
+        "abcde"
+            .map { it.toString() }
+            .map { s -> UserResponse(nickname = s, userId = s) }
     )
 }

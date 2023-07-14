@@ -29,21 +29,18 @@ class SearchFragment : Fragment() {
     private val pageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
             Timber.e("pageSelect detected, position : $position")
-            when (position) {
-                0 -> {
-                    if (searchViewModel.noticeList.value?.isEmpty() == false) {
-                        hideAdviceText()
-                    } else {
-                        showAdviceText()
-                    }
+            val searchResult = when (position) {
+                0 -> searchViewModel.noticeList.value
+                1 -> searchViewModel.staffList.value
+                else -> {
+                    Timber.e("Wrong page position: $position")
+                    emptyList()
                 }
-                1 -> {
-                    if (searchViewModel.staffList.value?.isEmpty() == false) {
-                        hideAdviceText()
-                    } else {
-                        showAdviceText()
-                    }
-                }
+            }
+            if (searchResult?.isEmpty() == true) {
+                showAdviceText()
+            } else {
+                hideAdviceText()
             }
         }
     }

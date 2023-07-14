@@ -80,7 +80,7 @@ class CampusViewModel @Inject constructor(
         disposable.add(
             repository.hasDuplicateNickname(nickname, userId)
                 .subscribe({
-                    if (it == false) {
+                    if (!it) {
                         isAuthorized()
                     } else {
                         _dialogEvent.postValue(R.string.nickname_duplicated)

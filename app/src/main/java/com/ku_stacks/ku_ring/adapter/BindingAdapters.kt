@@ -16,11 +16,13 @@ fun TextView.getDay(str: String) {
         8 -> { // "20211018"
             str.substring(0, 4) + "." + str.substring(4, 6) + "." + str.substring(6, 8)
         }
+
         19 -> { // "2021-10-10 21:37:37"
             str.substring(0, 4) + "." + str.substring(5, 7) + "." + str.substring(8, 10)
         }
+
         else -> {
-            Timber.e("timeMillis String length is not normal in BindingAdapter")
+            Timber.e("timeMillis String length error: $str")
             str
         }
     }
@@ -38,59 +40,59 @@ fun View.visibleIf(value: Boolean) {
 fun View.pointColor(isNew: Boolean, isRead: Boolean, isSubscribing: Boolean, isSaved: Boolean) {
     visibility = when {
         isSaved -> View.VISIBLE
-        isRead -> {
-            View.GONE
-        }
-        isNew -> {
-            View.VISIBLE
-        }
-        else -> {
-            View.GONE
-        }
+        isRead -> View.GONE
+        isNew -> View.VISIBLE
+        else -> View.GONE
     }
-    background = when {
-        isSaved -> ContextCompat.getDrawable(this.context, R.drawable.point_primary_green)
-        isSubscribing -> ContextCompat.getDrawable(this.context, R.drawable.point_primary_pink)
-        else -> ContextCompat.getDrawable(this.context, R.drawable.point_primary_gray)
+    val backgroundDrawable = when {
+        isSaved -> R.drawable.point_primary_green
+        isSubscribing -> R.drawable.point_primary_pink
+        else -> R.drawable.point_primary_gray
     }
+    background = ContextCompat.getDrawable(context, backgroundDrawable)
 }
 
 @BindingAdapter("textColorGrayIf")
 fun TextView.textColorGrayIf(value: Boolean) {
-    if (value) {
-        setTextColor(this.context.getColor(R.color.kus_tertiary))
+    val textColor = if (value) {
+        R.color.kus_tertiary
     } else {
-        setTextColor(this.context.getColor(R.color.kus_primary))
+        R.color.kus_primary
     }
+    setTextColor(context.getColor(textColor))
 }
 
 @BindingAdapter("confirmedImageIf")
 fun ImageView.confirmedImageIf(value: Boolean) {
-    if (value) {
-        setImageResource(R.drawable.ic_check)
+    val drawable = if (value) {
+        R.drawable.ic_check
     } else {
-        setImageResource(R.drawable.ic_close)
+        R.drawable.ic_close
     }
+    setImageResource(drawable)
 }
 
 @BindingAdapter("enableFeedbackButtonIf")
 fun Button.enableFeedbackButtonIf(value: Boolean) {
-    background = if (value) {
-        ContextCompat.getDrawable(this.context, R.drawable.button_primary_gradation)
+    val backgroundDrawable = if (value) {
+        R.drawable.button_primary_gradation
     } else {
-        ContextCompat.getDrawable(this.context, R.drawable.button_primary_gradation_disabled)
+        R.drawable.button_primary_gradation_disabled
     }
+    background = ContextCompat.getDrawable(context, backgroundDrawable)
 }
 
 @BindingAdapter("disableStartButtonIf")
 fun Button.disableStartButtonIf(value: Boolean) {
-    if (value) {
-        background = ContextCompat.getDrawable(this.context, R.drawable.button_white_disabled)
-        setTextColor(ContextCompat.getColor(this.context, R.color.kus_green))
+    val backgroundDrawable = if (value) {
+        R.drawable.button_white_disabled
     } else {
-        background = ContextCompat.getDrawable(this.context, R.drawable.button_white)
-        setTextColor(ContextCompat.getColor(this.context, R.color.kus_green))
+        R.drawable.button_white
     }
+    background = ContextCompat.getDrawable(context, backgroundDrawable)
+
+    val textColor = R.color.kus_green
+    setTextColor(ContextCompat.getColor(context, textColor))
 }
 
 @BindingAdapter("isNoticeSaved")

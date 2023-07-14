@@ -63,17 +63,15 @@ class ChatActivity : AppCompatActivity() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
             override fun afterTextChanged(s: Editable?) {
-                if (s.isNullOrEmpty()) { // modify tint color
-                    ImageViewCompat.setImageTintList(
-                        binding.chatSendBt,
-                        ColorStateList.valueOf(getColor(R.color.kus_green_50))
-                    )
+                val textTintColor = if (s.isNullOrEmpty()) {
+                    R.color.kus_green_50
                 } else {
-                    ImageViewCompat.setImageTintList(
-                        binding.chatSendBt,
-                        ColorStateList.valueOf(getColor(R.color.kus_green))
-                    )
+                    R.color.kus_green
                 }
+                ImageViewCompat.setImageTintList(
+                    binding.chatSendBt,
+                    ColorStateList.valueOf(getColor(textTintColor))
+                )
 
                 s?.length?.let { len ->
                     val maxLen = 300
@@ -142,41 +140,38 @@ class ChatActivity : AppCompatActivity() {
             description = getString(R.string.chat_resend_message),
             leftText = getString(R.string.chat_delete),
             rightText = getString(R.string.chat_resend)
-        )
-            .setOnCancelClickListener {
-                viewModel.deletePendingMessage(sentMessageUiModel)
-            }
-            .setOnConfirmClickListener {
-                viewModel.deletePendingMessage(sentMessageUiModel)
-                viewModel.sendMessage(sentMessageUiModel.message)
-            }
+        ).setOnCancelClickListener {
+            viewModel.deletePendingMessage(sentMessageUiModel)
+        }.setOnConfirmClickListener {
+            viewModel.deletePendingMessage(sentMessageUiModel)
+            viewModel.sendMessage(sentMessageUiModel.message)
+        }
     }
 
     private fun makeChatActionDialog(messageUiModel: ReceivedMessageUiModel) {
         ChatActionDialog(this).apply {
             show()
+        }.setOnCopyMessageClickListener {
+            val clipboardManager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+            val clipData = ClipData.newPlainText("message", messageUiModel.message)
+            clipboardManager.setPrimaryClip(clipData)
+            showToast(getString(R.string.chat_copied_message))
+        }.setOnCopyNicknameClickListener {
+            val clipboardManager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+            val clipData = ClipData.newPlainText("nickname", messageUiModel.nickname)
+            clipboardManager.setPrimaryClip(clipData)
+            showToast(getString(R.string.chat_copied_nickname))
+        }.setOnReportClickListener {
+            makeDialog(description = getString(R.string.report_ask_again))
+                .setOnConfirmClickListener {
+                    viewModel.reportMessage(messageUiModel)
+                }
+        }.setOnBlockClickListener {
+            makeDialog(description = getString(R.string.block_ask_again))
+                .setOnConfirmClickListener {
+                    viewModel.blockUser(messageUiModel)
+                }
         }
-            .setOnCopyMessageClickListener {
-                val clipboardManager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-                val clipData = ClipData.newPlainText("message", messageUiModel.message)
-                clipboardManager.setPrimaryClip(clipData)
-                showToast(getString(R.string.chat_copied_message))
-            }.setOnCopyNicknameClickListener {
-                val clipboardManager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-                val clipData = ClipData.newPlainText("nickname", messageUiModel.nickname)
-                clipboardManager.setPrimaryClip(clipData)
-                showToast(getString(R.string.chat_copied_nickname))
-            }.setOnReportClickListener {
-                makeDialog(description = getString(R.string.report_ask_again))
-                    .setOnConfirmClickListener {
-                        viewModel.reportMessage(messageUiModel)
-                    }
-            }.setOnBlockClickListener {
-                makeDialog(description = getString(R.string.block_ask_again))
-                    .setOnConfirmClickListener {
-                        viewModel.blockUser(messageUiModel)
-                    }
-            }
     }
 
     override fun onBackPressed() {
