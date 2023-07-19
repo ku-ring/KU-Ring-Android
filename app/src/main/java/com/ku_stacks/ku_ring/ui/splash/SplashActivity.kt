@@ -1,10 +1,15 @@
 package com.ku_stacks.ku_ring.ui.splash
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
+import com.ku_stacks.ku_ring.MyFireBaseMessagingService
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.databinding.ActivitySplashBinding
 import com.ku_stacks.ku_ring.ui.main.MainActivity
@@ -42,12 +47,16 @@ class SplashActivity : AppCompatActivity() {
                 launchedFromNoticeNotificationEvent(intent) -> {
                     handleNoticeNotification(intent)
                 }
+
                 launchedFromCustomNotificationEvent(intent) -> {
                     handleCustomNotification()
                 }
+
                 onboardingRequired() -> {
+                    createNotificationChannel()
                     startActivity(Intent(this@SplashActivity, OnboardingActivity::class.java))
                 }
+
                 else -> {
                     startActivity(Intent(this@SplashActivity, MainActivity::class.java))
                 }
@@ -114,6 +123,20 @@ class SplashActivity : AppCompatActivity() {
 
     private fun onboardingRequired(): Boolean {
         return pref.firstRunFlag && pref.subscription.isNullOrEmpty()
+    }
+
+    private fun createNotificationChannel() {
+        val notificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                MyFireBaseMessagingService.CHANNEL_ID,
+                MyFireBaseMessagingService.CHANNEL_NAME,
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            notificationManager.createNotificationChannel(channel)
+        }
     }
 
     override fun finish() {
