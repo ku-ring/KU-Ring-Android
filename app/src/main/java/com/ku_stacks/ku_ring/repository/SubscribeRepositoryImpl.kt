@@ -24,14 +24,12 @@ class SubscribeRepositoryImpl @Inject constructor(
     override fun fetchSubscriptionFromRemote(token: String): Single<List<String>> {
         return noticeClient.fetchSubscribe(token)
             .map { response ->
-                response.categoryList.map { category ->
-                    WordConverter.convertEnglishToKorean(category)
-                }
+                response.categoryList.map { it.koreanName }
             }
     }
 
-    override fun saveSubscriptionToRemote(subscribeRequest: SubscribeRequest) {
-        noticeClient.saveSubscribe(subscribeRequest)
+    override fun saveSubscriptionToRemote(token: String, subscribeRequest: SubscribeRequest) {
+        noticeClient.saveSubscribe(token, subscribeRequest)
             .subscribeOn(Schedulers.io())
             .subscribe({ response ->
                 if (response.isSuccess) {

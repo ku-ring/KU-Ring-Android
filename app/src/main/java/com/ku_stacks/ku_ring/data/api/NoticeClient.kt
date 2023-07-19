@@ -22,8 +22,9 @@ class NoticeClient @Inject constructor(
     ): Single<SubscribeListResponse> = noticeService.fetchSubscribeList(token)
 
     fun saveSubscribe(
+        token: String,
         subscribeRequest: SubscribeRequest
-    ): Single<DefaultResponse> = noticeService.saveSubscribeList(subscribeRequest)
+    ): Single<DefaultResponse> = noticeService.saveSubscribeList(token, subscribeRequest)
 
     suspend fun fetchDepartmentNoticeList(
         type: String = "dep",

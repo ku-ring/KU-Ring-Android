@@ -18,12 +18,12 @@ class DepartmentSubscribeViewModel @Inject constructor(
     private val departmentRepository: DepartmentRepository
 ) : ViewModel() {
 
-    val searchKeyword = MutableStateFlow<String>("")
+    val searchKeyword = MutableStateFlow("")
 
     private val _departmentDataStateFlow = MutableStateFlow<DepartmentStateData>(DepartmentStateData.Loading)
     val departmentStateFlow = _departmentDataStateFlow.asStateFlow()
 
-    val emptyResultVisible = MutableStateFlow<Boolean>(false)
+    val emptyResultVisible = MutableStateFlow(false)
 
     init {
         viewModelScope.launch {

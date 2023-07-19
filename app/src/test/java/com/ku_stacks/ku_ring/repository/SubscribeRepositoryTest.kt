@@ -9,7 +9,6 @@ import com.ku_stacks.ku_ring.SchedulersTestRule
 import com.ku_stacks.ku_ring.data.api.DepartmentClient
 import com.ku_stacks.ku_ring.data.api.NoticeClient
 import com.ku_stacks.ku_ring.util.PreferenceUtil
-import com.ku_stacks.ku_ring.util.WordConverter
 import io.reactivex.rxjava3.core.Single
 import junit.framework.Assert.assertEquals
 import org.junit.Before
@@ -51,9 +50,7 @@ class SubscribeRepositoryTest {
         val mockSubscribeList = mockSubscribeListResponse()
 
         Mockito.`when`(client.fetchSubscribe(mockToken)).thenReturn(Single.just(mockSubscribeList))
-        val expected = mockSubscribeList.categoryList.map { category ->
-            WordConverter.convertEnglishToKorean(category)
-        }
+        val expected = mockSubscribeList.categoryList.map { it.koreanName }
 
         // when + then
         repository.fetchSubscriptionFromRemote(mockToken)
@@ -69,14 +66,16 @@ class SubscribeRepositoryTest {
         // given
         val mockRequest = mockSubscribeRequest()
         val mockResponse = mockDefaultResponse()
+        val mockToken = "mockToken"
 
-        Mockito.`when`(client.saveSubscribe(mockRequest)).thenReturn(Single.just(mockResponse))
+        Mockito.`when`(client.saveSubscribe(mockToken, mockRequest))
+            .thenReturn(Single.just(mockResponse))
 
         // when
-        repository.saveSubscriptionToRemote(mockRequest)
+        repository.saveSubscriptionToRemote(mockToken, mockRequest)
 
         // then
-        Mockito.verify(client, times(1)).saveSubscribe(mockRequest)
+        Mockito.verify(client, times(1)).saveSubscribe(mockToken, mockRequest)
         assertEquals(false, pref.firstRunFlag)
     }
 

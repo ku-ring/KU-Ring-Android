@@ -13,6 +13,9 @@ interface NoticeDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertNoticeAsOld(notice: NoticeEntity): Completable
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertNotice(notice: NoticeEntity)
+
     @Query("SELECT * FROM NoticeEntity")
     fun getOldNoticeList(): Single<List<NoticeEntity>>
 

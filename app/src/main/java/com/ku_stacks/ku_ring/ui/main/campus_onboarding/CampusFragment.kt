@@ -111,6 +111,7 @@ class CampusFragment : Fragment() {
                 binding.campusSetNicknameLayout.root.visibility = View.GONE
                 binding.campusAutoLoginLayout.root.visibility = View.GONE
             }
+
             CampusState.SET_NICKNAME_STATE -> {
                 binding.campusLoginLayout.root.visibility = View.GONE
                 binding.campusSetNicknameLayout.root.visibility = View.VISIBLE
@@ -134,24 +135,20 @@ class CampusFragment : Fragment() {
 
                     override fun afterTextChanged(s: Editable?) {
                         val isValidFormat = viewModel.isValidNicknameFormat(s.toString())
-                        if (isValidFormat) {
-                            binding.campusSetNicknameLayout.nicknameFormatDescTv.text =
-                                getString(R.string.nickname_valid_format)
-                            binding.campusSetNicknameLayout.nicknameFormatDescTv.setTextColor(
-                                ContextCompat.getColor(
-                                    requireContext(),
-                                    R.color.kus_gray
-                                )
-                            )
+                        val formatText = if (isValidFormat) {
+                            R.string.nickname_valid_format
                         } else {
-                            binding.campusSetNicknameLayout.nicknameFormatDescTv.text =
-                                getString(R.string.nickname_not_valid_format)
-                            binding.campusSetNicknameLayout.nicknameFormatDescTv.setTextColor(
-                                ContextCompat.getColor(
-                                    requireContext(),
-                                    R.color.kus_pink
-                                )
-                            )
+                            R.string.nickname_not_valid_format
+                        }
+                        val formatTextColor = if (isValidFormat) {
+                            R.color.kus_gray
+                        } else {
+                            R.color.kus_pink
+                        }
+
+                        binding.campusSetNicknameLayout.nicknameFormatDescTv.apply {
+                            text = getString(formatText)
+                            setTextColor(ContextCompat.getColor(requireContext(), formatTextColor))
                         }
                     }
                 })
@@ -161,6 +158,7 @@ class CampusFragment : Fragment() {
                     viewModel.login(nickname)
                 }
             }
+
             CampusState.AUTO_LOGIN_STATE -> {
                 binding.campusLoginLayout.root.visibility = View.GONE
                 binding.campusSetNicknameLayout.root.visibility = View.GONE
