@@ -3,6 +3,7 @@ package com.ku_stacks.ku_ring.ui.notice_webview
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ku_stacks.ku_ring.data.model.WebViewNotice
 import com.ku_stacks.ku_ring.repository.NoticeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -20,12 +21,8 @@ class NoticeWebViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val disposable = CompositeDisposable()
-
-    private val articleId = savedStateHandle.getString(NoticeWebActivity.NOTICE_ARTICLE_ID)
-    private val category = savedStateHandle.getString(NoticeWebActivity.NOTICE_CATEGORY)
-    private val url = savedStateHandle.getString(NoticeWebActivity.NOTICE_URL)
-    private val postedDate = savedStateHandle.getString(NoticeWebActivity.NOTICE_POSTED_DATE)
-    private val subject = savedStateHandle.getString(NoticeWebActivity.NOTICE_SUBJECT)
+    private val webViewNotice =
+        savedStateHandle.get(NoticeWebActivity.WEB_VIEW_NOTICE) as? WebViewNotice
 
     private val _isSaved = MutableStateFlow(false)
     val isSaved: StateFlow<Boolean>
@@ -34,7 +31,7 @@ class NoticeWebViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             noticeRepository.getSavedNotices().collect { savedNotices ->
-                _isSaved.value = savedNotices.any { it.articleId == articleId }
+                _isSaved.value = savedNotices.any { it.articleId == webViewNotice?.articleId }
             }
         }
     }
@@ -52,10 +49,14 @@ class NoticeWebViewModel @Inject constructor(
     }
 
     fun onSaveButtonClick() {
-        Timber.e("Save button click: $articleId, $category, $url, $postedDate, $subject")
-        if (articleId == null || category == null || url == null || postedDate == null || subject == null) return
+        Timber.e("Save button click: $webViewNotice")
+        if (webViewNotice == null) return
         viewModelScope.launch {
-            noticeRepository.updateSavedStatus(articleId, category, !isSaved.value)
+            noticeRepository.updateSavedStatus(
+                webViewNotice.articleId,
+                webViewNotice.category,
+                !isSaved.value
+            )
         }
     }
 
