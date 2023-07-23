@@ -67,6 +67,4 @@ class NoticeWebViewModel @Inject constructor(
             disposable.dispose()
         }
     }
-
-    private fun SavedStateHandle.getString(key: String) = get<String>(key)
 }
