@@ -104,8 +104,6 @@ class SplashActivity : AppCompatActivity() {
                 url = fullUrl,
                 articleId = articleId,
                 category = category,
-                postedDate = postedDate,
-                subject = subject
             )
         }
     }

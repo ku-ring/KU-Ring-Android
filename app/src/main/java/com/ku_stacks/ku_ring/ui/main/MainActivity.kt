@@ -132,8 +132,6 @@ class MainActivity : AppCompatActivity() {
             url: String,
             articleId: String,
             category: String,
-            postedDate: String,
-            subject: String
         ) {
             val intent = Intent(activity, MainActivity::class.java).apply {
                 putExtras(

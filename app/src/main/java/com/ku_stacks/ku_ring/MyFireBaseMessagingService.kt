@@ -1,13 +1,11 @@
 package com.ku_stacks.ku_ring
 
-import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.media.RingtoneManager
-import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -95,8 +93,6 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
             url,
             articleId,
             category,
-            DateUtil.getToday(),
-            title
         )
         val pendingIntent = PendingIntent.getActivity(
             this,
