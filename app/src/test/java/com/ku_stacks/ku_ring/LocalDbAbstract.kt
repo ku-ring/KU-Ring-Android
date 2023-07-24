@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.persistence
+package com.ku_stacks.ku_ring
 
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
