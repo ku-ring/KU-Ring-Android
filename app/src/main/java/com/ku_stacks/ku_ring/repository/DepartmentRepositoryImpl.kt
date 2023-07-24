@@ -26,7 +26,11 @@ class DepartmentRepositoryImpl @Inject constructor(
     override suspend fun insertAllDepartmentsFromRemote() {
         val departments = fetchAllDepartmentsFromRemote()
         departments?.let {
-            departmentDao.insertDepartments(departments.map { it.toEntity() })
+            if (departmentDao.getDepartmentsSize() == 0) {
+                departmentDao.insertDepartments(departments.toEntityList())
+            } else {
+                updateDepartmentsName(it)
+            }
         }
     }
 
@@ -34,6 +38,15 @@ class DepartmentRepositoryImpl @Inject constructor(
         return runCatching {
             departmentClient.fetchDepartmentList().data?.map { it.toDepartment() } ?: emptyList()
         }.getOrNull()
+    }
+
+    private suspend fun updateDepartmentsName(departments: List<Department>) {
+        withContext(ioDispatcher) {
+            departments.forEach { (name, shortName, koreanName, _) ->
+                departmentDao.updateDepartment(name, shortName, koreanName)
+            }
+        }
+        this.departments = null
     }
 
     override suspend fun insertDepartment(department: Department) {
