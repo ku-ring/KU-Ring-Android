@@ -27,7 +27,7 @@ class DepartmentSubscribeViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            departmentRepository.insertAllDepartmentsFromRemote()
+            departmentRepository.updateDepartmentsFromRemote()
         }
 
         searchKeyword.onEach { loadFilteredDepartment(it) }

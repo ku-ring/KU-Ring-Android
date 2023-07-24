@@ -100,7 +100,7 @@ class EditSubscriptionViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            departmentRepository.insertAllDepartmentsFromRemote()
+            departmentRepository.updateDepartmentsFromRemote()
             val subscribedDepartments = departmentRepository.getSubscribedDepartments()
             addDepartmentsToMap(subscribedDepartments)
             val notificationEnabledDepartments = repository.fetchSubscribedDepartments()

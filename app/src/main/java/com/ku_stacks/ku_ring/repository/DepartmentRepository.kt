@@ -4,8 +4,8 @@ import com.ku_stacks.ku_ring.data.model.Department
 import kotlinx.coroutines.flow.Flow
 
 interface DepartmentRepository {
-    suspend fun insertAllDepartmentsFromRemote()
-    suspend fun fetchAllDepartmentsFromRemote(): List<Department>?
+    suspend fun updateDepartmentsFromRemote()
+    suspend fun fetchDepartmentsFromRemote(): List<Department>?
     suspend fun insertDepartment(department: Department)
     suspend fun insertDepartments(departments: List<Department>)
     suspend fun getAllDepartments(): List<Department>

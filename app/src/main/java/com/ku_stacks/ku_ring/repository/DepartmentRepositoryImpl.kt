@@ -23,8 +23,8 @@ class DepartmentRepositoryImpl @Inject constructor(
     // null: 데이터가 업데이트되어 새 데이터를 가져와야 함
     private var departments: List<Department>? = null
 
-    override suspend fun insertAllDepartmentsFromRemote() {
-        val departments = fetchAllDepartmentsFromRemote()
+    override suspend fun updateDepartmentsFromRemote() {
+        val departments = fetchDepartmentsFromRemote()
         departments?.let {
             if (departmentDao.getDepartmentsSize() == 0) {
                 departmentDao.insertDepartments(departments.toEntityList())
@@ -34,7 +34,7 @@ class DepartmentRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun fetchAllDepartmentsFromRemote(): List<Department>? {
+    override suspend fun fetchDepartmentsFromRemote(): List<Department>? {
         return runCatching {
             departmentClient.fetchDepartmentList().data?.map { it.toDepartment() } ?: emptyList()
         }.getOrNull()
