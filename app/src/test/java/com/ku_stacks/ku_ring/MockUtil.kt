@@ -10,6 +10,7 @@ import com.ku_stacks.ku_ring.data.api.response.NoticeResponse
 import com.ku_stacks.ku_ring.data.api.response.SubscribeListResponse
 import com.ku_stacks.ku_ring.data.api.response.UserListResponse
 import com.ku_stacks.ku_ring.data.api.response.UserResponse
+import com.ku_stacks.ku_ring.data.db.DepartmentEntity
 import com.ku_stacks.ku_ring.data.db.NoticeEntity
 import com.ku_stacks.ku_ring.data.db.PushEntity
 import com.ku_stacks.ku_ring.data.model.Notice
@@ -56,6 +57,13 @@ object MockUtil {
         isRead = true,
         isSaved = false,
         isReadOnStorage = false,
+    )
+
+    fun mockDepartmentEntity() = DepartmentEntity(
+        name = "smart_ict_convergence",
+        shortName = "sicte",
+        koreanName = "스마트ICT융합공학과",
+        isSubscribed = false,
     )
 
     fun mockNotice() = Notice(
