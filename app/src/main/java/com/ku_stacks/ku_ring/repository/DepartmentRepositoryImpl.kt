@@ -41,8 +41,17 @@ class DepartmentRepositoryImpl @Inject constructor(
     }
 
     private suspend fun updateDepartmentsName(departments: List<Department>) {
+        val sortedOriginalDepartments = this.departments?.sortedBy { it.name }
+        val updateTargets = departments.filter { department ->
+            val originalPosition =
+                sortedOriginalDepartments?.binarySearch { it.name.compareTo(department.name) }
+                    ?: return@filter true
+            val originalDepartment = sortedOriginalDepartments[originalPosition]
+            return@filter originalDepartment.name != department.name || originalDepartment.koreanName != department.koreanName
+        }
+
         withContext(ioDispatcher) {
-            departments.forEach { (name, shortName, koreanName, _) ->
+            updateTargets.forEach { (name, shortName, koreanName, _) ->
                 departmentDao.updateDepartment(name, shortName, koreanName)
             }
         }

@@ -58,13 +58,14 @@ class DepartmentRepositoryTest : LocalDbAbstract() {
         assertEquals(departments.size, departmentRepository.getAllDepartments().size)
 
         // when
-        val updatedDepartmentsResponse = departments.map { department ->
-            DepartmentResponse(
-                name = department.name,
-                shortName = department.shortName.repeat(2),
-                korName = department.koreanName.repeat(2),
-            )
-        }
+        val updatedDepartmentsResponse =
+            departments.mapIndexed { index, (name, shortName, koreanName, _) ->
+                DepartmentResponse(
+                    name = name,
+                    shortName = if (index % 2 == 0) shortName else shortName.repeat(2),
+                    korName = if (index % 2 == 0) koreanName else koreanName.repeat(2),
+                )
+            }
         Mockito.`when`(departmentClient.fetchDepartmentList())
             .thenReturn(DepartmentListResponse(200, "success", updatedDepartmentsResponse))
         departmentRepository.updateDepartmentsFromRemote()
