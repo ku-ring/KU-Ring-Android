@@ -41,11 +41,10 @@ class DepartmentRepositoryImpl @Inject constructor(
     }
 
     private suspend fun updateDepartmentsName(departments: List<Department>) {
-        val sortedOriginalDepartments = this.departments?.sortedBy { it.name }
+        val sortedOriginalDepartments = getAllDepartments().sortedBy { it.name }
         val updateTargets = departments.filter { department ->
             val originalPosition =
-                sortedOriginalDepartments?.binarySearch { it.name.compareTo(department.name) }
-                    ?: return@filter true
+                sortedOriginalDepartments.binarySearch { it.name.compareTo(department.name) }
             val originalDepartment = sortedOriginalDepartments[originalPosition]
             return@filter originalDepartment.name != department.name || originalDepartment.koreanName != department.koreanName
         }
