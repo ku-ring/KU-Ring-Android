@@ -20,6 +20,9 @@ interface DepartmentDao {
     @Query("SELECT * FROM departments WHERE koreanName LIKE '%' || :koreanName || '%'")
     suspend fun getDepartmentsByKoreanName(koreanName: String): List<DepartmentEntity>
 
+    @Query("UPDATE departments SET shortName = :shortName, koreanName = :koreanName WHERE name = :name")
+    suspend fun updateDepartment(name: String, shortName: String, koreanName: String)
+
     @Query("SELECT * FROM departments WHERE isSubscribed = :isSubscribed")
     suspend fun getDepartmentsBySubscribed(isSubscribed: Boolean): List<DepartmentEntity>
 
