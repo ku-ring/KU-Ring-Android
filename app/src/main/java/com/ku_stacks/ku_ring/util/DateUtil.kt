@@ -2,7 +2,8 @@ package com.ku_stacks.ku_ring.util
 
 import timber.log.Timber
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Locale
 
 object DateUtil {
 
@@ -65,4 +66,30 @@ object DateUtil {
         val simpleDateFormat = SimpleDateFormat("yyyyMMdd", Locale.KOREA)
         return simpleDateFormat.format(a) == simpleDateFormat.format(b)
     }
+
+    fun getCalendar(dayToAdd: Int, hour: Int, minute: Int, second: Int): Calendar {
+        checkTimeArgument(hour, minute, second)
+
+        return Calendar.getInstance().apply {
+            add(Calendar.DAY_OF_MONTH, dayToAdd)
+            set(Calendar.HOUR_OF_DAY, hour) // Calendar.HOUR는 12시간
+            set(Calendar.MINUTE, minute)
+            set(Calendar.SECOND, second)
+        }
+    }
+
+    private fun checkTimeArgument(hour: Int, minute: Int, second: Int) {
+        if (hour !in 0..23 || minute !in 0..59 || second !in 0..59) {
+            val hourMessage = createIllegalArgumentMessage("hour", 0..23, hour)
+            val monthMessage = createIllegalArgumentMessage("minute", 0..59, minute)
+            val secondMessage = createIllegalArgumentMessage("second", 0..59, second)
+            val message = listOf(hourMessage, monthMessage, secondMessage)
+                .filter { it.isNotEmpty() }
+                .joinToString(", ")
+            throw IllegalArgumentException("Time argument is wrong: $message")
+        }
+    }
+
+    private fun createIllegalArgumentMessage(field: String, range: IntRange, actual: Int) =
+        if (actual in range) "" else "$field should be in range of $range but given: $actual"
 }
