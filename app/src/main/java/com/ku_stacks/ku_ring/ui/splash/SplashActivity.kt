@@ -9,6 +9,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.ku_stacks.ku_ring.MyFireBaseMessagingService
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.databinding.ActivitySplashBinding
@@ -17,10 +20,12 @@ import com.ku_stacks.ku_ring.ui.onboarding.OnboardingActivity
 import com.ku_stacks.ku_ring.util.DateUtil
 import com.ku_stacks.ku_ring.util.FcmUtil
 import com.ku_stacks.ku_ring.util.PreferenceUtil
+import com.ku_stacks.ku_ring.work.ReengagementNotificationWork
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -39,6 +44,8 @@ class SplashActivity : AppCompatActivity() {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
         binding.lifecycleOwner = this
+
+        enqueueReengagementNotificationWork()
 
         lifecycleScope.launch {
             delay(1000)
@@ -64,6 +71,22 @@ class SplashActivity : AppCompatActivity() {
 
             finish()
         }
+    }
+
+    private fun enqueueReengagementNotificationWork() {
+        val currentTime = System.currentTimeMillis()
+        val afterOneWeek = DateUtil.getCalendar(7, 12, 0, 0)
+        val delayInMillis = afterOneWeek.timeInMillis - currentTime
+
+        val notificationWorkRequest = OneTimeWorkRequestBuilder<ReengagementNotificationWork>()
+            .setInitialDelay(delayInMillis, TimeUnit.MILLISECONDS)
+            .build()
+        WorkManager.getInstance(this).enqueueUniqueWork(
+            ReengagementNotificationWork.WORK_NAME,
+            ExistingWorkPolicy.REPLACE,
+            notificationWorkRequest,
+        )
+        Timber.d("Enqueue re-engagement notification work at $afterOneWeek")
     }
 
     private fun launchedFromNoticeNotificationEvent(intent: Intent): Boolean {
