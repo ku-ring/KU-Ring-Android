@@ -45,8 +45,9 @@ class DepartmentRepositoryImpl @Inject constructor(
         val updateTargets = departments.filter { department ->
             val originalPosition =
                 sortedOriginalDepartments.binarySearch { it.name.compareTo(department.name) }
+                    .takeIf { it >= 0 } ?: return@filter false
             val originalDepartment = sortedOriginalDepartments[originalPosition]
-            return@filter originalDepartment.name != department.name || originalDepartment.koreanName != department.koreanName
+            return@filter originalDepartment.shortName != department.shortName || originalDepartment.koreanName != department.koreanName
         }
 
         withContext(ioDispatcher) {
