@@ -34,7 +34,7 @@ class DepartmentRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun fetchDepartmentsFromRemote(): List<Department>? {
+    private suspend fun fetchDepartmentsFromRemote(): List<Department>? {
         return runCatching {
             departmentClient.fetchDepartmentList().data?.map { it.toDepartment() } ?: emptyList()
         }.getOrNull()
@@ -58,7 +58,7 @@ class DepartmentRepositoryImpl @Inject constructor(
         this.departments = null
     }
 
-    override suspend fun insertDepartment(department: Department) {
+    private suspend fun insertDepartment(department: Department) {
         withContext(ioDispatcher) {
             departmentDao.insertDepartment(department.toEntity())
         }

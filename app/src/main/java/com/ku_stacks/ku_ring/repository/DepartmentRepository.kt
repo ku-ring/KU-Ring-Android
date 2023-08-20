@@ -5,8 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface DepartmentRepository {
     suspend fun updateDepartmentsFromRemote()
-    suspend fun fetchDepartmentsFromRemote(): List<Department>?
-    suspend fun insertDepartment(department: Department)
     suspend fun insertDepartments(departments: List<Department>)
     suspend fun getAllDepartments(): List<Department>
     suspend fun getDepartmentsByKoreanName(koreanName: String): List<Department>
