@@ -75,7 +75,7 @@ class SplashActivity : AppCompatActivity() {
 
     private fun enqueueReengagementNotificationWork() {
         val currentTime = System.currentTimeMillis()
-        val afterOneWeek = DateUtil.getCalendar(dayToAdd = 7, hour = 12, minute = 0, second = 0)
+        val afterOneWeek = DateUtil.getCalendar(dayToAdd = 7, hour = 12, minute = 0, second = 0) ?: return
         val delayInMillis = afterOneWeek.timeInMillis - currentTime
 
         val notificationWorkRequest = OneTimeWorkRequestBuilder<ReengagementNotificationWork>()

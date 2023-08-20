@@ -26,10 +26,12 @@ object DateUtil {
             8 -> {
                 today == str
             }
+
             19 -> {
                 val dateString = str.substring(0, 4) + str.substring(5, 7) + str.substring(8, 10)
                 today == dateString
             }
+
             else -> {
                 Timber.e("DateUtil.isToday() : String length is not normal")
                 false
@@ -67,15 +69,17 @@ object DateUtil {
         return simpleDateFormat.format(a) == simpleDateFormat.format(b)
     }
 
-    fun getCalendar(dayToAdd: Int, hour: Int, minute: Int, second: Int): Calendar {
-        checkTimeArgument(hour, minute, second)
+    fun getCalendar(dayToAdd: Int, hour: Int, minute: Int, second: Int): Calendar? {
+        return runCatching {
+            checkTimeArgument(hour, minute, second)
 
-        return Calendar.getInstance().apply {
-            add(Calendar.DAY_OF_MONTH, dayToAdd)
-            set(Calendar.HOUR_OF_DAY, hour) // Calendar.HOUR는 12시간
-            set(Calendar.MINUTE, minute)
-            set(Calendar.SECOND, second)
-        }
+            Calendar.getInstance().apply {
+                add(Calendar.DAY_OF_MONTH, dayToAdd)
+                set(Calendar.HOUR_OF_DAY, hour) // Calendar.HOUR는 12시간
+                set(Calendar.MINUTE, minute)
+                set(Calendar.SECOND, second)
+            }
+        }.getOrNull()
     }
 
     private fun checkTimeArgument(hour: Int, minute: Int, second: Int) {
