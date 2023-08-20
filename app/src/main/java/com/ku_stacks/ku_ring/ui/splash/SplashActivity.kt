@@ -20,7 +20,7 @@ import com.ku_stacks.ku_ring.ui.onboarding.OnboardingActivity
 import com.ku_stacks.ku_ring.util.DateUtil
 import com.ku_stacks.ku_ring.util.FcmUtil
 import com.ku_stacks.ku_ring.util.PreferenceUtil
-import com.ku_stacks.ku_ring.work.ReengagementNotificationWork
+import com.ku_stacks.ku_ring.work.ReEngagementNotificationWork
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -78,11 +78,11 @@ class SplashActivity : AppCompatActivity() {
         val afterOneWeek = DateUtil.getCalendar(dayToAdd = 7, hour = 12, minute = 0, second = 0) ?: return
         val delayInMillis = afterOneWeek.timeInMillis - currentTime
 
-        val notificationWorkRequest = OneTimeWorkRequestBuilder<ReengagementNotificationWork>()
+        val notificationWorkRequest = OneTimeWorkRequestBuilder<ReEngagementNotificationWork>()
             .setInitialDelay(delayInMillis, TimeUnit.MILLISECONDS)
             .build()
         WorkManager.getInstance(this).enqueueUniqueWork(
-            ReengagementNotificationWork.WORK_NAME,
+            ReEngagementNotificationWork.WORK_NAME,
             ExistingWorkPolicy.REPLACE,
             notificationWorkRequest,
         )

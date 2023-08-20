@@ -14,7 +14,7 @@ import com.ku_stacks.ku_ring.MyFireBaseMessagingService
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.ui.main.MainActivity
 
-class ReengagementNotificationWork(appContext: Context, workerParams: WorkerParameters) :
+class ReEngagementNotificationWork(appContext: Context, workerParams: WorkerParameters) :
     Worker(appContext, workerParams) {
     override fun doWork(): Result {
         val notification = createNotification(applicationContext)
