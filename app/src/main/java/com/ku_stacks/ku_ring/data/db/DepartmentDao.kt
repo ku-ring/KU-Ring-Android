@@ -20,8 +20,10 @@ interface DepartmentDao {
     @Query("SELECT * FROM departments WHERE koreanName LIKE '%' || :koreanName || '%'")
     suspend fun getDepartmentsByKoreanName(koreanName: String): List<DepartmentEntity>
 
-    @Query("SELECT COUNT(*) FROM departments")
-    suspend fun getDepartmentsSize(): Int
+    @Query("SELECT EXISTS (SELECT 1 FROM departments LIMIT 1)")
+    suspend fun isNotEmpty(): Boolean
+
+    suspend fun isEmpty(): Boolean = !isNotEmpty()
 
     @Query("UPDATE departments SET shortName = :shortName, koreanName = :koreanName WHERE name = :name")
     suspend fun updateDepartment(name: String, shortName: String, koreanName: String)

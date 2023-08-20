@@ -26,7 +26,7 @@ class DepartmentRepositoryImpl @Inject constructor(
     override suspend fun updateDepartmentsFromRemote() {
         val departments = fetchDepartmentsFromRemote()
         departments?.let {
-            if (departmentDao.getDepartmentsSize() == 0) {
+            if (departmentDao.isEmpty()) {
                 departmentDao.insertDepartments(departments.toEntityList())
             } else {
                 updateDepartmentsName(it)

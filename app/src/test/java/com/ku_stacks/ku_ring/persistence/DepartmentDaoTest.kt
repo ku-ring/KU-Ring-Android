@@ -6,6 +6,7 @@ import com.ku_stacks.ku_ring.data.db.DepartmentDao
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -24,8 +25,10 @@ class DepartmentDaoTest : LocalDbAbstract() {
     @Test
     fun `insertDepartment and updateDepartment test`() = runTest {
         // given
+        assert(departmentDao.isEmpty())
         val entity = MockUtil.mockDepartmentEntity()
         departmentDao.insertDepartment(entity)
+        assertFalse(departmentDao.isEmpty())
 
         // when
         val newShortName = "ict"
