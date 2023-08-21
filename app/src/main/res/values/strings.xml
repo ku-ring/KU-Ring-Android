@@ -122,6 +122,10 @@
     <string name="kakao_channel">카카오톡 채널</string>
     <string name="setting_feedback">피드백</string>
 
+    <!-- re-engagement notification -->
+    <string name="reengagement_title">공지를 일주일 이상 확인하지 않았어요!</string>
+    <string name="reengagement_body">놓친 공지가 있는지 확인해보세요 🔔</string>
+
     <!--  campus onBoarding -->
     <string name="kuring_campus">쿠링 캠퍼스</string>
     <string name="kuring_chungsim">쿠링청심대</string>

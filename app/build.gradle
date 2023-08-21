@@ -230,6 +230,10 @@ dependencies {
     implementation "androidx.paging:paging-compose:1.0.0-alpha19"
     implementation "androidx.constraintlayout:constraintlayout-compose:1.0.1"
 
+    // WorkManager
+    def work_version = '2.7.1'
+    implementation "androidx.work:work-runtime-ktx:$work_version"
+    androidTestImplementation "androidx.work:work-testing:$work_version"
 
     // Shimmer effect
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
