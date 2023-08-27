@@ -1,8 +1,16 @@
 [versions]
+# project-level dependency
+android-gradle = '7.1.0'
+kotlin = '1.8.21'
+hilt = '2.45'
+google-services = '4.3.10'
+firebase-gradle = '2.7.1'
+oss-licenses-version = '0.10.4'
+
+# app-level dependency
 compose-compiler = '1.4.7'
 compose-bom = '2023.05.00'
 fragment = '1.5.0'
-hilt = '2.45'
 kotlinx-coroutines = '1.6.4'
 okhttp = '4.9.0'
 paging = '3.2.0-alpha05'
@@ -15,6 +23,14 @@ firebase = '30.1.0'
 work = '2.7.1'
 
 [libraries]
+# Project-level dependencies
+android-gradle = { module = 'com.android.tools.build:gradle', version.ref = 'android-gradle' }
+kotlin-gradle = { module = 'org.jetbrains.kotlin:kotlin-gradle-plugin', version.ref = 'kotlin' }
+hilt-android-gradle = { module = 'com.google.dagger:hilt-android-gradle-plugin', version.ref = 'hilt' }
+google-services = { module = 'com.google.gms:google-services', version.ref = 'google-services' }
+firebase-crashlytics-gradle = { module = 'com.google.firebase:firebase-crashlytics-gradle', version.ref = 'firebase-gradle' }
+oss-licenses = { module = 'com.google.android.gms:oss-licenses-plugin', version.ref = 'oss-licenses-version' }
+
 # Android
 android-material = 'com.google.android.material:material:1.4.0'
 
