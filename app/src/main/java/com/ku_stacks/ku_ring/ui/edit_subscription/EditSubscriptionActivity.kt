@@ -11,18 +11,23 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.databinding.DataBindingUtil
+import com.ku_stacks.common.FeatureNavigator
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.databinding.ActivityEditSubscriptionBinding
 import com.ku_stacks.ku_ring.ui.edit_subscription.compose.Subscriptions
 import com.ku_stacks.ku_ring.ui.compose.theme.KuringTheme
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class EditSubscriptionActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityEditSubscriptionBinding
     private val viewModel by viewModels<EditSubscriptionViewModel>()
+
+    @Inject
+    lateinit var navigator: FeatureNavigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,12 +53,15 @@ class EditSubscriptionActivity : AppCompatActivity() {
         }
         binding.startBt.setOnClickListener {
             Timber.d("Init status = ${viewModel.isInitialLoadDone}")
-            if (viewModel.isInitialLoadDone) {
-                viewModel.saveSubscribe()
-                setResult(RESULT_OK)
-                finish()
-                overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
-            }
+
+            navigator.navigateToTestFeature(this)
+
+//            if (viewModel.isInitialLoadDone) {
+//                viewModel.saveSubscribe()
+//                setResult(RESULT_OK)
+//                finish()
+//                overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
+//            }
         }
     }
 
