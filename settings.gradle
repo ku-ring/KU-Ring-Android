@@ -11,3 +11,4 @@ dependencyResolutionManagement {
 rootProject.name = "KU Ring"
 include ':app'
 include ':TestFeature'
+include ':Common'
