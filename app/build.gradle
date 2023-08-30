@@ -119,6 +119,8 @@ dependencies {
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
     implementation 'com.google.firebase:firebase-messaging-ktx:21.0.1'
+    implementation project(path: ':Common')
+    implementation project(path: ':TestFeature')
 
     // dagger hilt
     kapt "androidx.hilt:hilt-compiler:1.0.0"
