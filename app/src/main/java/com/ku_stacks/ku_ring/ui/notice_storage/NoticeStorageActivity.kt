@@ -86,9 +86,7 @@ class NoticeStorageActivity : AppCompatActivity() {
     }
 
     private fun startNoticeActivity(notice: Notice) {
-        val intent = NoticeWebActivity.createIntent(this, notice)
-        startActivity(intent)
-        overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
+        NoticeWebActivity.start(this, notice)
     }
 
     override fun finish() {

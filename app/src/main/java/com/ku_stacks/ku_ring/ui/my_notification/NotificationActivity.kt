@@ -120,9 +120,7 @@ class NotificationActivity : AppCompatActivity() {
     }
 
     private fun startNoticeActivity(pushContent: PushContentUiModel) {
-        val intent = NoticeWebActivity.createIntent(this, pushContent)
-        startActivity(intent)
-        overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
+        NoticeWebActivity.start(this, pushContent)
     }
 
     private fun startMainActivity() {

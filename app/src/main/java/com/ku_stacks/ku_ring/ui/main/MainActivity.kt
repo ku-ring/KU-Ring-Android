@@ -87,9 +87,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun navToNoticeActivity(webViewNotice: WebViewNotice) {
         Timber.d("Notification received: $webViewNotice")
-        val intent = NoticeWebActivity.createIntent(this, webViewNotice)
-        startActivity(intent)
-        overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
+        NoticeWebActivity.start(this, webViewNotice)
     }
 
     override fun onBackPressed() {
