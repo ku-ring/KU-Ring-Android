@@ -1,6 +1,8 @@
 package com.ku_stacks.ku_ring.ui.notion
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.webkit.WebChromeClient
@@ -49,5 +51,11 @@ class NotionViewActivity : AppCompatActivity() {
 
     companion object {
         const val NOTION_URL = "notion_url"
+        fun start(activity: Activity, notionUrl: String) {
+            val intent = Intent(activity, NotionViewActivity::class.java).apply {
+                putExtra(NOTION_URL, notionUrl)
+            }
+            activity.startActivity(intent)
+        }
     }
 }

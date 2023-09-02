@@ -1,5 +1,6 @@
 package com.ku_stacks.ku_ring.ui.onboarding
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -45,6 +46,13 @@ class OnboardingActivity : AppCompatActivity() {
 
             overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
             analytics.click("start first Subscription Notification", "OnboardingActivity")
+        }
+    }
+
+    companion object {
+        fun start(activity: Activity) {
+            val intent = Intent(activity, OnboardingActivity::class.java)
+            activity.startActivity(intent)
         }
     }
 }

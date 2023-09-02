@@ -1,5 +1,6 @@
 package com.ku_stacks.ku_ring.ui.my_notification
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -134,5 +135,12 @@ class NotificationActivity : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         startMainActivity()
+    }
+
+    companion object {
+        fun start(activity: Activity) {
+            val intent = Intent(activity, NotificationActivity::class.java)
+            activity.startActivity(intent)
+        }
     }
 }
