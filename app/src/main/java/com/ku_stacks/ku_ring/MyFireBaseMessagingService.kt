@@ -3,15 +3,13 @@ package com.ku_stacks.ku_ring
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import android.graphics.BitmapFactory
 import android.media.RingtoneManager
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.ku_stacks.ku_ring.data.db.PushDao
-import com.ku_stacks.ku_ring.ui.main.MainActivity
-import com.ku_stacks.ku_ring.ui.notice_webview.NoticeWebActivity
+import com.ku_stacks.ku_ring.navigator.KuringNavigator
 import com.ku_stacks.ku_ring.util.DateUtil
 import com.ku_stacks.ku_ring.util.FcmUtil
 import com.ku_stacks.ku_ring.util.PreferenceUtil
@@ -31,6 +29,9 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
 
     @Inject
     lateinit var fcmUtil: FcmUtil
+
+    @Inject
+    lateinit var navigator: KuringNavigator
 
     override fun onNewToken(token: String) {
         Timber.e("refreshed token : $token")
@@ -88,7 +89,7 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
         articleId: String?,
         category: String?
     ) {
-        val intent = NoticeWebActivity.createIntent(
+        val intent = navigator.createNoticeWebIntent(
             this,
             url,
             articleId,
@@ -117,7 +118,7 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
     }
 
     private fun showCustomNotification(type: String, title: String, body: String) {
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = navigator.createMainIntent(this)
         val pendingIntent = PendingIntent.getActivity(
             this,
             0,

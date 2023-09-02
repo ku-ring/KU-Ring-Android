@@ -11,8 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.databinding.ActivityNotificationBinding
-import com.ku_stacks.ku_ring.ui.edit_subscription.EditSubscriptionActivity
-import com.ku_stacks.ku_ring.ui.main.MainActivity
+import com.ku_stacks.ku_ring.navigator.KuringNavigator
 import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushContentUiModel
 import com.ku_stacks.ku_ring.ui.notice_webview.NoticeWebActivity
 import com.ku_stacks.ku_ring.util.makeDialog
@@ -27,6 +26,9 @@ class NotificationActivity : AppCompatActivity() {
 
     @Inject
     lateinit var analytics: EventAnalytics
+
+    @Inject
+    lateinit var navigator: KuringNavigator
 
     private lateinit var binding: ActivityNotificationBinding
     private val viewModel by viewModels<NotificationViewModel>()
@@ -55,8 +57,7 @@ class NotificationActivity : AppCompatActivity() {
 
         binding.notificationSetNotiBtn.setOnClickListener {
             analytics.click("set_notification btn", "NotificationActivity")
-            val intent = Intent(this, EditSubscriptionActivity::class.java)
-            startActivity(intent)
+            navigator.navigateToEditSubscription(this)
             overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
         }
 
@@ -124,8 +125,7 @@ class NotificationActivity : AppCompatActivity() {
     }
 
     private fun startMainActivity() {
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
+        navigator.navigateToMain(this)
         overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
         finish()
     }

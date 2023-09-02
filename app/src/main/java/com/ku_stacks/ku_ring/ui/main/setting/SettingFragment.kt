@@ -1,22 +1,22 @@
 package com.ku_stacks.ku_ring.ui.main.setting
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.databinding.FragmentSettingBinding
-import com.ku_stacks.ku_ring.ui.edit_subscription.EditSubscriptionActivity
-import com.ku_stacks.ku_ring.ui.feedback.FeedbackActivity
-import com.ku_stacks.ku_ring.ui.notion.NotionViewActivity
+import com.ku_stacks.ku_ring.navigator.KuringNavigator
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SettingFragment : Fragment() {
+
+    @Inject
+    lateinit var navigator: KuringNavigator
 
     private var _binding: FragmentSettingBinding? = null
     private val binding
@@ -43,8 +43,7 @@ class SettingFragment : Fragment() {
     private fun setupView() {
         /** subscribe layout */
         binding.subscribeLayout.subscribeNoticeLayout.setOnClickListener {
-            val intent = Intent(requireContext(), EditSubscriptionActivity::class.java)
-            startActivity(intent)
+            navigator.navigateToEditSubscription(requireActivity())
             requireActivity().overridePendingTransition(
                 R.anim.anim_slide_right_enter,
                 R.anim.anim_stay_exit
@@ -68,10 +67,9 @@ class SettingFragment : Fragment() {
             startWebViewActivity(getString(R.string.notion_terms_of_service_url))
         }
         binding.informationLayout.openSourceLayout.setOnClickListener {
-            val intent = Intent(requireContext(), OssLicensesMenuActivity::class.java)
-            startActivity(intent)
-            OssLicensesMenuActivity.setActivityTitle(getString(R.string.open_source_license))
-            requireActivity().overridePendingTransition(
+            val activity = requireActivity()
+            navigator.navigateToOssLicensesMenu(activity)
+            activity.overridePendingTransition(
                 R.anim.anim_slide_right_enter,
                 R.anim.anim_stay_exit
             )
@@ -79,8 +77,7 @@ class SettingFragment : Fragment() {
 
         /** feedback layout */
         binding.feedbackLayout.feedbackSendLayout.setOnClickListener {
-            val intent = Intent(requireContext(), FeedbackActivity::class.java)
-            startActivity(intent)
+            navigator.navigateToFeedback(requireActivity())
             requireActivity().overridePendingTransition(
                 R.anim.anim_slide_right_enter,
                 R.anim.anim_stay_exit
@@ -89,9 +86,7 @@ class SettingFragment : Fragment() {
     }
 
     private fun startWebViewActivity(url: String) {
-        val intent = Intent(requireContext(), NotionViewActivity::class.java)
-        intent.putExtra(NotionViewActivity.NOTION_URL, url)
-        startActivity(intent)
+        navigator.navigateToNotionView(requireActivity(), url)
         requireActivity().overridePendingTransition(
             R.anim.anim_slide_right_enter,
             R.anim.anim_stay_exit
