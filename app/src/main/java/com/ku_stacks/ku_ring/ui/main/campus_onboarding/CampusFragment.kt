@@ -1,6 +1,5 @@
 package com.ku_stacks.ku_ring.ui.main.campus_onboarding
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -16,7 +15,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.databinding.FragmentCampusBinding
-import com.ku_stacks.ku_ring.ui.chat.ChatActivity
+import com.ku_stacks.ku_ring.navigator.KuringNavigator
 import com.ku_stacks.ku_ring.util.PreferenceUtil
 import com.ku_stacks.ku_ring.util.makeDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,6 +33,9 @@ class CampusFragment : Fragment() {
 
     @Inject
     lateinit var pref: PreferenceUtil
+
+    @Inject
+    lateinit var navigator: KuringNavigator
 
     private val loginFinishResult = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -183,8 +185,7 @@ class CampusFragment : Fragment() {
     private fun startChatActivity() {
         changeState(CampusState.AUTO_LOGIN_STATE)
 
-        val intent = Intent(requireActivity(), ChatActivity::class.java)
-        startActivity(intent)
+        navigator.navigateToChat(requireActivity())
         requireActivity().overridePendingTransition(
             R.anim.anim_slide_right_enter,
             R.anim.anim_stay_exit

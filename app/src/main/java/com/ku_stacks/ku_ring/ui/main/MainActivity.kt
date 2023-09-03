@@ -1,6 +1,7 @@
 package com.ku_stacks.ku_ring.ui.main
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
@@ -86,9 +87,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun navToNoticeActivity(webViewNotice: WebViewNotice) {
         Timber.d("Notification received: $webViewNotice")
-        val intent = NoticeWebActivity.createIntent(this, webViewNotice)
-        startActivity(intent)
-        overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
+        NoticeWebActivity.start(this, webViewNotice)
     }
 
     override fun onBackPressed() {
@@ -106,18 +105,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
+        fun createIntent(context: Context) = Intent(context, MainActivity::class.java)
+
         fun start(
             activity: Activity,
             url: String,
             articleId: String,
             category: String,
         ) {
-            val intent = Intent(activity, MainActivity::class.java).apply {
+            val intent = createIntent(activity).apply {
                 putExtra(
                     NoticeWebActivity.WEB_VIEW_NOTICE,
                     WebViewNotice(url, articleId, category),
                 )
             }
+            activity.startActivity(intent)
+        }
+
+        fun start(activity: Activity) {
+            val intent = createIntent(activity)
             activity.startActivity(intent)
         }
     }

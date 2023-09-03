@@ -1,6 +1,7 @@
 package com.ku_stacks.ku_ring.ui.notice_webview
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -119,11 +120,29 @@ class NoticeWebActivity : AppCompatActivity() {
     companion object {
         const val WEB_VIEW_NOTICE = "webview_notice"
 
-        fun createIntent(context: Context, notice: Notice) =
-            createIntent(context, notice.toWebViewNotice())
+        fun start(activity: Activity, notice: Notice) {
+            start(activity, notice.toWebViewNotice())
+        }
 
-        fun createIntent(context: Context, pushContent: PushContentUiModel) =
-            createIntent(context, pushContent.toWebViewNotice())
+        fun start(activity: Activity, pushContent: PushContentUiModel) {
+            start(activity, pushContent.toWebViewNotice())
+        }
+
+        fun start(activity: Activity, url: String?, articleId: String?, category: String?) {
+            if (url == null || articleId == null || category == null) {
+                throw IllegalArgumentException("intent parameters shouldn't be null: $url, $articleId, $category")
+            }
+            start(activity, WebViewNotice(url, articleId, category))
+        }
+
+        fun start(activity: Activity, webViewNotice: WebViewNotice) {
+            val (url, articleId, category) = webViewNotice
+            val intent = createIntent(activity, url, articleId, category)
+            activity.apply {
+                startActivity(intent)
+                overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
+            }
+        }
 
         fun createIntent(
             context: Context,
@@ -134,13 +153,10 @@ class NoticeWebActivity : AppCompatActivity() {
             if (url == null || articleId == null || category == null) {
                 throw IllegalArgumentException("intent parameters shouldn't be null: $url, $articleId, $category")
             }
-            return createIntent(context, WebViewNotice(url, articleId, category))
-        }
-
-        fun createIntent(context: Context, webViewNotice: WebViewNotice) =
-            Intent(context, NoticeWebActivity::class.java).apply {
-                Timber.d("WebViewNotice: $webViewNotice")
-                putExtra(WEB_VIEW_NOTICE, webViewNotice)
+            Timber.d("url: $url, articleId: $articleId, category: $category")
+            return Intent(context, NoticeWebActivity::class.java).apply {
+                putExtra(WEB_VIEW_NOTICE, WebViewNotice(url, articleId, category))
             }
+        }
     }
 }
