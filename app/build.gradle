@@ -37,7 +37,7 @@ android {
     defaultConfig {
         applicationId "com.ku_stacks.ku_ring"
         minSdk 24
-        targetSdk 32
+        targetSdk 33
         versionCode 22
         versionName "1.2.10"
 
