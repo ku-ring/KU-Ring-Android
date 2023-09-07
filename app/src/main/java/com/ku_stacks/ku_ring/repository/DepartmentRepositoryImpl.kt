@@ -23,20 +23,42 @@ class DepartmentRepositoryImpl @Inject constructor(
     // null: 데이터가 업데이트되어 새 데이터를 가져와야 함
     private var departments: List<Department>? = null
 
-    override suspend fun insertAllDepartmentsFromRemote() {
-        val departments = fetchAllDepartmentsFromRemote()
+    override suspend fun updateDepartmentsFromRemote() {
+        val departments = fetchDepartmentsFromRemote()
         departments?.let {
-            departmentDao.insertDepartments(departments.map { it.toEntity() })
+            if (departmentDao.isEmpty()) {
+                departmentDao.insertDepartments(departments.toEntityList())
+            } else {
+                updateDepartmentsName(it)
+            }
         }
     }
 
-    override suspend fun fetchAllDepartmentsFromRemote(): List<Department>? {
+    private suspend fun fetchDepartmentsFromRemote(): List<Department>? {
         return runCatching {
             departmentClient.fetchDepartmentList().data?.map { it.toDepartment() } ?: emptyList()
         }.getOrNull()
     }
 
-    override suspend fun insertDepartment(department: Department) {
+    private suspend fun updateDepartmentsName(departments: List<Department>) {
+        val sortedOriginalDepartments = getAllDepartments().sortedBy { it.name }
+        val updateTargets = departments.filter { department ->
+            val originalPosition =
+                sortedOriginalDepartments.binarySearch { it.name.compareTo(department.name) }
+                    .takeIf { it >= 0 } ?: return@filter false
+            val originalDepartment = sortedOriginalDepartments[originalPosition]
+            return@filter originalDepartment.shortName != department.shortName || originalDepartment.koreanName != department.koreanName
+        }
+
+        withContext(ioDispatcher) {
+            updateTargets.forEach { (name, shortName, koreanName, _) ->
+                departmentDao.updateDepartment(name, shortName, koreanName)
+            }
+        }
+        this.departments = null
+    }
+
+    private suspend fun insertDepartment(department: Department) {
         withContext(ioDispatcher) {
             departmentDao.insertDepartment(department.toEntity())
         }

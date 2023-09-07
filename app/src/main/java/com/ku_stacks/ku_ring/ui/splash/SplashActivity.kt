@@ -1,5 +1,6 @@
 package com.ku_stacks.ku_ring.ui.splash
 
+import android.app.Activity
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -9,18 +10,23 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.ku_stacks.ku_ring.MyFireBaseMessagingService
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.databinding.ActivitySplashBinding
+import com.ku_stacks.ku_ring.navigator.KuringNavigator
 import com.ku_stacks.ku_ring.ui.main.MainActivity
-import com.ku_stacks.ku_ring.ui.onboarding.OnboardingActivity
 import com.ku_stacks.ku_ring.util.DateUtil
 import com.ku_stacks.ku_ring.util.FcmUtil
 import com.ku_stacks.ku_ring.util.PreferenceUtil
+import com.ku_stacks.ku_ring.work.ReEngagementNotificationWork
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -32,6 +38,9 @@ class SplashActivity : AppCompatActivity() {
     @Inject
     lateinit var fcmUtil: FcmUtil
 
+    @Inject
+    lateinit var navigator: KuringNavigator
+
     private lateinit var binding: ActivitySplashBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +48,8 @@ class SplashActivity : AppCompatActivity() {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
         binding.lifecycleOwner = this
+
+        enqueueReengagementNotificationWork()
 
         lifecycleScope.launch {
             delay(1000)
@@ -54,16 +65,33 @@ class SplashActivity : AppCompatActivity() {
 
                 onboardingRequired() -> {
                     createNotificationChannel()
-                    startActivity(Intent(this@SplashActivity, OnboardingActivity::class.java))
+                    navigator.navigateToOnboarding(this@SplashActivity)
                 }
 
                 else -> {
-                    startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+                    navigator.navigateToMain(this@SplashActivity)
                 }
             }
 
             finish()
         }
+    }
+
+    private fun enqueueReengagementNotificationWork() {
+        val currentTime = System.currentTimeMillis()
+        val afterOneWeek =
+            DateUtil.getCalendar(dayToAdd = 7, hour = 12, minute = 0, second = 0) ?: return
+        val delayInMillis = afterOneWeek.timeInMillis - currentTime
+
+        val notificationWorkRequest = OneTimeWorkRequestBuilder<ReEngagementNotificationWork>()
+            .setInitialDelay(delayInMillis, TimeUnit.MILLISECONDS)
+            .build()
+        WorkManager.getInstance(this).enqueueUniqueWork(
+            ReEngagementNotificationWork.WORK_NAME,
+            ExistingWorkPolicy.REPLACE,
+            notificationWorkRequest,
+        )
+        Timber.d("Enqueue re-engagement notification work at $afterOneWeek")
     }
 
     private fun launchedFromNoticeNotificationEvent(intent: Intent): Boolean {
@@ -104,8 +132,6 @@ class SplashActivity : AppCompatActivity() {
                 url = fullUrl,
                 articleId = articleId,
                 category = category,
-                postedDate = postedDate,
-                subject = subject
             )
         }
     }
@@ -117,8 +143,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun handleCustomNotification() {
-        val intent = Intent(this@SplashActivity, MainActivity::class.java)
-        startActivity(intent)
+        navigator.navigateToMain(this)
     }
 
     private fun onboardingRequired(): Boolean {
@@ -142,5 +167,12 @@ class SplashActivity : AppCompatActivity() {
     override fun finish() {
         overridePendingTransition(0, 0)
         super.finish()
+    }
+
+    companion object {
+        fun start(activity: Activity) {
+            val intent = Intent(activity, SplashActivity::class.java)
+            activity.startActivity(intent)
+        }
     }
 }

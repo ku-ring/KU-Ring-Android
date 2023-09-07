@@ -1,6 +1,7 @@
 package com.ku_stacks.ku_ring.ui.notice_webview
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -11,11 +12,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ShareCompat
 import androidx.lifecycle.lifecycleScope
 import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.data.mapper.concatSubjectAndTag
+import com.ku_stacks.ku_ring.data.mapper.toWebViewNotice
 import com.ku_stacks.ku_ring.data.model.Notice
+import com.ku_stacks.ku_ring.data.model.WebViewNotice
 import com.ku_stacks.ku_ring.databinding.ActivityNoticeWebBinding
 import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushContentUiModel
-import com.ku_stacks.ku_ring.util.WordConverter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
@@ -32,16 +33,15 @@ class NoticeWebActivity : AppCompatActivity() {
         binding = ActivityNoticeWebBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val url = intent.getStringExtra(NOTICE_URL)
-            ?: throw IllegalStateException("Web Link should not be null.")
-        val articleId = intent.getStringExtra(NOTICE_ARTICLE_ID)
-        val category = intent.getStringExtra(NOTICE_CATEGORY)
-        Timber.e("notice url : $url")
+        // Deprecated되지 않은 다른 함수가 API 33 이상에서만 사용할 수 있어서 부득이하게 deprecated 함수를 사용
+        val webViewNotice = intent.getSerializableExtra(WEB_VIEW_NOTICE) as? WebViewNotice
+            ?: throw IllegalStateException("WebViewNotice should not be null.")
+        Timber.e("web view notice: $webViewNotice")
 
         binding.noticeBackBt.setOnClickListener { finish() }
 
         binding.noticeShareBt.setOnClickListener {
-            shareLinkExternally(url)
+            shareLinkExternally(webViewNotice.url)
         }
 
         binding.noticeSaveButton.setOnClickListener { viewModel.onSaveButtonClick() }
@@ -75,7 +75,7 @@ class NoticeWebActivity : AppCompatActivity() {
             override fun onProgressChanged(view: WebView, newProgress: Int) {
                 binding.noticeProgressbar.progress = newProgress
                 if (newProgress == 100) {
-                    updateNoticeTobeRead(articleId, category)
+                    updateNoticeTobeRead(webViewNotice.articleId, webViewNotice.category)
                     binding.noticeProgressbar.visibility = View.GONE
                     binding.noticeWebView.webChromeClient = null
                 } else {
@@ -85,7 +85,7 @@ class NoticeWebActivity : AppCompatActivity() {
             }
         }
 
-        binding.noticeWebView.loadUrl(url)
+        binding.noticeWebView.loadUrl(webViewNotice.url)
     }
 
     private fun collectSavedStatus() {
@@ -118,32 +118,29 @@ class NoticeWebActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val NOTICE_URL = "url"
-        const val NOTICE_ARTICLE_ID = "articleId"
-        const val NOTICE_CATEGORY = "category"
-        const val NOTICE_POSTED_DATE = "postedDate"
-        const val NOTICE_SUBJECT = "subject"
+        const val WEB_VIEW_NOTICE = "webview_notice"
 
-        fun createIntent(context: Context, notice: Notice) = createIntent(
-            context,
-            notice.url,
-            notice.articleId,
-            notice.category,
-            notice.postedDate,
-            concatSubjectAndTag(notice.subject, notice.tag)
-        )
+        fun start(activity: Activity, notice: Notice) {
+            start(activity, notice.toWebViewNotice())
+        }
 
-        fun createIntent(context: Context, pushContent: PushContentUiModel): Intent {
-            with(pushContent) {
-                val categoryEng = WordConverter.convertKoreanToEnglish(categoryKor)
-                return createIntent(
-                    context,
-                    fullUrl,
-                    articleId,
-                    categoryEng,
-                    postedDate,
-                    concatSubjectAndTag(subject, tag)
-                )
+        fun start(activity: Activity, pushContent: PushContentUiModel) {
+            start(activity, pushContent.toWebViewNotice())
+        }
+
+        fun start(activity: Activity, url: String?, articleId: String?, category: String?) {
+            if (url == null || articleId == null || category == null) {
+                throw IllegalArgumentException("intent parameters shouldn't be null: $url, $articleId, $category")
+            }
+            start(activity, WebViewNotice(url, articleId, category))
+        }
+
+        fun start(activity: Activity, webViewNotice: WebViewNotice) {
+            val (url, articleId, category) = webViewNotice
+            val intent = createIntent(activity, url, articleId, category)
+            activity.apply {
+                startActivity(intent)
+                overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
             }
         }
 
@@ -152,16 +149,14 @@ class NoticeWebActivity : AppCompatActivity() {
             url: String?,
             articleId: String?,
             category: String?,
-            postedDate: String?,
-            subject: String?
-        ) = Intent(context, NoticeWebActivity::class.java).apply {
-            Timber.e("url: $url, category: $category")
-
-            putExtra(NOTICE_URL, url)
-            putExtra(NOTICE_ARTICLE_ID, articleId)
-            putExtra(NOTICE_CATEGORY, category)
-            putExtra(NOTICE_POSTED_DATE, postedDate)
-            putExtra(NOTICE_SUBJECT, subject)
+        ): Intent {
+            if (url == null || articleId == null || category == null) {
+                throw IllegalArgumentException("intent parameters shouldn't be null: $url, $articleId, $category")
+            }
+            Timber.d("url: $url, articleId: $articleId, category: $category")
+            return Intent(context, NoticeWebActivity::class.java).apply {
+                putExtra(WEB_VIEW_NOTICE, WebViewNotice(url, articleId, category))
+            }
         }
     }
 }

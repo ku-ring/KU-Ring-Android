@@ -55,8 +55,8 @@ interface NoticeDao {
     suspend fun insertDepartmentNotices(notices: List<NoticeEntity>)
 
     @Query(
-        "SELECT * FROM NoticeEntity WHERE department LIKE :shortName " /*+
-            "ORDER BY postedDate DESC, articleId DESC"*/
+        "SELECT * FROM NoticeEntity WHERE department LIKE :shortName " +
+            "ORDER BY postedDate DESC, articleId DESC"
     )
     fun getDepartmentNotices(shortName: String): PagingSource<Int, NoticeEntity>
 

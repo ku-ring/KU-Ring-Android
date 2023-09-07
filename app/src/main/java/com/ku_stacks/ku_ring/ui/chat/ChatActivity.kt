@@ -1,7 +1,9 @@
 package com.ku_stacks.ku_ring.ui.chat
 
+import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.text.Editable
@@ -177,5 +179,12 @@ class ChatActivity : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
+    }
+
+    companion object {
+        fun start(activity: Activity) {
+            val intent = Intent(activity, ChatActivity::class.java)
+            activity.startActivity(intent)
+        }
     }
 }

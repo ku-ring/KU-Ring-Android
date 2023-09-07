@@ -63,11 +63,6 @@ class SearchNoticeFragment : Fragment() {
     }
 
     private fun startNoticeActivity(notice: Notice) {
-        val intent = NoticeWebActivity.createIntent(requireContext(), notice)
-        startActivity(intent)
-        requireActivity().overridePendingTransition(
-            R.anim.anim_slide_right_enter,
-            R.anim.anim_stay_exit
-        )
+        NoticeWebActivity.start(requireActivity(), notice)
     }
 }

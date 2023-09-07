@@ -1,5 +1,6 @@
 package com.ku_stacks.ku_ring.persistence
 
+import com.ku_stacks.ku_ring.LocalDbAbstract
 import com.ku_stacks.ku_ring.data.db.PushDao
 import com.ku_stacks.ku_ring.data.db.PushEntity
 import kotlinx.coroutines.runBlocking

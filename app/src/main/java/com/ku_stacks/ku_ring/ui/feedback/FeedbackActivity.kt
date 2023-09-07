@@ -1,5 +1,7 @@
 package com.ku_stacks.ku_ring.ui.feedback
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -86,5 +88,12 @@ class FeedbackActivity : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
+    }
+
+    companion object {
+        fun start(activity: Activity) {
+            val intent = Intent(activity, FeedbackActivity::class.java)
+            activity.startActivity(intent)
+        }
     }
 }

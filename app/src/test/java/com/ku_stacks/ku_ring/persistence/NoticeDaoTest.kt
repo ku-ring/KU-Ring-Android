@@ -1,6 +1,7 @@
 package com.ku_stacks.ku_ring.persistence
 
 import androidx.paging.PagingSource
+import com.ku_stacks.ku_ring.LocalDbAbstract
 import com.ku_stacks.ku_ring.data.db.NoticeDao
 import com.ku_stacks.ku_ring.data.db.NoticeEntity
 import kotlinx.coroutines.ExperimentalCoroutinesApi

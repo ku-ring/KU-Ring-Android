@@ -1,13 +1,14 @@
 package com.ku_stacks.ku_ring.ui.main
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
 import androidx.viewpager2.widget.ViewPager2
 import com.ku_stacks.ku_ring.R
+import com.ku_stacks.ku_ring.data.model.WebViewNotice
 import com.ku_stacks.ku_ring.databinding.ActivityMainBinding
 import com.ku_stacks.ku_ring.ui.notice_webview.NoticeWebActivity
 import com.ku_stacks.ku_ring.util.showToast
@@ -36,25 +37,16 @@ class MainActivity : AppCompatActivity() {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
 
-        intent?.getStringExtra(NoticeWebActivity.NOTICE_URL)?.let {
-            val articleId = intent.getStringExtra(NoticeWebActivity.NOTICE_ARTICLE_ID)
-            val category = intent.getStringExtra(NoticeWebActivity.NOTICE_CATEGORY)
-            val postedDate = intent.getStringExtra(NoticeWebActivity.NOTICE_POSTED_DATE)
-            val subject = intent.getStringExtra(NoticeWebActivity.NOTICE_SUBJECT)
-            navToNoticeActivity(it, articleId, category, postedDate, subject)
+        (intent?.getSerializableExtra(NoticeWebActivity.WEB_VIEW_NOTICE) as? WebViewNotice)?.let { webViewNotice ->
+            navToNoticeActivity(webViewNotice)
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        intent?.getStringExtra(NoticeWebActivity.NOTICE_URL)?.let {
-            val articleId = intent.getStringExtra(NoticeWebActivity.NOTICE_ARTICLE_ID)
-            val category = intent.getStringExtra(NoticeWebActivity.NOTICE_CATEGORY)
-            val postedDate = intent.getStringExtra(NoticeWebActivity.NOTICE_POSTED_DATE)
-            val subject = intent.getStringExtra(NoticeWebActivity.NOTICE_SUBJECT)
-            Timber.d("Notification: received $articleId, $category, $postedDate, $subject, $it")
-            navToNoticeActivity(it, articleId, category, postedDate, subject)
+        (intent?.getSerializableExtra(NoticeWebActivity.WEB_VIEW_NOTICE) as? WebViewNotice)?.let { webViewNotice ->
+            navToNoticeActivity(webViewNotice)
         }
 
         setupBinding()
@@ -93,23 +85,9 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    private fun navToNoticeActivity(
-        noticeUrl: String?,
-        articleId: String?,
-        category: String?,
-        postedDate: String?,
-        subject: String?,
-    ) {
-        val newIntent = NoticeWebActivity.createIntent(
-            this,
-            noticeUrl,
-            articleId,
-            category,
-            postedDate,
-            subject
-        )
-        startActivity(newIntent)
-        overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
+    private fun navToNoticeActivity(webViewNotice: WebViewNotice) {
+        Timber.d("Notification received: $webViewNotice")
+        NoticeWebActivity.start(this, webViewNotice)
     }
 
     override fun onBackPressed() {
@@ -127,25 +105,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
+        fun createIntent(context: Context) = Intent(context, MainActivity::class.java)
+
         fun start(
             activity: Activity,
             url: String,
             articleId: String,
             category: String,
-            postedDate: String,
-            subject: String
         ) {
-            val intent = Intent(activity, MainActivity::class.java).apply {
-                putExtras(
-                    bundleOf(
-                        NoticeWebActivity.NOTICE_URL to url,
-                        NoticeWebActivity.NOTICE_ARTICLE_ID to articleId,
-                        NoticeWebActivity.NOTICE_CATEGORY to category,
-                        NoticeWebActivity.NOTICE_POSTED_DATE to postedDate,
-                        NoticeWebActivity.NOTICE_SUBJECT to subject
-                    )
+            val intent = createIntent(activity).apply {
+                putExtra(
+                    NoticeWebActivity.WEB_VIEW_NOTICE,
+                    WebViewNotice(url, articleId, category),
                 )
             }
+            activity.startActivity(intent)
+        }
+
+        fun start(activity: Activity) {
+            val intent = createIntent(activity)
             activity.startActivity(intent)
         }
     }

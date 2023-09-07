@@ -1,6 +1,5 @@
 package com.ku_stacks.ku_ring.ui.main.notice
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,8 +11,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.messaging.FirebaseMessaging
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.databinding.FragmentNoticeBinding
-import com.ku_stacks.ku_ring.ui.my_notification.NotificationActivity
-import com.ku_stacks.ku_ring.ui.notice_storage.NoticeStorageActivity
+import com.ku_stacks.ku_ring.navigator.KuringNavigator
 import com.ku_stacks.ku_ring.util.PreferenceUtil
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -28,6 +26,9 @@ class NoticesParentFragment : Fragment() {
 
     @Inject
     lateinit var firebaseMessaging: FirebaseMessaging
+
+    @Inject
+    lateinit var navigator: KuringNavigator
 
     private var _binding: FragmentNoticeBinding? = null
     private val binding
@@ -75,8 +76,7 @@ class NoticesParentFragment : Fragment() {
         }.attach()
 
         binding.mainHeader.inventoryImg.setOnClickListener {
-            val intent = Intent(requireActivity(), NoticeStorageActivity::class.java)
-            startActivity(intent)
+            navigator.navigateToNoticeStorage(requireActivity())
             requireActivity().overridePendingTransition(
                 R.anim.anim_slide_right_enter,
                 R.anim.anim_stay_exit
@@ -84,8 +84,7 @@ class NoticesParentFragment : Fragment() {
         }
 
         binding.mainHeader.bellImg.setOnClickListener {
-            val intent = Intent(requireActivity(), NotificationActivity::class.java)
-            startActivity(intent)
+            navigator.navigateToNotification(requireActivity())
             requireActivity().overridePendingTransition(
                 R.anim.anim_slide_right_enter,
                 R.anim.anim_stay_exit
@@ -99,10 +98,12 @@ class NoticesParentFragment : Fragment() {
                 0 -> {
                     binding.mainHeader.notiCountBt.visibility = View.GONE
                 }
+
                 in 1..99 -> {
                     binding.mainHeader.notiCountBt.visibility = View.VISIBLE
                     binding.mainHeader.notiCountBt.text = it.toString()
                 }
+
                 else -> {
                     binding.mainHeader.notiCountBt.visibility = View.VISIBLE
                     binding.mainHeader.notiCountBt.text =
