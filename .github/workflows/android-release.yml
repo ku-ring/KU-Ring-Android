@@ -37,6 +37,10 @@ jobs:
     - name: Create local.properteis
       run: echo '${{ secrets.LOCAL_PROPERTIES }}' > ./local.properties
 
+    # Run unit test
+    - name: Run unit test
+      run: ./gradlew testreleaseUnitTest
+
     # Build APK Release
     - name: Build release Apk
       run: ./gradlew assembleRelease
@@ -44,10 +48,6 @@ jobs:
     # Build AAB Release
     - name: Build release Bundle
       run: ./gradlew bundleRelease
-
-    # Run unit test
-    - name: Run unit test
-      run: ./gradlew testreleaseUnitTest
       
     # Upload AAB
     - name: Upload a Build AAB Artifact
