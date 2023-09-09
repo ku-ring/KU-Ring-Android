@@ -33,7 +33,6 @@ class ReEngagementNotificationWork(
     }
 
     private fun createNotification(context: Context): Notification {
-//        val intent = navigator.createMainIntent(context)
         val intent = createIntent(context)
         val pendingIntent = PendingIntent.getActivity(
             context,
