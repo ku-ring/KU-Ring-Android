@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.util.modified_external_library
+package com.ku_stacks.ku_ring.ui_util.modified_external_library
 
 import android.view.View
 import android.view.animation.Animation

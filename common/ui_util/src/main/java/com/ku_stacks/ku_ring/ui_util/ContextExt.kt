@@ -1,10 +1,10 @@
-package com.ku_stacks.ku_ring.util
+package com.ku_stacks.ku_ring.ui_util
 
 import android.content.Context
 import android.view.View
 import android.widget.Toast
 import com.google.android.material.snackbar.Snackbar
-import com.ku_stacks.ku_ring.ui.dialogs.KuringDialog
+import com.ku_stacks.ku_ring.ui_util.dialogs.KuringDialog
 
 fun View.showSnackBar(msg: String) =
     Snackbar.make(this, msg, Snackbar.LENGTH_SHORT).show()

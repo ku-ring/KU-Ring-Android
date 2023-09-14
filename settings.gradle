@@ -13,3 +13,4 @@ include ':app'
 
 enableFeaturePreview("VERSION_CATALOGS")
 include ':common:util'
+include ':common:ui_util'

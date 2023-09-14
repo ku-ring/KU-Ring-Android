@@ -16,10 +16,10 @@ import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.databinding.ActivityChatBinding
 import com.ku_stacks.ku_ring.ui.chat.ui_model.ReceivedMessageUiModel
 import com.ku_stacks.ku_ring.ui.chat.ui_model.SentMessageUiModel
-import com.ku_stacks.ku_ring.ui.dialogs.ChatActionDialog
-import com.ku_stacks.ku_ring.util.makeDialog
-import com.ku_stacks.ku_ring.util.modified_external_library.RecyclerViewPager
-import com.ku_stacks.ku_ring.util.showToast
+import com.ku_stacks.ku_ring.ui_util.dialogs.ChatActionDialog
+import com.ku_stacks.ku_ring.ui_util.makeDialog
+import com.ku_stacks.ku_ring.ui_util.modified_external_library.RecyclerViewPager
+import com.ku_stacks.ku_ring.ui_util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

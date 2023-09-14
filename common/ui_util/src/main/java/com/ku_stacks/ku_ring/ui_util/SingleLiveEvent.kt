@@ -14,10 +14,9 @@
  *  limitations under the License.
  */
 
-package com.ku_stacks.ku_ring.ui
+package com.ku_stacks.ku_ring.ui_util
 
 import androidx.annotation.MainThread
-import androidx.annotation.Nullable
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer

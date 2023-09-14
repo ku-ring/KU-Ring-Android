@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.adapter
+package com.ku_stacks.ku_ring.ui_util
 
 import android.view.View
 import android.widget.Button
@@ -7,7 +7,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
-import com.ku_stacks.ku_ring.R
 import timber.log.Timber
 
 @BindingAdapter("timeMillis")

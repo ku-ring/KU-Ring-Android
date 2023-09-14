@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.repository.SendbirdRepository
-import com.ku_stacks.ku_ring.ui.SingleLiveEvent
+import com.ku_stacks.ku_ring.ui_util.SingleLiveEvent
 import com.ku_stacks.ku_ring.util.PreferenceUtil
 import com.sendbird.android.SendbirdChat
 import com.sendbird.android.params.UserUpdateParams

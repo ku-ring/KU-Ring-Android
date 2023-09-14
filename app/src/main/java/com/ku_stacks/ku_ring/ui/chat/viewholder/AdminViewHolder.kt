@@ -1,8 +1,8 @@
 package com.ku_stacks.ku_ring.ui.chat.viewholder
 
-import com.ku_stacks.ku_ring.adapter.visibleIf
 import com.ku_stacks.ku_ring.databinding.ItemChatAdminBinding
 import com.ku_stacks.ku_ring.ui.chat.ui_model.AdminMessageUiModel
+import com.ku_stacks.ku_ring.ui_util.visibleIf
 
 class AdminViewHolder(
     private val binding: ItemChatAdminBinding

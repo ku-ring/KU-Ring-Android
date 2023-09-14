@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.ui.dialogs
+package com.ku_stacks.ku_ring.ui_util.dialogs
 
 import android.app.Dialog
 import android.content.Context
@@ -7,8 +7,8 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.adapter.visibleIf
+import com.ku_stacks.ku_ring.ui_util.R
+import com.ku_stacks.ku_ring.ui_util.visibleIf
 
 class KuringDialog(context: Context) : Dialog(context) {
 

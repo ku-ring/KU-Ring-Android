@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.customview
+package com.ku_stacks.ku_ring.ui_util.customview
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -9,7 +9,7 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.widget.addTextChangedListener
-import com.ku_stacks.ku_ring.R
+import com.ku_stacks.ku_ring.ui_util.R
 
 class ClearableEditText : AppCompatEditText {
 

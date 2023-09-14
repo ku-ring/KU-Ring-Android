@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.ui.dialogs
+package com.ku_stacks.ku_ring.ui_util.dialogs
 
 import android.app.Dialog
 import android.content.Context
@@ -7,7 +7,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import com.ku_stacks.ku_ring.databinding.DialogChatActionBinding
+import com.ku_stacks.ku_ring.ui_util.databinding.DialogChatActionBinding
 
 class ChatActionDialog(context: Context) : Dialog(context) {
 
