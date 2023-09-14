@@ -4,7 +4,6 @@ import com.ku_stacks.ku_ring.data.db.NoticeDao
 import com.ku_stacks.ku_ring.data.db.NoticeEntity
 import com.ku_stacks.ku_ring.data.db.PushDao
 import com.ku_stacks.ku_ring.data.db.PushEntity
-import com.ku_stacks.ku_ring.di.IODispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch

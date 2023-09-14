@@ -8,6 +8,7 @@ import com.ku_stacks.ku_ring.data.db.DepartmentDao
 import com.ku_stacks.ku_ring.data.db.NoticeDao
 import com.ku_stacks.ku_ring.data.db.PushDao
 import com.ku_stacks.ku_ring.repository.*
+import com.ku_stacks.ku_ring.util.IODispatcher
 import com.ku_stacks.ku_ring.util.PreferenceUtil
 import dagger.Module
 import dagger.Provides

@@ -12,3 +12,4 @@ rootProject.name = "KU Ring"
 include ':app'
 
 enableFeaturePreview("VERSION_CATALOGS")
+include ':common:util'

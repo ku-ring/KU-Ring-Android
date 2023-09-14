@@ -111,6 +111,7 @@ android {
 }
 
 dependencies {
+    implementation project(":common:util")
 
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat

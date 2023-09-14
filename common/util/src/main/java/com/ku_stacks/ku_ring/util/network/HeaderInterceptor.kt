@@ -1,20 +1,25 @@
-package com.ku_stacks.ku_ring.data.api
+package com.ku_stacks.ku_ring.util.network
 
+import android.content.Context
 import android.os.Build
-import com.ku_stacks.ku_ring.BuildConfig
+import dagger.hilt.android.qualifiers.ApplicationContext
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
 import timber.log.Timber
+import javax.inject.Inject
 
-class HeaderInterceptor : Interceptor {
+class HeaderInterceptor @Inject constructor(@ApplicationContext context: Context) : Interceptor {
+
+    private val packageName = context.packageName
+    private val kuringVersion = context.packageManager?.getPackageInfo(packageName, 0)?.versionName
+
     override fun intercept(chain: Interceptor.Chain): Response {
         val newRequest = chain.request().newBuilder().addVersionHeader().build()
         return chain.proceed(newRequest)
     }
 
     private fun Request.Builder.addVersionHeader(): Request.Builder {
-        val kuringVersion = BuildConfig.VERSION_NAME
         val kuringVersionHeader = "Kuring/$kuringVersion"
 
         val androidVersion = Build.VERSION.SDK_INT.toString() // 33

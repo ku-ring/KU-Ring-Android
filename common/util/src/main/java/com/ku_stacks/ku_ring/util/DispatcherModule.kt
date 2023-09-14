@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.di
+package com.ku_stacks.ku_ring.util
 
 import dagger.Module
 import dagger.Provides

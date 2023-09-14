@@ -1,6 +1,9 @@
 package com.ku_stacks.ku_ring.repository
 
-import androidx.paging.*
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.map
 import androidx.paging.rxjava3.cachedIn
 import androidx.paging.rxjava3.flowable
 import com.ku_stacks.ku_ring.data.api.NoticeClient
@@ -10,14 +13,15 @@ import com.ku_stacks.ku_ring.data.mapper.toEntity
 import com.ku_stacks.ku_ring.data.mapper.toNoticeList
 import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.data.source.NoticePagingSource
-import com.ku_stacks.ku_ring.di.IODispatcher
 import com.ku_stacks.ku_ring.util.DateUtil
+import com.ku_stacks.ku_ring.util.IODispatcher
 import com.ku_stacks.ku_ring.util.PreferenceUtil
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.reactive.asPublisher
@@ -25,7 +29,7 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 
-@OptIn(ExperimentalPagingApi::class)
+@OptIn(ExperimentalCoroutinesApi::class)
 class NoticeRepositoryImpl @Inject constructor(
     private val noticeClient: NoticeClient,
     private val noticeDao: NoticeDao,
