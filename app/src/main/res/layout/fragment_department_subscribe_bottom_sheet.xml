@@ -33,7 +33,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 />
 
-            <com.ku_stacks.ku_ring.customview.ClearableEditText
+            <com.ku_stacks.ku_ring.ui_util.customview.ClearableEditText
                 android:id="@+id/search_department_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

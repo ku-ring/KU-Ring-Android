@@ -1,0 +1,165 @@
+<resources>
+    <string name="app_name">쿠링</string>
+    <string name="app_name_debug">쿠링 Debug</string>
+
+    <!--  Common  -->
+    <string name="network_error">네트워크 문제로 연결되지 않았습니다. 다시 시도해주세요</string>
+    <string name="cancel">취소</string>
+    <string name="confirm">확인</string>
+    <string name="start">시작하기</string>
+    <string name="complete">완료하기</string>
+
+    <!--  splash  -->
+    <string name="ku_ring_version">ver. %1$s</string>
+    <string name="ku_ring_rights">© 2021 KU Ring. All rights reserved.</string>
+
+    <!--  home  -->
+    <string name="home_bell_icn">home bell img</string>
+    <string name="home_inventory_icn">공지 보관함 버튼</string>
+    <string name="home_finish_if_back_again">"뒤로가기를 한 번 더 누르시면 종료됩니다"</string>
+
+    <!--  category  -->
+    <string name="department">학과</string>
+    <string name="bachelor">학사</string>
+    <string name="scholarship">장학</string>
+    <string name="employ">취창업</string>
+    <string name="nation">국제</string>
+    <string name="student">학생</string>
+    <string name="industry">산학</string>
+    <string name="normal">일반</string>
+    <string name="library">도서관</string>
+
+    <!--  department notice  -->
+    <string name="add_department_text">학과 추가하기</string>
+    <string name="department_selector_description">다른 학과 선택하기</string>
+    <string name="selected_department_description">%1$s 선택된 학과입니다.</string>
+    <string name="department_selector_bottom_sheet_title">학과 선택</string>
+    <string name="notice_refresh_error_message">공지 로드 중 에러가 발생했습니다.\n잠시 후 다시 시도해 주세요.</string>
+
+    <!--  feedback  -->
+    <string name="feedback_send_content">피드백 보내기</string>
+    <string name="feedback_title">피드백을 남겨서 앱이 성장하는데에 \n큰 기여를 해주세요 🙂</string>
+    <string name="feedback_hint">피드백을 남겨주세요…</string>
+    <string name="feedback_too_short">글자 수는 5글자 이상이어야 합니다.</string>
+    <string name="feedback_too_long">글자 수는 256글자 이하여야 합니다.</string>
+    <string name="feedback_success">피드백이 정상적으로 전송되었습니다</string>
+    <string name="feedback_write_more_character">5글자 이상 입력해주세요</string>
+    <string name="feedback_size_of_character">글자수 : %s/256</string>
+    <string name="feedback_cannot_send">피드백을 보낼 수 없습니다. fcm 토큰을 확인해주세요</string>
+
+    <!--  notification  -->
+    <string name="notification_my">내 알림</string>
+    <string name="notification_alert">알림이 없어요!</string>
+    <string name="notification_setting">푸시 알림 설정하기</string>
+    <string name="push_notification_max_count">99+</string>
+    <string name="notification_no_subscription">알림 설정한 항목이 없습니다.\n알림 받고 싶은 공지를 설정해보세요!</string>
+    <string name="confirm_to_delete_notification">정말 삭제하시겠습니까?</string>
+
+    <!--  notice storage  -->
+    <string name="notice_storage_title">공지 보관함</string>
+    <string name="notice_storage_alert">보관된 공지가 없어요!</string>
+    <string name="notice_storage_back_button_description">뒤로 가기 버튼</string>
+    <string name="notice_storage_clear_button_description">저장된 공지 모두 삭제하기</string>
+
+    <!--  setting_notification  -->
+    <string name="setting_notification_explain"> 어떤 알림들을 받아보시겠습니까?\n알림 받고 싶은 카테고리를 선택해주세요.</string>
+    <string name="setting_notification_start">시작하기</string>
+
+    <!--  subscribe screen -->
+    <string name="subscribe_category_title">대학 공지 카테고리</string>
+    <string name="subscribe_department_title">학과 공지 카테고리</string>
+    <string name="subscribe_items_empty">추가된 카테고리가 없습니다.</string>
+    <string name="subscribe_header_description">대학 공지 카테고리 열기</string>
+
+    <!--  search  -->
+    <string name="search_enter_keyword">검색어를 입력해주세요</string>
+    <string name="search">검색</string>
+    <string name="search_advice">찾고 싶은 공지사항이나 교직원을 검색해보세요\n(공지 제목 / 교수 이름 / 학과 / 단과대학)</string>
+    <string name="search_staff_copy_email_complete">이메일이 클립보드에 복사되었습니다</string>
+    <string name="search_staff_copy_phone_number_complete">전화번호가 클립보드에 복사되었습니다</string>
+
+    <!--  notion url  -->
+    <string name="notion_new_contents_url">https://kuring.notion.site/kuring/eec1169151ec4b49abab5e900c617690</string>
+    <string name="notion_privacy_policy_url">https://kuring.notion.site/65ba27f2367044e0be7061e885e7415c</string>
+    <string name="notion_terms_of_service_url">https://kuring.notion.site/e88095d4d67d4c4c92983fd85cb693b9</string>
+    <string name="notion_kuring_team_url">https://kuring.notion.site/a69fdf7ff06848c2aedef1fdcf13ca57</string>
+    <string name="instagram_url">https://bit.ly/3I30uiG</string>
+    <string name="kakao_url">https://bit.ly/3p5LZTI</string>
+
+    <!--  onBoarding  -->
+    <string name="on_boarding_title">우리 대학 공지 \n쿠링이 알려줄게!</string>
+    <string name="on_boarding_subscribe_notification">알림 받기</string>
+    <string name="on_boarding_one_touch">터치 한번으로</string>
+    <string name="on_boarding_quick_search">빠른 검색</string>
+    <string name="on_boarding_notification_explain">중요한 알림을 놓치지 말고 알림으로 받아보세요.</string>
+    <string name="on_boarding_mega_phone_explain">학교 홈페이지에 들어갈 필요 없이 첫 화면에서 공지사항을 확인해보세요.</string>
+    <string name="on_boarding_search_explain">공지사항과 교직원 정보를 가장 빠르게 검색해볼 수 있습니다.</string>
+    <string name="on_boarding_subscribe_notice">공지 알림 설정하기</string>
+
+    <!--  WebView  -->
+    <string name="save_button_description">공지 보관하기</string>
+    <string name="invalid_external_storage_permission_msg">외부저장소의 읽기 권한이 거부되었습니다. 파일 다운로드가 제한되며, 안드로이드 설정에서 권한을 수정할 수 있습니다.</string>
+    <string name="valid_external_storage_permission_msg">권한이 허용되었습니다. 파일을 다시 선택해주세요</string>
+    <string name="download_success">다운로드가 완료되었습니다.</string>
+    <string name="download_fail">다운로드에 실패하였습니다.</string>
+    <string name="share_externally">공유하기</string>
+
+    <!--  setting  -->
+    <string name="setting">설정</string>
+    <string name="setting_subscription_notice">공지 구독</string>
+    <string name="setting_subscribe_notice">공지 구독하기</string>
+    <string name="setting_subscribe_ext">기타 알림 받기</string>
+    <string name="setting_subscribe_ext_description">주요 공지 사항, 앱 내 중요 사항</string>
+    <string name="setting_information">정보</string>
+    <string name="setting_version">앱 버전</string>
+    <string name="setting_new_contents">새로운 내용</string>
+    <string name="setting_team">쿠링 팀</string>
+    <string name="privacy_policy">개인정보 처리방침</string>
+    <string name="terms_of_service">서비스 이용약관</string>
+    <string name="open_source_license">오픈소스 라이선스</string>
+    <string name="sns">SNS</string>
+    <string name="instagram">인스타그램</string>
+    <string name="kakao_channel">카카오톡 채널</string>
+    <string name="setting_feedback">피드백</string>
+
+    <!-- re-engagement notification -->
+    <string name="reengagement_title">공지를 일주일 이상 확인하지 않았어요!</string>
+    <string name="reengagement_body">놓친 공지가 있는지 확인해보세요 🔔</string>
+
+    <!--  campus onBoarding -->
+    <string name="kuring_campus">쿠링 캠퍼스</string>
+    <string name="kuring_chungsim">쿠링청심대</string>
+    <string name="campus_ask_send_message">쿠링 청심대에서 다같이 모여 메세지를 보내세요</string>
+    <string name="campus_nickname_description">상대에게 보여지는 이름을 설정해주세요</string>
+    <string name="nickname_not_valid_format">적절한 닉네임 형식이 아닙니다.</string>
+    <string name="nickname_valid_format">적절한 닉네임 형식입니다.</string>
+    <string name="nickname_duplicated">중복된 닉네임이 있습니다.</string>
+    <string name="nickname_check_error">"닉네임 확인에 문제가 발생하였습니다."</string>
+    <string name="chat_connect_error">채팅 서버와의 연결에 문제가 발생했습니다.</string>
+
+    <!--  campus chat  -->
+    <string name="chat_enter_message">메세지를 입력하세요.</string>
+    <string name="chat_get_channel_error">방 정보를 가져오는데 실패하였습니다.</string>
+    <string name="chat_enter_channel_error">방에 입장하는데 실패하였습니다.</string>
+    <string name="chat_admin_message_nickname">📣 쿠링에서 알려드립니다</string>
+    <string name="chat_resend_message">재전송 하시겠습니까?</string>
+    <string name="chat_resend">재전송</string>
+    <string name="chat_delete">삭제</string>
+    <string name="chat_max_message_length">글자는 최대 %s자입니다.</string>
+    <string name="copy_message">메세지 복사하기</string>
+    <string name="copy_nickname">닉네임 복사하기</string>
+    <string name="report_user">신고하기</string>
+    <string name="block_user">차단하기</string>
+    <string name="report_success">신고가 접수되었습니다.</string>
+    <string name="report_fail">신고에 실패하였습니다.</string>
+    <string name="report_error">신고에 문제가 발생하였습니다.</string>
+    <string name="report_ask_again">정말 신고하시겠습니까?</string>
+    <string name="chat_copied_nickname">닉네임이 복사되었습니다.</string>
+    <string name="chat_copied_message">메세지가 복사되었습니다.</string>
+    <string name="block_ask_again">정말 차단하시겠습니까?</string>
+    <string name="block_success">사용자를 차단되었습니다.</string>
+    <string name="block_fail">차단에 실패하였습니다.</string>
+
+    <!--  common-advertise  -->
+    <string name="admob_test_banner_id">ca-app-pub-3940256099942544/6300978111</string>
+</resources>
