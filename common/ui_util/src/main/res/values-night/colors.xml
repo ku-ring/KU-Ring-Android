@@ -24,4 +24,5 @@
     <color name="kus_on_tertiary_label">#deede6</color>
 
     <color name="kus_primary03">#08ffffff</color>
+    <color name="white">#FFFFFFFF</color>
 </resources>

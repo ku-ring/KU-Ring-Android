@@ -37,4 +37,5 @@
     <color name="kus_on_tertiary_label">#000000</color>
 
     <color name="kus_primary03">#08000000</color>
+    <color name="white">#FFFFFFFF</color>
 </resources>
