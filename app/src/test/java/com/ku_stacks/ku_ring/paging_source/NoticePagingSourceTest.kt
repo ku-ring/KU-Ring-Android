@@ -5,8 +5,8 @@ import androidx.paging.PagingSource.LoadParams
 import androidx.paging.PagingSource.LoadResult
 import com.ku_stacks.ku_ring.MockUtil
 import com.ku_stacks.ku_ring.data.api.NoticeClient
-import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.data.source.NoticePagingSource
+import com.ku_stacks.ku_ring.domain.Notice
 import io.reactivex.rxjava3.core.Single
 import org.junit.Before
 import org.junit.Rule

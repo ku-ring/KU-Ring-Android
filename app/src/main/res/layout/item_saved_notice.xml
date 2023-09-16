@@ -7,7 +7,7 @@
 
         <variable
             name="noticeItem"
-            type="com.ku_stacks.ku_ring.data.model.Notice" />
+            type="com.ku_stacks.ku_ring.domain.Notice" />
 
     </data>
 

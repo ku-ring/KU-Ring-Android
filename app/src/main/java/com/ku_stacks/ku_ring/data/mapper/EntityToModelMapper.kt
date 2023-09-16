@@ -3,9 +3,9 @@ package com.ku_stacks.ku_ring.data.mapper
 import com.ku_stacks.ku_ring.data.db.DepartmentEntity
 import com.ku_stacks.ku_ring.data.db.NoticeEntity
 import com.ku_stacks.ku_ring.data.db.PushEntity
-import com.ku_stacks.ku_ring.data.model.Department
-import com.ku_stacks.ku_ring.data.model.Notice
-import com.ku_stacks.ku_ring.data.model.Push
+import com.ku_stacks.ku_ring.domain.Department
+import com.ku_stacks.ku_ring.domain.Notice
+import com.ku_stacks.ku_ring.domain.Push
 import com.ku_stacks.ku_ring.util.WordConverter
 import com.ku_stacks.ku_ring.util.isOnlyAlphabets
 import timber.log.Timber

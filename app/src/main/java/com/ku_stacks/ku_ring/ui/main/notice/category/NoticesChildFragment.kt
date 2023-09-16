@@ -11,8 +11,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.databinding.FragmentHomeCategoryBinding
+import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.ui.notice_webview.NoticeWebActivity
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.disposables.CompositeDisposable

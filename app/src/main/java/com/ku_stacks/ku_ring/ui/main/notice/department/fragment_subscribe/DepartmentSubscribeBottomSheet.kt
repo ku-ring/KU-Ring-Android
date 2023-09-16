@@ -14,8 +14,8 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.data.model.Department
 import com.ku_stacks.ku_ring.databinding.FragmentDepartmentSubscribeBottomSheetBinding
+import com.ku_stacks.ku_ring.domain.Department
 import com.ku_stacks.ku_ring.ui.main.notice.department.fragment_subscribe.listener.DepartmentEventListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

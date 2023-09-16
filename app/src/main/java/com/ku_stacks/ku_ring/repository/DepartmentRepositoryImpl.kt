@@ -6,7 +6,7 @@ import com.ku_stacks.ku_ring.data.mapper.toDepartment
 import com.ku_stacks.ku_ring.data.mapper.toDepartmentList
 import com.ku_stacks.ku_ring.data.mapper.toEntity
 import com.ku_stacks.ku_ring.data.mapper.toEntityList
-import com.ku_stacks.ku_ring.data.model.Department
+import com.ku_stacks.ku_ring.domain.Department
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

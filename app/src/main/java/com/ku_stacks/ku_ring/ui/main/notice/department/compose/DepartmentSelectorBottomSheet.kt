@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.data.model.Department
+import com.ku_stacks.ku_ring.domain.Department
 import com.ku_stacks.ku_ring.ui.compose.LightAndDarkPreview
 import com.ku_stacks.ku_ring.ui.compose.theme.KuringTheme
 import com.ku_stacks.ku_ring.ui.compose.theme.SfProDisplay

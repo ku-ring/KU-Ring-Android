@@ -5,8 +5,8 @@ import android.content.Context
 import android.content.Intent
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.data.model.Notice
-import com.ku_stacks.ku_ring.data.model.WebViewNotice
+import com.ku_stacks.ku_ring.domain.Notice
+import com.ku_stacks.ku_ring.domain.WebViewNotice
 import com.ku_stacks.ku_ring.ui.chat.ChatActivity
 import com.ku_stacks.ku_ring.ui.edit_subscription.EditSubscriptionActivity
 import com.ku_stacks.ku_ring.ui.feedback.FeedbackActivity

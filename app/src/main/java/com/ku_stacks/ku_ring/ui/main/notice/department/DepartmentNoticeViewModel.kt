@@ -3,8 +3,8 @@ package com.ku_stacks.ku_ring.ui.main.notice.department
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
-import com.ku_stacks.ku_ring.data.model.Department
-import com.ku_stacks.ku_ring.data.model.Notice
+import com.ku_stacks.ku_ring.domain.Department
+import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.repository.DepartmentNoticeRepository
 import com.ku_stacks.ku_ring.repository.DepartmentRepository
 import com.ku_stacks.ku_ring.util.modifyList

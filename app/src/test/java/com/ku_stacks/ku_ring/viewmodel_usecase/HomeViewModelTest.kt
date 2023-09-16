@@ -2,7 +2,7 @@ package com.ku_stacks.ku_ring.viewmodel_usecase
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.ku_stacks.ku_ring.MockUtil.mock
-import com.ku_stacks.ku_ring.MockUtil.mockNotice
+import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.repository.NoticeRepository
 import com.ku_stacks.ku_ring.repository.PushRepository
 import com.ku_stacks.ku_ring.ui.main.notice.category.NoticesChildViewModel
@@ -32,7 +32,7 @@ class HomeViewModelTest {
     @Test
     fun `insert Notice As Old Test`() {
         // given
-        val mockData = mockNotice()
+        val mockData = Notice.mock()
         Mockito.`when`(noticeRepository.insertNoticeAsOld(mockData))
             .thenReturn(Completable.complete())
 

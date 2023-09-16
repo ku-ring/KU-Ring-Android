@@ -27,7 +27,7 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
 import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.data.model.Notice
+import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.ui.compose.theme.KuringTheme
 import com.ku_stacks.ku_ring.ui.compose.theme.SfProDisplay
 

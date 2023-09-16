@@ -4,8 +4,8 @@ import android.graphics.Color
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.databinding.ItemNoticeBinding
+import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.ui_util.textColorGrayIf
 import com.ku_stacks.ku_ring.ui_util.visibleIf
 

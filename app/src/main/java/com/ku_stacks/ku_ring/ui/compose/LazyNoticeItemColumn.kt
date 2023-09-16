@@ -22,7 +22,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.data.model.Notice
+import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.ui.compose.theme.SfProDisplay
 
 @Composable

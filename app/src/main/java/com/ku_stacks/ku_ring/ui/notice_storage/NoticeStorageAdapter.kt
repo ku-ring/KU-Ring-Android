@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.databinding.ItemSavedNoticeBinding
+import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.ui.main.notice.category.NoticePagingAdapter
 
 class NoticeStorageAdapter(

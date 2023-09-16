@@ -3,8 +3,8 @@ package com.ku_stacks.ku_ring.navigator
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import com.ku_stacks.ku_ring.data.model.Notice
-import com.ku_stacks.ku_ring.data.model.WebViewNotice
+import com.ku_stacks.ku_ring.domain.Notice
+import com.ku_stacks.ku_ring.domain.WebViewNotice
 
 interface KuringNavigator {
     fun navigateToChat(activity: Activity)
