@@ -10,8 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.databinding.ActivityFeedbackBinding
-import com.ku_stacks.ku_ring.util.modified_external_library.AppearanceAnimator
-import com.ku_stacks.ku_ring.util.showToast
+import com.ku_stacks.ku_ring.ui_util.modified_external_library.AppearanceAnimator
+import com.ku_stacks.ku_ring.ui_util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 

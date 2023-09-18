@@ -1,8 +1,8 @@
 package com.ku_stacks.ku_ring.ui.chat.viewholder
 
-import com.ku_stacks.ku_ring.adapter.visibleIf
 import com.ku_stacks.ku_ring.databinding.ItemChatSendBinding
 import com.ku_stacks.ku_ring.ui.chat.ui_model.SentMessageUiModel
+import com.ku_stacks.ku_ring.ui_util.visibleIf
 
 class SendViewHolder(
     private val binding: ItemChatSendBinding

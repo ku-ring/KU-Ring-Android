@@ -6,9 +6,9 @@ import android.text.Spanned
 import android.text.style.BackgroundColorSpan
 import android.text.style.StyleSpan
 import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.adapter.visibleIf
 import com.ku_stacks.ku_ring.databinding.ItemChatReceiveBinding
 import com.ku_stacks.ku_ring.ui.chat.ui_model.ReceivedMessageUiModel
+import com.ku_stacks.ku_ring.ui_util.visibleIf
 import com.sendbird.android.SendbirdChat
 
 class ReceiveViewHolder(

@@ -111,6 +111,8 @@ android {
 }
 
 dependencies {
+    implementation project(":common:util")
+    implementation project(":common:ui_util")
 
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat
