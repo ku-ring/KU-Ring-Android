@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.navigator
+package com.ku_stacks.ku_ring.ui_util
 
 import android.app.Activity
 import android.content.Context

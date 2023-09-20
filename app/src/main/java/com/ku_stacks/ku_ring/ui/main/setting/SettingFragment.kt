@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.databinding.FragmentSettingBinding
-import com.ku_stacks.ku_ring.navigator.KuringNavigator
+import com.ku_stacks.ku_ring.ui_util.KuringNavigator
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

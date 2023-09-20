@@ -12,7 +12,7 @@ import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.ku_stacks.ku_ring.MyFireBaseMessagingService
 import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.navigator.KuringNavigator
+import com.ku_stacks.ku_ring.ui_util.KuringNavigator
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 

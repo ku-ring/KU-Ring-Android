@@ -16,8 +16,8 @@ import androidx.work.WorkManager
 import com.ku_stacks.ku_ring.MyFireBaseMessagingService
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.databinding.ActivitySplashBinding
-import com.ku_stacks.ku_ring.navigator.KuringNavigator
 import com.ku_stacks.ku_ring.ui.main.MainActivity
+import com.ku_stacks.ku_ring.ui_util.KuringNavigator
 import com.ku_stacks.ku_ring.util.DateUtil
 import com.ku_stacks.ku_ring.util.FcmUtil
 import com.ku_stacks.ku_ring.util.PreferenceUtil
