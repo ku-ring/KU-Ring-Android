@@ -20,6 +20,12 @@ android {
     dataBinding {
         enabled = true
     }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -36,10 +42,17 @@ android {
 }
 
 dependencies {
+    implementation project(":data:domain")
+
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat
     implementation libs.android.material
     implementation libs.androidx.constraintlayout
+
+    // Compose
+    implementation platform(libs.compose.bom)
+    implementation libs.bundles.compose
+    implementation libs.bundles.compose.interop
 
     // Timber
     implementation libs.timber
