@@ -27,9 +27,9 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.domain.Department
-import com.ku_stacks.ku_ring.ui.compose.LightAndDarkPreview
-import com.ku_stacks.ku_ring.ui.compose.theme.KuringTheme
-import com.ku_stacks.ku_ring.ui.compose.theme.SfProDisplay
+import com.ku_stacks.ku_ring.ui_util.compose.LightAndDarkPreview
+import com.ku_stacks.ku_ring.ui_util.compose.theme.KuringTheme
+import com.ku_stacks.ku_ring.ui_util.compose.theme.SfProDisplay
 
 @Composable
 fun DepartmentSelectorBottomSheet(
