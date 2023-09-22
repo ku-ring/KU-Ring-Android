@@ -2,6 +2,8 @@ package com.ku_stacks.ku_ring.network
 
 import com.ku_stacks.ku_ring.data.api.FeedbackService
 import com.ku_stacks.ku_ring.data.api.request.FeedbackRequest
+import com.ku_stacks.ku_ring.util.network.ApiAbstract
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -12,7 +14,13 @@ class FeedbackServiceTest : ApiAbstract<FeedbackService>() {
 
     @Before
     fun initService() {
+        super.createMockServer()
         service = createService(FeedbackService::class.java)
+    }
+
+    @After
+    fun tearDown() {
+        super.stopServer()
     }
 
     @Test

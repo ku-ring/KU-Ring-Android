@@ -71,7 +71,7 @@ dependencies {
     // okHttp
     implementation libs.okhttp
     implementation libs.okhttp.logging.interceptor
-    testImplementation libs.okhttp.mockwebserver
+    implementation libs.okhttp.mockwebserver
 
     // Timber
     implementation libs.timber

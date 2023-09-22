@@ -1,6 +1,8 @@
 package com.ku_stacks.ku_ring.network
 
 import com.ku_stacks.ku_ring.data.api.SendbirdService
+import com.ku_stacks.ku_ring.util.network.ApiAbstract
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -11,7 +13,13 @@ class SendbirdServiceTest : ApiAbstract<SendbirdService>() {
 
     @Before
     fun initService() {
+        super.createMockServer()
         service = createService(SendbirdService::class.java)
+    }
+
+    @After
+    fun tearDown() {
+        super.stopServer()
     }
 
     @Test

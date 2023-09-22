@@ -1,11 +1,9 @@
-package com.ku_stacks.ku_ring.network
+package com.ku_stacks.ku_ring.util.network
 
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import okio.buffer
 import okio.source
-import org.junit.After
-import org.junit.Before
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -15,13 +13,11 @@ abstract class ApiAbstract<T> {
 
     lateinit var mockWebServer: MockWebServer
 
-    @Before
-    fun mockServer() {
+    fun createMockServer() {
         mockWebServer = MockWebServer()
         mockWebServer.start()
     }
 
-    @After
     fun stopServer() {
         mockWebServer.shutdown()
     }
