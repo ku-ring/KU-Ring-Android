@@ -1,7 +1,8 @@
-package com.ku_stacks.ku_ring.util
+package com.ku_stacks.ku_ring.preferences
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.ku_stacks.ku_ring.util.WordConverter
 import dagger.hilt.android.qualifiers.ApplicationContext
 
 class PreferenceUtil(@ApplicationContext context: Context) {
@@ -21,9 +22,9 @@ class PreferenceUtil(@ApplicationContext context: Context) {
         get() = prefs.getString(FCM_TOKEN, "")
         set(value) = prefs.edit().putString(FCM_TOKEN, value).apply()
 
-    var subscription: Set<String>?
-        get() = prefs.getStringSet(SUBSCRIPTION, emptySet())
-        set(stringSet) = prefs.edit().putStringSet(SUBSCRIPTION, stringSet).apply()
+    var subscription: Set<String>
+        get() = prefs.getStringSet(SUBSCRIPTION, emptySet()) ?: emptySet()
+        private set(stringSet) = prefs.edit().putStringSet(SUBSCRIPTION, stringSet).apply()
 
     var extNotificationAllowed: Boolean
         get() = prefs.getBoolean(DEFAULT_NOTIFICATION, true)
@@ -35,6 +36,14 @@ class PreferenceUtil(@ApplicationContext context: Context) {
 
     fun deleteStartDate() {
         prefs.edit().remove(START_DATE).apply()
+    }
+
+    fun saveSubscriptionFromKorean(koreanDepartmentNames: List<String>) {
+        val stringSet = koreanDepartmentNames.map {
+            WordConverter.convertKoreanToShortEnglish(it)
+        }.toSet()
+
+        subscription = stringSet
     }
 
     companion object {

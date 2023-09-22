@@ -1,7 +1,6 @@
-package com.ku_stacks.ku_ring.di
+package com.ku_stacks.ku_ring.preferences
 
 import android.content.Context
-import com.ku_stacks.ku_ring.util.PreferenceUtil
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
