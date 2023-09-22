@@ -13,9 +13,9 @@ import com.ku_stacks.ku_ring.data.mapper.toEntity
 import com.ku_stacks.ku_ring.data.mapper.toNoticeList
 import com.ku_stacks.ku_ring.data.source.NoticePagingSource
 import com.ku_stacks.ku_ring.domain.Notice
+import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.util.DateUtil
 import com.ku_stacks.ku_ring.util.IODispatcher
-import com.ku_stacks.ku_ring.util.PreferenceUtil
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -81,7 +81,7 @@ class NoticeRepositoryImpl @Inject constructor(
     ): PagingData<Notice> {
         val startDate = pref.startDate
         val subscribingSet = pref.subscription
-        val isSubscribing = subscribingSet?.contains(type) == true
+        val isSubscribing = subscribingSet.contains(type) == true
 
         if (startDate.isNullOrEmpty() || DateUtil.isToday(startDate)) {
             /** 설치 이후 앱을 처음 킨 경우 */

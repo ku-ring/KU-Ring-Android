@@ -8,7 +8,7 @@ import com.ku_stacks.ku_ring.MockUtil.mockSubscribeRequest
 import com.ku_stacks.ku_ring.SchedulersTestRule
 import com.ku_stacks.ku_ring.data.api.DepartmentClient
 import com.ku_stacks.ku_ring.data.api.NoticeClient
-import com.ku_stacks.ku_ring.util.PreferenceUtil
+import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import io.reactivex.rxjava3.core.Single
 import junit.framework.Assert.assertEquals
 import org.junit.Before
@@ -85,7 +85,7 @@ class SubscribeRepositoryTest {
         val mockData = arrayListOf("학사", "취창업")
 
         // when
-        repository.saveSubscriptionToLocal(mockData)
+        pref.saveSubscriptionFromKorean(mockData)
 
         // then
         val expected = arrayListOf("bch", "emp").toSet()

@@ -6,7 +6,7 @@ import com.ku_stacks.ku_ring.MockUtil.mockReadNoticeEntity
 import com.ku_stacks.ku_ring.data.api.NoticeClient
 import com.ku_stacks.ku_ring.data.db.NoticeDao
 import com.ku_stacks.ku_ring.data.mapper.toNotice
-import com.ku_stacks.ku_ring.util.PreferenceUtil
+import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import io.reactivex.rxjava3.core.Completable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.StandardTestDispatcher

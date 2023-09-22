@@ -10,7 +10,7 @@ import com.ku_stacks.ku_ring.data.db.NoticeDao
 import com.ku_stacks.ku_ring.data.mapper.toNotice
 import com.ku_stacks.ku_ring.data.source.DepartmentNoticeMediator
 import com.ku_stacks.ku_ring.domain.Notice
-import com.ku_stacks.ku_ring.util.PreferenceUtil
+import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

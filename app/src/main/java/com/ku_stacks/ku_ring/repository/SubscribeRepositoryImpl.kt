@@ -5,8 +5,7 @@ import com.ku_stacks.ku_ring.data.api.NoticeClient
 import com.ku_stacks.ku_ring.data.api.request.SubscribeRequest
 import com.ku_stacks.ku_ring.data.mapper.toDepartment
 import com.ku_stacks.ku_ring.domain.Department
-import com.ku_stacks.ku_ring.util.PreferenceUtil
-import com.ku_stacks.ku_ring.util.WordConverter
+import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineDispatcher
@@ -41,18 +40,6 @@ class SubscribeRepositoryImpl @Inject constructor(
             }, {
                 Timber.e("saveSubscribe failed $it")
             })
-    }
-
-    override fun getSubscriptionFromLocal(): Set<String> {
-        return pref.subscription ?: emptySet()
-    }
-
-    override fun saveSubscriptionToLocal(stringArray: ArrayList<String>) {
-        val stringSet = stringArray.map {
-            WordConverter.convertKoreanToShortEnglish(it)
-        }.toSet()
-
-        pref.subscription = stringSet
     }
 
     override suspend fun fetchSubscribedDepartments(): List<Department> {

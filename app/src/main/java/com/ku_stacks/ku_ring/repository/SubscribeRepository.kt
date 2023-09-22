@@ -7,8 +7,6 @@ import io.reactivex.rxjava3.core.Single
 interface SubscribeRepository {
     fun fetchSubscriptionFromRemote(token: String): Single<List<String>>
     fun saveSubscriptionToRemote(token: String, subscribeRequest: SubscribeRequest)
-    fun getSubscriptionFromLocal(): Set<String>
-    fun saveSubscriptionToLocal(stringArray: ArrayList<String>)
     suspend fun fetchSubscribedDepartments(): List<Department>
     suspend fun saveSubscribedDepartmentsToRemote(departments: List<Department>)
 }

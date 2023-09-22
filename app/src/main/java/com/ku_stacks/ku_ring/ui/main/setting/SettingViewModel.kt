@@ -1,7 +1,7 @@
 package com.ku_stacks.ku_ring.ui.main.setting
 
 import androidx.lifecycle.ViewModel
-import com.ku_stacks.ku_ring.util.PreferenceUtil
+import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

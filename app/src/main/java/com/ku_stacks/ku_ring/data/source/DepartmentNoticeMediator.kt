@@ -9,8 +9,8 @@ import com.ku_stacks.ku_ring.data.api.response.DepartmentNoticeResponse
 import com.ku_stacks.ku_ring.data.db.NoticeDao
 import com.ku_stacks.ku_ring.data.db.NoticeEntity
 import com.ku_stacks.ku_ring.data.mapper.toEntityList
+import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.util.DateUtil
-import com.ku_stacks.ku_ring.util.PreferenceUtil
 import timber.log.Timber
 
 @OptIn(ExperimentalPagingApi::class)

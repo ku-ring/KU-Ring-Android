@@ -16,11 +16,11 @@ import androidx.work.WorkManager
 import com.ku_stacks.ku_ring.MyFireBaseMessagingService
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.databinding.ActivitySplashBinding
+import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.ui.main.MainActivity
 import com.ku_stacks.ku_ring.ui_util.KuringNavigator
 import com.ku_stacks.ku_ring.util.DateUtil
 import com.ku_stacks.ku_ring.util.FcmUtil
-import com.ku_stacks.ku_ring.util.PreferenceUtil
 import com.ku_stacks.ku_ring.work.ReEngagementNotificationWork
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -147,7 +147,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun onboardingRequired(): Boolean {
-        return pref.firstRunFlag && pref.subscription.isNullOrEmpty()
+        return pref.firstRunFlag && pref.subscription.isEmpty()
     }
 
     private fun createNotificationChannel() {

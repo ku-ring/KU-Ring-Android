@@ -7,6 +7,7 @@ import com.ku_stacks.ku_ring.BuildConfig
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.data.api.FeedbackClient
 import com.ku_stacks.ku_ring.data.api.request.FeedbackRequest
+import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.repository.UserRepository
 import com.ku_stacks.ku_ring.ui.chat.ui_model.ChatUiModel
 import com.ku_stacks.ku_ring.ui.chat.ui_model.ReceivedMessageUiModel
@@ -16,7 +17,6 @@ import com.ku_stacks.ku_ring.ui.chat.ui_model.toChatUiModelList
 import com.ku_stacks.ku_ring.ui.chat.ui_model.toReceivedMessageUiModel
 import com.ku_stacks.ku_ring.ui.chat.ui_model.toSentMessageUiModel
 import com.ku_stacks.ku_ring.ui_util.SingleLiveEvent
-import com.ku_stacks.ku_ring.util.PreferenceUtil
 import com.sendbird.android.SendbirdChat
 import com.sendbird.android.channel.BaseChannel
 import com.sendbird.android.channel.OpenChannel
