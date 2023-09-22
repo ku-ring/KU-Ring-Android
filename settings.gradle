@@ -15,4 +15,5 @@ enableFeaturePreview("VERSION_CATALOGS")
 include ':common:util'
 include ':common:ui_util'
 include ':data:domain'
+include ':data:notice'
 include ':common:preferences'
