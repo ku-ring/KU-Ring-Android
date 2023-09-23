@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ku_stacks.ku_ring.notice.repository.NoticeRepository
-import com.ku_stacks.ku_ring.repository.PushRepository
+import com.ku_stacks.ku_ring.push.repository.PushRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers

@@ -4,6 +4,8 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.ku_stacks.ku_ring.notice.local.NoticeDao
 import com.ku_stacks.ku_ring.notice.local.NoticeEntity
+import com.ku_stacks.ku_ring.push.local.PushDao
+import com.ku_stacks.ku_ring.push.local.PushEntity
 
 @Database(
     entities = [
