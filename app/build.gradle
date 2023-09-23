@@ -116,6 +116,7 @@ dependencies {
     implementation project(":common:preferences")
     implementation project(":data:domain")
     implementation project(":data:notice")
+    implementation project(":data:push")
 
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat
