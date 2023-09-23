@@ -15,20 +15,8 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideNoticeService(@Named("Default") retrofit: Retrofit): NoticeService {
-        return retrofit.create(NoticeService::class.java)
-    }
-
-    @Provides
-    @Singleton
     fun provideSearchService(@Named("Default") retrofit: Retrofit): SearchService {
         return retrofit.create(SearchService::class.java)
-    }
-
-    @Provides
-    @Singleton
-    fun provideNoticeClient(noticeService: NoticeService): NoticeClient {
-        return NoticeClient(noticeService)
     }
 
     @Provides

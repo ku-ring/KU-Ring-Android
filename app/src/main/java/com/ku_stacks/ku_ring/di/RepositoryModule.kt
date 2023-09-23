@@ -1,36 +1,21 @@
 package com.ku_stacks.ku_ring.di
 
 import com.ku_stacks.ku_ring.data.api.DepartmentClient
-import com.ku_stacks.ku_ring.data.api.NoticeClient
 import com.ku_stacks.ku_ring.data.api.SendbirdClient
 import com.ku_stacks.ku_ring.data.db.BlackUserDao
 import com.ku_stacks.ku_ring.data.db.DepartmentDao
-import com.ku_stacks.ku_ring.data.db.NoticeDao
 import com.ku_stacks.ku_ring.data.db.PushDao
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.repository.*
-import com.ku_stacks.ku_ring.util.IODispatcher
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object RepositoryModule {
-
-    @Provides
-    @Singleton
-    fun provideNoticeRepository(
-        noticeClient: NoticeClient,
-        noticeDao: NoticeDao,
-        pref: PreferenceUtil,
-        @IODispatcher ioDispatcher: CoroutineDispatcher,
-    ): NoticeRepository {
-        return NoticeRepositoryImpl(noticeClient, noticeDao, pref, ioDispatcher)
-    }
 
     @Provides
     @Singleton
@@ -43,11 +28,10 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideSubscribeRepository(
-        noticeClient: NoticeClient,
         departmentClient: DepartmentClient,
         pref: PreferenceUtil
     ): SubscribeRepository {
-        return SubscribeRepositoryImpl(noticeClient, departmentClient, pref)
+        return SubscribeRepositoryImpl(departmentClient, pref)
     }
 
     @Provides
@@ -65,14 +49,6 @@ object RepositoryModule {
     ): UserRepository {
         return UserRepositoryImpl(blackUserDao)
     }
-
-    @Provides
-    @Singleton
-    fun provideDepartmentNoticeRepository(
-        noticeClient: NoticeClient,
-        noticeDao: NoticeDao,
-        pref: PreferenceUtil,
-    ): DepartmentNoticeRepository = DepartmentNoticeRepositoryImpl(noticeClient, noticeDao, pref)
 
     @Provides
     @Singleton

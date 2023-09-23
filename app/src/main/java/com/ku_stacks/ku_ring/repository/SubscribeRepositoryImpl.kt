@@ -1,13 +1,9 @@
 package com.ku_stacks.ku_ring.repository
 
 import com.ku_stacks.ku_ring.data.api.DepartmentClient
-import com.ku_stacks.ku_ring.data.api.NoticeClient
-import com.ku_stacks.ku_ring.data.api.request.SubscribeRequest
 import com.ku_stacks.ku_ring.data.mapper.toDepartment
 import com.ku_stacks.ku_ring.domain.Department
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
-import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -15,32 +11,10 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class SubscribeRepositoryImpl @Inject constructor(
-    private val noticeClient: NoticeClient,
     private val departmentClient: DepartmentClient,
     private val pref: PreferenceUtil,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : SubscribeRepository {
-    override fun fetchSubscriptionFromRemote(token: String): Single<List<String>> {
-        return noticeClient.fetchSubscribe(token)
-            .map { response ->
-                response.categoryList.map { it.koreanName }
-            }
-    }
-
-    override fun saveSubscriptionToRemote(token: String, subscribeRequest: SubscribeRequest) {
-        noticeClient.saveSubscribe(token, subscribeRequest)
-            .subscribeOn(Schedulers.io())
-            .subscribe({ response ->
-                if (response.isSuccess) {
-                    Timber.e("saveSubscribe success")
-                    pref.firstRunFlag = false
-                } else {
-                    Timber.e("saveSubscribe failed ${response.resultCode}")
-                }
-            }, {
-                Timber.e("saveSubscribe failed $it")
-            })
-    }
 
     override suspend fun fetchSubscribedDepartments(): List<Department> {
         return try {
