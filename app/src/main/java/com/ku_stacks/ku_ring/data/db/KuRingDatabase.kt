@@ -6,6 +6,8 @@ import com.ku_stacks.ku_ring.notice.local.NoticeDao
 import com.ku_stacks.ku_ring.notice.local.NoticeEntity
 import com.ku_stacks.ku_ring.push.local.PushDao
 import com.ku_stacks.ku_ring.push.local.PushEntity
+import com.ku_stacks.ku_ring.user.local.BlackUserDao
+import com.ku_stacks.ku_ring.user.local.BlackUserEntity
 
 @Database(
     entities = [
