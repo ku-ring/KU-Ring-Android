@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.data.db
+package com.ku_stacks.ku_ring.push.local
 
 import androidx.room.*
 import io.reactivex.rxjava3.core.Completable

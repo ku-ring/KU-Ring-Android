@@ -1,10 +1,10 @@
-package com.ku_stacks.ku_ring.di
+package com.ku_stacks.ku_ring.push.di
 
 import android.content.Context
 import androidx.room.Room
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.ku_stacks.ku_ring.data.db.*
+import com.ku_stacks.ku_ring.push.local.PushDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,8 +14,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object DBModule {
-
+object LocalModule {
     val MIGRATION_1_2 = object : Migration(1, 2) {
         override fun migrate(database: SupportSQLiteDatabase) {
             database.execSQL("CREATE TABLE IF NOT EXISTS BlackUserEntity (`userId` TEXT NOT NULL, `nickname` TEXT NOT NULL, `blockedAt` INTEGER NOT NULL, PRIMARY KEY(`userId`))")
@@ -36,10 +35,10 @@ object DBModule {
         override fun migrate(database: SupportSQLiteDatabase) {
             database.execSQL(
                 "CREATE TABLE IF NOT EXISTS departments (" +
-                    "name TEXT PRIMARY KEY NOT NULL, " +
-                    "shortName TEXT NOT NULL DEFAULT '', " +
-                    "koreanName TEXT NOT NULL DEFAULT '', " +
-                    "isSubscribed INTEGER NOT NULL DEFAULT 0)"
+                        "name TEXT PRIMARY KEY NOT NULL, " +
+                        "shortName TEXT NOT NULL DEFAULT '', " +
+                        "koreanName TEXT NOT NULL DEFAULT '', " +
+                        "isSubscribed INTEGER NOT NULL DEFAULT 0)"
             )
         }
     }
@@ -52,10 +51,10 @@ object DBModule {
 
     @Singleton
     @Provides
-    fun provideKuRingDatabase(@ApplicationContext context: Context): KuRingDatabase {
+    fun provideKuRingDatabase(@ApplicationContext context: Context): PushDatabase {
         return Room.databaseBuilder(
             context,
-            KuRingDatabase::class.java,
+            PushDatabase::class.java,
             "ku-ring-db"
         )
             .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
@@ -64,10 +63,5 @@ object DBModule {
 
     @Singleton
     @Provides
-    fun provideBlackUserDao(database: KuRingDatabase): BlackUserDao = database.blackUserDao()
-
-    @Singleton
-    @Provides
-    fun provideDepartmentDao(database: KuRingDatabase): DepartmentDao = database.departmentDao()
-
+    fun providePushDao(database: PushDatabase) = database.pushDao()
 }

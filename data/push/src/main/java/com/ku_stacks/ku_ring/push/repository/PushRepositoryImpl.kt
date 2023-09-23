@@ -1,8 +1,8 @@
-package com.ku_stacks.ku_ring.repository
+package com.ku_stacks.ku_ring.push.repository
 
-import com.ku_stacks.ku_ring.data.db.PushDao
-import com.ku_stacks.ku_ring.data.mapper.toPushList
 import com.ku_stacks.ku_ring.domain.Push
+import com.ku_stacks.ku_ring.push.local.PushDao
+import com.ku_stacks.ku_ring.push.mapper.toPushList
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.schedulers.Schedulers

@@ -4,7 +4,6 @@ import com.ku_stacks.ku_ring.data.api.DepartmentClient
 import com.ku_stacks.ku_ring.data.api.SendbirdClient
 import com.ku_stacks.ku_ring.data.db.BlackUserDao
 import com.ku_stacks.ku_ring.data.db.DepartmentDao
-import com.ku_stacks.ku_ring.data.db.PushDao
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.repository.*
 import dagger.Module
@@ -16,14 +15,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object RepositoryModule {
-
-    @Provides
-    @Singleton
-    fun providePushRepository(
-        pushDao: PushDao
-    ): PushRepository {
-        return PushRepositoryImpl(pushDao)
-    }
 
     @Provides
     @Singleton

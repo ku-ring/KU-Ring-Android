@@ -1,9 +1,9 @@
-package com.ku_stacks.ku_ring.repository
+package com.ku_stacks.ku_ring.push.repository
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.ku_stacks.ku_ring.MockUtil.mockPushEntity
-import com.ku_stacks.ku_ring.data.db.PushDao
-import com.ku_stacks.ku_ring.data.mapper.toPushList
+import com.ku_stacks.ku_ring.push.local.PushDao
+import com.ku_stacks.ku_ring.push.local.PushEntity
+import com.ku_stacks.ku_ring.push.mapper.toPushList
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
 import org.junit.Before
@@ -27,7 +27,7 @@ class PushRepositoryTest {
     @Test
     fun `get MyNotification List Test`() {
         // given
-        val mockData = listOf(mockPushEntity())
+        val mockData = listOf(PushEntity.mock())
         Mockito.`when`(dao.getNotificationList()).thenReturn(Flowable.just(mockData))
 
         val expectedData = mockData.toPushList()
@@ -41,7 +41,7 @@ class PushRepositoryTest {
     @Test
     fun `update Notification As Old Test`() {
         // given
-        val mockData = mockPushEntity()
+        val mockData = PushEntity.mock()
         Mockito.`when`(dao.updateNotificationAsOld(mockData.articleId, false))
             .thenReturn(Completable.complete())
 
@@ -68,7 +68,7 @@ class PushRepositoryTest {
     @Test
     fun `delete notification Test`() {
         //given
-        val mockData = mockPushEntity()
+        val mockData = PushEntity.mock()
         Mockito.`when`(dao.deleteNotification(mockData.articleId))
             .thenReturn(Completable.complete())
 
