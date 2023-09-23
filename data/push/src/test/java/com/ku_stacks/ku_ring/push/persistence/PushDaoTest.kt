@@ -1,8 +1,8 @@
-package com.ku_stacks.ku_ring.persistence
+package com.ku_stacks.ku_ring.push.persistence
 
-import com.ku_stacks.ku_ring.LocalDbAbstract
-import com.ku_stacks.ku_ring.data.db.PushDao
-import com.ku_stacks.ku_ring.data.db.PushEntity
+import com.ku_stacks.ku_ring.push.LocalDbAbstract
+import com.ku_stacks.ku_ring.push.local.PushDao
+import com.ku_stacks.ku_ring.push.local.PushEntity
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
@@ -23,20 +23,10 @@ class PushDaoTest : LocalDbAbstract() {
         pushDao = db.pushDao()
     }
 
-    private fun pushMock() = PushEntity(
-        articleId = "ababab",
-        category = "bachelor",
-        postedDate = "2022-01-14 00:50:33",
-        subject = "실감미디어 혁신 공유대학 융합전공 안내",
-        fullUrl = "http://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do?forum=notice&sort=6&id=ababab",
-        isNew = true,
-        receivedDate = "20220114-005036"
-    )
-
     @Test
     fun `insertNotification and getNotificationList Test`() = runBlocking {
         // given
-        val pushMock = pushMock()
+        val pushMock = PushEntity.mock()
         pushDao.insertNotification(pushMock)
 
         // when
@@ -60,7 +50,7 @@ class PushDaoTest : LocalDbAbstract() {
     @Test
     fun `update Notification As Old Test`() = runBlocking {
         // given
-        val pushMock = pushMock()
+        val pushMock = PushEntity.mock()
         pushDao.insertNotification(pushMock)
         pushDao.updateNotificationAsOld(pushMock.articleId, false).blockingSubscribe()
 
@@ -79,7 +69,7 @@ class PushDaoTest : LocalDbAbstract() {
         assertThat(notiCountFromDB, `is`(0))
 
         // given
-        val pushMock = pushMock()
+        val pushMock = PushEntity.mock()
         pushDao.insertNotification(pushMock)
 
         // when
@@ -101,7 +91,7 @@ class PushDaoTest : LocalDbAbstract() {
         assertThat(notiCountFromDB, `is`(0))
 
         // when
-        val pushMock = pushMock()
+        val pushMock = PushEntity.mock()
         pushDao.insertNotification(pushMock)
         // then : insert 후에 1개의 데이터
         notiCountFromDB = pushDao.getNotificationCount(true).blockingFirst()

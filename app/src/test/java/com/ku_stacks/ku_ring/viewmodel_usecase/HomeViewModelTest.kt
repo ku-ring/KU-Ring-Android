@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.ku_stacks.ku_ring.MockUtil.mock
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.notice.repository.NoticeRepository
-import com.ku_stacks.ku_ring.repository.PushRepository
+import com.ku_stacks.ku_ring.push.repository.PushRepository
 import com.ku_stacks.ku_ring.ui.main.notice.category.NoticesChildViewModel
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
