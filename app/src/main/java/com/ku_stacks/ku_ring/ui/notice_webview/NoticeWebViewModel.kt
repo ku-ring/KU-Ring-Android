@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ku_stacks.ku_ring.domain.WebViewNotice
-import com.ku_stacks.ku_ring.repository.NoticeRepository
+import com.ku_stacks.ku_ring.notice.repository.NoticeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers

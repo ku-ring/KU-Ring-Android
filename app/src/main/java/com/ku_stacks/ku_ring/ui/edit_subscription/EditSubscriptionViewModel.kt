@@ -4,8 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.messaging.FirebaseMessaging
 import com.ku_stacks.ku_ring.analytics.EventAnalytics
-import com.ku_stacks.ku_ring.data.api.request.SubscribeRequest
 import com.ku_stacks.ku_ring.domain.Department
+import com.ku_stacks.ku_ring.notice.api.request.SubscribeRequest
+import com.ku_stacks.ku_ring.notice.repository.NoticeRepository
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.repository.DepartmentRepository
 import com.ku_stacks.ku_ring.repository.SubscribeRepository
@@ -29,6 +30,7 @@ import javax.inject.Inject
 @HiltViewModel
 class EditSubscriptionViewModel @Inject constructor(
     private val departmentRepository: DepartmentRepository,
+    private val noticeRepository: NoticeRepository,
     private val subscribeRepository: SubscribeRepository,
     private val analytics: EventAnalytics,
     private val preferenceUtil: PreferenceUtil,
@@ -90,7 +92,7 @@ class EditSubscriptionViewModel @Inject constructor(
     fun syncWithServer() {
         fcmToken?.let {
             disposable.add(
-                subscribeRepository.fetchSubscriptionFromRemote(fcmToken!!)
+                noticeRepository.fetchSubscriptionFromRemote(fcmToken!!)
                     .subscribeOn(Schedulers.io())
                     .subscribe({
                         initialSortSubscription(it)
@@ -129,7 +131,7 @@ class EditSubscriptionViewModel @Inject constructor(
             val notificationEnabledCategories =
                 categories.value.values.filter { it.isNotificationEnabled }.map { it.content }
             preferenceUtil.saveSubscriptionFromKorean(notificationEnabledCategories)
-            subscribeRepository.saveSubscriptionToRemote(
+            noticeRepository.saveSubscriptionToRemote(
                 token = fcmToken,
                 subscribeRequest = SubscribeRequest(notificationEnabledCategories.map { category ->
                     WordConverter.convertKoreanToEnglish(category)

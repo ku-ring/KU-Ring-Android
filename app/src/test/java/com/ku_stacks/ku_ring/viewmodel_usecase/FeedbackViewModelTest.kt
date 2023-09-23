@@ -13,8 +13,8 @@ import com.ku_stacks.ku_ring.SchedulersTestRule
 import com.ku_stacks.ku_ring.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.data.api.FeedbackClient
 import com.ku_stacks.ku_ring.data.api.request.FeedbackRequest
-import com.ku_stacks.ku_ring.data.api.response.DefaultResponse
 import com.ku_stacks.ku_ring.ui.feedback.FeedbackViewModel
+import com.ku_stacks.ku_ring.util.network.DefaultResponse
 import io.reactivex.rxjava3.core.Single
 import org.junit.Assert.assertEquals
 import org.junit.Before

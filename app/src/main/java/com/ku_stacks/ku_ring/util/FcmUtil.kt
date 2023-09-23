@@ -1,9 +1,9 @@
 package com.ku_stacks.ku_ring.util
 
-import com.ku_stacks.ku_ring.data.db.NoticeDao
-import com.ku_stacks.ku_ring.data.db.NoticeEntity
 import com.ku_stacks.ku_ring.data.db.PushDao
 import com.ku_stacks.ku_ring.data.db.PushEntity
+import com.ku_stacks.ku_ring.notice.local.NoticeDao
+import com.ku_stacks.ku_ring.notice.local.NoticeEntity
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
