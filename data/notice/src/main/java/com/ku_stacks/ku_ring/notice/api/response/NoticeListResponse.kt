@@ -12,4 +12,12 @@ data class NoticeListResponse(
 ) {
     val isSuccess: Boolean
         get() = (resultCode == 200)
+
+    companion object {
+        fun mock() = NoticeListResponse(
+            resultMsg = "성공",
+            resultCode = 200,
+            noticeResponse = listOf(NoticeResponse.mock()),
+        )
+    }
 }

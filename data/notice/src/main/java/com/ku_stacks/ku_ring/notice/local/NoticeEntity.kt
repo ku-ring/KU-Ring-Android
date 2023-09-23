@@ -31,5 +31,18 @@ data class NoticeEntity(
         )
 
         fun mockRead() = mock().copy(isRead = true)
+
+        fun mockDepartmentNotice()= NoticeEntity(
+            articleId = "182677",
+            category = "department",
+            subject = "2023학년도 진로총조사 설문 요청",
+            department = "cse",
+            postedDate = "2023-05-02",
+            url = "http://cse.konkuk.ac.kr/noticeView.do?siteId=CSE&boardSeq=882&menuSeq=6097&seq=182677",
+            isNew = false,
+            isRead = false,
+            isSaved = false,
+            isReadOnStorage = false,
+        )
     }
 }
