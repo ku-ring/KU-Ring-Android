@@ -117,6 +117,7 @@ dependencies {
     implementation project(":data:domain")
     implementation project(":data:notice")
     implementation project(":data:push")
+    implementation project(":data:user")
 
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat
