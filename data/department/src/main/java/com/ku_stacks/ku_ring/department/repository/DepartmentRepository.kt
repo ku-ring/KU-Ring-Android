@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.repository
+package com.ku_stacks.ku_ring.department.repository
 
 import com.ku_stacks.ku_ring.domain.Department
 import kotlinx.coroutines.flow.Flow
@@ -13,4 +13,6 @@ interface DepartmentRepository {
     suspend fun updateSubscribeStatus(name: String, isSubscribed: Boolean)
     suspend fun removeDepartments(departments: List<Department>)
     suspend fun clearDepartments()
+    suspend fun fetchSubscribedDepartments(): List<Department>
+    suspend fun saveSubscribedDepartmentsToRemote(departments: List<Department>)
 }

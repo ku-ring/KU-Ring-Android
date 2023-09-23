@@ -1,7 +1,7 @@
-package com.ku_stacks.ku_ring.data.api
+package com.ku_stacks.ku_ring.department.remote
 
-import com.ku_stacks.ku_ring.data.api.request.DepartmentSubscribeRequest
-import com.ku_stacks.ku_ring.data.api.response.DepartmentListResponse
+import com.ku_stacks.ku_ring.department.remote.request.DepartmentSubscribeRequest
+import com.ku_stacks.ku_ring.department.remote.response.DepartmentListResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header

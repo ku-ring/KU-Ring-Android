@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.data.api.request
+package com.ku_stacks.ku_ring.department.remote.request
 
 import com.google.gson.annotations.SerializedName
 

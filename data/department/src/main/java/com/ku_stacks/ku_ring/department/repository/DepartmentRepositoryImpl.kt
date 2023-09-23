@@ -1,22 +1,25 @@
-package com.ku_stacks.ku_ring.repository
+package com.ku_stacks.ku_ring.department.repository
 
-import com.ku_stacks.ku_ring.data.api.DepartmentClient
-import com.ku_stacks.ku_ring.data.db.DepartmentDao
-import com.ku_stacks.ku_ring.data.mapper.toDepartment
-import com.ku_stacks.ku_ring.data.mapper.toDepartmentList
-import com.ku_stacks.ku_ring.data.mapper.toEntity
-import com.ku_stacks.ku_ring.data.mapper.toEntityList
+import com.ku_stacks.ku_ring.department.local.DepartmentDao
+import com.ku_stacks.ku_ring.department.mapper.toDepartment
+import com.ku_stacks.ku_ring.department.mapper.toDepartmentList
+import com.ku_stacks.ku_ring.department.mapper.toEntity
+import com.ku_stacks.ku_ring.department.mapper.toEntityList
+import com.ku_stacks.ku_ring.department.remote.DepartmentClient
 import com.ku_stacks.ku_ring.domain.Department
+import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 class DepartmentRepositoryImpl @Inject constructor(
     private val departmentDao: DepartmentDao,
     private val departmentClient: DepartmentClient,
+    private val pref: PreferenceUtil,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : DepartmentRepository {
     // not null: 최신 데이터가 캐시됨
@@ -118,5 +121,29 @@ class DepartmentRepositoryImpl @Inject constructor(
             departmentDao.clearDepartments()
         }
         departments = null
+    }
+
+    override suspend fun fetchSubscribedDepartments(): List<Department> {
+        return try {
+            pref.fcmToken?.let { fcmToken ->
+                withContext(ioDispatcher) {
+                    departmentClient.getSubscribedDepartments(fcmToken).data?.map {
+                        it.toDepartment().copy(isSubscribed = true)
+                    }
+                }
+            } ?: emptyList()
+        } catch (e: Exception) {
+            Timber.e(e)
+            emptyList()
+        }
+    }
+
+    override suspend fun saveSubscribedDepartmentsToRemote(departments: List<Department>) {
+        withContext(ioDispatcher) {
+            pref.fcmToken?.let { fcmToken ->
+                departmentClient.subscribeDepartments(fcmToken, departments.map { it.shortName })
+            }
+            Timber.d("Subscribed departments: ${departments.map { it.shortName }}")
+        }
     }
 }

@@ -1,6 +1,6 @@
-package com.ku_stacks.ku_ring.data.api
+package com.ku_stacks.ku_ring.department.remote
 
-import com.ku_stacks.ku_ring.data.api.request.DepartmentSubscribeRequest
+import com.ku_stacks.ku_ring.department.remote.request.DepartmentSubscribeRequest
 import javax.inject.Inject
 
 class DepartmentClient @Inject constructor(private val departmentService: DepartmentService) {

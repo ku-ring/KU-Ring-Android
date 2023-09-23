@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.data.api.response
+package com.ku_stacks.ku_ring.department.remote.response
 
 data class DepartmentListResponse(
     val code: Int,

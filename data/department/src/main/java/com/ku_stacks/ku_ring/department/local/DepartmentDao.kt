@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.data.db
+package com.ku_stacks.ku_ring.department.local
 
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow

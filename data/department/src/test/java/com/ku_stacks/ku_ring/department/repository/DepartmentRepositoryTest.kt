@@ -1,12 +1,15 @@
-package com.ku_stacks.ku_ring.repository
+package com.ku_stacks.ku_ring.department.repository
 
-import com.ku_stacks.ku_ring.LocalDbAbstract
-import com.ku_stacks.ku_ring.data.api.DepartmentClient
-import com.ku_stacks.ku_ring.data.api.response.DepartmentListResponse
-import com.ku_stacks.ku_ring.data.api.response.DepartmentResponse
-import com.ku_stacks.ku_ring.data.db.DepartmentDao
-import com.ku_stacks.ku_ring.data.mapper.toDepartment
+import androidx.test.core.app.ApplicationProvider
+import com.ku_stacks.ku_ring.department.LocalDbAbstract
+import com.ku_stacks.ku_ring.department.local.DepartmentDao
+import com.ku_stacks.ku_ring.department.mapper.toDepartment
+import com.ku_stacks.ku_ring.department.remote.DepartmentClient
+import com.ku_stacks.ku_ring.department.remote.response.DepartmentListResponse
+import com.ku_stacks.ku_ring.department.remote.response.DepartmentResponse
 import com.ku_stacks.ku_ring.domain.Department
+import com.ku_stacks.ku_ring.preferences.PreferenceUtil
+import junit.framework.Assert
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -24,16 +27,19 @@ class DepartmentRepositoryTest : LocalDbAbstract() {
     private lateinit var departmentRepository: DepartmentRepository
     private lateinit var departmentDao: DepartmentDao
     private val departmentClient = Mockito.mock(DepartmentClient::class.java)
+    private lateinit var pref: PreferenceUtil
 
     private val testDispatcher = StandardTestDispatcher()
 
     @Before
     fun setup() {
         Dispatchers.setMain(testDispatcher)
+        pref = PreferenceUtil(ApplicationProvider.getApplicationContext())
         departmentDao = db.departmentDao()
         departmentRepository = DepartmentRepositoryImpl(
             departmentDao = departmentDao,
             departmentClient = departmentClient,
+            pref = pref,
             ioDispatcher = testDispatcher,
         )
     }
@@ -75,5 +81,18 @@ class DepartmentRepositoryTest : LocalDbAbstract() {
             updatedDepartmentsResponse.map { it.toDepartment() }.sortedBy { it.name }
         val actual = departmentRepository.getAllDepartments().sortedBy { it.name }
         assertEquals(expectedDepartments, actual)
+    }
+
+    @Test
+    fun `save Subscription To Local Test`() {
+        // given
+        val mockData = arrayListOf("학사", "취창업")
+
+        // when
+        pref.saveSubscriptionFromKorean(mockData)
+
+        // then
+        val expected = arrayListOf("bch", "emp").toSet()
+        Assert.assertEquals(expected, pref.subscription)
     }
 }

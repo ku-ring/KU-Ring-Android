@@ -4,12 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.messaging.FirebaseMessaging
 import com.ku_stacks.ku_ring.analytics.EventAnalytics
+import com.ku_stacks.ku_ring.department.repository.DepartmentRepository
 import com.ku_stacks.ku_ring.domain.Department
 import com.ku_stacks.ku_ring.notice.api.request.SubscribeRequest
 import com.ku_stacks.ku_ring.notice.repository.NoticeRepository
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
-import com.ku_stacks.ku_ring.repository.DepartmentRepository
-import com.ku_stacks.ku_ring.repository.SubscribeRepository
 import com.ku_stacks.ku_ring.util.WordConverter
 import com.ku_stacks.ku_ring.util.modifyMap
 import com.ku_stacks.ku_ring.util.modifySet
@@ -31,7 +30,6 @@ import javax.inject.Inject
 class EditSubscriptionViewModel @Inject constructor(
     private val departmentRepository: DepartmentRepository,
     private val noticeRepository: NoticeRepository,
-    private val subscribeRepository: SubscribeRepository,
     private val analytics: EventAnalytics,
     private val preferenceUtil: PreferenceUtil,
     firebaseMessaging: FirebaseMessaging
@@ -106,7 +104,7 @@ class EditSubscriptionViewModel @Inject constructor(
             departmentRepository.updateDepartmentsFromRemote()
             val subscribedDepartments = departmentRepository.getSubscribedDepartments()
             addDepartmentsToMap(subscribedDepartments)
-            val notificationEnabledDepartments = subscribeRepository.fetchSubscribedDepartments()
+            val notificationEnabledDepartments = departmentRepository.fetchSubscribedDepartments()
             markDepartmentsAsEnabled(notificationEnabledDepartments)
             isInitialDepartmentLoaded = true
             initialDepartments.modifySet { addAll(departmentsByKoreanName.value.values) }
@@ -141,7 +139,7 @@ class EditSubscriptionViewModel @Inject constructor(
         viewModelScope.launch {
             val subscribedDepartments =
                 departmentsByKoreanName.value.values.filter { it.isNotificationEnabled }
-            subscribeRepository.saveSubscribedDepartmentsToRemote(subscribedDepartments)
+            departmentRepository.saveSubscribedDepartmentsToRemote(subscribedDepartments)
         }
     }
 

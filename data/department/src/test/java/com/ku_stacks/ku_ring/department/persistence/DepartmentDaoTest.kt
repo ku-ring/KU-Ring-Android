@@ -1,8 +1,8 @@
-package com.ku_stacks.ku_ring.persistence
+package com.ku_stacks.ku_ring.department.persistence
 
-import com.ku_stacks.ku_ring.LocalDbAbstract
-import com.ku_stacks.ku_ring.MockUtil
-import com.ku_stacks.ku_ring.data.db.DepartmentDao
+import com.ku_stacks.ku_ring.department.LocalDbAbstract
+import com.ku_stacks.ku_ring.department.local.DepartmentDao
+import com.ku_stacks.ku_ring.department.local.DepartmentEntity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -26,7 +26,7 @@ class DepartmentDaoTest : LocalDbAbstract() {
     fun `insertDepartment and updateDepartment test`() = runTest {
         // given
         assert(departmentDao.isEmpty())
-        val entity = MockUtil.mockDepartmentEntity()
+        val entity = DepartmentEntity.mock()
         departmentDao.insertDepartment(entity)
         assertFalse(departmentDao.isEmpty())
 
