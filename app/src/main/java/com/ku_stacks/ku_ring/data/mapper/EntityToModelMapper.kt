@@ -1,14 +1,12 @@
 package com.ku_stacks.ku_ring.data.mapper
 
 import com.ku_stacks.ku_ring.data.db.DepartmentEntity
-import com.ku_stacks.ku_ring.data.db.NoticeEntity
 import com.ku_stacks.ku_ring.data.db.PushEntity
 import com.ku_stacks.ku_ring.domain.Department
-import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.domain.Push
 import com.ku_stacks.ku_ring.util.WordConverter
 import com.ku_stacks.ku_ring.util.isOnlyAlphabets
-import timber.log.Timber
+import com.ku_stacks.ku_ring.util.splitSubjectAndTag
 
 fun List<PushEntity>.toPushList(): List<Push> = map { it.toPush() }
 
@@ -29,30 +27,6 @@ fun PushEntity.toPush(): Push {
         isNew = isNew,
         receivedDate = receivedDate,
         tag = subjectAndTag.second
-    )
-}
-
-fun List<NoticeEntity>.toNoticeList() = map { it.toNotice() }
-
-fun NoticeEntity.toNotice(): Notice {
-    if (this.subject.isEmpty()) {
-        Timber.e("Notice.subject is empty: $this")
-    }
-
-    val (subject, tag) = splitSubjectAndTag(subject)
-    return Notice(
-        postedDate = postedDate,
-        subject = subject,
-        category = category,
-        department = department,
-        url = url,
-        articleId = articleId,
-        isNew = isNew,
-        isRead = isRead,
-        isSubscribing = false,
-        isSaved = isSaved,
-        isReadOnStorage = isReadOnStorage,
-        tag = tag
     )
 }
 
