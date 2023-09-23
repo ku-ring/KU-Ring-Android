@@ -15,12 +15,6 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideSearchService(@Named("Default") retrofit: Retrofit): SearchService {
-        return retrofit.create(SearchService::class.java)
-    }
-
-    @Provides
-    @Singleton
     fun provideSendbirdService(@Named("Sendbird") retrofit: Retrofit): SendbirdService {
         return retrofit.create(SendbirdService::class.java)
     }
