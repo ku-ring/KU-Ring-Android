@@ -1,9 +1,8 @@
-package com.ku_stacks.ku_ring.persistence
+package com.ku_stacks.ku_ring.notice
 
 import androidx.paging.PagingSource
-import com.ku_stacks.ku_ring.LocalDbAbstract
-import com.ku_stacks.ku_ring.data.db.NoticeDao
-import com.ku_stacks.ku_ring.data.db.NoticeEntity
+import com.ku_stacks.ku_ring.notice.local.NoticeDao
+import com.ku_stacks.ku_ring.notice.local.NoticeEntity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
@@ -28,39 +27,14 @@ class NoticeDaoTest : LocalDbAbstract() {
         noticeDao = db.noticeDao()
     }
 
-    private fun noticeMock() = NoticeEntity(
-        articleId = "5b4a11b",
-        category = "bachelor",
-        subject = "2023학년도 전과 선발자 안내",
-        postedDate = "20230208",
-        url = "http://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do?forum=notice&sort=6&id=5b4f972&cat=0000300001",
-        isNew = false,
-        isRead = false,
-        isSaved = false,
-        isReadOnStorage = false,
-    )
-
-    private fun departmentNoticeMock() = NoticeEntity(
-        articleId = "182677",
-        category = "department",
-        subject = "2023학년도 진로총조사 설문 요청",
-        department = "cse",
-        postedDate = "2023-05-02",
-        url = "http://cse.konkuk.ac.kr/noticeView.do?siteId=CSE&boardSeq=882&menuSeq=6097&seq=182677",
-        isNew = false,
-        isRead = false,
-        isSaved = false,
-        isReadOnStorage = false,
-    )
-
     private fun readNoticeMock(): NoticeEntity {
-        return noticeMock().copy(isNew = true, isRead = true)
+        return NoticeEntity.mock().copy(isNew = true, isRead = true)
     }
 
     @Test
     fun `insertNoticeAsOld and getOldNotice Test`() {
         // given
-        val noticeMock = noticeMock()
+        val noticeMock = NoticeEntity.mock()
         noticeDao.insertNoticeAsOld(noticeMock).blockingSubscribe()
 
         // when
@@ -73,7 +47,7 @@ class NoticeDaoTest : LocalDbAbstract() {
     @Test
     fun `updateNoticeAsOld and getOldNoticeList Test`() {
         // given
-        val noticeMock = noticeMock()
+        val noticeMock = NoticeEntity.mock()
         noticeDao.insertNoticeAsOld(noticeMock).blockingSubscribe()
 
         // when
@@ -89,7 +63,7 @@ class NoticeDaoTest : LocalDbAbstract() {
     @Test
     fun `updateNotice and getCountOfReadNoticeTest`() {
         // given
-        val noticeMock = noticeMock()
+        val noticeMock = NoticeEntity.mock()
         noticeDao.insertNoticeAsOld(noticeMock).blockingSubscribe()
 
         // when
@@ -105,7 +79,7 @@ class NoticeDaoTest : LocalDbAbstract() {
     @Test
     fun `updateNotice and isReadNotice Test`() {
         // given
-        val noticeMock = noticeMock()
+        val noticeMock = NoticeEntity.mock()
         noticeDao.insertNoticeAsOld(noticeMock).blockingSubscribe()
 
         // when
@@ -119,7 +93,7 @@ class NoticeDaoTest : LocalDbAbstract() {
     @Test
     fun `updateNotice and getReadNoticeList Test`() {
         // given
-        val noticeMock = noticeMock()
+        val noticeMock = NoticeEntity.mock()
         noticeDao.insertNoticeAsOld(noticeMock).blockingSubscribe()
 
         // when
@@ -140,7 +114,7 @@ class NoticeDaoTest : LocalDbAbstract() {
     @Test
     fun `updateNoticeSaveState and getSavedNotices Test`() = runTest {
         // given
-        val notice = noticeMock()
+        val notice = NoticeEntity.mock()
         noticeDao.insertNoticeAsOld(notice).blockingSubscribe()
 
         // when
@@ -155,7 +129,7 @@ class NoticeDaoTest : LocalDbAbstract() {
     @Test
     fun `updateNoticeAsReadOnStorage and getSavedNotices Test`() = runTest {
         // given
-        val notice = noticeMock()
+        val notice = NoticeEntity.mock()
         noticeDao.insertNoticeAsOld(notice).blockingSubscribe()
 
         // when
@@ -171,7 +145,7 @@ class NoticeDaoTest : LocalDbAbstract() {
     @Test
     fun `insertDepartmentNotices and getDepartmentNotices Test`() = runTest {
         // given
-        val departmentNotice = departmentNoticeMock()
+        val departmentNotice = NoticeEntity.mockDepartmentNotice()
         noticeDao.insertDepartmentNotices(listOf(departmentNotice))
 
         // when
@@ -195,7 +169,7 @@ class NoticeDaoTest : LocalDbAbstract() {
     fun `insertDepartmentNotices and clearDepartment Test`() = runTest {
         // given
         val departmentNoticeMocks = (1..10).map {
-            departmentNoticeMock().copy(articleId = it.toString())
+            NoticeEntity.mockDepartmentNotice().copy(articleId = it.toString())
         }
         noticeDao.insertDepartmentNotices(departmentNoticeMocks)
 

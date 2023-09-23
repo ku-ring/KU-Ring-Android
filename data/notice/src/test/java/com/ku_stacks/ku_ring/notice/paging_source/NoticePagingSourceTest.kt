@@ -1,12 +1,12 @@
-package com.ku_stacks.ku_ring.paging_source
+package com.ku_stacks.ku_ring.notice.paging_source
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.paging.PagingSource.LoadParams
 import androidx.paging.PagingSource.LoadResult
-import com.ku_stacks.ku_ring.MockUtil
-import com.ku_stacks.ku_ring.data.api.NoticeClient
-import com.ku_stacks.ku_ring.data.source.NoticePagingSource
 import com.ku_stacks.ku_ring.domain.Notice
+import com.ku_stacks.ku_ring.notice.api.NoticeClient
+import com.ku_stacks.ku_ring.notice.api.response.NoticeListResponse
+import com.ku_stacks.ku_ring.notice.source.NoticePagingSource
 import io.reactivex.rxjava3.core.Single
 import org.junit.Before
 import org.junit.Rule
@@ -29,7 +29,7 @@ class NoticePagingSourceTest {
     @Test
     fun `load PagingSource Refresh Success Test`() {
         // given
-        val mockData = MockUtil.mockNoticeResponseList()
+        val mockData = NoticeListResponse.mock()
         Mockito.`when`(client.fetchNoticeList("bch", 0, 20)).thenReturn(Single.just(mockData))
 
         // when, then
@@ -67,7 +67,7 @@ class NoticePagingSourceTest {
     @Test
     fun `load PagingSource Append Success Test`() {
         // given
-        val mockData = MockUtil.mockNoticeResponseList()
+        val mockData = NoticeListResponse.mock()
         Mockito.`when`(client.fetchNoticeList("bch", 20, 20)).thenReturn(Single.just(mockData))
 
         // when, then

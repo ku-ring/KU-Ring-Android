@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.paging_source
+package com.ku_stacks.ku_ring.notice.paging_source
 
 import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
@@ -8,12 +8,12 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
-import com.ku_stacks.ku_ring.LocalDbAbstract
-import com.ku_stacks.ku_ring.MockUtil
-import com.ku_stacks.ku_ring.data.api.NoticeClient
-import com.ku_stacks.ku_ring.data.db.NoticeDao
-import com.ku_stacks.ku_ring.data.db.NoticeEntity
-import com.ku_stacks.ku_ring.data.source.DepartmentNoticeMediator
+import com.ku_stacks.ku_ring.notice.LocalDbAbstract
+import com.ku_stacks.ku_ring.notice.api.NoticeClient
+import com.ku_stacks.ku_ring.notice.api.response.DepartmentNoticeListResponse
+import com.ku_stacks.ku_ring.notice.local.NoticeDao
+import com.ku_stacks.ku_ring.notice.local.NoticeEntity
+import com.ku_stacks.ku_ring.notice.source.DepartmentNoticeMediator
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -58,7 +58,7 @@ class DepartmentNoticeMediatorTest : LocalDbAbstract() {
     @OptIn(ExperimentalPagingApi::class)
     fun `noticeClient succeeds and returns some notices`() = runTest {
         // given
-        val mockResponse = MockUtil.mockSucceededDepartmentNoticeListResponse(pageSize)
+        val mockResponse = DepartmentNoticeListResponse.mockSucceeded(pageSize)
         Mockito.`when`(
             client.fetchDepartmentNoticeList(
                 type = "dep",
@@ -86,7 +86,7 @@ class DepartmentNoticeMediatorTest : LocalDbAbstract() {
     @OptIn(ExperimentalPagingApi::class)
     fun `noticeClient succeeds but returns empty list`() = runTest {
         // given
-        val mockResponse = MockUtil.mockEmptyDepartmentNoticeListResponse()
+        val mockResponse = DepartmentNoticeListResponse.mockEmpty()
         Mockito.`when`(
             client.fetchDepartmentNoticeList(
                 shortName = shortName,
