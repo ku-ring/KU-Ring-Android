@@ -51,7 +51,7 @@ object LocalModule {
 
     @Singleton
     @Provides
-    fun provideKuRingDatabase(@ApplicationContext context: Context): PushDatabase {
+    fun providePushDatabase(@ApplicationContext context: Context): PushDatabase {
         return Room.databaseBuilder(
             context,
             PushDatabase::class.java,

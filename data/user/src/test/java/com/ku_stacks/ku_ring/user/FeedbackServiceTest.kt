@@ -1,7 +1,7 @@
-package com.ku_stacks.ku_ring.network
+package com.ku_stacks.ku_ring.user
 
-import com.ku_stacks.ku_ring.data.api.FeedbackService
-import com.ku_stacks.ku_ring.data.api.request.FeedbackRequest
+import com.ku_stacks.ku_ring.user.api.FeedbackService
+import com.ku_stacks.ku_ring.user.api.request.FeedbackRequest
 import com.ku_stacks.ku_ring.util.network.ApiAbstract
 import org.junit.After
 import org.junit.Assert.assertEquals

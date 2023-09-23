@@ -1,6 +1,6 @@
-package com.ku_stacks.ku_ring.data.api
+package com.ku_stacks.ku_ring.user.api
 
-import com.ku_stacks.ku_ring.data.api.request.FeedbackRequest
+import com.ku_stacks.ku_ring.user.api.request.FeedbackRequest
 import com.ku_stacks.ku_ring.util.network.DefaultResponse
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject

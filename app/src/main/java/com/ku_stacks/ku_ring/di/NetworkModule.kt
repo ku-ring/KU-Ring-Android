@@ -21,18 +21,6 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideFeedbackService(@Named("Default") retrofit: Retrofit): FeedbackService {
-        return retrofit.create(FeedbackService::class.java)
-    }
-
-    @Provides
-    @Singleton
-    fun provideFeedbackClient(feedbackService: FeedbackService): FeedbackClient {
-        return FeedbackClient(feedbackService)
-    }
-
-    @Provides
-    @Singleton
     fun provideSendbirdService(@Named("Sendbird") retrofit: Retrofit): SendbirdService {
         return retrofit.create(SendbirdService::class.java)
     }

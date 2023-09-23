@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.data.db
+package com.ku_stacks.ku_ring.user.local
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.repository
+package com.ku_stacks.ku_ring.user.repository
 
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single

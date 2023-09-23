@@ -1,10 +1,11 @@
-package com.ku_stacks.ku_ring.di
+package com.ku_stacks.ku_ring.user.di
 
 import android.content.Context
 import androidx.room.Room
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.ku_stacks.ku_ring.data.db.*
+import com.ku_stacks.ku_ring.user.local.BlackUserDao
+import com.ku_stacks.ku_ring.user.local.BlackUserDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,7 +15,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object DBModule {
+object LocalModule {
 
     val MIGRATION_1_2 = object : Migration(1, 2) {
         override fun migrate(database: SupportSQLiteDatabase) {
@@ -52,10 +53,10 @@ object DBModule {
 
     @Singleton
     @Provides
-    fun provideKuRingDatabase(@ApplicationContext context: Context): KuRingDatabase {
+    fun provideBlackUserDatabase(@ApplicationContext context: Context): BlackUserDatabase {
         return Room.databaseBuilder(
             context,
-            KuRingDatabase::class.java,
+            BlackUserDatabase::class.java,
             "ku-ring-db"
         )
             .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
@@ -64,6 +65,5 @@ object DBModule {
 
     @Singleton
     @Provides
-    fun provideDepartmentDao(database: KuRingDatabase): DepartmentDao = database.departmentDao()
-
+    fun provideBlackUserDao(database: BlackUserDatabase): BlackUserDao = database.blackUserDao()
 }
