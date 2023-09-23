@@ -119,6 +119,7 @@ dependencies {
     implementation project(":data:push")
     implementation project(":data:user")
     implementation project(":data:staff")
+    implementation project(":data:department")
 
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat
