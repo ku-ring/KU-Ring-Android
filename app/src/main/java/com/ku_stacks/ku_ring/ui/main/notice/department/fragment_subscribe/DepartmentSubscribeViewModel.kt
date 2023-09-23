@@ -2,8 +2,8 @@ package com.ku_stacks.ku_ring.ui.main.notice.department.fragment_subscribe
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ku_stacks.ku_ring.department.repository.DepartmentRepository
 import com.ku_stacks.ku_ring.domain.Department
-import com.ku_stacks.ku_ring.repository.DepartmentRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
