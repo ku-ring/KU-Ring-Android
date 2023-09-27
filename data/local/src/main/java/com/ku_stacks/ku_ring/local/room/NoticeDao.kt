@@ -1,7 +1,8 @@
-package com.ku_stacks.ku_ring.notice.local
+package com.ku_stacks.ku_ring.local.room
 
 import androidx.paging.PagingSource
 import androidx.room.*
+import com.ku_stacks.ku_ring.local.entity.NoticeEntity
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Single

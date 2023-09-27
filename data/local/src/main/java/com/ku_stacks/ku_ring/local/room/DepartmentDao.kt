@@ -1,6 +1,7 @@
-package com.ku_stacks.ku_ring.department.local
+package com.ku_stacks.ku_ring.local.room
 
 import androidx.room.*
+import com.ku_stacks.ku_ring.local.entity.DepartmentEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

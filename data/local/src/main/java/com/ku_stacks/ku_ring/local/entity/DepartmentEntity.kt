@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.department.local
+package com.ku_stacks.ku_ring.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

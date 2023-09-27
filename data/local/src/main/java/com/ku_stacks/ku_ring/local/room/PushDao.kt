@@ -1,6 +1,7 @@
-package com.ku_stacks.ku_ring.push.local
+package com.ku_stacks.ku_ring.local.room
 
 import androidx.room.*
+import com.ku_stacks.ku_ring.local.entity.PushEntity
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
 

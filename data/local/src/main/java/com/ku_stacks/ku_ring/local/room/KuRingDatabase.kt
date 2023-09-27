@@ -1,15 +1,11 @@
-package com.ku_stacks.ku_ring.data.db
+package com.ku_stacks.ku_ring.local.room
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.ku_stacks.ku_ring.department.local.DepartmentDao
-import com.ku_stacks.ku_ring.department.local.DepartmentEntity
-import com.ku_stacks.ku_ring.notice.local.NoticeDao
-import com.ku_stacks.ku_ring.notice.local.NoticeEntity
-import com.ku_stacks.ku_ring.push.local.PushDao
-import com.ku_stacks.ku_ring.push.local.PushEntity
-import com.ku_stacks.ku_ring.user.local.BlackUserDao
-import com.ku_stacks.ku_ring.user.local.BlackUserEntity
+import com.ku_stacks.ku_ring.local.entity.BlackUserEntity
+import com.ku_stacks.ku_ring.local.entity.DepartmentEntity
+import com.ku_stacks.ku_ring.local.entity.NoticeEntity
+import com.ku_stacks.ku_ring.local.entity.PushEntity
 
 @Database(
     entities = [

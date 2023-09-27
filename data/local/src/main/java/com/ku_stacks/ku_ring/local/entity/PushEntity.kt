@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.push.local
+package com.ku_stacks.ku_ring.local.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
