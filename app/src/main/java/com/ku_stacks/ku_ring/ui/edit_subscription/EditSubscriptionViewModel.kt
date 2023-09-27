@@ -6,9 +6,9 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.ku_stacks.ku_ring.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.department.repository.DepartmentRepository
 import com.ku_stacks.ku_ring.domain.Department
-import com.ku_stacks.ku_ring.notice.api.request.SubscribeRequest
 import com.ku_stacks.ku_ring.notice.repository.NoticeRepository
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
+import com.ku_stacks.ku_ring.remote.notice.request.SubscribeRequest
 import com.ku_stacks.ku_ring.util.WordConverter
 import com.ku_stacks.ku_ring.util.modifyMap
 import com.ku_stacks.ku_ring.util.modifySet

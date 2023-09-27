@@ -1,8 +1,8 @@
 package com.ku_stacks.ku_ring.notice.mapper
 
 import com.ku_stacks.ku_ring.domain.Notice
-import com.ku_stacks.ku_ring.notice.api.response.NoticeListResponse
-import com.ku_stacks.ku_ring.notice.api.response.SearchNoticeListResponse
+import com.ku_stacks.ku_ring.remote.notice.response.NoticeListResponse
+import com.ku_stacks.ku_ring.remote.notice.response.SearchNoticeListResponse
 import com.ku_stacks.ku_ring.util.splitSubjectAndTag
 
 fun NoticeListResponse.toNoticeList(type: String): List<Notice> {

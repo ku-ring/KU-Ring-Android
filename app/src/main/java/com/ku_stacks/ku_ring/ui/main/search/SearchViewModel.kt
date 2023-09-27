@@ -5,11 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.domain.Staff
-import com.ku_stacks.ku_ring.notice.api.NoticeClient
 import com.ku_stacks.ku_ring.notice.mapper.toNoticeList
 import com.ku_stacks.ku_ring.notice.repository.NoticeRepository
+import com.ku_stacks.ku_ring.remote.notice.NoticeClient
+import com.ku_stacks.ku_ring.remote.staff.StaffClient
 import com.ku_stacks.ku_ring.staff.mapper.toStaffList
-import com.ku_stacks.ku_ring.staff.remote.StaffClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers

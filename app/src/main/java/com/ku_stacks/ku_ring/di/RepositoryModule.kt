@@ -1,6 +1,6 @@
 package com.ku_stacks.ku_ring.di
 
-import com.ku_stacks.ku_ring.data.api.SendbirdClient
+import com.ku_stacks.ku_ring.remote.sendbird.SendbirdClient
 import com.ku_stacks.ku_ring.repository.*
 import dagger.Module
 import dagger.Provides

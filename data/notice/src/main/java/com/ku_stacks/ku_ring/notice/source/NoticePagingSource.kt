@@ -3,8 +3,8 @@ package com.ku_stacks.ku_ring.notice.source
 import androidx.paging.PagingState
 import androidx.paging.rxjava3.RxPagingSource
 import com.ku_stacks.ku_ring.domain.Notice
-import com.ku_stacks.ku_ring.notice.api.NoticeClient
 import com.ku_stacks.ku_ring.notice.mapper.toNoticeList
+import com.ku_stacks.ku_ring.remote.notice.NoticeClient
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber

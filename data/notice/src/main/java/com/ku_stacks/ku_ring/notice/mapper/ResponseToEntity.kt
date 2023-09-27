@@ -1,7 +1,7 @@
 package com.ku_stacks.ku_ring.notice.mapper
 
 import com.ku_stacks.ku_ring.local.entity.NoticeEntity
-import com.ku_stacks.ku_ring.notice.api.response.DepartmentNoticeResponse
+import com.ku_stacks.ku_ring.remote.notice.response.DepartmentNoticeResponse
 import java.text.SimpleDateFormat
 import java.util.Locale
 

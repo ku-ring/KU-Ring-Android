@@ -10,14 +10,14 @@ import androidx.paging.rxjava3.flowable
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.local.entity.NoticeEntity
 import com.ku_stacks.ku_ring.local.room.NoticeDao
-import com.ku_stacks.ku_ring.notice.api.NoticeClient
-import com.ku_stacks.ku_ring.notice.api.request.SubscribeRequest
 import com.ku_stacks.ku_ring.notice.mapper.toEntity
 import com.ku_stacks.ku_ring.notice.mapper.toNotice
 import com.ku_stacks.ku_ring.notice.mapper.toNoticeList
 import com.ku_stacks.ku_ring.notice.source.DepartmentNoticeMediator
 import com.ku_stacks.ku_ring.notice.source.NoticePagingSource
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
+import com.ku_stacks.ku_ring.remote.notice.NoticeClient
+import com.ku_stacks.ku_ring.remote.notice.request.SubscribeRequest
 import com.ku_stacks.ku_ring.util.DateUtil
 import com.ku_stacks.ku_ring.util.IODispatcher
 import io.reactivex.rxjava3.core.Completable
