@@ -1,8 +1,7 @@
-package com.ku_stacks.ku_ring.user
+package com.ku_stacks.ku_ring.remote
 
-import com.ku_stacks.ku_ring.user.api.FeedbackService
-import com.ku_stacks.ku_ring.user.api.request.FeedbackRequest
-import com.ku_stacks.ku_ring.util.network.ApiAbstract
+import com.ku_stacks.ku_ring.remote.user.FeedbackService
+import com.ku_stacks.ku_ring.remote.user.request.FeedbackRequest
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before

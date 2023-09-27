@@ -1,8 +1,7 @@
-package com.ku_stacks.ku_ring.notice
+package com.ku_stacks.ku_ring.remote
 
-import com.ku_stacks.ku_ring.notice.api.NoticeService
-import com.ku_stacks.ku_ring.notice.api.request.SubscribeRequest
-import com.ku_stacks.ku_ring.util.network.ApiAbstract
+import com.ku_stacks.ku_ring.remote.notice.NoticeService
+import com.ku_stacks.ku_ring.remote.notice.request.SubscribeRequest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.After

@@ -13,10 +13,10 @@ import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.ku_stacks.ku_ring.local.entity.NoticeEntity
 import com.ku_stacks.ku_ring.local.room.KuRingDatabase
 import com.ku_stacks.ku_ring.local.room.NoticeDao
-import com.ku_stacks.ku_ring.notice.api.NoticeClient
-import com.ku_stacks.ku_ring.notice.api.response.DepartmentNoticeListResponse
 import com.ku_stacks.ku_ring.notice.source.DepartmentNoticeMediator
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
+import com.ku_stacks.ku_ring.remote.notice.NoticeClient
+import com.ku_stacks.ku_ring.remote.notice.response.DepartmentNoticeListResponse
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.After

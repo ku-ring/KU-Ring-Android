@@ -1,7 +1,6 @@
-package com.ku_stacks.ku_ring.network
+package com.ku_stacks.ku_ring.remote
 
-import com.ku_stacks.ku_ring.data.api.SendbirdService
-import com.ku_stacks.ku_ring.util.network.ApiAbstract
+import com.ku_stacks.ku_ring.remote.sendbird.SendbirdService
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before

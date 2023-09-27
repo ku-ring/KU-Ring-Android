@@ -4,9 +4,9 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.paging.PagingSource.LoadParams
 import androidx.paging.PagingSource.LoadResult
 import com.ku_stacks.ku_ring.domain.Notice
-import com.ku_stacks.ku_ring.notice.api.NoticeClient
-import com.ku_stacks.ku_ring.notice.api.response.NoticeListResponse
 import com.ku_stacks.ku_ring.notice.source.NoticePagingSource
+import com.ku_stacks.ku_ring.remote.notice.NoticeClient
+import com.ku_stacks.ku_ring.remote.notice.response.NoticeListResponse
 import io.reactivex.rxjava3.core.Single
 import org.junit.Before
 import org.junit.Rule

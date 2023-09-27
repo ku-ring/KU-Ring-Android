@@ -3,13 +3,13 @@ package com.ku_stacks.ku_ring.department.repository
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.ku_stacks.ku_ring.department.mapper.toDepartment
-import com.ku_stacks.ku_ring.department.remote.DepartmentClient
-import com.ku_stacks.ku_ring.department.remote.response.DepartmentListResponse
-import com.ku_stacks.ku_ring.department.remote.response.DepartmentResponse
 import com.ku_stacks.ku_ring.domain.Department
 import com.ku_stacks.ku_ring.local.room.DepartmentDao
 import com.ku_stacks.ku_ring.local.room.KuRingDatabase
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
+import com.ku_stacks.ku_ring.remote.department.DepartmentClient
+import com.ku_stacks.ku_ring.remote.department.response.DepartmentListResponse
+import com.ku_stacks.ku_ring.remote.department.response.DepartmentResponse
 import junit.framework.Assert
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.util.network
+package com.ku_stacks.ku_ring.remote
 
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
