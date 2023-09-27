@@ -1,7 +1,7 @@
 package com.ku_stacks.ku_ring.notice.mapper
 
 import com.ku_stacks.ku_ring.domain.Notice
-import com.ku_stacks.ku_ring.notice.local.NoticeEntity
+import com.ku_stacks.ku_ring.local.entity.NoticeEntity
 import com.ku_stacks.ku_ring.util.splitSubjectAndTag
 import timber.log.Timber
 

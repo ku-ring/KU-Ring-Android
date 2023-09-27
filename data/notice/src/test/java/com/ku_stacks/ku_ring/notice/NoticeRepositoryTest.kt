@@ -1,11 +1,11 @@
 package com.ku_stacks.ku_ring.notice
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.ku_stacks.ku_ring.local.entity.NoticeEntity
+import com.ku_stacks.ku_ring.local.room.NoticeDao
 import com.ku_stacks.ku_ring.notice.api.NoticeClient
 import com.ku_stacks.ku_ring.notice.api.request.SubscribeRequest
 import com.ku_stacks.ku_ring.notice.api.response.SubscribeListResponse
-import com.ku_stacks.ku_ring.notice.local.NoticeDao
-import com.ku_stacks.ku_ring.notice.local.NoticeEntity
 import com.ku_stacks.ku_ring.notice.mapper.toNotice
 import com.ku_stacks.ku_ring.notice.repository.NoticeRepository
 import com.ku_stacks.ku_ring.notice.repository.NoticeRepositoryImpl

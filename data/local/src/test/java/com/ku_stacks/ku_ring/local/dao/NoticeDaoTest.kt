@@ -1,8 +1,9 @@
-package com.ku_stacks.ku_ring.notice
+package com.ku_stacks.ku_ring.local.dao
 
 import androidx.paging.PagingSource
-import com.ku_stacks.ku_ring.notice.local.NoticeDao
-import com.ku_stacks.ku_ring.notice.local.NoticeEntity
+import com.ku_stacks.ku_ring.local.LocalDbAbstract
+import com.ku_stacks.ku_ring.local.entity.NoticeEntity
+import com.ku_stacks.ku_ring.local.room.NoticeDao
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest

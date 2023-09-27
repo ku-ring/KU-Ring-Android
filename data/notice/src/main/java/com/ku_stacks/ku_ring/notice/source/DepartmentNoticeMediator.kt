@@ -4,10 +4,10 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
+import com.ku_stacks.ku_ring.local.entity.NoticeEntity
+import com.ku_stacks.ku_ring.local.room.NoticeDao
 import com.ku_stacks.ku_ring.notice.api.NoticeClient
 import com.ku_stacks.ku_ring.notice.api.response.DepartmentNoticeResponse
-import com.ku_stacks.ku_ring.notice.local.NoticeDao
-import com.ku_stacks.ku_ring.notice.local.NoticeEntity
 import com.ku_stacks.ku_ring.notice.mapper.toEntityList
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.util.DateUtil

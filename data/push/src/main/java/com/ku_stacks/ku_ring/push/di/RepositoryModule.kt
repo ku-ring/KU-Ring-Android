@@ -1,6 +1,6 @@
 package com.ku_stacks.ku_ring.push.di
 
-import com.ku_stacks.ku_ring.push.local.PushDao
+import com.ku_stacks.ku_ring.local.room.PushDao
 import com.ku_stacks.ku_ring.push.repository.PushRepository
 import com.ku_stacks.ku_ring.push.repository.PushRepositoryImpl
 import dagger.Module

@@ -1,12 +1,12 @@
 package com.ku_stacks.ku_ring.department.repository
 
-import com.ku_stacks.ku_ring.department.local.DepartmentDao
 import com.ku_stacks.ku_ring.department.mapper.toDepartment
 import com.ku_stacks.ku_ring.department.mapper.toDepartmentList
 import com.ku_stacks.ku_ring.department.mapper.toEntity
 import com.ku_stacks.ku_ring.department.mapper.toEntityList
 import com.ku_stacks.ku_ring.department.remote.DepartmentClient
 import com.ku_stacks.ku_ring.domain.Department
+import com.ku_stacks.ku_ring.local.room.DepartmentDao
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

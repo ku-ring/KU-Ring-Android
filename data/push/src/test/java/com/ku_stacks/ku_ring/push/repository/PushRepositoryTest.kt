@@ -1,8 +1,8 @@
 package com.ku_stacks.ku_ring.push.repository
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.ku_stacks.ku_ring.push.local.PushDao
-import com.ku_stacks.ku_ring.push.local.PushEntity
+import com.ku_stacks.ku_ring.local.entity.PushEntity
+import com.ku_stacks.ku_ring.local.room.PushDao
 import com.ku_stacks.ku_ring.push.mapper.toPushList
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable

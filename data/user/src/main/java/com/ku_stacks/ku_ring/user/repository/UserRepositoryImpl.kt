@@ -1,7 +1,7 @@
 package com.ku_stacks.ku_ring.user.repository
 
-import com.ku_stacks.ku_ring.user.local.BlackUserDao
-import com.ku_stacks.ku_ring.user.local.BlackUserEntity
+import com.ku_stacks.ku_ring.local.entity.BlackUserEntity
+import com.ku_stacks.ku_ring.local.room.BlackUserDao
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject

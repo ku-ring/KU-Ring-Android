@@ -1,7 +1,7 @@
 package com.ku_stacks.ku_ring.push.mapper
 
 import com.ku_stacks.ku_ring.domain.Push
-import com.ku_stacks.ku_ring.push.local.PushEntity
+import com.ku_stacks.ku_ring.local.entity.PushEntity
 import com.ku_stacks.ku_ring.util.WordConverter
 import com.ku_stacks.ku_ring.util.isOnlyAlphabets
 import com.ku_stacks.ku_ring.util.splitSubjectAndTag

@@ -1,7 +1,7 @@
 package com.ku_stacks.ku_ring.notice.di
 
+import com.ku_stacks.ku_ring.local.room.NoticeDao
 import com.ku_stacks.ku_ring.notice.api.NoticeClient
-import com.ku_stacks.ku_ring.notice.local.NoticeDao
 import com.ku_stacks.ku_ring.notice.repository.NoticeRepository
 import com.ku_stacks.ku_ring.notice.repository.NoticeRepositoryImpl
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil

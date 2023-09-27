@@ -1,6 +1,6 @@
 package com.ku_stacks.ku_ring.user.di
 
-import com.ku_stacks.ku_ring.user.local.BlackUserDao
+import com.ku_stacks.ku_ring.local.room.BlackUserDao
 import com.ku_stacks.ku_ring.user.repository.UserRepository
 import com.ku_stacks.ku_ring.user.repository.UserRepositoryImpl
 import dagger.Module

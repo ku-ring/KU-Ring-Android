@@ -4,8 +4,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.ku_stacks.ku_ring.MockUtil.mock
 import com.ku_stacks.ku_ring.data.mapper.toPushUiModelList
 import com.ku_stacks.ku_ring.getOrAwaitValue
+import com.ku_stacks.ku_ring.local.entity.PushEntity
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
-import com.ku_stacks.ku_ring.push.local.PushEntity
 import com.ku_stacks.ku_ring.push.mapper.toPushList
 import com.ku_stacks.ku_ring.push.repository.PushRepository
 import com.ku_stacks.ku_ring.ui.my_notification.NotificationViewModel

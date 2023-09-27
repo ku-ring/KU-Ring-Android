@@ -1,8 +1,8 @@
-package com.ku_stacks.ku_ring.department.persistence
+package com.ku_stacks.ku_ring.local.dao
 
-import com.ku_stacks.ku_ring.department.LocalDbAbstract
-import com.ku_stacks.ku_ring.department.local.DepartmentDao
-import com.ku_stacks.ku_ring.department.local.DepartmentEntity
+import com.ku_stacks.ku_ring.local.LocalDbAbstract
+import com.ku_stacks.ku_ring.local.entity.DepartmentEntity
+import com.ku_stacks.ku_ring.local.room.DepartmentDao
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals

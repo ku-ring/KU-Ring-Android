@@ -8,10 +8,10 @@ import androidx.paging.map
 import androidx.paging.rxjava3.cachedIn
 import androidx.paging.rxjava3.flowable
 import com.ku_stacks.ku_ring.domain.Notice
+import com.ku_stacks.ku_ring.local.entity.NoticeEntity
+import com.ku_stacks.ku_ring.local.room.NoticeDao
 import com.ku_stacks.ku_ring.notice.api.NoticeClient
 import com.ku_stacks.ku_ring.notice.api.request.SubscribeRequest
-import com.ku_stacks.ku_ring.notice.local.NoticeDao
-import com.ku_stacks.ku_ring.notice.local.NoticeEntity
 import com.ku_stacks.ku_ring.notice.mapper.toEntity
 import com.ku_stacks.ku_ring.notice.mapper.toNotice
 import com.ku_stacks.ku_ring.notice.mapper.toNoticeList
