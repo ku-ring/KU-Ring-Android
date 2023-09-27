@@ -1,13 +1,14 @@
 package com.ku_stacks.ku_ring.department.repository
 
+import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import com.ku_stacks.ku_ring.department.LocalDbAbstract
-import com.ku_stacks.ku_ring.department.local.DepartmentDao
 import com.ku_stacks.ku_ring.department.mapper.toDepartment
 import com.ku_stacks.ku_ring.department.remote.DepartmentClient
 import com.ku_stacks.ku_ring.department.remote.response.DepartmentListResponse
 import com.ku_stacks.ku_ring.department.remote.response.DepartmentResponse
 import com.ku_stacks.ku_ring.domain.Department
+import com.ku_stacks.ku_ring.local.room.DepartmentDao
+import com.ku_stacks.ku_ring.local.room.KuRingDatabase
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import junit.framework.Assert
 import kotlinx.coroutines.Dispatchers
@@ -20,14 +21,18 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
 import org.mockito.Mockito
+import org.robolectric.RobolectricTestRunner
 
+@RunWith(RobolectricTestRunner::class)
 @OptIn(ExperimentalCoroutinesApi::class)
-class DepartmentRepositoryTest : LocalDbAbstract() {
+class DepartmentRepositoryTest {
     private lateinit var departmentRepository: DepartmentRepository
     private lateinit var departmentDao: DepartmentDao
     private val departmentClient = Mockito.mock(DepartmentClient::class.java)
     private lateinit var pref: PreferenceUtil
+    private lateinit var db: KuRingDatabase
 
     private val testDispatcher = StandardTestDispatcher()
 
@@ -35,6 +40,7 @@ class DepartmentRepositoryTest : LocalDbAbstract() {
     fun setup() {
         Dispatchers.setMain(testDispatcher)
         pref = PreferenceUtil(ApplicationProvider.getApplicationContext())
+        initDB()
         departmentDao = db.departmentDao()
         departmentRepository = DepartmentRepositoryImpl(
             departmentDao = departmentDao,
@@ -44,9 +50,21 @@ class DepartmentRepositoryTest : LocalDbAbstract() {
         )
     }
 
+    private fun initDB() {
+        db = Room.inMemoryDatabaseBuilder(
+            ApplicationProvider.getApplicationContext(),
+            KuRingDatabase::class.java
+        ).allowMainThreadQueries().build()
+    }
+
     @After
     fun tearDown() {
         Dispatchers.resetMain()
+        closeDB()
+    }
+
+    private fun closeDB() {
+        db.close()
     }
 
     // integrated test

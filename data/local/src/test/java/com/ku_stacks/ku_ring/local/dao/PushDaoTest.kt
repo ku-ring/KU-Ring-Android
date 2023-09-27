@@ -1,8 +1,8 @@
-package com.ku_stacks.ku_ring.push.persistence
+package com.ku_stacks.ku_ring.local.dao
 
-import com.ku_stacks.ku_ring.push.LocalDbAbstract
-import com.ku_stacks.ku_ring.push.local.PushDao
-import com.ku_stacks.ku_ring.push.local.PushEntity
+import com.ku_stacks.ku_ring.local.LocalDbAbstract
+import com.ku_stacks.ku_ring.local.entity.PushEntity
+import com.ku_stacks.ku_ring.local.room.PushDao
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat

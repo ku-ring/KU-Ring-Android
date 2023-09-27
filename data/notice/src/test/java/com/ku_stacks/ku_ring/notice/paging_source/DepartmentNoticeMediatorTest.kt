@@ -7,16 +7,19 @@ import androidx.paging.LoadType
 import androidx.paging.PagingConfig
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
+import androidx.room.Room
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
-import com.ku_stacks.ku_ring.notice.LocalDbAbstract
+import com.ku_stacks.ku_ring.local.entity.NoticeEntity
+import com.ku_stacks.ku_ring.local.room.KuRingDatabase
+import com.ku_stacks.ku_ring.local.room.NoticeDao
 import com.ku_stacks.ku_ring.notice.api.NoticeClient
 import com.ku_stacks.ku_ring.notice.api.response.DepartmentNoticeListResponse
-import com.ku_stacks.ku_ring.notice.local.NoticeDao
-import com.ku_stacks.ku_ring.notice.local.NoticeEntity
 import com.ku_stacks.ku_ring.notice.source.DepartmentNoticeMediator
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
+import org.junit.After
 import org.junit.Assert.assertFalse
 import org.junit.Before
 import org.junit.Rule
@@ -29,12 +32,13 @@ import org.robolectric.annotation.Config
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [24])
-class DepartmentNoticeMediatorTest : LocalDbAbstract() {
+class DepartmentNoticeMediatorTest {
 
     private val client: NoticeClient = Mockito.mock(NoticeClient::class.java)
     private val noticeDao: NoticeDao = Mockito.mock(NoticeDao::class.java)
     private lateinit var mediator: DepartmentNoticeMediator
     private lateinit var preferenceUtil: PreferenceUtil
+    private lateinit var db: KuRingDatabase
 
     @get:Rule
     val instanceExecutorRule = InstantTaskExecutorRule()
@@ -46,12 +50,29 @@ class DepartmentNoticeMediatorTest : LocalDbAbstract() {
     fun setUp() {
         val applicationContext: Context = getApplicationContext()
         preferenceUtil = PreferenceUtil(applicationContext)
+        initDB()
         mediator = DepartmentNoticeMediator(
             shortName = shortName,
             noticeClient = client,
             noticeDao = noticeDao,
             preferences = preferenceUtil,
         )
+    }
+
+    private fun initDB() {
+        db = Room.inMemoryDatabaseBuilder(
+            ApplicationProvider.getApplicationContext(),
+            KuRingDatabase::class.java
+        ).allowMainThreadQueries().build()
+    }
+
+    @After
+    fun tearDown() {
+        closeDB()
+    }
+
+    private fun closeDB() {
+        db.close()
     }
 
     @Test
