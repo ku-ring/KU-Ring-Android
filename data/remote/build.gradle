@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace 'com.ku_stacks.ku_ring.notice'
+    namespace 'com.ku_stacks.ku_ring.remote'
     compileSdk 33
 
     defaultConfig {
@@ -38,10 +38,6 @@ android {
 
 dependencies {
     implementation project(":common:util")
-    implementation project(":common:preferences")
-    implementation project(":data:domain")
-    implementation project(":data:local")
-    implementation project(":data:remote")
 
     // dagger hilt
     kapt libs.androidx.hilt.compiler
@@ -52,31 +48,21 @@ dependencies {
     testImplementation libs.hilt.android.testing
     kaptTest libs.hilt.compiler
 
-    // Room
-    implementation libs.androidx.room.runtime
-    kapt libs.androidx.room.compiler
-    implementation libs.androidx.room.ktx
-    implementation libs.androidx.room.rxjava3
-    testImplementation libs.androidx.room.testing
-
     // coroutines
     implementation libs.bundles.coroutines
     testImplementation libs.kotlinx.coroutines.test
 
-    // paging3
-    implementation libs.bundles.paging
+    // retrofit
+    implementation libs.bundles.retrofit
 
     // Timber
     implementation libs.timber
 
-    // retrofit
-    implementation libs.bundles.retrofit
-
-    // tests
-    testImplementation libs.bundles.unit.test
-    
     // okHttp
     implementation libs.okhttp
     implementation libs.okhttp.logging.interceptor
     testImplementation libs.okhttp.mockwebserver
+
+    // tests
+    testImplementation libs.bundles.unit.test
 }
