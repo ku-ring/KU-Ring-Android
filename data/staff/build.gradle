@@ -33,6 +33,7 @@ android {
 
 dependencies {
     implementation project(":data:domain")
+    implementation project(":data:local")
 
     // dagger hilt
     kapt libs.androidx.hilt.compiler
