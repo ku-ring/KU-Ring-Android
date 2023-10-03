@@ -3,7 +3,7 @@ package com.ku_stacks.ku_ring.department.repository
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.ku_stacks.ku_ring.department.mapper.toDepartment
-import com.ku_stacks.ku_ring.domain.Department
+import com.ku_stacks.ku_ring.domain.DomainFixtures
 import com.ku_stacks.ku_ring.local.room.DepartmentDao
 import com.ku_stacks.ku_ring.local.room.KuRingDatabase
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
@@ -72,7 +72,7 @@ class DepartmentRepositoryTest {
     fun `insert and update departments test`() = runTest {
         // given
         val departments = (1..10).map {
-            Department.mock().copy(
+            DomainFixtures.department().copy(
                 name = it.toString(),
                 shortName = "dep$it",
                 koreanName = "학과 $it",
