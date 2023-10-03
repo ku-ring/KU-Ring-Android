@@ -9,12 +9,4 @@ data class DefaultResponse(
 ) {
     val isSuccess: Boolean
         get() = (resultCode == 200)
-
-    companion object {
-        fun mock() = DefaultResponse(
-            resultCode = 200,
-            resultMsg = "성공",
-            data = null,
-        )
-    }
 }

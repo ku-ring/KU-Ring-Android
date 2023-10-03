@@ -12,15 +12,4 @@ data class SubscribeListResponse(
 ) {
     val isSuccess: Boolean
         get() = (resultCode == 200)
-
-    companion object {
-        fun mock() = SubscribeListResponse(
-            resultMsg = "성공",
-            resultCode = 200,
-            categoryList = listOf(
-                CategoryResponse("student", "stu", "학생"),
-                CategoryResponse("employment", "emp", "취창업"),
-            )
-        )
-    }
 }

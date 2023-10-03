@@ -7,11 +7,4 @@ data class UserResponse(
     val nickname: String,
     @SerializedName("user_id")
     val userId: String
-) {
-    companion object {
-        fun mock() = UserResponse(
-            nickname = "kuring",
-            userId = "kuring"
-        )
-    }
-}
+)

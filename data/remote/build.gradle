@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'java-test-fixtures'
 }
 
 android {
@@ -33,6 +34,9 @@ android {
         unitTests {
             includeAndroidResources true
         }
+    }
+    testFixtures {
+        enable true
     }
 }
 
