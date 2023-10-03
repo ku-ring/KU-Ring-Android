@@ -9,13 +9,4 @@ data class DepartmentEntity(
     val shortName: String,
     val koreanName: String,
     val isSubscribed: Boolean,
-) {
-    companion object {
-        fun mock() = DepartmentEntity(
-            name = "smart_ict_convergence",
-            shortName = "sicte",
-            koreanName = "스마트ICT융합공학과",
-            isSubscribed = false,
-        )
-    }
-}
+)
