@@ -4,7 +4,7 @@ import com.ku_stacks.ku_ring.data.api.DepartmentClient
 import com.ku_stacks.ku_ring.data.api.NoticeClient
 import com.ku_stacks.ku_ring.data.api.request.SubscribeRequest
 import com.ku_stacks.ku_ring.data.mapper.toDepartment
-import com.ku_stacks.ku_ring.data.model.Department
+import com.ku_stacks.ku_ring.domain.Department
 import com.ku_stacks.ku_ring.util.PreferenceUtil
 import com.ku_stacks.ku_ring.util.WordConverter
 import io.reactivex.rxjava3.core.Single

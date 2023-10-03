@@ -1,8 +1,8 @@
 package com.ku_stacks.ku_ring.ui.main.search.fragment_staff
 
 import androidx.recyclerview.widget.RecyclerView
-import com.ku_stacks.ku_ring.data.model.Staff
 import com.ku_stacks.ku_ring.databinding.ItemStaffBinding
+import com.ku_stacks.ku_ring.domain.Staff
 
 class SearchStaffViewHolder(
     private val binding: ItemStaffBinding,

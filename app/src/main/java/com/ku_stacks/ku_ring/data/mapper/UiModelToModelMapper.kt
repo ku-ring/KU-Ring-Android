@@ -1,6 +1,6 @@
 package com.ku_stacks.ku_ring.data.mapper
 
-import com.ku_stacks.ku_ring.data.model.WebViewNotice
+import com.ku_stacks.ku_ring.domain.WebViewNotice
 import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushContentUiModel
 import com.ku_stacks.ku_ring.util.WordConverter
 

@@ -4,9 +4,9 @@ import com.ku_stacks.ku_ring.data.api.response.DepartmentResponse
 import com.ku_stacks.ku_ring.data.api.response.NoticeListResponse
 import com.ku_stacks.ku_ring.data.api.response.SearchNoticeListResponse
 import com.ku_stacks.ku_ring.data.api.response.SearchStaffListResponse
-import com.ku_stacks.ku_ring.data.model.Department
-import com.ku_stacks.ku_ring.data.model.Notice
-import com.ku_stacks.ku_ring.data.model.Staff
+import com.ku_stacks.ku_ring.domain.Department
+import com.ku_stacks.ku_ring.domain.Notice
+import com.ku_stacks.ku_ring.domain.Staff
 
 fun NoticeListResponse.toNoticeList(type: String): List<Notice> {
     return if (type == "lib") {

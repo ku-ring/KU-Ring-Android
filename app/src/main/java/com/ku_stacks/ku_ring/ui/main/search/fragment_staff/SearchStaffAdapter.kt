@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.data.model.Staff
 import com.ku_stacks.ku_ring.databinding.ItemStaffBinding
+import com.ku_stacks.ku_ring.domain.Staff
 
 class SearchStaffAdapter(
     private val itemClick: (Staff) -> Unit,

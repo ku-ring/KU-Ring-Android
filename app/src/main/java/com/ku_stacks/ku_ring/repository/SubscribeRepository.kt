@@ -1,7 +1,7 @@
 package com.ku_stacks.ku_ring.repository
 
 import com.ku_stacks.ku_ring.data.api.request.SubscribeRequest
-import com.ku_stacks.ku_ring.data.model.Department
+import com.ku_stacks.ku_ring.domain.Department
 import io.reactivex.rxjava3.core.Single
 
 interface SubscribeRepository {

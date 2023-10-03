@@ -1,12 +1,12 @@
 package com.ku_stacks.ku_ring.repository
 
 import com.ku_stacks.ku_ring.LocalDbAbstract
-import com.ku_stacks.ku_ring.MockUtil
 import com.ku_stacks.ku_ring.data.api.DepartmentClient
 import com.ku_stacks.ku_ring.data.api.response.DepartmentListResponse
 import com.ku_stacks.ku_ring.data.api.response.DepartmentResponse
 import com.ku_stacks.ku_ring.data.db.DepartmentDao
 import com.ku_stacks.ku_ring.data.mapper.toDepartment
+import com.ku_stacks.ku_ring.domain.Department
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -48,7 +48,7 @@ class DepartmentRepositoryTest : LocalDbAbstract() {
     fun `insert and update departments test`() = runTest {
         // given
         val departments = (1..10).map {
-            MockUtil.mockDepartment().copy(
+            Department.mock().copy(
                 name = it.toString(),
                 shortName = "dep$it",
                 koreanName = "학과 $it",

@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.ku_stacks.ku_ring.data.model.Department
+import com.ku_stacks.ku_ring.domain.Department
 import com.ku_stacks.ku_ring.ui.main.notice.department.fragment_subscribe.holder.DepartmentViewHolder
 import com.ku_stacks.ku_ring.ui.main.notice.department.fragment_subscribe.listener.DepartmentEventListener
 

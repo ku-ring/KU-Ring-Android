@@ -1,6 +1,6 @@
 package com.ku_stacks.ku_ring.data.mapper
 
-import com.ku_stacks.ku_ring.data.model.Push
+import com.ku_stacks.ku_ring.domain.Push
 import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushContentUiModel
 import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushDataUiModel
 import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushDateHeaderUiModel

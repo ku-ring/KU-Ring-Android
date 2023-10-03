@@ -1,6 +1,6 @@
 package com.ku_stacks.ku_ring.repository
 
-import com.ku_stacks.ku_ring.data.model.Department
+import com.ku_stacks.ku_ring.domain.Department
 import kotlinx.coroutines.flow.Flow
 
 interface DepartmentRepository {

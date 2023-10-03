@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.data.model.Staff
 import com.ku_stacks.ku_ring.databinding.FragmentSearchStaffBinding
+import com.ku_stacks.ku_ring.domain.Staff
 import com.ku_stacks.ku_ring.ui.main.search.SearchFragment
 import com.ku_stacks.ku_ring.ui.main.search.SearchViewModel
 import com.ku_stacks.ku_ring.ui.main.search.fragment_staff.dialog.StaffBottomSheet

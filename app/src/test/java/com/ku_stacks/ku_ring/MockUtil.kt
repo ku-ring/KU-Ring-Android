@@ -13,8 +13,6 @@ import com.ku_stacks.ku_ring.data.api.response.UserResponse
 import com.ku_stacks.ku_ring.data.db.DepartmentEntity
 import com.ku_stacks.ku_ring.data.db.NoticeEntity
 import com.ku_stacks.ku_ring.data.db.PushEntity
-import com.ku_stacks.ku_ring.data.model.Department
-import com.ku_stacks.ku_ring.data.model.Notice
 import org.mockito.Mockito
 
 object MockUtil {
@@ -65,29 +63,6 @@ object MockUtil {
         shortName = "sicte",
         koreanName = "스마트ICT융합공학과",
         isSubscribed = false,
-    )
-
-    fun mockNotice() = Notice(
-        postedDate = "20220203",
-        subject = "2022학년도 1학기 재입학 합격자 유의사항 안내",
-        category = "bachelor",
-        url = "https://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do?id=5b4a11b",
-        articleId = "5b4a11b",
-        isNew = true,
-        isRead = false,
-        isSubscribing = false,
-        isSaved = false,
-        isReadOnStorage = false,
-        tag = emptyList()
-    )
-
-    fun mockDepartment() = Department(
-        name = "smart_ict_convergence",
-        shortName = "sicte",
-        koreanName = "스마트ICT융합공학과",
-        isSubscribed = false,
-        isSelected = false,
-        isNotificationEnabled = false,
     )
 
     fun mockPushEntity() = PushEntity(

@@ -13,9 +13,9 @@ import androidx.core.app.ShareCompat
 import androidx.lifecycle.lifecycleScope
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.data.mapper.toWebViewNotice
-import com.ku_stacks.ku_ring.data.model.Notice
-import com.ku_stacks.ku_ring.data.model.WebViewNotice
 import com.ku_stacks.ku_ring.databinding.ActivityNoticeWebBinding
+import com.ku_stacks.ku_ring.domain.Notice
+import com.ku_stacks.ku_ring.domain.WebViewNotice
 import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushContentUiModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest

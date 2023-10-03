@@ -1,7 +1,7 @@
 package com.ku_stacks.ku_ring.data.mapper
 
-import com.ku_stacks.ku_ring.data.model.Notice
-import com.ku_stacks.ku_ring.data.model.WebViewNotice
+import com.ku_stacks.ku_ring.domain.Notice
+import com.ku_stacks.ku_ring.domain.WebViewNotice
 
 fun Notice.toWebViewNotice() = WebViewNotice(
     url = url,

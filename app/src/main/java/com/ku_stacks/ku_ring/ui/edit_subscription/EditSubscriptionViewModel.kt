@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.messaging.FirebaseMessaging
 import com.ku_stacks.ku_ring.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.data.api.request.SubscribeRequest
-import com.ku_stacks.ku_ring.data.model.Department
+import com.ku_stacks.ku_ring.domain.Department
 import com.ku_stacks.ku_ring.repository.DepartmentRepository
 import com.ku_stacks.ku_ring.repository.SubscribeRepository
 import com.ku_stacks.ku_ring.util.WordConverter

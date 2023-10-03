@@ -2,8 +2,8 @@ package com.ku_stacks.ku_ring.data.mapper
 
 import com.ku_stacks.ku_ring.data.db.DepartmentEntity
 import com.ku_stacks.ku_ring.data.db.NoticeEntity
-import com.ku_stacks.ku_ring.data.model.Department
-import com.ku_stacks.ku_ring.data.model.Notice
+import com.ku_stacks.ku_ring.domain.Department
+import com.ku_stacks.ku_ring.domain.Notice
 
 fun Notice.toEntity(): NoticeEntity = NoticeEntity(
     articleId = articleId,

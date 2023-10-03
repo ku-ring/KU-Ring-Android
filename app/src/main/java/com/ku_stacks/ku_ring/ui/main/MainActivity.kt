@@ -8,8 +8,8 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.data.model.WebViewNotice
 import com.ku_stacks.ku_ring.databinding.ActivityMainBinding
+import com.ku_stacks.ku_ring.domain.WebViewNotice
 import com.ku_stacks.ku_ring.ui.notice_webview.NoticeWebActivity
 import com.ku_stacks.ku_ring.ui_util.showToast
 import dagger.hilt.android.AndroidEntryPoint

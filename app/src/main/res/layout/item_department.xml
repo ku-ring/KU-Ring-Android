@@ -9,7 +9,7 @@
 
         <variable
             name="uiModel"
-            type="com.ku_stacks.ku_ring.data.model.Department"
+            type="com.ku_stacks.ku_ring.domain.Department"
             />
 
         <variable

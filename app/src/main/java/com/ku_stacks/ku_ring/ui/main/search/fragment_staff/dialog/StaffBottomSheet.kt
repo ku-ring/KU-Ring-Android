@@ -9,8 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.data.model.Staff
 import com.ku_stacks.ku_ring.databinding.DialogStaffBottomSheetBinding
+import com.ku_stacks.ku_ring.domain.Staff
 import com.ku_stacks.ku_ring.ui_util.showToast
 
 class StaffBottomSheet : BottomSheetDialogFragment() {

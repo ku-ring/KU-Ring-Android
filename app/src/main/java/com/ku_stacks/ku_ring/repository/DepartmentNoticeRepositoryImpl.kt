@@ -8,8 +8,8 @@ import androidx.paging.map
 import com.ku_stacks.ku_ring.data.api.NoticeClient
 import com.ku_stacks.ku_ring.data.db.NoticeDao
 import com.ku_stacks.ku_ring.data.mapper.toNotice
-import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.data.source.DepartmentNoticeMediator
+import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.util.PreferenceUtil
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

@@ -24,8 +24,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.databinding.FragmentDepartmentNoticeBinding
+import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.ui.compose.theme.KuringTheme
 import com.ku_stacks.ku_ring.ui.main.notice.department.compose.DepartmentNoticeScreen
 import com.ku_stacks.ku_ring.ui.main.notice.department.fragment_subscribe.DepartmentSubscribeBottomSheet

@@ -1,7 +1,7 @@
 package com.ku_stacks.ku_ring.repository
 
 import androidx.paging.PagingData
-import com.ku_stacks.ku_ring.data.model.Notice
+import com.ku_stacks.ku_ring.domain.Notice
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
 import kotlinx.coroutines.CoroutineScope
