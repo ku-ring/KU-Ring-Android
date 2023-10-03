@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'java-test-fixtures'
 }
 
 android {
@@ -26,6 +27,9 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+    testFixtures {
+        enable true
     }
 }
 
