@@ -7,10 +7,8 @@ import com.ku_stacks.ku_ring.notice.mapper.toNotice
 import com.ku_stacks.ku_ring.notice.repository.NoticeRepository
 import com.ku_stacks.ku_ring.notice.repository.NoticeRepositoryImpl
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
+import com.ku_stacks.ku_ring.remote.RemoteFixtures
 import com.ku_stacks.ku_ring.remote.notice.NoticeClient
-import com.ku_stacks.ku_ring.remote.notice.request.SubscribeRequest
-import com.ku_stacks.ku_ring.remote.notice.response.SubscribeListResponse
-import com.ku_stacks.ku_ring.remote.util.DefaultResponse
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import junit.framework.Assert
@@ -80,7 +78,7 @@ class NoticeRepositoryTest {
         // given
         val mockToken =
             "AAAAn6eQM_Y:APA91bES4rjrFwPY5i_Hz-kT0u32SzIUxreYm9qaQHZeYKGGV_BmHZNJhHvlDjyQA6LveNdxCVrwzsq78jgsnCw8OumbtM5L3cc17XgdqZ_dlpsPzR7TlJwBFTXRFLPst663IeX27sb0"
-        val mockSubscribeList = SubscribeListResponse.mock()
+        val mockSubscribeList = RemoteFixtures.subscribeListResponse()
 
         Mockito.`when`(client.fetchSubscribe(mockToken)).thenReturn(Single.just(mockSubscribeList))
         val expected = mockSubscribeList.categoryList.map { it.koreanName }
@@ -97,8 +95,8 @@ class NoticeRepositoryTest {
     @Test
     fun `save Subscription To Remote Test`() {
         // given
-        val mockRequest = SubscribeRequest.mock()
-        val mockResponse = DefaultResponse.mock()
+        val mockRequest = RemoteFixtures.subscribeRequest()
+        val mockResponse = RemoteFixtures.defaultResponse()
         val mockToken = "mockToken"
 
         Mockito.`when`(client.saveSubscribe(mockToken, mockRequest))

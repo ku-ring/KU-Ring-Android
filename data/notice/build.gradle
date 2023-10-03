@@ -43,6 +43,7 @@ dependencies {
     implementation project(":data:local")
     implementation testFixtures(project(":data:local"))
     implementation project(":data:remote")
+    implementation testFixtures(project(":data:remote"))
 
     // dagger hilt
     kapt libs.androidx.hilt.compiler

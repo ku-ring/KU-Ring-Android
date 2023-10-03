@@ -39,6 +39,7 @@ android {
 dependencies {
     implementation project(":common:preferences")
     implementation project(":data:domain")
+    implementation testFixtures(project(":data:domain"))
     implementation project(":data:local")
     implementation project(":data:remote")
 
