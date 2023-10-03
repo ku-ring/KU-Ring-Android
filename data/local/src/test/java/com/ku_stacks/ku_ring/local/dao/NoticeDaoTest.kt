@@ -2,6 +2,7 @@ package com.ku_stacks.ku_ring.local.dao
 
 import androidx.paging.PagingSource
 import com.ku_stacks.ku_ring.local.LocalDbAbstract
+import com.ku_stacks.ku_ring.local.LocalFixtures
 import com.ku_stacks.ku_ring.local.entity.NoticeEntity
 import com.ku_stacks.ku_ring.local.room.NoticeDao
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -29,13 +30,13 @@ class NoticeDaoTest : LocalDbAbstract() {
     }
 
     private fun readNoticeMock(): NoticeEntity {
-        return NoticeEntity.mock().copy(isNew = true, isRead = true)
+        return LocalFixtures.noticeEntity().copy(isNew = true, isRead = true)
     }
 
     @Test
     fun `insertNoticeAsOld and getOldNotice Test`() {
         // given
-        val noticeMock = NoticeEntity.mock()
+        val noticeMock = LocalFixtures.noticeEntity()
         noticeDao.insertNoticeAsOld(noticeMock).blockingSubscribe()
 
         // when
@@ -48,7 +49,7 @@ class NoticeDaoTest : LocalDbAbstract() {
     @Test
     fun `updateNoticeAsOld and getOldNoticeList Test`() {
         // given
-        val noticeMock = NoticeEntity.mock()
+        val noticeMock = LocalFixtures.noticeEntity()
         noticeDao.insertNoticeAsOld(noticeMock).blockingSubscribe()
 
         // when
@@ -64,7 +65,7 @@ class NoticeDaoTest : LocalDbAbstract() {
     @Test
     fun `updateNotice and getCountOfReadNoticeTest`() {
         // given
-        val noticeMock = NoticeEntity.mock()
+        val noticeMock = LocalFixtures.noticeEntity()
         noticeDao.insertNoticeAsOld(noticeMock).blockingSubscribe()
 
         // when
@@ -80,7 +81,7 @@ class NoticeDaoTest : LocalDbAbstract() {
     @Test
     fun `updateNotice and isReadNotice Test`() {
         // given
-        val noticeMock = NoticeEntity.mock()
+        val noticeMock = LocalFixtures.noticeEntity()
         noticeDao.insertNoticeAsOld(noticeMock).blockingSubscribe()
 
         // when
@@ -94,7 +95,7 @@ class NoticeDaoTest : LocalDbAbstract() {
     @Test
     fun `updateNotice and getReadNoticeList Test`() {
         // given
-        val noticeMock = NoticeEntity.mock()
+        val noticeMock = LocalFixtures.noticeEntity()
         noticeDao.insertNoticeAsOld(noticeMock).blockingSubscribe()
 
         // when
@@ -115,7 +116,7 @@ class NoticeDaoTest : LocalDbAbstract() {
     @Test
     fun `updateNoticeSaveState and getSavedNotices Test`() = runTest {
         // given
-        val notice = NoticeEntity.mock()
+        val notice = LocalFixtures.noticeEntity()
         noticeDao.insertNoticeAsOld(notice).blockingSubscribe()
 
         // when
@@ -130,7 +131,7 @@ class NoticeDaoTest : LocalDbAbstract() {
     @Test
     fun `updateNoticeAsReadOnStorage and getSavedNotices Test`() = runTest {
         // given
-        val notice = NoticeEntity.mock()
+        val notice = LocalFixtures.noticeEntity()
         noticeDao.insertNoticeAsOld(notice).blockingSubscribe()
 
         // when
@@ -146,7 +147,7 @@ class NoticeDaoTest : LocalDbAbstract() {
     @Test
     fun `insertDepartmentNotices and getDepartmentNotices Test`() = runTest {
         // given
-        val departmentNotice = NoticeEntity.mockDepartmentNotice()
+        val departmentNotice = LocalFixtures.departmentNoticeEntity()
         noticeDao.insertDepartmentNotices(listOf(departmentNotice))
 
         // when
@@ -170,7 +171,7 @@ class NoticeDaoTest : LocalDbAbstract() {
     fun `insertDepartmentNotices and clearDepartment Test`() = runTest {
         // given
         val departmentNoticeMocks = (1..10).map {
-            NoticeEntity.mockDepartmentNotice().copy(articleId = it.toString())
+            LocalFixtures.departmentNoticeEntity().copy(articleId = it.toString())
         }
         noticeDao.insertDepartmentNotices(departmentNoticeMocks)
 

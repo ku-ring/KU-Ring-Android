@@ -1,7 +1,7 @@
 package com.ku_stacks.ku_ring.local.dao
 
 import com.ku_stacks.ku_ring.local.LocalDbAbstract
-import com.ku_stacks.ku_ring.local.entity.PushEntity
+import com.ku_stacks.ku_ring.local.LocalFixtures
 import com.ku_stacks.ku_ring.local.room.PushDao
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.`is`
@@ -26,7 +26,7 @@ class PushDaoTest : LocalDbAbstract() {
     @Test
     fun `insertNotification and getNotificationList Test`() = runBlocking {
         // given
-        val pushMock = PushEntity.mock()
+        val pushMock = LocalFixtures.pushEntity()
         pushDao.insertNotification(pushMock)
 
         // when
@@ -50,7 +50,7 @@ class PushDaoTest : LocalDbAbstract() {
     @Test
     fun `update Notification As Old Test`() = runBlocking {
         // given
-        val pushMock = PushEntity.mock()
+        val pushMock = LocalFixtures.pushEntity()
         pushDao.insertNotification(pushMock)
         pushDao.updateNotificationAsOld(pushMock.articleId, false).blockingSubscribe()
 
@@ -69,7 +69,7 @@ class PushDaoTest : LocalDbAbstract() {
         assertThat(notiCountFromDB, `is`(0))
 
         // given
-        val pushMock = PushEntity.mock()
+        val pushMock = LocalFixtures.pushEntity()
         pushDao.insertNotification(pushMock)
 
         // when
@@ -91,7 +91,7 @@ class PushDaoTest : LocalDbAbstract() {
         assertThat(notiCountFromDB, `is`(0))
 
         // when
-        val pushMock = PushEntity.mock()
+        val pushMock = LocalFixtures.pushEntity()
         pushDao.insertNotification(pushMock)
         // then : insert 후에 1개의 데이터
         notiCountFromDB = pushDao.getNotificationCount(true).blockingFirst()

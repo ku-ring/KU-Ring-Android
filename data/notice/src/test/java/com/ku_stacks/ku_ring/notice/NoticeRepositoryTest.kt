@@ -1,7 +1,7 @@
 package com.ku_stacks.ku_ring.notice
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.ku_stacks.ku_ring.local.entity.NoticeEntity
+import com.ku_stacks.ku_ring.local.LocalFixtures
 import com.ku_stacks.ku_ring.local.room.NoticeDao
 import com.ku_stacks.ku_ring.notice.mapper.toNotice
 import com.ku_stacks.ku_ring.notice.repository.NoticeRepository
@@ -53,7 +53,7 @@ class NoticeRepositoryTest {
     @Test
     fun `insert Notice As Old Test`() {
         // given
-        val mockData = NoticeEntity.mock()
+        val mockData = LocalFixtures.noticeEntity()
         Mockito.`when`(dao.insertNoticeAsOld(mockData)).thenReturn(Completable.complete())
 
         // when + then
@@ -65,7 +65,7 @@ class NoticeRepositoryTest {
     @Test
     fun `updateNotice Test`() {
         // given
-        val mockData = NoticeEntity.mockRead()
+        val mockData = LocalFixtures.readNoticeEntity()
         Mockito.`when`(dao.updateNoticeAsRead(mockData.articleId, mockData.category))
             .thenReturn(Completable.complete())
 

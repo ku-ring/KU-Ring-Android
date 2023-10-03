@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.ku_stacks.ku_ring.MockUtil.mock
 import com.ku_stacks.ku_ring.data.mapper.toPushUiModelList
 import com.ku_stacks.ku_ring.getOrAwaitValue
-import com.ku_stacks.ku_ring.local.entity.PushEntity
+import com.ku_stacks.ku_ring.local.LocalFixtures
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.push.mapper.toPushList
 import com.ku_stacks.ku_ring.push.repository.PushRepository
@@ -37,7 +37,7 @@ class NotificationViewModelTest {
     @Test
     fun `get MyNotification List Test`() {
         // given
-        val mockData = listOf(PushEntity.mock()).toPushList()
+        val mockData = listOf(LocalFixtures.pushEntity()).toPushList()
         Mockito.`when`(pushRepository.getMyNotificationList()).thenReturn(Flowable.just(mockData))
 
         // when
@@ -53,7 +53,7 @@ class NotificationViewModelTest {
     @Test
     fun `updateNotification As Old Test`() {
         // given
-        val mockData = PushEntity.mock()
+        val mockData = LocalFixtures.pushEntity()
         Mockito.`when`(pushRepository.updateNotificationAsOld(mockData.articleId))
             .thenReturn(Completable.complete())
 
