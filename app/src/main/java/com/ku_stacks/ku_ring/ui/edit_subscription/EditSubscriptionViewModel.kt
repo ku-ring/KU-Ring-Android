@@ -8,7 +8,6 @@ import com.ku_stacks.ku_ring.department.repository.DepartmentRepository
 import com.ku_stacks.ku_ring.domain.Department
 import com.ku_stacks.ku_ring.notice.repository.NoticeRepository
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
-import com.ku_stacks.ku_ring.remote.notice.request.SubscribeRequest
 import com.ku_stacks.ku_ring.util.WordConverter
 import com.ku_stacks.ku_ring.util.modifyMap
 import com.ku_stacks.ku_ring.util.modifySet
@@ -131,9 +130,9 @@ class EditSubscriptionViewModel @Inject constructor(
             preferenceUtil.saveSubscriptionFromKorean(notificationEnabledCategories)
             noticeRepository.saveSubscriptionToRemote(
                 token = fcmToken,
-                subscribeRequest = SubscribeRequest(notificationEnabledCategories.map { category ->
+                subscribeCategories = notificationEnabledCategories.map { category ->
                     WordConverter.convertKoreanToEnglish(category)
-                })
+                }
             )
         }
         viewModelScope.launch {

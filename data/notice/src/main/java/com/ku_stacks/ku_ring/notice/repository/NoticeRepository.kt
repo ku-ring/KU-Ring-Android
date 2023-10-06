@@ -2,7 +2,6 @@ package com.ku_stacks.ku_ring.notice.repository
 
 import androidx.paging.PagingData
 import com.ku_stacks.ku_ring.domain.Notice
-import com.ku_stacks.ku_ring.remote.notice.request.SubscribeRequest
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Single
@@ -22,6 +21,6 @@ interface NoticeRepository {
     fun deleteSharedPreference()
     fun getDepartmentNotices(shortName: String): Flow<PagingData<Notice>>
     fun fetchSubscriptionFromRemote(token: String): Single<List<String>>
-    fun saveSubscriptionToRemote(token: String, subscribeRequest: SubscribeRequest)
+    fun saveSubscriptionToRemote(token: String, subscribeCategories: List<String>)
     fun searchNotice(query: String): Single<List<Notice>>
 }

@@ -123,6 +123,7 @@ dependencies {
     implementation project(":data:department")
     implementation project(":data:local")
     testImplementation testFixtures(project(":data:local"))
+    // SendbirdRepository 삭제되면 :data:remote 의존성 제거하기
     implementation project(":data:remote")
     testImplementation testFixtures(project(":data:remote"))
 

@@ -214,7 +214,8 @@ class NoticeRepositoryImpl @Inject constructor(
             }
     }
 
-    override fun saveSubscriptionToRemote(token: String, subscribeRequest: SubscribeRequest) {
+    override fun saveSubscriptionToRemote(token: String, subscribeCategories: List<String>) {
+        val subscribeRequest = SubscribeRequest(subscribeCategories)
         noticeClient.saveSubscribe(token, subscribeRequest)
             .subscribeOn(Schedulers.io())
             .subscribe({ response ->
