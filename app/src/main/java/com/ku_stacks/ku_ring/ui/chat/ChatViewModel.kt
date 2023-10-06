@@ -5,9 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ku_stacks.ku_ring.BuildConfig
 import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.preferences.PreferenceUtil
-import com.ku_stacks.ku_ring.remote.user.FeedbackClient
-import com.ku_stacks.ku_ring.remote.user.request.FeedbackRequest
 import com.ku_stacks.ku_ring.ui.chat.ui_model.ChatUiModel
 import com.ku_stacks.ku_ring.ui.chat.ui_model.ReceivedMessageUiModel
 import com.ku_stacks.ku_ring.ui.chat.ui_model.SentMessageUiModel
@@ -35,8 +32,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ChatViewModel @Inject constructor(
-    private val pref: PreferenceUtil,
-    private val feedbackClient: FeedbackClient,
     private val repository: UserRepository
 ) : ViewModel() {
 
@@ -268,10 +263,7 @@ class ChatViewModel @Inject constructor(
 
         // send to Kuring server
         disposable.add(
-            feedbackClient.sendFeedback(
-                token = pref.fcmToken ?: "",
-                feedbackRequest = FeedbackRequest(content = feedbackContent),
-            )
+            repository.sendFeedback(feedbackContent)
                 .subscribeOn(Schedulers.io())
                 .subscribe({
                     if (it.isSuccess) {

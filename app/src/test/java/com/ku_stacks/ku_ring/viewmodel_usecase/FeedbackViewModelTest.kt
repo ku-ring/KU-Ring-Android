@@ -11,7 +11,9 @@ import com.ku_stacks.ku_ring.MockUtil.mock
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.SchedulersTestRule
 import com.ku_stacks.ku_ring.analytics.EventAnalytics
+import com.ku_stacks.ku_ring.remote.util.DefaultResponse
 import com.ku_stacks.ku_ring.ui.feedback.FeedbackViewModel
+import com.ku_stacks.ku_ring.user.repository.UserRepository
 import io.reactivex.rxjava3.core.Single
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -26,7 +28,7 @@ import java.util.concurrent.Executor
 class FeedbackViewModelTest {
 
     private lateinit var viewModel: FeedbackViewModel
-    private val client: com.ku_stacks.ku_ring.remote.user.FeedbackClient = mock()
+    private val userRepository: UserRepository = mock()
     private val analytics: EventAnalytics = mock()
     private val firebaseMessaging: FirebaseMessaging = mock()
 
@@ -42,7 +44,7 @@ class FeedbackViewModelTest {
 
     @Before
     fun setup() {
-        viewModel = FeedbackViewModel(client, analytics, firebaseMessaging)
+        viewModel = FeedbackViewModel(userRepository, analytics, firebaseMessaging)
 
         /** mocking for fcm dependency */
         successTask = object : Task<String>() {
@@ -121,21 +123,19 @@ class FeedbackViewModelTest {
 
         Mockito.`when`(firebaseMessaging.token).thenReturn(successTask)
 
-        val mockFeedback =
-            com.ku_stacks.ku_ring.remote.user.request.FeedbackRequest(mockFeedbackContent)
-        val mockResponse = com.ku_stacks.ku_ring.remote.util.DefaultResponse(
+        val mockResponse = DefaultResponse(
             resultMsg = "성공",
             resultCode = 200,
             data = null,
         )
-        Mockito.`when`(client.sendFeedback(mockToken, mockFeedback))
+        Mockito.`when`(userRepository.sendFeedback(mockFeedbackContent))
             .thenReturn(Single.just(mockResponse))
 
         // when
         viewModel.sendFeedback()
 
         // then
-        verify(client, times(1)).sendFeedback(mockToken, mockFeedback)
+        verify(userRepository, times(1)).sendFeedback(mockFeedbackContent)
         assertEquals(R.string.feedback_success, viewModel.toastByResource.value)
     }
 
@@ -151,7 +151,7 @@ class FeedbackViewModelTest {
         viewModel.sendFeedback()
 
         // then
-        verify(client, times(0)).sendFeedback(any(), any())
+        verify(userRepository, times(0)).sendFeedback(any())
         assertEquals(R.string.feedback_too_short, viewModel.toastByResource.value)
     }
 
@@ -172,7 +172,7 @@ class FeedbackViewModelTest {
 
         // then
         assertEquals(257, mockFeedbackContent.length)
-        verify(client, times(0)).sendFeedback(any(), any())
+        verify(userRepository, times(0)).sendFeedback(any())
         assertEquals(R.string.feedback_too_long, viewModel.toastByResource.value)
     }
 
@@ -184,22 +184,20 @@ class FeedbackViewModelTest {
 
         Mockito.`when`(firebaseMessaging.token).thenReturn(successTask)
 
-        val mockFeedback =
-            com.ku_stacks.ku_ring.remote.user.request.FeedbackRequest(mockFeedbackContent)
         val expectedResponseMsg = "알 수 없는 서버 오류"
-        val mockResponse = com.ku_stacks.ku_ring.remote.util.DefaultResponse(
+        val mockResponse = DefaultResponse(
             resultMsg = expectedResponseMsg,
             resultCode = 500,
             data = null,
         )
-        Mockito.`when`(client.sendFeedback(mockToken, mockFeedback))
+        Mockito.`when`(userRepository.sendFeedback(mockFeedbackContent))
             .thenReturn(Single.just(mockResponse))
 
         // when
         viewModel.sendFeedback()
 
         // then
-        verify(client, times(1)).sendFeedback(mockToken, mockFeedback)
+        verify(userRepository, times(1)).sendFeedback(mockFeedbackContent)
         assertEquals(expectedResponseMsg, viewModel.toast.value)
     }
 }
