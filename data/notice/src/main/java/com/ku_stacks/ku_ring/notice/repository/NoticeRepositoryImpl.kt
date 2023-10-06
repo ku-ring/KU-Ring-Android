@@ -229,6 +229,14 @@ class NoticeRepositoryImpl @Inject constructor(
             })
     }
 
+    override fun searchNotice(query: String): Single<List<Notice>> {
+        return noticeClient.fetchNoticeList(query)
+            .subscribeOn(Schedulers.io())
+            .filter { it.isSuccess }
+            .map { it.toNoticeList() }
+            .toSingle()
+    }
+
     companion object {
         private const val pageSize = 20
     }

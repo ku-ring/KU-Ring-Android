@@ -23,4 +23,5 @@ interface NoticeRepository {
     fun getDepartmentNotices(shortName: String): Flow<PagingData<Notice>>
     fun fetchSubscriptionFromRemote(token: String): Single<List<String>>
     fun saveSubscriptionToRemote(token: String, subscribeRequest: SubscribeRequest)
+    fun searchNotice(query: String): Single<List<Notice>>
 }
