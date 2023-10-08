@@ -113,7 +113,18 @@ android {
 dependencies {
     implementation project(":common:util")
     implementation project(":common:ui_util")
+    implementation project(":common:preferences")
     implementation project(":data:domain")
+    testImplementation testFixtures(project(":data:domain"))
+    implementation project(":data:notice")
+    implementation project(":data:push")
+    implementation project(":data:user")
+    implementation project(":data:staff")
+    implementation project(":data:department")
+    implementation project(":data:local")
+    testImplementation testFixtures(project(":data:local"))
+    implementation project(":data:remote")
+    testImplementation testFixtures(project(":data:remote"))
 
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat

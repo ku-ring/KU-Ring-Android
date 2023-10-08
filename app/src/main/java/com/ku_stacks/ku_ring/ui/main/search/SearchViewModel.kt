@@ -3,12 +3,13 @@ package com.ku_stacks.ku_ring.ui.main.search
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ku_stacks.ku_ring.data.api.SearchClient
-import com.ku_stacks.ku_ring.data.mapper.toNoticeList
-import com.ku_stacks.ku_ring.data.mapper.toStaffList
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.domain.Staff
-import com.ku_stacks.ku_ring.repository.NoticeRepository
+import com.ku_stacks.ku_ring.notice.mapper.toNoticeList
+import com.ku_stacks.ku_ring.notice.repository.NoticeRepository
+import com.ku_stacks.ku_ring.remote.notice.NoticeClient
+import com.ku_stacks.ku_ring.remote.staff.StaffClient
+import com.ku_stacks.ku_ring.staff.mapper.toStaffList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -18,7 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val noticeRepository: NoticeRepository,
-    private val searchClient: SearchClient,
+    private val staffClient: StaffClient,
+    private val noticeClient: NoticeClient,
 ) : ViewModel() {
 
     private val disposable = CompositeDisposable()
@@ -38,7 +40,7 @@ class SearchViewModel @Inject constructor(
     fun searchStaff(keyword: String) {
         Timber.e("search staff $keyword")
         disposable.add(
-            searchClient.fetchStaffList(keyword)
+            staffClient.fetchStaffList(keyword)
                 .subscribeOn(Schedulers.io())
                 .filter { it.isSuccess }
                 .map { staffResponse -> staffResponse.toStaffList() }
@@ -52,7 +54,7 @@ class SearchViewModel @Inject constructor(
     fun searchNotice(keyword: String) {
         Timber.e("search notice $keyword")
         disposable.add(
-            searchClient.fetchNoticeList(keyword)
+            noticeClient.fetchNoticeList(keyword)
                 .subscribeOn(Schedulers.io())
                 .filter { it.isSuccess }
                 .map { noticeResponse -> noticeResponse.toNoticeList() }

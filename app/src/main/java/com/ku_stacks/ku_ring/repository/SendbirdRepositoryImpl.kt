@@ -1,6 +1,6 @@
 package com.ku_stacks.ku_ring.repository
 
-import com.ku_stacks.ku_ring.data.api.SendbirdClient
+import com.ku_stacks.ku_ring.remote.sendbird.SendbirdClient
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject

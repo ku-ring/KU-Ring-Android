@@ -11,9 +11,6 @@ import com.ku_stacks.ku_ring.MockUtil.mock
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.SchedulersTestRule
 import com.ku_stacks.ku_ring.analytics.EventAnalytics
-import com.ku_stacks.ku_ring.data.api.FeedbackClient
-import com.ku_stacks.ku_ring.data.api.request.FeedbackRequest
-import com.ku_stacks.ku_ring.data.api.response.DefaultResponse
 import com.ku_stacks.ku_ring.ui.feedback.FeedbackViewModel
 import io.reactivex.rxjava3.core.Single
 import org.junit.Assert.assertEquals
@@ -29,7 +26,7 @@ import java.util.concurrent.Executor
 class FeedbackViewModelTest {
 
     private lateinit var viewModel: FeedbackViewModel
-    private val client: FeedbackClient = mock()
+    private val client: com.ku_stacks.ku_ring.remote.user.FeedbackClient = mock()
     private val analytics: EventAnalytics = mock()
     private val firebaseMessaging: FirebaseMessaging = mock()
 
@@ -61,7 +58,7 @@ class FeedbackViewModelTest {
                 return false
             }
 
-            override fun getResult(): String? {
+            override fun getResult(): String {
                 return mockToken
             }
 
@@ -70,11 +67,11 @@ class FeedbackViewModelTest {
                 return successTask
             }
 
-            override fun <X : Throwable?> getResult(p0: Class<X>): String? {
+            override fun <X : Throwable?> getResult(p0: Class<X>): String {
                 return mockToken
             }
 
-            override fun getException(): java.lang.Exception? {
+            override fun getException(): java.lang.Exception {
                 return Exception()
             }
 
@@ -124,8 +121,9 @@ class FeedbackViewModelTest {
 
         Mockito.`when`(firebaseMessaging.token).thenReturn(successTask)
 
-        val mockFeedback = FeedbackRequest(mockFeedbackContent)
-        val mockResponse = DefaultResponse(
+        val mockFeedback =
+            com.ku_stacks.ku_ring.remote.user.request.FeedbackRequest(mockFeedbackContent)
+        val mockResponse = com.ku_stacks.ku_ring.remote.util.DefaultResponse(
             resultMsg = "성공",
             resultCode = 200,
             data = null,
@@ -186,9 +184,10 @@ class FeedbackViewModelTest {
 
         Mockito.`when`(firebaseMessaging.token).thenReturn(successTask)
 
-        val mockFeedback = FeedbackRequest(mockFeedbackContent)
+        val mockFeedback =
+            com.ku_stacks.ku_ring.remote.user.request.FeedbackRequest(mockFeedbackContent)
         val expectedResponseMsg = "알 수 없는 서버 오류"
-        val mockResponse = DefaultResponse(
+        val mockResponse = com.ku_stacks.ku_ring.remote.util.DefaultResponse(
             resultMsg = expectedResponseMsg,
             resultCode = 500,
             data = null,

@@ -26,10 +26,10 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.databinding.FragmentDepartmentNoticeBinding
 import com.ku_stacks.ku_ring.domain.Notice
-import com.ku_stacks.ku_ring.ui.compose.theme.KuringTheme
 import com.ku_stacks.ku_ring.ui.main.notice.department.compose.DepartmentNoticeScreen
 import com.ku_stacks.ku_ring.ui.main.notice.department.fragment_subscribe.DepartmentSubscribeBottomSheet
 import com.ku_stacks.ku_ring.ui.notice_webview.NoticeWebActivity
+import com.ku_stacks.ku_ring.ui_util.compose.theme.KuringTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

@@ -17,6 +17,7 @@ import com.ku_stacks.ku_ring.ui.notice_webview.NoticeWebActivity
 import com.ku_stacks.ku_ring.ui.notion.NotionViewActivity
 import com.ku_stacks.ku_ring.ui.onboarding.OnboardingActivity
 import com.ku_stacks.ku_ring.ui.splash.SplashActivity
+import com.ku_stacks.ku_ring.ui_util.KuringNavigator
 import javax.inject.Inject
 
 class KuringNavigatorImpl @Inject constructor(): KuringNavigator {

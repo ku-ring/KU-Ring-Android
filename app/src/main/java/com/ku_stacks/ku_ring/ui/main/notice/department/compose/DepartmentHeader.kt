@@ -27,9 +27,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.ui.compose.LightAndDarkPreview
-import com.ku_stacks.ku_ring.ui.compose.theme.KuringTheme
-import com.ku_stacks.ku_ring.ui.compose.theme.SfProDisplay
+import com.ku_stacks.ku_ring.ui_util.compose.LightAndDarkPreview
+import com.ku_stacks.ku_ring.ui_util.compose.theme.KuringTheme
+import com.ku_stacks.ku_ring.ui_util.compose.theme.SfProDisplay
 
 @Composable
 fun DepartmentHeader(

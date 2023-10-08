@@ -3,10 +3,10 @@ package com.ku_stacks.ku_ring.ui.main.notice.department
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import com.ku_stacks.ku_ring.department.repository.DepartmentRepository
 import com.ku_stacks.ku_ring.domain.Department
 import com.ku_stacks.ku_ring.domain.Notice
-import com.ku_stacks.ku_ring.repository.DepartmentNoticeRepository
-import com.ku_stacks.ku_ring.repository.DepartmentRepository
+import com.ku_stacks.ku_ring.notice.repository.NoticeRepository
 import com.ku_stacks.ku_ring.util.modifyList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -23,7 +23,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DepartmentNoticeViewModel @Inject constructor(
-    private val departmentNoticeRepository: DepartmentNoticeRepository,
+    private val noticeRepository: NoticeRepository,
     private val departmentRepository: DepartmentRepository,
 ) : ViewModel() {
 
@@ -55,7 +55,7 @@ class DepartmentNoticeViewModel @Inject constructor(
             if (selectedDepartment == null) {
                 null
             } else {
-                departmentNoticeRepository.getDepartmentNotices(selectedDepartment.shortName)
+                noticeRepository.getDepartmentNotices(selectedDepartment.shortName)
             }
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
 

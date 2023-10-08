@@ -15,8 +15,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.databinding.DataBindingUtil
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.databinding.ActivityEditSubscriptionBinding
-import com.ku_stacks.ku_ring.ui.compose.theme.KuringTheme
 import com.ku_stacks.ku_ring.ui.edit_subscription.compose.Subscriptions
+import com.ku_stacks.ku_ring.ui_util.compose.theme.KuringTheme
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 

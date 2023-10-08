@@ -4,10 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.messaging.FirebaseMessaging
 import com.ku_stacks.ku_ring.analytics.EventAnalytics
-import com.ku_stacks.ku_ring.data.api.request.SubscribeRequest
+import com.ku_stacks.ku_ring.department.repository.DepartmentRepository
 import com.ku_stacks.ku_ring.domain.Department
-import com.ku_stacks.ku_ring.repository.DepartmentRepository
-import com.ku_stacks.ku_ring.repository.SubscribeRepository
+import com.ku_stacks.ku_ring.notice.repository.NoticeRepository
+import com.ku_stacks.ku_ring.preferences.PreferenceUtil
+import com.ku_stacks.ku_ring.remote.notice.request.SubscribeRequest
 import com.ku_stacks.ku_ring.util.WordConverter
 import com.ku_stacks.ku_ring.util.modifyMap
 import com.ku_stacks.ku_ring.util.modifySet
@@ -27,10 +28,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EditSubscriptionViewModel @Inject constructor(
-    private val repository: SubscribeRepository,
     private val departmentRepository: DepartmentRepository,
-    private val subscribeRepository: SubscribeRepository,
+    private val noticeRepository: NoticeRepository,
     private val analytics: EventAnalytics,
+    private val preferenceUtil: PreferenceUtil,
     firebaseMessaging: FirebaseMessaging
 ) : ViewModel() {
 
@@ -89,7 +90,7 @@ class EditSubscriptionViewModel @Inject constructor(
     fun syncWithServer() {
         fcmToken?.let {
             disposable.add(
-                repository.fetchSubscriptionFromRemote(fcmToken!!)
+                noticeRepository.fetchSubscriptionFromRemote(fcmToken!!)
                     .subscribeOn(Schedulers.io())
                     .subscribe({
                         initialSortSubscription(it)
@@ -103,7 +104,7 @@ class EditSubscriptionViewModel @Inject constructor(
             departmentRepository.updateDepartmentsFromRemote()
             val subscribedDepartments = departmentRepository.getSubscribedDepartments()
             addDepartmentsToMap(subscribedDepartments)
-            val notificationEnabledDepartments = repository.fetchSubscribedDepartments()
+            val notificationEnabledDepartments = departmentRepository.fetchSubscribedDepartments()
             markDepartmentsAsEnabled(notificationEnabledDepartments)
             isInitialDepartmentLoaded = true
             initialDepartments.modifySet { addAll(departmentsByKoreanName.value.values) }
@@ -127,8 +128,8 @@ class EditSubscriptionViewModel @Inject constructor(
         fcmToken?.let { fcmToken ->
             val notificationEnabledCategories =
                 categories.value.values.filter { it.isNotificationEnabled }.map { it.content }
-            repository.saveSubscriptionToLocal(ArrayList(notificationEnabledCategories))
-            repository.saveSubscriptionToRemote(
+            preferenceUtil.saveSubscriptionFromKorean(notificationEnabledCategories)
+            noticeRepository.saveSubscriptionToRemote(
                 token = fcmToken,
                 subscribeRequest = SubscribeRequest(notificationEnabledCategories.map { category ->
                     WordConverter.convertKoreanToEnglish(category)
@@ -138,7 +139,7 @@ class EditSubscriptionViewModel @Inject constructor(
         viewModelScope.launch {
             val subscribedDepartments =
                 departmentsByKoreanName.value.values.filter { it.isNotificationEnabled }
-            subscribeRepository.saveSubscribedDepartmentsToRemote(subscribedDepartments)
+            departmentRepository.saveSubscribedDepartmentsToRemote(subscribedDepartments)
         }
     }
 

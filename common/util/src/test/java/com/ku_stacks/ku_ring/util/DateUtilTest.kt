@@ -32,7 +32,9 @@ class DateUtilTest {
     @Test
     fun timeDiff_oneHour() {
         val midnight = DateUtil.getCalendar(0, 0, 0, 0)
-        val am1 = DateUtil.getCalendar(0, 1, 0, 0)
+        val am1 = DateUtil.getCalendar(0, 0, 0, 0)?.apply {
+            add(Calendar.HOUR_OF_DAY, 1)
+        }
 
         assertNotNull(midnight)
         assertNotNull(am1)
