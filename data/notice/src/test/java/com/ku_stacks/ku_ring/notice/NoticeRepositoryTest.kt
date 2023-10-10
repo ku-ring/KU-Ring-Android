@@ -103,7 +103,7 @@ class NoticeRepositoryTest {
             .thenReturn(Single.just(mockResponse))
 
         // when
-        repository.saveSubscriptionToRemote(mockToken, mockRequest)
+        repository.saveSubscriptionToRemote(mockToken, mockRequest.categories)
 
         // then
         Mockito.verify(client, times(1)).saveSubscribe(mockToken, mockRequest)
