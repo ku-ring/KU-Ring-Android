@@ -8,6 +8,7 @@ import com.ku_stacks.ku_ring.domain.Department
 import com.ku_stacks.ku_ring.local.room.DepartmentDao
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.remote.department.DepartmentClient
+import com.ku_stacks.ku_ring.util.IODispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -20,7 +21,7 @@ class DepartmentRepositoryImpl @Inject constructor(
     private val departmentDao: DepartmentDao,
     private val departmentClient: DepartmentClient,
     private val pref: PreferenceUtil,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
+    @IODispatcher private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : DepartmentRepository {
     // not null: 최신 데이터가 캐시됨
     // null: 데이터가 업데이트되어 새 데이터를 가져와야 함
