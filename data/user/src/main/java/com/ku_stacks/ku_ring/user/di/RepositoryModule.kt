@@ -1,22 +1,15 @@
 package com.ku_stacks.ku_ring.user.di
 
-import com.ku_stacks.ku_ring.local.room.BlackUserDao
 import com.ku_stacks.ku_ring.user.repository.UserRepository
 import com.ku_stacks.ku_ring.user.repository.UserRepositoryImpl
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RepositoryModule {
-    @Provides
-    @Singleton
-    fun provideUserRepository(
-        blackUserDao: BlackUserDao
-    ): UserRepository {
-        return UserRepositoryImpl(blackUserDao)
-    }
+abstract class RepositoryModule {
+    @Binds
+    abstract fun bindUserRepository(userRepositoryImpl: UserRepositoryImpl): UserRepository
 }

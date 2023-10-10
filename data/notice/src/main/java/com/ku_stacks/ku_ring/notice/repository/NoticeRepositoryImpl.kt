@@ -214,7 +214,8 @@ class NoticeRepositoryImpl @Inject constructor(
             }
     }
 
-    override fun saveSubscriptionToRemote(token: String, subscribeRequest: SubscribeRequest) {
+    override fun saveSubscriptionToRemote(token: String, subscribeCategories: List<String>) {
+        val subscribeRequest = SubscribeRequest(subscribeCategories)
         noticeClient.saveSubscribe(token, subscribeRequest)
             .subscribeOn(Schedulers.io())
             .subscribe({ response ->
@@ -227,6 +228,14 @@ class NoticeRepositoryImpl @Inject constructor(
             }, {
                 Timber.e("saveSubscribe failed $it")
             })
+    }
+
+    override fun searchNotice(query: String): Single<List<Notice>> {
+        return noticeClient.fetchNoticeList(query)
+            .subscribeOn(Schedulers.io())
+            .filter { it.isSuccess }
+            .map { it.toNoticeList() }
+            .toSingle()
     }
 
     companion object {

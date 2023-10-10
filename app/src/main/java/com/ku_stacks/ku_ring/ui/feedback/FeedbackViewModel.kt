@@ -6,9 +6,8 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.messaging.FirebaseMessaging
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.analytics.EventAnalytics
-import com.ku_stacks.ku_ring.remote.user.FeedbackClient
-import com.ku_stacks.ku_ring.remote.user.request.FeedbackRequest
 import com.ku_stacks.ku_ring.ui_util.SingleLiveEvent
+import com.ku_stacks.ku_ring.user.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -18,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FeedbackViewModel @Inject constructor(
-    private val feedbackClient: FeedbackClient,
+    private val userRepository: UserRepository,
     private val analytics: EventAnalytics,
     private val firebaseMessaging: FirebaseMessaging
 ) : ViewModel() {
@@ -70,10 +69,7 @@ class FeedbackViewModel @Inject constructor(
                 return@addOnCompleteListener
             }
 
-            feedbackClient.sendFeedback(
-                token = fcmToken,
-                feedbackRequest = FeedbackRequest(content = content),
-            )
+            userRepository.sendFeedback(content)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
