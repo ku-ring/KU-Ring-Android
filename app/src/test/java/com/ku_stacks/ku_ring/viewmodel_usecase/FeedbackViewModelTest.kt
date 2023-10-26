@@ -10,8 +10,8 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.ku_stacks.ku_ring.MockUtil.mock
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.SchedulersTestRule
-import com.ku_stacks.ku_ring.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.remote.util.DefaultResponse
+import com.ku_stacks.ku_ring.thirdparty.firebase.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.ui.feedback.FeedbackViewModel
 import com.ku_stacks.ku_ring.user.repository.UserRepository
 import io.reactivex.rxjava3.core.Single

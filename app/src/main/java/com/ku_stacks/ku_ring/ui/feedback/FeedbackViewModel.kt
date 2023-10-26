@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.messaging.FirebaseMessaging
 import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.analytics.EventAnalytics
+import com.ku_stacks.ku_ring.thirdparty.firebase.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.ui_util.SingleLiveEvent
 import com.ku_stacks.ku_ring.user.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel

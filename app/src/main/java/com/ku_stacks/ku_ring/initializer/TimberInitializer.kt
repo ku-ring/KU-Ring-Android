@@ -3,7 +3,7 @@ package com.ku_stacks.ku_ring.initializer
 import android.content.Context
 import androidx.startup.Initializer
 import com.ku_stacks.ku_ring.BuildConfig
-import com.ku_stacks.ku_ring.crashlytics.CrashlyticsTree
+import com.ku_stacks.ku_ring.thirdparty.firebase.crashlytics.CrashlyticsTree
 import timber.log.Timber
 
 class TimberInitializer : Initializer<Unit> {
