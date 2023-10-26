@@ -1,9 +1,11 @@
-package com.ku_stacks.ku_ring.util
+package com.ku_stacks.ku_ring.thirdparty.firebase
+
 
 import com.ku_stacks.ku_ring.local.entity.NoticeEntity
 import com.ku_stacks.ku_ring.local.entity.PushEntity
 import com.ku_stacks.ku_ring.local.room.NoticeDao
 import com.ku_stacks.ku_ring.local.room.PushDao
+import com.ku_stacks.ku_ring.util.IODispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -24,7 +26,7 @@ class FcmUtil @Inject constructor(
         val fullUrl = data["baseUrl"]
 
         return articleId != null && categoryEng != null && postedDate != null
-            && subject != null && fullUrl != null
+                && subject != null && fullUrl != null
     }
 
     fun isCustomNotification(data: Map<String, String?>): Boolean {

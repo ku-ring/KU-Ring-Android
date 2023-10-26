@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.analytics
+package com.ku_stacks.ku_ring.thirdparty.firebase.analytics
 
 import android.content.Context
 import android.os.Bundle

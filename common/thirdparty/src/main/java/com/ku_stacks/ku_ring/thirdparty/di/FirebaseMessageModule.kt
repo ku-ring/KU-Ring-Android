@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.di
+package com.ku_stacks.ku_ring.thirdparty.di
 
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.Module

@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.crashlytics
+package com.ku_stacks.ku_ring.thirdparty.firebase.crashlytics
 
 import android.util.Log
 import com.google.firebase.crashlytics.FirebaseCrashlytics
