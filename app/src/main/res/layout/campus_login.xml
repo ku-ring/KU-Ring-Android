@@ -23,7 +23,7 @@
         android:layout_marginEnd="20dp"
         android:fontFamily="@font/sfpro_display_regular"
         android:gravity="center_horizontal"
-        android:text="@string/campus_ask_send_message"
+        android:text="@string/campus_on_construction"
         android:textColor="@color/kus_primary"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
