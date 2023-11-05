@@ -1,7 +1,7 @@
-package com.ku_stacks.ku_ring.di
+package com.ku_stacks.ku_ring.thirdparty.di
 
 import android.content.Context
-import com.ku_stacks.ku_ring.analytics.EventAnalytics
+import com.ku_stacks.ku_ring.thirdparty.firebase.analytics.EventAnalytics
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

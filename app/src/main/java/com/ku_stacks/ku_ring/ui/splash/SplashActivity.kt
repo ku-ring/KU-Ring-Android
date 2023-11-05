@@ -13,14 +13,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
-import com.ku_stacks.ku_ring.MyFireBaseMessagingService
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.databinding.ActivitySplashBinding
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
+import com.ku_stacks.ku_ring.thirdparty.firebase.FcmUtil
+import com.ku_stacks.ku_ring.thirdparty.firebase.MyFireBaseMessagingService
 import com.ku_stacks.ku_ring.ui.main.MainActivity
 import com.ku_stacks.ku_ring.ui_util.KuringNavigator
 import com.ku_stacks.ku_ring.util.DateUtil
-import com.ku_stacks.ku_ring.util.FcmUtil
 import com.ku_stacks.ku_ring.work.ReEngagementNotificationWork
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
