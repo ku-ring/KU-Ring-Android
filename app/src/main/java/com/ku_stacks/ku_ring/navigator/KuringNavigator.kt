@@ -7,7 +7,6 @@ import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.data.model.WebViewNotice
 
 interface KuringNavigator {
-    fun navigateToChat(activity: Activity)
     fun createEditSubscriptionIntent(context: Context, isFirstRun: Boolean = false): Intent
     fun navigateToEditSubscription(activity: Activity, isFirstRun: Boolean = false)
     fun navigateToFeedback(activity: Activity)
