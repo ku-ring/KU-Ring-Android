@@ -6,22 +6,22 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28" />
 
     <application
-        tools:replace="icon, label"
         android:name="com.ku_stacks.ku_ring.KuRingApplication"
         android:allowBackup="false"
         android:icon="${appIcon}"
         android:label="${appName}"
         android:roundIcon="@drawable/ic_ku_ring_launcher_round"
-        android:usesCleartextTraffic="true"
         android:supportsRtl="true"
-        android:theme="@style/Theme.KURing">
+        android:theme="@style/Theme.KURing"
+        android:usesCleartextTraffic="true"
+        tools:replace="icon, label">
 
         <activity
             android:name=".ui.splash.SplashActivity"
@@ -45,7 +45,8 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
 
-        <activity android:name=".ui.my_notification.NotificationActivity"
+        <activity
+            android:name=".ui.my_notification.NotificationActivity"
             android:exported="true"
             android:launchMode="singleTask" />
         <activity
@@ -60,31 +61,26 @@
         <activity
             android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
             android:exported="true"
-            android:theme="@style/OpenSourceItemTheme"/>
+            android:theme="@style/OpenSourceItemTheme" />
 
         <activity
             android:name=".ui.notice_webview.NoticeWebActivity"
-            android:exported="true"
-            />
+            android:exported="true" />
 
         <activity
             android:name=".ui.edit_subscription.EditSubscriptionActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/EditSubscriptionTheme"/>
+            android:theme="@style/EditSubscriptionTheme" />
 
-        <activity android:name=".ui.notion.NotionViewActivity"
+        <activity
+            android:name=".ui.notion.NotionViewActivity"
             android:exported="true" />
 
         <activity
             android:name=".ui.onboarding.OnboardingActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".ui.chat.ChatActivity"
-            android:exported="true"
-            android:windowSoftInputMode="adjustResize" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"
@@ -98,8 +94,9 @@
                 android:name="com.ku_stacks.ku_ring.initializer.AppsFlyerInitializer"
                 android:value="androidx.startup" />
             <meta-data
-                android:name="com.ku_stacks.ku_ring.initializer.SendbirdInitializer"
-                android:value="androidx.startup" />
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
         </provider>
 
         <service android:name="com.ku_stacks.ku_ring.MyFireBaseMessagingService"
@@ -107,8 +104,8 @@
             android:exported="false"
             android:stopWithTask="false">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
 
@@ -118,8 +115,7 @@
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/ic_status_bar"
-            />
+            android:resource="@drawable/ic_status_bar" />
 
     </application>
 

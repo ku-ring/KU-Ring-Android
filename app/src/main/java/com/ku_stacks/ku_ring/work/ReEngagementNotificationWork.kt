@@ -7,18 +7,21 @@ import android.content.Context
 import android.graphics.BitmapFactory
 import android.media.RingtoneManager
 import androidx.core.app.NotificationCompat
+import androidx.hilt.work.HiltWorker
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.ku_stacks.ku_ring.MyFireBaseMessagingService
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.navigator.KuringNavigator
-import javax.inject.Inject
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 
-class ReEngagementNotificationWork(appContext: Context, workerParams: WorkerParameters) :
-    Worker(appContext, workerParams) {
-
-    @Inject
-    lateinit var navigator: KuringNavigator
+@HiltWorker
+class ReEngagementNotificationWork @AssistedInject constructor(
+    @Assisted appContext: Context,
+    @Assisted workerParams: WorkerParameters,
+    private val navigator: KuringNavigator
+) : Worker(appContext, workerParams) {
 
     override fun doWork(): Result {
         val notification = createNotification(applicationContext)
