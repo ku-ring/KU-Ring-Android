@@ -7,7 +7,6 @@ import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.data.model.Notice
 import com.ku_stacks.ku_ring.data.model.WebViewNotice
-import com.ku_stacks.ku_ring.ui.chat.ChatActivity
 import com.ku_stacks.ku_ring.ui.edit_subscription.EditSubscriptionActivity
 import com.ku_stacks.ku_ring.ui.feedback.FeedbackActivity
 import com.ku_stacks.ku_ring.ui.main.MainActivity
@@ -19,10 +18,7 @@ import com.ku_stacks.ku_ring.ui.onboarding.OnboardingActivity
 import com.ku_stacks.ku_ring.ui.splash.SplashActivity
 import javax.inject.Inject
 
-class KuringNavigatorImpl @Inject constructor(): KuringNavigator {
-    override fun navigateToChat(activity: Activity) {
-        ChatActivity.start(activity)
-    }
+class KuringNavigatorImpl @Inject constructor() : KuringNavigator {
 
     override fun createEditSubscriptionIntent(context: Context, isFirstRun: Boolean): Intent {
         return Intent(context, EditSubscriptionActivity::class.java).apply {

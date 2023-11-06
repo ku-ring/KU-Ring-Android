@@ -2,7 +2,6 @@ package com.ku_stacks.ku_ring.di
 
 import com.ku_stacks.ku_ring.data.api.DepartmentClient
 import com.ku_stacks.ku_ring.data.api.NoticeClient
-import com.ku_stacks.ku_ring.data.api.SendbirdClient
 import com.ku_stacks.ku_ring.data.db.BlackUserDao
 import com.ku_stacks.ku_ring.data.db.DepartmentDao
 import com.ku_stacks.ku_ring.data.db.NoticeDao
@@ -47,14 +46,6 @@ object RepositoryModule {
         pref: PreferenceUtil
     ): SubscribeRepository {
         return SubscribeRepositoryImpl(noticeClient, departmentClient, pref)
-    }
-
-    @Provides
-    @Singleton
-    fun provideSendbirdRepository(
-        sendbirdClient: SendbirdClient
-    ): SendbirdRepository {
-        return SendbirdRepositoryImpl(sendbirdClient)
     }
 
     @Provides

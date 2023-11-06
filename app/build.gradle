@@ -211,9 +211,6 @@ dependencies {
     // indicator
     implementation libs.pageindicatorview
 
-    // sendbird sdk
-    implementation libs.sendbird.chat
-
     // google play-auth
     implementation libs.play.services.auth
 }
