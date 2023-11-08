@@ -1,10 +1,10 @@
-package com.ku_stacks.ku_ring.ui.feedback
+package com.ku_stacks.ku_ring.feedback.feedback
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.messaging.FirebaseMessaging
-import com.ku_stacks.ku_ring.R
+import com.ku_stacks.ku_ring.feedback.R
 import com.ku_stacks.ku_ring.thirdparty.firebase.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.ui_util.SingleLiveEvent
 import com.ku_stacks.ku_ring.user.repository.UserRepository

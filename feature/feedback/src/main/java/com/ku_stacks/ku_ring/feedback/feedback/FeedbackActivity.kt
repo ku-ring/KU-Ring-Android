@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.ui.feedback
+package com.ku_stacks.ku_ring.feedback.feedback
 
 import android.app.Activity
 import android.content.Intent
@@ -8,8 +8,8 @@ import android.text.TextWatcher
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.databinding.ActivityFeedbackBinding
+import com.ku_stacks.ku_ring.feedback.R
+import com.ku_stacks.ku_ring.feedback.databinding.ActivityFeedbackBinding
 import com.ku_stacks.ku_ring.ui_util.modified_external_library.AppearanceAnimator
 import com.ku_stacks.ku_ring.ui_util.showToast
 import dagger.hilt.android.AndroidEntryPoint
@@ -72,10 +72,12 @@ class FeedbackActivity : AppCompatActivity() {
                         viewModel.canSendFeedback.postValue(false)
                         getString(R.string.feedback_write_more_character)
                     }
+
                     strLength > 256 -> {
                         viewModel.canSendFeedback.postValue(false)
                         String.format(getString(R.string.feedback_size_of_character), strLength)
                     }
+
                     else -> {
                         viewModel.canSendFeedback.postValue(true)
                         String.format(getString(R.string.feedback_size_of_character), strLength)

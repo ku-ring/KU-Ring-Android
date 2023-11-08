@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.ku_stacks.ku_ring.ui.feedback.FeedbackViewModel" />
+            type="com.ku_stacks.ku_ring.feedback.feedback.FeedbackViewModel" />
     </data>
 
 
