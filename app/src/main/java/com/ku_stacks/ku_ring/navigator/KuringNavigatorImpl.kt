@@ -7,8 +7,8 @@ import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.domain.WebViewNotice
+import com.ku_stacks.ku_ring.edit_subscription.EditSubscriptionActivity
 import com.ku_stacks.ku_ring.ui.chat.ChatActivity
-import com.ku_stacks.ku_ring.ui.edit_subscription.EditSubscriptionActivity
 import com.ku_stacks.ku_ring.ui.feedback.FeedbackActivity
 import com.ku_stacks.ku_ring.ui.main.MainActivity
 import com.ku_stacks.ku_ring.ui.my_notification.NotificationActivity

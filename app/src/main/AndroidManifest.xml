@@ -68,7 +68,7 @@
             android:exported="true" />
 
         <activity
-            android:name=".ui.edit_subscription.EditSubscriptionActivity"
+            android:name=".edit_subscription.EditSubscriptionActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/EditSubscriptionTheme" />
