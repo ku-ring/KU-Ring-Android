@@ -129,6 +129,7 @@ dependencies {
     implementation project(":data:remote")
     testImplementation testFixtures(project(":data:remote"))
     implementation project(":feature:edit_subscription")
+    implementation project(":feature:feedback")
 
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat
