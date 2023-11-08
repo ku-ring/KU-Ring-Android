@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.ui.edit_subscription
+package com.ku_stacks.ku_ring.edit_subscription
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

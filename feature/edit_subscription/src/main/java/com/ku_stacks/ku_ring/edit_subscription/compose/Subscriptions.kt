@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.ui.edit_subscription.compose
+package com.ku_stacks.ku_ring.edit_subscription.compose
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,7 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import com.ku_stacks.ku_ring.ui.edit_subscription.SubscriptionUiModel
+import com.ku_stacks.ku_ring.edit_subscription.SubscriptionUiModel
 import com.ku_stacks.ku_ring.ui_util.compose.theme.KuringTheme
 
 @Composable

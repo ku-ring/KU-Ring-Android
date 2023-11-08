@@ -128,6 +128,7 @@ dependencies {
     // SendbirdRepository 삭제되면 :data:remote 의존성 제거하기
     implementation project(":data:remote")
     testImplementation testFixtures(project(":data:remote"))
+    implementation project(":feature:edit_subscription")
 
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat
