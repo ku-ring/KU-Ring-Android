@@ -1,14 +1,14 @@
 package com.ku_stacks.ku_ring.viewmodel_usecase
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.ku_stacks.ku_ring.MockUtil.mock
 import com.ku_stacks.ku_ring.data.mapper.toPushUiModelList
-import com.ku_stacks.ku_ring.getOrAwaitValue
 import com.ku_stacks.ku_ring.local.LocalFixtures
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.push.mapper.toPushList
 import com.ku_stacks.ku_ring.push.repository.PushRepository
 import com.ku_stacks.ku_ring.ui.my_notification.NotificationViewModel
+import com.ku_stacks.ku_ring.util.MockUtil
+import com.ku_stacks.ku_ring.util.TestingLiveDataExt
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
 import org.junit.Assert.assertEquals
@@ -23,8 +23,8 @@ import org.mockito.kotlin.verify
 class NotificationViewModelTest {
 
     private lateinit var viewModel: NotificationViewModel
-    private val pushRepository: PushRepository = mock()
-    private val pref: PreferenceUtil = mock()
+    private val pushRepository: PushRepository = MockUtil.mock(PushRepository::class.java)
+    private val pref: PreferenceUtil = MockUtil.mock(PreferenceUtil::class.java)
 
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
@@ -42,7 +42,8 @@ class NotificationViewModelTest {
 
         // when
         viewModel.getMyNotificationList()
-        viewModel.pushUiModelList.getOrAwaitValue()
+//        viewModel.pushUiModelList.getOrAwaitValue()
+        TestingLiveDataExt.getOrAwaitValue(viewModel.pushUiModelList)
 
         // then
         val expected = mockData.toPushUiModelList()

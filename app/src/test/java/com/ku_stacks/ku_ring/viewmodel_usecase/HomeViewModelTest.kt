@@ -1,24 +1,24 @@
 package com.ku_stacks.ku_ring.viewmodel_usecase
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.ku_stacks.ku_ring.MockUtil.mock
 import com.ku_stacks.ku_ring.domain.DomainFixtures
 import com.ku_stacks.ku_ring.notice.repository.NoticeRepository
 import com.ku_stacks.ku_ring.push.repository.PushRepository
 import com.ku_stacks.ku_ring.ui.main.notice.category.NoticesChildViewModel
+import com.ku_stacks.ku_ring.util.MockUtil
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito
-import org.mockito.Mockito.times
+import org.mockito.kotlin.times
 
 class HomeViewModelTest {
 
     private lateinit var viewModel: NoticesChildViewModel
-    private val pushRepository: PushRepository = mock()
-    private val noticeRepository: NoticeRepository = mock()
+    private val pushRepository: PushRepository = MockUtil.mock(PushRepository::class.java)
+    private val noticeRepository: NoticeRepository = MockUtil.mock(NoticeRepository::class.java)
 
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()

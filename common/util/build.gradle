@@ -47,6 +47,9 @@ android {
     buildFeatures {
         buildConfig true
     }
+    testFixtures {
+        enable true
+    }
 }
 
 dependencies {
@@ -65,6 +68,9 @@ dependencies {
     testImplementation libs.hilt.android.testing
     kaptTest libs.hilt.compiler
 
+    // Lifecycle
+    testFixturesImplementation libs.android.lifecycle.extensions
+
     // retrofit
     implementation libs.bundles.retrofit
 
@@ -76,6 +82,10 @@ dependencies {
     // Timber
     implementation libs.timber
 
+    // rxJava
+    testFixturesImplementation libs.bundles.rxjava
+
     // tests
     testImplementation libs.bundles.unit.test
+    testFixturesImplementation libs.bundles.unit.test
 }

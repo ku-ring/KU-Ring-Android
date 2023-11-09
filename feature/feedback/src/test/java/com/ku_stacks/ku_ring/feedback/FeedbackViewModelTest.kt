@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.viewmodel_usecase
+package com.ku_stacks.ku_ring.feedback
 
 import android.app.Activity
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
@@ -7,13 +7,12 @@ import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.messaging.FirebaseMessaging
-import com.ku_stacks.ku_ring.MockUtil.mock
-import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.SchedulersTestRule
 import com.ku_stacks.ku_ring.feedback.feedback.FeedbackViewModel
 import com.ku_stacks.ku_ring.remote.util.DefaultResponse
 import com.ku_stacks.ku_ring.thirdparty.firebase.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.user.repository.UserRepository
+import com.ku_stacks.ku_ring.util.MockUtil
+import com.ku_stacks.ku_ring.util.SchedulersTestRule
 import io.reactivex.rxjava3.core.Single
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -28,9 +27,9 @@ import java.util.concurrent.Executor
 class FeedbackViewModelTest {
 
     private lateinit var viewModel: FeedbackViewModel
-    private val userRepository: UserRepository = mock()
-    private val analytics: EventAnalytics = mock()
-    private val firebaseMessaging: FirebaseMessaging = mock()
+    private val userRepository: UserRepository = MockUtil.mock(UserRepository::class.java)
+    private val analytics: EventAnalytics = MockUtil.mock(EventAnalytics::class.java)
+    private val firebaseMessaging: FirebaseMessaging = MockUtil.mock(FirebaseMessaging::class.java)
 
     private lateinit var successTask: Task<String>
     private val mockToken = "mockToken"
