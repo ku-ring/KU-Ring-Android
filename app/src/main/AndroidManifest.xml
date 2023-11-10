@@ -46,7 +46,7 @@
             android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:name=".ui.my_notification.NotificationActivity"
+            android:name=".my_notification.NotificationActivity"
             android:exported="true"
             android:launchMode="singleTask" />
         <activity

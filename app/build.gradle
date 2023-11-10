@@ -131,6 +131,7 @@ dependencies {
     testImplementation testFixtures(project(":data:remote"))
     implementation project(":feature:edit_subscription")
     implementation project(":feature:feedback")
+    implementation project(":feature:my_notification")
 
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat
