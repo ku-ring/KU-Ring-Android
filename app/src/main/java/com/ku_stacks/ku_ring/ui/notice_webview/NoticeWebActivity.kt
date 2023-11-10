@@ -16,7 +16,8 @@ import com.ku_stacks.ku_ring.data.mapper.toWebViewNotice
 import com.ku_stacks.ku_ring.databinding.ActivityNoticeWebBinding
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.domain.WebViewNotice
-import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushContentUiModel
+import com.ku_stacks.ku_ring.my_notification.mapper.toWebViewNotice
+import com.ku_stacks.ku_ring.my_notification.ui_model.PushContentUiModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
