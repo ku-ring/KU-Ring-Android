@@ -3,10 +3,10 @@ package com.ku_stacks.ku_ring.ui.main.notice.category
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.databinding.ItemNoticeBinding
 import com.ku_stacks.ku_ring.domain.Notice
+import com.ku_stacks.ku_ring.ui_util.adapter.NoticeDiffCallback
 
 class NoticePagingAdapter(
     private val itemClick: (Notice) -> Unit,
@@ -26,13 +26,4 @@ class NoticePagingAdapter(
         }
     }
 
-    object NoticeDiffCallback : DiffUtil.ItemCallback<Notice>() {
-        override fun areItemsTheSame(oldItem: Notice, newItem: Notice): Boolean {
-            return oldItem.url == newItem.url
-        }
-
-        override fun areContentsTheSame(oldItem: Notice, newItem: Notice): Boolean {
-            return oldItem == newItem
-        }
-    }
 }
