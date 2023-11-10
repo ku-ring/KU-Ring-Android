@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.ui.notice_storage
+package com.ku_stacks.ku_ring.notice_storage
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

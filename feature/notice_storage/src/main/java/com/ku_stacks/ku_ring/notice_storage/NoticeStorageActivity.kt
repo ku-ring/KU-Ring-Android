@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.ui.notice_storage
+package com.ku_stacks.ku_ring.notice_storage
 
 import android.app.Activity
 import android.content.Intent
@@ -9,18 +9,21 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.databinding.ActivityNoticeStorageBinding
 import com.ku_stacks.ku_ring.domain.Notice
-import com.ku_stacks.ku_ring.ui.notice_webview.NoticeWebActivity
+import com.ku_stacks.ku_ring.notice_storage.databinding.ActivityNoticeStorageBinding
+import com.ku_stacks.ku_ring.ui_util.KuringNavigator
 import com.ku_stacks.ku_ring.ui_util.makeDialog
 import com.yeonkyu.HoldableSwipeHelper.HoldableSwipeHandler
 import com.yeonkyu.HoldableSwipeHelper.SwipeButtonAction
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class NoticeStorageActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var navigator: KuringNavigator
 
     private lateinit var binding: ActivityNoticeStorageBinding
     private val viewModel by viewModels<NoticeStorageViewModel>()
@@ -86,7 +89,7 @@ class NoticeStorageActivity : AppCompatActivity() {
     }
 
     private fun startNoticeActivity(notice: Notice) {
-        NoticeWebActivity.start(this, notice)
+        navigator.navigateToNoticeWeb(this, notice)
     }
 
     override fun finish() {

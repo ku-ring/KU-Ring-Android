@@ -1,11 +1,10 @@
-package com.ku_stacks.ku_ring.ui.notice_storage
+package com.ku_stacks.ku_ring.notice_storage
 
 import android.graphics.Color
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.databinding.ItemSavedNoticeBinding
 import com.ku_stacks.ku_ring.domain.Notice
+import com.ku_stacks.ku_ring.notice_storage.databinding.ItemSavedNoticeBinding
 
 class SavedNoticeViewHolder(
     private val binding: ItemSavedNoticeBinding,

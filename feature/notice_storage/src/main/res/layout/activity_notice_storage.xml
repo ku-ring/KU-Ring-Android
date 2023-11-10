@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.ku_stacks.ku_ring.ui.notice_storage.NoticeStorageViewModel" />
+            type="com.ku_stacks.ku_ring.notice_storage.NoticeStorageViewModel" />
 
     </data>
 
