@@ -50,7 +50,7 @@
             android:exported="true"
             android:launchMode="singleTask" />
         <activity
-            android:name=".ui.notice_storage.NoticeStorageActivity"
+            android:name=".notice_storage.NoticeStorageActivity"
             android:exported="false"
             android:launchMode="singleTask" />
         <activity

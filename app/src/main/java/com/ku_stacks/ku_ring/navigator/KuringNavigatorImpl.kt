@@ -10,9 +10,9 @@ import com.ku_stacks.ku_ring.domain.WebViewNotice
 import com.ku_stacks.ku_ring.edit_subscription.EditSubscriptionActivity
 import com.ku_stacks.ku_ring.feedback.feedback.FeedbackActivity
 import com.ku_stacks.ku_ring.my_notification.NotificationActivity
+import com.ku_stacks.ku_ring.notice_storage.NoticeStorageActivity
 import com.ku_stacks.ku_ring.ui.chat.ChatActivity
 import com.ku_stacks.ku_ring.ui.main.MainActivity
-import com.ku_stacks.ku_ring.ui.notice_storage.NoticeStorageActivity
 import com.ku_stacks.ku_ring.ui.notice_webview.NoticeWebActivity
 import com.ku_stacks.ku_ring.ui.notion.NotionViewActivity
 import com.ku_stacks.ku_ring.ui.onboarding.OnboardingActivity
