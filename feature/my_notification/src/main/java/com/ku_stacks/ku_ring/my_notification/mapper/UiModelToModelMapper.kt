@@ -1,7 +1,7 @@
-package com.ku_stacks.ku_ring.data.mapper
+package com.ku_stacks.ku_ring.my_notification.mapper
 
 import com.ku_stacks.ku_ring.domain.WebViewNotice
-import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushContentUiModel
+import com.ku_stacks.ku_ring.my_notification.ui_model.PushContentUiModel
 import com.ku_stacks.ku_ring.util.WordConverter
 
 fun PushContentUiModel.toWebViewNotice() = WebViewNotice(

@@ -6,7 +6,7 @@
     <data>
         <variable
             name="pushDateHeaderUiModel"
-            type="com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushDateHeaderUiModel" />
+            type="com.ku_stacks.ku_ring.my_notification.ui_model.PushDateHeaderUiModel" />
 
         <import type="com.ku_stacks.ku_ring.util.DateUtil" />
     </data>

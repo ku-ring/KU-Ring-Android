@@ -9,7 +9,7 @@
 
         <variable
             name="pushContentUiModel"
-            type="com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushContentUiModel" />
+            type="com.ku_stacks.ku_ring.my_notification.ui_model.PushContentUiModel" />
     </data>
 
     <LinearLayout

@@ -1,11 +1,11 @@
-package com.ku_stacks.ku_ring.ui.my_notification.viewholder
+package com.ku_stacks.ku_ring.my_notification.viewholder
 
 import android.graphics.Color
 import androidx.core.content.ContextCompat
-import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.databinding.ItemNotificationBinding
-import com.ku_stacks.ku_ring.ui.my_notification.NotificationAdapter
-import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushContentUiModel
+import com.ku_stacks.ku_ring.my_notification.NotificationAdapter
+import com.ku_stacks.ku_ring.my_notification.R
+import com.ku_stacks.ku_ring.my_notification.databinding.ItemNotificationBinding
+import com.ku_stacks.ku_ring.my_notification.ui_model.PushContentUiModel
 
 class NotificationViewHolder(
     private val binding: ItemNotificationBinding,

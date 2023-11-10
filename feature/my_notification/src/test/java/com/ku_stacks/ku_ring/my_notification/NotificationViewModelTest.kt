@@ -1,12 +1,11 @@
-package com.ku_stacks.ku_ring.viewmodel_usecase
+package com.ku_stacks.ku_ring.my_notification
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.ku_stacks.ku_ring.data.mapper.toPushUiModelList
 import com.ku_stacks.ku_ring.local.LocalFixtures
+import com.ku_stacks.ku_ring.my_notification.mapper.toPushUiModelList
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.push.mapper.toPushList
 import com.ku_stacks.ku_ring.push.repository.PushRepository
-import com.ku_stacks.ku_ring.ui.my_notification.NotificationViewModel
 import com.ku_stacks.ku_ring.util.MockUtil
 import com.ku_stacks.ku_ring.util.TestingLiveDataExt
 import io.reactivex.rxjava3.core.Completable

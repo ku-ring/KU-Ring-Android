@@ -1,12 +1,12 @@
-package com.ku_stacks.ku_ring.ui.my_notification
+package com.ku_stacks.ku_ring.my_notification
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ku_stacks.ku_ring.data.mapper.toPushUiModelList
+import com.ku_stacks.ku_ring.my_notification.mapper.toPushUiModelList
+import com.ku_stacks.ku_ring.my_notification.ui_model.PushDataUiModel
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.push.repository.PushRepository
-import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushDataUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers

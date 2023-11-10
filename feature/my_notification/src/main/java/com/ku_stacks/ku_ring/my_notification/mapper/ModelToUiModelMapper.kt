@@ -1,9 +1,9 @@
-package com.ku_stacks.ku_ring.data.mapper
+package com.ku_stacks.ku_ring.my_notification.mapper
 
 import com.ku_stacks.ku_ring.domain.Push
-import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushContentUiModel
-import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushDataUiModel
-import com.ku_stacks.ku_ring.ui.my_notification.ui_model.PushDateHeaderUiModel
+import com.ku_stacks.ku_ring.my_notification.ui_model.PushContentUiModel
+import com.ku_stacks.ku_ring.my_notification.ui_model.PushDataUiModel
+import com.ku_stacks.ku_ring.my_notification.ui_model.PushDateHeaderUiModel
 import com.ku_stacks.ku_ring.util.WordConverter
 
 fun List<Push>.toPushUiModelList(): List<PushDataUiModel> {
