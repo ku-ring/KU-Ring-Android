@@ -12,7 +12,7 @@
         android:title="검색" />
 
     <item
-        android:id="@+id/campus_screen"
+        android:id="@+id/konkuk_article_screen"
         android:icon="@drawable/ic_campus"
         android:title="건대 교지" />
 

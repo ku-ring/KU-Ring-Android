@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.ku_stacks.ku_ring.ui.main.campus_onboarding.CampusFragment
+import com.ku_stacks.ku_ring.ui.main.konkuk_article.KonkukArticleFragment
 import com.ku_stacks.ku_ring.ui.main.notice.NoticesParentFragment
 import com.ku_stacks.ku_ring.ui.main.search.SearchFragment
 import com.ku_stacks.ku_ring.ui.main.setting.SettingFragment
@@ -13,7 +13,7 @@ class MainPagerAdapter(fm: FragmentManager, lc: Lifecycle) : FragmentStateAdapte
     private val items = arrayOf(
         { NoticesParentFragment() },
         { SearchFragment() },
-        { CampusFragment() },
+        { KonkukArticleFragment() },
         { SettingFragment() }
     )
 

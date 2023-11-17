@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
             binding.mainBottomNavigation.selectedItemId = when (position) {
                 0 -> R.id.notice_screen
                 1 -> R.id.search_screen
-                2 -> R.id.campus_screen
+                2 -> R.id.konkuk_article_screen
                 3 -> R.id.setting_screen
                 else -> throw IllegalStateException("no such main viewpager position")
             }
@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity() {
         when (item.setChecked(true).itemId) {
             R.id.notice_screen -> binding.mainViewPager.setCurrentItem(0, false)
             R.id.search_screen -> binding.mainViewPager.setCurrentItem(1, false)
-            R.id.campus_screen -> binding.mainViewPager.setCurrentItem(2, false)
+            R.id.konkuk_article_screen -> binding.mainViewPager.setCurrentItem(2, false)
             R.id.setting_screen -> binding.mainViewPager.setCurrentItem(3, false)
             else -> return false
         }

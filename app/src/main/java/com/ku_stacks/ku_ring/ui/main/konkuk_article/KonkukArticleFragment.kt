@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.ui.main.campus_onboarding
+package com.ku_stacks.ku_ring.ui.main.konkuk_article
 
 import android.content.Intent
 import android.os.Bundle
@@ -15,7 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
-class CampusFragment : Fragment() {
+class KonkukArticleFragment : Fragment() {
 
     private lateinit var binding: FragmentKonkukArticleBinding
 
