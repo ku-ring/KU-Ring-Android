@@ -129,7 +129,6 @@
     <!--  campus onBoarding -->
     <string name="kuring_campus">쿠링 캠퍼스</string>
     <string name="kuring_chungsim">쿠링청심대</string>
-    <string name="campus_on_construction">더 멋진 쿠링을 위해 잠시만 기다려 주세요!</string>
     <string name="campus_ask_send_message">쿠링 청심대에서 다같이 모여 메세지를 보내세요</string>
     <string name="campus_nickname_description">상대에게 보여지는 이름을 설정해주세요</string>
     <string name="nickname_not_valid_format">적절한 닉네임 형식이 아닙니다.</string>
