@@ -78,7 +78,7 @@
             android:exported="true" />
 
         <activity
-            android:name=".ui.onboarding.OnboardingActivity"
+            android:name=".onboarding.OnboardingActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
 

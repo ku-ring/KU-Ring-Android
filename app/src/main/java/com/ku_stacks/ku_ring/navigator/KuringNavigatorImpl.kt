@@ -14,9 +14,9 @@ import com.ku_stacks.ku_ring.my_notification.NotificationActivity
 import com.ku_stacks.ku_ring.notice_detail.NoticeWebActivity
 import com.ku_stacks.ku_ring.notice_storage.NoticeStorageActivity
 import com.ku_stacks.ku_ring.notion.NotionViewActivity
+import com.ku_stacks.ku_ring.onboarding.OnboardingActivity
 import com.ku_stacks.ku_ring.ui.chat.ChatActivity
 import com.ku_stacks.ku_ring.ui.main.MainActivity
-import com.ku_stacks.ku_ring.ui.onboarding.OnboardingActivity
 import com.ku_stacks.ku_ring.ui.splash.SplashActivity
 import com.ku_stacks.ku_ring.ui_util.KuringNavigator
 import javax.inject.Inject
