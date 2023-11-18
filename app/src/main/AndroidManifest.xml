@@ -24,7 +24,7 @@
         tools:replace="icon, label">
 
         <activity
-            android:name=".ui.splash.SplashActivity"
+            android:name=".splash.SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
