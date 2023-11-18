@@ -5,6 +5,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +15,7 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
+import com.ku_stacks.ku_ring.splash.databinding.ActivitySplashBinding
 import com.ku_stacks.ku_ring.thirdparty.firebase.FcmUtil
 import com.ku_stacks.ku_ring.thirdparty.firebase.MyFireBaseMessagingService
 import com.ku_stacks.ku_ring.ui_util.KuringNavigator
@@ -46,6 +48,7 @@ class SplashActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
         binding.lifecycleOwner = this
 
+        setAppVersionName()
         enqueueReengagementNotificationWork()
 
         lifecycleScope.launch {
@@ -72,6 +75,17 @@ class SplashActivity : AppCompatActivity() {
 
             finish()
         }
+    }
+
+    private fun setAppVersionName() {
+        // Deprecated되지 않은 다른 함수가 API 33 이상에서만 사용할 수 있어서 부득이하게 deprecated 함수를 사용
+        val versionName = try {
+            val info = this.packageManager?.getPackageInfo(this.packageName, 0)
+            info?.versionName
+        } catch (e: PackageManager.NameNotFoundException) {
+            ""
+        }
+        binding.versionName = versionName
     }
 
     private fun enqueueReengagementNotificationWork() {
