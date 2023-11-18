@@ -9,11 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ku_stacks.ku_ring.R
+import com.ku_stacks.ku_ring.data.mapper.toWebViewNotice
 import com.ku_stacks.ku_ring.databinding.FragmentSearchNoticeBinding
 import com.ku_stacks.ku_ring.domain.Notice
+import com.ku_stacks.ku_ring.notice_detail.NoticeWebActivity
 import com.ku_stacks.ku_ring.ui.main.search.SearchFragment
 import com.ku_stacks.ku_ring.ui.main.search.SearchViewModel
-import com.ku_stacks.ku_ring.ui.notice_webview.NoticeWebActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -63,6 +64,6 @@ class SearchNoticeFragment : Fragment() {
     }
 
     private fun startNoticeActivity(notice: Notice) {
-        NoticeWebActivity.start(requireActivity(), notice)
+        NoticeWebActivity.start(requireActivity(), notice.toWebViewNotice())
     }
 }

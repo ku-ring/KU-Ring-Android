@@ -24,11 +24,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.ku_stacks.ku_ring.R
+import com.ku_stacks.ku_ring.data.mapper.toWebViewNotice
 import com.ku_stacks.ku_ring.databinding.FragmentDepartmentNoticeBinding
 import com.ku_stacks.ku_ring.domain.Notice
+import com.ku_stacks.ku_ring.notice_detail.NoticeWebActivity
 import com.ku_stacks.ku_ring.ui.main.notice.department.compose.DepartmentNoticeScreen
 import com.ku_stacks.ku_ring.ui.main.notice.department.fragment_subscribe.DepartmentSubscribeBottomSheet
-import com.ku_stacks.ku_ring.ui.notice_webview.NoticeWebActivity
 import com.ku_stacks.ku_ring.ui_util.compose.theme.KuringTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -110,7 +111,7 @@ class DepartmentNoticeFragment : Fragment() {
     }
 
     private fun startNoticeActivity(notice: Notice) {
-        NoticeWebActivity.start(requireActivity(), notice)
+        NoticeWebActivity.start(requireActivity(), notice.toWebViewNotice())
     }
 
     private fun observeLoadingState() {

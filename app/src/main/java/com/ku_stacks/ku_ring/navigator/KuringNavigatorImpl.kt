@@ -5,15 +5,16 @@ import android.content.Context
 import android.content.Intent
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.ku_stacks.ku_ring.R
+import com.ku_stacks.ku_ring.data.mapper.toWebViewNotice
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.domain.WebViewNotice
 import com.ku_stacks.ku_ring.edit_subscription.EditSubscriptionActivity
 import com.ku_stacks.ku_ring.feedback.feedback.FeedbackActivity
 import com.ku_stacks.ku_ring.my_notification.NotificationActivity
+import com.ku_stacks.ku_ring.notice_detail.NoticeWebActivity
 import com.ku_stacks.ku_ring.notice_storage.NoticeStorageActivity
 import com.ku_stacks.ku_ring.ui.chat.ChatActivity
 import com.ku_stacks.ku_ring.ui.main.MainActivity
-import com.ku_stacks.ku_ring.ui.notice_webview.NoticeWebActivity
 import com.ku_stacks.ku_ring.ui.notion.NotionViewActivity
 import com.ku_stacks.ku_ring.ui.onboarding.OnboardingActivity
 import com.ku_stacks.ku_ring.ui.splash.SplashActivity
@@ -74,7 +75,7 @@ class KuringNavigatorImpl @Inject constructor(): KuringNavigator {
     }
 
     override fun navigateToNoticeWeb(activity: Activity, notice: Notice) {
-        NoticeWebActivity.start(activity, notice)
+        NoticeWebActivity.start(activity, notice.toWebViewNotice())
     }
 
     override fun navigateToNoticeWeb(activity: Activity, webViewNotice: WebViewNotice) {

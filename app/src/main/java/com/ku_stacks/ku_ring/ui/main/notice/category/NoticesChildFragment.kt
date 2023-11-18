@@ -11,9 +11,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ku_stacks.ku_ring.R
+import com.ku_stacks.ku_ring.data.mapper.toWebViewNotice
 import com.ku_stacks.ku_ring.databinding.FragmentHomeCategoryBinding
 import com.ku_stacks.ku_ring.domain.Notice
-import com.ku_stacks.ku_ring.ui.notice_webview.NoticeWebActivity
+import com.ku_stacks.ku_ring.notice_detail.NoticeWebActivity
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.flow.collectLatest
@@ -119,7 +120,7 @@ class NoticesChildFragment : Fragment() {
     }
 
     private fun startNoticeActivity(notice: Notice) {
-        NoticeWebActivity.start(requireActivity(), notice)
+        NoticeWebActivity.start(requireActivity(), notice.toWebViewNotice())
     }
 
     override fun onDestroyView() {
