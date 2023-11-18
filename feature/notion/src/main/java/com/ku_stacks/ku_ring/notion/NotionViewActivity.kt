@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.ui.notion
+package com.ku_stacks.ku_ring.notion
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -9,7 +9,6 @@ import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
-import com.ku_stacks.ku_ring.R
 
 class NotionViewActivity : AppCompatActivity() {
 
