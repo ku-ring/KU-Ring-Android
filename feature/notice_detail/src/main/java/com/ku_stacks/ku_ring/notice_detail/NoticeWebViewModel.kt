@@ -22,7 +22,7 @@ class NoticeWebViewModel @Inject constructor(
 
     private val disposable = CompositeDisposable()
     private val webViewNotice =
-        savedStateHandle.get(NoticeWebActivity.WEB_VIEW_NOTICE) as? WebViewNotice
+        savedStateHandle.get(WebViewNotice.EXTRA_KEY) as? WebViewNotice
 
     private val _isSaved = MutableStateFlow(false)
     val isSaved: StateFlow<Boolean>

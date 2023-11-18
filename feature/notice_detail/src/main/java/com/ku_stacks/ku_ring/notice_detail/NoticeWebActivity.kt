@@ -30,7 +30,7 @@ class NoticeWebActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Deprecated되지 않은 다른 함수가 API 33 이상에서만 사용할 수 있어서 부득이하게 deprecated 함수를 사용
-        val webViewNotice = intent.getSerializableExtra(WEB_VIEW_NOTICE) as? WebViewNotice
+        val webViewNotice = intent.getSerializableExtra(WebViewNotice.EXTRA_KEY) as? WebViewNotice
             ?: throw IllegalStateException("WebViewNotice should not be null.")
         Timber.e("web view notice: $webViewNotice")
 
@@ -114,8 +114,6 @@ class NoticeWebActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val WEB_VIEW_NOTICE = "webview_notice"
-
         fun start(activity: Activity, url: String?, articleId: String?, category: String?) {
             if (url == null || articleId == null || category == null) {
                 throw IllegalArgumentException("intent parameters shouldn't be null: $url, $articleId, $category")
@@ -143,7 +141,7 @@ class NoticeWebActivity : AppCompatActivity() {
             }
             Timber.d("url: $url, articleId: $articleId, category: $category")
             return Intent(context, NoticeWebActivity::class.java).apply {
-                putExtra(WEB_VIEW_NOTICE, WebViewNotice(url, articleId, category))
+                putExtra(WebViewNotice.EXTRA_KEY, WebViewNotice(url, articleId, category))
             }
         }
     }
