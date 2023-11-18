@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.ku_stacks.ku_ring.BuildConfig" />
+        <import type="com.ku_stacks.ku_ring.splash.BuildConfig" />
+        <variable
+            name="versionName"
+            type="String"/>
 
     </data>
 
@@ -29,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="64dp"
             android:fontFamily="@font/sfpro_display_regular"
-            android:text="@{@string/ku_ring_version(BuildConfig.VERSION_NAME)}"
+            android:text="@{@string/ku_ring_version(versionName)}"
             android:textColor="@color/white"
             android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="parent"
