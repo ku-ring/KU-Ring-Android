@@ -137,6 +137,7 @@ dependencies {
     implementation project(":feature:notion")
     implementation project(":feature:onboarding")
     implementation project(":feature:splash")
+    implementation project(":feature:main")
 
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat
