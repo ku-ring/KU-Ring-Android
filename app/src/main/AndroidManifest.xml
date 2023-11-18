@@ -74,7 +74,7 @@
             android:theme="@style/EditSubscriptionTheme" />
 
         <activity
-            android:name=".ui.notion.NotionViewActivity"
+            android:name=".notion.NotionViewActivity"
             android:exported="true" />
 
         <activity
