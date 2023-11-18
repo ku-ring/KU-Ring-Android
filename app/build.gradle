@@ -135,6 +135,7 @@ dependencies {
     implementation project(":feature:notice_storage")
     implementation project(":feature:notice_detail")
     implementation project(":feature:notion")
+    implementation project(":feature:onboarding")
 
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat
