@@ -64,7 +64,7 @@
             android:theme="@style/OpenSourceItemTheme" />
 
         <activity
-            android:name=".ui.notice_webview.NoticeWebActivity"
+            android:name=".notice_detail.NoticeWebActivity"
             android:exported="true" />
 
         <activity

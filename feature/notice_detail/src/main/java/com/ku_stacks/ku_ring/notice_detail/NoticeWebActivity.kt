@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.ui.notice_webview
+package com.ku_stacks.ku_ring.notice_detail
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -11,13 +11,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ShareCompat
 import androidx.lifecycle.lifecycleScope
-import com.ku_stacks.ku_ring.R
-import com.ku_stacks.ku_ring.data.mapper.toWebViewNotice
-import com.ku_stacks.ku_ring.databinding.ActivityNoticeWebBinding
-import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.domain.WebViewNotice
-import com.ku_stacks.ku_ring.my_notification.mapper.toWebViewNotice
-import com.ku_stacks.ku_ring.my_notification.ui_model.PushContentUiModel
+import com.ku_stacks.ku_ring.notice_detail.databinding.ActivityNoticeWebBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
@@ -120,14 +115,6 @@ class NoticeWebActivity : AppCompatActivity() {
 
     companion object {
         const val WEB_VIEW_NOTICE = "webview_notice"
-
-        fun start(activity: Activity, notice: Notice) {
-            start(activity, notice.toWebViewNotice())
-        }
-
-        fun start(activity: Activity, pushContent: PushContentUiModel) {
-            start(activity, pushContent.toWebViewNotice())
-        }
 
         fun start(activity: Activity, url: String?, articleId: String?, category: String?) {
             if (url == null || articleId == null || category == null) {

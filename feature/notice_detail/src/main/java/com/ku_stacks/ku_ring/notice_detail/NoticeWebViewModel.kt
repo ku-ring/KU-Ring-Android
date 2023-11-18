@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.ui.notice_webview
+package com.ku_stacks.ku_ring.notice_detail
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
