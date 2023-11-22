@@ -102,33 +102,13 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    buildFeatures {
-        compose true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
-    }
 }
 
 dependencies {
     implementation project(":common:util")
-    testImplementation testFixtures(project(":common:util"))
     implementation project(":common:ui_util")
-    implementation project(":common:preferences")
     implementation project(":common:thirdparty")
-    implementation project(":common:work")
     implementation project(":data:domain")
-    testImplementation testFixtures(project(":data:domain"))
-    implementation project(":data:notice")
-    implementation project(":data:push")
-    implementation project(":data:user")
-    implementation project(":data:staff")
-    implementation project(":data:department")
-    implementation project(":data:local")
-    testImplementation testFixtures(project(":data:local"))
-    // SendbirdRepository 삭제되면 :data:remote 의존성 제거하기
-    implementation project(":data:remote")
-    testImplementation testFixtures(project(":data:remote"))
     implementation project(":feature:edit_subscription")
     implementation project(":feature:feedback")
     implementation project(":feature:my_notification")
@@ -156,87 +136,29 @@ dependencies {
     // start up
     implementation libs.androidx.startup.runtime
 
-    // retrofit
-    implementation libs.bundles.retrofit
-
-    // okHttp
-    implementation libs.okhttp
-    implementation libs.okhttp.logging.interceptor
-    testImplementation libs.okhttp.mockwebserver
-
     // coroutines
     implementation libs.bundles.coroutines
     testImplementation libs.kotlinx.coroutines.test
 
-    // rxJava
-    implementation libs.bundles.rxjava
-
-    // viewModel
-    implementation libs.bundles.viewmodel.ktx
-
     // Timber
     implementation libs.timber
 
-    // viewPager2
-    implementation libs.androidx.viewpager2
-
-    // fragment
-    implementation libs.androidx.fragment.ktx
-    debugImplementation libs.androidx.fragment.testing
-
-    // firebase
-    implementation platform(libs.firebase.bom)
-    implementation libs.bundles.firebase
-
     // open source notices
     implementation libs.play.services.oss.licenses
-
-    // soft keyboard listener
-    implementation libs.keyboardvisibilityevent
 
     // tests
     testImplementation libs.bundles.unit.test
     androidTestImplementation libs.bundles.android.test
 
-    // paging3
-    implementation libs.bundles.paging
-
-    // Room
-    implementation libs.androidx.room.runtime
-    kapt libs.androidx.room.compiler
-    implementation libs.androidx.room.ktx
-    implementation libs.androidx.room.rxjava3
-    testImplementation libs.androidx.room.testing
-
-    // Compose
-    implementation platform(libs.compose.bom)
-    implementation libs.bundles.compose
-    implementation libs.bundles.compose.interop
-
     // WorkManager
     implementation libs.bundles.androidx.work
     androidTestImplementation libs.androidx.work.testing
 
-    // Shimmer effect
-    implementation libs.shimmer
-
-    // tag library
-    implementation libs.androidtagview
-
-    // HoldableSwipeHandler
-    implementation libs.holdableswipehandler
-
     // leak canary
     debugImplementation libs.leakcanary.android
 
-    // swipeRefreshLayout
-    implementation libs.androidx.swiperefreshlayout
-
     // appsFlyer
     implementation libs.af.android.sdk
-
-    // indicator
-    implementation libs.pageindicatorview
 
     // google play-auth
     implementation libs.play.services.auth
