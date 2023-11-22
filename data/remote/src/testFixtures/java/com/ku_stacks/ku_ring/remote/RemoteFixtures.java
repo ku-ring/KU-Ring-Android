@@ -5,8 +5,6 @@ import com.ku_stacks.ku_ring.remote.notice.response.CategoryResponse;
 import com.ku_stacks.ku_ring.remote.notice.response.NoticeListResponse;
 import com.ku_stacks.ku_ring.remote.notice.response.NoticeResponse;
 import com.ku_stacks.ku_ring.remote.notice.response.SubscribeListResponse;
-import com.ku_stacks.ku_ring.remote.sendbird.response.UserListResponse;
-import com.ku_stacks.ku_ring.remote.sendbird.response.UserResponse;
 import com.ku_stacks.ku_ring.remote.util.DefaultResponse;
 
 import java.util.ArrayList;
@@ -14,25 +12,6 @@ import java.util.Arrays;
 import java.util.Collections;
 
 public class RemoteFixtures {
-    public static UserResponse userResponse() {
-        return new UserResponse("kuring", "kuring");
-    }
-
-    /*
-    fun userListResponse() = UserListResponse("abcde"
-            .map { it.toString() }
-            .map { s -> UserResponse(nickname = s, userId = s) }
-        )
-     */
-
-    public static UserListResponse userListResponse() {
-        ArrayList<UserResponse> arrayList = new ArrayList<>();
-        for (char c : "abcde".toCharArray()) {
-            String s = String.valueOf(c);
-            arrayList.add(new UserResponse(s, s));
-        }
-        return new UserListResponse(arrayList);
-    }
 
     /*
     fun subscribeListResponse() = SubscribeListResponse(
