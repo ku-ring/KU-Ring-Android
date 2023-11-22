@@ -20,29 +20,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <include
-        android:id="@+id/campus_login_layout"
-        layout="@layout/campus_login"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/campus_header_tv"
-        tools:visibility="invisible" />
-
-    <include
-        android:id="@+id/campus_set_nickname_layout"
-        layout="@layout/campus_set_nickname"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/campus_header_tv"
-        tools:visibility="invisible" />
-
-    <include
-        android:id="@+id/campus_auto_login_layout"
-        layout="@layout/campus_auto_login"
+        android:id="@+id/campus_login"
+        layout="@layout/campus_main"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/campus_header_tv"
         tools:visibility="visible" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

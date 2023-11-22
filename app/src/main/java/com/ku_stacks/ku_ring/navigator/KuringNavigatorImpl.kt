@@ -17,14 +17,10 @@ import com.ku_stacks.ku_ring.notice_storage.NoticeStorageActivity
 import com.ku_stacks.ku_ring.notion.NotionViewActivity
 import com.ku_stacks.ku_ring.onboarding.OnboardingActivity
 import com.ku_stacks.ku_ring.splash.SplashActivity
-import com.ku_stacks.ku_ring.ui.chat.ChatActivity
 import com.ku_stacks.ku_ring.ui_util.KuringNavigator
 import javax.inject.Inject
 
-class KuringNavigatorImpl @Inject constructor(): KuringNavigator {
-    override fun navigateToChat(activity: Activity) {
-        ChatActivity.start(activity)
-    }
+class KuringNavigatorImpl @Inject constructor() : KuringNavigator {
 
     override fun createEditSubscriptionIntent(context: Context, isFirstRun: Boolean): Intent {
         return Intent(context, EditSubscriptionActivity::class.java).apply {
