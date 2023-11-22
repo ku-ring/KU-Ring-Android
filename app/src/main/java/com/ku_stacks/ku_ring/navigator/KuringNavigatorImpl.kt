@@ -7,16 +7,17 @@ import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.domain.WebViewNotice
+import com.ku_stacks.ku_ring.domain.mapper.toWebViewNotice
+import com.ku_stacks.ku_ring.edit_subscription.EditSubscriptionActivity
+import com.ku_stacks.ku_ring.feedback.feedback.FeedbackActivity
+import com.ku_stacks.ku_ring.main.MainActivity
+import com.ku_stacks.ku_ring.my_notification.NotificationActivity
+import com.ku_stacks.ku_ring.notice_detail.NoticeWebActivity
+import com.ku_stacks.ku_ring.notice_storage.NoticeStorageActivity
+import com.ku_stacks.ku_ring.notion.NotionViewActivity
+import com.ku_stacks.ku_ring.onboarding.OnboardingActivity
+import com.ku_stacks.ku_ring.splash.SplashActivity
 import com.ku_stacks.ku_ring.ui.chat.ChatActivity
-import com.ku_stacks.ku_ring.ui.edit_subscription.EditSubscriptionActivity
-import com.ku_stacks.ku_ring.ui.feedback.FeedbackActivity
-import com.ku_stacks.ku_ring.ui.main.MainActivity
-import com.ku_stacks.ku_ring.ui.my_notification.NotificationActivity
-import com.ku_stacks.ku_ring.ui.notice_storage.NoticeStorageActivity
-import com.ku_stacks.ku_ring.ui.notice_webview.NoticeWebActivity
-import com.ku_stacks.ku_ring.ui.notion.NotionViewActivity
-import com.ku_stacks.ku_ring.ui.onboarding.OnboardingActivity
-import com.ku_stacks.ku_ring.ui.splash.SplashActivity
 import com.ku_stacks.ku_ring.ui_util.KuringNavigator
 import javax.inject.Inject
 
@@ -74,7 +75,7 @@ class KuringNavigatorImpl @Inject constructor(): KuringNavigator {
     }
 
     override fun navigateToNoticeWeb(activity: Activity, notice: Notice) {
-        NoticeWebActivity.start(activity, notice)
+        NoticeWebActivity.start(activity, notice.toWebViewNotice())
     }
 
     override fun navigateToNoticeWeb(activity: Activity, webViewNotice: WebViewNotice) {

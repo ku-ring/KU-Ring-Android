@@ -112,6 +112,7 @@ android {
 
 dependencies {
     implementation project(":common:util")
+    testImplementation testFixtures(project(":common:util"))
     implementation project(":common:ui_util")
     implementation project(":common:preferences")
     implementation project(":common:thirdparty")
@@ -128,6 +129,15 @@ dependencies {
     // SendbirdRepository 삭제되면 :data:remote 의존성 제거하기
     implementation project(":data:remote")
     testImplementation testFixtures(project(":data:remote"))
+    implementation project(":feature:edit_subscription")
+    implementation project(":feature:feedback")
+    implementation project(":feature:my_notification")
+    implementation project(":feature:notice_storage")
+    implementation project(":feature:notice_detail")
+    implementation project(":feature:notion")
+    implementation project(":feature:onboarding")
+    implementation project(":feature:splash")
+    implementation project(":feature:main")
 
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat

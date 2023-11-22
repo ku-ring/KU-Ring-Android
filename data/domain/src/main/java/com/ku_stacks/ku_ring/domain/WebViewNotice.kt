@@ -6,4 +6,8 @@ data class WebViewNotice(
     val url: String,
     val articleId: String,
     val category: String,
-): Serializable
+): Serializable {
+    companion object {
+        const val EXTRA_KEY = "webview_notice"
+    }
+}
