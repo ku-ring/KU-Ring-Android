@@ -1,6 +1,6 @@
 [versions]
 # project-level dependency
-android-gradle = '7.1.0'
+android-gradle = "7.2.0"
 kotlin = '1.8.21'
 hilt = '2.45'
 google-services = '4.3.10'
