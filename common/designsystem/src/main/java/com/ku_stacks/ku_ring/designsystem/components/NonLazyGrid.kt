@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.ui_util.compose
+package com.ku_stacks.ku_ring.designsystem.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ku_stacks.ku_ring.ui_util.compose.theme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
 
 @Composable
 fun NonLazyGrid(

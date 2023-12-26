@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.ui_util.compose
+package com.ku_stacks.ku_ring.designsystem.components
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.ui.tooling.preview.Preview
