@@ -43,6 +43,7 @@ android {
 
 dependencies {
     implementation project(":data:domain")
+    implementation project(":common:designsystem")
 
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat
