@@ -1,9 +1,9 @@
-package com.ku_stacks.ku_ring.ui_util.compose.theme
+package com.ku_stacks.ku_ring.designsystem.theme
 
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import com.ku_stacks.ku_ring.ui_util.R
+import com.ku_stacks.ku_ring.designsystem.R
 
 val SfProDisplay = FontFamily(
     Font(R.font.sfpro_display_medium, FontWeight.Medium),
