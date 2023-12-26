@@ -33,10 +33,10 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.paging.compose.LazyPagingItems
+import com.ku_stacks.ku_ring.designsystem.components.LazyPagingNoticeItemColumn
 import com.ku_stacks.ku_ring.domain.Department
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.main.R
-import com.ku_stacks.ku_ring.ui_util.compose.LazyPagingNoticeItemColumn
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

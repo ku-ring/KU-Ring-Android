@@ -23,13 +23,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.domain.mapper.toWebViewNotice
 import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.databinding.FragmentDepartmentNoticeBinding
+import com.ku_stacks.ku_ring.main.notice.department.compose.DepartmentNoticeScreen
 import com.ku_stacks.ku_ring.main.notice.department.fragment_subscribe.DepartmentSubscribeBottomSheet
 import com.ku_stacks.ku_ring.ui_util.KuringNavigator
-import com.ku_stacks.ku_ring.ui_util.compose.theme.KuringTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -95,7 +96,7 @@ class DepartmentNoticeFragment : Fragment() {
                     },
                     refreshThreshold = 100.dp,
                 )
-                com.ku_stacks.ku_ring.main.notice.department.compose.DepartmentNoticeScreen(
+                DepartmentNoticeScreen(
                     selectedDepartments = selectedDepartments,
                     onSelectDepartment = viewModel::selectDepartment,
                     notices = notices,

@@ -26,10 +26,10 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
+import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.theme.SfProDisplay
 import com.ku_stacks.ku_ring.main.R
-import com.ku_stacks.ku_ring.ui_util.compose.LightAndDarkPreview
-import com.ku_stacks.ku_ring.ui_util.compose.theme.KuringTheme
-import com.ku_stacks.ku_ring.ui_util.compose.theme.SfProDisplay
 
 @Composable
 fun DepartmentHeader(
@@ -83,7 +83,7 @@ fun DepartmentHeader(
 private fun DepartmentHeaderPreview() {
     var showArrow by remember { mutableStateOf(false) }
     KuringTheme {
-        com.ku_stacks.ku_ring.main.notice.department.compose.DepartmentHeader(
+        DepartmentHeader(
             selectedDepartmentName = "산업디자인학과",
             onClick = { showArrow = !showArrow },
             showArrow = showArrow,
