@@ -39,11 +39,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import com.ku_stacks.ku_ring.designsystem.components.NonLazyGrid
+import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.theme.SfProDisplay
 import com.ku_stacks.ku_ring.edit_subscription.R
 import com.ku_stacks.ku_ring.edit_subscription.SubscriptionUiModel
-import com.ku_stacks.ku_ring.ui_util.compose.NonLazyGrid
-import com.ku_stacks.ku_ring.ui_util.compose.theme.KuringTheme
-import com.ku_stacks.ku_ring.ui_util.compose.theme.SfProDisplay
 
 @Composable
 fun SubscriptionDrawer(

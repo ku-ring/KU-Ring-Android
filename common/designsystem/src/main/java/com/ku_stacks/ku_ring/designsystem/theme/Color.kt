@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.ui_util.compose.theme
+package com.ku_stacks.ku_ring.designsystem.theme
 
 import androidx.compose.material.Colors
 import androidx.compose.material.darkColors
@@ -6,7 +6,7 @@ import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
-import com.ku_stacks.ku_ring.ui_util.R
+import com.ku_stacks.ku_ring.designsystem.R
 
 private val KuringGreen: Color
     @Composable get() = colorResource(R.color.kus_green)

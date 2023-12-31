@@ -1,31 +1,19 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
 }
 
 android {
-    namespace 'com.ku_stacks.ku_ring.ui_util'
-    compileSdk 33
+    namespace 'com.ku_stacks.ku_ring.designsystem'
+    compileSdk 34
 
     defaultConfig {
-        minSdk 24
+        minSdk 23
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
-    viewBinding {
-        enabled = true
-    }
-    dataBinding {
-        enabled = true
-    }
-    buildFeatures {
-        compose true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
-    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -39,22 +27,21 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
+    }
 }
 
 dependencies {
     implementation project(":data:domain")
-    implementation project(":common:designsystem")
 
     implementation libs.androidx.core.ktx
-    implementation libs.androidx.appcompat
-    implementation libs.android.material
-    implementation libs.androidx.constraintlayout
 
     // Compose
     implementation platform(libs.compose.bom)
     implementation libs.bundles.compose
     implementation libs.bundles.compose.interop
-
-    // Timber
-    implementation libs.timber
 }

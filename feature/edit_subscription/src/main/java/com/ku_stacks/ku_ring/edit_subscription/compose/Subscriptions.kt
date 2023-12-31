@@ -15,8 +15,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
 import com.ku_stacks.ku_ring.edit_subscription.SubscriptionUiModel
-import com.ku_stacks.ku_ring.ui_util.compose.theme.KuringTheme
 
 @Composable
 fun Subscriptions(

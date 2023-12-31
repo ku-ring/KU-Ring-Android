@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.ui_util.compose
+package com.ku_stacks.ku_ring.designsystem.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -26,10 +26,10 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
+import com.ku_stacks.ku_ring.designsystem.R
+import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.theme.SfProDisplay
 import com.ku_stacks.ku_ring.domain.Notice
-import com.ku_stacks.ku_ring.ui_util.R
-import com.ku_stacks.ku_ring.ui_util.compose.theme.KuringTheme
-import com.ku_stacks.ku_ring.ui_util.compose.theme.SfProDisplay
 
 @Composable
 fun NoticeItem(

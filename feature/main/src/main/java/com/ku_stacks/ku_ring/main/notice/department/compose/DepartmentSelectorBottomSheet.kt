@@ -25,11 +25,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
+import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.theme.SfProDisplay
 import com.ku_stacks.ku_ring.domain.Department
 import com.ku_stacks.ku_ring.main.R
-import com.ku_stacks.ku_ring.ui_util.compose.LightAndDarkPreview
-import com.ku_stacks.ku_ring.ui_util.compose.theme.KuringTheme
-import com.ku_stacks.ku_ring.ui_util.compose.theme.SfProDisplay
 
 @Composable
 fun DepartmentSelectorBottomSheet(
@@ -139,7 +139,7 @@ private fun DepartmentItemPreview() {
         isNotificationEnabled = false,
     )
     KuringTheme {
-        com.ku_stacks.ku_ring.main.notice.department.compose.DepartmentItem(
+        DepartmentItem(
             department = department,
             onSelect = {},
             modifier = Modifier
@@ -164,7 +164,7 @@ private fun DepartmentSelectorBottomSheetPreview() {
         )
     }
     KuringTheme {
-        com.ku_stacks.ku_ring.main.notice.department.compose.DepartmentSelectorBottomSheet(
+        DepartmentSelectorBottomSheet(
             departments = departments,
             onSelect = {},
             modifier = Modifier.fillMaxWidth(),
