@@ -5,10 +5,12 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.messaging.FirebaseMessaging
 import com.ku_stacks.ku_ring.department.repository.DepartmentRepository
 import com.ku_stacks.ku_ring.domain.Department
+import com.ku_stacks.ku_ring.edit_subscription.uimodel.NormalSubscriptionUiModel
 import com.ku_stacks.ku_ring.notice.repository.NoticeRepository
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.thirdparty.firebase.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.util.WordConverter
+import com.ku_stacks.ku_ring.util.modifyList
 import com.ku_stacks.ku_ring.util.modifyMap
 import com.ku_stacks.ku_ring.util.modifySet
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -36,12 +38,11 @@ class EditSubscriptionViewModel @Inject constructor(
 
     private val disposable = CompositeDisposable()
 
-    private val initialCategories = MutableStateFlow(mutableSetOf<SubscriptionUiModel>())
+    private val initialCategories = MutableStateFlow(emptyList<NormalSubscriptionUiModel>())
     private val initialDepartments = MutableStateFlow(mutableSetOf<Department>())
 
-    private val categories = MutableStateFlow(mutableMapOf<String, SubscriptionUiModel>())
-    val sortedCategories: Flow<List<SubscriptionUiModel>> =
-        categories.map { it.values.sortedWith(CategoryComparator) }
+    private val categories = MutableStateFlow(emptyList<NormalSubscriptionUiModel>())
+    val sortedCategories: Flow<List<NormalSubscriptionUiModel>> = categories
 
     private val departmentsByKoreanName = MutableStateFlow(mutableMapOf<String, Department>())
 
@@ -57,7 +58,7 @@ class EditSubscriptionViewModel @Inject constructor(
             initialCategories,
             initialDepartments
         ) { categories, departments, initialCategories, initialDepartments ->
-            (categories.values.toSet() != initialCategories) || (departments.values.toSet() != initialDepartments)
+            (categories.toSet() != initialCategories) || (departments.values.toSet() != initialDepartments)
         }.stateIn(viewModelScope, SharingStarted.Lazily, false)
 
     private var fcmToken: String? = null
@@ -126,7 +127,7 @@ class EditSubscriptionViewModel @Inject constructor(
 
         fcmToken?.let { fcmToken ->
             val notificationEnabledCategories =
-                categories.value.values.filter { it.isNotificationEnabled }.map { it.content }
+                categories.value.filter { it.isSelected }.map { it.categoryName }
             preferenceUtil.saveSubscriptionFromKorean(notificationEnabledCategories)
             noticeRepository.saveSubscriptionToRemote(
                 token = fcmToken,
@@ -160,17 +161,23 @@ class EditSubscriptionViewModel @Inject constructor(
             }
         } else {
             // category
-            categories.modifyMap {
-                this[content] = this[content]!!.toggle()
-            }
+//            categories.modifyMap {
+//                this[content] = this[content]!!.toggle()
+//            }
+        }
+    }
+
+    fun onNormalSubscriptionItemClick(index: Int) {
+        categories.modifyList {
+            this[index] = this[index].toggle()
         }
     }
 
     fun rollback() {
-        categories.modifyMap {
+        categories.modifyList {
             this.clear()
             initialCategories.value.forEach {
-                this[it.content] = it
+                this.add(it)
             }
         }
 
@@ -184,37 +191,16 @@ class EditSubscriptionViewModel @Inject constructor(
 
     private fun initialSortSubscription(subscribingList: List<String>) {
         val subscribingSet = subscribingList.toSet()
-        categories.modifyMap {
-            listOf("학사", "장학", "취창업", "국제", "학생", "산학", "일반", "도서관").forEach {
-                this[it] = SubscriptionUiModel(it, it in subscribingSet)
+        val initialNormalSubscriptionItems = NormalSubscriptionUiModel.initialValues.map {
+            if (it.categoryName in subscribingSet) {
+                it.toggle()
+            } else {
+                it
             }
         }
-        initialCategories.modifySet { addAll(categories.value.values) }
+        categories.modifyList { addAll(initialNormalSubscriptionItems) }
+        initialCategories.modifyList { addAll(initialNormalSubscriptionItems) }
         isInitialCategoryLoaded = true
-    }
-
-    /**
-     * 변경될때마다 정렬하는 방식 채택
-     * getPriority()가 낮을수록 앞쪽으로 정렬
-     */
-    object CategoryComparator : Comparator<SubscriptionUiModel> {
-        private fun getPriority(category: String): Int {
-            return when (category) {
-                "학사" -> 1
-                "장학" -> 2
-                "취창업" -> 3
-                "국제" -> 4
-                "학생" -> 5
-                "산학" -> 6
-                "일반" -> 7
-                "도서관" -> 8
-                else -> 100
-            }
-        }
-
-        override fun compare(a: SubscriptionUiModel, b: SubscriptionUiModel): Int {
-            return getPriority(a.content) - getPriority(b.content)
-        }
     }
 
     object DepartmentComparator : Comparator<SubscriptionUiModel> {
