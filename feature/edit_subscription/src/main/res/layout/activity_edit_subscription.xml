@@ -1,105 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <data>
-
-        <variable
-            name="viewModel"
-            type="com.ku_stacks.ku_ring.edit_subscription.EditSubscriptionViewModel" />
-    </data>
-
-    <ScrollView
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/compose_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/kus_green"
-        android:fillViewport="true">
+        android:layout_marginTop="20dp" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="20dp">
-
-            <ImageButton
-                android:id="@+id/dismiss_bt"
-                confirmedImageIf="@{viewModel.hasUpdate}"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="20dp"
-                android:background="@null"
-                android:src="@drawable/ic_close"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/white" />
-
-            <ImageButton
-                android:id="@+id/rollback_bt"
-                visibleIf="@{viewModel.hasUpdate}"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="12dp"
-                android:background="@null"
-                android:src="@drawable/ic_undo"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/white" />
-
-            <ImageView
-                android:id="@+id/bell_img"
-                android:layout_width="44dp"
-                android:layout_height="46dp"
-                android:layout_marginTop="60dp"
-                android:background="@null"
-                android:src="@drawable/ic_bell"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/white" />
-
-            <TextView
-                android:id="@+id/explain_txt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="18dp"
-                android:fontFamily="@font/sfpro_display_semi_bold_italic"
-                android:gravity="center"
-                android:paddingTop="18dp"
-                android:paddingBottom="18dp"
-                android:text="@string/setting_notification_explain"
-                android:textColor="@color/white"
-                android:textSize="17sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/bell_img" />
-
-            <androidx.compose.ui.platform.ComposeView
-                android:id="@+id/compose_view"
-                android:layout_width="320dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/explain_txt" />
-
-            <Button
-                android:id="@+id/start_bt"
-                disableStartButtonIf="@{false}"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:layout_marginStart="64dp"
-                android:layout_marginEnd="64dp"
-                android:background="@drawable/button_white_disabled"
-                android:fontFamily="@font/sfpro_display_regular"
-                android:gravity="center"
-                android:text="@string/setting_notification_start"
-                android:textSize="15sp"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
 </layout>
