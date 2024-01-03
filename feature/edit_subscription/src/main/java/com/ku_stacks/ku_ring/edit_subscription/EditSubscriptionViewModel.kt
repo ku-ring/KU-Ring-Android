@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.messaging.FirebaseMessaging
 import com.ku_stacks.ku_ring.department.repository.DepartmentRepository
 import com.ku_stacks.ku_ring.domain.Department
+import com.ku_stacks.ku_ring.edit_subscription.uimodel.DepartmentSubscriptionUiModel
 import com.ku_stacks.ku_ring.edit_subscription.uimodel.NormalSubscriptionUiModel
 import com.ku_stacks.ku_ring.notice.repository.NoticeRepository
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
@@ -12,7 +13,6 @@ import com.ku_stacks.ku_ring.thirdparty.firebase.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.util.WordConverter
 import com.ku_stacks.ku_ring.util.modifyList
 import com.ku_stacks.ku_ring.util.modifyMap
-import com.ku_stacks.ku_ring.util.modifySet
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -39,14 +39,14 @@ class EditSubscriptionViewModel @Inject constructor(
     private val disposable = CompositeDisposable()
 
     private val initialCategories = MutableStateFlow(emptyList<NormalSubscriptionUiModel>())
-    private val initialDepartments = MutableStateFlow(mutableSetOf<Department>())
+    private val initialDepartments = MutableStateFlow(emptyList<Department>())
 
     private val categories = MutableStateFlow(emptyList<NormalSubscriptionUiModel>())
     val sortedCategories: Flow<List<NormalSubscriptionUiModel>> = categories
 
     private val departmentsByKoreanName = MutableStateFlow(mutableMapOf<String, Department>())
 
-    val sortedDepartments: Flow<List<SubscriptionUiModel>> =
+    val sortedDepartments: Flow<List<DepartmentSubscriptionUiModel>> =
         departmentsByKoreanName.map { departments ->
             departments.values.map { it.toSubscriptionUiModel() }.sortedWith(DepartmentComparator)
         }
@@ -107,7 +107,7 @@ class EditSubscriptionViewModel @Inject constructor(
             val notificationEnabledDepartments = departmentRepository.fetchSubscribedDepartments()
             markDepartmentsAsEnabled(notificationEnabledDepartments)
             isInitialDepartmentLoaded = true
-            initialDepartments.modifySet { addAll(departmentsByKoreanName.value.values) }
+            initialDepartments.modifyList { addAll(departmentsByKoreanName.value.values) }
         }
     }
 
@@ -138,7 +138,7 @@ class EditSubscriptionViewModel @Inject constructor(
         }
         viewModelScope.launch {
             val subscribedDepartments =
-                departmentsByKoreanName.value.values.filter { it.isNotificationEnabled }
+                departmentsByKoreanName.value.values.filter { it.isSelected }
             departmentRepository.saveSubscribedDepartmentsToRemote(subscribedDepartments)
         }
     }
@@ -147,7 +147,7 @@ class EditSubscriptionViewModel @Inject constructor(
         Timber.d("Mark: add $departments to $departmentsByKoreanName")
         departmentsByKoreanName.modifyMap {
             departments.forEach {
-                this[it.koreanName] = this[it.koreanName]!!.copy(isNotificationEnabled = true)
+                this[it.koreanName] = this[it.koreanName]!!.copy(isSelected = true)
             }
         }
     }
@@ -203,15 +203,18 @@ class EditSubscriptionViewModel @Inject constructor(
         isInitialCategoryLoaded = true
     }
 
-    object DepartmentComparator : Comparator<SubscriptionUiModel> {
-        override fun compare(p0: SubscriptionUiModel, p1: SubscriptionUiModel): Int {
-            return p0.content.compareTo(p1.content)
+    object DepartmentComparator : Comparator<DepartmentSubscriptionUiModel> {
+        override fun compare(
+            p0: DepartmentSubscriptionUiModel,
+            p1: DepartmentSubscriptionUiModel
+        ): Int {
+            return p0.name.compareTo(p1.name)
         }
     }
 
-    private fun Department.toSubscriptionUiModel() = SubscriptionUiModel(
-        content = koreanName,
-        isNotificationEnabled = isNotificationEnabled
+    private fun Department.toSubscriptionUiModel() = DepartmentSubscriptionUiModel(
+        name = koreanName,
+        isSelected = isNotificationEnabled
     )
 
     private fun Department.toggle() =
