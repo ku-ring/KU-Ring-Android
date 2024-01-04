@@ -6,15 +6,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
 import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
 import com.ku_stacks.ku_ring.edit_subscription.SubscriptionUiModel
 
@@ -27,41 +21,8 @@ fun Subscriptions(
     onItemClick: (SubscriptionUiModel) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var isCategoryOpen by rememberSaveable { mutableStateOf(false) }
-    var isDepartmentOpen by rememberSaveable { mutableStateOf(false) }
+    Column(modifier = modifier) {
 
-    ConstraintLayout(modifier = modifier) {
-        val (categoryGrid, departmentGrid) = createRefs()
-        SubscriptionDrawer(
-            title = categoriesHeaderTitle,
-            subscriptionItems = categories,
-            onHeaderClick = { isCategoryOpen = !isCategoryOpen },
-            onItemClick = onItemClick,
-            isOpen = isCategoryOpen,
-            columns = 3,
-            modifier = Modifier.constrainAs(categoryGrid) {
-                top.linkTo(parent.top)
-                start.linkTo(parent.start)
-                end.linkTo(parent.end)
-                width = Dimension.matchParent
-                height = Dimension.wrapContent
-            }
-        )
-        SubscriptionDrawer(
-            title = departmentsHeaderTitle,
-            subscriptionItems = departments,
-            onHeaderClick = { isDepartmentOpen = !isDepartmentOpen },
-            onItemClick = onItemClick,
-            isOpen = isDepartmentOpen,
-            columns = 1,
-            modifier = Modifier.constrainAs(departmentGrid) {
-                top.linkTo(categoryGrid.bottom, margin = 26.dp)
-                start.linkTo(categoryGrid.start)
-                end.linkTo(categoryGrid.end)
-                width = Dimension.matchParent
-                height = Dimension.wrapContent
-            }
-        )
     }
 }
 
