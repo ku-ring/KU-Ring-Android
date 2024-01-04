@@ -173,6 +173,16 @@ class EditSubscriptionViewModel @Inject constructor(
         }
     }
 
+    fun onDepartmentSubscriptionItemClick(departmentName: String) {
+        departmentsByKoreanName.modifyMap {
+            try {
+                this[departmentName] = this[departmentName]!!.toggle()
+            } catch (e: NullPointerException) {
+                Timber.d("No such department: $departmentName")
+            }
+        }
+    }
+
     fun rollback() {
         categories.modifyList {
             this.clear()
