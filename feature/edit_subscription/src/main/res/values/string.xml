@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="normal_subscription_description">%s 구독하기</string>
+
+    <string name="department_subscription_item_subscribed">구독됨</string>
+    <string name="department_subscription_item_unsubscribed">구독되지 않음</string>
+
+    <string name="department_subscription_subscribe">구독하기</string>
+    <string name="department_subscription_unsubscribe">구독 해제하기</string>
 </resources>
