@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="normal_subscription_tab_title">일반 카테고리</string>
+    <string name="department_subscription_tab_title">학과 카테고리</string>
+
     <string name="normal_subscription_description">%s 구독하기</string>
 
     <string name="department_subscription_item_subscribed">구독됨</string>
