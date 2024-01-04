@@ -16,12 +16,10 @@ import com.ku_stacks.ku_ring.util.modifyMap
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -42,14 +40,22 @@ class EditSubscriptionViewModel @Inject constructor(
     private val initialDepartments = MutableStateFlow(emptyList<Department>())
 
     private val categories = MutableStateFlow(emptyList<NormalSubscriptionUiModel>())
-    val sortedCategories: Flow<List<NormalSubscriptionUiModel>> = categories
-
     private val departmentsByKoreanName = MutableStateFlow(mutableMapOf<String, Department>())
+    private val selectedTab = MutableStateFlow(EditSubscriptionTab.NORMAL)
 
-    val sortedDepartments: Flow<List<DepartmentSubscriptionUiModel>> =
-        departmentsByKoreanName.map { departments ->
-            departments.values.map { it.toSubscriptionUiModel() }.sortedWith(DepartmentComparator)
-        }
+    val uiState: StateFlow<EditSubscriptionUiState> = combine(
+        categories,
+        departmentsByKoreanName,
+        selectedTab,
+    ) { categories, departmentsByKoreanName, selectedTab ->
+        val sortedDepartments = departmentsByKoreanName.values.map { it.toSubscriptionUiModel() }
+            .sortedWith(DepartmentComparator)
+        EditSubscriptionUiState(
+            categories = categories,
+            departments = sortedDepartments,
+            selectedTab = selectedTab,
+        )
+    }.stateIn(viewModelScope, SharingStarted.Lazily, EditSubscriptionUiState.initialValue)
 
     val hasUpdate: StateFlow<Boolean> =
         combine(
