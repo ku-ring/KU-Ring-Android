@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.databinding.DataBindingUtil
 import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
 import com.ku_stacks.ku_ring.edit_subscription.compose.Subscriptions
@@ -52,17 +51,14 @@ class EditSubscriptionActivity : AppCompatActivity() {
 //            binding.startBt.visibility = View.GONE
 //        }
         binding.composeView.setContent {
-            val categoryTitle = stringResource(R.string.subscribe_category_title)
-            val departmentTitle = stringResource(R.string.subscribe_department_title)
-            val categories by viewModel.sortedCategories.collectAsState(initial = emptyList())
-            val departments by viewModel.sortedDepartments.collectAsState(initial = emptyList())
+            val uiState by viewModel.uiState.collectAsState()
             KuringTheme {
                 Subscriptions(
-                    categories = categories,
-                    categoriesHeaderTitle = categoryTitle,
-                    departments = departments,
-                    departmentsHeaderTitle = departmentTitle,
-                    onItemClick = viewModel::onItemClick,
+                    selectedTab = uiState.selectedTab,
+                    categories = uiState.categories,
+                    departments = uiState.departments,
+                    onCategoryClick = viewModel::onNormalSubscriptionItemClick,
+                    onDepartmentClick = viewModel::onDepartmentSubscriptionItemClick,
                     modifier = Modifier.fillMaxSize()
                 )
             }
