@@ -36,25 +36,10 @@ class EditSubscriptionActivity : AppCompatActivity() {
     private fun setupBinding() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_subscription)
         binding.lifecycleOwner = this
-
-//        binding.startBt.setOnClickListener {
-//            Timber.d("Init status = ${viewModel.isInitialLoadDone}")
-//            if (viewModel.isInitialLoadDone) {
-//                viewModel.saveSubscribe()
-//                setResult(RESULT_OK)
-//                finish()
-//                overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
-//            }
-//        }
     }
 
     private fun setupView() {
         viewModel.firstRunFlag = intent.getBooleanExtra(FIRST_RUN_FLAG, false)
-//        if (viewModel.firstRunFlag) {
-//            binding.startBt.visibility = View.VISIBLE
-//        } else {
-//            binding.startBt.visibility = View.GONE
-//        }
         binding.composeView.setContent {
             val uiState by viewModel.uiState.collectAsState()
             KuringTheme {

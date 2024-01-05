@@ -172,21 +172,6 @@ class EditSubscriptionViewModel @Inject constructor(
         }
     }
 
-    fun onItemClick(item: SubscriptionUiModel) {
-        val content = item.content
-        if (content in departmentsByKoreanName.value) {
-            // department
-            departmentsByKoreanName.modifyMap {
-                this[content] = this[content]!!.toggle()
-            }
-        } else {
-            // category
-//            categories.modifyMap {
-//                this[content] = this[content]!!.toggle()
-//            }
-        }
-    }
-
     fun onTabClick(tab: EditSubscriptionTab) {
         selectedTab.value = tab
     }
@@ -203,22 +188,6 @@ class EditSubscriptionViewModel @Inject constructor(
                 this[departmentName] = this[departmentName]!!.toggle()
             } catch (e: NullPointerException) {
                 Timber.d("No such department: $departmentName")
-            }
-        }
-    }
-
-    fun rollback() {
-        categories.modifyList {
-            this.clear()
-            initialCategories.value.forEach {
-                this.add(it)
-            }
-        }
-
-        departmentsByKoreanName.modifyMap {
-            this.clear()
-            initialDepartments.value.forEach {
-                this[it.koreanName] = it
             }
         }
     }
