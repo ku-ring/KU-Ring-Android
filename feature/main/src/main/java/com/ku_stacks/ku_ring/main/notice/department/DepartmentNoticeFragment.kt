@@ -29,7 +29,6 @@ import com.ku_stacks.ku_ring.domain.mapper.toWebViewNotice
 import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.databinding.FragmentDepartmentNoticeBinding
 import com.ku_stacks.ku_ring.main.notice.department.compose.DepartmentNoticeScreen
-import com.ku_stacks.ku_ring.main.notice.department.fragment_subscribe.DepartmentSubscribeBottomSheet
 import com.ku_stacks.ku_ring.ui_util.KuringNavigator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -71,11 +70,7 @@ class DepartmentNoticeFragment : Fragment() {
     }
 
     private fun showDepartmentSubscribeBottomSheet() {
-        DepartmentSubscribeBottomSheet.newInstance()
-            .show(
-                requireActivity().supportFragmentManager,
-                DepartmentSubscribeBottomSheet::class.java.name
-            )
+        navigator.navigateToEditSubscribedDepartment(requireActivity())
     }
 
     @OptIn(ExperimentalMaterialApi::class)
