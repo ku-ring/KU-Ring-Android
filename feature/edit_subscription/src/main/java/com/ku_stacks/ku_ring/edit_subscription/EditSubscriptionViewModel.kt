@@ -158,7 +158,7 @@ class EditSubscriptionViewModel @Inject constructor(
         }
         viewModelScope.launch {
             val subscribedDepartments =
-                departmentsByKoreanName.value.values.filter { it.isSelected }
+                departmentsByKoreanName.value.values.filter { it.isNotificationEnabled }
             departmentRepository.saveSubscribedDepartmentsToRemote(subscribedDepartments)
         }
     }
@@ -167,7 +167,7 @@ class EditSubscriptionViewModel @Inject constructor(
         Timber.d("Mark: add $departments to $departmentsByKoreanName")
         departmentsByKoreanName.modifyMap {
             departments.forEach {
-                this[it.koreanName] = this[it.koreanName]!!.copy(isSelected = true)
+                this[it.koreanName] = this[it.koreanName]!!.toggle()
             }
         }
     }
