@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_bar_title">푸시 알림 설정</string>
+    <string name="app_bar_action">완료</string>
+
+    <string name="title">알림 받고 싶은\n카테고리를 선택해 주세요</string>
+
     <string name="normal_subscription_tab_title">일반 카테고리</string>
     <string name="department_subscription_tab_title">학과 카테고리</string>
 
@@ -10,4 +15,8 @@
 
     <string name="department_subscription_subscribe">구독하기</string>
     <string name="department_subscription_unsubscribe">구독 해제하기</string>
+
+    <string name="department_subscription_empty_message">아직 추가된 학과가 없어요.\n관심 학과를 추가하고 공지를 확인해 보세요!</string>
+    <string name="department_subscription_add_department">학과 추가하기</string>
+    <string name="department_subscription_complete">설정 완료</string>
 </resources>

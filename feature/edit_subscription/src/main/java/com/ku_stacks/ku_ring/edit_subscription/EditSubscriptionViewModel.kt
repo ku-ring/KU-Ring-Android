@@ -173,6 +173,10 @@ class EditSubscriptionViewModel @Inject constructor(
         }
     }
 
+    fun onTabClick(tab: EditSubscriptionTab) {
+        selectedTab.value = tab
+    }
+
     fun onNormalSubscriptionItemClick(index: Int) {
         categories.modifyList {
             this[index] = this[index].toggle()
