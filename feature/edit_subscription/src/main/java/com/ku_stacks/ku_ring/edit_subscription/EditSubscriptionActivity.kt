@@ -57,11 +57,23 @@ class EditSubscriptionActivity : AppCompatActivity() {
                     selectedTab = uiState.selectedTab,
                     categories = uiState.categories,
                     departments = uiState.departments,
+                    onTabClick = viewModel::onTabClick,
                     onCategoryClick = viewModel::onNormalSubscriptionItemClick,
                     onDepartmentClick = viewModel::onDepartmentSubscriptionItemClick,
-                    modifier = Modifier.fillMaxSize()
+                    onAddDepartmentButtonClick = { /* TODO: 학과 편집하기 화면으로 navigate */ },
+                    onSubscriptionComplete = ::onSubscriptionComplete,
+                    modifier = Modifier.fillMaxSize(),
                 )
             }
+        }
+    }
+
+    private fun onSubscriptionComplete() {
+        if (viewModel.isInitialLoadDone) {
+            viewModel.saveSubscribe()
+            setResult(RESULT_OK)
+            finish()
+            overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
         }
     }
 
