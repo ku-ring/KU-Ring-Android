@@ -19,6 +19,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -108,17 +109,30 @@ class EditSubscriptionViewModel @Inject constructor(
 
         viewModelScope.launch {
             departmentRepository.updateDepartmentsFromRemote()
-            val subscribedDepartments = departmentRepository.getSubscribedDepartments()
-            addDepartmentsToMap(subscribedDepartments)
-            val notificationEnabledDepartments = departmentRepository.fetchSubscribedDepartments()
-            markDepartmentsAsEnabled(notificationEnabledDepartments)
-            isInitialDepartmentLoaded = true
-            initialDepartments.modifyList { addAll(departmentsByKoreanName.value.values) }
+            collectSubscribedDepartments()
+            fetchNotificationEnabledDepartments()
         }
     }
 
-    private fun addDepartmentsToMap(departments: List<Department>) {
+    private fun collectSubscribedDepartments() {
+        viewModelScope.launch {
+            departmentRepository.getSubscribedDepartmentsAsFlow()
+                .collectLatest { subscribedDepartments ->
+                    setDepartmentsToMap(subscribedDepartments)
+                }
+        }
+    }
+
+    private suspend fun fetchNotificationEnabledDepartments() {
+        val notificationEnabledDepartments = departmentRepository.fetchSubscribedDepartments()
+        markDepartmentsAsEnabled(notificationEnabledDepartments)
+        initialDepartments.modifyList { addAll(departmentsByKoreanName.value.values) }
+        isInitialDepartmentLoaded = true
+    }
+
+    private fun setDepartmentsToMap(departments: List<Department>) {
         departmentsByKoreanName.modifyMap {
+            this.clear()
             departments.forEach {
                 this[it.koreanName] = it
             }
