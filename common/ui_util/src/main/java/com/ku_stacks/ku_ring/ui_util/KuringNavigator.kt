@@ -3,12 +3,15 @@ package com.ku_stacks.ku_ring.ui_util
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import androidx.fragment.app.FragmentActivity
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.domain.WebViewNotice
 
 interface KuringNavigator {
     fun createEditSubscriptionIntent(context: Context, isFirstRun: Boolean = false): Intent
     fun navigateToEditSubscription(activity: Activity, isFirstRun: Boolean = false)
+    // TODO: 학과 편집하기 화면 구현 후 일반 Activity로 매개변수 타입 바꾸기
+    fun navigateToEditSubscribedDepartment(fragmentActivity: FragmentActivity)
     fun navigateToFeedback(activity: Activity)
     fun createMainIntent(context: Context): Intent
     fun navigateToMain(activity: Activity)
