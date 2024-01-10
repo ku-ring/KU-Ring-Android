@@ -26,6 +26,7 @@ import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material.Text
 import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,6 +49,7 @@ import com.ku_stacks.ku_ring.designsystem.theme.CaptionGray2
 import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
 import com.ku_stacks.ku_ring.edit_subscription.EditSubscriptionTab
+import com.ku_stacks.ku_ring.edit_subscription.EditSubscriptionViewModel
 import com.ku_stacks.ku_ring.edit_subscription.R
 import com.ku_stacks.ku_ring.edit_subscription.compose.components.DepartmentSubscriptionItem
 import com.ku_stacks.ku_ring.edit_subscription.compose.components.NormalSubscriptionItem
@@ -57,6 +59,27 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun Subscriptions(
+    viewModel: EditSubscriptionViewModel,
+    onAddDepartmentButtonClick: () -> Unit,
+    onSubscriptionComplete: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val uiState by viewModel.uiState.collectAsState()
+    Subscriptions(
+        selectedTab = uiState.selectedTab,
+        categories = uiState.categories,
+        departments = uiState.departments,
+        onTabClick = viewModel::onTabClick,
+        onCategoryClick = viewModel::onNormalSubscriptionItemClick,
+        onDepartmentClick = viewModel::onDepartmentSubscriptionItemClick,
+        onAddDepartmentButtonClick = onAddDepartmentButtonClick,
+        onSubscriptionComplete = onSubscriptionComplete,
+        modifier = modifier,
+    )
+}
+
+@Composable
+private fun Subscriptions(
     selectedTab: EditSubscriptionTab,
     categories: List<NormalSubscriptionUiModel>,
     departments: List<DepartmentSubscriptionUiModel>,

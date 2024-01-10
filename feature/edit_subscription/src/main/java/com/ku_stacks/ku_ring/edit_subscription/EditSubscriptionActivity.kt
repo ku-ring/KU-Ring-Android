@@ -6,8 +6,6 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.databinding.DataBindingUtil
 import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
@@ -41,15 +39,9 @@ class EditSubscriptionActivity : AppCompatActivity() {
     private fun setupView() {
         viewModel.firstRunFlag = intent.getBooleanExtra(FIRST_RUN_FLAG, false)
         binding.composeView.setContent {
-            val uiState by viewModel.uiState.collectAsState()
             KuringTheme {
                 Subscriptions(
-                    selectedTab = uiState.selectedTab,
-                    categories = uiState.categories,
-                    departments = uiState.departments,
-                    onTabClick = viewModel::onTabClick,
-                    onCategoryClick = viewModel::onNormalSubscriptionItemClick,
-                    onDepartmentClick = viewModel::onDepartmentSubscriptionItemClick,
+                    viewModel = viewModel,
                     onAddDepartmentButtonClick = { navigator.navigateToEditSubscribedDepartment(this) },
                     onSubscriptionComplete = ::onSubscriptionComplete,
                     modifier = Modifier.fillMaxSize(),
