@@ -58,16 +58,6 @@ class EditSubscriptionViewModel @Inject constructor(
         )
     }.stateIn(viewModelScope, SharingStarted.Lazily, EditSubscriptionUiState.initialValue)
 
-    val hasUpdate: StateFlow<Boolean> =
-        combine(
-            categories,
-            departmentsByKoreanName,
-            initialCategories,
-            initialDepartments
-        ) { categories, departments, initialCategories, initialDepartments ->
-            (categories.toSet() != initialCategories) || (departments.values.toSet() != initialDepartments)
-        }.stateIn(viewModelScope, SharingStarted.Lazily, false)
-
     private var fcmToken: String? = null
 
     /** 초기 설정이 끝나기 전에 뒤로가기를 하면 빈 목록을 구독하는 경우를 방지하기 위함 */
