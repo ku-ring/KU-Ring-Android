@@ -55,12 +55,11 @@ class EditSubscriptionActivity : AppCompatActivity() {
             viewModel.saveSubscribe()
             setResult(RESULT_OK)
             finish()
-            overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
         }
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
+    override fun finish() {
+        super.finish()
         overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
     }
 
