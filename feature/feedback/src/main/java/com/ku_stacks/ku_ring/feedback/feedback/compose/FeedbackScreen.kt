@@ -17,10 +17,7 @@ import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,7 +26,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -117,12 +113,11 @@ private fun FeedbackTextField(
     viewModel: FeedbackViewModel,
     modifier: Modifier,
 ) {
-    var text by remember { mutableStateOf(TextFieldValue("")) }
+    val text = viewModel.feedbackContent.collectAsState()
     OutlinedTextField(
-        value = text,
+        value = text.value,
         onValueChange = { newText ->
-            text = newText
-            viewModel.feedbackContent.value = newText.text
+            viewModel.updateFeedbackContent(newText)
         },
         shape = RoundedCornerShape(20.dp),
         modifier = modifier

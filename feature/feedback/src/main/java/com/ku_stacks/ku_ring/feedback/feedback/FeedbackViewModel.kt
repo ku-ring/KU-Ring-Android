@@ -12,6 +12,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -24,7 +26,9 @@ class FeedbackViewModel @Inject constructor(
 
     private val disposable = CompositeDisposable()
 
-    val feedbackContent = MutableLiveData("")
+    private val _feedbackContent = MutableStateFlow("")
+    val feedbackContent = _feedbackContent.asStateFlow()
+
     val canSendFeedback = MutableLiveData(false)
 
     private val _quit = SingleLiveEvent<Unit>()
@@ -60,7 +64,7 @@ class FeedbackViewModel @Inject constructor(
                 return@addOnCompleteListener
             }
 
-            val content = feedbackContent.value ?: ""
+            val content = feedbackContent.value
             if (content.length < 5) {
                 _toastByResource.value = R.string.feedback_too_short
                 return@addOnCompleteListener
@@ -87,6 +91,10 @@ class FeedbackViewModel @Inject constructor(
                     _toastByResource.value = R.string.network_error
                 })
         }
+    }
+
+    fun updateFeedbackContent(text: String) {
+        _feedbackContent.value = text
     }
 
     fun closeFeedback() {
