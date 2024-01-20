@@ -120,6 +120,15 @@ private fun FeedbackTextField(
             viewModel.updateFeedbackContent(newText)
         },
         shape = RoundedCornerShape(20.dp),
+        placeholder = {
+            Text(
+                text = "최소 5글자 이상 작성해주세요",
+                fontSize = 16.sp,
+                lineHeight = 24.sp,
+                fontFamily = Pretendard,
+                fontWeight = FontWeight(400),
+            )
+        },
         modifier = modifier
     )
 }
