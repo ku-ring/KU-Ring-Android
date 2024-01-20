@@ -46,6 +46,7 @@ android {
 
 dependencies {
     implementation project(":common:util")
+    implementation project(":common:designsystem")
     testImplementation testFixtures(project(":common:util"))
     implementation project(":common:ui_util")
     implementation project(":common:thirdparty")
