@@ -14,6 +14,12 @@ private val KuringGreen50: Color
     @Composable get() = colorResource(R.color.kus_green_50)
 private val KuringSecondaryGreen: Color
     @Composable get() = colorResource(R.color.kus_secondary_green)
+val KuringSub: Color
+    @Composable get() = Color(0xFFECF9F3)
+val CaptionGray1: Color
+    @Composable get() = Color(0xFF868A92)
+val CaptionGray2: Color
+    @Composable get() = Color(0xFFAEB1B6)
 
 val lightColorPalette: Colors
     @Composable get() = lightColors(
