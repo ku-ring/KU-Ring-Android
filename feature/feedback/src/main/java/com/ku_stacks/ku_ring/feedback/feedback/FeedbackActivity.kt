@@ -3,40 +3,39 @@ package com.ku_stacks.ku_ring.feedback.feedback
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
+import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
+import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
 import com.ku_stacks.ku_ring.feedback.R
-import com.ku_stacks.ku_ring.feedback.databinding.ActivityFeedbackBinding
-import com.ku_stacks.ku_ring.ui_util.modified_external_library.AppearanceAnimator
+import com.ku_stacks.ku_ring.feedback.feedback.compose.FeedbackScreen
 import com.ku_stacks.ku_ring.ui_util.showToast
 import dagger.hilt.android.AndroidEntryPoint
-import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 
 @AndroidEntryPoint
 class FeedbackActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityFeedbackBinding
     private val viewModel by viewModels<FeedbackViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setupBinding()
-        setupKeyboardListener()
-        setupEditText()
-        observeData()
+        setupView()
+        observeViewModel()
     }
 
-    private fun setupBinding() {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_feedback)
-        binding.lifecycleOwner = this
-        binding.viewModel = viewModel
+    private fun setupView() {
+
+        setContent {
+            KuringTheme {
+                FeedbackScreen(
+                    viewModel = viewModel,
+                )
+            }
+        }
     }
 
-    private fun observeData() {
+    private fun observeViewModel() {
         viewModel.quit.observe(this) {
             finish()
         }
@@ -48,47 +47,8 @@ class FeedbackActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupKeyboardListener() {
-        KeyboardVisibilityEvent.setEventListener(this, this) { isOpen ->
-            if (isOpen) {
-                AppearanceAnimator.collapse(binding.feedbackChatImg)
-                AppearanceAnimator.collapse(binding.feedbackTitleTxt)
-            } else {
-                val initialHeightOfFeedbackImg = 110
-                AppearanceAnimator.expand(binding.feedbackChatImg, initialHeightOfFeedbackImg)
-                AppearanceAnimator.expand(binding.feedbackTitleTxt)
-            }
-        }
-    }
-
-    private fun setupEditText() {
-        binding.feedbackEt.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable?) {
-                val strLength = s.toString().length
-                binding.feedbackAdviceTxt.text = when {
-                    strLength < 5 -> {
-                        viewModel.canSendFeedback.postValue(false)
-                        getString(R.string.feedback_write_more_character)
-                    }
-
-                    strLength > 256 -> {
-                        viewModel.canSendFeedback.postValue(false)
-                        String.format(getString(R.string.feedback_size_of_character), strLength)
-                    }
-
-                    else -> {
-                        viewModel.canSendFeedback.postValue(true)
-                        String.format(getString(R.string.feedback_size_of_character), strLength)
-                    }
-                }
-            }
-        })
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
+    override fun finish() {
+        super.finish()
         overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
     }
 
@@ -96,6 +56,7 @@ class FeedbackActivity : AppCompatActivity() {
         fun start(activity: Activity) {
             val intent = Intent(activity, FeedbackActivity::class.java)
             activity.startActivity(intent)
+            activity.overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
         }
     }
 }
