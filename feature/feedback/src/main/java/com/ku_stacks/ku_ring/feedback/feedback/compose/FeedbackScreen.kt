@@ -33,8 +33,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.components.CenterTitleTopBar
 import com.ku_stacks.ku_ring.designsystem.theme.KuringGreen
+import com.ku_stacks.ku_ring.designsystem.theme.KuringSecondaryGreen
 import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
 import com.ku_stacks.ku_ring.feedback.R
+import com.ku_stacks.ku_ring.feedback.feedback.FeedbackTextStatus
 import com.ku_stacks.ku_ring.feedback.feedback.FeedbackViewModel
 
 @Composable
@@ -86,28 +88,7 @@ fun FeedbackScreen(
             .border(width = 1.5f.dp, color = Color.Gray, shape = RoundedCornerShape(20.dp))
         FeedbackTextField(viewModel, textFieldModifier)
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 32.dp, vertical = 16.dp)
-                .clip(RoundedCornerShape(100.dp))
-                .background(color = KuringGreen)
-                .clickable {
-                    viewModel.sendFeedback()
-                }
-        ) {
-            Text(
-                text = "피드백 보내기",
-                fontSize = 16.sp,
-                lineHeight = 26.sp,
-                fontFamily = Pretendard,
-                fontWeight = FontWeight(500),
-                color = Color.White,
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .padding(vertical = 16.dp)
-            )
-        }
+        SendFeedbackButton(viewModel)
     }
 }
 
@@ -117,6 +98,7 @@ private fun FeedbackTextField(
     modifier: Modifier,
 ) {
     val text = viewModel.feedbackContent.collectAsState()
+    val textStatus = viewModel.textStatus.collectAsState(FeedbackTextStatus.TOO_SHORT)
     
     Box(modifier = modifier) {
         TextField(
@@ -147,17 +129,68 @@ private fun FeedbackTextField(
                 .fillMaxHeight()
                 .padding(bottom = 6.dp)
         )
+
+        val guideTextInfo = when (textStatus.value) {
+            FeedbackTextStatus.TOO_SHORT -> {
+                Pair("5글자 이상 입력해주세요", Color.Red)
+            }
+            FeedbackTextStatus.TOO_LONG -> {
+                Pair("${text.value.length}/${FeedbackViewModel.MAX_FEEDBACK_CONTENT_LENGTH}", Color.Red)
+            }
+            FeedbackTextStatus.NORMAL -> {
+                Pair("${text.value.length}/${FeedbackViewModel.MAX_FEEDBACK_CONTENT_LENGTH}", KuringGreen)
+            }
+        }
+
         Text(
-            text = "4글자 이상 입력해주세요",
+            text = guideTextInfo.first,
             fontSize = 14.sp,
             lineHeight = 21.sp,
             fontFamily = Pretendard,
             fontWeight = FontWeight(400),
-            color = Color.Red,
+            color = guideTextInfo.second,
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(bottom = 6.dp, end = 13.dp)
         )
+    }
+}
 
+@Composable
+private fun SendFeedbackButton(
+    viewModel: FeedbackViewModel,
+) {
+    val textStatus = viewModel.textStatus.collectAsState(FeedbackTextStatus.TOO_SHORT)
+
+    val backgroundColor = when (textStatus.value) {
+        FeedbackTextStatus.NORMAL -> KuringGreen
+        else -> KuringSecondaryGreen
+    }
+    val textColor = when (textStatus.value) {
+        FeedbackTextStatus.NORMAL -> MaterialTheme.colors.surface
+        else ->KuringGreen
+    }
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 32.dp, vertical = 16.dp)
+            .clip(RoundedCornerShape(100.dp))
+            .background(color = backgroundColor)
+            .clickable {
+                viewModel.sendFeedback()
+            }
+    ) {
+        Text(
+            text = "피드백 보내기",
+            fontSize = 16.sp,
+            lineHeight = 26.sp,
+            fontFamily = Pretendard,
+            fontWeight = FontWeight(500),
+            color = textColor,
+            modifier = Modifier
+                .align(Alignment.Center)
+                .padding(vertical = 16.dp)
+        )
     }
 }
