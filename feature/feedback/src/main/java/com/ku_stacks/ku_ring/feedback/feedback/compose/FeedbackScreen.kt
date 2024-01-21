@@ -32,16 +32,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.components.CenterTitleTopBar
+import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.theme.KuringGreen
 import com.ku_stacks.ku_ring.designsystem.theme.KuringSecondaryGreen
 import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
 import com.ku_stacks.ku_ring.feedback.R
 import com.ku_stacks.ku_ring.feedback.feedback.FeedbackTextStatus
 import com.ku_stacks.ku_ring.feedback.feedback.FeedbackViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 
 @Composable
 fun FeedbackScreen(
-    viewModel: FeedbackViewModel
+    viewModel: FeedbackViewModelInterface
 ) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         CenterTitleTopBar(
@@ -94,7 +96,7 @@ fun FeedbackScreen(
 
 @Composable
 private fun FeedbackTextField(
-    viewModel: FeedbackViewModel,
+    viewModel: FeedbackViewModelInterface,
     modifier: Modifier,
 ) {
     val text = viewModel.feedbackContent.collectAsState()
@@ -158,7 +160,7 @@ private fun FeedbackTextField(
 
 @Composable
 private fun SendFeedbackButton(
-    viewModel: FeedbackViewModel,
+    viewModel: FeedbackViewModelInterface,
 ) {
     val textStatus = viewModel.textStatus.collectAsState(FeedbackTextStatus.TOO_SHORT)
 
@@ -193,4 +195,14 @@ private fun SendFeedbackButton(
                 .padding(vertical = 16.dp)
         )
     }
+}
+
+@LightAndDarkPreview
+@Composable
+private fun FeedbackScreenPreView() {
+    val viewModel: FeedbackViewModelInterface = object: FeedbackViewModelInterface {
+        override val feedbackContent = MutableStateFlow("")
+        override val textStatus = MutableStateFlow(FeedbackTextStatus.TOO_SHORT)
+    }
+    FeedbackScreen(viewModel)
 }
