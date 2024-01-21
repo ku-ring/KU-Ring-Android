@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.messaging.FirebaseMessaging
 import com.ku_stacks.ku_ring.feedback.R
+import com.ku_stacks.ku_ring.feedback.feedback.compose.FeedbackViewModelInterface
 import com.ku_stacks.ku_ring.thirdparty.firebase.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.ui_util.SingleLiveEvent
 import com.ku_stacks.ku_ring.user.repository.UserRepository
@@ -29,14 +30,14 @@ class FeedbackViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val analytics: EventAnalytics,
     private val firebaseMessaging: FirebaseMessaging
-) : ViewModel() {
+) : ViewModel(), FeedbackViewModelInterface {
 
     private val disposable = CompositeDisposable()
 
     private val _feedbackContent = MutableStateFlow("")
-    val feedbackContent = _feedbackContent.asStateFlow()
+    override val feedbackContent = _feedbackContent.asStateFlow()
 
-    val textStatus = feedbackContent.map {
+    override val textStatus = feedbackContent.map {
         when (it.length) {
             in 0..MIN_FEEDBACK_CONTENT_LENGTH -> FeedbackTextStatus.TOO_SHORT
             in MIN_FEEDBACK_CONTENT_LENGTH + 1..MAX_FEEDBACK_CONTENT_LENGTH -> FeedbackTextStatus.NORMAL
@@ -64,7 +65,7 @@ class FeedbackViewModel @Inject constructor(
         Timber.e("FeedbackViewModel injected")
     }
 
-    fun sendFeedback() {
+    override fun sendFeedback() {
         analytics.click("send feedback button", "FeedbackActivity")
 
         firebaseMessaging.token.addOnCompleteListener { task ->
@@ -110,11 +111,11 @@ class FeedbackViewModel @Inject constructor(
         }
     }
 
-    fun updateFeedbackContent(text: String) {
+    override fun updateFeedbackContent(text: String) {
         _feedbackContent.value = text
     }
 
-    fun closeFeedback() {
+    override fun closeFeedback() {
         analytics.click("close feedback button", "FeedbackActivity")
         _quit.call()
     }
