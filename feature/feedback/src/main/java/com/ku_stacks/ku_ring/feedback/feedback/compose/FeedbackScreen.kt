@@ -2,19 +2,21 @@ package com.ku_stacks.ku_ring.feedback.feedback.compose
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
+import androidx.compose.material.TextField
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -80,7 +82,8 @@ fun FeedbackScreen(
             .padding(start = 20.dp, end = 20.dp, top = 32.dp)
             .fillMaxWidth()
             .weight(1f)
-            .heightIn(max = 160.dp)
+            .background(color = MaterialTheme.colors.surface)
+            .border(width = 1.5f.dp, color = Color.Gray, shape = RoundedCornerShape(20.dp))
         FeedbackTextField(viewModel, textFieldModifier)
 
         Box(
@@ -114,21 +117,47 @@ private fun FeedbackTextField(
     modifier: Modifier,
 ) {
     val text = viewModel.feedbackContent.collectAsState()
-    OutlinedTextField(
-        value = text.value,
-        onValueChange = { newText ->
-            viewModel.updateFeedbackContent(newText)
-        },
-        shape = RoundedCornerShape(20.dp),
-        placeholder = {
-            Text(
-                text = "최소 5글자 이상 작성해주세요",
-                fontSize = 16.sp,
-                lineHeight = 24.sp,
-                fontFamily = Pretendard,
-                fontWeight = FontWeight(400),
-            )
-        },
-        modifier = modifier
-    )
+    
+    Box(modifier = modifier) {
+        TextField(
+            value = text.value,
+            onValueChange = { newText ->
+                viewModel.updateFeedbackContent(newText)
+            },
+            shape = RoundedCornerShape(20.dp),
+            placeholder = {
+                Text(
+                    text = "최소 5글자 이상 작성해주세요",
+                    fontSize = 16.sp,
+                    lineHeight = 24.sp,
+                    fontFamily = Pretendard,
+                    fontWeight = FontWeight(400),
+                )
+            },
+            colors = TextFieldDefaults.textFieldColors(
+                textColor = contentColorFor(backgroundColor = MaterialTheme.colors.surface),
+                disabledTextColor = Color.Transparent,
+                backgroundColor = MaterialTheme.colors.surface,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                disabledIndicatorColor = Color.Transparent
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight()
+                .padding(bottom = 6.dp)
+        )
+        Text(
+            text = "4글자 이상 입력해주세요",
+            fontSize = 14.sp,
+            lineHeight = 21.sp,
+            fontFamily = Pretendard,
+            fontWeight = FontWeight(400),
+            color = Color.Red,
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(bottom = 6.dp, end = 13.dp)
+        )
+
+    }
 }
