@@ -1,12 +1,10 @@
 package com.ku_stacks.ku_ring.feedback.feedback
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.messaging.FirebaseMessaging
 import com.ku_stacks.ku_ring.feedback.R
-import com.ku_stacks.ku_ring.feedback.feedback.compose.FeedbackViewModelInterface
 import com.ku_stacks.ku_ring.thirdparty.firebase.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.ui_util.SingleLiveEvent
 import com.ku_stacks.ku_ring.user.repository.UserRepository
@@ -16,12 +14,9 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.transform
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -30,14 +25,14 @@ class FeedbackViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val analytics: EventAnalytics,
     private val firebaseMessaging: FirebaseMessaging
-) : ViewModel(), FeedbackViewModelInterface {
+) : ViewModel() {
 
     private val disposable = CompositeDisposable()
 
     private val _feedbackContent = MutableStateFlow("")
-    override val feedbackContent = _feedbackContent.asStateFlow()
+    val feedbackContent = _feedbackContent.asStateFlow()
 
-    override val textStatus = feedbackContent.map {
+    val textStatus = feedbackContent.map {
         when (it.length) {
             in 0..MIN_FEEDBACK_CONTENT_LENGTH -> FeedbackTextStatus.TOO_SHORT
             in MIN_FEEDBACK_CONTENT_LENGTH + 1..MAX_FEEDBACK_CONTENT_LENGTH -> FeedbackTextStatus.NORMAL
@@ -65,7 +60,7 @@ class FeedbackViewModel @Inject constructor(
         Timber.e("FeedbackViewModel injected")
     }
 
-    override fun sendFeedback() {
+    fun sendFeedback() {
         analytics.click("send feedback button", "FeedbackActivity")
 
         firebaseMessaging.token.addOnCompleteListener { task ->
@@ -111,11 +106,11 @@ class FeedbackViewModel @Inject constructor(
         }
     }
 
-    override fun updateFeedbackContent(text: String) {
+    fun updateFeedbackContent(text: String) {
         _feedbackContent.value = text
     }
 
-    override fun closeFeedback() {
+    fun closeFeedback() {
         analytics.click("close feedback button", "FeedbackActivity")
         _quit.call()
     }

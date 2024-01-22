@@ -20,6 +20,7 @@ import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,6 +36,7 @@ import com.ku_stacks.ku_ring.designsystem.components.CenterTitleTopBar
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.theme.KuringGreen
 import com.ku_stacks.ku_ring.designsystem.theme.KuringSecondaryGreen
+import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
 import com.ku_stacks.ku_ring.feedback.R
 import com.ku_stacks.ku_ring.feedback.feedback.FeedbackTextStatus
@@ -43,9 +45,32 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 @Composable
 fun FeedbackScreen(
-    viewModel: FeedbackViewModelInterface
+    viewModel: FeedbackViewModel
 ) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+    val feedbackContent by viewModel.feedbackContent.collectAsState()
+    val textStatus by viewModel.textStatus.collectAsState()
+
+    FeedbackScreen(
+        feedbackContent = feedbackContent,
+        textStatus = textStatus,
+        onClickClose = viewModel::closeFeedback,
+        onTextFieldUpdate = viewModel::updateFeedbackContent,
+        onClickSendFeedback = viewModel::sendFeedback,
+    )
+}
+
+@Composable
+private fun FeedbackScreen(
+    feedbackContent: String,
+    textStatus: FeedbackTextStatus,
+    onClickClose: () -> Unit,
+    onTextFieldUpdate: (String) -> Unit,
+    onClickSendFeedback: () -> Unit,
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.background(MaterialTheme.colors.surface),
+    ) {
         CenterTitleTopBar(
             title = "피드백 보내기",
             navigation = {
@@ -56,7 +81,7 @@ fun FeedbackScreen(
                 )
             },
             onNavigationClick = {
-                viewModel.closeFeedback()
+                onClickClose()
             },
             action = "",
         )
@@ -88,25 +113,33 @@ fun FeedbackScreen(
             .weight(1f)
             .background(color = MaterialTheme.colors.surface)
             .border(width = 1.5f.dp, color = Color.Gray, shape = RoundedCornerShape(20.dp))
-        FeedbackTextField(viewModel, textFieldModifier)
+        FeedbackTextField(
+            feedbackContent = feedbackContent,
+            textStatus = textStatus,
+            onTextFieldUpdate = onTextFieldUpdate,
+            modifier = textFieldModifier,
+        )
 
-        SendFeedbackButton(viewModel)
+        SendFeedbackButton(
+            textStatus = textStatus,
+            onClickSendFeedback = onClickSendFeedback,
+        )
     }
 }
 
 @Composable
 private fun FeedbackTextField(
-    viewModel: FeedbackViewModelInterface,
+    feedbackContent: String,
+    textStatus: FeedbackTextStatus,
+    onTextFieldUpdate: (String) -> Unit,
     modifier: Modifier,
 ) {
-    val text = viewModel.feedbackContent.collectAsState()
-    val textStatus = viewModel.textStatus.collectAsState(FeedbackTextStatus.TOO_SHORT)
-    
+
     Box(modifier = modifier) {
         TextField(
-            value = text.value,
+            value = feedbackContent,
             onValueChange = { newText ->
-                viewModel.updateFeedbackContent(newText)
+                onTextFieldUpdate(newText)
             },
             shape = RoundedCornerShape(20.dp),
             placeholder = {
@@ -132,15 +165,15 @@ private fun FeedbackTextField(
                 .padding(bottom = 6.dp)
         )
 
-        val guideTextInfo = when (textStatus.value) {
+        val guideTextInfo = when (textStatus) {
             FeedbackTextStatus.TOO_SHORT -> {
                 Pair("5글자 이상 입력해주세요", Color.Red)
             }
             FeedbackTextStatus.TOO_LONG -> {
-                Pair("${text.value.length}/${FeedbackViewModel.MAX_FEEDBACK_CONTENT_LENGTH}", Color.Red)
+                Pair("${feedbackContent.length}/${FeedbackViewModel.MAX_FEEDBACK_CONTENT_LENGTH}", Color.Red)
             }
             FeedbackTextStatus.NORMAL -> {
-                Pair("${text.value.length}/${FeedbackViewModel.MAX_FEEDBACK_CONTENT_LENGTH}", KuringGreen)
+                Pair("${feedbackContent.length}/${FeedbackViewModel.MAX_FEEDBACK_CONTENT_LENGTH}", KuringGreen)
             }
         }
 
@@ -160,15 +193,15 @@ private fun FeedbackTextField(
 
 @Composable
 private fun SendFeedbackButton(
-    viewModel: FeedbackViewModelInterface,
+    textStatus: FeedbackTextStatus,
+    onClickSendFeedback: () -> Unit,
 ) {
-    val textStatus = viewModel.textStatus.collectAsState(FeedbackTextStatus.TOO_SHORT)
 
-    val backgroundColor = when (textStatus.value) {
+    val backgroundColor = when (textStatus) {
         FeedbackTextStatus.NORMAL -> KuringGreen
         else -> KuringSecondaryGreen
     }
-    val textColor = when (textStatus.value) {
+    val textColor = when (textStatus) {
         FeedbackTextStatus.NORMAL -> MaterialTheme.colors.surface
         else ->KuringGreen
     }
@@ -180,7 +213,7 @@ private fun SendFeedbackButton(
             .clip(RoundedCornerShape(100.dp))
             .background(color = backgroundColor)
             .clickable {
-                viewModel.sendFeedback()
+                onClickSendFeedback()
             }
     ) {
         Text(
@@ -200,9 +233,13 @@ private fun SendFeedbackButton(
 @LightAndDarkPreview
 @Composable
 private fun FeedbackScreenPreView() {
-    val viewModel: FeedbackViewModelInterface = object: FeedbackViewModelInterface {
-        override val feedbackContent = MutableStateFlow("")
-        override val textStatus = MutableStateFlow(FeedbackTextStatus.TOO_SHORT)
+    KuringTheme {
+        FeedbackScreen(
+            feedbackContent = "안녕하세요",
+            textStatus = FeedbackTextStatus.NORMAL,
+            onClickSendFeedback = {},
+            onClickClose = {},
+            onTextFieldUpdate = {},
+        )
     }
-    FeedbackScreen(viewModel)
 }
