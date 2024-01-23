@@ -165,7 +165,7 @@ private fun FeedbackTextField(
                 .padding(bottom = 6.dp)
         )
 
-        val guideTextInfo = when (textStatus) {
+        val (guideTextInfo, color) = when (textStatus) {
             FeedbackTextStatus.TOO_SHORT -> {
                 Pair(stringResource(R.string.feedback_write_more), Color.Red)
             }
@@ -178,12 +178,12 @@ private fun FeedbackTextField(
         }
 
         Text(
-            text = guideTextInfo.first,
+            text = guideTextInfo,
             fontSize = 14.sp,
             lineHeight = 21.sp,
             fontFamily = Pretendard,
             fontWeight = FontWeight(400),
-            color = guideTextInfo.second,
+            color = color,
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(bottom = 6.dp, end = 13.dp)
@@ -203,7 +203,7 @@ private fun SendFeedbackButton(
     }
     val textColor = when (textStatus) {
         FeedbackTextStatus.NORMAL -> MaterialTheme.colors.surface
-        else ->KuringGreen
+        else -> KuringGreen
     }
 
     Box(
