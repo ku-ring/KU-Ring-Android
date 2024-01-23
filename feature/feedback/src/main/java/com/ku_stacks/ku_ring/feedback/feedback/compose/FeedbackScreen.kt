@@ -166,6 +166,9 @@ private fun FeedbackTextField(
         )
 
         val (guideTextInfo, color) = when (textStatus) {
+            FeedbackTextStatus.INITIAL -> {
+                Pair("", Color.Red)
+            }
             FeedbackTextStatus.TOO_SHORT -> {
                 Pair(stringResource(R.string.feedback_write_more), Color.Red)
             }
