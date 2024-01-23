@@ -72,7 +72,7 @@ private fun FeedbackScreen(
         modifier = Modifier.background(MaterialTheme.colors.surface),
     ) {
         CenterTitleTopBar(
-            title = "피드백 보내기",
+            title = stringResource(R.string.feedback_send_content),
             navigation = {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_back),
@@ -144,7 +144,7 @@ private fun FeedbackTextField(
             shape = RoundedCornerShape(20.dp),
             placeholder = {
                 Text(
-                    text = "최소 5글자 이상 작성해주세요",
+                    text = stringResource(R.string.feedback_write_more_character),
                     fontSize = 16.sp,
                     lineHeight = 24.sp,
                     fontFamily = Pretendard,
@@ -167,7 +167,7 @@ private fun FeedbackTextField(
 
         val guideTextInfo = when (textStatus) {
             FeedbackTextStatus.TOO_SHORT -> {
-                Pair("5글자 이상 입력해주세요", Color.Red)
+                Pair(stringResource(R.string.feedback_write_more), Color.Red)
             }
             FeedbackTextStatus.TOO_LONG -> {
                 Pair("${feedbackContent.length}/${FeedbackViewModel.MAX_FEEDBACK_CONTENT_LENGTH}", Color.Red)
@@ -217,7 +217,7 @@ private fun SendFeedbackButton(
             }
     ) {
         Text(
-            text = "피드백 보내기",
+            text = stringResource(R.string.feedback_send_content),
             fontSize = 16.sp,
             lineHeight = 26.sp,
             fontFamily = Pretendard,
