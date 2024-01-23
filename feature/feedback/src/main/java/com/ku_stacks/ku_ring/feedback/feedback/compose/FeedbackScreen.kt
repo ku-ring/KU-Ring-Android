@@ -215,7 +215,7 @@ private fun SendFeedbackButton(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 32.dp, vertical = 16.dp)
-            .clip(RoundedCornerShape(100.dp))
+            .clip(RoundedCornerShape(percent = 50))
             .background(color = backgroundColor)
             .clickable {
                 onClickSendFeedback()
