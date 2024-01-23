@@ -79,10 +79,6 @@ class SettingFragment : Fragment() {
         /** feedback layout */
         binding.feedbackLayout.feedbackSendLayout.setOnClickListener {
             navigator.navigateToFeedback(requireActivity())
-            requireActivity().overridePendingTransition(
-                R.anim.anim_slide_right_enter,
-                R.anim.anim_stay_exit
-            )
         }
 
         /** set app version name */
