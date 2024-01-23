@@ -34,14 +34,15 @@ class FeedbackViewModel @Inject constructor(
 
     val textStatus = feedbackContent.map {
         when (it.length) {
-            in 0..MIN_FEEDBACK_CONTENT_LENGTH -> FeedbackTextStatus.TOO_SHORT
+            0 -> FeedbackTextStatus.INITIAL
+            in 1..MIN_FEEDBACK_CONTENT_LENGTH -> FeedbackTextStatus.TOO_SHORT
             in MIN_FEEDBACK_CONTENT_LENGTH + 1..MAX_FEEDBACK_CONTENT_LENGTH -> FeedbackTextStatus.NORMAL
             else -> FeedbackTextStatus.TOO_LONG
         }
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
-        initialValue = FeedbackTextStatus.TOO_SHORT
+        initialValue = FeedbackTextStatus.INITIAL
     )
 
     private val _quit = SingleLiveEvent<Unit>()
