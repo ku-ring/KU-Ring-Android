@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -41,11 +42,11 @@ import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
 import com.ku_stacks.ku_ring.feedback.R
 import com.ku_stacks.ku_ring.feedback.feedback.FeedbackTextStatus
 import com.ku_stacks.ku_ring.feedback.feedback.FeedbackViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
 
 @Composable
 fun FeedbackScreen(
-    viewModel: FeedbackViewModel
+    viewModel: FeedbackViewModel,
+    modifier: Modifier = Modifier,
 ) {
     val feedbackContent by viewModel.feedbackContent.collectAsState()
     val textStatus by viewModel.textStatus.collectAsState()
@@ -56,6 +57,7 @@ fun FeedbackScreen(
         onClickClose = viewModel::closeFeedback,
         onTextFieldUpdate = viewModel::updateFeedbackContent,
         onClickSendFeedback = viewModel::sendFeedback,
+        modifier = modifier,
     )
 }
 
@@ -66,10 +68,11 @@ private fun FeedbackScreen(
     onClickClose: () -> Unit,
     onTextFieldUpdate: (String) -> Unit,
     onClickSendFeedback: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.background(MaterialTheme.colors.surface),
+        modifier = modifier.background(MaterialTheme.colors.surface),
     ) {
         CenterTitleTopBar(
             title = stringResource(R.string.feedback_send_content),
@@ -107,17 +110,16 @@ private fun FeedbackScreen(
             ),
         )
 
-        val textFieldModifier = Modifier
-            .padding(start = 20.dp, end = 20.dp, top = 32.dp)
-            .fillMaxWidth()
-            .weight(1f)
-            .background(color = MaterialTheme.colors.surface)
-            .border(width = 1.5f.dp, color = Color.Gray, shape = RoundedCornerShape(20.dp))
         FeedbackTextField(
             feedbackContent = feedbackContent,
             textStatus = textStatus,
             onTextFieldUpdate = onTextFieldUpdate,
-            modifier = textFieldModifier,
+            modifier = Modifier
+                .padding(start = 20.dp, end = 20.dp, top = 32.dp)
+                .fillMaxWidth()
+                .weight(1f)
+                .background(color = MaterialTheme.colors.surface)
+                .border(width = 1.5f.dp, color = Color.Gray, shape = RoundedCornerShape(20.dp)),
         )
 
         SendFeedbackButton(
@@ -235,7 +237,7 @@ private fun SendFeedbackButton(
 
 @LightAndDarkPreview
 @Composable
-private fun FeedbackScreenPreView() {
+private fun FeedbackScreenPreview() {
     KuringTheme {
         FeedbackScreen(
             feedbackContent = "안녕하세요",
@@ -243,6 +245,7 @@ private fun FeedbackScreenPreView() {
             onClickSendFeedback = {},
             onClickClose = {},
             onTextFieldUpdate = {},
+            modifier = Modifier.fillMaxSize(),
         )
     }
 }

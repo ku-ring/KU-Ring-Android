@@ -6,6 +6,8 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.Modifier
 import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
 import com.ku_stacks.ku_ring.feedback.R
 import com.ku_stacks.ku_ring.feedback.feedback.compose.FeedbackScreen
@@ -25,11 +27,11 @@ class FeedbackActivity : AppCompatActivity() {
     }
 
     private fun setupView() {
-
         setContent {
             KuringTheme {
                 FeedbackScreen(
                     viewModel = viewModel,
+                    modifier = Modifier.fillMaxSize(),
                 )
             }
         }
