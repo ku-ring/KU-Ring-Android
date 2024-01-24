@@ -1,8 +1,8 @@
 package com.ku_stacks.ku_ring.feedback.feedback
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.messaging.FirebaseMessaging
 import com.ku_stacks.ku_ring.feedback.R
 import com.ku_stacks.ku_ring.thirdparty.firebase.analytics.EventAnalytics
@@ -12,6 +12,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -24,8 +29,21 @@ class FeedbackViewModel @Inject constructor(
 
     private val disposable = CompositeDisposable()
 
-    val feedbackContent = MutableLiveData("")
-    val canSendFeedback = MutableLiveData(false)
+    private val _feedbackContent = MutableStateFlow("")
+    val feedbackContent = _feedbackContent.asStateFlow()
+
+    val textStatus = feedbackContent.map {
+        when (it.length) {
+            0 -> FeedbackTextStatus.INITIAL
+            in 1..MIN_FEEDBACK_CONTENT_LENGTH -> FeedbackTextStatus.TOO_SHORT
+            in MIN_FEEDBACK_CONTENT_LENGTH + 1..MAX_FEEDBACK_CONTENT_LENGTH -> FeedbackTextStatus.NORMAL
+            else -> FeedbackTextStatus.TOO_LONG
+        }
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.Lazily,
+        initialValue = FeedbackTextStatus.INITIAL
+    )
 
     private val _quit = SingleLiveEvent<Unit>()
     val quit: LiveData<Unit>
@@ -60,15 +78,15 @@ class FeedbackViewModel @Inject constructor(
                 return@addOnCompleteListener
             }
 
-            val content = feedbackContent.value ?: ""
-            if (content.length < 5) {
+            if (textStatus.value == FeedbackTextStatus.TOO_SHORT) {
                 _toastByResource.value = R.string.feedback_too_short
                 return@addOnCompleteListener
-            } else if (content.length > 256) {
+            } else if (textStatus.value == FeedbackTextStatus.TOO_LONG) {
                 _toastByResource.value = R.string.feedback_too_long
                 return@addOnCompleteListener
             }
 
+            val content = feedbackContent.value
             userRepository.sendFeedback(content)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -89,6 +107,10 @@ class FeedbackViewModel @Inject constructor(
         }
     }
 
+    fun updateFeedbackContent(text: String) {
+        _feedbackContent.value = text
+    }
+
     fun closeFeedback() {
         analytics.click("close feedback button", "FeedbackActivity")
         _quit.call()
@@ -104,5 +126,8 @@ class FeedbackViewModel @Inject constructor(
 
     companion object {
         private val className: String = FeedbackViewModel::class.java.simpleName
+
+        const val MIN_FEEDBACK_CONTENT_LENGTH = 4
+        const val MAX_FEEDBACK_CONTENT_LENGTH = 256
     }
 }
