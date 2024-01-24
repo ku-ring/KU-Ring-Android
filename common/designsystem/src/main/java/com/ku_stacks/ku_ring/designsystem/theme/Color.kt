@@ -22,6 +22,8 @@ val CaptionGray2: Color
     @Composable get() = Color(0xFFAEB1B6)
 val Gray2: Color
     @Composable get() = Color(0xFF636363)
+val BoxBackgroundColor2: Color
+    @Composable get() = Color(0xFFF2F3F5)
 
 val lightColorPalette: Colors
     @Composable get() = lightColors(
