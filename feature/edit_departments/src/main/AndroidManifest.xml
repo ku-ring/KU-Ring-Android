@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+        <activity
+            android:name=".EditDepartmentsActivity"
+            android:exported="false"
+            android:label="@string/title_activity_edit_departments"
+            android:theme="@style/Theme.KURing" />
+    </application>
 
 </manifest>
