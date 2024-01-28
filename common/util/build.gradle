@@ -8,10 +8,10 @@ def localPropertiesFile = rootProject.file("local.properties")
 
 android {
     namespace 'com.ku_stacks.ku_ring.util'
-    compileSdk 33
+    compileSdk libs.versions.compileSdk.get().toInteger()
 
     defaultConfig {
-        minSdk 24
+        minSdk libs.versions.minSdk.get().toInteger()
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"

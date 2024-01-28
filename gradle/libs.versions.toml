@@ -6,6 +6,9 @@ hilt = '2.45'
 google-services = '4.3.10'
 firebase-gradle = '2.7.1'
 oss-licenses-version = '0.10.4'
+compileSdk = "33"
+targetSdk = "33"
+minSdk = "24"
 
 # app-level dependency
 compose-compiler = '1.4.7'
