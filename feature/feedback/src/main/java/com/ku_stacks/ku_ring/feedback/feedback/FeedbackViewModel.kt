@@ -36,7 +36,7 @@ class FeedbackViewModel @Inject constructor(
         when (it.length) {
             0 -> FeedbackTextStatus.INITIAL
             in 1..MIN_FEEDBACK_CONTENT_LENGTH -> FeedbackTextStatus.TOO_SHORT
-            in MIN_FEEDBACK_CONTENT_LENGTH..<MAX_FEEDBACK_CONTENT_LENGTH -> FeedbackTextStatus.NORMAL
+            in MIN_FEEDBACK_CONTENT_LENGTH..MAX_FEEDBACK_CONTENT_LENGTH -> FeedbackTextStatus.NORMAL
             else -> FeedbackTextStatus.TOO_LONG
         }
     }.stateIn(
