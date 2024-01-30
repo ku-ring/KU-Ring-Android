@@ -84,6 +84,7 @@ object DateUtil {
                 set(Calendar.HOUR_OF_DAY, hour) // Calendar.HOUR는 12시간
                 set(Calendar.MINUTE, minute)
                 set(Calendar.SECOND, second)
+                set(Calendar.MILLISECOND, 0)
             }
         }.getOrNull()
     }
