@@ -1,5 +1,7 @@
 package com.ku_stacks.ku_ring.edit_departments
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -28,5 +30,13 @@ class EditDepartmentsActivity : ComponentActivity() {
         overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
     }
 
-    // TODO: companion object에 start 함수 구현
+    companion object {
+        fun start(activity: Activity) {
+            activity.apply {
+                val intent = Intent(this, EditDepartmentsActivity::class.java)
+                startActivity(intent)
+                overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
+            }
+        }
+    }
 }

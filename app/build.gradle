@@ -115,6 +115,7 @@ dependencies {
     implementation project(":common:thirdparty")
     implementation project(":data:domain")
     implementation project(":feature:edit_subscription")
+    implementation project(":feature:edit_departments")
     implementation project(":feature:feedback")
     implementation project(":feature:my_notification")
     implementation project(":feature:notice_storage")

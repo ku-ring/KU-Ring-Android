@@ -3,16 +3,15 @@ package com.ku_stacks.ku_ring.navigator
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import androidx.fragment.app.FragmentActivity
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.domain.WebViewNotice
 import com.ku_stacks.ku_ring.domain.mapper.toWebViewNotice
+import com.ku_stacks.ku_ring.edit_departments.EditDepartmentsActivity
 import com.ku_stacks.ku_ring.edit_subscription.EditSubscriptionActivity
 import com.ku_stacks.ku_ring.feedback.feedback.FeedbackActivity
 import com.ku_stacks.ku_ring.main.MainActivity
-import com.ku_stacks.ku_ring.main.notice.department.fragment_subscribe.DepartmentSubscribeBottomSheet
 import com.ku_stacks.ku_ring.my_notification.NotificationActivity
 import com.ku_stacks.ku_ring.notice_detail.NoticeWebActivity
 import com.ku_stacks.ku_ring.notice_storage.NoticeStorageActivity
@@ -34,12 +33,8 @@ class KuringNavigatorImpl @Inject constructor() : KuringNavigator {
         EditSubscriptionActivity.start(activity, isFirstRun)
     }
 
-    override fun navigateToEditSubscribedDepartment(fragmentActivity: FragmentActivity) {
-        DepartmentSubscribeBottomSheet.newInstance()
-            .show(
-                fragmentActivity.supportFragmentManager,
-                DepartmentSubscribeBottomSheet::class.java.name
-            )
+    override fun navigateToEditSubscribedDepartment(activity: Activity) {
+        EditDepartmentsActivity.start(activity)
     }
 
     override fun navigateToFeedback(activity: Activity) {
