@@ -56,6 +56,14 @@ internal fun EditDepartments(
         onDeleteDepartment = viewModel::onDeleteIconClick,
         modifier = modifier,
     )
+
+    viewModel.popupUiModel?.let { popupUiModel ->
+        DepartmentPopup(
+            popupUiModel = popupUiModel,
+            onConfirm = viewModel::onPopupConfirmButtonClick,
+            onDismiss = viewModel::onPopupDismissButtonClick,
+        )
+    }
 }
 
 @Composable
