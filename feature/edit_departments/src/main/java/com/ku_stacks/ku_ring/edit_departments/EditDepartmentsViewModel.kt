@@ -76,10 +76,6 @@ class EditDepartmentsViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getSubscribedDepartments(): List<Department> {
-        return departmentRepository.getSubscribedDepartments()
-    }
-
     private suspend fun searchDepartments(query: String): List<Department> {
         return departmentRepository.getDepartmentsByKoreanName(query)
     }
@@ -90,10 +86,6 @@ class EditDepartmentsViewModel @Inject constructor(
 
     fun onAddIconClick(department: Department) {
         popupUiModel = PopupUiModel.AddPopupUiModel(department.name, department.koreanName)
-    }
-
-    fun onCheckIconClick(department: Department) {
-        onDeleteIconClick(department)
     }
 
     fun onPopupConfirmButtonClick(popupUiModel: PopupUiModel) {
@@ -117,17 +109,13 @@ class EditDepartmentsViewModel @Inject constructor(
         }
     }
 
-    fun onDeleteAll() {
+    private fun onDeleteAll() {
         viewModelScope.launch {
             departmentRepository.unsubscribeAllDepartments()
         }
     }
 
     fun onPopupDismissButtonClick() {
-        onDismissPopup()
-    }
-
-    fun onDismissPopup() {
         closePopup()
     }
 
