@@ -6,4 +6,7 @@
 
     <string name="add_department_popup_title">%s를\n추가하시겠습니까?</string>
     <string name="delete_department_popup_title">%s를\n삭제하시겠습니까?</string>
+
+    <string name="departments_caption_selected">내 학과</string>
+    <string name="departments_caption_searched">검색 결과</string>
 </resources>
