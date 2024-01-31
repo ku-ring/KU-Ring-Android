@@ -42,7 +42,7 @@ class EditDepartmentsViewModel @Inject constructor(
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.Lazily,
-            initialValue = DepartmentsUiModel.SearchedDepartments(emptyList()),
+            initialValue = DepartmentsUiModel.SelectedDepartments(emptyList()),
         )
 
     init {
@@ -55,6 +55,10 @@ class EditDepartmentsViewModel @Inject constructor(
                 subscribedDepartments.value = it
             }
         }
+    }
+
+    fun onDeleteAllButtonClick() {
+        popupUiModel = PopupUiModel.DeleteAllPopupUiModel()
     }
 
     fun onQueryUpdate(newQuery: String) {
@@ -96,6 +100,7 @@ class EditDepartmentsViewModel @Inject constructor(
         when (popupUiModel) {
             is PopupUiModel.AddPopupUiModel -> subscribeDepartment(popupUiModel.departmentName)
             is PopupUiModel.DeletePopupUiModel -> unsubscribeDepartment(popupUiModel.departmentName)
+            is PopupUiModel.DeleteAllPopupUiModel -> onDeleteAll()
         }
         closePopup()
     }
@@ -109,6 +114,12 @@ class EditDepartmentsViewModel @Inject constructor(
     private fun unsubscribeDepartment(departmentKoreanName: String) {
         viewModelScope.launch {
             departmentRepository.updateSubscribeStatus(departmentKoreanName, false)
+        }
+    }
+
+    fun onDeleteAll() {
+        viewModelScope.launch {
+            departmentRepository.unsubscribeAllDepartments()
         }
     }
 

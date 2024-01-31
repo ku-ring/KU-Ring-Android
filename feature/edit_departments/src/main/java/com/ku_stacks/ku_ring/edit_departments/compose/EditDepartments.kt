@@ -1,5 +1,6 @@
 package com.ku_stacks.ku_ring.edit_departments.compose
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,6 +12,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -18,6 +20,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -49,6 +52,7 @@ internal fun EditDepartments(
 
     EditDepartments(
         onClose = onClose,
+        onDeleteAllButtonClick = viewModel::onDeleteAllButtonClick,
         query = viewModel.query,
         onQueryUpdate = viewModel::onQueryUpdate,
         departmentsUiModel = departmentsUiModel,
@@ -69,6 +73,7 @@ internal fun EditDepartments(
 @Composable
 private fun EditDepartments(
     onClose: () -> Unit,
+    onDeleteAllButtonClick: () -> Unit,
     query: String,
     onQueryUpdate: (String) -> Unit,
     departmentsUiModel: DepartmentsUiModel,
@@ -76,12 +81,19 @@ private fun EditDepartments(
     onDeleteDepartment: (Department) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val isDeleteAllButtonVisible = departmentsUiModel is DepartmentsUiModel.SelectedDepartments
+    val isDeleteAllButtonEnabled =
+        (departmentsUiModel as? DepartmentsUiModel.SelectedDepartments)?.departments?.isNotEmpty()
+            ?: false
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(20.dp),
     ) {
         EditDepartmentsTitle(
             onClose = onClose,
+            isDeleteAllButtonVisible = isDeleteAllButtonVisible,
+            isDeleteAllButtonEnabled = isDeleteAllButtonEnabled,
+            onDeleteAllButtonClick = onDeleteAllButtonClick,
             modifier = Modifier.fillMaxWidth(),
         )
         EditDepartmentsContents(
@@ -98,6 +110,9 @@ private fun EditDepartments(
 @Composable
 private fun EditDepartmentsTitle(
     onClose: () -> Unit,
+    isDeleteAllButtonVisible: Boolean,
+    isDeleteAllButtonEnabled: Boolean,
+    onDeleteAllButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LargeTopAppBar(
@@ -105,7 +120,43 @@ private fun EditDepartmentsTitle(
         navigationIconId = R.drawable.ic_back,
         onNavigationIconClick = onClose,
         modifier = modifier,
+    ) {
+        if (isDeleteAllButtonVisible) {
+            DeleteAllDepartmentsButton(
+                isDeleteAllButtonEnabled = isDeleteAllButtonEnabled,
+                onDeleteAllButtonClick = onDeleteAllButtonClick,
+            )
+        }
+    }
+}
+
+@Composable
+private fun DeleteAllDepartmentsButton(
+    isDeleteAllButtonEnabled: Boolean,
+    onDeleteAllButtonClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val buttonAlpha by animateFloatAsState(
+        targetValue = if (isDeleteAllButtonEnabled) 1f else 0.5f,
+        label = "button alpha",
     )
+
+    TextButton(
+        onClick = onDeleteAllButtonClick,
+        enabled = isDeleteAllButtonEnabled,
+        modifier = modifier.alpha(buttonAlpha),
+    ) {
+        Text(
+            text = stringResource(id = R.string.edit_departments_app_bar_delete_all),
+            style = TextStyle(
+                fontSize = 16.sp,
+                lineHeight = 24.sp,
+                fontFamily = Pretendard,
+                fontWeight = FontWeight(500),
+                color = MaterialTheme.colors.primary,
+            )
+        )
+    }
 }
 
 @Composable
@@ -244,6 +295,7 @@ private fun EditDepartmentsPreview_SelectedDepartments() {
     KuringTheme {
         EditDepartments(
             onClose = {},
+            onDeleteAllButtonClick = {},
             query = query,
             onQueryUpdate = { query = it },
             departmentsUiModel = DepartmentsUiModel.SelectedDepartments(previewDepartments),
@@ -263,6 +315,7 @@ private fun EditDepartmentsPreview_SearchedDepartments() {
     KuringTheme {
         EditDepartments(
             onClose = {},
+            onDeleteAllButtonClick = {},
             query = query,
             onQueryUpdate = { query = it },
             departmentsUiModel = DepartmentsUiModel.SearchedDepartments(previewDepartments),
