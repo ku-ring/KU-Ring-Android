@@ -3,9 +3,13 @@ name: Android-develop CI
 # Every new pull request to develop branch must fire CI check
 on:
   push:
-    branches: [ develop ]
+    branches:
+      - develop
+      - 2.0/base
   pull_request:
-    branches: [ develop ]
+    branches:
+      - develop
+      - 2.0/base
     
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:

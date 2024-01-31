@@ -149,6 +149,7 @@ private fun SubscriptionTabs(
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState(
         initialPage = selectedTab.ordinal,
+        pageCount = { EditSubscriptionTab.values().size }
     )
 
     val currentPage = pagerState.currentPage
@@ -228,10 +229,9 @@ private fun SubscriptionPager(
     onAddDepartmentButtonClick: () -> Unit,
     onSubscriptionComplete: () -> Unit,
     modifier: Modifier = Modifier,
-    pagerState: PagerState = rememberPagerState(),
+    pagerState: PagerState,
 ) {
     HorizontalPager(
-        pageCount = EditSubscriptionTab.values().size,
         verticalAlignment = Alignment.Top,
         state = pagerState,
         modifier = modifier,

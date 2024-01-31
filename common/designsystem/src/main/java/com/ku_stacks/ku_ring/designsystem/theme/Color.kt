@@ -8,11 +8,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import com.ku_stacks.ku_ring.designsystem.R
 
-private val KuringGreen: Color
+val KuringGreen: Color
     @Composable get() = colorResource(R.color.kus_green)
-private val KuringGreen50: Color
+val KuringGreen50: Color
     @Composable get() = colorResource(R.color.kus_green_50)
-private val KuringSecondaryGreen: Color
+val KuringSecondaryGreen: Color
     @Composable get() = colorResource(R.color.kus_secondary_green)
 val KuringSub: Color
     @Composable get() = Color(0xFFECF9F3)

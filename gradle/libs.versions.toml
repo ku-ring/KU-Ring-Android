@@ -6,10 +6,13 @@ hilt = '2.45'
 google-services = '4.3.10'
 firebase-gradle = '2.7.1'
 oss-licenses-version = '0.10.4'
+compileSdk = "34"
+targetSdk = "33"
+minSdk = "24"
 
 # app-level dependency
 compose-compiler = '1.4.7'
-compose-bom = '2023.05.00'
+compose-bom = '2024.01.00'
 fragment = '1.5.0'
 kotlinx-coroutines = '1.6.4'
 okhttp = '4.9.0'

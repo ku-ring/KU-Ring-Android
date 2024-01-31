@@ -8,12 +8,16 @@ import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.messaging.FirebaseMessaging
 import com.ku_stacks.ku_ring.feedback.feedback.FeedbackViewModel
+import com.ku_stacks.ku_ring.feedback.util.MainDispatcherRule
 import com.ku_stacks.ku_ring.remote.util.DefaultResponse
 import com.ku_stacks.ku_ring.thirdparty.firebase.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.user.repository.UserRepository
 import com.ku_stacks.ku_ring.util.MockUtil
 import com.ku_stacks.ku_ring.util.SchedulersTestRule
 import io.reactivex.rxjava3.core.Single
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -40,6 +44,10 @@ class FeedbackViewModelTest {
     @Rule
     @JvmField
     val testSchedulersRule = SchedulersTestRule()
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @get:Rule
+    val mainDispatcherRule = MainDispatcherRule()
 
     @Before
     fun setup() {
@@ -114,11 +122,13 @@ class FeedbackViewModelTest {
         }
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `send Feedback Success Test`() {
+    fun `send Feedback Success Test`() = runTest {
         // given
         val mockFeedbackContent = "쿠링은 좋은 어플리케이션입니다."
-        viewModel.feedbackContent.value = mockFeedbackContent
+        viewModel.updateFeedbackContent(mockFeedbackContent)
+        viewModel.textStatus.first()
 
         Mockito.`when`(firebaseMessaging.token).thenReturn(successTask)
 
@@ -138,11 +148,13 @@ class FeedbackViewModelTest {
         assertEquals(R.string.feedback_success, viewModel.toastByResource.value)
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `send Feedback Fail Test - too short`() {
+    fun `send Feedback Fail Test - too short`() = runTest {
         // given
         val mockFeedbackContent = "짧은"
-        viewModel.feedbackContent.value = mockFeedbackContent
+        viewModel.updateFeedbackContent(mockFeedbackContent)
+        viewModel.textStatus.first()
 
         Mockito.`when`(firebaseMessaging.token).thenReturn(successTask)
 
@@ -154,19 +166,21 @@ class FeedbackViewModelTest {
         assertEquals(R.string.feedback_too_short, viewModel.toastByResource.value)
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `send Feedback Fail Test - too long`() {
+    fun `send Feedback Fail Test - too long`() = runTest {
         // given
         var mockFeedbackContent = "1"
         repeat(256) {
             mockFeedbackContent += "a"
         }
 
-        viewModel.feedbackContent.value = mockFeedbackContent
-
         Mockito.`when`(firebaseMessaging.token).thenReturn(successTask)
 
         // when
+        viewModel.updateFeedbackContent(mockFeedbackContent)
+        viewModel.textStatus.first()
+
         viewModel.sendFeedback()
 
         // then
@@ -175,11 +189,13 @@ class FeedbackViewModelTest {
         assertEquals(R.string.feedback_too_long, viewModel.toastByResource.value)
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `send Feedback Fail Test - server response error`() {
+    fun `send Feedback Fail Test - server response error`() = runTest {
         // given
         val mockFeedbackContent = "쿠링은 좋은 어플리케이션입니다."
-        viewModel.feedbackContent.value = mockFeedbackContent
+        viewModel.updateFeedbackContent(mockFeedbackContent)
+        viewModel.textStatus.first()
 
         Mockito.`when`(firebaseMessaging.token).thenReturn(successTask)
 
