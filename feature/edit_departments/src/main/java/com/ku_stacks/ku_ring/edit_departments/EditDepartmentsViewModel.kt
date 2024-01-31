@@ -11,10 +11,11 @@ import com.ku_stacks.ku_ring.domain.Department
 import com.ku_stacks.ku_ring.edit_departments.uimodel.DepartmentsUiModel
 import com.ku_stacks.ku_ring.edit_departments.uimodel.PopupUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.mapLatest
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -27,26 +28,45 @@ class EditDepartmentsViewModel @Inject constructor(
     var query by mutableStateOf("")
         private set
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val departments: StateFlow<DepartmentsUiModel>
-        get() = snapshotFlow { query }
-            .mapLatest(::getDepartmentsUiModel)
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.Lazily,
-                initialValue = DepartmentsUiModel.SearchedDepartments(emptyList()),
-            )
-
     var popupUiModel by mutableStateOf<PopupUiModel?>(null)
         private set
+
+    private val subscribedDepartments = MutableStateFlow<List<Department>>(emptyList())
+
+    val departments: StateFlow<DepartmentsUiModel>
+        get() = combine(
+            snapshotFlow { query },
+            subscribedDepartments,
+        ) { query, subscribedDepartments ->
+            getDepartmentsUiModel(query, subscribedDepartments)
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.Lazily,
+            initialValue = DepartmentsUiModel.SearchedDepartments(emptyList()),
+        )
+
+    init {
+        collectSubscribedDepartments()
+    }
+
+    private fun collectSubscribedDepartments() {
+        viewModelScope.launch {
+            departmentRepository.getSubscribedDepartmentsAsFlow().collectLatest {
+                subscribedDepartments.value = it
+            }
+        }
+    }
 
     fun onQueryUpdate(newQuery: String) {
         query = newQuery
     }
 
-    private suspend fun getDepartmentsUiModel(query: String): DepartmentsUiModel {
+    private suspend fun getDepartmentsUiModel(
+        query: String,
+        subscribedDepartments: List<Department>
+    ): DepartmentsUiModel {
         return if (query.isEmpty()) {
-            DepartmentsUiModel.SelectedDepartments(getSubscribedDepartments())
+            DepartmentsUiModel.SelectedDepartments(subscribedDepartments)
         } else {
             DepartmentsUiModel.SearchedDepartments(searchDepartments(query))
         }
