@@ -110,6 +110,13 @@ class DepartmentRepositoryImpl @Inject constructor(
         departments = null
     }
 
+    override suspend fun unsubscribeAllDepartments() {
+        withContext(ioDispatcher) {
+            departmentDao.unsubscribeAllDepartments()
+        }
+        departments = null
+    }
+
     override suspend fun removeDepartments(departments: List<Department>) {
         withContext(ioDispatcher) {
             departmentDao.removeDepartments(departments.toEntityList())

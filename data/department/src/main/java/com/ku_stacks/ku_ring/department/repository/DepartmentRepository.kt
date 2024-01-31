@@ -11,6 +11,7 @@ interface DepartmentRepository {
     suspend fun getSubscribedDepartments(): List<Department>
     suspend fun getSubscribedDepartmentsAsFlow(): Flow<List<Department>>
     suspend fun updateSubscribeStatus(name: String, isSubscribed: Boolean)
+    suspend fun unsubscribeAllDepartments()
     suspend fun removeDepartments(departments: List<Department>)
     suspend fun clearDepartments()
     suspend fun fetchSubscribedDepartments(): List<Department>
