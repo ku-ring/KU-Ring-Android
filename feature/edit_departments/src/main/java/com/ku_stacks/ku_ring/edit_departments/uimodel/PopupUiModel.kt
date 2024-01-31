@@ -10,12 +10,13 @@ import com.ku_stacks.ku_ring.edit_departments.R
  * @param stringResId 팝업에서 보여줄 문자열의 resource id이다.
  */
 sealed class PopupUiModel(
+    val departmentName: String,
     val departmentKoreanName: String,
     @StringRes val stringResId: Int,
 ) {
-    class AddPopupUiModel(departmentKoreanName: String) :
-        PopupUiModel(departmentKoreanName, R.string.add_department_popup_title)
+    class AddPopupUiModel(departmentName: String, departmentKoreanName: String) :
+        PopupUiModel(departmentName, departmentKoreanName, R.string.add_department_popup_title)
 
-    class DeletePopupUiModel(departmentKoreanName: String) :
-        PopupUiModel(departmentKoreanName, R.string.delete_department_popup_title)
+    class DeletePopupUiModel(departmentName: String, departmentKoreanName: String) :
+        PopupUiModel(departmentName, departmentKoreanName, R.string.delete_department_popup_title)
 }
