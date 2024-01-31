@@ -10,6 +10,7 @@ import com.ku_stacks.ku_ring.department.repository.DepartmentRepository
 import com.ku_stacks.ku_ring.domain.Department
 import com.ku_stacks.ku_ring.edit_departments.uimodel.DepartmentsUiModel
 import com.ku_stacks.ku_ring.edit_departments.uimodel.PopupUiModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -18,6 +19,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class EditDepartmentsViewModel @Inject constructor(
     private val departmentRepository: DepartmentRepository,
 ) : ViewModel() {
