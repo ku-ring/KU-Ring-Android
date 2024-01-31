@@ -23,6 +23,7 @@ internal fun DepartmentPopup(
     val titleId = when (popupUiModel) {
         is PopupUiModel.AddPopupUiModel -> R.string.add_department_popup_title
         is PopupUiModel.DeletePopupUiModel -> R.string.delete_department_popup_title
+        is PopupUiModel.DeleteAllPopupUiModel -> R.string.delete_all_department_popup_title
     }
     KuringAlertDialog(
         text = stringResource(id = titleId, popupUiModel.departmentKoreanName),

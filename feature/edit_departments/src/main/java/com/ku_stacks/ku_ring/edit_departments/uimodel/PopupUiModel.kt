@@ -19,4 +19,6 @@ sealed class PopupUiModel(
 
     class DeletePopupUiModel(departmentName: String, departmentKoreanName: String) :
         PopupUiModel(departmentName, departmentKoreanName, R.string.delete_department_popup_title)
+
+    class DeleteAllPopupUiModel : PopupUiModel("", "", R.string.delete_all_department_popup_title)
 }
