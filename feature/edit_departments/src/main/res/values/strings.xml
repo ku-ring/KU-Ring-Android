@@ -1,7 +1,7 @@
 <resources>
     <string name="title_activity_edit_departments">학과 수정 화면</string>
 
-    <string name="app_bar_title">학과를 추가하거나\n삭제할 수 있어요</string>
+    <string name="edit_departments_app_bar_text">학과를 추가하거나\n삭제할 수 있어요</string>
     <string name="search_placeholder">추가할 학과를 검색해 주세요</string>
 
     <string name="add_department_popup_title">%s를\n추가하시겠습니까?</string>
