@@ -61,11 +61,11 @@ class EditDepartmentsViewModel @Inject constructor(
     }
 
     fun onDeleteIconClick(department: Department) {
-        popupUiModel = PopupUiModel.DeletePopupUiModel(department.koreanName)
+        popupUiModel = PopupUiModel.DeletePopupUiModel(department.name, department.koreanName)
     }
 
     fun onAddIconClick(department: Department) {
-        popupUiModel = PopupUiModel.AddPopupUiModel(department.koreanName)
+        popupUiModel = PopupUiModel.AddPopupUiModel(department.name, department.koreanName)
     }
 
     fun onCheckIconClick(department: Department) {
@@ -74,8 +74,8 @@ class EditDepartmentsViewModel @Inject constructor(
 
     fun onPopupConfirmButtonClick(popupUiModel: PopupUiModel) {
         when (popupUiModel) {
-            is PopupUiModel.AddPopupUiModel -> subscribeDepartment(popupUiModel.departmentKoreanName)
-            is PopupUiModel.DeletePopupUiModel -> unsubscribeDepartment(popupUiModel.departmentKoreanName)
+            is PopupUiModel.AddPopupUiModel -> subscribeDepartment(popupUiModel.departmentName)
+            is PopupUiModel.DeletePopupUiModel -> unsubscribeDepartment(popupUiModel.departmentName)
         }
         closePopup()
     }
