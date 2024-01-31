@@ -3,13 +3,17 @@ package com.ku_stacks.ku_ring.designsystem.components
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -38,25 +42,33 @@ fun LargeTopAppBar(
     @DrawableRes navigationIconId: Int? = null,
     onNavigationIconClick: (() -> Unit)? = null,
     iconDescription: String? = null,
+    action: @Composable () -> Unit = {},
 ) {
     Column(
         modifier = modifier
             .background(MaterialTheme.colors.surface)
-            .padding(start = 14.dp, top = 14.dp),
+            .padding(start = 14.dp, top = 14.dp, end = 14.dp),
     ) {
-        if (navigationIconId == null) {
-            TransparentIconButton()
-        } else {
-            IconButton(
-                onClick = { onNavigationIconClick?.invoke() },
-                enabled = onNavigationIconClick != null,
-            ) {
-                Icon(
-                    painter = painterResource(id = navigationIconId),
-                    contentDescription = iconDescription,
-                    tint = MaterialTheme.colors.onSurface,
-                )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            if (navigationIconId == null) {
+                TransparentIconButton()
+            } else {
+                IconButton(
+                    onClick = { onNavigationIconClick?.invoke() },
+                    enabled = onNavigationIconClick != null,
+                ) {
+                    Icon(
+                        painter = painterResource(id = navigationIconId),
+                        contentDescription = iconDescription,
+                        tint = MaterialTheme.colors.onSurface,
+                    )
+                }
             }
+            Spacer(modifier = Modifier.weight(1f))
+            action()
         }
 
         LargeTopAppBarTitle(title = title)
@@ -89,6 +101,20 @@ private fun LargeTopAppBarPreview_Icon() {
             title = "학과를 추가하거나\n삭제할 수 있어요",
             modifier = Modifier.fillMaxWidth(),
             navigationIconId = R.drawable.ic_back,
+            action = {
+                TextButton(onClick = { }) {
+                    Text(
+                        text = "전체 삭제",
+                        style = TextStyle(
+                            fontSize = 16.sp,
+                            lineHeight = 24.sp,
+                            fontFamily = Pretendard,
+                            fontWeight = FontWeight(500),
+                            color = MaterialTheme.colors.primary,
+                        )
+                    )
+                }
+            }
         )
     }
 }
