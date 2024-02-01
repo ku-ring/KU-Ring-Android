@@ -228,8 +228,8 @@ private fun SubscriptionPager(
     onDepartmentClick: (String) -> Unit,
     onAddDepartmentButtonClick: () -> Unit,
     onSubscriptionComplete: () -> Unit,
-    modifier: Modifier = Modifier,
     pagerState: PagerState,
+    modifier: Modifier = Modifier,
 ) {
     HorizontalPager(
         verticalAlignment = Alignment.Top,
