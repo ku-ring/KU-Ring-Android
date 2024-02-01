@@ -21,11 +21,6 @@ internal fun DepartmentPopup(
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val titleId = when (popupUiModel) {
-        is PopupUiModel.AddPopupUiModel -> R.string.add_department_popup_title
-        is PopupUiModel.DeletePopupUiModel -> R.string.delete_department_popup_title
-        is PopupUiModel.DeleteAllPopupUiModel -> R.string.delete_all_department_popup_title
-    }
     val confirmTextColor = if (popupUiModel is PopupUiModel.AddPopupUiModel) {
         MaterialTheme.colors.primary
     } else {
@@ -33,7 +28,7 @@ internal fun DepartmentPopup(
     }
 
     KuringAlertDialog(
-        text = stringResource(id = titleId, popupUiModel.departmentKoreanName),
+        text = stringResource(id = popupUiModel.stringResId, popupUiModel.departmentKoreanName),
         onConfirm = { onConfirm(popupUiModel) },
         onDismiss = onDismiss,
         modifier = modifier,
