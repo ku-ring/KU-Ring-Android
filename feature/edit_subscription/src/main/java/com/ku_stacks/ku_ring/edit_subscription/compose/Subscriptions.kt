@@ -355,9 +355,10 @@ private fun DepartmentCategoryList(
     onCallToActionClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Box(modifier = modifier) {
+    Column(modifier = modifier) {
         LazyColumn(
             contentPadding = PaddingValues(vertical = 16.dp),
+            modifier = Modifier.weight(1f, fill = false),
         ) {
             items(
                 items = departments,
@@ -375,8 +376,7 @@ private fun DepartmentCategoryList(
             modifier = Modifier
                 .background(MaterialTheme.colors.surface)
                 .padding(26.dp)
-                .fillMaxWidth()
-                .align(Alignment.BottomCenter),
+                .fillMaxWidth(),
         )
     }
 }
