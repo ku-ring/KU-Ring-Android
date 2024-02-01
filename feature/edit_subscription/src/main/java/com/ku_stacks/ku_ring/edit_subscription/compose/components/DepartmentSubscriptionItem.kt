@@ -1,11 +1,13 @@
 package com.ku_stacks.ku_ring.edit_subscription.compose.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -13,7 +15,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
@@ -22,7 +23,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ku_stacks.ku_ring.designsystem.components.LightPreview
+import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
 import com.ku_stacks.ku_ring.edit_subscription.R
@@ -56,7 +57,7 @@ internal fun DepartmentSubscriptionItem(
                 lineHeight = 24.sp,
                 fontFamily = Pretendard,
                 fontWeight = FontWeight(500),
-                color = Color.Black,
+                color = MaterialTheme.colors.onSurface,
             )
         )
         Spacer(modifier = Modifier.weight(1f))
@@ -81,7 +82,7 @@ private fun getDescription(isSelected: Boolean): String {
     return stringResource(id = descriptionId)
 }
 
-@LightPreview
+@LightAndDarkPreview
 @Composable
 private fun DepartmentSubscriptionItemPreview() {
     var isSelected by remember { mutableStateOf(false) }
@@ -89,7 +90,9 @@ private fun DepartmentSubscriptionItemPreview() {
         DepartmentSubscriptionItem(
             uiModel = DepartmentSubscriptionUiModel("스마트ICT융합공학과", isSelected),
             onClick = { isSelected = !isSelected },
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colors.surface),
         )
     }
 }
