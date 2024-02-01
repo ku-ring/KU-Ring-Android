@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ku_stacks.ku_ring.designsystem.components.KuringAlertDialog
@@ -25,11 +26,18 @@ internal fun DepartmentPopup(
         is PopupUiModel.DeletePopupUiModel -> R.string.delete_department_popup_title
         is PopupUiModel.DeleteAllPopupUiModel -> R.string.delete_all_department_popup_title
     }
+    val confirmTextColor = if (popupUiModel is PopupUiModel.AddPopupUiModel) {
+        MaterialTheme.colors.primary
+    } else {
+        Color(0xFFFF4848)
+    }
+
     KuringAlertDialog(
         text = stringResource(id = titleId, popupUiModel.departmentKoreanName),
         onConfirm = { onConfirm(popupUiModel) },
         onDismiss = onDismiss,
         modifier = modifier,
+        confirmTextColor = confirmTextColor,
     )
 }
 

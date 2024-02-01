@@ -42,6 +42,7 @@ fun KuringAlertDialog(
     modifier: Modifier = Modifier,
     confirmText: String = stringResource(id = R.string.confirm),
     dismissText: String = stringResource(id = R.string.cancel),
+    confirmTextColor: Color = MaterialTheme.colors.primary,
 ) {
     Dialog(
         onDismissRequest = onDismiss,
@@ -54,6 +55,7 @@ fun KuringAlertDialog(
             dismissText = dismissText,
             onDismiss = onDismiss,
             modifier = modifier,
+            confirmTextColor = confirmTextColor,
         )
     }
 }
@@ -66,6 +68,7 @@ private fun KuringAlertDialogContents(
     dismissText: String,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
+    confirmTextColor: Color = MaterialTheme.colors.primary,
 ) {
     Column(
         modifier = modifier
@@ -90,6 +93,7 @@ private fun KuringAlertDialogContents(
             onConfirm = onConfirm,
             dismissText = dismissText,
             onDismiss = onDismiss,
+            confirmTextColor = confirmTextColor,
             modifier = Modifier.fillMaxWidth(),
         )
     }
@@ -121,6 +125,7 @@ private fun KuringAlertDialogButtons(
     dismissText: String,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
+    confirmTextColor: Color = Gray2,
 ) {
     Row(modifier = modifier.height(IntrinsicSize.Min)) {
         KuringAlertDialogButton(
@@ -139,7 +144,7 @@ private fun KuringAlertDialogButtons(
             text = confirmText,
             onClick = onConfirm,
             modifier = Modifier.weight(1f),
-            textColor = MaterialTheme.colors.primary,
+            textColor = confirmTextColor,
         )
     }
 }
