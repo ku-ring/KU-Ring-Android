@@ -5,11 +5,11 @@
     <string name="edit_departments_app_bar_text">학과를 추가하거나\n삭제할 수 있어요</string>
     <string name="search_placeholder">추가할 학과를 검색해 주세요</string>
 
-    <string name="add_department_popup_title">%s를\n추가하시겠습니까?</string>
+    <string name="add_department_popup_title">%s를\n내 학과 목록에 추가할까요?</string>
     <string name="add_department_popup_confirm">추가하기</string>
-    <string name="delete_department_popup_title">%s를\n삭제하시겠습니까?</string>
+    <string name="delete_department_popup_title">%s를\n내 학과에서 삭제할까요?</string>
     <string name="delete_department_popup_confirm">삭제하기</string>
-    <string name="delete_all_department_popup_title">모든 학과를\n삭제하시겠습니까?</string>
+    <string name="delete_all_department_popup_title">내 학과 목록을\n모두 삭제할까요?</string>
     <string name="delete_all_department_popup_confirm">삭제하기</string>
     <string name="department_popup_dismiss">취소하기</string>
 
