@@ -38,6 +38,8 @@ internal fun DepartmentPopup(
         onDismiss = onDismiss,
         modifier = modifier,
         confirmTextColor = confirmTextColor,
+        dismissText = stringResource(id = R.string.department_popup_dismiss),
+        confirmText = stringResource(id = popupUiModel.confirmStringRes),
     )
 }
 
