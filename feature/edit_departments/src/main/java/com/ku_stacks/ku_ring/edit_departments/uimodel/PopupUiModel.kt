@@ -13,12 +13,28 @@ sealed class PopupUiModel(
     val departmentName: String,
     val departmentKoreanName: String,
     @StringRes val stringResId: Int,
+    @StringRes val confirmStringRes: Int,
 ) {
     class AddPopupUiModel(departmentName: String, departmentKoreanName: String) :
-        PopupUiModel(departmentName, departmentKoreanName, R.string.add_department_popup_title)
+        PopupUiModel(
+            departmentName,
+            departmentKoreanName,
+            R.string.add_department_popup_title,
+            R.string.add_department_popup_confirm,
+        )
 
     class DeletePopupUiModel(departmentName: String, departmentKoreanName: String) :
-        PopupUiModel(departmentName, departmentKoreanName, R.string.delete_department_popup_title)
+        PopupUiModel(
+            departmentName,
+            departmentKoreanName,
+            R.string.delete_department_popup_title,
+            R.string.delete_department_popup_confirm,
+        )
 
-    class DeleteAllPopupUiModel : PopupUiModel("", "", R.string.delete_all_department_popup_title)
+    class DeleteAllPopupUiModel : PopupUiModel(
+        "",
+        "",
+        R.string.delete_all_department_popup_title,
+        R.string.delete_all_department_popup_confirm,
+    )
 }

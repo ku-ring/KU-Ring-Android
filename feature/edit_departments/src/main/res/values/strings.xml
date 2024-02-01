@@ -6,8 +6,12 @@
     <string name="search_placeholder">추가할 학과를 검색해 주세요</string>
 
     <string name="add_department_popup_title">%s를\n추가하시겠습니까?</string>
+    <string name="add_department_popup_confirm">추가하기</string>
     <string name="delete_department_popup_title">%s를\n삭제하시겠습니까?</string>
+    <string name="delete_department_popup_confirm">삭제하기</string>
     <string name="delete_all_department_popup_title">모든 학과를\n삭제하시겠습니까?</string>
+    <string name="delete_all_department_popup_confirm">삭제하기</string>
+    <string name="department_popup_dismiss">취소하기</string>
 
     <string name="departments_caption_selected">내 학과</string>
     <string name="departments_caption_searched">검색 결과</string>
