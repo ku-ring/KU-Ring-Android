@@ -26,13 +26,12 @@ import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material.Text
 import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -56,6 +55,7 @@ import com.ku_stacks.ku_ring.edit_subscription.compose.components.DepartmentSubs
 import com.ku_stacks.ku_ring.edit_subscription.compose.components.NormalSubscriptionItem
 import com.ku_stacks.ku_ring.edit_subscription.uimodel.DepartmentSubscriptionUiModel
 import com.ku_stacks.ku_ring.edit_subscription.uimodel.NormalSubscriptionUiModel
+import kotlinx.coroutines.launch
 
 @Composable
 fun Subscriptions(
@@ -146,20 +146,11 @@ private fun SubscriptionTabs(
     onSubscriptionComplete: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState(
         initialPage = selectedTab.ordinal,
         pageCount = { EditSubscriptionTab.values().size }
     )
-
-    LaunchedEffect(pagerState) {
-        snapshotFlow { pagerState.currentPage }.collect { page ->
-            onTabClick(EditSubscriptionTab.values()[page])
-        }
-    }
-
-    LaunchedEffect(selectedTab) {
-        pagerState.animateScrollToPage(selectedTab.ordinal)
-    }
 
     val currentPage = pagerState.currentPage
     Column(modifier = modifier) {
@@ -180,7 +171,9 @@ private fun SubscriptionTabs(
                     tab = tab,
                     isSelected = tab == selectedTab,
                     onClick = {
-                        onTabClick(it)
+                        coroutineScope.launch {
+                            pagerState.animateScrollToPage(index)
+                        }
                     },
                 )
             }
