@@ -43,14 +43,14 @@ import com.ku_stacks.ku_ring.edit_departments.R
 import com.ku_stacks.ku_ring.edit_departments.uimodel.DepartmentsUiModel
 
 @Composable
-internal fun EditDepartments(
+internal fun EditDepartmentsScreen(
     onClose: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: EditDepartmentsViewModel = hiltViewModel(),
 ) {
     val departmentsUiModel by viewModel.departments.collectAsState()
 
-    EditDepartments(
+    EditDepartmentsScreen(
         onClose = onClose,
         onDeleteAllButtonClick = viewModel::onDeleteAllButtonClick,
         query = viewModel.query,
@@ -71,7 +71,7 @@ internal fun EditDepartments(
 }
 
 @Composable
-private fun EditDepartments(
+private fun EditDepartmentsScreen(
     onClose: () -> Unit,
     onDeleteAllButtonClick: () -> Unit,
     query: String,
@@ -293,7 +293,7 @@ internal val previewDepartments = (1..5).map {
 private fun EditDepartmentsPreview_SelectedDepartments() {
     var query by remember { mutableStateOf("") }
     KuringTheme {
-        EditDepartments(
+        EditDepartmentsScreen(
             onClose = {},
             onDeleteAllButtonClick = {},
             query = query,
@@ -313,7 +313,7 @@ private fun EditDepartmentsPreview_SelectedDepartments() {
 private fun EditDepartmentsPreview_SearchedDepartments() {
     var query by remember { mutableStateOf("") }
     KuringTheme {
-        EditDepartments(
+        EditDepartmentsScreen(
             onClose = {},
             onDeleteAllButtonClick = {},
             query = query,

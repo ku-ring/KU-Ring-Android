@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.ui.Modifier
 import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
-import com.ku_stacks.ku_ring.edit_departments.compose.EditDepartments
+import com.ku_stacks.ku_ring.edit_departments.compose.EditDepartmentsScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -19,7 +19,7 @@ class EditDepartmentsActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             KuringTheme {
-                EditDepartments(
+                EditDepartmentsScreen(
                     onClose = ::finish,
                     modifier = Modifier
                         .fillMaxSize()
