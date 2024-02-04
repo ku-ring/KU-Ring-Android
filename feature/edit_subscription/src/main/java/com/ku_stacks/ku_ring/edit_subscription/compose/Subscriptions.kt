@@ -166,10 +166,10 @@ private fun SubscriptionTabs(
                 )
             }
         ) {
-            EditSubscriptionTab.values().forEach { tab ->
+            EditSubscriptionTab.values().forEachIndexed { index, tab ->
                 SubscriptionTab(
                     tab = tab,
-                    isSelected = tab == selectedTab,
+                    isSelected = index == currentPage,
                     onClick = {
                         coroutineScope.launch {
                             pagerState.animateScrollToPage(index)
