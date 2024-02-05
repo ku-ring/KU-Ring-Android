@@ -58,14 +58,14 @@ import com.ku_stacks.ku_ring.edit_subscription.uimodel.NormalSubscriptionUiModel
 import kotlinx.coroutines.launch
 
 @Composable
-fun Subscriptions(
+fun EditSubscriptionScreen(
     viewModel: EditSubscriptionViewModel,
     onAddDepartmentButtonClick: () -> Unit,
     onSubscriptionComplete: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    Subscriptions(
+    EditSubscriptionScreen(
         categories = uiState.categories,
         departments = uiState.departments,
         onCategoryClick = viewModel::onNormalSubscriptionItemClick,
@@ -77,7 +77,7 @@ fun Subscriptions(
 }
 
 @Composable
-private fun Subscriptions(
+private fun EditSubscriptionScreen(
     categories: List<NormalSubscriptionUiModel>,
     departments: List<DepartmentSubscriptionUiModel>,
     onCategoryClick: (Int) -> Unit,
@@ -385,7 +385,7 @@ private fun SubscriptionsPreview() {
     var selectedTab by remember { mutableStateOf(EditSubscriptionTab.NORMAL) }
 
     KuringTheme {
-        Subscriptions(
+        EditSubscriptionScreen(
             categories = categories,
             departments = departments,
             onCategoryClick = {},
@@ -401,7 +401,7 @@ private fun SubscriptionsPreview() {
 @Composable
 private fun DepartmentPagePreview_Empty() {
     KuringTheme {
-        Subscriptions(
+        EditSubscriptionScreen(
             categories = emptyList(),
             departments = emptyList(),
             onCategoryClick = {},
