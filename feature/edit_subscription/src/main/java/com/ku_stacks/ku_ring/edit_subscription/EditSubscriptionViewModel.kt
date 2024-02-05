@@ -42,19 +42,16 @@ class EditSubscriptionViewModel @Inject constructor(
 
     private val categories = MutableStateFlow(emptyList<NormalSubscriptionUiModel>())
     private val departmentsByKoreanName = MutableStateFlow(mutableMapOf<String, Department>())
-    private val selectedTab = MutableStateFlow(EditSubscriptionTab.NORMAL)
 
     val uiState: StateFlow<EditSubscriptionUiState> = combine(
         categories,
         departmentsByKoreanName,
-        selectedTab,
-    ) { categories, departmentsByKoreanName, selectedTab ->
+    ) { categories, departmentsByKoreanName ->
         val sortedDepartments = departmentsByKoreanName.values.map { it.toSubscriptionUiModel() }
             .sortedWith(DepartmentComparator)
         EditSubscriptionUiState(
             categories = categories,
             departments = sortedDepartments,
-            selectedTab = selectedTab,
         )
     }.stateIn(viewModelScope, SharingStarted.Lazily, EditSubscriptionUiState.initialValue)
 
@@ -160,10 +157,6 @@ class EditSubscriptionViewModel @Inject constructor(
                 this[it.koreanName] = this[it.koreanName]!!.toggle()
             }
         }
-    }
-
-    fun onTabClick(tab: EditSubscriptionTab) {
-        selectedTab.value = tab
     }
 
     fun onNormalSubscriptionItemClick(index: Int) {
