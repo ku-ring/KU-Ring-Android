@@ -66,10 +66,8 @@ fun Subscriptions(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     Subscriptions(
-        selectedTab = uiState.selectedTab,
         categories = uiState.categories,
         departments = uiState.departments,
-        onTabClick = viewModel::onTabClick,
         onCategoryClick = viewModel::onNormalSubscriptionItemClick,
         onDepartmentClick = viewModel::onDepartmentSubscriptionItemClick,
         onAddDepartmentButtonClick = onAddDepartmentButtonClick,
@@ -80,10 +78,8 @@ fun Subscriptions(
 
 @Composable
 private fun Subscriptions(
-    selectedTab: EditSubscriptionTab,
     categories: List<NormalSubscriptionUiModel>,
     departments: List<DepartmentSubscriptionUiModel>,
-    onTabClick: (EditSubscriptionTab) -> Unit,
     onCategoryClick: (Int) -> Unit,
     onDepartmentClick: (String) -> Unit,
     onAddDepartmentButtonClick: () -> Unit,
@@ -101,8 +97,6 @@ private fun Subscriptions(
         )
         SubscriptionTitle(modifier = Modifier.padding(start = 32.dp, top = 30.dp))
         SubscriptionTabs(
-            selectedTab = selectedTab,
-            onTabClick = onTabClick,
             categories = categories,
             departments = departments,
             onCategoryClick = onCategoryClick,
@@ -136,8 +130,6 @@ private fun SubscriptionTitle(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun SubscriptionTabs(
-    selectedTab: EditSubscriptionTab,
-    onTabClick: (EditSubscriptionTab) -> Unit,
     categories: List<NormalSubscriptionUiModel>,
     departments: List<DepartmentSubscriptionUiModel>,
     onCategoryClick: (Int) -> Unit,
@@ -148,7 +140,7 @@ private fun SubscriptionTabs(
 ) {
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState(
-        initialPage = selectedTab.ordinal,
+        initialPage = 0,
         pageCount = { EditSubscriptionTab.values().size }
     )
 
@@ -166,15 +158,14 @@ private fun SubscriptionTabs(
                 )
             }
         ) {
-            EditSubscriptionTab.values().forEach { tab ->
+            EditSubscriptionTab.values().forEachIndexed { index, tab ->
                 SubscriptionTab(
                     tab = tab,
-                    isSelected = tab == selectedTab,
+                    isSelected = index == currentPage,
                     onClick = {
                         coroutineScope.launch {
-                            pagerState.animateScrollToPage(it.ordinal)
+                            pagerState.animateScrollToPage(index)
                         }
-                        onTabClick(it)
                     },
                 )
             }
@@ -228,8 +219,8 @@ private fun SubscriptionPager(
     onDepartmentClick: (String) -> Unit,
     onAddDepartmentButtonClick: () -> Unit,
     onSubscriptionComplete: () -> Unit,
-    modifier: Modifier = Modifier,
     pagerState: PagerState,
+    modifier: Modifier = Modifier,
 ) {
     HorizontalPager(
         verticalAlignment = Alignment.Top,
@@ -355,9 +346,10 @@ private fun DepartmentCategoryList(
     onCallToActionClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Box(modifier = modifier) {
+    Column(modifier = modifier) {
         LazyColumn(
             contentPadding = PaddingValues(vertical = 16.dp),
+            modifier = Modifier.weight(1f, fill = false),
         ) {
             items(
                 items = departments,
@@ -375,8 +367,7 @@ private fun DepartmentCategoryList(
             modifier = Modifier
                 .background(MaterialTheme.colors.surface)
                 .padding(26.dp)
-                .fillMaxWidth()
-                .align(Alignment.BottomCenter),
+                .fillMaxWidth(),
         )
     }
 }
@@ -395,8 +386,6 @@ private fun SubscriptionsPreview() {
 
     KuringTheme {
         Subscriptions(
-            selectedTab = selectedTab,
-            onTabClick = { selectedTab = EditSubscriptionTab.values()[1 - selectedTab.ordinal] },
             categories = categories,
             departments = departments,
             onCategoryClick = {},
@@ -413,8 +402,6 @@ private fun SubscriptionsPreview() {
 private fun DepartmentPagePreview_Empty() {
     KuringTheme {
         Subscriptions(
-            selectedTab = EditSubscriptionTab.DEPARTMENT,
-            onTabClick = {},
             categories = emptyList(),
             departments = emptyList(),
             onCategoryClick = {},
