@@ -38,6 +38,9 @@ interface DepartmentDao {
     @Query("UPDATE departments SET isSubscribed = :isSubscribed WHERE name = :name")
     fun updateSubscribeStatus(name: String, isSubscribed: Boolean)
 
+    @Query("UPDATE departments SET isSubscribed = 0")
+    suspend fun unsubscribeAllDepartments()
+
     @Delete
     suspend fun removeDepartments(departments: List<DepartmentEntity>)
 

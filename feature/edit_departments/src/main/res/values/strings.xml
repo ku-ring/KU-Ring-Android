@@ -1,0 +1,18 @@
+<resources>
+    <string name="title_activity_edit_departments">학과 수정 화면</string>
+    <string name="edit_departments_app_bar_delete_all">전체 삭제</string>
+
+    <string name="edit_departments_app_bar_text">학과를 추가하거나\n삭제할 수 있어요</string>
+    <string name="search_placeholder">추가할 학과를 검색해 주세요</string>
+
+    <string name="add_department_popup_title">%s를\n내 학과 목록에 추가할까요?</string>
+    <string name="add_department_popup_confirm">추가하기</string>
+    <string name="delete_department_popup_title">%s를\n내 학과에서 삭제할까요?</string>
+    <string name="delete_department_popup_confirm">삭제하기</string>
+    <string name="delete_all_department_popup_title">내 학과 목록을\n모두 삭제할까요?</string>
+    <string name="delete_all_department_popup_confirm">삭제하기</string>
+    <string name="department_popup_dismiss">취소하기</string>
+
+    <string name="departments_caption_selected">내 학과</string>
+    <string name="departments_caption_searched">검색 결과</string>
+</resources>
