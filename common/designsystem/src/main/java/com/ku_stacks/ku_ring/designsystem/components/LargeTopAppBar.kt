@@ -27,8 +27,6 @@ import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
 /**
  * [CenterTitleTopBar]보다 더 넓은 공간을 차지하는 Top App Bar이다.
  *
- * 제목은 반드시 보여줘야 하며, 필요하다면 navigation 아이콘을 보여줄 수 있다.
- *
  * @param title 제목 문자열
  * @param modifier 적용할 [Modifier]
  * @param navigationIconId Navigation 아이콘의 drawable ID
@@ -39,8 +37,8 @@ import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
 fun LargeTopAppBar(
     title: String,
     modifier: Modifier = Modifier,
-    @DrawableRes navigationIconId: Int? = null,
-    onNavigationIconClick: (() -> Unit)? = null,
+    @DrawableRes navigationIconId: Int,
+    onNavigationIconClick: () -> Unit,
     iconDescription: String? = null,
     action: @Composable () -> Unit = {},
 ) {
@@ -53,19 +51,12 @@ fun LargeTopAppBar(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            if (navigationIconId == null) {
-                TransparentIconButton()
-            } else {
-                IconButton(
-                    onClick = { onNavigationIconClick?.invoke() },
-                    enabled = onNavigationIconClick != null,
-                ) {
-                    Icon(
-                        painter = painterResource(id = navigationIconId),
-                        contentDescription = iconDescription,
-                        tint = MaterialTheme.colors.onSurface,
-                    )
-                }
+            IconButton(onClick = onNavigationIconClick) {
+                Icon(
+                    painter = painterResource(id = navigationIconId),
+                    contentDescription = iconDescription,
+                    tint = MaterialTheme.colors.onSurface,
+                )
             }
             Spacer(modifier = Modifier.weight(1f))
             action()
@@ -95,37 +86,26 @@ private fun LargeTopAppBarTitle(
 
 @LightAndDarkPreview
 @Composable
-private fun LargeTopAppBarPreview_Icon() {
+private fun LargeTopAppBarPreview() {
     KuringTheme {
         LargeTopAppBar(
             title = "학과를 추가하거나\n삭제할 수 있어요",
             modifier = Modifier.fillMaxWidth(),
             navigationIconId = R.drawable.ic_back,
-            action = {
-                TextButton(onClick = { }) {
-                    Text(
-                        text = "전체 삭제",
-                        style = TextStyle(
-                            fontSize = 16.sp,
-                            lineHeight = 24.sp,
-                            fontFamily = Pretendard,
-                            fontWeight = FontWeight(500),
-                            color = MaterialTheme.colors.primary,
-                        )
+            onNavigationIconClick = {},
+        ) {
+            TextButton(onClick = { }) {
+                Text(
+                    text = "전체 삭제",
+                    style = TextStyle(
+                        fontSize = 16.sp,
+                        lineHeight = 24.sp,
+                        fontFamily = Pretendard,
+                        fontWeight = FontWeight(500),
+                        color = MaterialTheme.colors.primary,
                     )
-                }
+                )
             }
-        )
-    }
-}
-
-@LightPreview
-@Composable
-private fun LargeTopAppBarPreview_NoIcon() {
-    KuringTheme {
-        LargeTopAppBar(
-            title = "학과를 추가하거나\n삭제할 수 있어요",
-            modifier = Modifier.fillMaxWidth(),
-        )
+        }
     }
 }
