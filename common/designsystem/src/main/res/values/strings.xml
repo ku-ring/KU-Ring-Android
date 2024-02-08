@@ -11,6 +11,9 @@
 
     <string name="selected_department">대표</string>
 
+    <!--  components  -->
+    <string name="notice_item_important_tag">중요</string>
+
     <!--  splash  -->
     <string name="ku_ring_version">ver. %1$s</string>
     <string name="ku_ring_rights">© 2021 KU Ring. All rights reserved.</string>
