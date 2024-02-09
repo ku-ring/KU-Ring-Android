@@ -8,6 +8,7 @@ import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.databinding.ItemNoticeBinding
 
+@Deprecated("SearchActivity 완성되면 제거")
 class SearchNoticeAdapter(
     private val itemClick: (Notice) -> Unit
 ) : ListAdapter<Notice, SearchNoticeViewHolder>(SearchNoticeDiffCallback) {
