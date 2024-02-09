@@ -12,6 +12,7 @@ import com.ku_stacks.ku_ring.edit_departments.EditDepartmentsActivity
 import com.ku_stacks.ku_ring.edit_subscription.EditSubscriptionActivity
 import com.ku_stacks.ku_ring.feedback.feedback.FeedbackActivity
 import com.ku_stacks.ku_ring.main.MainActivity
+import com.ku_stacks.ku_ring.main.search.SearchActivity
 import com.ku_stacks.ku_ring.my_notification.NotificationActivity
 import com.ku_stacks.ku_ring.notice_detail.NoticeWebActivity
 import com.ku_stacks.ku_ring.notice_storage.NoticeStorageActivity
@@ -64,6 +65,10 @@ class KuringNavigatorImpl @Inject constructor() : KuringNavigator {
 
     override fun navigateToNoticeStorage(activity: Activity) {
         NoticeStorageActivity.start(activity)
+    }
+
+    override fun navigateToSearch(activity: Activity) {
+        SearchActivity.start(activity)
     }
 
     override fun createNoticeWebIntent(
