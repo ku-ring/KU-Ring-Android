@@ -16,6 +16,7 @@ import com.ku_stacks.ku_ring.main.search.SearchViewModel
 import com.ku_stacks.ku_ring.main.search.fragment_staff.dialog.StaffBottomSheet
 import dagger.hilt.android.AndroidEntryPoint
 
+@Deprecated("SearchActivity 완성되면 제거")
 @AndroidEntryPoint
 class SearchStaffFragment : Fragment() {
 
