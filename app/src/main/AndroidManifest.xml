@@ -81,6 +81,8 @@
             android:name=".onboarding.OnboardingActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
+        <activity android:name=".main.search.SearchActivity"
+            android:exported="false" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"
