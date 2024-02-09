@@ -31,7 +31,7 @@ fun SearchScreen(
 
     SearchScreen(
         modifier = modifier,
-        onNavigationClick = {},
+        onNavigationClick = { viewModel.onCloseNavigationClick() },
         searchState = searchState,
     )
 }
