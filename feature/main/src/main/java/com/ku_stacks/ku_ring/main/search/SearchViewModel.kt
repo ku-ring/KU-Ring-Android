@@ -3,12 +3,16 @@ package com.ku_stacks.ku_ring.main.search
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.domain.Staff
 import com.ku_stacks.ku_ring.notice.repository.NoticeRepository
 import com.ku_stacks.ku_ring.staff.repository.StaffRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -28,8 +32,17 @@ class SearchViewModel @Inject constructor(
     val noticeList: LiveData<List<Notice>>
         get() = _noticeList
 
+    private val _closeActionFlow = MutableSharedFlow<Unit>()
+    val closeActionFlow = _closeActionFlow.asSharedFlow()
+
     init {
         Timber.e("SearchViewModel init")
+    }
+
+    fun onCloseNavigationClick() {
+        viewModelScope.launch {
+            _closeActionFlow.emit(Unit)
+        }
     }
 
     fun searchStaff(keyword: String) {
