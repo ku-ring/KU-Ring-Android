@@ -4,9 +4,9 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -50,6 +50,7 @@ fun SearchTextField(
     singleLine: Boolean = true,
     keyboardOptions: KeyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    contentPadding: PaddingValues = PaddingValues(all = 0.dp),
 ) {
     val shape = RoundedCornerShape(50)
     val backgroundColor = BoxBackgroundColor2
@@ -60,8 +61,7 @@ fun SearchTextField(
         onValueChange = onQueryUpdate,
         modifier = modifier
             .clip(shape)
-            .background(backgroundColor, shape = shape)
-            .border(1.dp, MaterialTheme.colors.primary, shape = shape),
+            .background(backgroundColor, shape = shape),
         textStyle = TextStyle(
             fontSize = 16.sp,
             lineHeight = 24.sp,
@@ -77,7 +77,10 @@ fun SearchTextField(
                 visualTransformation = VisualTransformation.None,
                 interactionSource = interactionSource,
                 placeholder = {
-                    Placeholder(placeholderText = placeholderText)
+                    Placeholder(
+                        placeholderText = placeholderText,
+                        modifier = Modifier.fillMaxWidth()
+                    )
                 },
                 leadingIcon = {
                     LeadingSearchIcon()
@@ -95,6 +98,7 @@ fun SearchTextField(
                     textColor = textColor,
                     backgroundColor = backgroundColor,
                 ),
+                contentPadding = contentPadding
             )
         },
         singleLine = singleLine,
@@ -107,7 +111,7 @@ private fun LeadingSearchIcon(modifier: Modifier = Modifier) {
     Icon(
         painter = painterResource(id = R.drawable.ic_search),
         contentDescription = null,
-        tint = MaterialTheme.colors.primary,
+        tint = CaptionGray1,
         modifier = modifier,
     )
 }
