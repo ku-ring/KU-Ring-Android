@@ -92,15 +92,3 @@ private fun SearchScreenPreview() {
         )
     }
 }
-
-@LightAndDarkPreview
-@Composable
-private fun SearchScreenPreview_EmptyText() {
-    KuringTheme {
-        SearchScreen(
-            searchState = rememberSearchState(""),
-            onNavigationClick = {},
-            modifier = Modifier.fillMaxSize(),
-        )
-    }
-}
