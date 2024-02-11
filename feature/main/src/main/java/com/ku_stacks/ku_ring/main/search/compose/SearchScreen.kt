@@ -3,6 +3,7 @@ package com.ku_stacks.ku_ring.main.search.compose
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -17,10 +18,10 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.ku_stacks.ku_ring.designsystem.components.CenterTitleTopBar
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
+import com.ku_stacks.ku_ring.designsystem.components.SearchTextField
 import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
 import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.search.SearchViewModel
-import com.ku_stacks.ku_ring.main.search.compose.components.SearchTextField
 
 @Composable
 fun SearchScreen(
@@ -58,12 +59,14 @@ private fun SearchScreen(
             onNavigationClick = { onNavigationClick() },
             action = ""
         )
-        
+
         SearchTextField(
-            value = searchState.query,
-            onValueChange = { searchState.query = it },
-            onClickClearButton = { searchState.query = TextFieldValue("") },
-            modifier = Modifier.padding(top = 20.dp),
+            query = searchState.query.text,
+            onQueryUpdate = { searchState.query = TextFieldValue(it) },
+            placeholderText = stringResource(id = R.string.search_enter_keyword),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 20.dp, end = 20.dp, top = 20.dp, bottom = 0.dp)
         )
 
     }
