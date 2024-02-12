@@ -77,10 +77,7 @@ fun SearchTextField(
                 visualTransformation = VisualTransformation.None,
                 interactionSource = interactionSource,
                 placeholder = {
-                    Placeholder(
-                        placeholderText = placeholderText,
-                        modifier = Modifier.fillMaxWidth()
-                    )
+                    Placeholder(placeholderText = placeholderText)
                 },
                 leadingIcon = {
                     LeadingSearchIcon()
