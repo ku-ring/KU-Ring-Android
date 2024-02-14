@@ -40,11 +40,13 @@ import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
 import com.ku_stacks.ku_ring.designsystem.utils.NoRippleInteractionSource
 import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.search.SearchViewModel
+import com.ku_stacks.ku_ring.main.search.compose.component.NoticeSearchResult
 import kotlinx.coroutines.launch
 
 @Composable
 fun SearchScreen(
     viewModel: SearchViewModel,
+    onNavigationClick: () -> Unit,
     modifier: Modifier = Modifier,
     searchState: SearchState = rememberSearchState(),
     tabPages: List<SearchTabInfo> = SearchTabInfo.values().toList()
@@ -52,7 +54,7 @@ fun SearchScreen(
 
     SearchScreen(
         modifier = modifier,
-        onNavigationClick = { viewModel.onCloseNavigationClick() },
+        onNavigationClick = onNavigationClick,
         searchState = searchState,
         tabPages = tabPages,
     )
