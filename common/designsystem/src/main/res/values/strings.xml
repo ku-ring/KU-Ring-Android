@@ -4,8 +4,8 @@
 
     <!--  Common  -->
     <string name="network_error">네트워크 문제로 연결되지 않았습니다. 다시 시도해주세요</string>
-    <string name="cancel">취소</string>
-    <string name="confirm">확인</string>
+    <string name="cancel">취소하기</string>
+    <string name="confirm">추가하기</string>
     <string name="start">시작하기</string>
     <string name="complete">완료하기</string>
 
