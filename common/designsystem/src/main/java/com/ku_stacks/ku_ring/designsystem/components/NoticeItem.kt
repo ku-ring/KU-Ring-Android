@@ -1,5 +1,6 @@
 package com.ku_stacks.ku_ring.designsystem.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -13,7 +14,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -52,25 +52,23 @@ fun NoticeItem(
         modifier = modifier
             .clickable { onClick(notice) }
             .fillMaxWidth()
-            .background(MaterialTheme.colors.surface),
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
+            .background(MaterialTheme.colors.surface)
+            .padding(horizontal = 20.dp),
     ) {
         NoticeItemContent(
             notice = notice,
             modifier = Modifier
-                .padding(start = 20.dp, top = 16.dp, bottom = 16.dp)
+                .padding(vertical = 12.dp)
                 .weight(1f),
         )
-        if (content == null) {
+        if (content != null) {
+            content()
+        } else if (notice.isSaved) {
             NoticeItemBookmarkIcon(
-                isVisible = notice.isSaved,
                 modifier = Modifier
                     .height(IntrinsicSize.Min)
-                    .padding(end = 16.dp)
                     .align(Alignment.Top),
             )
-        } else {
-            content()
         }
     }
 }
@@ -162,14 +160,12 @@ private fun NoticeItemDate(
 
 @Composable
 private fun NoticeItemBookmarkIcon(
-    isVisible: Boolean,
     modifier: Modifier = Modifier,
 ) {
-    Icon(
+    Image(
         painter = painterResource(id = R.drawable.ic_bookmark),
         contentDescription = null,
         modifier = modifier,
-        tint = if (isVisible) MaterialTheme.colors.primary else Color.Transparent,
     )
 }
 
