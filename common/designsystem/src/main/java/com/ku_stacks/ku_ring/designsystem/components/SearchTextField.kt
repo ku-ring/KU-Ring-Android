@@ -111,7 +111,7 @@ private fun LeadingSearchIcon(modifier: Modifier = Modifier) {
     Icon(
         painter = painterResource(id = R.drawable.ic_search),
         contentDescription = null,
-        tint = CaptionGray1,
+        tint = TextCaption1,
         modifier = modifier,
     )
 }
