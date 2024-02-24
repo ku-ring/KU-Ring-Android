@@ -313,7 +313,6 @@ private fun DepartmentCategoryEmptyIndicator(
             text = stringResource(id = R.string.department_subscription_add_department),
             onClick = onAddDepartmentButtonClick,
             modifier = Modifier
-                .padding(26.dp)
                 .fillMaxWidth(),
         )
     }
@@ -364,9 +363,9 @@ private fun DepartmentCategoryList(
         KuringCallToAction(
             text = stringResource(id = R.string.department_subscription_complete),
             onClick = onCallToActionClick,
+            blur = true,
             modifier = Modifier
                 .background(MaterialTheme.colors.surface)
-                .padding(26.dp)
                 .fillMaxWidth(),
         )
     }
