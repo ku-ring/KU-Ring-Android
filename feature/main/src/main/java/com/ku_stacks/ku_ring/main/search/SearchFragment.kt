@@ -18,6 +18,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @AndroidEntryPoint
+@Deprecated("SearchActivity 완성되면 제거")
 class SearchFragment : Fragment() {
 
     private var _binding: FragmentSearchBinding? = null

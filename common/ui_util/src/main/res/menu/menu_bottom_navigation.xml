@@ -7,11 +7,6 @@
         android:title="공지사항" />
 
     <item
-        android:id="@+id/search_screen"
-        android:icon="@drawable/ic_search"
-        android:title="검색" />
-
-    <item
         android:id="@+id/campus_screen"
         android:icon="@drawable/ic_campus"
         android:title="쿠링캠퍼스" />
