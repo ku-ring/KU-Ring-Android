@@ -37,9 +37,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.R
 import com.ku_stacks.ku_ring.designsystem.theme.BoxBackgroundColor2
-import com.ku_stacks.ku_ring.designsystem.theme.CaptionGray1
 import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
+import com.ku_stacks.ku_ring.designsystem.theme.TextCaption1
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -142,7 +142,7 @@ private fun TrailingDeleteIcon(
     Icon(
         painter = painterResource(id = R.drawable.ic_close),
         contentDescription = null,
-        tint = CaptionGray1,
+        tint = TextCaption1,
         modifier = modifier
             .scale(0.8f)
             .clickable(onClick = onClear),

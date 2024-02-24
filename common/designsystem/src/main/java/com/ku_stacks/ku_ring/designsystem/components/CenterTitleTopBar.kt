@@ -26,10 +26,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.R
-import com.ku_stacks.ku_ring.designsystem.theme.CaptionGray1
 import com.ku_stacks.ku_ring.designsystem.theme.CaptionGray2
 import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
+import com.ku_stacks.ku_ring.designsystem.theme.TextCaption1
 
 /**
  * 제목과 내비게이션 아이콘, 액션 텍스트를 보여주는 최상단 바이다.
@@ -185,7 +185,7 @@ private fun Navigation(
     navigationClickLabel: String? = null,
     contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
-    CompositionLocalProvider(LocalContentColor provides CaptionGray1) {
+    CompositionLocalProvider(LocalContentColor provides TextCaption1) {
         LazyColumn(
             modifier = modifier.clickable(
                 onClick = { onNavigationClick?.invoke() },
