@@ -28,6 +28,8 @@ val Gray200: Color
     @Composable get() = Color(0xFFE5E5E5)
 val Gray300: Color
     @Composable get() = Color(0xFF999999)
+val Gray600: Color
+    @Composable get() = Color(0xFF262626)
 val BoxBackgroundColor2: Color
     @Composable get() = Color(0xFFF2F3F5)
 
