@@ -34,6 +34,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.components.CenterTitleTopBar
+import com.ku_stacks.ku_ring.designsystem.components.KuringCallToAction
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.theme.KuringGreen
 import com.ku_stacks.ku_ring.designsystem.theme.KuringSecondaryGreen
@@ -122,9 +123,11 @@ private fun FeedbackScreen(
                 .border(width = 1.5f.dp, color = Color.Gray, shape = RoundedCornerShape(20.dp)),
         )
 
-        SendFeedbackButton(
-            textStatus = textStatus,
-            onClickSendFeedback = onClickSendFeedback,
+        KuringCallToAction(
+            text = stringResource(id = R.string.feedback_send_content),
+            onClick = onClickSendFeedback,
+            enabled = textStatus == FeedbackTextStatus.NORMAL,
+            modifier = Modifier.fillMaxWidth(),
         )
     }
 }
