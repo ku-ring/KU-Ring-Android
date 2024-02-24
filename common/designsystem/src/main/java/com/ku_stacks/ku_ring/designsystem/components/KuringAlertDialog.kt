@@ -169,7 +169,7 @@ private fun KuringAlertDialogButton(
             ),
             modifier = Modifier
                 .align(Alignment.Center)
-                .padding(vertical = 16.dp),
+                .padding(vertical = 20.dp),
         )
     }
 }
@@ -179,7 +179,7 @@ private fun KuringAlertDialogButton(
 private fun KuringAlertDialogPreview() {
     KuringTheme {
         KuringAlertDialog(
-            text = "스마트ICT융합공학과를\n삭제하시겠습니까?",
+            text = "스마트ICT융합공학과를\n내 학과 목록에 추가할까요?",
             onConfirm = {},
             onDismiss = {},
             modifier = Modifier.padding(16.dp),
