@@ -18,6 +18,7 @@ import com.ku_stacks.ku_ring.ui_util.KuringNavigator
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@Deprecated("SearchActivity 완성되면 제거")
 @AndroidEntryPoint
 class SearchNoticeFragment : Fragment() {
 

@@ -13,6 +13,7 @@ import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.databinding.DialogStaffBottomSheetBinding
 import com.ku_stacks.ku_ring.ui_util.showToast
 
+@Deprecated("SearchActivity 완성되면 제거")
 class StaffBottomSheet : BottomSheetDialogFragment() {
 
     private var _binding: DialogStaffBottomSheetBinding? = null

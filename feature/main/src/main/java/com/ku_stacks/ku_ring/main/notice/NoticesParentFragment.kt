@@ -75,6 +75,10 @@ class NoticesParentFragment : Fragment() {
             }
         }.attach()
 
+        binding.mainHeader.searchImg.setOnClickListener {
+            navigator.navigateToSearch(requireActivity())
+        }
+
         binding.mainHeader.inventoryImg.setOnClickListener {
             navigator.navigateToNoticeStorage(requireActivity())
             requireActivity().overridePendingTransition(

@@ -7,6 +7,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.ku_stacks.ku_ring.main.search.fragment_notice.SearchNoticeFragment
 import com.ku_stacks.ku_ring.main.search.fragment_staff.SearchStaffFragment
 
+@Deprecated("SearchActivity 완성되면 제거")
 class SearchPagerAdapter(fm: FragmentManager, lc: Lifecycle) : FragmentStateAdapter(fm, lc) {
 
     private val items = arrayOf(

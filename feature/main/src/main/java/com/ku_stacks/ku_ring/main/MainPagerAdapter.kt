@@ -6,13 +6,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.ku_stacks.ku_ring.main.campus_onboarding.CampusFragment
 import com.ku_stacks.ku_ring.main.notice.NoticesParentFragment
-import com.ku_stacks.ku_ring.main.search.SearchFragment
 import com.ku_stacks.ku_ring.main.setting.SettingFragment
 
 class MainPagerAdapter(fm: FragmentManager, lc: Lifecycle) : FragmentStateAdapter(fm, lc) {
     private val items = arrayOf(
         { NoticesParentFragment() },
-        { SearchFragment() },
         { CampusFragment() },
         { SettingFragment() }
     )
