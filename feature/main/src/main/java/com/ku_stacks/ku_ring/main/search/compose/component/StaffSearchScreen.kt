@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.main.search.compose
+package com.ku_stacks.ku_ring.main.search.compose.component
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -19,7 +19,6 @@ fun StaffSearchScreen(
     LazyColumn(modifier) {
         items(staffList) {
             Text(text = it.name)
-
         }
     }
 }
