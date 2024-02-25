@@ -63,26 +63,13 @@ class SearchViewModel @Inject constructor(
 
     private fun searchNotice(query: String) {
         viewModelScope.launch {
-            val notices = noticeRepository.searchNotice(query)
-            val markedNoticeList = markSavedNotices(notices)
-
-            _noticeSearchResult.update {
-                markedNoticeList
-            }
+            val notices = noticeRepository.getNoticeSearchResult(query)
+            _noticeSearchResult.update { notices }
         }
     }
 
     fun clearStaffList() {
         _staffList.postValue(emptyList())
-    }
-
-    private suspend fun markSavedNotices(notices: List<Notice>): List<Notice> {
-        val savedNotice = noticeRepository.getSavedNoticeList()
-            .map { it.articleId }
-
-        return notices.map {
-            it.copy(isSaved = savedNotice.contains(it.articleId))
-        }
     }
 
     override fun onCleared() {
