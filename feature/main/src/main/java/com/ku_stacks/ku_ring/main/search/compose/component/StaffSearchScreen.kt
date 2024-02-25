@@ -7,11 +7,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import com.ku_stacks.ku_ring.domain.Staff
-import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun StaffSearchScreen(
-    staffSearchResult: SharedFlow<List<Staff>>,
+    staffSearchResult: StateFlow<List<Staff>>,
     modifier: Modifier = Modifier,
 ) {
     val staffList = staffSearchResult.collectAsState(initial = emptyList()).value

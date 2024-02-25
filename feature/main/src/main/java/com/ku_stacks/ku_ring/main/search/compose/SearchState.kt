@@ -10,7 +10,9 @@ import com.ku_stacks.ku_ring.domain.Notice
 class SearchState(
     query: String,
     tab: SearchTabInfo,
+    isLoading: Boolean,
 ) {
     var query by mutableStateOf(query)
     var tab by mutableStateOf(tab)
+    var isLoading by mutableStateOf(isLoading)
 }
