@@ -147,12 +147,6 @@ class NoticeRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getSavedNoticeList(): List<Notice> {
-        return withContext(Dispatchers.Default) {
-            noticeDao.getSavedNoticeList(true).toNoticeList()
-        }
-    }
-
     override fun updateNoticeToBeRead(articleId: String, category: String): Completable {
         return noticeDao.updateNoticeAsRead(articleId, category)
     }
@@ -233,11 +227,15 @@ class NoticeRepositoryImpl @Inject constructor(
             })
     }
 
-    override suspend fun searchNotice(query: String): List<Notice> {
-        return withContext(Dispatchers.IO) {
-            noticeClient.fetchNoticeList(query)
-                .takeIf { it.isSuccess }
-                ?.toNoticeList() ?: emptyList()
+    override suspend fun getNoticeSearchResult(query: String): List<Notice> = withContext(Dispatchers.IO) {
+        val result = noticeClient.fetchNoticeList(query)
+            .takeIf { it.isSuccess }
+            ?.toNoticeList() ?: emptyList()
+
+        val savedArticleIdList = noticeDao.getSavedNoticeList(true).map { it.articleId }
+
+        result.map {
+            it.copy(isSaved = savedArticleIdList.contains(it.articleId))
         }
     }
 
