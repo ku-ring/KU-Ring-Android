@@ -42,8 +42,8 @@ interface NoticeService {
     ): DepartmentNoticeListResponse
 
     @GET("v2/notices/search")
-    fun fetchNotices(
+    suspend fun fetchNotices(
         @Query("content") content: String,
-    ): Single<SearchNoticeListResponse>
+    ): SearchNoticeListResponse
 
 }

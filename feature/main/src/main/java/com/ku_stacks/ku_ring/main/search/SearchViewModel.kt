@@ -3,12 +3,20 @@ package com.ku_stacks.ku_ring.main.search
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.domain.Staff
+import com.ku_stacks.ku_ring.main.search.compose.SearchState
+import com.ku_stacks.ku_ring.main.search.compose.SearchTabInfo
 import com.ku_stacks.ku_ring.notice.repository.NoticeRepository
 import com.ku_stacks.ku_ring.staff.repository.StaffRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -24,12 +32,22 @@ class SearchViewModel @Inject constructor(
     val staffList: LiveData<List<Staff>>
         get() = _staffList
 
-    private val _noticeList = MutableLiveData<List<Notice>>()
-    val noticeList: LiveData<List<Notice>>
-        get() = _noticeList
+    private val _noticeSearchResult = MutableStateFlow<List<Notice>>(listOf())
+    val noticeSearchResult: StateFlow<List<Notice>> = _noticeSearchResult.asStateFlow()
 
     init {
         Timber.e("SearchViewModel init")
+    }
+
+    fun onClickSearch(searchState: SearchState) {
+        when (searchState.tab) {
+            SearchTabInfo.Notice -> {
+                searchNotice(searchState.query)
+            }
+            SearchTabInfo.Professor -> {
+                // TODO : impl
+            }
+        }
     }
 
     fun searchStaff(keyword: String) {
@@ -43,32 +61,27 @@ class SearchViewModel @Inject constructor(
         )
     }
 
-    fun searchNotice(keyword: String) {
-        Timber.e("search notice $keyword")
-        disposable.add(
-            noticeRepository.searchNotice(keyword)
-                .map { noticeList -> markSavedNotices(noticeList) }
-                .subscribe(
-                    { _noticeList.postValue(it) },
-                    { Timber.e("search notice error: $it") }
-                )
-        )
-    }
+    private fun searchNotice(query: String) {
+        viewModelScope.launch {
+            val notices = noticeRepository.searchNotice(query)
+            val markedNoticeList = markSavedNotices(notices)
 
-    fun clearNoticeList() {
-        _noticeList.postValue(emptyList())
+            _noticeSearchResult.update {
+                markedNoticeList
+            }
+        }
     }
 
     fun clearStaffList() {
         _staffList.postValue(emptyList())
     }
 
-    private fun markSavedNotices(notices: List<Notice>): List<Notice> {
-        val savedNotice2 = noticeRepository.getSavedNoticeList()
+    private suspend fun markSavedNotices(notices: List<Notice>): List<Notice> {
+        val savedNotice = noticeRepository.getSavedNoticeList()
             .map { it.articleId }
 
         return notices.map {
-            it.copy(isSaved = savedNotice2.contains(it.articleId))
+            it.copy(isSaved = savedNotice.contains(it.articleId))
         }
     }
 

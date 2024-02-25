@@ -36,7 +36,7 @@ class NoticeClient @Inject constructor(
     ): DepartmentNoticeListResponse =
         noticeService.fetchDepartmentNoticeList(type, shortName, page, size, important)
 
-    fun fetchNoticeList(
+    suspend fun fetchNoticeList(
         content: String
-    ): Single<SearchNoticeListResponse> = noticeService.fetchNotices(content)
+    ): SearchNoticeListResponse = noticeService.fetchNotices(content)
 }
