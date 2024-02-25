@@ -111,12 +111,12 @@ class SearchFragment : Fragment() {
         if (keyword.isNotEmpty()) {
             when (binding.searchViewpager.currentItem) {
                 //0 -> searchViewModel.searchNotice(keyword) TODO : 추후 제거(컴파일 에러로 주석처리)
-                1 -> searchViewModel.searchStaff(keyword)
+                //1 -> searchViewModel.searchStaff(keyword)
             }
         } else {
             when (binding.searchViewpager.currentItem) {
                 //0 -> searchViewModel.clearNoticeList()
-                1 -> searchViewModel.clearStaffList()
+                //1 -> searchViewModel.clearStaffList()
             }
         }
     }
