@@ -50,7 +50,9 @@ import com.ku_stacks.ku_ring.main.search.SearchViewModel
 import com.ku_stacks.ku_ring.main.search.compose.component.NoticeSearchScreen
 import com.ku_stacks.ku_ring.main.search.compose.component.StaffSearchScreen
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
@@ -81,8 +83,8 @@ private fun SearchScreen(
     onClickSearch: (SearchState) -> Unit,
     searchState: SearchState,
     tabPages: List<SearchTabInfo>,
-    noticeSearchResult: SharedFlow<List<Notice>>,
-    staffSearchResult: SharedFlow<List<Staff>>,
+    noticeSearchResult: StateFlow<List<Notice>>,
+    staffSearchResult: StateFlow<List<Staff>>,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -185,6 +187,7 @@ private fun SearchScreen(
             when (tabPages[index]) {
                 SearchTabInfo.Notice -> {
                     NoticeSearchScreen(
+                        searchState = searchState,
                         noticeSearchResult = noticeSearchResult
                     )
                 }
@@ -206,6 +209,7 @@ fun rememberSearchState(
         SearchState(
             query = query,
             tab = SearchTabInfo.Notice,
+            isLoading = false,
         )
     }
 }
@@ -218,8 +222,8 @@ private fun SearchScreenPreview() {
             searchState = rememberSearchState("산학협력"),
             onNavigationClick = {},
             onClickSearch = {},
-            noticeSearchResult = MutableSharedFlow(),
-            staffSearchResult = MutableSharedFlow(),
+            noticeSearchResult = MutableStateFlow(emptyList()),
+            staffSearchResult = MutableStateFlow(emptyList()),
             modifier = Modifier.fillMaxSize(),
             tabPages = SearchTabInfo.values().toList(),
         )

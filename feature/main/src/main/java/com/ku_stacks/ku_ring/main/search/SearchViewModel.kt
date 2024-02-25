@@ -40,27 +40,27 @@ class SearchViewModel @Inject constructor(
     }
 
     fun onClickSearch(searchState: SearchState) {
-        when (searchState.tab) {
-            SearchTabInfo.Notice -> {
-                searchNotice(searchState.query)
+        viewModelScope.launch {
+            searchState.isLoading = true
+            when (searchState.tab) {
+                SearchTabInfo.Notice -> {
+                    searchNotice(searchState.query)
+                }
+                SearchTabInfo.Staff -> {
+                    searchProfessor(searchState.query)
+                }
             }
-            SearchTabInfo.Staff -> {
-                searchProfessor(searchState.query)
-            }
+            searchState.isLoading = false
         }
     }
 
-    private fun searchNotice(query: String) {
-        viewModelScope.launch {
-            val notices = noticeRepository.getNoticeSearchResult(query)
-            _noticeSearchResult.update { notices }
-        }
+    private suspend fun searchNotice(query: String) {
+        val notices = noticeRepository.getNoticeSearchResult(query)
+        _noticeSearchResult.update { notices }
     }
 
-    private fun searchProfessor(query: String) {
-        viewModelScope.launch {
-            val professors = staffRepository.searchStaff(query)
-            _staffSearchResult.update { professors }
-        }
+    private suspend fun searchProfessor(query: String) {
+        val professors = staffRepository.searchStaff(query)
+        _staffSearchResult.update { professors }
     }
 }
