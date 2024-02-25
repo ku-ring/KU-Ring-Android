@@ -40,6 +40,10 @@ class SearchViewModel @Inject constructor(
     }
 
     fun onClickSearch(searchState: SearchState) {
+        if (searchState.query.isBlank()) {
+            return
+        }
+
         viewModelScope.launch {
             searchState.isLoading = true
             when (searchState.tab) {
