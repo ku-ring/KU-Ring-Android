@@ -40,6 +40,8 @@ fun NoticeSearchScreen(
                 modifier = Modifier.align(Alignment.TopCenter)
             )
         }
+    } else if(noticeList.isEmpty()) {
+        EmptyResultScreen()
     } else {
         LazyColumn(modifier) {
             items(noticeList) {
