@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Tab
@@ -26,7 +28,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.components.CenterTitleTopBar
@@ -38,9 +41,11 @@ import com.ku_stacks.ku_ring.designsystem.theme.KuringGreen
 import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
 import com.ku_stacks.ku_ring.designsystem.utils.NoRippleInteractionSource
+import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.search.SearchViewModel
-import com.ku_stacks.ku_ring.main.search.compose.component.NoticeSearchResult
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 
 @Composable
@@ -53,20 +58,24 @@ fun SearchScreen(
 ) {
 
     SearchScreen(
-        modifier = modifier,
         onNavigationClick = onNavigationClick,
+        onClickSearch = { viewModel.onClickSearch(it) },
         searchState = searchState,
         tabPages = tabPages,
+        noticeSearchResult = viewModel.noticeSearchResult,
+        modifier = modifier,
     )
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun SearchScreen(
-    searchState: SearchState,
     onNavigationClick: () -> Unit,
-    modifier: Modifier = Modifier,
+    onClickSearch: (SearchState) -> Unit,
+    searchState: SearchState,
     tabPages: List<SearchTabInfo>,
+    noticeSearchResult: SharedFlow<List<Notice>>,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -86,9 +95,16 @@ private fun SearchScreen(
         )
 
         SearchTextField(
-            query = searchState.query.text,
-            onQueryUpdate = { searchState.query = TextFieldValue(it) },
+            query = searchState.query,
+            onQueryUpdate = { searchState.query = it },
             placeholderText = stringResource(id = R.string.search_enter_keyword),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Search
+            ),
+            keyboardActions = KeyboardActions(
+                onSearch = { onClickSearch(searchState) }
+            ),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 20.dp, end = 20.dp, top = 20.dp, bottom = 0.dp)
@@ -117,6 +133,7 @@ private fun SearchScreen(
             divider = {},
             modifier = Modifier
                 .padding(horizontal = 20.dp)
+                .padding(bottom = 6.dp)
                 .clip(RoundedCornerShape(14.dp))
         ) {
             tabPages.forEachIndexed { index, searchTabInfo ->
@@ -152,7 +169,9 @@ private fun SearchScreen(
         ) {index ->
             when (tabPages[index]) {
                 SearchTabInfo.Notice -> {
-                    Text(text = "공지")
+                    NoticeSearchScreen(
+                        noticeSearchResult = noticeSearchResult
+                    )
                 }
                 SearchTabInfo.Professor -> {
                     Text(text = "교수명")
@@ -168,8 +187,8 @@ fun rememberSearchState(
 ) : SearchState {
     return remember {
         SearchState(
-            query = TextFieldValue(query),
-            currentTab = "공지탭"
+            query = query,
+            tab = SearchTabInfo.Notice,
         )
     }
 }
@@ -181,6 +200,8 @@ private fun SearchScreenPreview() {
         SearchScreen(
             searchState = rememberSearchState("산학협력"),
             onNavigationClick = {},
+            onClickSearch = {},
+            noticeSearchResult = MutableSharedFlow(),
             modifier = Modifier.fillMaxSize(),
             tabPages = SearchTabInfo.values().toList(),
         )

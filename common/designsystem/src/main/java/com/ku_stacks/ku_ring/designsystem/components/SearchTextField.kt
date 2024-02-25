@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
@@ -49,6 +50,7 @@ fun SearchTextField(
     placeholderText: String = "",
     singleLine: Boolean = true,
     keyboardOptions: KeyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+    keyboardActions: KeyboardActions = KeyboardActions(),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     contentPadding: PaddingValues = PaddingValues(all = 0.dp),
 ) {
@@ -100,6 +102,7 @@ fun SearchTextField(
         },
         singleLine = singleLine,
         keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
     )
 }
 

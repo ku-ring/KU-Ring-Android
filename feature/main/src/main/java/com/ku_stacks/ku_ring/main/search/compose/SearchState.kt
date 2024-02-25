@@ -4,13 +4,13 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.text.input.TextFieldValue
+import com.ku_stacks.ku_ring.domain.Notice
 
 @Stable
 class SearchState(
-    query: TextFieldValue,
-    currentTab: String,
+    query: String,
+    tab: SearchTabInfo,
 ) {
     var query by mutableStateOf(query)
-    var currentTab by mutableStateOf(currentTab)
+    var tab by mutableStateOf(tab)
 }

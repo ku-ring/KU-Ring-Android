@@ -58,14 +58,15 @@ class SearchNoticeFragment : Fragment() {
     }
 
     private fun observeData() {
-        searchViewModel.noticeList.observe(viewLifecycleOwner) {
-            searchNoticeAdapter.submitList(it)
-            if (it.isEmpty()) {
-                (parentFragment as SearchFragment).showAdviceText()
-            } else {
-                (parentFragment as SearchFragment).hideAdviceText()
-            }
-        }
+        // TODO : 추후 제거 (컴파일 에러로 주석처리)
+//        searchViewModel.noticeList.observe(viewLifecycleOwner) {
+//            searchNoticeAdapter.submitList(it)
+//            if (it.isEmpty()) {
+//                (parentFragment as SearchFragment).showAdviceText()
+//            } else {
+//                (parentFragment as SearchFragment).hideAdviceText()
+//            }
+//        }
     }
 
     private fun startNoticeActivity(notice: Notice) {

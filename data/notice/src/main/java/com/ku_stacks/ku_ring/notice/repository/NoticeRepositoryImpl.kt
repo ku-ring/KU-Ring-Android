@@ -26,6 +26,7 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -146,8 +147,10 @@ class NoticeRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getSavedNoticeList(): List<Notice> {
-        return noticeDao.getSavedNoticeList(true).toNoticeList()
+    override suspend fun getSavedNoticeList(): List<Notice> {
+        return withContext(Dispatchers.Default) {
+            noticeDao.getSavedNoticeList(true).toNoticeList()
+        }
     }
 
     override fun updateNoticeToBeRead(articleId: String, category: String): Completable {
@@ -230,12 +233,12 @@ class NoticeRepositoryImpl @Inject constructor(
             })
     }
 
-    override fun searchNotice(query: String): Single<List<Notice>> {
-        return noticeClient.fetchNoticeList(query)
-            .subscribeOn(Schedulers.io())
-            .filter { it.isSuccess }
-            .map { it.toNoticeList() }
-            .toSingle()
+    override suspend fun searchNotice(query: String): List<Notice> {
+        return withContext(Dispatchers.IO) {
+            noticeClient.fetchNoticeList(query)
+                .takeIf { it.isSuccess }
+                ?.toNoticeList() ?: emptyList()
+        }
     }
 
     companion object {
