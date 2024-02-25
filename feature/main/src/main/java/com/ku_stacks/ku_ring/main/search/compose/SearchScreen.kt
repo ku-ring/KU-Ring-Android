@@ -47,9 +47,10 @@ import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.domain.Staff
 import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.search.SearchViewModel
+import com.ku_stacks.ku_ring.main.search.compose.component.NoticeSearchScreen
+import com.ku_stacks.ku_ring.main.search.compose.component.StaffSearchScreen
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
