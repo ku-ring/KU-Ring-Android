@@ -7,5 +7,5 @@ enum class SearchTabInfo(
     @StringRes val titleResId: Int,
 ) {
     Notice(R.string.search_type_notice),
-    Professor(R.string.search_type_professor),
+    Staff(R.string.search_type_professor),
 }

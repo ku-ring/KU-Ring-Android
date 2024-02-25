@@ -18,8 +18,10 @@ import androidx.compose.material.TabRow
 import androidx.compose.material.Text
 import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,10 +44,13 @@ import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
 import com.ku_stacks.ku_ring.designsystem.utils.NoRippleInteractionSource
 import com.ku_stacks.ku_ring.domain.Notice
+import com.ku_stacks.ku_ring.domain.Staff
 import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.search.SearchViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
 @Composable
@@ -63,6 +68,7 @@ fun SearchScreen(
         searchState = searchState,
         tabPages = tabPages,
         noticeSearchResult = viewModel.noticeSearchResult,
+        staffSearchResult = viewModel.staffSearchResult,
         modifier = modifier,
     )
 }
@@ -75,6 +81,7 @@ private fun SearchScreen(
     searchState: SearchState,
     tabPages: List<SearchTabInfo>,
     noticeSearchResult: SharedFlow<List<Notice>>,
+    staffSearchResult: SharedFlow<List<Staff>>,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -126,6 +133,13 @@ private fun SearchScreen(
         val pagerState = rememberPagerState(pageCount = { tabPages.size })
         val coroutineScope = rememberCoroutineScope()
 
+        LaunchedEffect(pagerState) {
+            snapshotFlow { pagerState.currentPage }.distinctUntilChanged()
+                .collect { pageIndex ->
+                    searchState.tab = SearchTabInfo.values()[pageIndex]
+                }
+        }
+
         TabRow(
             selectedTabIndex = pagerState.currentPage,
             backgroundColor = BoxBackgroundColor2,
@@ -173,8 +187,10 @@ private fun SearchScreen(
                         noticeSearchResult = noticeSearchResult
                     )
                 }
-                SearchTabInfo.Professor -> {
-                    Text(text = "교수명")
+                SearchTabInfo.Staff -> {
+                    StaffSearchScreen(
+                        staffSearchResult = staffSearchResult
+                    )
                 }
             }
         }
@@ -202,6 +218,7 @@ private fun SearchScreenPreview() {
             onNavigationClick = {},
             onClickSearch = {},
             noticeSearchResult = MutableSharedFlow(),
+            staffSearchResult = MutableSharedFlow(),
             modifier = Modifier.fillMaxSize(),
             tabPages = SearchTabInfo.values().toList(),
         )

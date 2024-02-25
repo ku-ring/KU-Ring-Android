@@ -11,7 +11,6 @@ import com.ku_stacks.ku_ring.main.search.compose.SearchTabInfo
 import com.ku_stacks.ku_ring.notice.repository.NoticeRepository
 import com.ku_stacks.ku_ring.staff.repository.StaffRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -26,14 +25,15 @@ class SearchViewModel @Inject constructor(
     private val staffRepository: StaffRepository,
 ) : ViewModel() {
 
-    private val disposable = CompositeDisposable()
-
     private val _staffList = MutableLiveData<List<Staff>>()
     val staffList: LiveData<List<Staff>>
         get() = _staffList
 
     private val _noticeSearchResult = MutableStateFlow<List<Notice>>(listOf())
     val noticeSearchResult: StateFlow<List<Notice>> = _noticeSearchResult.asStateFlow()
+
+    private val _staffSearchResult = MutableStateFlow<List<Staff>>(listOf())
+    val staffSearchResult: StateFlow<List<Staff>> = _staffSearchResult.asStateFlow()
 
     init {
         Timber.e("SearchViewModel init")
@@ -44,21 +44,10 @@ class SearchViewModel @Inject constructor(
             SearchTabInfo.Notice -> {
                 searchNotice(searchState.query)
             }
-            SearchTabInfo.Professor -> {
-                // TODO : impl
+            SearchTabInfo.Staff -> {
+                searchProfessor(searchState.query)
             }
         }
-    }
-
-    fun searchStaff(keyword: String) {
-        Timber.e("search staff $keyword")
-        disposable.add(
-            staffRepository.searchStaff(keyword)
-                .subscribe(
-                    { _staffList.postValue(it) },
-                    { Timber.e("search staff error: $it") }
-                )
-        )
     }
 
     private fun searchNotice(query: String) {
@@ -68,14 +57,10 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun clearStaffList() {
-        _staffList.postValue(emptyList())
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        if (!disposable.isDisposed) {
-            disposable.dispose()
+    private fun searchProfessor(query: String) {
+        viewModelScope.launch {
+            val professors = staffRepository.searchStaff(query)
+            _staffSearchResult.update { professors }
         }
     }
 }
