@@ -82,6 +82,7 @@
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity android:name=".main.search.SearchActivity"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false" />
 
         <provider
