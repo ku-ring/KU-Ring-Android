@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -32,6 +33,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.components.CenterTitleTopBar
@@ -120,21 +122,9 @@ private fun SearchScreen(
                 .padding(start = 20.dp, end = 20.dp, top = 20.dp, bottom = 0.dp)
         )
 
-        Text(
-            text = stringResource(id = R.string.search_result),
-            style = TextStyle(
-                color = CaptionGray1,
-                fontSize = 16.sp,
-                fontFamily = Pretendard,
-                lineHeight = 27.sp,
-            ),
-            modifier = Modifier
-                .align(Alignment.Start)
-                .padding(top = 18.dp, start = 20.dp, bottom = 10.dp)
-        )
+        SearchResultTitle()
 
         val pagerState = rememberPagerState(pageCount = { tabPages.size })
-        val coroutineScope = rememberCoroutineScope()
 
         LaunchedEffect(pagerState) {
             snapshotFlow { pagerState.currentPage }.distinctUntilChanged()
@@ -143,61 +133,18 @@ private fun SearchScreen(
                 }
         }
 
-        TabRow(
-            selectedTabIndex = pagerState.currentPage,
-            backgroundColor = BoxBackgroundColor2,
-            indicator = {},
-            divider = {},
-            modifier = Modifier
-                .padding(horizontal = 20.dp)
-                .padding(bottom = 6.dp)
-                .clip(RoundedCornerShape(14.dp))
-        ) {
-            tabPages.forEachIndexed { index, searchTabInfo ->
-                val isSelected = pagerState.currentPage == index
-                val tabBackgroundColor = if (isSelected) MaterialTheme.colors.surface else Color.Transparent
+        SearchTabRow(
+            pagerState = pagerState,
+            tabPages = tabPages,
+        )
 
-                Tab(
-                    selected = isSelected,
-                    onClick = { coroutineScope.launch { pagerState.animateScrollToPage(index) } },
-                    text = {
-                        Text(
-                            text = stringResource(id = searchTabInfo.titleResId),
-                            style = TextStyle(
-                                fontSize = 16.sp,
-                                fontFamily = Pretendard,
-                                fontWeight = FontWeight.Bold,
-                            ),
-                        )
-                    },
-                    unselectedContentColor = CaptionGray1,
-                    selectedContentColor = KuringGreen,
-                    modifier = Modifier
-                        .padding(horizontal = 6.dp, vertical = 5.dp)
-                        .background(color = tabBackgroundColor, shape = RoundedCornerShape(12.dp)),
-                    interactionSource = NoRippleInteractionSource()
-                )
-            }
-        }
-
-        HorizontalPager(
-            state = pagerState,
-            verticalAlignment = Alignment.Top
-        ) {index ->
-            when (tabPages[index]) {
-                SearchTabInfo.Notice -> {
-                    NoticeSearchScreen(
-                        searchState = searchState,
-                        noticeSearchResult = noticeSearchResult
-                    )
-                }
-                SearchTabInfo.Staff -> {
-                    StaffSearchScreen(
-                        staffSearchResult = staffSearchResult
-                    )
-                }
-            }
-        }
+        SearchResultHorizontalPager(
+            searchState = searchState,
+            pagerState = pagerState,
+            tabPages = tabPages,
+            noticeSearchResult = noticeSearchResult,
+            staffSearchResult = staffSearchResult,
+        )
     }
 }
 
@@ -211,6 +158,103 @@ fun rememberSearchState(
             tab = SearchTabInfo.Notice,
             isLoading = false,
         )
+    }
+}
+
+@Composable
+private fun SearchResultTitle(
+    modifier: Modifier = Modifier,
+) {
+    Text(
+        text = stringResource(id = R.string.search_result),
+        style = TextStyle(
+            color = CaptionGray1,
+            fontSize = 16.sp,
+            fontFamily = Pretendard,
+            lineHeight = 27.sp,
+        ),
+        textAlign = TextAlign.Start,
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(top = 18.dp, start = 20.dp, bottom = 10.dp),
+    )
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+private fun SearchTabRow(
+    pagerState: PagerState,
+    tabPages: List<SearchTabInfo>,
+    modifier: Modifier = Modifier,
+) {
+    val coroutineScope = rememberCoroutineScope()
+
+    TabRow(
+        selectedTabIndex = pagerState.currentPage,
+        backgroundColor = BoxBackgroundColor2,
+        indicator = {},
+        divider = {},
+        modifier = modifier
+            .padding(horizontal = 20.dp)
+            .padding(bottom = 6.dp)
+            .clip(RoundedCornerShape(14.dp))
+    ) {
+        tabPages.forEachIndexed { index, searchTabInfo ->
+            val isSelected = pagerState.currentPage == index
+            val tabBackgroundColor = if (isSelected) MaterialTheme.colors.surface else Color.Transparent
+
+            Tab(
+                selected = isSelected,
+                onClick = { coroutineScope.launch { pagerState.animateScrollToPage(index) } },
+                text = {
+                    Text(
+                        text = stringResource(id = searchTabInfo.titleResId),
+                        style = TextStyle(
+                            fontSize = 16.sp,
+                            fontFamily = Pretendard,
+                            fontWeight = FontWeight.Bold,
+                        ),
+                    )
+                },
+                unselectedContentColor = CaptionGray1,
+                selectedContentColor = KuringGreen,
+                modifier = Modifier
+                    .padding(horizontal = 6.dp, vertical = 5.dp)
+                    .background(color = tabBackgroundColor, shape = RoundedCornerShape(12.dp)),
+                interactionSource = NoRippleInteractionSource()
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+private fun SearchResultHorizontalPager(
+    searchState: SearchState,
+    pagerState: PagerState,
+    tabPages: List<SearchTabInfo>,
+    noticeSearchResult: StateFlow<List<Notice>>,
+    staffSearchResult: StateFlow<List<Staff>>,
+    modifier: Modifier = Modifier,
+) {
+    HorizontalPager(
+        state = pagerState,
+        verticalAlignment = Alignment.Top,
+        modifier = modifier
+    ) {index ->
+        when (tabPages[index]) {
+            SearchTabInfo.Notice -> {
+                NoticeSearchScreen(
+                    searchState = searchState,
+                    noticeSearchResult = noticeSearchResult
+                )
+            }
+            SearchTabInfo.Staff -> {
+                StaffSearchScreen(
+                    staffSearchResult = staffSearchResult
+                )
+            }
+        }
     }
 }
 
