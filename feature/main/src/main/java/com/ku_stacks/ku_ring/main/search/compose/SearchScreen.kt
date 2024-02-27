@@ -151,7 +151,7 @@ private fun SearchScreen(
 @Composable
 fun rememberSearchState(
     query: String = "",
-) : SearchState {
+): SearchState {
     return remember {
         SearchState(
             query = query,
@@ -241,7 +241,7 @@ private fun SearchResultHorizontalPager(
         state = pagerState,
         verticalAlignment = Alignment.Top,
         modifier = modifier
-    ) {index ->
+    ) { index ->
         when (tabPages[index]) {
             SearchTabInfo.Notice -> {
                 NoticeSearchScreen(
