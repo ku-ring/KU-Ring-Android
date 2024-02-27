@@ -232,10 +232,10 @@ class NoticeRepositoryImpl @Inject constructor(
             .takeIf { it.isSuccess }
             ?.toNoticeList() ?: emptyList()
 
-        val savedArticleIdList = noticeDao.getSavedNoticeList(true).map { it.articleId }
+        val savedArticleIdSet = noticeDao.getSavedNoticeList(true).map { it.articleId }.toSet()
 
         result.map {
-            it.copy(isSaved = savedArticleIdList.contains(it.articleId))
+            it.copy(isSaved = savedArticleIdSet.contains(it.articleId))
         }
     }
 
