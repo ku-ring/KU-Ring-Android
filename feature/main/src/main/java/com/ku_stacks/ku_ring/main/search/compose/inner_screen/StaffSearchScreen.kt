@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.main.search.compose.component
+package com.ku_stacks.ku_ring.main.search.compose.inner_screen
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items

@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.main.search.compose.component
+package com.ku_stacks.ku_ring.main.search.compose.inner_screen
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,6 +18,7 @@ import com.ku_stacks.ku_ring.designsystem.R
 import com.ku_stacks.ku_ring.designsystem.components.NoticeItem
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.main.search.compose.SearchState
+import com.ku_stacks.ku_ring.main.search.compose.component.EmptyResultScreen
 import kotlinx.coroutines.flow.StateFlow
 
 @Composable
