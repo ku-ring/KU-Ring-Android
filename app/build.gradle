@@ -12,6 +12,10 @@ def keystorePropertiesFile = rootProject.file("app/signing/keystore.properties")
 def localPropertiesFile = rootProject.file("local.properties")
 
 android {
+    lintOptions {
+        disable "Instantiatable"
+    }
+
     testOptions {
         unitTests {
             includeAndroidResources = true
@@ -96,12 +100,13 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = JavaVersion.VERSION_17
     }
+    namespace 'com.ku_stacks.ku_ring'
 }
 
 dependencies {
