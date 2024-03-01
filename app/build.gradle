@@ -163,9 +163,6 @@ dependencies {
     // leak canary
     debugImplementation libs.leakcanary.android
 
-    // appsFlyer
-    implementation libs.af.android.sdk
-
     // google play-auth
     implementation libs.play.services.auth
 }
