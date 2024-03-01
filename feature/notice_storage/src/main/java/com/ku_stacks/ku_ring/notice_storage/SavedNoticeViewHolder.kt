@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.notice_storage.databinding.ItemSavedNoticeBinding
 
+@Deprecated("Compose migration 이후 삭제할 예정")
 class SavedNoticeViewHolder(
     private val binding: ItemSavedNoticeBinding,
     private val onClick: (Notice) -> Unit
