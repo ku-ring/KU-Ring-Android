@@ -91,9 +91,6 @@
                 android:name="com.ku_stacks.ku_ring.initializer.TimberInitializer"
                 android:value="androidx.startup" />
             <meta-data
-                android:name="com.ku_stacks.ku_ring.initializer.AppsFlyerInitializer"
-                android:value="androidx.startup" />
-            <meta-data
                 android:name="androidx.work.WorkManagerInitializer"
                 android:value="androidx.startup"
                 tools:node="remove" />
