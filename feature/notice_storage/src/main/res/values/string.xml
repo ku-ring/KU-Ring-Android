@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="top_app_bar_navigation">취소</string>
+    <string name="top_app_bar_action_edit">편집</string>
+    <string name="top_app_bar_action_select_all">전체 선택</string>
+</resources>
