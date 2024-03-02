@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.ku_stacks.ku_ring">
+    >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -92,9 +92,6 @@
             tools:node="merge">
             <meta-data
                 android:name="com.ku_stacks.ku_ring.initializer.TimberInitializer"
-                android:value="androidx.startup" />
-            <meta-data
-                android:name="com.ku_stacks.ku_ring.initializer.AppsFlyerInitializer"
                 android:value="androidx.startup" />
             <meta-data
                 android:name="androidx.work.WorkManagerInitializer"

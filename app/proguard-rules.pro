@@ -19,11 +19,40 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
--keep class com.ku_stacks.ku_ring.data.api.request.** { *; }
--keep class com.ku_stacks.ku_ring.data.api.response.** { *; }
--keep class com.ku_stacks.ku_ring.data.db.** { *; }
--keep class com.ku_stacks.ku_ring.data.model.** { *; }
--keep class com.ku_stacks.ku_ring.data.websocket.response.** { *; }
--keep class com.ku_stacks.ku_ring.data.websocket.request.** { *; }
--keep class com.appsflyer.** { *; }
+# request, reponse data class which are used with Retrofit
+-keep class com.ku_stacks.ku_ring.remote.department.request.** { *; }
+-keep class com.ku_stacks.ku_ring.remote.department.response.** { *; }
+-keep class com.ku_stacks.ku_ring.remote.notice.request.** { *; }
+-keep class com.ku_stacks.ku_ring.remote.notice.response.** { *; }
+-keep class com.ku_stacks.ku_ring.remote.notice.** { *; }
+-keep class com.ku_stacks.ku_ring.remote.staff.response.** { *; }
+-keep class com.ku_stacks.ku_ring.remote.user.request.** { *; }
+-keep class com.ku_stacks.ku_ring.remote.util.** { *; }
+# Room DAO, entity
+-keep class com.ku_stacks.ku_ring.local.entity.** { *; }
+-keep class com.ku_stacks.ku_ring.local.room.** { *; }
+# domain classes
+-keep class com.ku_stacks.ku_ring.domain.** { *; }
+# rxjava classes
+-keep class io.reactivex.rxjava3.core.Flowable
+-keep class io.reactivex.rxjava3.core.Maybe
+-keep class io.reactivex.rxjava3.core.Observable
+-keep class io.reactivex.rxjava3.core.Single
+# Keep generic signature of Call, Response (R8 full mode strips signatures from non-kept items).
+-keep interface retrofit2.Call
+-keep class retrofit2.Response
+# With R8 full mode generic signatures are stripped for classes that are not
+# kept. Suspend functions are wrapped in continuations where the type argument
+# is used.
+-keep class kotlin.coroutines.Continuation
 -dontwarn com.sendbird.android.shadow.**
+-dontwarn com.google.firebase.messaging.TopicOperation$TopicOperations
+-dontwarn org.bouncycastle.jsse.BCSSLParameters
+-dontwarn org.bouncycastle.jsse.BCSSLSocket
+-dontwarn org.bouncycastle.jsse.provider.BouncyCastleJsseProvider
+-dontwarn org.conscrypt.Conscrypt$Version
+-dontwarn org.conscrypt.Conscrypt
+-dontwarn org.conscrypt.ConscryptHostnameVerifier
+-dontwarn org.openjsse.javax.net.ssl.SSLParameters
+-dontwarn org.openjsse.javax.net.ssl.SSLSocket
+-dontwarn org.openjsse.net.ssl.OpenJSSE

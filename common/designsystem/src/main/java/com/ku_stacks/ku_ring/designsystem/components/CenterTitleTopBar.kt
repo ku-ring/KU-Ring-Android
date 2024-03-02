@@ -26,7 +26,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.R
-import com.ku_stacks.ku_ring.designsystem.theme.CaptionGray1
 import com.ku_stacks.ku_ring.designsystem.theme.CaptionGray2
 import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
@@ -40,6 +39,7 @@ import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
  * @param navigation 텍스트 왼쪽에 표시할 navigation indicator. 주로 뒤로 가기 아이콘이 사용되나, `취소` 등의 텍스트를 사용할 수도 있다.
  * @param onNavigationClick 내비게이션 컴포넌트를 클릭할 때 실행할 콜백.
  * @param navigationClickLabel 내비게이션 클릭 콜백을 설명하는 텍스트. 콜백이 null이 아니라면 접근성을 위해 제공하는 것이 좋다.
+ * @param navigationContentColor 내비게이션 컴포넌트의 content color. [LocalContentColor]에 전달된다.
  * @param action 텍스트 오른쪽에 표시될 작업 텍스트. `완료`, `전송` 등의 텍스트가 사용될 수 있다.
  * @param onActionClick 액션 텍스트를 클릭할 때 실행할 콜백.
  * @param actionClickLabel 액션 클릭 콜백을 설명하는 텍스트. 콜백이 null이 아니라면 접근성을 위해 제공하는 것이 좋다.
@@ -51,6 +51,9 @@ fun CenterTitleTopBar(
     navigation: @Composable () -> Unit = {},
     onNavigationClick: (() -> Unit)? = null,
     navigationClickLabel: String? = null,
+    // 현재 디자인된 Gray600 색깔은 다크 모드에서 거의 보이지 않음
+    // 따라서 임시로 onSurface를 사용하고, 다크 모드 디자인이 나오면 다시 수정
+    navigationContentColor: Color = MaterialTheme.colors.onSurface,
     action: String = "",
     onActionClick: (() -> Unit)? = null,
     actionClickLabel: String? = null,
@@ -60,6 +63,7 @@ fun CenterTitleTopBar(
         navigation = navigation,
         onNavigationClick = onNavigationClick,
         navigationClickLabel = navigationClickLabel,
+        navigationContentColor = navigationContentColor,
         action = {
             Text(
                 text = action,
@@ -87,6 +91,7 @@ fun CenterTitleTopBar(
  * @param navigation 텍스트 왼쪽에 표시할 navigation indicator. 주로 뒤로 가기 아이콘이 사용되나, `취소` 등의 텍스트를 사용할 수도 있다.
  * @param onNavigationClick 내비게이션 컴포넌트를 클릭할 때 실행할 콜백.
  * @param navigationClickLabel 내비게이션 클릭 콜백을 설명하는 텍스트. 콜백이 null이 아니라면 접근성을 위해 제공하는 것이 좋다.
+ * @param navigationContentColor 내비게이션 컴포넌트의 content color. [LocalContentColor]에 전달된다.
  * @param action 텍스트 오른쪽에 표시될 작업. [Icon] 등을 넣을 수 있다.
  * @param onActionClick 액션 텍스트를 클릭할 때 실행할 콜백.
  * @param actionClickLabel 액션 클릭 콜백을 설명하는 텍스트. 콜백이 null이 아니라면 접근성을 위해 제공하는 것이 좋다.
@@ -98,12 +103,15 @@ fun CenterTitleTopBar(
     navigation: @Composable () -> Unit = {},
     onNavigationClick: (() -> Unit)? = null,
     navigationClickLabel: String? = null,
+    // 현재 디자인된 Gray600 색깔은 다크 모드에서 거의 보이지 않음
+    // 따라서 임시로 onSurface를 사용하고, 다크 모드 디자인이 나오면 다시 수정
+    navigationContentColor: Color = MaterialTheme.colors.onSurface,
     action: @Composable () -> Unit = {},
     onActionClick: (() -> Unit)? = null,
     actionClickLabel: String? = null,
 ) {
     val backgroundColor = MaterialTheme.colors.surface
-    val contentPadding = PaddingValues(13.dp)
+    val contentPadding = PaddingValues(horizontal = 20.dp, vertical = 16.dp)
     Box(
         modifier = modifier
             .background(backgroundColor)
@@ -112,6 +120,7 @@ fun CenterTitleTopBar(
     ) {
         Navigation(
             navigationIcon = navigation,
+            navigationContentColor = navigationContentColor,
             onNavigationClick = onNavigationClick,
             navigationClickLabel = navigationClickLabel,
             contentPadding = contentPadding,
@@ -180,12 +189,13 @@ private fun TopBarTitle(
 @Composable
 private fun Navigation(
     navigationIcon: @Composable () -> Unit,
+    navigationContentColor: Color,
     modifier: Modifier = Modifier,
     onNavigationClick: (() -> Unit)? = null,
     navigationClickLabel: String? = null,
     contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
-    CompositionLocalProvider(LocalContentColor provides CaptionGray1) {
+    CompositionLocalProvider(LocalContentColor provides navigationContentColor) {
         LazyColumn(
             modifier = modifier.clickable(
                 onClick = { onNavigationClick?.invoke() },
