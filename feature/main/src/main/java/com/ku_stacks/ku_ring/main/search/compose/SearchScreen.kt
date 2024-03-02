@@ -40,10 +40,10 @@ import com.ku_stacks.ku_ring.designsystem.components.CenterTitleTopBar
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.components.SearchTextField
 import com.ku_stacks.ku_ring.designsystem.theme.BoxBackgroundColor2
-import com.ku_stacks.ku_ring.designsystem.theme.CaptionGray1
 import com.ku_stacks.ku_ring.designsystem.theme.KuringGreen
 import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
+import com.ku_stacks.ku_ring.designsystem.theme.TextCaption1
 import com.ku_stacks.ku_ring.designsystem.utils.NoRippleInteractionSource
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.domain.Staff
@@ -166,7 +166,7 @@ private fun SearchResultTitle(
     Text(
         text = stringResource(id = R.string.search_result),
         style = TextStyle(
-            color = CaptionGray1,
+            color = TextCaption1,
             fontSize = 16.sp,
             fontFamily = Pretendard,
             lineHeight = 27.sp,
@@ -214,7 +214,7 @@ private fun SearchTabRow(
                         ),
                     )
                 },
-                unselectedContentColor = CaptionGray1,
+                unselectedContentColor = TextCaption1,
                 selectedContentColor = KuringGreen,
                 modifier = Modifier
                     .padding(horizontal = 6.dp, vertical = 5.dp)
