@@ -38,6 +38,7 @@ import com.ku_stacks.ku_ring.domain.Notice
  * @param notice 보여줄 공지 객체
  * @param modifier 적용할 [Modifier]
  * @param onClick 공지를 클릭했을 때의 콜백
+ * @param contentVerticalAlignment [content]의 수직 정렬 위치이다. 북마크 아이콘은 이 값과 상관없이 항상 [Alignment.Top]으로 정렬된다.
  * @param content 컴포넌트 오른쪽에 보여줄 slot이다. [content]가 주어지면 북마크 아이콘이 보이지 않는다.
  */
 @Composable
@@ -45,6 +46,7 @@ fun NoticeItem(
     notice: Notice,
     modifier: Modifier = Modifier,
     onClick: (Notice) -> Unit = {},
+    contentVerticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     content: @Composable (() -> Unit)? = null,
 ) {
     // TODO: 중요 공지일 경우 배경색을 초록색으로 바꾸고, [중요] 태그 보여주기
@@ -54,6 +56,7 @@ fun NoticeItem(
             .fillMaxWidth()
             .background(MaterialTheme.colors.surface)
             .padding(horizontal = 20.dp),
+        verticalAlignment = contentVerticalAlignment,
     ) {
         NoticeItemContent(
             notice = notice,
