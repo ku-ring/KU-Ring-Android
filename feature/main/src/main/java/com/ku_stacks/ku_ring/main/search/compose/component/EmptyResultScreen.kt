@@ -11,8 +11,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
-import com.ku_stacks.ku_ring.designsystem.theme.CaptionGray1
 import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
+import com.ku_stacks.ku_ring.designsystem.theme.TextCaption1
 import com.ku_stacks.ku_ring.main.R
 
 @Composable
@@ -29,7 +29,7 @@ fun EmptyResultScreen(
                 lineHeight = 24.sp,
                 fontFamily = Pretendard,
                 fontWeight = FontWeight(500),
-                color = CaptionGray1,
+                color = TextCaption1,
                 textAlign = TextAlign.Center,
             ),
             modifier = modifier
