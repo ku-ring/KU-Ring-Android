@@ -23,6 +23,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.components.CenterTitleTopBar
+import com.ku_stacks.ku_ring.designsystem.components.KuringCallToAction
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.components.NoticeItem
 import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
@@ -42,6 +43,7 @@ private fun NoticeStorageScreen(
     onNoticeClick: (Notice) -> Unit,
     selectedNoticeIds: Set<String>,
     toggleNoticeSelection: (String) -> Unit,
+    onDeleteNotices: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -62,8 +64,19 @@ private fun NoticeStorageScreen(
             isSelectModeEnabled = isSelectModeEnabled,
             selectedNoticeIds = selectedNoticeIds,
             toggleNoticeSelection = toggleNoticeSelection,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f),
         )
+        if (isSelectModeEnabled) {
+            KuringCallToAction(
+                text = stringResource(id = R.string.cta_text),
+                onClick = onDeleteNotices,
+                enabled = selectedNoticeIds.isNotEmpty(),
+                blur = true,
+                modifier = Modifier.fillMaxWidth(),
+            )
+        }
     }
 }
 
@@ -210,6 +223,7 @@ private fun NoticeStorageScreenPreview() {
                     selectedNoticeIds.plus(noticeId)
                 }
             },
+            onDeleteNotices = {},
             modifier = Modifier.fillMaxSize(),
         )
     }

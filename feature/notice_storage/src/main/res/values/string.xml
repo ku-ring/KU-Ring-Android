@@ -3,4 +3,5 @@
     <string name="top_app_bar_navigation">취소</string>
     <string name="top_app_bar_action_edit">편집</string>
     <string name="top_app_bar_action_select_all">전체 선택</string>
+    <string name="cta_text">삭제하기</string>
 </resources>
