@@ -36,6 +36,10 @@ class NoticeStorageViewModel @Inject constructor(
         selectedNotices.keys
     }
 
+    val isAllNoticesSelected by derivedStateOf {
+        selectedNotices.size == savedNotices.value.size
+    }
+
     init {
         viewModelScope.launch {
             noticeRepository.getSavedNotices().collect { savedNotices ->

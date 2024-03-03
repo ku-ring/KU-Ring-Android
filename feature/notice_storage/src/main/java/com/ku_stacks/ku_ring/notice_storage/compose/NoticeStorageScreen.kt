@@ -1,5 +1,6 @@
 package com.ku_stacks.ku_ring.notice_storage.compose
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -17,6 +18,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -27,12 +29,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ku_stacks.ku_ring.designsystem.components.CenterTitleTopBar
+import com.ku_stacks.ku_ring.designsystem.components.KuringAlertDialog
 import com.ku_stacks.ku_ring.designsystem.components.KuringCallToAction
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.components.NoticeItem
 import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
 import com.ku_stacks.ku_ring.designsystem.theme.TextBody
+import com.ku_stacks.ku_ring.designsystem.theme.Warning
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.notice_storage.NoticeStorageViewModel
 import com.ku_stacks.ku_ring.notice_storage.R
@@ -45,6 +49,7 @@ fun NoticeStorageScreen(
     viewModel: NoticeStorageViewModel = hiltViewModel(),
 ) {
     val notices by viewModel.savedNotices.collectAsState()
+    var isDeleteDialogVisible by rememberSaveable { mutableStateOf(false) }
 
     NoticeStorageScreen(
         isSelectModeEnabled = viewModel.isSelectedModeEnabled,
@@ -62,7 +67,18 @@ fun NoticeStorageScreen(
         },
         selectedNoticeIds = viewModel.selectedNoticeIds,
         toggleNoticeSelection = viewModel::toggleNoticeSelection,
-        onDeleteNotices = viewModel::deleteNotices,
+        onShowDeleteAlertDialog = {
+            isDeleteDialogVisible = true
+        },
+        isDeletePopupVisible = isDeleteDialogVisible,
+        isDeleteAllNotices = viewModel.isAllNoticesSelected,
+        onDeleteNotices = {
+            viewModel.deleteNotices()
+            isDeleteDialogVisible = false
+        },
+        onDismissDeleteAlertDialog = {
+            isDeleteDialogVisible = false
+        },
         modifier = modifier,
     )
 }
@@ -77,7 +93,11 @@ private fun NoticeStorageScreen(
     onNoticeClick: (Notice) -> Unit,
     selectedNoticeIds: Set<String>,
     toggleNoticeSelection: (Notice) -> Unit,
+    onShowDeleteAlertDialog: () -> Unit,
+    isDeletePopupVisible: Boolean,
+    isDeleteAllNotices: Boolean,
     onDeleteNotices: () -> Unit,
+    onDismissDeleteAlertDialog: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -105,13 +125,20 @@ private fun NoticeStorageScreen(
         if (isSelectModeEnabled) {
             KuringCallToAction(
                 text = stringResource(id = R.string.cta_text),
-                onClick = onDeleteNotices,
+                onClick = onShowDeleteAlertDialog,
                 enabled = selectedNoticeIds.isNotEmpty(),
                 blur = true,
                 modifier = Modifier.fillMaxWidth(),
             )
         }
     }
+
+    DeleteSelectedNoticesAlertDialog(
+        isDeletePopupVisible = isDeletePopupVisible,
+        isDeleteAllNotices = isDeleteAllNotices,
+        onDelete = onDeleteNotices,
+        onDismiss = onDismissDeleteAlertDialog,
+    )
 }
 
 @Composable
@@ -231,6 +258,31 @@ private fun NoticeSelectionStateImage(
     }
 }
 
+@Composable
+private fun DeleteSelectedNoticesAlertDialog(
+    isDeletePopupVisible: Boolean,
+    isDeleteAllNotices: Boolean,
+    onDelete: () -> Unit,
+    onDismiss: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    AnimatedVisibility(
+        visible = isDeletePopupVisible,
+        modifier = modifier,
+    ) {
+        val textId =
+            if (isDeleteAllNotices) R.string.alert_dialog_delete_all_notices else R.string.alert_dialog_delete_notices
+        KuringAlertDialog(
+            text = stringResource(id = textId),
+            onConfirm = onDelete,
+            confirmText = stringResource(id = R.string.alert_dialog_delete_text),
+            onCancel = onDismiss,
+            cancelText = stringResource(id = R.string.alert_dialog_cancel_text),
+            confirmTextColor = Warning,
+        )
+    }
+}
+
 @LightAndDarkPreview
 @Composable
 private fun NoticeStorageScreenPreview() {
@@ -258,6 +310,10 @@ private fun NoticeStorageScreenPreview() {
                     selectedNoticeIds.plus(articleId)
                 }
             },
+            isDeleteAllNotices = false,
+            isDeletePopupVisible = false,
+            onDismissDeleteAlertDialog = {},
+            onShowDeleteAlertDialog = {},
             onDeleteNotices = {},
             modifier = Modifier.fillMaxSize(),
         )
