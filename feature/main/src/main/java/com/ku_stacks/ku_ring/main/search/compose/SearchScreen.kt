@@ -20,6 +20,8 @@ import androidx.compose.material.Text
 import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshotFlow
@@ -51,8 +53,6 @@ import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.search.SearchViewModel
 import com.ku_stacks.ku_ring.main.search.compose.inner_screen.NoticeSearchScreen
 import com.ku_stacks.ku_ring.main.search.compose.inner_screen.StaffSearchScreen
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
@@ -64,14 +64,16 @@ fun SearchScreen(
     searchState: SearchState = rememberSearchState(),
     tabPages: List<SearchTabInfo> = SearchTabInfo.values().toList()
 ) {
+    val noticeList by viewModel.noticeSearchResult.collectAsState(initial = emptyList())
+    val staffList by viewModel.staffSearchResult.collectAsState(initial = emptyList())
 
     SearchScreen(
         onNavigationClick = onNavigationClick,
         onClickSearch = { viewModel.onClickSearch(it) },
         searchState = searchState,
         tabPages = tabPages,
-        noticeSearchResult = viewModel.noticeSearchResult,
-        staffSearchResult = viewModel.staffSearchResult,
+        noticeList = noticeList,
+        staffList = staffList,
         modifier = modifier,
     )
 }
@@ -83,8 +85,8 @@ private fun SearchScreen(
     onClickSearch: (SearchState) -> Unit,
     searchState: SearchState,
     tabPages: List<SearchTabInfo>,
-    noticeSearchResult: StateFlow<List<Notice>>,
-    staffSearchResult: StateFlow<List<Staff>>,
+    noticeList: List<Notice>,
+    staffList: List<Staff>,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -140,8 +142,8 @@ private fun SearchScreen(
             searchState = searchState,
             pagerState = pagerState,
             tabPages = tabPages,
-            noticeSearchResult = noticeSearchResult,
-            staffSearchResult = staffSearchResult,
+            noticeList = noticeList,
+            staffList = staffList,
         )
     }
 }
@@ -231,8 +233,8 @@ private fun SearchResultHorizontalPager(
     searchState: SearchState,
     pagerState: PagerState,
     tabPages: List<SearchTabInfo>,
-    noticeSearchResult: StateFlow<List<Notice>>,
-    staffSearchResult: StateFlow<List<Staff>>,
+    noticeList: List<Notice>,
+    staffList: List<Staff>,
     modifier: Modifier = Modifier,
 ) {
     HorizontalPager(
@@ -244,12 +246,12 @@ private fun SearchResultHorizontalPager(
             SearchTabInfo.Notice -> {
                 NoticeSearchScreen(
                     searchState = searchState,
-                    noticeSearchResult = noticeSearchResult
+                    noticeList = noticeList
                 )
             }
             SearchTabInfo.Staff -> {
                 StaffSearchScreen(
-                    staffSearchResult = staffSearchResult
+                    staffList = staffList
                 )
             }
         }
@@ -264,8 +266,8 @@ private fun SearchScreenPreview() {
             searchState = rememberSearchState("산학협력"),
             onNavigationClick = {},
             onClickSearch = {},
-            noticeSearchResult = MutableStateFlow(emptyList()),
-            staffSearchResult = MutableStateFlow(emptyList()),
+            noticeList = emptyList(),
+            staffList = emptyList(),
             modifier = Modifier.fillMaxSize(),
             tabPages = SearchTabInfo.values().toList(),
         )

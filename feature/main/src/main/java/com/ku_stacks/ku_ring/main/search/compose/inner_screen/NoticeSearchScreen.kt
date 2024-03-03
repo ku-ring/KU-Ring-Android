@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,15 +18,13 @@ import com.ku_stacks.ku_ring.designsystem.components.NoticeItem
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.main.search.compose.SearchState
 import com.ku_stacks.ku_ring.main.search.compose.component.EmptyResultScreen
-import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun NoticeSearchScreen(
     searchState: SearchState,
-    noticeSearchResult: StateFlow<List<Notice>>,
+    noticeList: List<Notice>,
     modifier: Modifier = Modifier,
 ) {
-    val noticeList = noticeSearchResult.collectAsState(initial = emptyList()).value
 
     if (searchState.isLoading) {
         Box(
