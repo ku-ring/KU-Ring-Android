@@ -42,7 +42,7 @@ private fun NoticeStorageScreen(
     notices: List<Notice>,
     onNoticeClick: (Notice) -> Unit,
     selectedNoticeIds: Set<String>,
-    toggleNoticeSelection: (String) -> Unit,
+    toggleNoticeSelection: (Notice) -> Unit,
     onDeleteNotices: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -129,7 +129,7 @@ private fun StoredNotices(
     onNoticeClick: (Notice) -> Unit,
     selectedNoticeIds: Set<String>,
     isSelectModeEnabled: Boolean,
-    toggleNoticeSelection: (String) -> Unit,
+    toggleNoticeSelection: (Notice) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(modifier = modifier) {
@@ -152,7 +152,7 @@ private fun StoredNotices(
 private fun SelectedNotice(
     notice: Notice,
     isSelectModeEnabled: Boolean,
-    toggleNoticeSelection: (String) -> Unit,
+    toggleNoticeSelection: (Notice) -> Unit,
     onNoticeClick: (Notice) -> Unit,
     selectedNoticeIds: Set<String>,
     modifier: Modifier = Modifier,
@@ -161,7 +161,7 @@ private fun SelectedNotice(
         notice = notice,
         onClick = {
             if (isSelectModeEnabled) {
-                toggleNoticeSelection(notice.articleId)
+                toggleNoticeSelection(notice)
             } else {
                 onNoticeClick(notice)
             }
@@ -214,11 +214,12 @@ private fun NoticeStorageScreenPreview() {
             notices = previewNotices,
             onNoticeClick = {},
             selectedNoticeIds = selectedNoticeIds,
-            toggleNoticeSelection = { noticeId ->
-                selectedNoticeIds = if (noticeId in selectedNoticeIds) {
-                    selectedNoticeIds.minus(noticeId)
+            toggleNoticeSelection = { notice ->
+                val articleId = notice.articleId
+                selectedNoticeIds = if (articleId in selectedNoticeIds) {
+                    selectedNoticeIds.minus(articleId)
                 } else {
-                    selectedNoticeIds.plus(noticeId)
+                    selectedNoticeIds.plus(articleId)
                 }
             },
             onDeleteNotices = {},
