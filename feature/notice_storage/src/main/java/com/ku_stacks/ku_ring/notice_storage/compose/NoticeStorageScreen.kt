@@ -68,7 +68,9 @@ fun NoticeStorageScreen(
         selectedNoticeIds = viewModel.selectedNoticeIds,
         toggleNoticeSelection = viewModel::toggleNoticeSelection,
         onShowDeleteAlertDialog = {
-            isDeleteDialogVisible = true
+            if (viewModel.selectedNoticeIds.isNotEmpty()) {
+                isDeleteDialogVisible = true
+            }
         },
         isDeletePopupVisible = isDeleteDialogVisible,
         isDeleteAllNotices = viewModel.isAllNoticesSelected,
