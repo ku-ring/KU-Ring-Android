@@ -41,6 +41,10 @@ class ArchiveViewModel @Inject constructor(
         it.size == savedNotices.value.size && it.isNotEmpty()
     }.stateIn(viewModelScope, SharingStarted.Lazily, false)
 
+    val isAllNoticesSelected by derivedStateOf {
+        selectedNotices.size == savedNotices.value.size
+    }
+
     init {
         viewModelScope.launch {
             noticeRepository.getSavedNotices().collect { savedNotices ->
