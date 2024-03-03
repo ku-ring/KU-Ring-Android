@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,6 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ku_stacks.ku_ring.designsystem.components.CenterTitleTopBar
 import com.ku_stacks.ku_ring.designsystem.components.KuringCallToAction
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
@@ -30,8 +32,38 @@ import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
 import com.ku_stacks.ku_ring.designsystem.theme.TextBody
 import com.ku_stacks.ku_ring.domain.Notice
+import com.ku_stacks.ku_ring.notice_storage.NoticeStorageViewModel
 import com.ku_stacks.ku_ring.notice_storage.R
 import com.ku_stacks.ku_ring.ui_util.preview_data.previewNotices
+
+@Composable
+fun NoticeStorageScreen(
+    onNoticeClick: (Notice) -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: NoticeStorageViewModel = hiltViewModel(),
+) {
+    val notices by viewModel.savedNotices.collectAsState()
+
+    NoticeStorageScreen(
+        isSelectModeEnabled = viewModel.isSelectedModeEnabled,
+        onSelectModeEnabled = {
+            viewModel.setSelectedMode(true)
+        },
+        onSelectModeDisabled = {
+            viewModel.setSelectedMode(false)
+        },
+        onSelectAllNotices = viewModel::selectAllNotices,
+        notices = notices,
+        onNoticeClick = { notice ->
+            viewModel.updateNoticeAsReadOnStorage(notice)
+            onNoticeClick(notice)
+        },
+        selectedNoticeIds = viewModel.selectedNoticeIds,
+        toggleNoticeSelection = viewModel::toggleNoticeSelection,
+        onDeleteNotices = viewModel::deleteNotices,
+        modifier = modifier,
+    )
+}
 
 @Composable
 private fun NoticeStorageScreen(
