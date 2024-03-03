@@ -34,14 +34,64 @@ import com.ku_stacks.ku_ring.designsystem.theme.Gray2
 import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
 
+/**
+ * 사용자에게 특정 행동의 수행 여부를 물어보는 [Dialog]이다.
+ *
+ * 작업을 취소할 때와 팝업을 무시할 때의 행동이 **같을 때** 사용하는 오버로딩이다.
+ *
+ * @param text 사용자에게 보여줄 메인 테스트
+ * @param onConfirm 사용자가 작업을 수행하기로 결정했을 때 호출할 콜백
+ * @param onCancel 사용자가 작업을 취소하거나 팝업을 무시할 때 호출할 콜백
+ * @param modifier 적용할 [Modifier]
+ * @param confirmText 하단 오른쪽의 작업 수행 버튼에 보여줄 텍스트
+ * @param cancelText 하단 왼쪽의 작업 취소 버튼에 보여줄 텍스트
+ * @param confirmTextColor 작업 수행 버튼에 적용할 텍스트 색깔
+ */
 @Composable
 fun KuringAlertDialog(
     text: String,
     onConfirm: () -> Unit,
+    onCancel: () -> Unit,
+    modifier: Modifier = Modifier,
+    confirmText: String = stringResource(id = R.string.confirm),
+    cancelText: String = stringResource(id = R.string.cancel),
+    confirmTextColor: Color = MaterialTheme.colors.primary,
+) {
+    KuringAlertDialog(
+        text = text,
+        onConfirm = onConfirm,
+        onCancel = onCancel,
+        onDismiss = onCancel,
+        modifier = modifier,
+        confirmText = confirmText,
+        cancelText = cancelText,
+        confirmTextColor = confirmTextColor,
+    )
+}
+
+/**
+ * 사용자에게 특정 행동의 수행 여부를 물어보는 [Dialog]이다.
+ *
+ * 작업을 취소할 때와 팝업을 무시할 때의 행동이 **다를 때** 사용하는 오버로딩이다.
+ *
+ * @param text 사용자에게 보여줄 메인 테스트
+ * @param onConfirm 사용자가 작업을 수행하기로 결정했을 때 호출할 콜백
+ * @param onCancel 사용자가 작업을 취소할 때 호출할 콜백
+ * @param onDismiss 사용자가 팝업을 무시할 때 호출할 콜백
+ * @param modifier 적용할 [Modifier]
+ * @param confirmText 하단 오른쪽의 작업 수행 버튼에 보여줄 텍스트
+ * @param cancelText 하단 왼쪽의 작업 취소 버튼에 보여줄 텍스트
+ * @param confirmTextColor 작업 수행 버튼에 적용할 텍스트 색깔
+ */
+@Composable
+fun KuringAlertDialog(
+    text: String,
+    onConfirm: () -> Unit,
+    onCancel: () -> Unit,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
     confirmText: String = stringResource(id = R.string.confirm),
-    dismissText: String = stringResource(id = R.string.cancel),
+    cancelText: String = stringResource(id = R.string.cancel),
     confirmTextColor: Color = MaterialTheme.colors.primary,
 ) {
     Dialog(
@@ -52,8 +102,8 @@ fun KuringAlertDialog(
             text = text,
             confirmText = confirmText,
             onConfirm = onConfirm,
-            dismissText = dismissText,
-            onDismiss = onDismiss,
+            cancelText = cancelText,
+            onCancel = onCancel,
             modifier = modifier,
             confirmTextColor = confirmTextColor,
         )
@@ -65,8 +115,8 @@ private fun KuringAlertDialogContents(
     text: String,
     confirmText: String,
     onConfirm: () -> Unit,
-    dismissText: String,
-    onDismiss: () -> Unit,
+    cancelText: String,
+    onCancel: () -> Unit,
     modifier: Modifier = Modifier,
     confirmTextColor: Color = MaterialTheme.colors.primary,
 ) {
@@ -91,8 +141,8 @@ private fun KuringAlertDialogContents(
         KuringAlertDialogButtons(
             confirmText = confirmText,
             onConfirm = onConfirm,
-            dismissText = dismissText,
-            onDismiss = onDismiss,
+            cancelText = cancelText,
+            onCancel = onCancel,
             confirmTextColor = confirmTextColor,
             modifier = Modifier.fillMaxWidth(),
         )
@@ -122,15 +172,15 @@ private fun KuringAlertDialogText(
 private fun KuringAlertDialogButtons(
     confirmText: String,
     onConfirm: () -> Unit,
-    dismissText: String,
-    onDismiss: () -> Unit,
+    cancelText: String,
+    onCancel: () -> Unit,
     modifier: Modifier = Modifier,
     confirmTextColor: Color = Gray2,
 ) {
     Row(modifier = modifier.height(IntrinsicSize.Min)) {
         KuringAlertDialogButton(
-            text = dismissText,
-            onClick = onDismiss,
+            text = cancelText,
+            onClick = onCancel,
             modifier = Modifier.weight(1f),
         )
         Divider(
@@ -181,7 +231,7 @@ private fun KuringAlertDialogPreview() {
         KuringAlertDialog(
             text = "스마트ICT융합공학과를\n내 학과 목록에 추가할까요?",
             onConfirm = {},
-            onDismiss = {},
+            onCancel = {},
             modifier = Modifier.padding(16.dp),
         )
     }
