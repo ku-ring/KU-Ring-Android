@@ -22,7 +22,7 @@ import com.ku_stacks.ku_ring.onboarding.compose.inner_screen.OnboardingComplete
 import com.ku_stacks.ku_ring.onboarding.compose.inner_screen.SetDepartment
 
 @Composable
-private fun OnboardingScreen(
+internal fun OnboardingScreen(
     onNavigateToMain: () -> Unit,
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
