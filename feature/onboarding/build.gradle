@@ -29,17 +29,29 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_17
     }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
+    }
 }
 
 dependencies {
     implementation project(":common:ui_util")
     implementation project(":common:thirdparty")
     implementation project(":common:preferences")
+    implementation project(":common:designsystem")
 
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat
     implementation libs.android.material
     implementation libs.androidx.constraintlayout
+
+    // Compose
+    implementation platform(libs.compose.bom)
+    implementation libs.bundles.compose
+    implementation libs.bundles.compose.interop
 
     // dagger hilt
     kapt libs.androidx.hilt.compiler
