@@ -3,9 +3,10 @@ package com.ku_stacks.ku_ring.onboarding
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
+import com.ku_stacks.ku_ring.onboarding.compose.OnboardingScreen
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.thirdparty.firebase.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.ui_util.KuringNavigator
@@ -23,28 +24,24 @@ class OnboardingActivity : AppCompatActivity() {
     @Inject
     lateinit var navigator: KuringNavigator
 
-    private val getOnboardingFinishResult = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == RESULT_OK) {
-            navigator.navigateToMain(this)
-            overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setContent {
+            KuringTheme {
+                OnboardingScreen(onNavigateToMain = ::onNavigateToMain)
+            }
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_on_boarding)
-
-        val subscribeNoticeButton = findViewById<Button>(R.id.on_boarding_subscribe_noti_btn)
-
-        subscribeNoticeButton.setOnClickListener {
-            val intent = navigator.createEditSubscriptionIntent(this, isFirstRun = true)
-            getOnboardingFinishResult.launch(intent)
-
-            overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
-            analytics.click("start first Subscription Notification", "OnboardingActivity")
-        }
+    private fun onNavigateToMain() {
+        navigator.navigateToMain(this)
+        analytics.click(
+            screenName = "start first Subscription Notification",
+            screenClass = "OnboardingActivity",
+        )
+        pref.firstRunFlag = false
+        finish()
     }
 
     companion object {
