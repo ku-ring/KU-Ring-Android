@@ -19,7 +19,7 @@ val MainPrimarySelected: Color
 val KuringSub: Color
     @Composable get() = Color(0xFFECF9F3)
 val TextBody: Color
-    @Composable get() = Color(0xFF353C49)
+    get() = Color(0xFF353C49)
 val TextCaption1: Color
     @Composable get() = Color(0xFF868A92)
 val CaptionGray2: Color
