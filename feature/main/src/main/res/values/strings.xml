@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string name="search_result">검색 결과</string>
+    <string name="search_type_notice">공지</string>
+    <string name="search_type_professor">교수명</string>
+</resources>

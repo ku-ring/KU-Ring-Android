@@ -1,46 +1,92 @@
 package com.ku_stacks.ku_ring.main.search.compose
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Tab
+import androidx.compose.material.TabRow
+import androidx.compose.material.Text
 import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.components.CenterTitleTopBar
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.components.SearchTextField
+import com.ku_stacks.ku_ring.designsystem.theme.BoxBackgroundColor2
+import com.ku_stacks.ku_ring.designsystem.theme.KuringGreen
 import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
+import com.ku_stacks.ku_ring.designsystem.theme.TextCaption1
+import com.ku_stacks.ku_ring.designsystem.utils.NoRippleInteractionSource
+import com.ku_stacks.ku_ring.domain.Notice
+import com.ku_stacks.ku_ring.domain.Staff
 import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.search.SearchViewModel
+import com.ku_stacks.ku_ring.main.search.compose.inner_screen.NoticeSearchScreen
+import com.ku_stacks.ku_ring.main.search.compose.inner_screen.StaffSearchScreen
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.launch
 
 @Composable
 fun SearchScreen(
     viewModel: SearchViewModel,
+    onNavigationClick: () -> Unit,
     modifier: Modifier = Modifier,
     searchState: SearchState = rememberSearchState(),
+    tabPages: List<SearchTabInfo> = SearchTabInfo.values().toList()
 ) {
+    val noticeList by viewModel.noticeSearchResult.collectAsState(initial = emptyList())
+    val staffList by viewModel.staffSearchResult.collectAsState(initial = emptyList())
 
     SearchScreen(
-        modifier = modifier,
-        onNavigationClick = { viewModel.onCloseNavigationClick() },
+        onNavigationClick = onNavigationClick,
+        onClickSearch = { viewModel.onClickSearch(it) },
         searchState = searchState,
+        tabPages = tabPages,
+        noticeList = noticeList,
+        staffList = staffList,
+        modifier = modifier,
     )
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun SearchScreen(
-    searchState: SearchState,
     onNavigationClick: () -> Unit,
+    onClickSearch: (SearchState) -> Unit,
+    searchState: SearchState,
+    tabPages: List<SearchTabInfo>,
+    noticeList: List<Notice>,
+    staffList: List<Staff>,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -61,26 +107,154 @@ private fun SearchScreen(
         )
 
         SearchTextField(
-            query = searchState.query.text,
-            onQueryUpdate = { searchState.query = TextFieldValue(it) },
+            query = searchState.query,
+            onQueryUpdate = { searchState.query = it },
             placeholderText = stringResource(id = R.string.search_enter_keyword),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Search
+            ),
+            keyboardActions = KeyboardActions(
+                onSearch = { onClickSearch(searchState) }
+            ),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 20.dp, end = 20.dp, top = 20.dp, bottom = 0.dp)
         )
 
+        SearchResultTitle()
+
+        val pagerState = rememberPagerState(pageCount = { tabPages.size })
+
+        LaunchedEffect(pagerState) {
+            snapshotFlow { pagerState.currentPage }.distinctUntilChanged()
+                .collect { pageIndex ->
+                    searchState.tab = SearchTabInfo.values()[pageIndex]
+                }
+        }
+
+        SearchTabRow(
+            pagerState = pagerState,
+            tabPages = tabPages,
+        )
+
+        SearchResultHorizontalPager(
+            searchState = searchState,
+            pagerState = pagerState,
+            tabPages = tabPages,
+            noticeList = noticeList,
+            staffList = staffList,
+        )
     }
 }
 
 @Composable
 fun rememberSearchState(
     query: String = "",
-) : SearchState {
+): SearchState {
     return remember {
         SearchState(
-            query = TextFieldValue(query),
-            currentTab = "공지탭"
+            query = query,
+            tab = SearchTabInfo.Notice,
+            isLoading = false,
         )
+    }
+}
+
+@Composable
+private fun SearchResultTitle(
+    modifier: Modifier = Modifier,
+) {
+    Text(
+        text = stringResource(id = R.string.search_result),
+        style = TextStyle(
+            color = TextCaption1,
+            fontSize = 16.sp,
+            fontFamily = Pretendard,
+            lineHeight = 27.sp,
+        ),
+        textAlign = TextAlign.Start,
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(top = 18.dp, start = 20.dp, bottom = 10.dp),
+    )
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+private fun SearchTabRow(
+    pagerState: PagerState,
+    tabPages: List<SearchTabInfo>,
+    modifier: Modifier = Modifier,
+) {
+    val coroutineScope = rememberCoroutineScope()
+
+    TabRow(
+        selectedTabIndex = pagerState.currentPage,
+        backgroundColor = BoxBackgroundColor2,
+        indicator = {},
+        divider = {},
+        modifier = modifier
+            .padding(horizontal = 20.dp)
+            .padding(bottom = 6.dp)
+            .clip(RoundedCornerShape(14.dp))
+    ) {
+        tabPages.forEachIndexed { index, searchTabInfo ->
+            val isSelected = pagerState.currentPage == index
+            val tabBackgroundColor = if (isSelected) MaterialTheme.colors.surface else Color.Transparent
+
+            Tab(
+                selected = isSelected,
+                onClick = { coroutineScope.launch { pagerState.animateScrollToPage(index) } },
+                text = {
+                    Text(
+                        text = stringResource(id = searchTabInfo.titleResId),
+                        style = TextStyle(
+                            fontSize = 16.sp,
+                            fontFamily = Pretendard,
+                            fontWeight = FontWeight.Bold,
+                        ),
+                    )
+                },
+                unselectedContentColor = TextCaption1,
+                selectedContentColor = KuringGreen,
+                modifier = Modifier
+                    .padding(horizontal = 6.dp, vertical = 5.dp)
+                    .background(color = tabBackgroundColor, shape = RoundedCornerShape(12.dp)),
+                interactionSource = NoRippleInteractionSource()
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+private fun SearchResultHorizontalPager(
+    searchState: SearchState,
+    pagerState: PagerState,
+    tabPages: List<SearchTabInfo>,
+    noticeList: List<Notice>,
+    staffList: List<Staff>,
+    modifier: Modifier = Modifier,
+) {
+    HorizontalPager(
+        state = pagerState,
+        verticalAlignment = Alignment.Top,
+        modifier = modifier
+    ) { index ->
+        when (tabPages[index]) {
+            SearchTabInfo.Notice -> {
+                NoticeSearchScreen(
+                    searchState = searchState,
+                    noticeList = noticeList
+                )
+            }
+            SearchTabInfo.Staff -> {
+                StaffSearchScreen(
+                    staffList = staffList
+                )
+            }
+        }
     }
 }
 
@@ -91,7 +265,11 @@ private fun SearchScreenPreview() {
         SearchScreen(
             searchState = rememberSearchState("산학협력"),
             onNavigationClick = {},
+            onClickSearch = {},
+            noticeList = emptyList(),
+            staffList = emptyList(),
             modifier = Modifier.fillMaxSize(),
+            tabPages = SearchTabInfo.values().toList(),
         )
     }
 }

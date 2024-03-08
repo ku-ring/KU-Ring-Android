@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.Flow
 interface NoticeRepository {
     fun getNotices(type: String, scope: CoroutineScope): Flowable<PagingData<Notice>>
     fun getSavedNotices(): Flow<List<Notice>>
-    fun getSavedNoticeList(): List<Notice>
     fun insertNoticeAsOld(notice: Notice): Completable
     fun updateNoticeToBeRead(articleId: String, category: String): Completable
     suspend fun updateSavedStatus(articleId: String, category: String, isSaved: Boolean)
@@ -22,5 +21,5 @@ interface NoticeRepository {
     fun getDepartmentNotices(shortName: String): Flow<PagingData<Notice>>
     fun fetchSubscriptionFromRemote(token: String): Single<List<String>>
     fun saveSubscriptionToRemote(token: String, subscribeCategories: List<String>)
-    fun searchNotice(query: String): Single<List<Notice>>
+    suspend fun getNoticeSearchResult(query: String): List<Notice>
 }

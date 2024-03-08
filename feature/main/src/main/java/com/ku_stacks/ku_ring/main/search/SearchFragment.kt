@@ -31,7 +31,7 @@ class SearchFragment : Fragment() {
         override fun onPageSelected(position: Int) {
             Timber.e("pageSelect detected, position : $position")
             val searchResult = when (position) {
-                0 -> searchViewModel.noticeList.value
+                //0 -> searchViewModel.noticeList.value
                 1 -> searchViewModel.staffList.value
                 else -> {
                     Timber.e("Wrong page position: $position")
@@ -110,13 +110,13 @@ class SearchFragment : Fragment() {
     private fun searchWithKeyword(keyword: String) {
         if (keyword.isNotEmpty()) {
             when (binding.searchViewpager.currentItem) {
-                0 -> searchViewModel.searchNotice(keyword)
-                1 -> searchViewModel.searchStaff(keyword)
+                //0 -> searchViewModel.searchNotice(keyword) TODO : 추후 제거(컴파일 에러로 주석처리)
+                //1 -> searchViewModel.searchStaff(keyword)
             }
         } else {
             when (binding.searchViewpager.currentItem) {
-                0 -> searchViewModel.clearNoticeList()
-                1 -> searchViewModel.clearStaffList()
+                //0 -> searchViewModel.clearNoticeList()
+                //1 -> searchViewModel.clearStaffList()
             }
         }
     }
