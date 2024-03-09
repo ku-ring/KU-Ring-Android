@@ -44,7 +44,6 @@ internal fun FeatureTab(
                 color = TextBody,
                 textAlign = TextAlign.Center,
             ),
-            modifier = Modifier.padding(top = 51.dp),
         )
     }
 }
