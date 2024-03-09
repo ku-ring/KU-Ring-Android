@@ -98,18 +98,15 @@ private fun NavGraphBuilder.onboardingNavGraph(
     }
 }
 
-private val NavBackStackEntry.route: String?
-    get() = destination.route
-
-private fun screenOrder(state: NavBackStackEntry) =
-    OnboardingScreenDestinations.getOrder(state.route)
-
 private fun animationDirection(initialState: NavBackStackEntry, targetState: NavBackStackEntry) =
-    if (screenOrder(initialState) < screenOrder(targetState)) {
+    if (initialState.screenOrder < targetState.screenOrder) {
         AnimatedContentTransitionScope.SlideDirection.Left
     } else {
         AnimatedContentTransitionScope.SlideDirection.Right
     }
+
+private val NavBackStackEntry.screenOrder: Int
+    get() = OnboardingScreenDestinations.getOrder(this.destination.route)
 
 @LightAndDarkPreview
 @Composable
