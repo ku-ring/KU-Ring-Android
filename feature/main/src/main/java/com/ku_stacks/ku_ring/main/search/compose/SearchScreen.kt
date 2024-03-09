@@ -29,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -89,6 +90,8 @@ private fun SearchScreen(
     staffList: List<Staff>,
     modifier: Modifier = Modifier,
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier.background(MaterialTheme.colors.surface)
@@ -115,7 +118,10 @@ private fun SearchScreen(
                 imeAction = ImeAction.Search
             ),
             keyboardActions = KeyboardActions(
-                onSearch = { onClickSearch(searchState) }
+                onSearch = {
+                    keyboardController?.hide()
+                    onClickSearch(searchState)
+                }
             ),
             modifier = Modifier
                 .fillMaxWidth()
