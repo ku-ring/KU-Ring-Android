@@ -2,6 +2,7 @@ package com.ku_stacks.ku_ring.main.search.compose.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -23,6 +24,7 @@ fun StaffItem(
 ) {
     Column(
         modifier = modifier.padding(vertical = 12.dp, horizontal = 32.dp)
+            .fillMaxWidth()
     ) {
         Text(
             text = staff.name,
