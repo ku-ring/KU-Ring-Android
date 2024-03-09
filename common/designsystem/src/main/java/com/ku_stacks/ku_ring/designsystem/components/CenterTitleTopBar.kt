@@ -48,7 +48,7 @@ import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
 fun CenterTitleTopBar(
     title: String,
     modifier: Modifier = Modifier,
-    navigation: @Composable () -> Unit = {},
+    navigation: @Composable (() -> Unit)? = null,
     onNavigationClick: (() -> Unit)? = null,
     navigationClickLabel: String? = null,
     // 현재 디자인된 Gray600 색깔은 다크 모드에서 거의 보이지 않음
@@ -100,7 +100,7 @@ fun CenterTitleTopBar(
 fun CenterTitleTopBar(
     title: String,
     modifier: Modifier = Modifier,
-    navigation: @Composable () -> Unit = {},
+    navigation: @Composable (() -> Unit)? = null,
     onNavigationClick: (() -> Unit)? = null,
     navigationClickLabel: String? = null,
     // 현재 디자인된 Gray600 색깔은 다크 모드에서 거의 보이지 않음
@@ -188,24 +188,26 @@ private fun TopBarTitle(
 
 @Composable
 private fun Navigation(
-    navigationIcon: @Composable () -> Unit,
+    navigationIcon: @Composable (() -> Unit)?,
     navigationContentColor: Color,
     modifier: Modifier = Modifier,
     onNavigationClick: (() -> Unit)? = null,
     navigationClickLabel: String? = null,
     contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
-    CompositionLocalProvider(LocalContentColor provides navigationContentColor) {
-        LazyColumn(
-            modifier = modifier.clickable(
-                onClick = { onNavigationClick?.invoke() },
-                onClickLabel = navigationClickLabel,
-                enabled = onNavigationClick != null,
-            ),
-            contentPadding = contentPadding,
-        ) {
-            item {
-                navigationIcon()
+    if (navigationIcon != null) {
+        CompositionLocalProvider(LocalContentColor provides navigationContentColor) {
+            LazyColumn(
+                modifier = modifier.clickable(
+                    onClick = { onNavigationClick?.invoke() },
+                    onClickLabel = navigationClickLabel,
+                    enabled = onNavigationClick != null,
+                ),
+                contentPadding = contentPadding,
+            ) {
+                item {
+                    navigationIcon()
+                }
             }
         }
     }

@@ -8,6 +8,7 @@ import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.notice_storage.databinding.ItemSavedNoticeBinding
 import com.ku_stacks.ku_ring.ui_util.adapter.NoticeDiffCallback
 
+@Deprecated("Compose migration 이후 삭제할 예정")
 class NoticeStorageAdapter(
     private val onItemClick: (Notice) -> Unit
 ) : ListAdapter<Notice, ViewHolder>(NoticeDiffCallback) {

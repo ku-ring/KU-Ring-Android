@@ -35,9 +35,16 @@ android {
     dataBinding {
         enabled = true
     }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
+    }
 }
 
 dependencies {
+    implementation project(":common:designsystem")
     implementation project(":common:ui_util")
     implementation project(":data:domain")
     implementation project(":data:notice")
@@ -46,6 +53,11 @@ dependencies {
     implementation libs.androidx.appcompat
     implementation libs.android.material
     implementation libs.androidx.constraintlayout
+
+    // Compose
+    implementation platform(libs.compose.bom)
+    implementation libs.bundles.compose
+    implementation libs.bundles.compose.interop
 
     // dagger hilt
     kapt libs.androidx.hilt.compiler
