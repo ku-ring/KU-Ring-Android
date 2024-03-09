@@ -251,6 +251,7 @@ private fun SearchResultHorizontalPager(
             }
             SearchTabInfo.Staff -> {
                 StaffSearchScreen(
+                    searchState = searchState,
                     staffList = staffList
                 )
             }
