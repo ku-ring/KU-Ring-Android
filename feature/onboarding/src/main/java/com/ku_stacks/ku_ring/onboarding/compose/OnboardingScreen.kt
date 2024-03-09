@@ -33,7 +33,7 @@ internal fun OnboardingScreen(
 
     NavHost(
         navController = navController,
-        startDestination = featureTabs,
+        startDestination = OnboardingScreenDestinations.FEATURE_TABS,
         modifier = modifier,
         enterTransition = {
             slideIntoContainer(
@@ -62,35 +62,35 @@ private fun NavGraphBuilder.onboardingNavGraph(
     val modifier = Modifier
         .background(Background)
         .fillMaxSize()
-    composable(featureTabs) {
+    composable(OnboardingScreenDestinations.FEATURE_TABS) {
         FeatureTabs(
             onNavigateToSetDepartment = {
-                navHostController.navigate(setDepartment)
+                navHostController.navigate(OnboardingScreenDestinations.SET_DEPARTMENT)
             },
             modifier = modifier,
         )
     }
-    composable(setDepartment) {
+    composable(OnboardingScreenDestinations.SET_DEPARTMENT) {
         SetDepartment(
             onSetDepartmentComplete = {
                 // TODO: 학과 이름 넘겨주기 (viewModel을 navHost에 선언?)
-                navHostController.navigate(confirmDepartment)
+                navHostController.navigate(OnboardingScreenDestinations.CONFIRM_DEPARTMENT)
             },
             modifier = modifier,
         )
     }
-    composable(confirmDepartment) {
+    composable(OnboardingScreenDestinations.CONFIRM_DEPARTMENT) {
         ConfirmDepartment(
             onConfirm = {
-                navHostController.navigate(onboardingComplete)
+                navHostController.navigate(OnboardingScreenDestinations.ONBOARDING_COMPLETE)
             },
             onCancel = {
-                navHostController.navigate(setDepartment)
+                navHostController.navigate(OnboardingScreenDestinations.SET_DEPARTMENT)
             },
             modifier = modifier,
         )
     }
-    composable(onboardingComplete) {
+    composable(OnboardingScreenDestinations.ONBOARDING_COMPLETE) {
         OnboardingComplete(
             onStartKuring = onNavigateToMain,
             modifier = modifier,
@@ -98,21 +98,11 @@ private fun NavGraphBuilder.onboardingNavGraph(
     }
 }
 
-private const val featureTabs = "feature_tabs"
-private const val setDepartment = "set_department"
-private const val confirmDepartment = "confirm_department"
-private const val onboardingComplete = "onboarding_complete"
-
 private val NavBackStackEntry.route: String?
     get() = destination.route
 
-private fun screenOrder(state: NavBackStackEntry) = when (state.route) {
-    featureTabs -> 0
-    setDepartment -> 1
-    confirmDepartment -> 2
-    onboardingComplete -> 3
-    else -> 4
-}
+private fun screenOrder(state: NavBackStackEntry) =
+    OnboardingScreenDestinations.getOrder(state.route)
 
 private fun animationDirection(initialState: NavBackStackEntry, targetState: NavBackStackEntry) =
     if (screenOrder(initialState) < screenOrder(targetState)) {
