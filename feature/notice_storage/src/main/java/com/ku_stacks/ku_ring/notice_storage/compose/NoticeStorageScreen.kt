@@ -33,6 +33,8 @@ fun NoticeStorageScreen(
     viewModel: NoticeStorageViewModel = hiltViewModel(),
 ) {
     val notices by viewModel.savedNotices.collectAsState()
+    val selectedNoticeIds by viewModel.selectedNoticeIds.collectAsState()
+    val isAllNoticesSelected by viewModel.isAllNoticesSelected.collectAsState()
     var isDeleteDialogVisible by rememberSaveable { mutableStateOf(false) }
 
     NoticeStorageScreen(
@@ -49,15 +51,15 @@ fun NoticeStorageScreen(
             viewModel.updateNoticeAsReadOnStorage(notice)
             onNoticeClick(notice)
         },
-        selectedNoticeIds = viewModel.selectedNoticeIds,
+        selectedNoticeIds = selectedNoticeIds,
         toggleNoticeSelection = viewModel::toggleNoticeSelection,
         onShowDeleteAlertDialog = {
-            if (viewModel.selectedNoticeIds.isNotEmpty()) {
+            if (selectedNoticeIds.isNotEmpty()) {
                 isDeleteDialogVisible = true
             }
         },
         isDeletePopupVisible = isDeleteDialogVisible,
-        isDeleteAllNotices = viewModel.isAllNoticesSelected,
+        isDeleteAllNotices = isAllNoticesSelected,
         onDeleteNotices = {
             viewModel.deleteNotices()
             isDeleteDialogVisible = false

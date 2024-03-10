@@ -1,6 +1,5 @@
 package com.ku_stacks.ku_ring.notice_storage
 
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -10,7 +9,10 @@ import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.notice.repository.NoticeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -30,15 +32,17 @@ class NoticeStorageViewModel @Inject constructor(
     /**
      * key: [Notice.articleId], value: [Notice.category]
      */
-    private var selectedNotices by mutableStateOf<Map<String, String>>(emptyMap())
+    private val _selectedNotices = MutableStateFlow<Map<String, String>>(emptyMap())
+    private val selectedNotices: Map<String, String>
+        get() = _selectedNotices.value
 
-    val selectedNoticeIds by derivedStateOf {
-        selectedNotices.keys
-    }
+    val selectedNoticeIds: StateFlow<Set<String>> = _selectedNotices.map {
+        it.keys
+    }.stateIn(viewModelScope, SharingStarted.Lazily, emptySet())
 
-    val isAllNoticesSelected by derivedStateOf {
-        selectedNotices.size == savedNotices.value.size
-    }
+    val isAllNoticesSelected = _selectedNotices.map {
+        it.size == savedNotices.value.size
+    }.stateIn(viewModelScope, SharingStarted.Lazily, false)
 
     init {
         viewModelScope.launch {
@@ -99,7 +103,7 @@ class NoticeStorageViewModel @Inject constructor(
     }
 
     private fun updateSelectedNotices(block: Map<String, String>.() -> Map<String, String>) {
-        selectedNotices = block(selectedNotices)
+        _selectedNotices.value = block(selectedNotices)
     }
 
     fun clearNotices() {
