@@ -13,7 +13,7 @@ interface KuringNavigator {
     fun navigateToFeedback(activity: Activity)
     fun createMainIntent(context: Context): Intent
     fun navigateToMain(activity: Activity)
-    fun navigateToMain(activity: Activity, url: String, articleId: String, category: String)
+    fun navigateToMain(activity: Activity, url: String, articleId: String, category: String, subject: String)
     fun navigateToNotification(activity: Activity)
     fun navigateToNoticeStorage(activity: Activity)
     fun navigateToSearch(activity: Activity)
@@ -21,11 +21,11 @@ interface KuringNavigator {
         context: Context,
         url: String?,
         articleId: String?,
-        category: String?
+        category: String?,
+        subject: String?,
     ): Intent
     fun navigateToNoticeWeb(activity: Activity, notice: Notice)
     fun navigateToNoticeWeb(activity: Activity, webViewNotice: WebViewNotice)
-    fun navigateToNoticeWeb(activity: Activity, url: String?, articleId: String?, category: String?)
     fun navigateToNotionView(activity: Activity, notionUrl: String)
     fun navigateToOnboarding(activity: Activity)
     fun navigateToSplash(activity: Activity)

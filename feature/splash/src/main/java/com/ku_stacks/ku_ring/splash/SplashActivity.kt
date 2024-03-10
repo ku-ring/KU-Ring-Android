@@ -136,6 +136,7 @@ class SplashActivity : AppCompatActivity() {
                 url = fullUrl,
                 articleId = articleId,
                 category = category,
+                subject = subject,
             )
         }
     }
