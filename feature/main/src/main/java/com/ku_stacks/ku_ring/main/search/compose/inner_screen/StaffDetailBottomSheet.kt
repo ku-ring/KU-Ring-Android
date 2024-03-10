@@ -18,7 +18,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
@@ -60,97 +59,58 @@ fun StaffDetailBottomSheet(
             modifier = Modifier.padding(top = 4.dp)
         )
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .padding(top = 16.dp)
-        ) {
-            Icon(
-                imageVector = ImageVector.vectorResource(id = R.drawable.ic_email),
-                contentDescription = null,
-                tint = Color.Gray,
-            )
+        InformationRow(
+            text = staff.email,
+            imageVector = ImageVector.vectorResource(id = R.drawable.ic_email),
+            modifier = Modifier.padding(top = 16.dp)
+        )
 
-            Text(
-                text = staff.email,
-                style = TextStyle(
-                    fontFamily = Pretendard,
-                    fontSize = 16.sp,
-                    lineHeight = 24.sp,
-                    fontWeight = FontWeight(400)
-                ),
-                color = MaterialTheme.colors.onSurface,
-                modifier = Modifier.padding(start = 8.dp, top = 9.dp, bottom = 9.dp)
-            )
-        }
+        InformationRow(
+            text = staff.lab,
+            imageVector = ImageVector.vectorResource(id = R.drawable.ic_pin),
+        )
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Icon(
-                imageVector = ImageVector.vectorResource(id = R.drawable.ic_pin),
-                contentDescription = null,
-                tint = Color.Gray,
-            )
+        InformationRow(
+            text = staff.phone,
+            imageVector = ImageVector.vectorResource(id = R.drawable.ic_phone),
+        )
 
-            Text(
-                text = staff.lab,
-                style = TextStyle(
-                    fontFamily = Pretendard,
-                    fontSize = 16.sp,
-                    lineHeight = 24.sp,
-                    fontWeight = FontWeight(400)
-                ),
-                color = MaterialTheme.colors.onSurface,
-                modifier = Modifier.padding(start = 8.dp,  top = 9.dp, bottom = 9.dp)
-            )
-        }
-
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Icon(
-                imageVector = ImageVector.vectorResource(id = R.drawable.ic_phone),
-                contentDescription = null,
-                tint = Color.Gray,
-            )
-
-            Text(
-                text = staff.phone,
-                style = TextStyle(
-                    fontFamily = Pretendard,
-                    fontSize = 16.sp,
-                    lineHeight = 24.sp,
-                    fontWeight = FontWeight(400)
-                ),
-                color = MaterialTheme.colors.onSurface,
-                modifier = Modifier.padding(start = 8.dp,  top = 9.dp, bottom = 9.dp)
-            )
-        }
-
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Icon(
-                imageVector = ImageVector.vectorResource(id = R.drawable.ic_major),
-                contentDescription = null,
-                tint = Color.Gray,
-            )
-
-            Text(
-                text = staff.major,
-                style = TextStyle(
-                    fontFamily = Pretendard,
-                    fontSize = 16.sp,
-                    lineHeight = 24.sp,
-                    fontWeight = FontWeight(400)
-                ),
-                color = MaterialTheme.colors.onSurface,
-                modifier = Modifier.padding(start = 8.dp,  top = 9.dp, bottom = 9.dp)
-            )
-        }
+        InformationRow(
+            text = staff.major,
+            imageVector = ImageVector.vectorResource(id = R.drawable.ic_major),
+        )
 
         Spacer(modifier = Modifier.height(28.dp))
+    }
+}
+
+@Composable
+private fun InformationRow(
+    text: String,
+    imageVector: ImageVector,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier,
+    ) {
+        Icon(
+            imageVector = imageVector,
+            contentDescription = null,
+            tint = Color.Gray,
+        )
+
+        Text(
+            text = text,
+            style = TextStyle(
+                fontFamily = Pretendard,
+                fontSize = 16.sp,
+                lineHeight = 24.sp,
+                fontWeight = FontWeight(400)
+            ),
+            color = MaterialTheme.colors.onSurface,
+            modifier = Modifier.padding(start = 8.dp,  top = 9.dp, bottom = 9.dp)
+        )
     }
 }
 
