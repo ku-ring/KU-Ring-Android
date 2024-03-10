@@ -42,6 +42,8 @@ dependencies {
     implementation project(":common:thirdparty")
     implementation project(":common:preferences")
     implementation project(":common:designsystem")
+    implementation project(":data:domain")
+    implementation project(":data:department")
 
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat
