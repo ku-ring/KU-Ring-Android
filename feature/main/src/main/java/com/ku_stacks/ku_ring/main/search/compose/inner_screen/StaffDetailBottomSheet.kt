@@ -86,8 +86,6 @@ fun StaffDetailBottomSheet(
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .height(42.dp)
         ) {
             Icon(
                 imageVector = ImageVector.vectorResource(id = R.drawable.ic_pin),
@@ -110,8 +108,6 @@ fun StaffDetailBottomSheet(
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .height(42.dp)
         ) {
             Icon(
                 imageVector = ImageVector.vectorResource(id = R.drawable.ic_phone),
@@ -134,8 +130,6 @@ fun StaffDetailBottomSheet(
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .height(42.dp)
         ) {
             Icon(
                 imageVector = ImageVector.vectorResource(id = R.drawable.ic_major),
