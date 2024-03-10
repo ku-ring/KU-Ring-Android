@@ -42,6 +42,8 @@ class NoticeWebActivity : AppCompatActivity() {
 
         binding.noticeSaveButton.setOnClickListener { viewModel.onSaveButtonClick() }
 
+        binding.subjectTitle.text = webViewNotice.subject
+
         collectSavedStatus()
 
         binding.noticeWebView.webViewClient = object : WebViewClient() {
