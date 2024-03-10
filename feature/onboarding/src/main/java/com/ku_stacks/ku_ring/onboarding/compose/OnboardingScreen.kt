@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.IntOffset
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -26,6 +27,7 @@ internal fun OnboardingScreen(
     onNavigateToMain: () -> Unit,
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
+    viewModel: OnboardingViewModel = hiltViewModel(),
 ) {
     val navigationSpec = tween<IntOffset>(
         durationMillis = 200,
@@ -51,6 +53,7 @@ internal fun OnboardingScreen(
         onboardingNavGraph(
             navHostController = navController,
             onNavigateToMain = onNavigateToMain,
+            viewModel = viewModel,
         )
     }
 }
@@ -58,6 +61,7 @@ internal fun OnboardingScreen(
 private fun NavGraphBuilder.onboardingNavGraph(
     navHostController: NavHostController,
     onNavigateToMain: () -> Unit,
+    viewModel: OnboardingViewModel,
 ) {
     val modifier = Modifier
         .background(Background)
@@ -72,8 +76,8 @@ private fun NavGraphBuilder.onboardingNavGraph(
     }
     composable(OnboardingScreenDestinations.SET_DEPARTMENT) {
         SetDepartment(
+            viewModel = viewModel,
             onSetDepartmentComplete = {
-                // TODO: 학과 이름 넘겨주기 (viewModel을 navHost에 선언?)
                 navHostController.navigate(OnboardingScreenDestinations.CONFIRM_DEPARTMENT)
             },
             modifier = modifier,
