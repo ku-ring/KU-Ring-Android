@@ -33,9 +33,7 @@ internal fun NoticeStorageTopBar(
     CenterTitleTopBar(
         title = "",
         navigation = if (isSelectModeEnabled) {
-            {
-                TopBarNavigation()
-            }
+            { TopBarNavigation() }
         } else {
             null
         },
