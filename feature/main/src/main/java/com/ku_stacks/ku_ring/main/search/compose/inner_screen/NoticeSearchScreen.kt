@@ -23,6 +23,7 @@ import com.ku_stacks.ku_ring.main.search.compose.component.EmptyResultScreen
 fun NoticeSearchScreen(
     searchState: SearchState,
     noticeList: List<Notice>,
+    onClickNotice: (Notice) -> Unit,
     modifier: Modifier = Modifier,
 ) {
 
@@ -45,7 +46,7 @@ fun NoticeSearchScreen(
             items(noticeList) {
                 NoticeItem(
                     notice = it,
-                    onClick = {}
+                    onClick = { notice -> onClickNotice(notice) }
                 )
                 Divider(
                     color = Color.LightGray,
