@@ -55,6 +55,9 @@ dependencies {
     implementation libs.bundles.compose
     implementation libs.bundles.compose.interop
 
+    // Coil
+    implementation libs.bundles.coil
+
     // dagger hilt
     kapt libs.androidx.hilt.compiler
     implementation libs.hilt.android
