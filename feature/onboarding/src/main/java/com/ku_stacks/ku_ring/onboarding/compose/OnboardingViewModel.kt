@@ -26,10 +26,15 @@ class OnboardingViewModel @Inject constructor(
     val isInitialSearch: StateFlow<Boolean>
         get() = _isInitialSearch
 
+    private val _selectedDepartment = MutableStateFlow<Department?>(null)
+    val selectedDepartment: StateFlow<Department?>
+        get() = _selectedDepartment
+
     init {
         viewModelScope.launch {
             departmentRepository.updateDepartmentsFromRemote()
         }
+        // TODO: 2.0 등록 API 한번 호출하기
     }
 
     fun onQueryUpdate(newQuery: String) {
@@ -41,7 +46,18 @@ class OnboardingViewModel @Inject constructor(
         viewModelScope.launch {
             _departments.value =
                 departmentRepository.getDepartmentsByKoreanName(query.value ?: return@launch)
-            departmentRepository.getSubscribedDepartments()
+        }
+    }
+
+    fun selectDepartment(department: Department) {
+        _selectedDepartment.value = department
+    }
+
+    fun subscribeSelectedDepartment() {
+        val selectedDepartment = selectedDepartment.value ?: return
+
+        viewModelScope.launch {
+            departmentRepository.updateSubscribeStatus(selectedDepartment.name, true)
         }
     }
 }
