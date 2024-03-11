@@ -38,4 +38,8 @@ class UserRepositoryImpl @Inject constructor(
             feedbackRequest = FeedbackRequest(feedback)
         )
     }
+
+    override suspend fun registerUser(token: String): DefaultResponse {
+        return userClient.registerUser(token)
+    }
 }
