@@ -1,7 +1,7 @@
 package com.ku_stacks.ku_ring.remote.user.di
 
-import com.ku_stacks.ku_ring.remote.user.FeedbackClient
-import com.ku_stacks.ku_ring.remote.user.FeedbackService
+import com.ku_stacks.ku_ring.remote.user.UserClient
+import com.ku_stacks.ku_ring.remote.user.UserService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,13 +15,13 @@ import javax.inject.Singleton
 object UserModule {
     @Provides
     @Singleton
-    fun provideFeedbackService(@Named("Default") retrofit: Retrofit): FeedbackService {
-        return retrofit.create(FeedbackService::class.java)
+    fun provideFeedbackService(@Named("Default") retrofit: Retrofit): UserService {
+        return retrofit.create(UserService::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideFeedbackClient(feedbackService: FeedbackService): FeedbackClient {
-        return FeedbackClient(feedbackService)
+    fun provideFeedbackClient(userService: UserService): UserClient {
+        return UserClient(userService)
     }
 }

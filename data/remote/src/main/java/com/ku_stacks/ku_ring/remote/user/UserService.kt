@@ -7,7 +7,7 @@ import retrofit2.http.Body
 import retrofit2.http.Header
 import retrofit2.http.POST
 
-interface FeedbackService {
+interface UserService {
     @POST("v2/users/feedbacks")
     fun sendFeedback(
         @Header("User-Token") token: String,
