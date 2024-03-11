@@ -16,4 +16,10 @@
     <string name="set_department_cta_text">학과 설정 완료하기</string>
     <string name="set_department_text_field_placeholder">나의 전공학과를 검색해 주세요</string>
     <string name="set_department_search_result">검색 결과</string>
+
+    <!--  confirm department inner screen  -->
+    <string name="confirm_department_screen_title">를\n내 전공학과로 설정할까요?</string>
+    <string name="confirm_department_screen_caption">혹시 다전공/부전공을 하고 계신가요?\n쿠링을 시작하면 더 많은 전공을 추가할 수 있어요!</string>
+    <string name="confirm_department_confirm_text">학과 설정 완료하기</string>
+    <string name="confirm_department_cancel_text">다시 설정하기</string>
 </resources>

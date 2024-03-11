@@ -85,6 +85,7 @@ private fun NavGraphBuilder.onboardingNavGraph(
     }
     composable(OnboardingScreenDestinations.CONFIRM_DEPARTMENT) {
         ConfirmDepartment(
+            viewModel = viewModel,
             onConfirm = {
                 navHostController.navigate(OnboardingScreenDestinations.ONBOARDING_COMPLETE)
             },
