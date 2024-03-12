@@ -70,7 +70,6 @@ class DepartmentNoticeFragment : Fragment() {
                 DepartmentNoticeScreen(
                     viewModel = viewModel,
                     onNoticeClick = ::startNoticeActivity,
-                    onShowDepartmentSubscribeBottomSheet = ::showDepartmentSubscribeBottomSheet,
                     modifier = Modifier
                         .background(colorResource(id = R.color.kus_background))
                         .padding(bottom = 56.dp)
