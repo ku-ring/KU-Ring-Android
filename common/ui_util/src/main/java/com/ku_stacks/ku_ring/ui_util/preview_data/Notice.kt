@@ -14,6 +14,7 @@ val previewNotices = (1..10).map {
         isSubscribing = false,
         isSaved = false,
         isReadOnStorage = false,
+        isImportant = it < 3,
         tag = listOf("장학", "취창업"),
     )
 }

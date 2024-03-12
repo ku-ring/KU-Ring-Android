@@ -14,7 +14,7 @@ import com.ku_stacks.ku_ring.local.entity.PushEntity
         BlackUserEntity::class,
         DepartmentEntity::class,
     ],
-    version = 5,
+    version = 6,
     exportSchema = false
 )
 abstract class KuRingDatabase : RoomDatabase() {

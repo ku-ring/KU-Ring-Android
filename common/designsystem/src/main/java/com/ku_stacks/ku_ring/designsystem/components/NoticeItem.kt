@@ -184,6 +184,7 @@ private val notice = Notice(
     isSubscribing = false,
     isSaved = false,
     isReadOnStorage = false,
+    isImportant = false,
     tag = listOf("지급"),
 )
 

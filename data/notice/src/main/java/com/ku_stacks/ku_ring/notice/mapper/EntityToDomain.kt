@@ -25,6 +25,7 @@ fun NoticeEntity.toNotice(): Notice {
         isSubscribing = false,
         isSaved = isSaved,
         isReadOnStorage = isReadOnStorage,
-        tag = tag
+        isImportant = isImportant,
+        tag = tag,
     )
 }

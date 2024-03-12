@@ -16,6 +16,7 @@ public class DomainFixtures {
                 false,
                 false,
                 false,
+                false,
                 new ArrayList<>()
         );
     }

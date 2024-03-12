@@ -53,6 +53,7 @@ class NoticePagingSourceTest {
                             isSubscribing = false,
                             isSaved = false,
                             isReadOnStorage = false,
+                            isImportant = false,
                             tag = emptyList()
                         )
                     ),
@@ -91,6 +92,7 @@ class NoticePagingSourceTest {
                             isSubscribing = false,
                             isSaved = false,
                             isReadOnStorage = false,
+                            isImportant = false,
                             tag = emptyList()
                         )
                     ),
