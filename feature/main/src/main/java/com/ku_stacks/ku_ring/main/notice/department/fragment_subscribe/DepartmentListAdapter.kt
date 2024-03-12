@@ -8,6 +8,7 @@ import com.ku_stacks.ku_ring.domain.Department
 import com.ku_stacks.ku_ring.main.notice.department.fragment_subscribe.holder.DepartmentViewHolder
 import com.ku_stacks.ku_ring.main.notice.department.fragment_subscribe.listener.DepartmentEventListener
 
+@Deprecated("학과별 공지 composable 업데이트 후 삭제")
 class DepartmentListAdapter(
     private val departmentEventListener: DepartmentEventListener
 ) : ListAdapter<Department, RecyclerView.ViewHolder>(DepartmentItemDiffCallback()) {

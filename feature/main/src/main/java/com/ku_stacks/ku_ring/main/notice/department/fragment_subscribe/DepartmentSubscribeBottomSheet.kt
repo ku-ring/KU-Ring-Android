@@ -20,6 +20,7 @@ import com.ku_stacks.ku_ring.main.notice.department.fragment_subscribe.listener.
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@Deprecated("학과별 공지 composable 업데이트 후 삭제")
 @AndroidEntryPoint
 class DepartmentSubscribeBottomSheet : BottomSheetDialogFragment() {
 

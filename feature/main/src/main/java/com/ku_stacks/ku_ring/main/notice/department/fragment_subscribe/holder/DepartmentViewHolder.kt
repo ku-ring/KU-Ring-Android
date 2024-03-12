@@ -10,6 +10,7 @@ import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.databinding.ItemDepartmentBinding
 import com.ku_stacks.ku_ring.main.notice.department.fragment_subscribe.listener.DepartmentEventListener
 
+@Deprecated("학과별 공지 composable 업데이트 후 삭제")
 class DepartmentViewHolder constructor(
     private val binding: ItemDepartmentBinding
 ) : RecyclerView.ViewHolder(binding.root) {
