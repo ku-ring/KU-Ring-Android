@@ -71,6 +71,7 @@ private fun NavGraphBuilder.onboardingNavGraph(
             onNavigateToSetDepartment = {
                 navHostController.navigate(OnboardingScreenDestinations.SET_DEPARTMENT)
             },
+            onSkipOnboarding = onNavigateToMain,
             modifier = modifier,
         )
     }
