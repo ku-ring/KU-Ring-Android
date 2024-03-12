@@ -1,7 +1,10 @@
 package com.ku_stacks.ku_ring.local.room
 
 import androidx.paging.PagingSource
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import com.ku_stacks.ku_ring.local.entity.NoticeEntity
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
@@ -17,16 +20,16 @@ interface NoticeDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertNotice(notice: NoticeEntity)
 
-    @Query("SELECT * FROM NoticeEntity")
+    @Query("SELECT * FROM NoticeEntity ORDER BY isImportant")
     fun getOldNoticeList(): Single<List<NoticeEntity>>
 
-    @Query("SELECT articleId FROM NoticeEntity WHERE isRead = :value")
+    @Query("SELECT articleId FROM NoticeEntity WHERE isRead = :value ORDER BY isImportant")
     fun getReadNoticeList(value: Boolean): Flowable<List<String>>
 
-    @Query("SELECT * FROM NoticeEntity WHERE isSaved = :isSaved")
+    @Query("SELECT * FROM NoticeEntity WHERE isSaved = :isSaved ORDER BY isImportant")
     fun getNoticesBySaved(isSaved: Boolean): Flow<List<NoticeEntity>>
 
-    @Query("SELECT * FROM NoticeEntity WHERE isSaved = :isSaved")
+    @Query("SELECT * FROM NoticeEntity WHERE isSaved = :isSaved ORDER BY isImportant")
     fun getSavedNoticeList(isSaved: Boolean): List<NoticeEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -57,7 +60,7 @@ interface NoticeDao {
 
     @Query(
         "SELECT * FROM NoticeEntity WHERE department LIKE :shortName " +
-            "ORDER BY postedDate DESC, articleId DESC"
+                "ORDER BY isImportant, postedDate DESC, articleId DESC"
     )
     fun getDepartmentNotices(shortName: String): PagingSource<Int, NoticeEntity>
 
