@@ -1,11 +1,7 @@
 package com.ku_stacks.ku_ring.thirdparty.firebase
 
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.content.Context
-import android.graphics.BitmapFactory
-import android.media.RingtoneManager
-import androidx.core.app.NotificationCompat
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.ku_stacks.ku_ring.local.room.PushDao
@@ -14,6 +10,7 @@ import com.ku_stacks.ku_ring.ui_util.KuringNavigator
 import com.ku_stacks.ku_ring.util.DateUtil
 import com.ku_stacks.ku_ring.util.KuringNotificationManager
 import com.ku_stacks.ku_ring.util.WordConverter
+import com.ku_stacks.ku_ring.work.RegisterUserWork
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import javax.inject.Inject
@@ -37,7 +34,17 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
         Timber.e("refreshed token : $token")
         if (pref.fcmToken != token) {
             pref.fcmToken = token
+            enqueueRegisterUserWork(token)
         }
+    }
+
+    private fun enqueueRegisterUserWork(token: String) {
+        val workerData = RegisterUserWork.createData(token)
+        val registerUserWorkRequest = OneTimeWorkRequestBuilder<RegisterUserWork>()
+            .setInputData(workerData)
+            .build()
+        WorkManager.getInstance(baseContext)
+            .enqueue(registerUserWorkRequest)
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
