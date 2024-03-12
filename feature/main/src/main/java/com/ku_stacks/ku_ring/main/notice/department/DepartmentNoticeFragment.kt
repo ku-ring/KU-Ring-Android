@@ -7,14 +7,6 @@ import android.view.ViewGroup
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.pullrefresh.rememberPullRefreshState
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
@@ -22,7 +14,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.compose.collectAsLazyPagingItems
 import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.domain.mapper.toWebViewNotice
@@ -73,37 +64,17 @@ class DepartmentNoticeFragment : Fragment() {
         navigator.navigateToEditSubscribedDepartment(requireActivity())
     }
 
-    @OptIn(ExperimentalMaterialApi::class)
     private fun setupNoticeListView() {
         binding.departmentNotices.setContent {
             KuringTheme {
-                val selectedDepartments by viewModel.subscribedDepartments.collectAsState()
-                val noticesFlow by viewModel.currentDepartmentNotice.collectAsState()
-                val notices = noticesFlow?.collectAsLazyPagingItems()
-
-                var isRefreshing by remember { mutableStateOf(false) }
-                val refreshState = rememberPullRefreshState(
-                    refreshing = isRefreshing,
-                    onRefresh = {
-                        isRefreshing = true
-                        notices?.refresh()
-                        isRefreshing = false
-                    },
-                    refreshThreshold = 100.dp,
-                )
                 DepartmentNoticeScreen(
-                    selectedDepartments = selectedDepartments,
-                    onSelectDepartment = viewModel::selectDepartment,
-                    notices = notices,
+                    viewModel = viewModel,
                     onNoticeClick = ::startNoticeActivity,
-                    onFabClick = ::showDepartmentSubscribeBottomSheet,
-                    isRefreshing = isRefreshing,
-                    refreshState = refreshState,
+                    onShowDepartmentSubscribeBottomSheet = ::showDepartmentSubscribeBottomSheet,
                     modifier = Modifier
                         .background(colorResource(id = R.color.kus_background))
                         .padding(bottom = 56.dp)
                         .fillMaxSize(),
-                    scope = rememberCoroutineScope(),
                 )
             }
         }
