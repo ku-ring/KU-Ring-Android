@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@Deprecated("학과별 공지 composable 업데이트 후 삭제")
 @HiltViewModel
 class DepartmentSubscribeViewModel @Inject constructor(
     private val departmentRepository: DepartmentRepository
