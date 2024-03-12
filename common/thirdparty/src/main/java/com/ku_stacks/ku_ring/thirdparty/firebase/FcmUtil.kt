@@ -70,6 +70,7 @@ class FcmUtil @Inject constructor(
                         isNew = true,
                         isRead = false,
                         isSaved = false,
+                        isImportant = false, // TODO: 이렇게 해도 되는지 검증
                         isReadOnStorage = false
                     )
                 )

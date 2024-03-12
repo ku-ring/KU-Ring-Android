@@ -23,5 +23,6 @@ fun DepartmentNoticeResponse.toNoticeEntity(shortName: String, startDate: String
         isRead = false,
         isSaved = false,
         isReadOnStorage = false,
+        isImportant = important,
     )
 }
