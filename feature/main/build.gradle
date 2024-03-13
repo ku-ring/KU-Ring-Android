@@ -67,6 +67,9 @@ dependencies {
     implementation libs.bundles.compose
     implementation libs.bundles.compose.interop
 
+    // Coroutines
+    implementation libs.bundles.coroutines
+
     // firebase
     implementation platform(libs.firebase.bom)
     implementation libs.bundles.firebase

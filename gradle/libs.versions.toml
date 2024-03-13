@@ -91,6 +91,7 @@ coil-compose = { module = 'io.coil-kt:coil-compose', version.ref = 'coil' }
 kotlinx-coroutines-android = { module = 'org.jetbrains.kotlinx:kotlinx-coroutines-android', version.ref = 'kotlinx-coroutines' }
 kotlinx-coroutines-core = { module = 'org.jetbrains.kotlinx:kotlinx-coroutines-core', version.ref = 'kotlinx-coroutines' }
 kotlinx-coroutines-reactive = { module = 'org.jetbrains.kotlinx:kotlinx-coroutines-reactive', version.ref = 'kotlinx-coroutines' }
+kotlinx-coroutines-rxjava3 = { module = 'org.jetbrains.kotlinx:kotlinx-coroutines-rx3', version.ref = 'kotlinx-coroutines' }
 # Test는 bundle로 묶지 말기 (필요한 모듈에서만 별도로 선언)
 kotlinx-coroutines-test = { module = 'org.jetbrains.kotlinx:kotlinx-coroutines-test', version.ref = 'kotlinx-coroutines' }
 
@@ -193,6 +194,7 @@ coroutines = [
     'kotlinx-coroutines-android',
     'kotlinx-coroutines-core',
     'kotlinx-coroutines-reactive',
+    'kotlinx-coroutines-rxjava3',
 ]
 firebase = [
     'firebase-analytics-ktx',
