@@ -1,5 +1,6 @@
 package com.ku_stacks.ku_ring.designsystem.components
 
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -19,6 +20,10 @@ import androidx.compose.material.Text
 import androidx.compose.material.contentColorFor
 import androidx.compose.material.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -69,6 +74,30 @@ fun DepartmentWithAddIcon(
     ) {
         Spacer(modifier = Modifier.weight(1f))
         AddIconButton(onClick = { onAddDepartment(department) })
+    }
+}
+
+@Composable
+fun DepartmentWithCheckOrUncheckIcon(
+    department: Department,
+    onClickDepartment: (Department) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    BaseDepartment(
+        department = department,
+        modifier = modifier,
+    ) {
+        Spacer(modifier = Modifier.weight(1f))
+        Crossfade(
+            targetState = department.isSelected,
+            label = "department check/uncheck",
+        ) {
+            if (it) {
+                CheckIconButton(onClick = { onClickDepartment(department) })
+            } else {
+                UncheckIconButton(onClick = { onClickDepartment(department) })
+            }
+        }
     }
 }
 
@@ -171,6 +200,24 @@ private fun CheckIconButton(
 }
 
 @Composable
+private fun UncheckIconButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    contentDescription: String? = null,
+) {
+    IconButton(
+        onClick = onClick,
+        modifier = modifier,
+    ) {
+        Icon(
+            painter = painterResource(id = R.drawable.ic_check_unchecked),
+            contentDescription = contentDescription,
+            tint = Gray300,
+        )
+    }
+}
+
+@Composable
 private fun BaseDepartment(
     department: Department,
     modifier: Modifier = Modifier,
@@ -223,6 +270,7 @@ private val previewDepartment = Department(
 @LightAndDarkPreview
 @Composable
 private fun DepartmentItemsPreview() {
+    var isSelected by remember { mutableStateOf(false) }
     KuringTheme {
         Column(
             modifier = Modifier
@@ -239,9 +287,9 @@ private fun DepartmentItemsPreview() {
                 onAddDepartment = {},
                 modifier = Modifier.fillMaxWidth(),
             )
-            DepartmentWithCheckIcon(
-                department = previewDepartment,
-                onClickDepartment = {},
+            DepartmentWithCheckOrUncheckIcon(
+                department = previewDepartment.copy(isSelected = isSelected),
+                onClickDepartment = { isSelected = !isSelected },
                 modifier = Modifier.fillMaxWidth(),
             )
         }
