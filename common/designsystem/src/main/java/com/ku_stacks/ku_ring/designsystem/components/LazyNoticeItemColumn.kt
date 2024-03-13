@@ -31,6 +31,7 @@ fun LazyPagingNoticeItemColumn(
     onNoticeClick: (Notice) -> Unit,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
+    noticeFilter: (Notice) -> Boolean = { true },
 ) {
     LazyColumn(
         modifier = modifier
@@ -65,10 +66,13 @@ fun LazyPagingNoticeItemColumn(
                         key = notices.itemKey(),
                         contentType = notices.itemContentType { it.javaClass },
                     ) { index ->
-                        NoticeItem(
-                            notice = notices[index] ?: return@items,
-                            onClick = onNoticeClick,
-                        )
+                        val notice = notices[index] ?: return@items
+                        if (noticeFilter(notice)) {
+                            NoticeItem(
+                                notice = notice,
+                                onClick = onNoticeClick,
+                            )
+                        }
                     }
                 }
             }
