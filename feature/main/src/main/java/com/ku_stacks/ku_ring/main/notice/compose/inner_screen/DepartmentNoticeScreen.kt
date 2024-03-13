@@ -203,6 +203,7 @@ private fun DepartmentNoticeScreenContent(
                 notices = notices,
                 onNoticeClick = onNoticeClick,
                 modifier = Modifier.pullRefresh(refreshState),
+                noticeFilter = { !it.isImportant },
             )
         }
 
