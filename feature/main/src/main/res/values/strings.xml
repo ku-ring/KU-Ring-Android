@@ -5,5 +5,10 @@
     <string name="search_type_notice">공지</string>
     <string name="search_type_professor">교수명</string>
 
+    <!--  header  -->
+    <string name="notice_screen_header_storage">공지 보관함</string>
+    <string name="notice_screen_header_search">공지 검색</string>
+    <string name="notice_screen_header_notification">알림 보기</string>
+
     <string name="department_selector_bottom_sheet_cta">학과 편집하기</string>
 </resources>
