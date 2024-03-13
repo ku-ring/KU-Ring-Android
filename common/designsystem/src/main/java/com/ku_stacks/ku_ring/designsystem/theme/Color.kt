@@ -14,6 +14,8 @@ val KuringGreen50: Color
     @Composable get() = colorResource(R.color.kus_green_50)
 val KuringSecondaryGreen: Color
     @Composable get() = colorResource(R.color.kus_secondary_green)
+val MainPrimary: Color
+    get() = Color(0xFF3DBD80)
 val MainPrimarySelected: Color
     @Composable get() = Color(0xFFEBF8F2)
 val KuringSub: Color
