@@ -30,8 +30,8 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.ku_stacks.ku_ring.designsystem.components.LazyPagingNoticeItemColumn
 import com.ku_stacks.ku_ring.domain.Department
 import com.ku_stacks.ku_ring.domain.Notice
+import com.ku_stacks.ku_ring.main.notice.DepartmentNoticeViewModel
 import com.ku_stacks.ku_ring.main.notice.compose.components.DepartmentHeader
-import com.ku_stacks.ku_ring.main.notice.department.DepartmentNoticeViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
