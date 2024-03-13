@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.main.notice.department.compose
+package com.ku_stacks.ku_ring.main.notice.compose.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
