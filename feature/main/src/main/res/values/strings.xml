@@ -10,5 +10,8 @@
     <string name="notice_screen_header_search">공지 검색</string>
     <string name="notice_screen_header_notification">알림 보기</string>
 
+    <string name="department_screen_add_department_caption">아직 추가된 학과가 없어요.\n관심 학과를 추가하고 공지를 확인해 보세요!</string>
+    <string name="department_screen_add_department_button">학과 추가하기</string>
+
     <string name="department_selector_bottom_sheet_cta">학과 편집하기</string>
 </resources>
