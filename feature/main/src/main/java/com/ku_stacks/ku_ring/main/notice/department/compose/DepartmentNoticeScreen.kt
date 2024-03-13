@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetLayout
@@ -40,6 +39,7 @@ import kotlinx.coroutines.launch
 internal fun DepartmentNoticeScreen(
     viewModel: DepartmentNoticeViewModel,
     onNoticeClick: (Notice) -> Unit,
+    onNavigateToEditDepartment: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val selectedDepartments by viewModel.subscribedDepartments.collectAsState()
@@ -59,6 +59,7 @@ internal fun DepartmentNoticeScreen(
     DepartmentNoticeScreen(
         selectedDepartments = selectedDepartments,
         onSelectDepartment = viewModel::selectDepartment,
+        onNavigateToEditDepartment = onNavigateToEditDepartment,
         notices = notices,
         onNoticeClick = onNoticeClick,
         isRefreshing = isRefreshing,
@@ -72,6 +73,7 @@ internal fun DepartmentNoticeScreen(
 private fun DepartmentNoticeScreen(
     selectedDepartments: List<Department>,
     onSelectDepartment: (Department) -> Unit,
+    onNavigateToEditDepartment: () -> Unit,
     notices: LazyPagingItems<Notice>?,
     onNoticeClick: (Notice) -> Unit,
     isRefreshing: Boolean,
@@ -94,9 +96,8 @@ private fun DepartmentNoticeScreen(
                         sheetState.hide()
                     }
                 },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(360.dp),
+                onNavigateToEditDepartment = onNavigateToEditDepartment,
+                modifier = Modifier.fillMaxWidth(),
             )
         },
         sheetState = sheetState,

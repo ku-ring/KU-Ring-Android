@@ -4,4 +4,6 @@
     <string name="search_result">검색 결과</string>
     <string name="search_type_notice">공지</string>
     <string name="search_type_professor">교수명</string>
+
+    <string name="department_selector_bottom_sheet_cta">학과 편집하기</string>
 </resources>

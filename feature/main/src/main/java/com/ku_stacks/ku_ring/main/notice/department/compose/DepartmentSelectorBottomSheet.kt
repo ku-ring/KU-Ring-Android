@@ -4,9 +4,11 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -19,15 +21,20 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
+import com.ku_stacks.ku_ring.designsystem.components.DepartmentWithCheckOrUncheckIcon
+import com.ku_stacks.ku_ring.designsystem.components.KuringCallToAction
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
+import com.ku_stacks.ku_ring.designsystem.theme.Background
 import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
 import com.ku_stacks.ku_ring.designsystem.theme.SfProDisplay
+import com.ku_stacks.ku_ring.designsystem.theme.TextBody
 import com.ku_stacks.ku_ring.domain.Department
 import com.ku_stacks.ku_ring.main.R
 
@@ -35,44 +42,41 @@ import com.ku_stacks.ku_ring.main.R
 fun DepartmentSelectorBottomSheet(
     departments: List<Department>,
     onSelect: (Department) -> Unit,
+    onNavigateToEditDepartment: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val scrollState = rememberScrollState()
-    ConstraintLayout(modifier = modifier) {
-        val (titleText, departmentItems) = createRefs()
+    Column(modifier = modifier.height(332.dp)) {
         Text(
             text = stringResource(id = R.string.department_selector_bottom_sheet_title),
-            fontFamily = SfProDisplay,
-            fontWeight = FontWeight.Bold,
-            fontSize = 17.sp,
-            color = colorResource(id = R.color.kus_label),
-            modifier = Modifier.constrainAs(titleText) {
-                top.linkTo(parent.top, margin = 24.dp)
-                start.linkTo(parent.start, margin = 24.dp)
-            }
+            style = TextStyle(
+                fontSize = 18.sp,
+                lineHeight = 27.sp,
+                fontFamily = Pretendard,
+                fontWeight = FontWeight(700),
+                color = TextBody,
+            ),
+            modifier = Modifier.padding(start = 24.dp, top = 22.dp, bottom = 20.dp),
         )
         Column(
             modifier = Modifier
-                .constrainAs(departmentItems) {
-                    top.linkTo(titleText.bottom, margin = 25.dp)
-                    bottom.linkTo(parent.bottom, margin = 25.dp)
-                    start.linkTo(parent.start, margin = 24.dp)
-                    end.linkTo(parent.end, margin = 24.dp)
-                    width = Dimension.fillToConstraints
-                    height = Dimension.fillToConstraints
-                }
                 .verticalScroll(scrollState)
+                .weight(1f),
         ) {
             departments.forEach { department ->
-                DepartmentItem(
+                DepartmentWithCheckOrUncheckIcon(
                     department = department,
-                    onSelect = onSelect,
-                    modifier = Modifier
-                        .padding(vertical = 12.dp)
-                        .fillMaxWidth(),
+                    onClickDepartment = onSelect,
+                    modifier = Modifier.fillMaxWidth(),
                 )
             }
         }
+        KuringCallToAction(
+            onClick = onNavigateToEditDepartment,
+            text = stringResource(id = R.string.department_selector_bottom_sheet_cta),
+            modifier = Modifier.fillMaxWidth(),
+            blur = true,
+        )
     }
 }
 
@@ -167,7 +171,10 @@ private fun DepartmentSelectorBottomSheetPreview() {
         DepartmentSelectorBottomSheet(
             departments = departments,
             onSelect = {},
-            modifier = Modifier.fillMaxWidth(),
+            onNavigateToEditDepartment = {},
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Background),
         )
     }
 }
