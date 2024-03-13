@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.main.notice.department.compose
+package com.ku_stacks.ku_ring.main.notice.compose.inner_screen
 
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
@@ -32,6 +32,7 @@ import com.ku_stacks.ku_ring.domain.Department
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.main.notice.compose.components.DepartmentHeader
 import com.ku_stacks.ku_ring.main.notice.department.DepartmentNoticeViewModel
+import com.ku_stacks.ku_ring.main.notice.department.compose.DepartmentSelectorBottomSheet
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

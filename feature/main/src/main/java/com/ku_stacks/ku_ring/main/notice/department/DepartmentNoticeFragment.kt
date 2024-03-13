@@ -19,7 +19,7 @@ import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.domain.mapper.toWebViewNotice
 import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.databinding.FragmentDepartmentNoticeBinding
-import com.ku_stacks.ku_ring.main.notice.department.compose.DepartmentNoticeScreen
+import com.ku_stacks.ku_ring.main.notice.compose.inner_screen.DepartmentNoticeScreen
 import com.ku_stacks.ku_ring.ui_util.KuringNavigator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
