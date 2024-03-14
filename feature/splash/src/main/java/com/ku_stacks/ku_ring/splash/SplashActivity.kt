@@ -7,17 +7,21 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
+import com.ku_stacks.ku_ring.designsystem.theme.Background
+import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
-import com.ku_stacks.ku_ring.splash.databinding.ActivitySplashBinding
+import com.ku_stacks.ku_ring.splash.compose.SplashScreen
 import com.ku_stacks.ku_ring.thirdparty.firebase.FcmUtil
 import com.ku_stacks.ku_ring.ui_util.KuringNavigator
-import com.ku_stacks.ku_ring.ui_util.getAppVersionName
 import com.ku_stacks.ku_ring.util.DateUtil
 import com.ku_stacks.ku_ring.util.KuringNotificationManager
 import com.ku_stacks.ku_ring.work.ReEngagementNotificationWork
@@ -40,15 +44,18 @@ class SplashActivity : AppCompatActivity() {
     @Inject
     lateinit var navigator: KuringNavigator
 
-    private lateinit var binding: ActivitySplashBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
-        binding.lifecycleOwner = this
-
-        setAppVersionName()
+        setContent {
+            KuringTheme {
+                SplashScreen(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Background),
+                )
+            }
+        }
         enqueueReengagementNotificationWork()
 
         lifecycleScope.launch {
@@ -75,10 +82,6 @@ class SplashActivity : AppCompatActivity() {
 
             finish()
         }
-    }
-
-    private fun setAppVersionName() {
-        binding.versionName = this.getAppVersionName()
     }
 
     private fun enqueueReengagementNotificationWork() {
