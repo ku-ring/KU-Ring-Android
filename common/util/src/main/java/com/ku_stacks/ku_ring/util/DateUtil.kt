@@ -1,6 +1,7 @@
 package com.ku_stacks.ku_ring.util
 
 import timber.log.Timber
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -40,13 +41,18 @@ object DateUtil {
 
     @JvmStatic
     fun convertDateToDay(str: String): String {
-        val oldSimpleDateFormat = SimpleDateFormat("yyyyMMdd", Locale.KOREA)
-        val date = oldSimpleDateFormat.parse(str)
-        val newSimpleDateFormat = SimpleDateFormat("yyyy.MM.dd (E)", Locale.KOREA)
-        return if (date == null) {
+        return try {
+            val oldSimpleDateFormat = SimpleDateFormat("yyyyMMdd", Locale.KOREA)
+            val date = oldSimpleDateFormat.parse(str)
+            val newSimpleDateFormat = SimpleDateFormat("yyyy.MM.dd (E)", Locale.KOREA)
+            if (date == null) {
+                str
+            } else {
+                newSimpleDateFormat.format(date)
+            }
+        } catch (e: ParseException) {
+            Timber.e("date $str is not parsable")
             str
-        } else {
-            newSimpleDateFormat.format(date)
         }
     }
 
