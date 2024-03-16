@@ -8,4 +8,5 @@ data class SearchNoticeResponse(
     @SerializedName("subject") val subject: String,
     @SerializedName("baseUrl") val baseUrl: String,
     @SerializedName("category") val category: String,
+    @SerializedName("important") val isImportant: Boolean,
 )

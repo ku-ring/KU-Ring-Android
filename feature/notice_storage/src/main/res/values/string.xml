@@ -4,4 +4,9 @@
     <string name="top_app_bar_action_edit">편집</string>
     <string name="top_app_bar_action_select_all">전체 선택</string>
     <string name="cta_text">삭제하기</string>
+
+    <string name="alert_dialog_delete_notices">선택된 공지를\n보관함에서 삭제할까요?</string>
+    <string name="alert_dialog_delete_all_notices">보관함에 저장된\n모든 공지를 삭제할까요?</string>
+    <string name="alert_dialog_cancel_text">취소하기</string>
+    <string name="alert_dialog_delete_text">삭제하기</string>
 </resources>

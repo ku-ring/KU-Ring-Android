@@ -113,11 +113,12 @@ class MainActivity : AppCompatActivity() {
             url: String,
             articleId: String,
             category: String,
+            subject: String,
         ) {
             val intent = createIntent(activity).apply {
                 putExtra(
                     WebViewNotice.EXTRA_KEY,
-                    WebViewNotice(url, articleId, category),
+                    WebViewNotice(url, articleId, category, subject),
                 )
             }
             activity.startActivity(intent)

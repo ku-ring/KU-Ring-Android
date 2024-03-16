@@ -28,8 +28,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.R
+import com.ku_stacks.ku_ring.designsystem.theme.Background
 import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.theme.MainPrimarySelected
 import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
+import com.ku_stacks.ku_ring.designsystem.theme.TextBody
 import com.ku_stacks.ku_ring.domain.Notice
 
 /**
@@ -50,11 +53,12 @@ fun NoticeItem(
     content: @Composable (() -> Unit)? = null,
 ) {
     // TODO: 중요 공지일 경우 배경색을 초록색으로 바꾸고, [중요] 태그 보여주기
+    val background = if (notice.isImportant) MainPrimarySelected else Background
     Row(
         modifier = modifier
             .clickable { onClick(notice) }
             .fillMaxWidth()
-            .background(MaterialTheme.colors.surface)
+            .background(background)
             .padding(horizontal = 20.dp),
         verticalAlignment = contentVerticalAlignment,
     ) {
@@ -86,6 +90,9 @@ private fun NoticeItemContent(
             modifier = Modifier.align(Alignment.CenterStart),
             verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
+            if (notice.isImportant) {
+                NoticeItemImportantTag()
+            }
             NoticeItemTitle(
                 title = notice.subject,
                 isRead = notice.isRead,
@@ -123,7 +130,7 @@ private fun NoticeItemTitle(
     isRead: Boolean,
     modifier: Modifier = Modifier,
 ) {
-    val color = if (isRead) Color(0xFF8E8E8E) else MaterialTheme.colors.onSurface
+    val color = if (isRead) Color(0xFF8E8E8E) else TextBody
     Text(
         text = title,
         style = TextStyle(
@@ -147,7 +154,7 @@ private fun NoticeItemDate(
 ) {
     // 현재 디자인된 색깔은 다크 모드에서 너무 안 보임
     // 임시로 onSurface(alpha=0.8) 색을 사용
-    val color = if (isRead) Color(0xFF8E8E8E) else MaterialTheme.colors.onSurface.copy(alpha = 0.8f)
+    val color = if (isRead) Color(0xFF8E8E8E) else TextBody.copy(alpha = 0.8f)
     Text(
         text = date,
         style = TextStyle(
@@ -184,6 +191,7 @@ private val notice = Notice(
     isSubscribing = false,
     isSaved = false,
     isReadOnStorage = false,
+    isImportant = false,
     tag = listOf("지급"),
 )
 
@@ -197,6 +205,7 @@ private fun NoticeItemPreview() {
                 .background(MaterialTheme.colors.surface),
         ) {
             NoticeItem(notice = notice)
+            NoticeItem(notice = notice.copy(isImportant = true))
             NoticeItem(notice = notice.copy(isRead = true))
             NoticeItem(notice = notice.copy(isSaved = true))
         }

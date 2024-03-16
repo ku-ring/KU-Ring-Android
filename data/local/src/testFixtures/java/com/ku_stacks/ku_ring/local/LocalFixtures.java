@@ -25,6 +25,7 @@ public class LocalFixtures {
                 false,
                 false,
                 false,
+                false,
                 false
         );
     }
@@ -40,6 +41,7 @@ public class LocalFixtures {
                 false,
                 true,
                 false,
+                false,
                 false
         );
     }
@@ -52,6 +54,7 @@ public class LocalFixtures {
                 "2023학년도 진로총조사 설문 요청",
                 "2023-05-02",
                 "http://cse.konkuk.ac.kr/noticeView.do?siteId=CSE&boardSeq=882&menuSeq=6097&seq=182677",
+                false,
                 false,
                 false,
                 false,

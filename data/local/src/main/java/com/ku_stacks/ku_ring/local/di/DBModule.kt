@@ -50,6 +50,12 @@ object DBModule {
         }
     }
 
+    private val MIGRATION_5_6 = object : Migration(5, 6) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("ALTER TABLE NoticeEntity ADD COLUMN isImportant INT NOT NULL DEFAULT 0")
+        }
+    }
+
     @Singleton
     @Provides
     fun provideKuRingDatabase(@ApplicationContext context: Context): KuRingDatabase {
@@ -58,7 +64,13 @@ object DBModule {
             KuRingDatabase::class.java,
             "ku-ring-db"
         )
-            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
+            .addMigrations(
+                MIGRATION_1_2,
+                MIGRATION_2_3,
+                MIGRATION_3_4,
+                MIGRATION_4_5,
+                MIGRATION_5_6
+            )
             .build()
     }
 

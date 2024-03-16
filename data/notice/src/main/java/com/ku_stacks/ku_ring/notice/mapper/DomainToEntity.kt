@@ -15,4 +15,5 @@ fun Notice.toEntity(): NoticeEntity = NoticeEntity(
     isRead = isRead,
     isSaved = isSaved,
     isReadOnStorage = isReadOnStorage,
+    isImportant = isImportant,
 )

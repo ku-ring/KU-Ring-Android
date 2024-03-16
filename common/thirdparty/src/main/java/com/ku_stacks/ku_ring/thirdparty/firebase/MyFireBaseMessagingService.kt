@@ -76,7 +76,8 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
                 body = categoryKr,
                 url = fullUrl,
                 articleId = articleId,
-                category = category
+                category = category,
+                subject = subject,
             )
         } else if (fcmUtil.isCustomNotification(remoteMessage.data)) {
             val type = remoteMessage.data["type"]!!
@@ -94,7 +95,8 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
         body: String?,
         url: String?,
         articleId: String?,
-        category: String?
+        category: String?,
+        subject: String?,
     ) {
         val intent = navigator.createNoticeWebIntent(this, url, articleId, category)
         KuringNotificationManager.showNotificationWithUrl(this, intent, title, body)
