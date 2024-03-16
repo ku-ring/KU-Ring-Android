@@ -29,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -60,6 +61,7 @@ import kotlinx.coroutines.launch
 fun SearchScreen(
     viewModel: SearchViewModel,
     onNavigationClick: () -> Unit,
+    onClickNotice: (Notice) -> Unit,
     modifier: Modifier = Modifier,
     searchState: SearchState = rememberSearchState(),
     tabPages: List<SearchTabInfo> = SearchTabInfo.values().toList()
@@ -70,6 +72,7 @@ fun SearchScreen(
     SearchScreen(
         onNavigationClick = onNavigationClick,
         onClickSearch = { viewModel.onClickSearch(it) },
+        onClickNotice = onClickNotice,
         searchState = searchState,
         tabPages = tabPages,
         noticeList = noticeList,
@@ -83,12 +86,15 @@ fun SearchScreen(
 private fun SearchScreen(
     onNavigationClick: () -> Unit,
     onClickSearch: (SearchState) -> Unit,
+    onClickNotice: (Notice) -> Unit,
     searchState: SearchState,
     tabPages: List<SearchTabInfo>,
     noticeList: List<Notice>,
     staffList: List<Staff>,
     modifier: Modifier = Modifier,
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier.background(MaterialTheme.colors.surface)
@@ -115,7 +121,10 @@ private fun SearchScreen(
                 imeAction = ImeAction.Search
             ),
             keyboardActions = KeyboardActions(
-                onSearch = { onClickSearch(searchState) }
+                onSearch = {
+                    keyboardController?.hide()
+                    onClickSearch(searchState)
+                }
             ),
             modifier = Modifier
                 .fillMaxWidth()
@@ -144,6 +153,7 @@ private fun SearchScreen(
             tabPages = tabPages,
             noticeList = noticeList,
             staffList = staffList,
+            onClickNotice = onClickNotice,
         )
     }
 }
@@ -235,6 +245,7 @@ private fun SearchResultHorizontalPager(
     tabPages: List<SearchTabInfo>,
     noticeList: List<Notice>,
     staffList: List<Staff>,
+    onClickNotice: (Notice) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     HorizontalPager(
@@ -246,11 +257,13 @@ private fun SearchResultHorizontalPager(
             SearchTabInfo.Notice -> {
                 NoticeSearchScreen(
                     searchState = searchState,
-                    noticeList = noticeList
+                    noticeList = noticeList,
+                    onClickNotice = onClickNotice,
                 )
             }
             SearchTabInfo.Staff -> {
                 StaffSearchScreen(
+                    searchState = searchState,
                     staffList = staffList
                 )
             }
@@ -265,6 +278,7 @@ private fun SearchScreenPreview() {
         SearchScreen(
             searchState = rememberSearchState("산학협력"),
             onNavigationClick = {},
+            onClickNotice = {},
             onClickSearch = {},
             noticeList = emptyList(),
             staffList = emptyList(),
