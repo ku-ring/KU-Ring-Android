@@ -8,4 +8,5 @@ interface UserRepository {
     fun blockUser(userId: String, nickname: String): Completable
     fun getBlackUserList(): Single<List<String>>
     fun sendFeedback(feedback: String): Single<DefaultResponse>
+    suspend fun registerUser(token: String): DefaultResponse
 }

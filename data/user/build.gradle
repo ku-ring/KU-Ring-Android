@@ -35,7 +35,7 @@ dependencies {
     implementation project(":common:util")
     implementation project(":common:preferences")
     implementation project(":data:local")
-    implementation project(":data:remote")
+    api project(":data:remote")
 
     // dagger hilt
     kapt libs.androidx.hilt.compiler
