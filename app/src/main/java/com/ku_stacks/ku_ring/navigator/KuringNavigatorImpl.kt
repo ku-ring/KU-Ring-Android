@@ -54,9 +54,10 @@ class KuringNavigatorImpl @Inject constructor() : KuringNavigator {
         activity: Activity,
         url: String,
         articleId: String,
-        category: String
+        category: String,
+        subject: String,
     ) {
-        MainActivity.start(activity, url, articleId, category)
+        MainActivity.start(activity, url, articleId, category, subject)
     }
 
     override fun navigateToNotification(activity: Activity) {
@@ -75,9 +76,10 @@ class KuringNavigatorImpl @Inject constructor() : KuringNavigator {
         context: Context,
         url: String?,
         articleId: String?,
-        category: String?
+        category: String?,
+        subject: String?,
     ): Intent {
-        return NoticeWebActivity.createIntent(context, url, articleId, category)
+        return NoticeWebActivity.createIntent(context, url, articleId, category, subject)
     }
 
     override fun navigateToNoticeWeb(activity: Activity, notice: Notice) {
@@ -86,15 +88,6 @@ class KuringNavigatorImpl @Inject constructor() : KuringNavigator {
 
     override fun navigateToNoticeWeb(activity: Activity, webViewNotice: WebViewNotice) {
         NoticeWebActivity.start(activity, webViewNotice)
-    }
-
-    override fun navigateToNoticeWeb(
-        activity: Activity,
-        url: String?,
-        articleId: String?,
-        category: String?
-    ) {
-        NoticeWebActivity.start(activity, url, articleId, category)
     }
 
     override fun navigateToNotionView(activity: Activity, notionUrl: String) {
