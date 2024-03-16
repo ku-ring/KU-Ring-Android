@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.IntOffset
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -16,16 +17,17 @@ import androidx.navigation.compose.rememberNavController
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.theme.Background
 import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
-import com.ku_stacks.ku_ring.onboarding.compose.inner_screen.ConfirmDepartment
+import com.ku_stacks.ku_ring.onboarding.compose.inner_screen.ConfirmDepartmentScreen
 import com.ku_stacks.ku_ring.onboarding.compose.inner_screen.FeatureTabs
-import com.ku_stacks.ku_ring.onboarding.compose.inner_screen.OnboardingComplete
-import com.ku_stacks.ku_ring.onboarding.compose.inner_screen.SetDepartment
+import com.ku_stacks.ku_ring.onboarding.compose.inner_screen.OnboardingCompleteScreen
+import com.ku_stacks.ku_ring.onboarding.compose.inner_screen.SetDepartmentScreen
 
 @Composable
 internal fun OnboardingScreen(
     onNavigateToMain: () -> Unit,
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
+    viewModel: OnboardingViewModel = hiltViewModel(),
 ) {
     val navigationSpec = tween<IntOffset>(
         durationMillis = 200,
@@ -51,6 +53,7 @@ internal fun OnboardingScreen(
         onboardingNavGraph(
             navHostController = navController,
             onNavigateToMain = onNavigateToMain,
+            viewModel = viewModel,
         )
     }
 }
@@ -58,6 +61,7 @@ internal fun OnboardingScreen(
 private fun NavGraphBuilder.onboardingNavGraph(
     navHostController: NavHostController,
     onNavigateToMain: () -> Unit,
+    viewModel: OnboardingViewModel,
 ) {
     val modifier = Modifier
         .background(Background)
@@ -67,20 +71,22 @@ private fun NavGraphBuilder.onboardingNavGraph(
             onNavigateToSetDepartment = {
                 navHostController.navigate(OnboardingScreenDestinations.SET_DEPARTMENT)
             },
+            onSkipOnboarding = onNavigateToMain,
             modifier = modifier,
         )
     }
     composable(OnboardingScreenDestinations.SET_DEPARTMENT) {
-        SetDepartment(
+        SetDepartmentScreen(
+            viewModel = viewModel,
             onSetDepartmentComplete = {
-                // TODO: 학과 이름 넘겨주기 (viewModel을 navHost에 선언?)
                 navHostController.navigate(OnboardingScreenDestinations.CONFIRM_DEPARTMENT)
             },
             modifier = modifier,
         )
     }
     composable(OnboardingScreenDestinations.CONFIRM_DEPARTMENT) {
-        ConfirmDepartment(
+        ConfirmDepartmentScreen(
+            viewModel = viewModel,
             onConfirm = {
                 navHostController.navigate(OnboardingScreenDestinations.ONBOARDING_COMPLETE)
             },
@@ -91,7 +97,7 @@ private fun NavGraphBuilder.onboardingNavGraph(
         )
     }
     composable(OnboardingScreenDestinations.ONBOARDING_COMPLETE) {
-        OnboardingComplete(
+        OnboardingCompleteScreen(
             onStartKuring = onNavigateToMain,
             modifier = modifier,
         )

@@ -1,19 +1,16 @@
 package com.ku_stacks.ku_ring.thirdparty.firebase
 
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.content.Context
-import android.graphics.BitmapFactory
-import android.media.RingtoneManager
-import androidx.core.app.NotificationCompat
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.ku_stacks.ku_ring.local.room.PushDao
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
-import com.ku_stacks.ku_ring.thirdparty.R
 import com.ku_stacks.ku_ring.ui_util.KuringNavigator
 import com.ku_stacks.ku_ring.util.DateUtil
+import com.ku_stacks.ku_ring.util.KuringNotificationManager
 import com.ku_stacks.ku_ring.util.WordConverter
+import com.ku_stacks.ku_ring.work.RegisterUserWork
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import javax.inject.Inject
@@ -37,7 +34,17 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
         Timber.e("refreshed token : $token")
         if (pref.fcmToken != token) {
             pref.fcmToken = token
+            enqueueRegisterUserWork(token)
         }
+    }
+
+    private fun enqueueRegisterUserWork(token: String) {
+        val workerData = RegisterUserWork.createData(token)
+        val registerUserWorkRequest = OneTimeWorkRequestBuilder<RegisterUserWork>()
+            .setInputData(workerData)
+            .build()
+        WorkManager.getInstance(baseContext)
+            .enqueue(registerUserWorkRequest)
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
@@ -91,61 +98,12 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
         category: String?,
         subject: String?,
     ) {
-        val intent = navigator.createNoticeWebIntent(
-            this,
-            url,
-            articleId,
-            category,
-            subject,
-        )
-        val pendingIntent = PendingIntent.getActivity(
-            this,
-            0,
-            intent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
-        val defaultSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-        val channelId = CHANNEL_ID
-        val notificationBuilder = NotificationCompat.Builder(this, channelId)
-            .setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.ic_notification))
-            .setSmallIcon(R.drawable.ic_status_bar)
-            .setContentTitle(title)
-            .setContentText(body)
-            .setSound(defaultSound)
-            .setContentIntent(pendingIntent)
-            .setAutoCancel(true)
-
-        val notificationManager =
-            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.notify(0, notificationBuilder.build())
+        val intent = navigator.createNoticeWebIntent(this, url, articleId, category, subject)
+        KuringNotificationManager.showNotificationWithUrl(this, intent, title, body)
     }
 
     private fun showCustomNotification(type: String, title: String, body: String) {
         val intent = navigator.createMainIntent(this)
-        val pendingIntent = PendingIntent.getActivity(
-            this,
-            0,
-            intent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
-        val defaultSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-        val channelId = CHANNEL_ID
-        val notificationBuilder = NotificationCompat.Builder(this, channelId)
-            .setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.ic_notification))
-            .setSmallIcon(R.drawable.ic_status_bar)
-            .setContentTitle(title)
-            .setContentText(body)
-            .setSound(defaultSound)
-            .setContentIntent(pendingIntent)
-            .setAutoCancel(true)
-
-        val notificationManager =
-            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.notify(1, notificationBuilder.build())
-    }
-
-    companion object {
-        const val CHANNEL_ID = "ku_stack_channel_id"
-        const val CHANNEL_NAME = "쿠링"
+        KuringNotificationManager.showCustomNotification(this, intent, type, title, body)
     }
 }

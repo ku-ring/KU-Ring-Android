@@ -32,8 +32,9 @@ android {
 }
 
 dependencies {
+    implementation project(":common:util")
     implementation project(":common:ui_util")
-    implementation project(":common:thirdparty")
+    implementation project(":data:user")
 
     // dagger hilt
     kapt libs.androidx.hilt.compiler
@@ -45,6 +46,9 @@ dependencies {
     kaptTest libs.hilt.compiler
 
     // WorkManager
-    implementation libs.bundles.androidx.work
+    api libs.bundles.androidx.work
     androidTestImplementation libs.androidx.work.testing
+
+    // Timber
+    implementation libs.timber
 }

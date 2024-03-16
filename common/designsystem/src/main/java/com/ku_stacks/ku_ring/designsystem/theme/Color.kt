@@ -23,7 +23,7 @@ val KuringSub: Color
 val TextTitle: Color
     get() = Color(0xFF333333)
 val TextBody: Color
-    @Composable get() = Color(0xFF353C49)
+    get() = Color(0xFF353C49)
 val TextCaption1: Color
     @Composable get() = Color(0xFF868A92)
 val CaptionGray2: Color
