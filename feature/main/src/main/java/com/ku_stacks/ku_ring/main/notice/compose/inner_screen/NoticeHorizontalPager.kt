@@ -12,7 +12,6 @@ import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.main.notice.NoticeScreenTabItem
-import com.ku_stacks.ku_ring.main.notice.department.compose.DepartmentNoticeScreen
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
