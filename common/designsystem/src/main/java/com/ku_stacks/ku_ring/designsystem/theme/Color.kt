@@ -38,6 +38,8 @@ val Background: Color
     get() = Color(0xFFFFFFFF)
 val BoxBackgroundColor2: Color
     @Composable get() = Color(0xFFF2F3F5)
+val Borderline: Color
+    get() = Color(0x14000000)
 
 val lightColorPalette: Colors
     @Composable get() = lightColors(
