@@ -88,12 +88,6 @@
     <string name="search_staff_copy_email_complete">이메일이 클립보드에 복사되었습니다</string>
     <string name="search_staff_copy_phone_number_complete">전화번호가 클립보드에 복사되었습니다</string>
 
-    <!--  notion url  -->
-    <string name="notion_new_contents_url">https://kuring.notion.site/kuring/eec1169151ec4b49abab5e900c617690</string>
-    <string name="notion_privacy_policy_url">https://kuring.notion.site/65ba27f2367044e0be7061e885e7415c</string>
-    <string name="notion_terms_of_service_url">https://kuring.notion.site/e88095d4d67d4c4c92983fd85cb693b9</string>
-    <string name="notion_kuring_team_url">https://kuring.notion.site/a69fdf7ff06848c2aedef1fdcf13ca57</string>
-    <string name="instagram_url">https://bit.ly/3I30uiG</string>
     <string name="kakao_url">https://bit.ly/3p5LZTI</string>
 
     <!--  onBoarding  -->
