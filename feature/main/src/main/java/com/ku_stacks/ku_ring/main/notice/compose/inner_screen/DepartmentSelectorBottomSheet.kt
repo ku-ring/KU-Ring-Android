@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.main.notice.department.compose
+package com.ku_stacks.ku_ring.main.notice.compose.inner_screen
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn

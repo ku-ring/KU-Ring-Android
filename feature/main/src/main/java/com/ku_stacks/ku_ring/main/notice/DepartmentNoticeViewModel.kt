@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.main.notice.department
+package com.ku_stacks.ku_ring.main.notice
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
