@@ -61,6 +61,7 @@ import kotlinx.coroutines.launch
 fun SearchScreen(
     viewModel: SearchViewModel,
     onNavigationClick: () -> Unit,
+    onClickNotice: (Notice) -> Unit,
     modifier: Modifier = Modifier,
     searchState: SearchState = rememberSearchState(),
     tabPages: List<SearchTabInfo> = SearchTabInfo.values().toList()
@@ -71,6 +72,7 @@ fun SearchScreen(
     SearchScreen(
         onNavigationClick = onNavigationClick,
         onClickSearch = { viewModel.onClickSearch(it) },
+        onClickNotice = onClickNotice,
         searchState = searchState,
         tabPages = tabPages,
         noticeList = noticeList,
@@ -84,6 +86,7 @@ fun SearchScreen(
 private fun SearchScreen(
     onNavigationClick: () -> Unit,
     onClickSearch: (SearchState) -> Unit,
+    onClickNotice: (Notice) -> Unit,
     searchState: SearchState,
     tabPages: List<SearchTabInfo>,
     noticeList: List<Notice>,
@@ -150,6 +153,7 @@ private fun SearchScreen(
             tabPages = tabPages,
             noticeList = noticeList,
             staffList = staffList,
+            onClickNotice = onClickNotice,
         )
     }
 }
@@ -241,6 +245,7 @@ private fun SearchResultHorizontalPager(
     tabPages: List<SearchTabInfo>,
     noticeList: List<Notice>,
     staffList: List<Staff>,
+    onClickNotice: (Notice) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     HorizontalPager(
@@ -252,7 +257,8 @@ private fun SearchResultHorizontalPager(
             SearchTabInfo.Notice -> {
                 NoticeSearchScreen(
                     searchState = searchState,
-                    noticeList = noticeList
+                    noticeList = noticeList,
+                    onClickNotice = onClickNotice,
                 )
             }
             SearchTabInfo.Staff -> {
@@ -272,6 +278,7 @@ private fun SearchScreenPreview() {
         SearchScreen(
             searchState = rememberSearchState("산학협력"),
             onNavigationClick = {},
+            onClickNotice = {},
             onClickSearch = {},
             noticeList = emptyList(),
             staffList = emptyList(),
