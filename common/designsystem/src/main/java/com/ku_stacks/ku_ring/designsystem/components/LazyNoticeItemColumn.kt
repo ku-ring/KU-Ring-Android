@@ -31,6 +31,7 @@ fun LazyPagingNoticeItemColumn(
     onNoticeClick: (Notice) -> Unit,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
+    noticeFilter: (Notice) -> Boolean = { true },
 ) {
     LazyColumn(
         modifier = modifier
@@ -62,13 +63,18 @@ fun LazyPagingNoticeItemColumn(
                 notices?.let { notices ->
                     items(
                         count = notices.itemCount,
-                        key = notices.itemKey { notice -> notice.url },
+                        // 같은 공지가 중요/비중요 2번 오는 경우가 있어, url을 key로 사용하면 key가 중복됨
+                        // key = notices.itemKey { notice -> notice.url },
+                        key = notices.itemKey(),
                         contentType = notices.itemContentType { it.javaClass },
                     ) { index ->
-                        NoticeItem(
-                            notice = notices[index] ?: return@items,
-                            onClick = onNoticeClick,
-                        )
+                        val notice = notices[index] ?: return@items
+                        if (noticeFilter(notice)) {
+                            NoticeItem(
+                                notice = notice,
+                                onClick = onNoticeClick,
+                            )
+                        }
                     }
                 }
             }
