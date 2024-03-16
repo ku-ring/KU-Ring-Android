@@ -98,7 +98,7 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
         category: String?,
         subject: String?,
     ) {
-        val intent = navigator.createNoticeWebIntent(this, url, articleId, category)
+        val intent = navigator.createNoticeWebIntent(this, url, articleId, category, subject)
         KuringNotificationManager.showNotificationWithUrl(this, intent, title, body)
     }
 
