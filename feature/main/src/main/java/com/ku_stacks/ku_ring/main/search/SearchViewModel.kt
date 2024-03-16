@@ -1,7 +1,5 @@
 package com.ku_stacks.ku_ring.main.search
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ku_stacks.ku_ring.domain.Notice
@@ -24,10 +22,6 @@ class SearchViewModel @Inject constructor(
     private val noticeRepository: NoticeRepository,
     private val staffRepository: StaffRepository,
 ) : ViewModel() {
-
-    private val _staffList = MutableLiveData<List<Staff>>()
-    val staffList: LiveData<List<Staff>>
-        get() = _staffList
 
     private val _noticeSearchResult = MutableStateFlow<List<Notice>>(listOf())
     val noticeSearchResult: StateFlow<List<Notice>> = _noticeSearchResult.asStateFlow()

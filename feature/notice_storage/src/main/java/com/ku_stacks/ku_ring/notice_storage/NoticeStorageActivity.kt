@@ -3,20 +3,15 @@ package com.ku_stacks.ku_ring.notice_storage
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.viewModels
+import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.content.res.AppCompatResources
-import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.Modifier
+import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
 import com.ku_stacks.ku_ring.domain.Notice
-import com.ku_stacks.ku_ring.notice_storage.databinding.ActivityNoticeStorageBinding
+import com.ku_stacks.ku_ring.notice_storage.compose.NoticeStorageScreen
 import com.ku_stacks.ku_ring.ui_util.KuringNavigator
-import com.ku_stacks.ku_ring.ui_util.makeDialog
-import com.yeonkyu.HoldableSwipeHelper.HoldableSwipeHandler
-import com.yeonkyu.HoldableSwipeHelper.SwipeButtonAction
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -25,65 +20,14 @@ class NoticeStorageActivity : AppCompatActivity() {
     @Inject
     lateinit var navigator: KuringNavigator
 
-    private lateinit var binding: ActivityNoticeStorageBinding
-    private val viewModel by viewModels<NoticeStorageViewModel>()
-    private lateinit var storageAdapter: NoticeStorageAdapter
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        setBinding()
-        setView()
-        setListAdapter()
-        collectData()
-    }
-
-    private fun setBinding() {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_notice_storage)
-        binding.lifecycleOwner = this
-        binding.viewModel = viewModel
-    }
-
-    private fun setView() {
-        binding.backImage.setOnClickListener {
-            finish()
-        }
-        binding.clearNoticesImage.setOnClickListener {
-            makeDialog(title = "모두 삭제할까요?").setOnConfirmClickListener { viewModel.clearNotices() }
-        }
-    }
-
-    private fun setListAdapter() {
-        storageAdapter = NoticeStorageAdapter {
-            startNoticeActivity(it)
-            viewModel.updateNoticeAsReadOnStorage(it.articleId, it.category)
-        }
-        binding.notificationStorageRecyclerview.apply {
-            layoutManager = LinearLayoutManager(this@NoticeStorageActivity)
-            adapter = storageAdapter
-        }
-
-        val removeDrawable =
-            AppCompatResources.getDrawable(this, R.drawable.ic_bookmark_remove)!!
-        HoldableSwipeHandler.Builder(this)
-            .setSwipeButtonAction(object : SwipeButtonAction {
-                override fun onClickFirstButton(absoluteAdapterPosition: Int) {
-                    val notice = storageAdapter.currentList[absoluteAdapterPosition]
-                    viewModel.deleteNotice(notice.articleId, notice.category)
-                }
-            })
-            .setDirectionAsRightToLeft(false)
-            .setBackgroundColor(getColor(R.color.kus_green))
-            .setFirstItemDrawable(removeDrawable)
-            .setDismissOnClickFirstItem(true)
-            .setOnRecyclerView(binding.notificationStorageRecyclerview)
-            .build()
-    }
-
-    private fun collectData() {
-        lifecycleScope.launchWhenResumed {
-            viewModel.savedNotices.collectLatest {
-                storageAdapter.submitList(it)
+        setContent {
+            KuringTheme {
+                NoticeStorageScreen(
+                    onNoticeClick = ::startNoticeActivity,
+                    modifier = Modifier.fillMaxSize(),
+                )
             }
         }
     }

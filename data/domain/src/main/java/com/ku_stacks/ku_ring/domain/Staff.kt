@@ -10,4 +10,7 @@ data class Staff(
     val email: String,
     val department: String,
     val college: String
-) : Serializable
+) : Serializable {
+
+    val departmentAndCollege: String = "$department · $college"
+}

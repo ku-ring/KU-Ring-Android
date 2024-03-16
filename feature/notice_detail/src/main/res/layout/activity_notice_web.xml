@@ -37,15 +37,24 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:tint="@color/kus_primary" />
 
-            <ImageView
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/subject_title"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="@null"
-                android:src="@drawable/ic_ku_ring_home"
+                android:layout_marginStart="20dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/sfpro_display_regular"
+                android:gravity="center_horizontal"
+                android:maxLines="1"
+                android:text="@string/campus_on_construction"
+                android:textColor="@color/kus_primary"
+                android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintEnd_toStartOf="@id/notice_save_button"
+                app:layout_constraintStart_toEndOf="@id/notice_back_bt"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="2024학년도 1학기 건국대학교 학학학학학학학학학학학학"
+                />
 
             <ImageButton
                 android:id="@+id/notice_save_button"
@@ -55,7 +64,7 @@
                 android:background="@null"
                 android:contentDescription="@string/save_button_description"
                 android:padding="4dp"
-                android:src="@drawable/ic_bookmark_border"
+                android:src="@drawable/ic_bookmark_filled"
                 app:isNoticeSaved="@{isNoticeSaved}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/notice_share_bt"
