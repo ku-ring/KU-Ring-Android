@@ -30,10 +30,10 @@ internal fun DepartmentPopup(
     KuringAlertDialog(
         text = stringResource(id = popupUiModel.stringResId, popupUiModel.departmentKoreanName),
         onConfirm = { onConfirm(popupUiModel) },
-        onDismiss = onDismiss,
+        onCancel = onDismiss,
         modifier = modifier,
         confirmTextColor = confirmTextColor,
-        dismissText = stringResource(id = R.string.department_popup_dismiss),
+        cancelText = stringResource(id = R.string.department_popup_dismiss),
         confirmText = stringResource(id = popupUiModel.confirmStringRes),
     )
 }

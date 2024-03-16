@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.LocalContentColor
@@ -153,7 +153,8 @@ private fun Action(
     actionClickLabel: String? = null,
     contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
-    LazyColumn(
+    // TODO: Lazy layout 없이 같은 효과를 낼 수 있는 방법 찾기 (Navigation도 동일)
+    LazyRow(
         modifier = modifier.clickable(
             onClick = { onActionClick?.invoke() },
             onClickLabel = actionClickLabel,
@@ -197,7 +198,7 @@ private fun Navigation(
 ) {
     if (navigationIcon != null) {
         CompositionLocalProvider(LocalContentColor provides navigationContentColor) {
-            LazyColumn(
+            LazyRow(
                 modifier = modifier.clickable(
                     onClick = { onNavigationClick?.invoke() },
                     onClickLabel = navigationClickLabel,

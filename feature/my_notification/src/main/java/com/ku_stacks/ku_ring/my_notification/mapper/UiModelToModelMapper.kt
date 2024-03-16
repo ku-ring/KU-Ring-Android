@@ -8,4 +8,5 @@ fun PushContentUiModel.toWebViewNotice() = WebViewNotice(
     url = fullUrl,
     articleId = articleId,
     category = WordConverter.convertKoreanToEnglish(categoryKor),
+    subject = subject,
 )
