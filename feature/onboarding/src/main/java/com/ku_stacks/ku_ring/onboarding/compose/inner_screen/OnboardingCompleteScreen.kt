@@ -36,7 +36,7 @@ import com.ku_stacks.ku_ring.designsystem.theme.TextTitle
 import com.ku_stacks.ku_ring.onboarding.R
 
 @Composable
-internal fun OnboardingComplete(
+internal fun OnboardingCompleteScreen(
     onStartKuring: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -119,7 +119,7 @@ private fun OnboardingCompleteGif(
 @Composable
 private fun OnboardingCompletePreview() {
     KuringTheme {
-        OnboardingComplete(
+        OnboardingCompleteScreen(
             onStartKuring = { },
             modifier = Modifier.fillMaxSize(),
         )

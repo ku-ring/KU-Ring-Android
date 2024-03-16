@@ -41,7 +41,7 @@ import com.ku_stacks.ku_ring.onboarding.compose.OnboardingViewModel
 import com.ku_stacks.ku_ring.ui_util.preview_data.previewDepartments
 
 @Composable
-internal fun ConfirmDepartment(
+internal fun ConfirmDepartmentScreen(
     viewModel: OnboardingViewModel,
     onConfirm: () -> Unit,
     onCancel: () -> Unit,
@@ -49,7 +49,7 @@ internal fun ConfirmDepartment(
 ) {
     val selectedDepartment by viewModel.selectedDepartment.collectAsState()
 
-    ConfirmDepartment(
+    ConfirmDepartmentScreen(
         selectedDepartment = selectedDepartment,
         onConfirm = {
             onConfirm()
@@ -61,7 +61,7 @@ internal fun ConfirmDepartment(
 }
 
 @Composable
-private fun ConfirmDepartment(
+private fun ConfirmDepartmentScreen(
     selectedDepartment: Department?,
     onConfirm: () -> Unit,
     onCancel: () -> Unit,
@@ -179,7 +179,7 @@ private fun SelectedDepartmentCaption(modifier: Modifier = Modifier) {
 @Composable
 private fun ConfirmDepartmentPreview() {
     KuringTheme {
-        ConfirmDepartment(
+        ConfirmDepartmentScreen(
             selectedDepartment = previewDepartments[0],
             onConfirm = { },
             onCancel = { },
