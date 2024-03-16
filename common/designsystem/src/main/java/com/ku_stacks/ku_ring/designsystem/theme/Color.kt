@@ -18,6 +18,8 @@ val MainPrimarySelected: Color
     @Composable get() = Color(0xFFE2F5EC)
 val KuringSub: Color
     @Composable get() = Color(0xFFECF9F3)
+val TextTitle: Color
+    get() = Color(0xFF333333)
 val TextBody: Color
     @Composable get() = Color(0xFF353C49)
 val TextCaption1: Color
@@ -36,6 +38,8 @@ val Background: Color
     get() = Color(0xFFFFFFFF)
 val BoxBackgroundColor2: Color
     @Composable get() = Color(0xFFF2F3F5)
+val Borderline: Color
+    get() = Color(0x14000000)
 val Warning: Color
     @Composable get() = Color(0xFFFF4848)
 

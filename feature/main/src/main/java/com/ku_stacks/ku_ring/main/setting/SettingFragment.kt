@@ -4,12 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.StringRes
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.ku_stacks.ku_ring.designsystem.theme.Background
+import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
 import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.databinding.FragmentSettingBinding
+import com.ku_stacks.ku_ring.main.setting.compose.SettingScreen
 import com.ku_stacks.ku_ring.ui_util.KuringNavigator
-import com.ku_stacks.ku_ring.ui_util.getAppVersionName
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -38,54 +47,43 @@ class SettingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupView()
-        binding.subscribeLayout.subscribeExtSwitch.isChecked = viewModel.isExtNotificationAllowed()
     }
 
     private fun setupView() {
-        /** subscribe layout */
-        binding.subscribeLayout.subscribeNoticeLayout.setOnClickListener {
-            navigator.navigateToEditSubscription(requireActivity())
-            requireActivity().overridePendingTransition(
-                R.anim.anim_slide_right_enter,
-                R.anim.anim_stay_exit
-            )
-        }
-        binding.subscribeLayout.subscribeExtSwitch.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.setExtNotificationAllowed(isChecked)
-        }
+        val activity = requireActivity()
 
-        /** information layout */
-        binding.informationLayout.newContentsLayout.setOnClickListener {
-            startWebViewActivity(getString(R.string.notion_new_contents_url))
-        }
-        binding.informationLayout.teamLayout.setOnClickListener {
-            startWebViewActivity(getString(R.string.notion_kuring_team_url))
-        }
-        binding.informationLayout.privacyPolicyLayout.setOnClickListener {
-            startWebViewActivity(getString(R.string.notion_privacy_policy_url))
-        }
-        binding.informationLayout.termsOfServiceLayout.setOnClickListener {
-            startWebViewActivity(getString(R.string.notion_terms_of_service_url))
-        }
-        binding.informationLayout.openSourceLayout.setOnClickListener {
-            val activity = requireActivity()
-            navigator.navigateToOssLicensesMenu(activity)
-            activity.overridePendingTransition(
-                R.anim.anim_slide_right_enter,
-                R.anim.anim_stay_exit
-            )
-        }
+        binding.composeView.setContent {
+            val isExtNotificationAllowed by viewModel.isExtNotificationAllowed.collectAsState()
 
-        /** feedback layout */
-        binding.feedbackLayout.feedbackSendLayout.setOnClickListener {
-            navigator.navigateToFeedback(requireActivity())
+            KuringTheme {
+                SettingScreen(
+                    onNavigateToEditSubscription = { navigator.navigateToEditSubscription(activity) },
+                    isExtNotificationEnabled = isExtNotificationAllowed,
+                    onExtNotificationEnabledToggle = viewModel::setExtNotificationAllowed,
+                    onNavigateToUpdateLog = { startWebViewActivity(R.string.notion_new_contents_url) },
+                    onNavigateToKuringTeam = { startWebViewActivity(R.string.notion_kuring_team_url) },
+                    onNavigateToPrivacyPolicy = { startWebViewActivity(R.string.notion_privacy_policy_url) },
+                    onNavigateToServiceTerms = { startWebViewActivity(R.string.notion_terms_of_service_url) },
+                    onNavigateToOpenSources = {
+                        navigator.navigateToOssLicensesMenu(activity)
+                        activity.overridePendingTransition(
+                            R.anim.anim_slide_right_enter,
+                            R.anim.anim_stay_exit
+                        )
+                    },
+                    onNavigateToKuringInstagram = {},
+                    onNavigateToFeedback = { navigator.navigateToFeedback(activity) },
+                    modifier = Modifier
+                        .background(Background)
+                        .fillMaxWidth()
+                        .wrapContentHeight(),
+                )
+            }
         }
-
-        /** set app version name */
-        binding.informationLayout.versionName = requireContext().getAppVersionName()
     }
 
-    private fun startWebViewActivity(url: String) {
+    private fun startWebViewActivity(@StringRes urlId: Int) {
+        val url = getString(urlId)
         navigator.navigateToNotionView(requireActivity(), url)
         requireActivity().overridePendingTransition(
             R.anim.anim_slide_right_enter,
