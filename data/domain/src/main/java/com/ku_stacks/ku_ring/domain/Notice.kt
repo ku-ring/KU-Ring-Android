@@ -12,5 +12,6 @@ data class Notice(
     var isSubscribing: Boolean,
     val isSaved: Boolean,
     val isReadOnStorage: Boolean,
+    val isImportant: Boolean,
     val tag: List<String>
 )

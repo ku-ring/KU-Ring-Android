@@ -70,6 +70,7 @@ class FcmUtil @Inject constructor(
                         isNew = true,
                         isRead = false,
                         isSaved = false,
+                        isImportant = false,
                         isReadOnStorage = false
                     )
                 )

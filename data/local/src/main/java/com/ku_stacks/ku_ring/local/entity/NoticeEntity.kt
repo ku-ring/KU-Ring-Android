@@ -16,4 +16,5 @@ data class NoticeEntity(
     @ColumnInfo(name = "isRead") val isRead: Boolean,
     @ColumnInfo(name = "isSaved") val isSaved: Boolean,
     @ColumnInfo(name = "isReadOnStorage") val isReadOnStorage: Boolean,
+    @ColumnInfo(name = "isImportant") val isImportant: Boolean,
 )

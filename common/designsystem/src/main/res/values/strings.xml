@@ -2,6 +2,8 @@
     <string name="app_name">쿠링</string>
     <string name="app_name_debug">쿠링 Debug</string>
 
+    <!--  TODO: 여기 선언된 string을 적절한 모듈로 분산하기  -->
+
     <!--  Common  -->
     <string name="network_error">네트워크 문제로 연결되지 않았습니다. 다시 시도해주세요</string>
     <string name="cancel">취소하기</string>
@@ -39,7 +41,7 @@
     <string name="add_department_text">학과 추가하기</string>
     <string name="department_selector_description">다른 학과 선택하기</string>
     <string name="selected_department_description">%1$s 선택된 학과입니다.</string>
-    <string name="department_selector_bottom_sheet_title">학과 선택</string>
+    <string name="department_selector_bottom_sheet_title">대표 학과 선택</string>
     <string name="notice_refresh_error_message">공지 로드 중 에러가 발생했습니다.\n잠시 후 다시 시도해 주세요.</string>
 
     <!--  feedback  -->
