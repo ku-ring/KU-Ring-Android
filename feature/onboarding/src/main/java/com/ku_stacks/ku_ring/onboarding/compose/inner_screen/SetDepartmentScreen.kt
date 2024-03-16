@@ -1,5 +1,6 @@
 package com.ku_stacks.ku_ring.onboarding.compose.inner_screen
 
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -23,9 +25,11 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.components.DepartmentWithAddIcon
+import com.ku_stacks.ku_ring.designsystem.components.DepartmentWithCheckIcon
 import com.ku_stacks.ku_ring.designsystem.components.KuringCallToAction
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.components.SearchTextField
@@ -39,7 +43,7 @@ import com.ku_stacks.ku_ring.onboarding.compose.OnboardingViewModel
 import com.ku_stacks.ku_ring.ui_util.preview_data.previewDepartments
 
 @Composable
-internal fun SetDepartment(
+internal fun SetDepartmentScreen(
     viewModel: OnboardingViewModel,
     onSetDepartmentComplete: () -> Unit,
     modifier: Modifier = Modifier,
@@ -47,25 +51,30 @@ internal fun SetDepartment(
     val query by viewModel.query.collectAsState()
     val isInitialSearch by viewModel.isInitialSearch.collectAsState()
     val departments by viewModel.departments.collectAsState()
+    val selectedDepartment by viewModel.selectedDepartment.collectAsState()
 
-    SetDepartment(
+    SetDepartmentScreen(
         query = query,
         onQueryUpdate = viewModel::onQueryUpdate,
         isInitialSearch = isInitialSearch,
         departments = departments,
         onSearch = viewModel::search,
+        onSelectDepartment = viewModel::selectDepartment,
+        selectedDepartment = selectedDepartment,
         onSetDepartmentComplete = onSetDepartmentComplete,
         modifier = modifier,
     )
 }
 
 @Composable
-private fun SetDepartment(
+private fun SetDepartmentScreen(
     query: String?,
     onQueryUpdate: (String) -> Unit,
     isInitialSearch: Boolean,
     departments: List<Department>,
     onSearch: () -> Unit,
+    onSelectDepartment: (Department) -> Unit,
+    selectedDepartment: Department?,
     onSetDepartmentComplete: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -84,14 +93,20 @@ private fun SetDepartment(
         SearchedDepartments(
             isVisible = !isInitialSearch,
             departments = departments,
+            selectedDepartment = selectedDepartment,
+            onSelectDepartment = onSelectDepartment,
             modifier = Modifier.weight(1f),
         )
         KuringCallToAction(
             text = stringResource(id = R.string.set_department_cta_text),
-            onClick = onSetDepartmentComplete,
+            onClick = {
+                if (selectedDepartment != null) {
+                    onSetDepartmentComplete()
+                }
+            },
             modifier = Modifier.fillMaxWidth(),
             blur = true,
-            enabled = true, // TODO
+            enabled = (selectedDepartment != null),
         )
     }
 }
@@ -148,6 +163,7 @@ private fun SearchDepartmentTextField(
             keyboardController?.hide()
             onSearch()
         },
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
     )
 }
 
@@ -155,6 +171,8 @@ private fun SearchDepartmentTextField(
 private fun SearchedDepartments(
     isVisible: Boolean,
     departments: List<Department>,
+    selectedDepartment: Department?,
+    onSelectDepartment: (Department) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     if (isVisible) {
@@ -164,15 +182,42 @@ private fun SearchedDepartments(
             )
             LazyColumn {
                 items(departments) { department ->
-                    DepartmentWithAddIcon(
+                    SearchedDepartment(
                         department = department,
-                        onAddDepartment = { /* TODO */ },
+                        selectedDepartment = selectedDepartment,
+                        onSelectDepartment = onSelectDepartment,
                     )
                 }
             }
         }
     } else {
         Spacer(modifier = modifier)
+    }
+}
+
+@Composable
+private fun SearchedDepartment(
+    department: Department,
+    selectedDepartment: Department?,
+    onSelectDepartment: (Department) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Crossfade(
+        targetState = selectedDepartment,
+        modifier = modifier,
+        label = "department item",
+    ) {
+        if (department == it) {
+            DepartmentWithCheckIcon(
+                department = department,
+                onClickDepartment = {},
+            )
+        } else {
+            DepartmentWithAddIcon(
+                department = department,
+                onAddDepartment = { onSelectDepartment(department) },
+            )
+        }
     }
 }
 
@@ -197,14 +242,17 @@ private fun SearchedDepartmentsCaption(
 @Composable
 private fun SetDepartmentPreview() {
     var query by remember { mutableStateOf<String?>("학과") }
+    var selectedDepartment by remember { mutableStateOf<Department?>(null) }
 
     KuringTheme {
-        SetDepartment(
+        SetDepartmentScreen(
             query = query,
             onQueryUpdate = { query = it },
             isInitialSearch = false,
             onSearch = {},
             departments = previewDepartments,
+            selectedDepartment = selectedDepartment,
+            onSelectDepartment = { selectedDepartment = it },
             onSetDepartmentComplete = { },
             modifier = Modifier.fillMaxSize(),
         )

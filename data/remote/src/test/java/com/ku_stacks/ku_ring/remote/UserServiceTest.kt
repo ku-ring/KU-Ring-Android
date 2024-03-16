@@ -1,20 +1,20 @@
 package com.ku_stacks.ku_ring.remote
 
-import com.ku_stacks.ku_ring.remote.user.FeedbackService
+import com.ku_stacks.ku_ring.remote.user.UserService
 import com.ku_stacks.ku_ring.remote.user.request.FeedbackRequest
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
-class FeedbackServiceTest : ApiAbstract<FeedbackService>() {
+class UserServiceTest : ApiAbstract<UserService>() {
 
-    private lateinit var service: FeedbackService
+    private lateinit var service: UserService
 
     @Before
     fun initService() {
         super.createMockServer()
-        service = createService(FeedbackService::class.java)
+        service = createService(UserService::class.java)
     }
 
     @After

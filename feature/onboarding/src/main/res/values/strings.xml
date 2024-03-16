@@ -9,6 +9,7 @@
 
     <!--  tab inner screen -->
     <string name="tab_screen_title">우리 대학 공지\n쿠링이 알려줄게!</string>
+    <string name="tab_screen_skip_onboarding">바로 시작하기</string>
 
     <!--  set department inner screen  -->
     <string name="set_department_screen_title">전공학과를\n설정해 주세요</string>
@@ -16,4 +17,15 @@
     <string name="set_department_cta_text">학과 설정 완료하기</string>
     <string name="set_department_text_field_placeholder">나의 전공학과를 검색해 주세요</string>
     <string name="set_department_search_result">검색 결과</string>
+
+    <!--  confirm department inner screen  -->
+    <string name="confirm_department_screen_title">를\n내 전공학과로 설정할까요?</string>
+    <string name="confirm_department_screen_caption">혹시 다전공/부전공을 하고 계신가요?\n쿠링을 시작하면 더 많은 전공을 추가할 수 있어요!</string>
+    <string name="confirm_department_confirm_text">학과 설정 완료하기</string>
+    <string name="confirm_department_cancel_text">다시 설정하기</string>
+
+    <!--  onboarding complete inner screen  -->
+    <string name="onboarding_complete_screen_title">학과 설정이 완료되었어요!</string>
+    <string name="onboarding_complete_screen_caption">이제 쿠링과 함께\n즐겁고 편리한 캠퍼스를 누려봐요!</string>
+    <string name="onboarding_complete_screen_cta_text">쿠링 시작하기</string>
 </resources>

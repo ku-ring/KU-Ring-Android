@@ -16,10 +16,10 @@ import androidx.work.WorkManager
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.splash.databinding.ActivitySplashBinding
 import com.ku_stacks.ku_ring.thirdparty.firebase.FcmUtil
-import com.ku_stacks.ku_ring.thirdparty.firebase.MyFireBaseMessagingService
 import com.ku_stacks.ku_ring.ui_util.KuringNavigator
 import com.ku_stacks.ku_ring.ui_util.getAppVersionName
 import com.ku_stacks.ku_ring.util.DateUtil
+import com.ku_stacks.ku_ring.util.KuringNotificationManager
 import com.ku_stacks.ku_ring.work.ReEngagementNotificationWork
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -160,8 +160,8 @@ class SplashActivity : AppCompatActivity() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
-                MyFireBaseMessagingService.CHANNEL_ID,
-                MyFireBaseMessagingService.CHANNEL_NAME,
+                KuringNotificationManager.CHANNEL_ID,
+                KuringNotificationManager.CHANNEL_NAME,
                 NotificationManager.IMPORTANCE_DEFAULT
             )
             notificationManager.createNotificationChannel(channel)

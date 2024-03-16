@@ -2,6 +2,7 @@ package com.ku_stacks.ku_ring.onboarding.compose.inner_screen
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,11 +12,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -26,6 +30,7 @@ import com.ku_stacks.ku_ring.designsystem.components.pager_indicator.HorizontalS
 import com.ku_stacks.ku_ring.designsystem.theme.Background
 import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
+import com.ku_stacks.ku_ring.designsystem.theme.TextCaption1
 import com.ku_stacks.ku_ring.designsystem.theme.TextTitle
 import com.ku_stacks.ku_ring.onboarding.R
 import com.ku_stacks.ku_ring.onboarding.compose.inner_screen.feature_tab.FeatureTab
@@ -35,6 +40,7 @@ import com.ku_stacks.ku_ring.onboarding.compose.inner_screen.feature_tab.Feature
 @Composable
 internal fun FeatureTabs(
     onNavigateToSetDepartment: () -> Unit,
+    onSkipOnboarding: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val tabItems = FeatureTabItem.values()
@@ -68,6 +74,11 @@ internal fun FeatureTabs(
             enabled = pagerState.currentPage == tabItems.lastIndex,
             modifier = Modifier.fillMaxWidth(),
         )
+        SkipOnboarding(
+            onSkip = onSkipOnboarding,
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+        )
+        Spacer(modifier = Modifier.height(26.dp))
     }
 }
 
@@ -105,12 +116,34 @@ private fun FeatureTabItems(
     }
 }
 
+@Composable
+private fun SkipOnboarding(
+    onSkip: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Text(
+        text = stringResource(id = R.string.tab_screen_skip_onboarding),
+        style = TextStyle(
+            fontSize = 16.sp,
+            lineHeight = 26.08.sp,
+            fontFamily = Pretendard,
+            fontWeight = FontWeight(500),
+            color = TextCaption1,
+        ),
+        modifier = modifier
+            .clip(RoundedCornerShape(50))
+            .clickable(onClick = onSkip, role = Role.Button)
+            .padding(8.dp),
+    )
+}
+
 @LightPreview
 @Composable
 private fun FeatureTabsPreview() {
     KuringTheme {
         FeatureTabs(
             onNavigateToSetDepartment = {},
+            onSkipOnboarding = {},
             modifier = Modifier.fillMaxSize(),
         )
     }
