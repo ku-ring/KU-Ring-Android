@@ -43,7 +43,7 @@ import com.ku_stacks.ku_ring.onboarding.compose.OnboardingViewModel
 import com.ku_stacks.ku_ring.ui_util.preview_data.previewDepartments
 
 @Composable
-internal fun SetDepartment(
+internal fun SetDepartmentScreen(
     viewModel: OnboardingViewModel,
     onSetDepartmentComplete: () -> Unit,
     modifier: Modifier = Modifier,
@@ -53,7 +53,7 @@ internal fun SetDepartment(
     val departments by viewModel.departments.collectAsState()
     val selectedDepartment by viewModel.selectedDepartment.collectAsState()
 
-    SetDepartment(
+    SetDepartmentScreen(
         query = query,
         onQueryUpdate = viewModel::onQueryUpdate,
         isInitialSearch = isInitialSearch,
@@ -67,7 +67,7 @@ internal fun SetDepartment(
 }
 
 @Composable
-private fun SetDepartment(
+private fun SetDepartmentScreen(
     query: String?,
     onQueryUpdate: (String) -> Unit,
     isInitialSearch: Boolean,
@@ -245,7 +245,7 @@ private fun SetDepartmentPreview() {
     var selectedDepartment by remember { mutableStateOf<Department?>(null) }
 
     KuringTheme {
-        SetDepartment(
+        SetDepartmentScreen(
             query = query,
             onQueryUpdate = { query = it },
             isInitialSearch = false,
