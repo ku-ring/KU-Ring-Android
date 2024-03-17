@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import com.ku_stacks.ku_ring.designsystem.theme.Background
 import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
 import com.ku_stacks.ku_ring.domain.Notice
-import com.ku_stacks.ku_ring.main.archive.compose.NoticeStorageScreen
+import com.ku_stacks.ku_ring.main.archive.compose.ArchiveScreen
 import com.ku_stacks.ku_ring.main.databinding.FragmentArchiveBinding
 import com.ku_stacks.ku_ring.ui_util.KuringNavigator
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,7 +44,7 @@ class ArchiveFragment : Fragment() {
     private fun setComposable() {
         binding.composeView.setContent {
             KuringTheme {
-                NoticeStorageScreen(
+                ArchiveScreen(
                     onNoticeClick = ::startNoticeActivity,
                     modifier = Modifier
                         .fillMaxSize()

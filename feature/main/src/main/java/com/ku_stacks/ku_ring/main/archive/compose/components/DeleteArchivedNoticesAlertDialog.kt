@@ -11,7 +11,7 @@ import com.ku_stacks.ku_ring.designsystem.theme.Warning
 import com.ku_stacks.ku_ring.main.R
 
 @Composable
-internal fun DeleteSelectedNoticesAlertDialog(
+internal fun DeleteArchivedNoticesAlertDialog(
     isDeletePopupVisible: Boolean,
     isDeleteAllNotices: Boolean,
     onDelete: () -> Unit,
@@ -39,7 +39,7 @@ internal fun DeleteSelectedNoticesAlertDialog(
 @Composable
 private fun DeleteSelectedNoticesAlertDialogPreview() {
     KuringTheme {
-        DeleteSelectedNoticesAlertDialog(
+        DeleteArchivedNoticesAlertDialog(
             isDeletePopupVisible = true,
             isDeleteAllNotices = true,
             onDelete = { },

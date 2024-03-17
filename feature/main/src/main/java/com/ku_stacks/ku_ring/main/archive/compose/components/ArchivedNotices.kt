@@ -10,7 +10,7 @@ import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.ui_util.preview_data.previewNotices
 
 @Composable
-internal fun StoredNotices(
+internal fun ArchivedNotices(
     notices: List<Notice>,
     onNoticeClick: (Notice) -> Unit,
     selectedNoticeIds: Set<String>,
@@ -38,7 +38,7 @@ internal fun StoredNotices(
 @Composable
 private fun StoredNoticesPreview() {
     KuringTheme {
-        StoredNotices(
+        ArchivedNotices(
             notices = previewNotices,
             onNoticeClick = {},
             selectedNoticeIds = emptySet(),
