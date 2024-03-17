@@ -17,7 +17,6 @@ import com.ku_stacks.ku_ring.main.notice.compose.inner_screen.NoticeTabScreens
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun NoticeScreen(
-    onStorageIconClick: () -> Unit,
     onSearchIconClick: () -> Unit,
     onNotificationIconClick: () -> Unit,
     onNoticeClick: (Notice) -> Unit,
@@ -26,7 +25,6 @@ internal fun NoticeScreen(
 ) {
     Column(modifier = modifier) {
         NoticeScreenHeader(
-            onStorageIconClick = onStorageIconClick,
             onSearchIconClick = onSearchIconClick,
             onNotificationIconClick = onNotificationIconClick,
             modifier = Modifier.fillMaxWidth(),
@@ -46,7 +44,6 @@ internal fun NoticeScreen(
 private fun NoticeScreenPreview() {
     KuringTheme {
         NoticeScreen(
-            onStorageIconClick = {},
             onSearchIconClick = {},
             onNotificationIconClick = {},
             onNoticeClick = {},

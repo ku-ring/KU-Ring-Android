@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.notice_storage.compose.components
+package com.ku_stacks.ku_ring.main.archive.compose.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable

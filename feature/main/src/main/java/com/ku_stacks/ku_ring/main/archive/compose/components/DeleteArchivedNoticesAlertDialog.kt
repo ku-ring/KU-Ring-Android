@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.notice_storage.compose.components
+package com.ku_stacks.ku_ring.main.archive.compose.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.runtime.Composable
@@ -8,10 +8,10 @@ import com.ku_stacks.ku_ring.designsystem.components.KuringAlertDialog
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.theme.Warning
-import com.ku_stacks.ku_ring.notice_storage.R
+import com.ku_stacks.ku_ring.main.R
 
 @Composable
-internal fun DeleteSelectedNoticesAlertDialog(
+internal fun DeleteArchivedNoticesAlertDialog(
     isDeletePopupVisible: Boolean,
     isDeleteAllNotices: Boolean,
     onDelete: () -> Unit,
@@ -39,7 +39,7 @@ internal fun DeleteSelectedNoticesAlertDialog(
 @Composable
 private fun DeleteSelectedNoticesAlertDialogPreview() {
     KuringTheme {
-        DeleteSelectedNoticesAlertDialog(
+        DeleteArchivedNoticesAlertDialog(
             isDeletePopupVisible = true,
             isDeleteAllNotices = true,
             onDelete = { },

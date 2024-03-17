@@ -49,14 +49,11 @@ class NoticesParentFragment : Fragment() {
         binding.composeView.setContent {
             KuringTheme {
                 NoticeScreen(
-                    onStorageIconClick = {
-                        navigator.navigateToNoticeStorage(requireActivity())
-                    },
                     onSearchIconClick = {
                         navigator.navigateToSearch(requireActivity())
                     },
                     onNotificationIconClick = {
-                        navigator.navigateToNoticeStorage(requireActivity())
+                        navigator.navigateToNotification(requireActivity())
                     },
                     onNoticeClick = {
                         navigator.navigateToNoticeWeb(requireActivity(), it)

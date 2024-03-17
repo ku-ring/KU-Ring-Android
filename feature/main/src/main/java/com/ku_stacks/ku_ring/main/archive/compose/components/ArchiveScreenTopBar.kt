@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.notice_storage.compose.components
+package com.ku_stacks.ku_ring.main.archive.compose.components
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -16,10 +16,10 @@ import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
 import com.ku_stacks.ku_ring.designsystem.theme.TextBody
-import com.ku_stacks.ku_ring.notice_storage.R
+import com.ku_stacks.ku_ring.main.R
 
 @Composable
-internal fun NoticeStorageTopBar(
+internal fun ArchiveScreenTopBar(
     isSelectModeEnabled: Boolean,
     onSelectModeEnabled: () -> Unit,
     onSelectModeDisabled: () -> Unit,
@@ -31,7 +31,7 @@ internal fun NoticeStorageTopBar(
     val onActionClick = if (isSelectModeEnabled) onSelectAllNotices else onSelectModeEnabled
 
     CenterTitleTopBar(
-        title = "",
+        title = stringResource(id = R.string.archive_screen_title),
         navigation = if (isSelectModeEnabled) {
             { TopBarNavigation() }
         } else {
@@ -66,7 +66,7 @@ internal fun TopBarNavigation(
 private fun NoticeStorageTopBarPreview() {
     var isSelectedModeEnabled by remember { mutableStateOf(false) }
     KuringTheme {
-        NoticeStorageTopBar(
+        ArchiveScreenTopBar(
             isSelectModeEnabled = isSelectedModeEnabled,
             onSelectModeEnabled = { isSelectedModeEnabled = true },
             onSelectModeDisabled = { isSelectedModeEnabled = false },
