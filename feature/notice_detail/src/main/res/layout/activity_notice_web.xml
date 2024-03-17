@@ -46,7 +46,7 @@
                 android:fontFamily="@font/sfpro_display_regular"
                 android:gravity="center_horizontal"
                 android:maxLines="1"
-                android:text="@string/campus_on_construction"
+                android:text=""
                 android:textColor="@color/kus_primary"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
