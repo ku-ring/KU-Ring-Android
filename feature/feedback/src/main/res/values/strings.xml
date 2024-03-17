@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="feedback_send_content">피드백 보내기</string>
+    <string name="feedback_title">피드백을 남겨서 앱이 성장하는데에 \n큰 기여를 해주세요 🙂</string>
+    <string name="feedback_hint">피드백을 남겨주세요…</string>
+    <string name="feedback_guide">피드백을 보내주시면 \n앱 성장에 많은 도움이 됩니다 :)</string>
+    <string name="feedback_too_short">글자 수는 5글자 이상이어야 합니다.</string>
+    <string name="feedback_too_long">글자 수는 256글자 이하여야 합니다.</string>
+    <string name="feedback_success">피드백이 정상적으로 전송되었습니다</string>
+    <string name="feedback_write_more_character">최소 5글자 이상 작성해주세요</string>
+    <string name="feedback_write_more">5글자 이상 작성해주세요</string>
+    <string name="feedback_size_of_character">글자수 : %s/256</string>
+    <string name="feedback_cannot_send">피드백을 보낼 수 없습니다. fcm 토큰을 확인해주세요</string>
+</resources>
