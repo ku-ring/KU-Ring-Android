@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.notice_storage.compose.components
+package com.ku_stacks.ku_ring.main.archive.compose.components
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.Image
@@ -9,7 +9,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
-import com.ku_stacks.ku_ring.notice_storage.R
+import com.ku_stacks.ku_ring.main.R
 
 @Composable
 internal fun NoticeSelectionStateImage(

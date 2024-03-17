@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.notice_storage
+package com.ku_stacks.ku_ring.main.archive
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -18,7 +18,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class NoticeStorageViewModel @Inject constructor(
+class ArchiveViewModel @Inject constructor(
     private val noticeRepository: NoticeRepository,
 ) : ViewModel() {
 

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="navigator_notice_screen">공지사항</string>
+    <string name="navigator_archive_screen">공지보관함</string>
+    <string name="navigator_campus_map_screen">캠퍼스맵</string>
+    <string name="navigator_setting_screen">더보기</string>
+</resources>
