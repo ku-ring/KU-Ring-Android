@@ -3,16 +3,21 @@
 
     <item
         android:id="@+id/notice_screen"
-        android:icon="@drawable/ic_notice"
-        android:title="공지사항" />
+        android:icon="@drawable/selector_ic_list_v2"
+        android:title="@string/navigator_notice_screen" />
 
     <item
-        android:id="@+id/campus_screen"
+        android:id="@+id/archive_screen"
+        android:icon="@drawable/selector_ic_archive_v2"
+        android:title="@string/navigator_archive_screen" />
+
+    <item
+        android:id="@+id/campus_map_screen"
         android:icon="@drawable/ic_campus"
-        android:title="쿠링캠퍼스" />
+        android:title="@string/navigator_campus_map_screen" />
 
     <item
         android:id="@+id/setting_screen"
-        android:icon="@drawable/ic_settings"
-        android:title="설정" />
+        android:icon="@drawable/selector_ic_more_horizontal_v2"
+        android:title="@string/navigator_setting_screen" />
 </menu>
