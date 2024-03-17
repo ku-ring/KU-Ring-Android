@@ -58,4 +58,9 @@ class ArchiveFragment : Fragment() {
         navigator.navigateToNoticeWeb(requireActivity(), notice)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
 }
