@@ -39,12 +39,6 @@
 
     <string name="department_selector_bottom_sheet_cta">학과 편집하기</string>
 
-    <!--  notice storage  -->
-    <string name="notice_storage_title">공지 보관함</string>
-    <string name="notice_storage_alert">보관된 공지가 없어요!</string>
-    <string name="notice_storage_back_button_description">뒤로 가기 버튼</string>
-    <string name="notice_storage_clear_button_description">저장된 공지 모두 삭제하기</string>
-
     <!--  search  -->
     <string name="search_enter_keyword">공지 제목 또는 교수명을 입력해 주세요</string>
     <string name="search">검색</string>
