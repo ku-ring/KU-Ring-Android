@@ -37,14 +37,6 @@
     <string name="normal">일반</string>
     <string name="library">도서관</string>
 
-
-    <!--  notification  -->
-    <string name="notification_my">내 알림</string>
-    <string name="notification_alert">알림이 없어요!</string>
-    <string name="notification_setting">푸시 알림 설정하기</string>
-    <string name="push_notification_max_count">99+</string>
-    <string name="notification_no_subscription">알림 설정한 항목이 없습니다.\n알림 받고 싶은 공지를 설정해보세요!</string>
-    <string name="confirm_to_delete_notification">정말 삭제하시겠습니까?</string>
     <!--  design system components  -->
     <string name="notice_refresh_error_message">공지 로드 중 에러가 발생했어요.\n잠시 후 다시 시도해 주세요.</string>
 
@@ -53,10 +45,6 @@
     <string name="notice_storage_alert">보관된 공지가 없어요!</string>
     <string name="notice_storage_back_button_description">뒤로 가기 버튼</string>
     <string name="notice_storage_clear_button_description">저장된 공지 모두 삭제하기</string>
-
-    <!--  setting_notification  -->
-    <string name="setting_notification_explain"> 어떤 알림들을 받아보시겠습니까?\n알림 받고 싶은 카테고리를 선택해주세요.</string>
-    <string name="setting_notification_start">시작하기</string>
 
     <!--  subscribe screen -->
     <string name="subscribe_category_title">대학 공지 카테고리</string>
