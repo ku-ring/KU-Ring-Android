@@ -34,7 +34,6 @@ class OnboardingViewModel @Inject constructor(
         viewModelScope.launch {
             departmentRepository.updateDepartmentsFromRemote()
         }
-        // TODO: 2.0 등록 API 한번 호출하기
     }
 
     fun onQueryUpdate(newQuery: String) {
