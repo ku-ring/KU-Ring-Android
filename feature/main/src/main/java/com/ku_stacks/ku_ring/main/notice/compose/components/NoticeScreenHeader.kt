@@ -20,7 +20,6 @@ import com.ku_stacks.ku_ring.main.R
 
 @Composable
 internal fun NoticeScreenHeader(
-    onStorageIconClick: () -> Unit,
     onSearchIconClick: () -> Unit,
     onNotificationIconClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -37,7 +36,6 @@ internal fun NoticeScreenHeader(
         )
         Spacer(modifier = Modifier.weight(1f))
         NoticeScreenHeaderIcons(
-            onStorageIconClick = onStorageIconClick,
             onSearchIconClick = onSearchIconClick,
             onNotificationIconClick = onNotificationIconClick,
         )
@@ -46,7 +44,6 @@ internal fun NoticeScreenHeader(
 
 @Composable
 private fun NoticeScreenHeaderIcons(
-    onStorageIconClick: () -> Unit,
     onSearchIconClick: () -> Unit,
     onNotificationIconClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -55,12 +52,6 @@ private fun NoticeScreenHeaderIcons(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier,
     ) {
-        // TODO: 보관함 아이콘 지우고 bottom navigation으로 옮기기
-        NoticeScreenHeaderIcon(
-            resourceId = R.drawable.ic_storage,
-            contentDescription = stringResource(id = R.string.notice_screen_header_storage),
-            onClick = onStorageIconClick,
-        )
         NoticeScreenHeaderIcon(
             resourceId = R.drawable.ic_search,
             contentDescription = stringResource(id = R.string.notice_screen_header_search),
@@ -97,7 +88,6 @@ private fun NoticeScreenHeaderIcon(
 private fun NoticeScreenHeaderPreview() {
     KuringTheme {
         NoticeScreenHeader(
-            onStorageIconClick = {},
             onSearchIconClick = {},
             onNotificationIconClick = {},
             modifier = Modifier.fillMaxWidth(),
