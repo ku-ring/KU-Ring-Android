@@ -27,8 +27,9 @@ class MainActivity : AppCompatActivity() {
         override fun onPageSelected(position: Int) {
             binding.mainBottomNavigation.selectedItemId = when (position) {
                 0 -> R.id.notice_screen
-                1 -> R.id.campus_screen
-                2 -> R.id.setting_screen
+                1 -> R.id.archive_screen
+                2 -> R.id.campus_map_screen
+                3 -> R.id.setting_screen
                 else -> throw IllegalStateException("no such main viewpager position")
             }
         }
@@ -78,8 +79,9 @@ class MainActivity : AppCompatActivity() {
     private fun navigationSelected(item: MenuItem): Boolean {
         when (item.setChecked(true).itemId) {
             R.id.notice_screen -> binding.mainViewPager.setCurrentItem(0, false)
-            R.id.campus_screen -> binding.mainViewPager.setCurrentItem(1, false)
-            R.id.setting_screen -> binding.mainViewPager.setCurrentItem(2, false)
+            R.id.archive_screen -> binding.mainViewPager.setCurrentItem(1, false)
+            R.id.campus_map_screen -> binding.mainViewPager.setCurrentItem(2, false)
+            R.id.setting_screen -> binding.mainViewPager.setCurrentItem(3, false)
             else -> return false
         }
 
