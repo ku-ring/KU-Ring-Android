@@ -20,24 +20,24 @@ import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.main.R
-import com.ku_stacks.ku_ring.main.archive.NoticeStorageViewModel
-import com.ku_stacks.ku_ring.main.archive.compose.components.DeleteSelectedNoticesAlertDialog
-import com.ku_stacks.ku_ring.main.archive.compose.components.NoticeStorageTopBar
-import com.ku_stacks.ku_ring.main.archive.compose.components.StoredNotices
+import com.ku_stacks.ku_ring.main.archive.ArchiveViewModel
+import com.ku_stacks.ku_ring.main.archive.compose.components.ArchiveScreenTopBar
+import com.ku_stacks.ku_ring.main.archive.compose.components.ArchivedNotices
+import com.ku_stacks.ku_ring.main.archive.compose.components.DeleteArchivedNoticesAlertDialog
 import com.ku_stacks.ku_ring.ui_util.preview_data.previewNotices
 
 @Composable
-fun NoticeStorageScreen(
+fun ArchiveScreen(
     onNoticeClick: (Notice) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: NoticeStorageViewModel = hiltViewModel(),
+    viewModel: ArchiveViewModel = hiltViewModel(),
 ) {
     val notices by viewModel.savedNotices.collectAsState()
     val selectedNoticeIds by viewModel.selectedNoticeIds.collectAsState()
     val isAllNoticesSelected by viewModel.isAllNoticesSelected.collectAsState()
     var isDeleteDialogVisible by rememberSaveable { mutableStateOf(false) }
 
-    NoticeStorageScreen(
+    ArchiveScreen(
         isSelectModeEnabled = viewModel.isSelectedModeEnabled,
         onSelectModeEnabled = {
             viewModel.setSelectedMode(true)
@@ -72,7 +72,7 @@ fun NoticeStorageScreen(
 }
 
 @Composable
-private fun NoticeStorageScreen(
+private fun ArchiveScreen(
     isSelectModeEnabled: Boolean,
     onSelectModeEnabled: () -> Unit,
     onSelectModeDisabled: () -> Unit,
@@ -93,14 +93,14 @@ private fun NoticeStorageScreen(
             .background(MaterialTheme.colors.surface)
             .fillMaxSize(),
     ) {
-        NoticeStorageTopBar(
+        ArchiveScreenTopBar(
             isSelectModeEnabled = isSelectModeEnabled,
             onSelectModeEnabled = onSelectModeEnabled,
             onSelectModeDisabled = onSelectModeDisabled,
             onSelectAllNotices = onSelectAllNotices,
             modifier = Modifier.fillMaxWidth(),
         )
-        StoredNotices(
+        ArchivedNotices(
             notices = notices,
             onNoticeClick = onNoticeClick,
             isSelectModeEnabled = isSelectModeEnabled,
@@ -121,7 +121,7 @@ private fun NoticeStorageScreen(
         }
     }
 
-    DeleteSelectedNoticesAlertDialog(
+    DeleteArchivedNoticesAlertDialog(
         isDeletePopupVisible = isDeletePopupVisible,
         isDeleteAllNotices = isDeleteAllNotices,
         onDelete = onDeleteNotices,
@@ -131,11 +131,11 @@ private fun NoticeStorageScreen(
 
 @LightAndDarkPreview
 @Composable
-private fun NoticeStorageScreenPreview() {
+private fun ArchiveScreenPreview() {
     var isSelectModeEnabled by remember { mutableStateOf(false) }
     var selectedNoticeIds by remember { mutableStateOf(emptySet<String>()) }
     KuringTheme {
-        NoticeStorageScreen(
+        ArchiveScreen(
             isSelectModeEnabled = isSelectModeEnabled,
             onSelectModeEnabled = {
                 isSelectModeEnabled = true

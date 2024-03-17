@@ -19,7 +19,7 @@ import com.ku_stacks.ku_ring.designsystem.theme.TextBody
 import com.ku_stacks.ku_ring.main.R
 
 @Composable
-internal fun NoticeStorageTopBar(
+internal fun ArchiveScreenTopBar(
     isSelectModeEnabled: Boolean,
     onSelectModeEnabled: () -> Unit,
     onSelectModeDisabled: () -> Unit,
@@ -66,7 +66,7 @@ internal fun TopBarNavigation(
 private fun NoticeStorageTopBarPreview() {
     var isSelectedModeEnabled by remember { mutableStateOf(false) }
     KuringTheme {
-        NoticeStorageTopBar(
+        ArchiveScreenTopBar(
             isSelectModeEnabled = isSelectedModeEnabled,
             onSelectModeEnabled = { isSelectedModeEnabled = true },
             onSelectModeDisabled = { isSelectedModeEnabled = false },

@@ -18,7 +18,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class NoticeStorageViewModel @Inject constructor(
+class ArchiveViewModel @Inject constructor(
     private val noticeRepository: NoticeRepository,
 ) : ViewModel() {
 
