@@ -24,6 +24,12 @@
     <string name="notice_screen_header_search">공지 검색</string>
     <string name="notice_screen_header_notification">알림 보기</string>
 
+    <!--  department notice  -->
+    <string name="add_department_text">학과 추가하기</string>
+    <string name="department_selector_description">다른 학과 선택하기</string>
+    <string name="selected_department_description">%1$s 선택된 학과입니다.</string>
+    <string name="department_selector_bottom_sheet_title">대표 학과 선택</string>
+
     <string name="department_screen_add_department_caption">아직 추가된 학과가 없어요.\n관심 학과를 추가하고 공지를 확인해 보세요!</string>
     <string name="department_screen_add_department_button">학과 추가하기</string>
 
