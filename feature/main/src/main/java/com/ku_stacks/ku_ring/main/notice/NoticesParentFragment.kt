@@ -49,9 +49,6 @@ class NoticesParentFragment : Fragment() {
         binding.composeView.setContent {
             KuringTheme {
                 NoticeScreen(
-                    onStorageIconClick = {
-                        navigator.navigateToNoticeStorage(requireActivity())
-                    },
                     onSearchIconClick = {
                         navigator.navigateToSearch(requireActivity())
                     },
