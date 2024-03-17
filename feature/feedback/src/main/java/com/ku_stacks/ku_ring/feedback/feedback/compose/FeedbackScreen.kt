@@ -149,7 +149,7 @@ private fun FeedbackTextField(
             shape = RoundedCornerShape(20.dp),
             placeholder = {
                 Text(
-                    text = stringResource(R.string.feedback_write_more_character),
+                    text = stringResource(R.string.feedback_hint),
                     fontSize = 16.sp,
                     lineHeight = 24.sp,
                     fontFamily = Pretendard,
