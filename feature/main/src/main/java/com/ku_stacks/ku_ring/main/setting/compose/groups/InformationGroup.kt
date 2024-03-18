@@ -91,7 +91,7 @@ private fun AppVersionText(
 @LightAndDarkPreview
 @Composable
 private fun InformationGroupPreview() {
-    KuringTheme {
+    KuringThemeTest {
         InformationGroup(
             appVersion = "2.0.0",
             onNavigateToUpdateLog = {},

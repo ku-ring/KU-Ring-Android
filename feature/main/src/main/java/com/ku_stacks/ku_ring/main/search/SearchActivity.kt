@@ -33,7 +33,7 @@ class SearchActivity : AppCompatActivity() {
 
     private fun setupView() {
         setContent {
-            KuringTheme {
+            KuringThemeTest {
                 SearchScreen(
                     viewModel = viewModel,
                     onNavigationClick = { finish() },
