@@ -42,7 +42,7 @@ class ArchiveFragment : Fragment() {
 
     private fun setComposable() {
         binding.composeView.setContent {
-            KuringTheme {
+            KuringThemeTest {
                 ArchiveScreen(
                     onNoticeClick = ::startNoticeActivity,
                     modifier = Modifier

@@ -50,7 +50,7 @@ class NoticesParentFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.composeView.setContent {
-            KuringTheme {
+            KuringThemeTest {
                 NoticeScreen(
                     onSearchIconClick = {
                         navigator.navigateToSearch(requireActivity())
