@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.R
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
-import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 
 /**
  * 제목과 내비게이션 아이콘, 액션 텍스트를 보여주는 최상단 바이다.
