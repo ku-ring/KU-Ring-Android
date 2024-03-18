@@ -2,15 +2,14 @@ package com.ku_stacks.ku_ring.edit_departments.compose
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ku_stacks.ku_ring.designsystem.components.KuringAlertDialog
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
-import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import com.ku_stacks.ku_ring.edit_departments.R
 import com.ku_stacks.ku_ring.edit_departments.uimodel.PopupUiModel
 
@@ -22,9 +21,9 @@ internal fun DepartmentPopup(
     modifier: Modifier = Modifier,
 ) {
     val confirmTextColor = if (popupUiModel is PopupUiModel.AddPopupUiModel) {
-        MaterialTheme.colors.primary
+        KuringTheme.colors.mainPrimary
     } else {
-        Color(0xFFFF4848)
+        KuringTheme.colors.warning
     }
 
     KuringAlertDialog(
@@ -41,13 +40,13 @@ internal fun DepartmentPopup(
 @LightAndDarkPreview
 @Composable
 private fun DepartmentPopupPreview() {
-    KuringTheme {
+    KuringThemeTest {
         DepartmentPopup(
             popupUiModel = PopupUiModel.AddPopupUiModel("cse", "컴퓨터공학부"),
             onConfirm = {},
             onDismiss = {},
             modifier = Modifier
-                .background(MaterialTheme.colors.onSurface)
+                .background(KuringTheme.colors.textBody)
                 .padding(16.dp),
         )
     }
