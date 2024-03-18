@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import androidx.databinding.DataBindingUtil
-import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import com.ku_stacks.ku_ring.edit_subscription.compose.EditSubscriptionScreen
 import com.ku_stacks.ku_ring.edit_subscription.databinding.ActivityEditSubscriptionBinding
 import com.ku_stacks.ku_ring.ui_util.KuringNavigator
@@ -39,7 +39,7 @@ class EditSubscriptionActivity : AppCompatActivity() {
     private fun setupView() {
         viewModel.firstRunFlag = intent.getBooleanExtra(FIRST_RUN_FLAG, false)
         binding.composeView.setContent {
-            KuringTheme {
+            KuringThemeTest {
                 EditSubscriptionScreen(
                     viewModel = viewModel,
                     onAddDepartmentButtonClick = { navigator.navigateToEditSubscribedDepartment(this) },
