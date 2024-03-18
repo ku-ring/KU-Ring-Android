@@ -17,9 +17,8 @@ import com.ku_stacks.ku_ring.designsystem.components.KuringScrollableTabRow
 import com.ku_stacks.ku_ring.designsystem.components.KuringScrollableTabRowDefaults
 import com.ku_stacks.ku_ring.designsystem.components.KuringScrollableTabRowDefaults.kuringTabIndicatorOffset
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
-import com.ku_stacks.ku_ring.designsystem.theme.Background
-import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.theme.MainPrimary
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import com.ku_stacks.ku_ring.main.notice.NoticeScreenTabItem
 import kotlinx.coroutines.launch
 
@@ -34,8 +33,8 @@ internal fun NoticeScreenTabRow(
     val currentPage = pagerState.currentPage
     KuringScrollableTabRow(
         selectedTabIndex = currentPage,
-        backgroundColor = Background,
-        contentColor = MainPrimary,
+        backgroundColor = KuringTheme.colors.background,
+        contentColor = KuringTheme.colors.mainPrimary,
         indicator = { tabPositions ->
             KuringScrollableTabRowDefaults.Indicator(
                 modifier = Modifier
@@ -66,11 +65,10 @@ internal fun NoticeScreenTabRow(
 @LightAndDarkPreview
 @Composable
 private fun NoticeScreenTabRowPreview() {
-    KuringTheme {
+    KuringThemeTest {
         NoticeScreenTabRow(
             pagerState = rememberPagerState {
                 NoticeScreenTabItem.values().size
-
             },
             modifier = Modifier.fillMaxWidth(),
         )

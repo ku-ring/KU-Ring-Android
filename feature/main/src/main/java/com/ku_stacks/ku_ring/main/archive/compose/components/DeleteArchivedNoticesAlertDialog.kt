@@ -6,7 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.ku_stacks.ku_ring.designsystem.components.KuringAlertDialog
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
-import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import com.ku_stacks.ku_ring.designsystem.theme.Warning
 import com.ku_stacks.ku_ring.main.R
 
@@ -38,7 +38,7 @@ internal fun DeleteArchivedNoticesAlertDialog(
 @LightAndDarkPreview
 @Composable
 private fun DeleteSelectedNoticesAlertDialogPreview() {
-    KuringTheme {
+    KuringThemeTest {
         DeleteArchivedNoticesAlertDialog(
             isDeletePopupVisible = true,
             isDeleteAllNotices = true,

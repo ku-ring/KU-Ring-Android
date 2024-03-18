@@ -13,9 +13,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
-import com.ku_stacks.ku_ring.designsystem.theme.Background
-import com.ku_stacks.ku_ring.designsystem.theme.Gray300
-import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
 import com.ku_stacks.ku_ring.main.R
 
@@ -28,7 +27,7 @@ internal fun SettingGroup(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(Background)
+            .background(KuringTheme.colors.background)
     ) {
         SettingGroupTitle(
             title = groupTitle,
@@ -49,7 +48,7 @@ private fun SettingGroupTitle(
             fontSize = 14.sp,
             fontFamily = Pretendard,
             fontWeight = FontWeight(400),
-            color = Gray300,
+            color = KuringTheme.colors.gray300,
             letterSpacing = 0.15.sp,
         ),
         modifier = modifier,
@@ -59,7 +58,7 @@ private fun SettingGroupTitle(
 @LightAndDarkPreview
 @Composable
 private fun SettingGroupPreview() {
-    KuringTheme {
+    KuringThemeTest {
         SettingGroup(groupTitle = "정보") {
             SettingItem(
                 iconId = R.drawable.ic_rocket,

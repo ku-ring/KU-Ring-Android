@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
-import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import com.ku_stacks.ku_ring.main.R
 
 @Composable
@@ -32,7 +32,7 @@ internal fun NoticeSelectionStateImage(
 @LightAndDarkPreview
 @Composable
 private fun NoticeSelectionStateImagePreview() {
-    KuringTheme {
+    KuringThemeTest {
         NoticeSelectionStateImage(
             isSelected = false,
             modifier = Modifier.padding(16.dp),

@@ -8,8 +8,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
-import com.ku_stacks.ku_ring.designsystem.theme.Background
-import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.main.notice.compose.components.NoticeScreenHeader
 import com.ku_stacks.ku_ring.main.notice.compose.inner_screen.NoticeTabScreens
@@ -42,7 +42,7 @@ internal fun NoticeScreen(
 @LightAndDarkPreview
 @Composable
 private fun NoticeScreenPreview() {
-    KuringTheme {
+    KuringThemeTest {
         NoticeScreen(
             onSearchIconClick = {},
             onNotificationIconClick = {},
@@ -50,7 +50,7 @@ private fun NoticeScreenPreview() {
             onNavigateToEditDepartment = {},
             modifier = Modifier
                 .fillMaxSize()
-                .background(Background),
+                .background(KuringTheme.colors.background),
         )
     }
 }

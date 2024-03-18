@@ -8,12 +8,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
@@ -21,7 +19,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
-import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
 import com.ku_stacks.ku_ring.domain.Staff
 import com.ku_stacks.ku_ring.main.R
@@ -44,7 +43,7 @@ fun StaffDetailBottomSheet(
                 lineHeight = 30.sp,
                 fontWeight = FontWeight(700)
             ),
-            color = MaterialTheme.colors.onSurface,
+            color = KuringTheme.colors.textBody,
         )
 
         Text(
@@ -55,7 +54,7 @@ fun StaffDetailBottomSheet(
                 lineHeight = 24.sp,
                 fontWeight = FontWeight(400)
             ),
-            color = MaterialTheme.colors.onSurface,
+            color = KuringTheme.colors.textBody,
             modifier = Modifier.padding(top = 4.dp)
         )
 
@@ -97,7 +96,7 @@ private fun InformationRow(
         Icon(
             imageVector = imageVector,
             contentDescription = null,
-            tint = Color.Gray,
+            tint = KuringTheme.colors.gray300,
         )
 
         Text(
@@ -108,7 +107,7 @@ private fun InformationRow(
                 lineHeight = 24.sp,
                 fontWeight = FontWeight(400)
             ),
-            color = MaterialTheme.colors.onSurface,
+            color = KuringTheme.colors.textBody,
             modifier = Modifier.padding(start = 8.dp,  top = 9.dp, bottom = 9.dp)
         )
     }
@@ -117,7 +116,7 @@ private fun InformationRow(
 @LightAndDarkPreview
 @Composable
 private fun StaffDetailBottomSheetPreview() {
-    KuringTheme {
+    KuringThemeTest {
         StaffDetailBottomSheet(
             staff = Staff(
                 name = "하늘다람쥐",
@@ -128,7 +127,7 @@ private fun StaffDetailBottomSheetPreview() {
                 department = "컴퓨터공학과",
                 college = "공과대학",
             ),
-            modifier = Modifier.background(MaterialTheme.colors.surface)
+            modifier = Modifier.background(KuringTheme.colors.background)
         )
     }
 }

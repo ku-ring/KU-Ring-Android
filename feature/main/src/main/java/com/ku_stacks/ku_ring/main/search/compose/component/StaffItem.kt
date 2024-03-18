@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -13,7 +12,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
-import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
 import com.ku_stacks.ku_ring.domain.Staff
 
@@ -23,7 +23,8 @@ fun StaffItem(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier.padding(vertical = 12.dp, horizontal = 32.dp)
+        modifier = modifier
+            .padding(vertical = 12.dp, horizontal = 32.dp)
             .fillMaxWidth()
     ) {
         Text(
@@ -34,7 +35,7 @@ fun StaffItem(
                 lineHeight = 24.sp,
                 fontWeight = FontWeight(500)
             ),
-            color = MaterialTheme.colors.onSurface,
+            color = KuringTheme.colors.textBody,
         )
 
         Text(
@@ -45,7 +46,7 @@ fun StaffItem(
                 lineHeight = 22.82.sp,
                 fontWeight = FontWeight(400)
             ),
-            color = MaterialTheme.colors.onSurface,
+            color = KuringTheme.colors.textCaption1,
             modifier = Modifier.padding(top = 3.dp)
         )
     }
@@ -54,7 +55,7 @@ fun StaffItem(
 @LightAndDarkPreview
 @Composable
 private fun StaffItemPreview() {
-    KuringTheme {
+    KuringThemeTest {
         StaffItem(
             staff = Staff(
                 name = "하늘다람쥐",
@@ -65,7 +66,7 @@ private fun StaffItemPreview() {
                 department = "컴퓨터공학과",
                 college = "공과대학",
             ),
-            modifier = Modifier.background(MaterialTheme.colors.surface)
+            modifier = Modifier.background(KuringTheme.colors.background)
         )
     }
 }
