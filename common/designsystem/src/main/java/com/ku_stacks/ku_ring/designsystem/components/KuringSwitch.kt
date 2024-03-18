@@ -58,10 +58,8 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import com.ku_stacks.ku_ring.designsystem.theme.Background
-import com.ku_stacks.ku_ring.designsystem.theme.KuringGreen
-import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.theme.TextTitle
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import kotlinx.coroutines.flow.collectLatest
 import kotlin.math.roundToInt
 
@@ -241,7 +239,7 @@ private fun BoxScope.SwitchImpl(
     val elevationOverlay = LocalElevationOverlay.current
     val absoluteElevation = LocalAbsoluteElevation.current + elevation
     val resolvedThumbColor by animateColorAsState(
-        if (thumbColor == Background && elevationOverlay != null) {
+        if (thumbColor == KuringTheme.colors.background && elevationOverlay != null) {
             elevationOverlay.apply(thumbColor, absoluteElevation)
         } else {
             thumbColor
@@ -304,19 +302,19 @@ object KuringSwitchDefaults {
      */
     @Composable
     fun colors(
-        thumbColor: Color = Background,
-        checkedTrackColor: Color = KuringGreen,
-        uncheckedTrackColor: Color = TextTitle,
+        thumbColor: Color = KuringTheme.colors.background,
+        checkedTrackColor: Color = KuringTheme.colors.mainPrimary,
+        uncheckedTrackColor: Color = KuringTheme.colors.textTitle,
         uncheckedTrackAlpha: Float = 0.38f,
         disabledThumbColor: Color = thumbColor
             .copy(alpha = ContentAlpha.disabled)
-            .compositeOver(Background),
+            .compositeOver(KuringTheme.colors.background),
         disabledCheckedTrackColor: Color = checkedTrackColor
             .copy(alpha = ContentAlpha.disabled)
-            .compositeOver(Background),
+            .compositeOver(KuringTheme.colors.background),
         disabledUncheckedTrackColor: Color = uncheckedTrackColor
             .copy(alpha = ContentAlpha.disabled)
-            .compositeOver(Background)
+            .compositeOver(KuringTheme.colors.background)
     ): KuringSwitchColors = DefaultKuringSwitchColors(
         thumbColor = thumbColor,
         checkedTrackColor = checkedTrackColor,
@@ -389,12 +387,14 @@ private val SwitchVelocityThreshold = 125.dp
 @LightAndDarkPreview
 @Composable
 private fun KuringSwitchPreview() {
-    var checked by remember { mutableStateOf(false) }
-    KuringTheme {
+    var checked by remember { mutableStateOf(true) }
+    KuringThemeTest {
         KuringSwitch(
             checked = checked,
             onCheckedChange = { checked = !checked },
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier
+                .background(KuringTheme.colors.background)
+                .padding(16.dp),
         )
     }
 }

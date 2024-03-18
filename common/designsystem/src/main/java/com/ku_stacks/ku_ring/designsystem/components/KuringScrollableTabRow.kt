@@ -17,11 +17,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material.Divider
 import androidx.compose.material.LocalContentColor
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ScrollableTabRow
 import androidx.compose.material.Surface
-import androidx.compose.material.contentColorFor
-import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.getValue
@@ -42,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEach
 import androidx.compose.ui.util.fastMap
 import com.ku_stacks.ku_ring.designsystem.components.KuringScrollableTabRowDefaults.kuringTabIndicatorOffset
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -62,8 +60,8 @@ import kotlinx.coroutines.launch
 fun KuringScrollableTabRow(
     selectedTabIndex: Int,
     modifier: Modifier = Modifier,
-    backgroundColor: Color = MaterialTheme.colors.primarySurface,
-    contentColor: Color = contentColorFor(backgroundColor),
+    backgroundColor: Color = KuringTheme.colors.background,
+    contentColor: Color = KuringTheme.colors.textBody,
     edgePadding: Dp = KuringScrollableTabRowDefaults.ScrollableTabRowPadding,
     indicator: @Composable @UiComposable
         (tabPositions: List<TabPosition>) -> Unit = @Composable { tabPositions ->
