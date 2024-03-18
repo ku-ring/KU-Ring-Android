@@ -104,7 +104,7 @@ private fun KuringCallToActionBase(
         label = "background color",
     )
     val contentColor by animateColorAsState(
-        targetValue = if (enabled) KuringTheme.colors.mainPrimarySelected else KuringTheme.colors.gray300,
+        targetValue = if (enabled) KuringTheme.colors.background else KuringTheme.colors.textCaption1,
         label = "content color",
     )
 
@@ -136,6 +136,7 @@ private fun KuringCallToActionBase(
         shape = RoundedCornerShape(50),
         elevation = null,
         contentPadding = paddingValues,
+        enabled = enabled,
         modifier = modifier
             .then(blurModifier)
             .padding(horizontal = 20.dp, vertical = 16.dp),
