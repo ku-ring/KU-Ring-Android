@@ -31,8 +31,8 @@ import androidx.compose.ui.window.DialogProperties
 import com.ku_stacks.ku_ring.designsystem.R
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 import com.ku_stacks.ku_ring.designsystem.theme.Gray2
-import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
 
 /**
  * 사용자에게 특정 행동의 수행 여부를 물어보는 [Dialog]이다.
