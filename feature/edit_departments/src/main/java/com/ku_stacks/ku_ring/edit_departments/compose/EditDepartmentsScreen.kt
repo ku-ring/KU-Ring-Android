@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
@@ -21,7 +20,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -35,7 +33,8 @@ import com.ku_stacks.ku_ring.designsystem.components.DepartmentWithDeleteIcon
 import com.ku_stacks.ku_ring.designsystem.components.LargeTopAppBar
 import com.ku_stacks.ku_ring.designsystem.components.LightPreview
 import com.ku_stacks.ku_ring.designsystem.components.SearchTextField
-import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
 import com.ku_stacks.ku_ring.domain.Department
 import com.ku_stacks.ku_ring.edit_departments.EditDepartmentsViewModel
@@ -153,7 +152,7 @@ private fun DeleteAllDepartmentsButton(
                 lineHeight = 24.sp,
                 fontFamily = Pretendard,
                 fontWeight = FontWeight(500),
-                color = MaterialTheme.colors.primary,
+                color = KuringTheme.colors.mainPrimary,
             )
         )
     }
@@ -209,7 +208,7 @@ private fun Departments(
                 lineHeight = 24.sp,
                 fontFamily = Pretendard,
                 fontWeight = FontWeight(500),
-                color = Color(0xFFABABAB),
+                color = KuringTheme.colors.textCaption1,
             ),
             modifier = Modifier.padding(start = 24.dp),
         )
@@ -292,7 +291,7 @@ internal val previewDepartments = (1..5).map {
 @Composable
 private fun EditDepartmentsPreview_SelectedDepartments() {
     var query by remember { mutableStateOf("") }
-    KuringTheme {
+    KuringThemeTest {
         EditDepartmentsScreen(
             onClose = {},
             onDeleteAllButtonClick = {},
@@ -303,7 +302,7 @@ private fun EditDepartmentsPreview_SelectedDepartments() {
             onDeleteDepartment = {},
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colors.surface),
+                .background(KuringTheme.colors.background),
         )
     }
 }
@@ -312,7 +311,7 @@ private fun EditDepartmentsPreview_SelectedDepartments() {
 @Composable
 private fun EditDepartmentsPreview_SearchedDepartments() {
     var query by remember { mutableStateOf("") }
-    KuringTheme {
+    KuringThemeTest {
         EditDepartmentsScreen(
             onClose = {},
             onDeleteAllButtonClick = {},
@@ -323,7 +322,7 @@ private fun EditDepartmentsPreview_SearchedDepartments() {
             onDeleteDepartment = {},
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colors.surface),
+                .background(KuringTheme.colors.background),
         )
     }
 }
