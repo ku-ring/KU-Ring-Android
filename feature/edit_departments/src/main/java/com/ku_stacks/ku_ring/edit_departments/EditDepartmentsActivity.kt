@@ -9,7 +9,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import com.ku_stacks.ku_ring.edit_departments.compose.EditDepartmentsScreen
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -18,7 +17,7 @@ class EditDepartmentsActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            KuringThemeTest {
+            KuringTheme {
                 EditDepartmentsScreen(
                     onClose = ::finish,
                     modifier = Modifier

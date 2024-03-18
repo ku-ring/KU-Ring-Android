@@ -9,7 +9,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import com.ku_stacks.ku_ring.onboarding.compose.OnboardingScreen
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.thirdparty.firebase.analytics.EventAnalytics
@@ -32,7 +31,7 @@ class OnboardingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            KuringThemeTest {
+            KuringTheme {
                 OnboardingScreen(
                     onNavigateToMain = ::onNavigateToMain,
                     modifier = Modifier

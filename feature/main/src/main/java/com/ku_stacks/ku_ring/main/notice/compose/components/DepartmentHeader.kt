@@ -27,7 +27,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 import com.ku_stacks.ku_ring.main.R
 
@@ -73,7 +72,7 @@ fun DepartmentHeader(
 @Composable
 private fun DepartmentHeaderPreview() {
     var showArrow by remember { mutableStateOf(false) }
-    KuringThemeTest {
+    KuringTheme {
         DepartmentHeader(
             selectedDepartmentName = "산업디자인학과",
             onClick = { showArrow = !showArrow },

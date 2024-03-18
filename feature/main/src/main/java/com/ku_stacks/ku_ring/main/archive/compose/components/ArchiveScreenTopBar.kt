@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.components.CenterTitleTopBar
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 import com.ku_stacks.ku_ring.main.R
 
@@ -65,7 +64,7 @@ internal fun TopBarNavigation(
 @Composable
 private fun NoticeStorageTopBarPreview() {
     var isSelectedModeEnabled by remember { mutableStateOf(false) }
-    KuringThemeTest {
+    KuringTheme {
         ArchiveScreenTopBar(
             isSelectModeEnabled = isSelectedModeEnabled,
             onSelectModeEnabled = { isSelectedModeEnabled = true },

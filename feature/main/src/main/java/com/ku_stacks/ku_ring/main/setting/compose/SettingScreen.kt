@@ -17,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import com.ku_stacks.ku_ring.designsystem.components.CenterTitleTopBar
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.setting.compose.groups.FeedbackGroup
 import com.ku_stacks.ku_ring.main.setting.compose.groups.InformationGroup
@@ -87,7 +86,7 @@ private fun SettingScreenDivider(modifier: Modifier = Modifier) {
 @LightAndDarkPreview
 @Composable
 private fun SettingScreenPreview() {
-    KuringThemeTest {
+    KuringTheme {
         SettingScreen(
             onNavigateToEditSubscription = {},
             isExtNotificationEnabled = true,

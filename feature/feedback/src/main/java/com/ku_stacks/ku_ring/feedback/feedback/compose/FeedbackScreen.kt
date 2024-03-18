@@ -33,7 +33,6 @@ import com.ku_stacks.ku_ring.designsystem.components.CenterTitleTopBar
 import com.ku_stacks.ku_ring.designsystem.components.KuringCallToAction
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 import com.ku_stacks.ku_ring.feedback.R
 import com.ku_stacks.ku_ring.feedback.feedback.FeedbackTextStatus
@@ -207,7 +206,7 @@ private fun FeedbackTextField(
 @LightAndDarkPreview
 @Composable
 private fun FeedbackScreenPreview() {
-    KuringThemeTest {
+    KuringTheme {
         FeedbackScreen(
             feedbackContent = "안녕하세요",
             textStatus = FeedbackTextStatus.NORMAL,

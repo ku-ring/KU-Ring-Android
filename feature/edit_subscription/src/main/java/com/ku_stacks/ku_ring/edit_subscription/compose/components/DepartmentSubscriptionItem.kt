@@ -24,7 +24,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 import com.ku_stacks.ku_ring.edit_subscription.R
 import com.ku_stacks.ku_ring.edit_subscription.uimodel.DepartmentSubscriptionUiModel
@@ -86,7 +85,7 @@ private fun getDescription(isSelected: Boolean): String {
 @Composable
 private fun DepartmentSubscriptionItemPreview() {
     var isSelected by remember { mutableStateOf(false) }
-    KuringThemeTest {
+    KuringTheme {
         DepartmentSubscriptionItem(
             uiModel = DepartmentSubscriptionUiModel("스마트ICT융합공학과", isSelected),
             onClick = { isSelected = !isSelected },

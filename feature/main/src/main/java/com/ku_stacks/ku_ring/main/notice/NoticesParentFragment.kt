@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.messaging.FirebaseMessaging
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.databinding.FragmentNoticeBinding
 import com.ku_stacks.ku_ring.main.notice.compose.NoticeScreen
@@ -51,7 +50,7 @@ class NoticesParentFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.composeView.setContent {
-            KuringThemeTest {
+            KuringTheme {
                 NoticeScreen(
                     onSearchIconClick = {
                         navigator.navigateToSearch(requireActivity())

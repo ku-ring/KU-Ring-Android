@@ -33,7 +33,6 @@ import com.ku_stacks.ku_ring.designsystem.components.KuringCallToAction
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.components.SearchTextField
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 import com.ku_stacks.ku_ring.domain.Department
 import com.ku_stacks.ku_ring.onboarding.R
@@ -242,7 +241,7 @@ private fun SetDepartmentPreview() {
     var query by remember { mutableStateOf<String?>("학과") }
     var selectedDepartment by remember { mutableStateOf<Department?>(null) }
 
-    KuringThemeTest {
+    KuringTheme {
         SetDepartmentScreen(
             query = query,
             onQueryUpdate = { query = it },

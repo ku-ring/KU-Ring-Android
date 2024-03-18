@@ -30,7 +30,6 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.ku_stacks.ku_ring.designsystem.R
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 
 /**
@@ -226,7 +225,7 @@ private fun KuringAlertDialogButton(
 @LightAndDarkPreview
 @Composable
 private fun KuringAlertDialogPreview() {
-    KuringThemeTest {
+    KuringTheme {
         KuringAlertDialog(
             text = "스마트ICT융합공학과를\n내 학과 목록에 추가할까요?",
             onConfirm = {},

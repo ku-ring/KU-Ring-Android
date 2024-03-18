@@ -5,7 +5,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.ui_util.preview_data.previewNotices
 
@@ -37,7 +37,7 @@ internal fun ArchivedNotices(
 @LightAndDarkPreview
 @Composable
 private fun StoredNoticesPreview() {
-    KuringThemeTest {
+    KuringTheme {
         ArchivedNotices(
             notices = previewNotices,
             onNoticeClick = {},
