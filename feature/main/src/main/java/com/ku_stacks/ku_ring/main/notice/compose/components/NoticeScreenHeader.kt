@@ -2,6 +2,7 @@ package com.ku_stacks.ku_ring.main.notice.compose.components
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,7 +16,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
-import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import com.ku_stacks.ku_ring.main.R
 
 @Composable
@@ -26,6 +28,7 @@ internal fun NoticeScreenHeader(
 ) {
     Row(
         modifier = modifier
+            .background(KuringTheme.colors.background)
             .padding(vertical = 12.dp)
             .padding(start = 20.dp, end = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -79,6 +82,7 @@ private fun NoticeScreenHeaderIcon(
         Icon(
             painter = painterResource(id = resourceId),
             contentDescription = contentDescription,
+            tint = KuringTheme.colors.gray600,
         )
     }
 }
@@ -86,7 +90,7 @@ private fun NoticeScreenHeaderIcon(
 @LightAndDarkPreview
 @Composable
 private fun NoticeScreenHeaderPreview() {
-    KuringTheme {
+    KuringThemeTest {
         NoticeScreenHeader(
             onSearchIconClick = {},
             onNotificationIconClick = {},

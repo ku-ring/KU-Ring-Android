@@ -19,9 +19,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
-import com.ku_stacks.ku_ring.designsystem.R
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.Staff
 import com.ku_stacks.ku_ring.main.search.compose.SearchState
 import com.ku_stacks.ku_ring.main.search.compose.component.EmptyResultScreen
@@ -35,7 +34,6 @@ fun StaffSearchScreen(
     staffList: List<Staff>,
     modifier: Modifier = Modifier,
 ) {
-
     if (searchState.isLoading) {
         Box(
             contentAlignment = Alignment.TopCenter,
@@ -44,7 +42,7 @@ fun StaffSearchScreen(
                 .padding(top = 20.dp),
         ) {
             CircularProgressIndicator(
-                color = colorResource(id = R.color.kus_green),
+                color = KuringTheme.colors.mainPrimary,
                 modifier = Modifier.align(Alignment.TopCenter)
             )
         }

@@ -1,11 +1,13 @@
 package com.ku_stacks.ku_ring.main.setting.compose.groups
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
-import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.setting.compose.components.ChevronIcon
 import com.ku_stacks.ku_ring.main.setting.compose.components.SettingGroup
@@ -32,10 +34,12 @@ internal fun SocialNetworkServiceGroup(
 @LightAndDarkPreview
 @Composable
 private fun SocialNetworkServiceGroupPreview() {
-    KuringTheme {
+    KuringThemeTest {
         SocialNetworkServiceGroup(
             onNavigateToKuringInstagram = {},
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .background(KuringTheme.colors.background)
+                .fillMaxWidth(),
         )
     }
 }

@@ -10,11 +10,9 @@ import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
-import com.ku_stacks.ku_ring.designsystem.R
 import com.ku_stacks.ku_ring.designsystem.components.NoticeItem
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.main.search.compose.SearchState
 import com.ku_stacks.ku_ring.main.search.compose.component.EmptyResultScreen
@@ -35,7 +33,7 @@ fun NoticeSearchScreen(
                 .padding(top = 20.dp),
         ) {
             CircularProgressIndicator(
-                color = colorResource(id = R.color.kus_green),
+                color = KuringTheme.colors.mainPrimary,
                 modifier = Modifier.align(Alignment.TopCenter)
             )
         }
@@ -49,7 +47,7 @@ fun NoticeSearchScreen(
                     onClick = { notice -> onClickNotice(notice) }
                 )
                 Divider(
-                    color = Color.LightGray,
+                    color = KuringTheme.colors.borderline,
                     thickness = 0.5.dp
                 )
             }
