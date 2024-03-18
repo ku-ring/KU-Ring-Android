@@ -37,7 +37,7 @@ internal fun DeleteArchivedNoticesAlertDialog(
 @LightAndDarkPreview
 @Composable
 private fun DeleteSelectedNoticesAlertDialogPreview() {
-    KuringTheme {
+    KuringThemeTest {
         DeleteArchivedNoticesAlertDialog(
             isDeletePopupVisible = true,
             isDeleteAllNotices = true,

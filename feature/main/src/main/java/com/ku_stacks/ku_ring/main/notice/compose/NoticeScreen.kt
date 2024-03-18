@@ -41,7 +41,7 @@ internal fun NoticeScreen(
 @LightAndDarkPreview
 @Composable
 private fun NoticeScreenPreview() {
-    KuringTheme {
+    KuringThemeTest {
         NoticeScreen(
             onSearchIconClick = {},
             onNotificationIconClick = {},
