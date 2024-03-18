@@ -23,7 +23,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 
 /**
@@ -148,7 +147,7 @@ private fun KuringCallToActionBase(
 @LightAndDarkPreview
 @Composable
 private fun KuringCallToActionPreview_Enabled() {
-    KuringThemeTest {
+    KuringTheme {
         KuringCallToAction(
             text = "완료",
             enabled = true,
@@ -163,7 +162,7 @@ private fun KuringCallToActionPreview_Enabled() {
 @LightAndDarkPreview
 @Composable
 private fun KuringCallToActionPreview_Enabled_Blur() {
-    KuringThemeTest {
+    KuringTheme {
         Box(
             modifier = Modifier
                 .fillMaxWidth()

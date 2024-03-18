@@ -32,7 +32,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 import com.ku_stacks.ku_ring.edit_subscription.R
 import com.ku_stacks.ku_ring.edit_subscription.uimodel.NormalSubscriptionUiModel
@@ -114,7 +113,7 @@ private fun NormalSubscriptionItemPreview() {
     // 프리뷰를 에뮬레이터에서 실행하면 배경색이 정상적으로 바뀐다.
     var isSelected by remember { mutableStateOf(false) }
 
-    KuringThemeTest {
+    KuringTheme {
         Column {
             NormalSubscriptionItem(
                 categoryIconId = R.drawable.bachelor,

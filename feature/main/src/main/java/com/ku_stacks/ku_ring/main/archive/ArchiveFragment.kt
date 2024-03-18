@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import androidx.fragment.app.Fragment
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.main.archive.compose.ArchiveScreen
 import com.ku_stacks.ku_ring.main.databinding.FragmentArchiveBinding
@@ -43,7 +42,7 @@ class ArchiveFragment : Fragment() {
 
     private fun setComposable() {
         binding.composeView.setContent {
-            KuringThemeTest {
+            KuringTheme {
                 ArchiveScreen(
                     onNoticeClick = ::startNoticeActivity,
                     modifier = Modifier

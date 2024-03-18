@@ -28,7 +28,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.R
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 import com.ku_stacks.ku_ring.domain.Notice
 
@@ -196,7 +195,7 @@ private val notice = Notice(
 @LightAndDarkPreview
 @Composable
 private fun NoticeItemPreview() {
-    KuringThemeTest {
+    KuringTheme {
         Column(
             modifier = Modifier
                 .fillMaxWidth()

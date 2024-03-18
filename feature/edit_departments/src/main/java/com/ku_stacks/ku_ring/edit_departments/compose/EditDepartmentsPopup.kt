@@ -9,7 +9,6 @@ import androidx.compose.ui.unit.dp
 import com.ku_stacks.ku_ring.designsystem.components.KuringAlertDialog
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import com.ku_stacks.ku_ring.edit_departments.R
 import com.ku_stacks.ku_ring.edit_departments.uimodel.PopupUiModel
 
@@ -40,7 +39,7 @@ internal fun DepartmentPopup(
 @LightAndDarkPreview
 @Composable
 private fun DepartmentPopupPreview() {
-    KuringThemeTest {
+    KuringTheme {
         DepartmentPopup(
             popupUiModel = PopupUiModel.AddPopupUiModel("cse", "컴퓨터공학부"),
             onConfirm = {},

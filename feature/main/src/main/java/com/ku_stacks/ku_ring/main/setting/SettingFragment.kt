@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.databinding.FragmentSettingBinding
 import com.ku_stacks.ku_ring.main.setting.compose.SettingScreen
@@ -55,7 +54,7 @@ class SettingFragment : Fragment() {
         binding.composeView.setContent {
             val isExtNotificationAllowed by viewModel.isExtNotificationAllowed.collectAsState()
 
-            KuringThemeTest {
+            KuringTheme {
                 SettingScreen(
                     onNavigateToEditSubscription = { navigator.navigateToEditSubscription(activity) },
                     isExtNotificationEnabled = isExtNotificationAllowed,

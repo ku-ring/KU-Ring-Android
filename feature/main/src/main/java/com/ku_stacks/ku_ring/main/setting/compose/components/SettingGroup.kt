@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 import com.ku_stacks.ku_ring.main.R
 
@@ -58,7 +57,7 @@ private fun SettingGroupTitle(
 @LightAndDarkPreview
 @Composable
 private fun SettingGroupPreview() {
-    KuringThemeTest {
+    KuringTheme {
         SettingGroup(groupTitle = "정보") {
             SettingItem(
                 iconId = R.drawable.ic_rocket,

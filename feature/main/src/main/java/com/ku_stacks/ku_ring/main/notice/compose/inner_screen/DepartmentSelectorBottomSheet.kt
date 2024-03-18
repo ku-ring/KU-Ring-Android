@@ -30,7 +30,6 @@ import com.ku_stacks.ku_ring.designsystem.components.DepartmentWithCheckOrUnchec
 import com.ku_stacks.ku_ring.designsystem.components.KuringCallToAction
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.SfProDisplay
 import com.ku_stacks.ku_ring.domain.Department
@@ -141,7 +140,7 @@ private fun DepartmentItemPreview() {
         isSelected = true,
         isNotificationEnabled = false,
     )
-    KuringThemeTest {
+    KuringTheme {
         DepartmentItem(
             department = department,
             onSelect = {},
@@ -166,7 +165,7 @@ private fun DepartmentSelectorBottomSheetPreview() {
             isNotificationEnabled = false,
         )
     }
-    KuringThemeTest {
+    KuringTheme {
         DepartmentSelectorBottomSheet(
             departments = departments,
             onSelect = {},

@@ -45,7 +45,6 @@ import com.ku_stacks.ku_ring.designsystem.components.KuringCallToAction
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.components.LightPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 import com.ku_stacks.ku_ring.edit_subscription.EditSubscriptionTab
 import com.ku_stacks.ku_ring.edit_subscription.EditSubscriptionViewModel
@@ -383,7 +382,7 @@ private fun SubscriptionsPreview() {
     }
     var selectedTab by remember { mutableStateOf(EditSubscriptionTab.NORMAL) }
 
-    KuringThemeTest {
+    KuringTheme {
         EditSubscriptionScreen(
             categories = categories,
             departments = departments,
@@ -399,7 +398,7 @@ private fun SubscriptionsPreview() {
 @LightPreview
 @Composable
 private fun DepartmentPagePreview_Empty() {
-    KuringThemeTest {
+    KuringTheme {
         EditSubscriptionScreen(
             categories = emptyList(),
             departments = emptyList(),

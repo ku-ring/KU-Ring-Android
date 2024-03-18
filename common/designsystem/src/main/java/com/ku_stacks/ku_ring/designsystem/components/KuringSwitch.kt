@@ -59,7 +59,6 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import kotlinx.coroutines.flow.collectLatest
 import kotlin.math.roundToInt
 
@@ -388,7 +387,7 @@ private val SwitchVelocityThreshold = 125.dp
 @Composable
 private fun KuringSwitchPreview() {
     var checked by remember { mutableStateOf(true) }
-    KuringThemeTest {
+    KuringTheme {
         KuringSwitch(
             checked = checked,
             onCheckedChange = { checked = !checked },

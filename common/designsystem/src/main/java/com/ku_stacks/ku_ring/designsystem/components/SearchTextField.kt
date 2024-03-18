@@ -34,7 +34,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.R
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -151,7 +150,7 @@ private fun TrailingDeleteIcon(
 @Composable
 private fun SearchTextFieldPreview() {
     var query by remember { mutableStateOf("") }
-    KuringThemeTest {
+    KuringTheme {
         SearchTextField(
             query = query,
             onQueryUpdate = { query = it },

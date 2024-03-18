@@ -17,7 +17,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import com.ku_stacks.ku_ring.main.R
 
 @Composable
@@ -90,7 +89,7 @@ private fun NoticeScreenHeaderIcon(
 @LightAndDarkPreview
 @Composable
 private fun NoticeScreenHeaderPreview() {
-    KuringThemeTest {
+    KuringTheme {
         NoticeScreenHeader(
             onSearchIconClick = {},
             onNotificationIconClick = {},
