@@ -38,8 +38,8 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.ku_stacks.ku_ring.designsystem.components.KuringCallToAction
 import com.ku_stacks.ku_ring.designsystem.components.LazyPagingNoticeItemColumn
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
-import com.ku_stacks.ku_ring.designsystem.theme.TextCaption1
 import com.ku_stacks.ku_ring.domain.Department
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.main.R
@@ -120,7 +120,7 @@ private fun DepartmentEmptyScreen(
                 lineHeight = 24.45.sp,
                 fontFamily = Pretendard,
                 fontWeight = FontWeight(500),
-                color = TextCaption1,
+                color = KuringTheme.colors.textCaption1,
                 textAlign = TextAlign.Center,
             ),
         )
