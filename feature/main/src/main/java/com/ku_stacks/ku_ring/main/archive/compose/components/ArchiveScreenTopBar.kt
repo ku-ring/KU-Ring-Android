@@ -64,7 +64,7 @@ internal fun TopBarNavigation(
 @Composable
 private fun NoticeStorageTopBarPreview() {
     var isSelectedModeEnabled by remember { mutableStateOf(false) }
-    KuringTheme {
+    KuringThemeTest {
         ArchiveScreenTopBar(
             isSelectModeEnabled = isSelectedModeEnabled,
             onSelectModeEnabled = { isSelectedModeEnabled = true },

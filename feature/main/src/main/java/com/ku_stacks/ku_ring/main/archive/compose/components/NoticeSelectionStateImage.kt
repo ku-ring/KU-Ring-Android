@@ -33,7 +33,7 @@ internal fun NoticeSelectionStateImage(
 @LightAndDarkPreview
 @Composable
 private fun NoticeSelectionStateImagePreview() {
-    KuringTheme {
+    KuringThemeTest {
         NoticeSelectionStateImage(
             isSelected = false,
             modifier = Modifier.padding(16.dp),

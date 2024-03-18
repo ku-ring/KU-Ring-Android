@@ -54,7 +54,7 @@ fun StaffItem(
 @LightAndDarkPreview
 @Composable
 private fun StaffItemPreview() {
-    KuringTheme {
+    KuringThemeTest {
         StaffItem(
             staff = Staff(
                 name = "하늘다람쥐",
