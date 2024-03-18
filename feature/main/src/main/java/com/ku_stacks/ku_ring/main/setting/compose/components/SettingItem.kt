@@ -30,7 +30,6 @@ import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
-import com.ku_stacks.ku_ring.designsystem.theme.Gray300
 import com.ku_stacks.ku_ring.main.R
 
 @Composable
@@ -94,7 +93,7 @@ private fun SettingItemPreview() {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_chevron),
                     contentDescription = null,
-                    tint = Gray300,
+                    tint = KuringTheme.colors.gray300,
                     modifier = Modifier.rotate(angle)
                 )
             }
