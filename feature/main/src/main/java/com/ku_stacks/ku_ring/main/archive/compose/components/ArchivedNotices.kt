@@ -37,7 +37,7 @@ internal fun ArchivedNotices(
 @LightAndDarkPreview
 @Composable
 private fun StoredNoticesPreview() {
-    KuringTheme {
+    KuringThemeTest {
         ArchivedNotices(
             notices = previewNotices,
             onNoticeClick = {},

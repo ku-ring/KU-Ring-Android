@@ -115,7 +115,7 @@ private fun InformationRow(
 @LightAndDarkPreview
 @Composable
 private fun StaffDetailBottomSheetPreview() {
-    KuringTheme {
+    KuringThemeTest {
         StaffDetailBottomSheet(
             staff = Staff(
                 name = "하늘다람쥐",

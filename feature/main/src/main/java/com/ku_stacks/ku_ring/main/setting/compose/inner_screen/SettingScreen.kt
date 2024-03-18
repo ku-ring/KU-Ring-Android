@@ -86,7 +86,7 @@ private fun SettingScreenDivider(modifier: Modifier = Modifier) {
 @LightAndDarkPreview
 @Composable
 private fun SettingScreenPreview() {
-    KuringTheme {
+    KuringThemeTest {
         SettingScreen(
             onNavigateToEditSubscription = {},
             isExtNotificationEnabled = true,

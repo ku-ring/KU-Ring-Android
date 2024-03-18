@@ -134,7 +134,7 @@ private fun ArchiveScreen(
 private fun ArchiveScreenPreview() {
     var isSelectModeEnabled by remember { mutableStateOf(false) }
     var selectedNoticeIds by remember { mutableStateOf(emptySet<String>()) }
-    KuringTheme {
+    KuringThemeTest {
         ArchiveScreen(
             isSelectModeEnabled = isSelectModeEnabled,
             onSelectModeEnabled = {

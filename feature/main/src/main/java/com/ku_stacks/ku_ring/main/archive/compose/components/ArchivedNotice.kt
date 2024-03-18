@@ -44,7 +44,7 @@ internal fun StoredNotice(
 @Composable
 private fun StoredNoticePreview() {
     val notice = previewNotices.first()
-    KuringTheme {
+    KuringThemeTest {
         StoredNotice(
             notice = notice,
             isSelectModeEnabled = true,

@@ -139,7 +139,7 @@ private fun DepartmentItemPreview() {
         isSelected = true,
         isNotificationEnabled = false,
     )
-    KuringTheme {
+    KuringThemeTest {
         DepartmentItem(
             department = department,
             onSelect = {},
@@ -164,7 +164,7 @@ private fun DepartmentSelectorBottomSheetPreview() {
             isNotificationEnabled = false,
         )
     }
-    KuringTheme {
+    KuringThemeTest {
         DepartmentSelectorBottomSheet(
             departments = departments,
             onSelect = {},
