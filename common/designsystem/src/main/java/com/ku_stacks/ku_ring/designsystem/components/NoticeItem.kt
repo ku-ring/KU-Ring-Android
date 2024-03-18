@@ -51,7 +51,7 @@ fun NoticeItem(
 ) {
     // TODO: 중요 공지일 경우 배경색을 초록색으로 바꾸고, [중요] 태그 보여주기
     val background =
-        if (notice.isImportant) KuringTheme.colors.mainPrimary else KuringTheme.colors.background
+        if (notice.isImportant) KuringTheme.colors.mainPrimarySelected else KuringTheme.colors.background
     Row(
         modifier = modifier
             .clickable { onClick(notice) }
