@@ -1,6 +1,7 @@
 package com.ku_stacks.ku_ring.onboarding.compose.inner_screen.feature_tab
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -16,9 +17,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
-import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
-import com.ku_stacks.ku_ring.designsystem.theme.TextBody
 
 @Composable
 internal fun FeatureTab(
@@ -41,7 +42,7 @@ internal fun FeatureTab(
                 lineHeight = 26.64.sp,
                 fontFamily = Pretendard,
                 fontWeight = FontWeight(600),
-                color = TextBody,
+                color = KuringTheme.colors.textBody,
                 textAlign = TextAlign.Center,
             ),
         )
@@ -51,10 +52,12 @@ internal fun FeatureTab(
 @LightAndDarkPreview
 @Composable
 private fun FeatureTabPreview() {
-    KuringTheme {
+    KuringThemeTest {
         FeatureTab(
             item = FeatureTabItem.BELL,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .background(KuringTheme.colors.background)
+                .fillMaxWidth(),
         )
     }
 }

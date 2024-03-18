@@ -25,13 +25,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.components.KuringCallToAction
-import com.ku_stacks.ku_ring.designsystem.components.LightPreview
+import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.components.pager_indicator.HorizontalSlidingIndicator
-import com.ku_stacks.ku_ring.designsystem.theme.Background
-import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
-import com.ku_stacks.ku_ring.designsystem.theme.TextCaption1
-import com.ku_stacks.ku_ring.designsystem.theme.TextTitle
 import com.ku_stacks.ku_ring.onboarding.R
 import com.ku_stacks.ku_ring.onboarding.compose.inner_screen.feature_tab.FeatureTab
 import com.ku_stacks.ku_ring.onboarding.compose.inner_screen.feature_tab.FeatureTabItem
@@ -47,7 +45,7 @@ internal fun FeatureTabs(
     val pagerState = rememberPagerState { tabItems.size }
     Column(
         modifier = modifier
-            .background(Background)
+            .background(KuringTheme.colors.background)
             .fillMaxSize(),
     ) {
         FeatureTabsTitle(
@@ -94,7 +92,7 @@ private fun FeatureTabsTitle(
             lineHeight = 34.08.sp,
             fontFamily = Pretendard,
             fontWeight = FontWeight(700),
-            color = TextTitle,
+            color = KuringTheme.colors.textTitle,
         )
     )
 }
@@ -128,7 +126,7 @@ private fun SkipOnboarding(
             lineHeight = 26.08.sp,
             fontFamily = Pretendard,
             fontWeight = FontWeight(500),
-            color = TextCaption1,
+            color = KuringTheme.colors.textCaption1,
         ),
         modifier = modifier
             .clip(RoundedCornerShape(50))
@@ -137,14 +135,16 @@ private fun SkipOnboarding(
     )
 }
 
-@LightPreview
+@LightAndDarkPreview
 @Composable
 private fun FeatureTabsPreview() {
-    KuringTheme {
+    KuringThemeTest {
         FeatureTabs(
             onNavigateToSetDepartment = {},
             onSkipOnboarding = {},
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .background(KuringTheme.colors.background)
+                .fillMaxSize(),
         )
     }
 }

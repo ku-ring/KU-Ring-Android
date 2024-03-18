@@ -29,12 +29,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.components.KuringCallToAction
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
-import com.ku_stacks.ku_ring.designsystem.theme.Background
-import com.ku_stacks.ku_ring.designsystem.theme.KuringGreen
-import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
-import com.ku_stacks.ku_ring.designsystem.theme.TextCaption1
-import com.ku_stacks.ku_ring.designsystem.theme.TextTitle
 import com.ku_stacks.ku_ring.domain.Department
 import com.ku_stacks.ku_ring.onboarding.R
 import com.ku_stacks.ku_ring.onboarding.compose.OnboardingViewModel
@@ -68,7 +65,7 @@ private fun ConfirmDepartmentScreen(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier.background(Background),
+        modifier = modifier.background(KuringTheme.colors.background),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Spacer(modifier = Modifier.height(132.dp))
@@ -111,7 +108,7 @@ private fun ConfirmDepartmentActions(
                 lineHeight = 26.08.sp,
                 fontFamily = Pretendard,
                 fontWeight = FontWeight(500),
-                color = TextCaption1,
+                color = KuringTheme.colors.textCaption1,
             ),
             modifier = Modifier
                 .clip(RoundedCornerShape(50))
@@ -143,10 +140,10 @@ private fun SelectedDepartmentTitle(
 ) {
     Text(
         text = buildAnnotatedString {
-            withStyle(SpanStyle(color = KuringGreen)) {
+            withStyle(SpanStyle(color = KuringTheme.colors.mainPrimary)) {
                 append(selectedDepartment?.koreanName)
             }
-            withStyle(SpanStyle(color = TextTitle)) {
+            withStyle(SpanStyle(color = KuringTheme.colors.textTitle)) {
                 append(stringResource(id = R.string.confirm_department_screen_title))
             }
         },
@@ -168,7 +165,7 @@ private fun SelectedDepartmentCaption(modifier: Modifier = Modifier) {
             lineHeight = 24.45.sp,
             fontFamily = Pretendard,
             fontWeight = FontWeight(500),
-            color = TextCaption1,
+            color = KuringTheme.colors.textCaption1,
             textAlign = TextAlign.Center,
         ),
         modifier = modifier,
@@ -178,12 +175,14 @@ private fun SelectedDepartmentCaption(modifier: Modifier = Modifier) {
 @LightAndDarkPreview
 @Composable
 private fun ConfirmDepartmentPreview() {
-    KuringTheme {
+    KuringThemeTest {
         ConfirmDepartmentScreen(
             selectedDepartment = previewDepartments[0],
             onConfirm = { },
             onCancel = { },
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .background(KuringTheme.colors.background)
+                .fillMaxSize(),
         )
     }
 }
