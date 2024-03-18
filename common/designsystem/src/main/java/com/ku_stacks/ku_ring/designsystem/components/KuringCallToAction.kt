@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -23,11 +22,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ku_stacks.ku_ring.designsystem.theme.Gray200
-import com.ku_stacks.ku_ring.designsystem.theme.Gray300
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import com.ku_stacks.ku_ring.designsystem.theme.KuringSub
-import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.theme.MainPrimarySelected
 import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
 
 /**
@@ -37,7 +34,7 @@ import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
  * @param text CTA에 보여줄 텍스트
  * @param onClick CTA를 클릭했을 때 실행할 콜백
  * @param modifier CTA에 적용될 [Modifier]
- * @param enabled CTA 버튼이 활성화되었는지를 나타낸다. true라면 배경색이 [MaterialTheme.colors.primary]로 설정되며,
+ * @param enabled CTA 버튼이 활성화되었는지를 나타낸다. true라면 배경색이 [KuringTheme.colors.mainPrimary]로 설정되며,
  * false라면 배경색이 [KuringSub]로 설정된다. 컨텐츠 색깔은 둘 중 배경색으로 사용되지 않은 나머지 색으로 설정된다.
  * @param blur 버튼 위에 블러 효과를 적용할 지 결정한다. 블러는 버튼 위에 버튼 높이의 1/4만큼 그려진다.
  */
@@ -73,7 +70,7 @@ fun KuringCallToAction(
  *
  * @param onClick CTA를 클릭했을 때 실행할 콜백
  * @param modifier CTA에 적용될 [Modifier]
- * @param enabled CTA 버튼이 활성화되었는지를 나타낸다. true라면 배경색이 [MaterialTheme.colors.primary]로 설정되며,
+ * @param enabled CTA 버튼이 활성화되었는지를 나타낸다. true라면 배경색이 [KuringTheme.colors.mainPrimary]로 설정되며,
  * false라면 배경색이 [KuringSub]로 설정된다. 컨텐츠 색깔은 둘 중 배경색으로 사용되지 않은 나머지 색으로 설정된다.
  * @param blur 버튼 위에 블러 효과를 적용할 지 결정한다. 블러는 버튼 위에 버튼 높이의 1/4만큼 그려진다.
  */
@@ -105,16 +102,16 @@ private fun KuringCallToActionBase(
     contents: @Composable () -> Unit,
 ) {
     val backgroundColor by animateColorAsState(
-        targetValue = if (enabled) MaterialTheme.colors.primary else Gray200,
+        targetValue = if (enabled) KuringTheme.colors.mainPrimary else KuringTheme.colors.gray200,
         label = "background color",
     )
     val contentColor by animateColorAsState(
-        targetValue = if (enabled) MainPrimarySelected else Gray300,
+        targetValue = if (enabled) KuringTheme.colors.mainPrimarySelected else KuringTheme.colors.gray300,
         label = "content color",
     )
 
     val blurModifier = if (blur) {
-        val surfaceColor = MaterialTheme.colors.surface
+        val surfaceColor = KuringTheme.colors.background
         Modifier.drawBehind {
             val gradientHeight = size.height * 0.3f
             val gradientBrush = Brush.verticalGradient(
@@ -152,13 +149,13 @@ private fun KuringCallToActionBase(
 @LightAndDarkPreview
 @Composable
 private fun KuringCallToActionPreview_Enabled() {
-    KuringTheme {
+    KuringThemeTest {
         KuringCallToAction(
             text = "완료",
             enabled = true,
             onClick = { },
             modifier = Modifier
-                .background(MaterialTheme.colors.surface)
+                .background(KuringTheme.colors.background)
                 .fillMaxWidth(),
         )
     }
@@ -167,11 +164,11 @@ private fun KuringCallToActionPreview_Enabled() {
 @LightAndDarkPreview
 @Composable
 private fun KuringCallToActionPreview_Enabled_Blur() {
-    KuringTheme {
+    KuringThemeTest {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color.Gray)
+                .background(Color.Red)
                 .padding(top = 30.dp),
         ) {
             KuringCallToAction(
@@ -180,7 +177,7 @@ private fun KuringCallToActionPreview_Enabled_Blur() {
                 blur = true,
                 onClick = { },
                 modifier = Modifier
-                    .background(MaterialTheme.colors.surface)
+                    .background(KuringTheme.colors.background)
                     .fillMaxWidth(),
             )
         }

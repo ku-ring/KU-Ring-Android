@@ -15,10 +15,8 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
-import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -27,7 +25,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -36,10 +33,9 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.R
-import com.ku_stacks.ku_ring.designsystem.theme.BoxBackgroundColor2
-import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
-import com.ku_stacks.ku_ring.designsystem.theme.TextCaption1
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -55,8 +51,8 @@ fun SearchTextField(
     contentPadding: PaddingValues = PaddingValues(all = 0.dp),
 ) {
     val shape = RoundedCornerShape(50)
-    val backgroundColor = BoxBackgroundColor2
-    val textColor = contentColorFor(backgroundColor)
+    val backgroundColor = KuringTheme.colors.gray100
+    val textColor = KuringTheme.colors.textBody
 
     BasicTextField(
         value = query,
@@ -69,6 +65,7 @@ fun SearchTextField(
             lineHeight = 24.sp,
             fontFamily = Pretendard,
             fontWeight = FontWeight(400),
+            color = textColor,
         ),
         decorationBox = { innerTextField ->
             TextFieldDefaults.TextFieldDecorationBox(
@@ -96,6 +93,7 @@ fun SearchTextField(
                 colors = TextFieldDefaults.textFieldColors(
                     textColor = textColor,
                     backgroundColor = backgroundColor,
+                    cursorColor = textColor,
                 ),
                 contentPadding = contentPadding
             )
@@ -111,7 +109,7 @@ private fun LeadingSearchIcon(modifier: Modifier = Modifier) {
     Icon(
         painter = painterResource(id = R.drawable.ic_search),
         contentDescription = null,
-        tint = TextCaption1,
+        tint = KuringTheme.colors.textCaption1,
         modifier = modifier,
     )
 }
@@ -129,7 +127,7 @@ private fun Placeholder(
             lineHeight = 24.sp,
             fontFamily = Pretendard,
             fontWeight = FontWeight(400),
-            color = Color(0xFF8E8E8E),
+            color = KuringTheme.colors.textCaption2,
         )
     )
 }
@@ -142,7 +140,7 @@ private fun TrailingDeleteIcon(
     Icon(
         painter = painterResource(id = R.drawable.ic_close),
         contentDescription = null,
-        tint = TextCaption1,
+        tint = KuringTheme.colors.textCaption1,
         modifier = modifier
             .scale(0.8f)
             .clickable(onClick = onClear),
@@ -153,13 +151,13 @@ private fun TrailingDeleteIcon(
 @Composable
 private fun SearchTextFieldPreview() {
     var query by remember { mutableStateOf("") }
-    KuringTheme {
+    KuringThemeTest {
         SearchTextField(
             query = query,
             onQueryUpdate = { query = it },
             placeholderText = "추가할 학과를 검색해 주세요",
             modifier = Modifier
-                .background(MaterialTheme.colors.surface)
+                .background(KuringTheme.colors.background)
                 .padding(16.dp)
                 .fillMaxWidth(),
         )

@@ -15,9 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.contentColorFor
 import androidx.compose.material.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -37,11 +35,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.R
-import com.ku_stacks.ku_ring.designsystem.theme.Gray300
-import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.theme.MainPrimarySelected
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
-import com.ku_stacks.ku_ring.designsystem.theme.TextCaption1
 import com.ku_stacks.ku_ring.domain.Department
 
 @Composable
@@ -124,8 +120,8 @@ private fun SelectedDepartmentMark(
     Box(
         modifier = modifier
             .clip(shape)
-            .background(MainPrimarySelected, shape)
-            .border(0.5.dp, MaterialTheme.colors.primary, shape)
+            .background(KuringTheme.colors.mainPrimarySelected, shape)
+            .border(0.5.dp, KuringTheme.colors.mainPrimary, shape)
             .padding(horizontal = 8.dp, vertical = 2.dp),
     ) {
         Text(
@@ -135,7 +131,7 @@ private fun SelectedDepartmentMark(
                 lineHeight = 19.56.sp,
                 fontFamily = Pretendard,
                 fontWeight = FontWeight(600),
-                color = MaterialTheme.colors.primary,
+                color = KuringTheme.colors.mainPrimary,
             ),
         )
     }
@@ -153,7 +149,7 @@ private fun DeleteButton(
             lineHeight = 24.sp,
             fontFamily = Pretendard,
             fontWeight = FontWeight(500),
-            color = TextCaption1,
+            color = KuringTheme.colors.textCaption1,
             textAlign = TextAlign.End,
         ),
         modifier = modifier
@@ -176,7 +172,7 @@ private fun AddIconButton(
         Icon(
             painter = painterResource(id = R.drawable.ic_add),
             contentDescription = contentDescription,
-            tint = Gray300,
+            tint = KuringTheme.colors.gray300,
         )
     }
 }
@@ -194,7 +190,7 @@ private fun CheckIconButton(
         Icon(
             painter = painterResource(id = R.drawable.ic_check_checked),
             contentDescription = contentDescription,
-            tint = MaterialTheme.colors.primary,
+            tint = KuringTheme.colors.mainPrimary,
         )
     }
 }
@@ -212,7 +208,7 @@ private fun UncheckIconButton(
         Icon(
             painter = painterResource(id = R.drawable.ic_check_unchecked),
             contentDescription = contentDescription,
-            tint = Gray300,
+            tint = KuringTheme.colors.gray300,
         )
     }
 }
@@ -223,17 +219,16 @@ private fun BaseDepartment(
     modifier: Modifier = Modifier,
     contents: @Composable RowScope.() -> Unit = {},
 ) {
-    val backgroundColor = MaterialTheme.colors.surface
     Row(
         modifier = modifier
-            .background(backgroundColor)
+            .background(KuringTheme.colors.background)
             .padding(horizontal = 24.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         DepartmentTitle(
             departmentName = department.koreanName,
-            textColor = contentColorFor(backgroundColor),
+            textColor = KuringTheme.colors.textTitle,
         )
         contents()
     }
@@ -271,7 +266,7 @@ private val previewDepartment = Department(
 @Composable
 private fun DepartmentItemsPreview() {
     var isSelected by remember { mutableStateOf(false) }
-    KuringTheme {
+    KuringThemeTest {
         Column(
             modifier = Modifier
                 .background(Color.Gray)
