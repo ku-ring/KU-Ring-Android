@@ -347,7 +347,7 @@ private fun DepartmentCategoryList(
     Column(modifier = modifier) {
         LazyColumn(
             contentPadding = PaddingValues(vertical = 16.dp),
-            modifier = Modifier.weight(1f, fill = false),
+            modifier = Modifier.weight(1f),
         ) {
             items(
                 items = departments,

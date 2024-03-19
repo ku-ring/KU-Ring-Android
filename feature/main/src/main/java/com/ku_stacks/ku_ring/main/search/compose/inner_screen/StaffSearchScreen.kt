@@ -1,6 +1,7 @@
 package com.ku_stacks.ku_ring.main.search.compose.inner_screen
 
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -72,7 +73,10 @@ private fun StaffResultScreen(
     ModalBottomSheetLayout(
         sheetContent = {
             staffDetailInfo.value?.let {
-                StaffDetailBottomSheet(staff = it)
+                StaffDetailBottomSheet(
+                    staff = it,
+                    modifier = Modifier.background(KuringTheme.colors.background),
+                )
             }
         },
         sheetState = sheetState,
