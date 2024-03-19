@@ -18,7 +18,6 @@ import com.ku_stacks.ku_ring.designsystem.components.KuringScrollableTabRowDefau
 import com.ku_stacks.ku_ring.designsystem.components.KuringScrollableTabRowDefaults.kuringTabIndicatorOffset
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import com.ku_stacks.ku_ring.main.notice.NoticeScreenTabItem
 import kotlinx.coroutines.launch
 
@@ -65,7 +64,7 @@ internal fun NoticeScreenTabRow(
 @LightAndDarkPreview
 @Composable
 private fun NoticeScreenTabRowPreview() {
-    KuringThemeTest {
+    KuringTheme {
         NoticeScreenTabRow(
             pagerState = rememberPagerState {
                 NoticeScreenTabItem.values().size

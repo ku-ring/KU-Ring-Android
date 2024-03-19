@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 
 @Composable
 fun NonLazyGrid(
@@ -54,7 +54,7 @@ fun NonLazyGrid(
 @Preview(showBackground = true)
 @Composable
 private fun NonLazyGridPreview() {
-    KuringThemeTest {
+    KuringTheme {
         NonLazyGrid(
             columns = 3,
             itemCount = 8,

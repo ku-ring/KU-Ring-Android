@@ -23,9 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
-import com.ku_stacks.ku_ring.designsystem.theme.KuringSub
-import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 
 /**
  * 쿠링 앱에서 사용될 CTA 버튼이다.
@@ -35,7 +33,7 @@ import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
  * @param onClick CTA를 클릭했을 때 실행할 콜백
  * @param modifier CTA에 적용될 [Modifier]
  * @param enabled CTA 버튼이 활성화되었는지를 나타낸다. true라면 배경색이 [KuringTheme.colors.mainPrimary]로 설정되며,
- * false라면 배경색이 [KuringSub]로 설정된다. 컨텐츠 색깔은 둘 중 배경색으로 사용되지 않은 나머지 색으로 설정된다.
+ * false라면 배경색이 [KuringTheme.colors.gray200]로 설정된다. 컨텐츠 색깔은 둘 중 배경색으로 사용되지 않은 나머지 색으로 설정된다.
  * @param blur 버튼 위에 블러 효과를 적용할 지 결정한다. 블러는 버튼 위에 버튼 높이의 1/4만큼 그려진다.
  */
 @Composable
@@ -71,7 +69,7 @@ fun KuringCallToAction(
  * @param onClick CTA를 클릭했을 때 실행할 콜백
  * @param modifier CTA에 적용될 [Modifier]
  * @param enabled CTA 버튼이 활성화되었는지를 나타낸다. true라면 배경색이 [KuringTheme.colors.mainPrimary]로 설정되며,
- * false라면 배경색이 [KuringSub]로 설정된다. 컨텐츠 색깔은 둘 중 배경색으로 사용되지 않은 나머지 색으로 설정된다.
+ * false라면 배경색이 [KuringTheme.colors.gray200]로 설정된다. 컨텐츠 색깔은 둘 중 배경색으로 사용되지 않은 나머지 색으로 설정된다.
  * @param blur 버튼 위에 블러 효과를 적용할 지 결정한다. 블러는 버튼 위에 버튼 높이의 1/4만큼 그려진다.
  */
 @Composable
@@ -106,7 +104,7 @@ private fun KuringCallToActionBase(
         label = "background color",
     )
     val contentColor by animateColorAsState(
-        targetValue = if (enabled) KuringTheme.colors.mainPrimarySelected else KuringTheme.colors.gray300,
+        targetValue = if (enabled) KuringTheme.colors.background else KuringTheme.colors.textCaption1,
         label = "content color",
     )
 
@@ -138,6 +136,7 @@ private fun KuringCallToActionBase(
         shape = RoundedCornerShape(50),
         elevation = null,
         contentPadding = paddingValues,
+        enabled = enabled,
         modifier = modifier
             .then(blurModifier)
             .padding(horizontal = 20.dp, vertical = 16.dp),
@@ -149,7 +148,7 @@ private fun KuringCallToActionBase(
 @LightAndDarkPreview
 @Composable
 private fun KuringCallToActionPreview_Enabled() {
-    KuringThemeTest {
+    KuringTheme {
         KuringCallToAction(
             text = "완료",
             enabled = true,
@@ -164,7 +163,7 @@ private fun KuringCallToActionPreview_Enabled() {
 @LightAndDarkPreview
 @Composable
 private fun KuringCallToActionPreview_Enabled_Blur() {
-    KuringThemeTest {
+    KuringTheme {
         Box(
             modifier = Modifier
                 .fillMaxWidth()

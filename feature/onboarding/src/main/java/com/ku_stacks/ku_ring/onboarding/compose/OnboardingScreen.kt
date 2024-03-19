@@ -14,9 +14,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
-import com.ku_stacks.ku_ring.designsystem.theme.Background
-import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.onboarding.compose.inner_screen.ConfirmDepartmentScreen
 import com.ku_stacks.ku_ring.onboarding.compose.inner_screen.FeatureTabs
 import com.ku_stacks.ku_ring.onboarding.compose.inner_screen.OnboardingCompleteScreen
@@ -33,6 +31,7 @@ internal fun OnboardingScreen(
         durationMillis = 200,
     )
 
+    val background = KuringTheme.colors.background
     NavHost(
         navController = navController,
         startDestination = OnboardingScreenDestinations.FEATURE_TABS,
@@ -54,6 +53,9 @@ internal fun OnboardingScreen(
             navHostController = navController,
             onNavigateToMain = onNavigateToMain,
             viewModel = viewModel,
+            modifier = Modifier
+                .background(background)
+                .fillMaxSize()
         )
     }
 }
@@ -62,10 +64,8 @@ private fun NavGraphBuilder.onboardingNavGraph(
     navHostController: NavHostController,
     onNavigateToMain: () -> Unit,
     viewModel: OnboardingViewModel,
+    modifier: Modifier = Modifier,
 ) {
-    val modifier = Modifier
-        .background(Background)
-        .fillMaxSize()
     composable(OnboardingScreenDestinations.FEATURE_TABS) {
         FeatureTabs(
             onNavigateToSetDepartment = {
@@ -113,14 +113,3 @@ private fun animationDirection(initialState: NavBackStackEntry, targetState: Nav
 
 private val NavBackStackEntry.screenOrder: Int
     get() = OnboardingScreenDestinations.getOrder(this.destination.route)
-
-@LightAndDarkPreview
-@Composable
-private fun OnboardingScreenPreview() {
-    KuringTheme {
-        OnboardingScreen(
-            onNavigateToMain = {},
-            modifier = Modifier.fillMaxSize(),
-        )
-    }
-}

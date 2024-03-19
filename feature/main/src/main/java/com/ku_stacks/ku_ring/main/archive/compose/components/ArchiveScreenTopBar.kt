@@ -13,9 +13,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.components.CenterTitleTopBar
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
-import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
-import com.ku_stacks.ku_ring.designsystem.theme.TextBody
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 import com.ku_stacks.ku_ring.main.R
 
 @Composable
@@ -55,7 +54,7 @@ internal fun TopBarNavigation(
             lineHeight = 27.sp,
             fontFamily = Pretendard,
             fontWeight = FontWeight(500),
-            color = TextBody,
+            color = KuringTheme.colors.textBody,
         ),
         modifier = modifier,
     )
@@ -65,7 +64,7 @@ internal fun TopBarNavigation(
 @Composable
 private fun NoticeStorageTopBarPreview() {
     var isSelectedModeEnabled by remember { mutableStateOf(false) }
-    KuringThemeTest {
+    KuringTheme {
         ArchiveScreenTopBar(
             isSelectModeEnabled = isSelectedModeEnabled,
             onSelectModeEnabled = { isSelectedModeEnabled = true },

@@ -41,8 +41,7 @@ import com.ku_stacks.ku_ring.designsystem.components.CenterTitleTopBar
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.components.SearchTextField
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
-import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 import com.ku_stacks.ku_ring.designsystem.utils.NoRippleInteractionSource
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.domain.Staff
@@ -272,7 +271,7 @@ private fun SearchResultHorizontalPager(
 @LightAndDarkPreview
 @Composable
 private fun SearchScreenPreview() {
-    KuringThemeTest {
+    KuringTheme {
         SearchScreen(
             searchState = rememberSearchState("산학협력"),
             onNavigationClick = {},

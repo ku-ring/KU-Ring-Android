@@ -10,7 +10,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
 import com.ku_stacks.ku_ring.domain.mapper.toWebViewNotice
 import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.search.compose.SearchScreen
@@ -34,7 +33,7 @@ class SearchActivity : AppCompatActivity() {
 
     private fun setupView() {
         setContent {
-            KuringThemeTest {
+            KuringTheme {
                 SearchScreen(
                     viewModel = viewModel,
                     onNavigationClick = { finish() },

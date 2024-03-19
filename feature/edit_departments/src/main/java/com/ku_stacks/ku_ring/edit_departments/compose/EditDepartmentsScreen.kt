@@ -34,8 +34,7 @@ import com.ku_stacks.ku_ring.designsystem.components.LargeTopAppBar
 import com.ku_stacks.ku_ring.designsystem.components.LightPreview
 import com.ku_stacks.ku_ring.designsystem.components.SearchTextField
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
-import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 import com.ku_stacks.ku_ring.domain.Department
 import com.ku_stacks.ku_ring.edit_departments.EditDepartmentsViewModel
 import com.ku_stacks.ku_ring.edit_departments.R
@@ -291,7 +290,7 @@ internal val previewDepartments = (1..5).map {
 @Composable
 private fun EditDepartmentsPreview_SelectedDepartments() {
     var query by remember { mutableStateOf("") }
-    KuringThemeTest {
+    KuringTheme {
         EditDepartmentsScreen(
             onClose = {},
             onDeleteAllButtonClick = {},
@@ -311,7 +310,7 @@ private fun EditDepartmentsPreview_SelectedDepartments() {
 @Composable
 private fun EditDepartmentsPreview_SearchedDepartments() {
     var query by remember { mutableStateOf("") }
-    KuringThemeTest {
+    KuringTheme {
         EditDepartmentsScreen(
             onClose = {},
             onDeleteAllButtonClick = {},

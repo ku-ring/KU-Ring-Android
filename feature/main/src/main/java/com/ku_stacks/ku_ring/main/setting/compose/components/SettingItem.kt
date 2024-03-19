@@ -28,9 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
-import com.ku_stacks.ku_ring.designsystem.theme.Gray300
-import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 import com.ku_stacks.ku_ring.main.R
 
 @Composable
@@ -81,7 +79,7 @@ internal fun SettingItem(
 private fun SettingItemPreview() {
     var angle by remember { mutableFloatStateOf(0f) }
 
-    KuringThemeTest {
+    KuringTheme {
         Column {
             SettingItem(
                 iconId = R.drawable.ic_bell,
@@ -94,7 +92,7 @@ private fun SettingItemPreview() {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_chevron),
                     contentDescription = null,
-                    tint = Gray300,
+                    tint = KuringTheme.colors.gray300,
                     modifier = Modifier.rotate(angle)
                 )
             }

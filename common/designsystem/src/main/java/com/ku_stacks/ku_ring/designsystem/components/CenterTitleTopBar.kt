@@ -25,8 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.R
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
-import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 
 /**
  * 제목과 내비게이션 아이콘, 액션 텍스트를 보여주는 최상단 바이다.
@@ -216,7 +215,7 @@ private fun Navigation(
 @LightAndDarkPreview
 @Composable
 private fun TopAppBarPreview_ActionText() {
-    KuringThemeTest {
+    KuringTheme {
         CenterTitleTopBar(
             title = "푸시 알림 설정",
             navigation = {
@@ -235,7 +234,7 @@ private fun TopAppBarPreview_ActionText() {
 @LightAndDarkPreview
 @Composable
 private fun TopAppBarPreview_ActionIcon() {
-    KuringThemeTest {
+    KuringTheme {
         CenterTitleTopBar(
             title = "푸시 알림 설정",
             navigation = {
