@@ -220,7 +220,7 @@ private fun TopAppBarPreview_ActionText() {
             title = "푸시 알림 설정",
             navigation = {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_back),
+                    painter = painterResource(id = R.drawable.ic_back_v2),
                     contentDescription = null,
                 )
             },
@@ -239,13 +239,13 @@ private fun TopAppBarPreview_ActionIcon() {
             title = "푸시 알림 설정",
             navigation = {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_back),
+                    painter = painterResource(id = R.drawable.ic_back_v2),
                     contentDescription = null,
                 )
             },
             action = {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_trashcan),
+                    painter = painterResource(id = R.drawable.ic_trashcan_v2),
                     contentDescription = null,
                     tint = KuringTheme.colors.textCaption2,
                 )

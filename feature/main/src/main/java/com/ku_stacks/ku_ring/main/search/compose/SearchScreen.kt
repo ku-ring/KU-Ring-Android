@@ -98,7 +98,7 @@ private fun SearchScreen(
             title = stringResource(id = R.string.search),
             navigation = {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_back),
+                    painter = painterResource(id = R.drawable.ic_back_v2),
                     contentDescription = null,
                     tint = KuringTheme.colors.gray600,
                 )

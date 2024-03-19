@@ -36,7 +36,7 @@ internal fun DepartmentSubscriptionItem(
     modifier: Modifier = Modifier,
 ) {
     val iconId =
-        if (uiModel.isSelected) R.drawable.ic_check_checked else R.drawable.ic_check_unchecked
+        if (uiModel.isSelected) R.drawable.ic_check_circle_fill_v2 else R.drawable.ic_check_circle_fill_2_v2
 
     val onClickLabel = getOnClickLabel(isSelected = uiModel.isSelected)
     val description = getDescription(isSelected = uiModel.isSelected)

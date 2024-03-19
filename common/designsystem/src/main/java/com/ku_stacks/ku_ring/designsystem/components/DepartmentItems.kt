@@ -169,7 +169,7 @@ private fun AddIconButton(
         modifier = modifier,
     ) {
         Icon(
-            painter = painterResource(id = R.drawable.ic_add),
+            painter = painterResource(id = R.drawable.ic_plus_v2),
             contentDescription = contentDescription,
             tint = KuringTheme.colors.gray300,
         )
@@ -187,7 +187,7 @@ private fun CheckIconButton(
         modifier = modifier,
     ) {
         Icon(
-            painter = painterResource(id = R.drawable.ic_check_checked),
+            painter = painterResource(id = R.drawable.ic_check_circle_fill_v2),
             contentDescription = contentDescription,
             tint = KuringTheme.colors.mainPrimary,
         )
@@ -205,7 +205,7 @@ private fun UncheckIconButton(
         modifier = modifier,
     ) {
         Icon(
-            painter = painterResource(id = R.drawable.ic_check_unchecked),
+            painter = painterResource(id = R.drawable.ic_check_circle_fill_2_v2),
             contentDescription = contentDescription,
             tint = KuringTheme.colors.gray300,
         )

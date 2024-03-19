@@ -59,23 +59,23 @@ fun StaffDetailBottomSheet(
 
         InformationRow(
             text = staff.email,
-            imageVector = ImageVector.vectorResource(id = R.drawable.ic_email),
+            imageVector = ImageVector.vectorResource(id = R.drawable.ic_email_v2),
             modifier = Modifier.padding(top = 16.dp)
         )
 
         InformationRow(
             text = staff.lab,
-            imageVector = ImageVector.vectorResource(id = R.drawable.ic_pin),
+            imageVector = ImageVector.vectorResource(id = R.drawable.ic_pin_v2),
         )
 
         InformationRow(
             text = staff.phone,
-            imageVector = ImageVector.vectorResource(id = R.drawable.ic_phone),
+            imageVector = ImageVector.vectorResource(id = R.drawable.ic_phone_v2),
         )
 
         InformationRow(
             text = staff.major,
-            imageVector = ImageVector.vectorResource(id = R.drawable.ic_major),
+            imageVector = ImageVector.vectorResource(id = R.drawable.ic_major_v2),
         )
 
         Spacer(modifier = Modifier.height(28.dp))

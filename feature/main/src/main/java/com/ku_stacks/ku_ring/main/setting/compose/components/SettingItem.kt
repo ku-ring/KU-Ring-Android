@@ -82,7 +82,7 @@ private fun SettingItemPreview() {
     KuringTheme {
         Column {
             SettingItem(
-                iconId = R.drawable.ic_bell,
+                iconId = R.drawable.ic_bell_v2,
                 title = "공지 구독하기",
                 onClick = { angle += 90f },
                 modifier = Modifier
@@ -90,7 +90,7 @@ private fun SettingItemPreview() {
                     .background(KuringTheme.colors.background),
             ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_chevron),
+                    painter = painterResource(id = R.drawable.ic_chevron_v2),
                     contentDescription = null,
                     tint = KuringTheme.colors.gray300,
                     modifier = Modifier.rotate(angle)

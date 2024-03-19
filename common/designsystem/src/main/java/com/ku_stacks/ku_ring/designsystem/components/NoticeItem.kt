@@ -170,7 +170,7 @@ private fun NoticeItemBookmarkIcon(
     modifier: Modifier = Modifier,
 ) {
     Image(
-        painter = painterResource(id = R.drawable.ic_bookmark),
+        painter = painterResource(id = R.drawable.ic_bookmark_v2),
         contentDescription = null,
         modifier = modifier,
     )

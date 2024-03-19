@@ -61,7 +61,7 @@ fun DepartmentHeader(
         )
         Spacer(modifier = Modifier.weight(1f))
         Icon(
-            painter = painterResource(R.drawable.ic_chevron_2),
+            painter = painterResource(R.drawable.ic_chevron_v2),
             contentDescription = null,
             tint = KuringTheme.colors.gray400,
         )

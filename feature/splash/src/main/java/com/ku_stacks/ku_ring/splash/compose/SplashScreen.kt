@@ -19,7 +19,7 @@ internal fun SplashScreen(
 ) {
     Box(modifier = modifier) {
         Image(
-            painter = painterResource(id = R.drawable.ic_app),
+            painter = painterResource(id = R.drawable.ic_app_v2),
             contentDescription = stringResource(id = R.string.splash_app_icon),
             modifier = Modifier.align(Alignment.Center),
         )
