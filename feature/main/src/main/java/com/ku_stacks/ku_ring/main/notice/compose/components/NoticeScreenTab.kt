@@ -9,9 +9,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
-import com.ku_stacks.ku_ring.designsystem.theme.MainPrimary
-import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
-import com.ku_stacks.ku_ring.designsystem.theme.TextCaption1
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 import com.ku_stacks.ku_ring.main.notice.NoticeScreenTabItem
 
 @Composable
@@ -21,7 +20,7 @@ internal fun NoticeTab(
     modifier: Modifier = Modifier,
 ) {
     val textColor by animateColorAsState(
-        targetValue = if (isSelected) MainPrimary else TextCaption1,
+        targetValue = if (isSelected) KuringTheme.colors.mainPrimary else KuringTheme.colors.textCaption1,
         label = "notice tab text color",
     )
     Text(

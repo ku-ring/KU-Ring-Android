@@ -28,11 +28,8 @@ import coil.decode.ImageDecoderDecoder
 import coil.request.ImageRequest
 import com.ku_stacks.ku_ring.designsystem.components.KuringCallToAction
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
-import com.ku_stacks.ku_ring.designsystem.theme.Background
-import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
-import com.ku_stacks.ku_ring.designsystem.theme.TextCaption1
-import com.ku_stacks.ku_ring.designsystem.theme.TextTitle
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 import com.ku_stacks.ku_ring.onboarding.R
 
 @Composable
@@ -41,7 +38,7 @@ internal fun OnboardingCompleteScreen(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier.background(Background),
+        modifier = modifier.background(KuringTheme.colors.background),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Spacer(modifier = Modifier.height(132.dp))
@@ -67,7 +64,7 @@ private fun OnboardingCompleteTitle(modifier: Modifier = Modifier) {
             lineHeight = 34.08.sp,
             fontFamily = Pretendard,
             fontWeight = FontWeight(700),
-            color = TextTitle,
+            color = KuringTheme.colors.textTitle,
         ),
         modifier = modifier,
     )
@@ -82,7 +79,7 @@ private fun OnboardingCompleteCaption(modifier: Modifier = Modifier) {
             lineHeight = 24.45.sp,
             fontFamily = Pretendard,
             fontWeight = FontWeight(500),
-            color = TextCaption1,
+            color = KuringTheme.colors.textCaption1,
             textAlign = TextAlign.Center,
         ),
         modifier = modifier,
@@ -121,7 +118,9 @@ private fun OnboardingCompletePreview() {
     KuringTheme {
         OnboardingCompleteScreen(
             onStartKuring = { },
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .background(KuringTheme.colors.background)
+                .fillMaxSize(),
         )
     }
 }

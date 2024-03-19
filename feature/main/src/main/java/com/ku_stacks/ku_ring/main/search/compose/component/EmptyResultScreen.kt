@@ -1,5 +1,6 @@
 package com.ku_stacks.ku_ring.main.search.compose.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Text
@@ -11,8 +12,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
-import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
-import com.ku_stacks.ku_ring.designsystem.theme.TextCaption1
+import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 import com.ku_stacks.ku_ring.main.R
 
 @Composable
@@ -20,7 +22,9 @@ fun EmptyResultScreen(
     modifier: Modifier = Modifier
 ) {
     Box(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .background(KuringTheme.colors.background)
+            .fillMaxSize()
     ) {
         Text(
             text = stringResource(id = R.string.search_advice),
@@ -29,11 +33,18 @@ fun EmptyResultScreen(
                 lineHeight = 24.sp,
                 fontFamily = Pretendard,
                 fontWeight = FontWeight(500),
-                color = TextCaption1,
+                color = KuringTheme.colors.textCaption2,
                 textAlign = TextAlign.Center,
             ),
-            modifier = modifier
-                .align(Alignment.Center)
+            modifier = Modifier.align(Alignment.Center)
         )
+    }
+}
+
+@LightAndDarkPreview
+@Composable
+private fun EmptyResultScreenPreview() {
+    KuringTheme {
+        EmptyResultScreen(modifier = Modifier.fillMaxSize())
     }
 }

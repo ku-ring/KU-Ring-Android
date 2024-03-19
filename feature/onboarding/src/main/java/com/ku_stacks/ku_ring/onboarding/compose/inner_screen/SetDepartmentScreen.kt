@@ -20,7 +20,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -33,10 +32,8 @@ import com.ku_stacks.ku_ring.designsystem.components.DepartmentWithCheckIcon
 import com.ku_stacks.ku_ring.designsystem.components.KuringCallToAction
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.components.SearchTextField
-import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
-import com.ku_stacks.ku_ring.designsystem.theme.TextCaption1
-import com.ku_stacks.ku_ring.designsystem.theme.TextTitle
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 import com.ku_stacks.ku_ring.domain.Department
 import com.ku_stacks.ku_ring.onboarding.R
 import com.ku_stacks.ku_ring.onboarding.compose.OnboardingViewModel
@@ -78,7 +75,7 @@ private fun SetDepartmentScreen(
     onSetDepartmentComplete: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier = modifier.background(Color.White)) {
+    Column(modifier = modifier.background(KuringTheme.colors.background)) {
         SetDepartmentTitle(modifier = Modifier.padding(top = 76.dp, start = 20.dp))
         SetDepartmentSubtitle(modifier = Modifier.padding(top = 16.dp, start = 20.dp))
         SearchDepartmentTextField(
@@ -123,7 +120,7 @@ private fun SetDepartmentTitle(
             lineHeight = 34.08.sp,
             fontFamily = Pretendard,
             fontWeight = FontWeight(700),
-            color = TextTitle,
+            color = KuringTheme.colors.textTitle,
         )
     )
 }
@@ -140,7 +137,7 @@ private fun SetDepartmentSubtitle(
             lineHeight = 24.45.sp,
             fontFamily = Pretendard,
             fontWeight = FontWeight(500),
-            color = TextCaption1,
+            color = KuringTheme.colors.textCaption1,
         )
     )
 }
@@ -232,7 +229,7 @@ private fun SearchedDepartmentsCaption(
             lineHeight = 24.45.sp,
             fontFamily = Pretendard,
             fontWeight = FontWeight(500),
-            color = TextCaption1,
+            color = KuringTheme.colors.textCaption1,
         ),
         modifier = modifier,
     )
@@ -254,7 +251,9 @@ private fun SetDepartmentPreview() {
             selectedDepartment = selectedDepartment,
             onSelectDepartment = { selectedDepartment = it },
             onSetDepartmentComplete = { },
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .background(KuringTheme.colors.background)
+                .fillMaxSize(),
         )
     }
 }

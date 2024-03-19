@@ -1,5 +1,6 @@
 package com.ku_stacks.ku_ring.main.setting.compose.groups
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -9,9 +10,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
-import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
-import com.ku_stacks.ku_ring.designsystem.theme.TextTitle
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.setting.compose.components.ChevronIcon
 import com.ku_stacks.ku_ring.main.setting.compose.components.SettingGroup
@@ -81,7 +81,7 @@ private fun AppVersionText(
             lineHeight = 24.sp,
             fontFamily = Pretendard,
             fontWeight = FontWeight(500),
-            color = TextTitle,
+            color = KuringTheme.colors.textTitle,
             letterSpacing = 0.15.sp,
         ),
         modifier = modifier,
@@ -99,7 +99,9 @@ private fun InformationGroupPreview() {
             onNavigateToPrivacyPolicy = {},
             onNavigateToServiceTerms = {},
             onNavigateToOpenSources = {},
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .background(KuringTheme.colors.background)
+                .fillMaxWidth(),
         )
     }
 }

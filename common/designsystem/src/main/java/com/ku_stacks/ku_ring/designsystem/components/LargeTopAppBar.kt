@@ -21,8 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.R
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringThemeTest
-import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 
 /**
  * [CenterTitleTopBar]보다 더 넓은 공간을 차지하는 Top App Bar이다.
@@ -87,7 +86,7 @@ private fun LargeTopAppBarTitle(
 @LightAndDarkPreview
 @Composable
 private fun LargeTopAppBarPreview() {
-    KuringThemeTest {
+    KuringTheme {
         LargeTopAppBar(
             title = "학과를 추가하거나\n삭제할 수 있어요",
             modifier = Modifier.fillMaxWidth(),

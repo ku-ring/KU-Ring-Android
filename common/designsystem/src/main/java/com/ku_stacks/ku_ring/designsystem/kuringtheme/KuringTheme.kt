@@ -16,12 +16,12 @@ object KuringTheme {
  * @param isDarkMode 다크 모드 적용 여부
  */
 @Composable
-fun KuringThemeTest(
+fun KuringTheme(
     isDarkMode: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
 ) {
     val colorPalette = if (isDarkMode) kuringDarkColors() else kuringLightColors()
-    KuringTheme(
+    ApplyKuringTheme(
         colors = colorPalette,
         content = content,
     )
@@ -33,7 +33,7 @@ fun KuringThemeTest(
  * @param colors 쿠링 색깔 테마
  */
 @Composable
-internal fun KuringTheme(
+internal fun ApplyKuringTheme(
     colors: KuringColors = KuringTheme.colors,
     content: @Composable () -> Unit,
 ) {

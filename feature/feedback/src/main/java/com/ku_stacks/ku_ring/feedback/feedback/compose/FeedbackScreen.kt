@@ -3,7 +3,6 @@ package com.ku_stacks.ku_ring.feedback.feedback.compose
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -14,17 +13,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
-import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -36,10 +32,8 @@ import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.components.CenterTitleTopBar
 import com.ku_stacks.ku_ring.designsystem.components.KuringCallToAction
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
-import com.ku_stacks.ku_ring.designsystem.theme.KuringGreen
-import com.ku_stacks.ku_ring.designsystem.theme.KuringSecondaryGreen
-import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 import com.ku_stacks.ku_ring.feedback.R
 import com.ku_stacks.ku_ring.feedback.feedback.FeedbackTextStatus
 import com.ku_stacks.ku_ring.feedback.feedback.FeedbackViewModel
@@ -73,7 +67,7 @@ private fun FeedbackScreen(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.background(MaterialTheme.colors.surface),
+        modifier = modifier.background(KuringTheme.colors.background),
     ) {
         CenterTitleTopBar(
             title = stringResource(R.string.feedback_send_content),
@@ -81,7 +75,7 @@ private fun FeedbackScreen(
                 Icon(
                     painter = painterResource(id = R.drawable.ic_back),
                     contentDescription = null,
-                    tint = contentColorFor(backgroundColor = MaterialTheme.colors.surface)
+                    tint = KuringTheme.colors.gray600,
                 )
             },
             onNavigationClick = {
@@ -106,7 +100,7 @@ private fun FeedbackScreen(
                 lineHeight = 27.sp,
                 fontFamily = Pretendard,
                 fontWeight = FontWeight(500),
-                color = contentColorFor(backgroundColor = MaterialTheme.colors.surface),
+                color = KuringTheme.colors.textBody,
                 textAlign = TextAlign.Center,
             ),
         )
@@ -119,7 +113,7 @@ private fun FeedbackScreen(
                 .padding(start = 20.dp, end = 20.dp, top = 32.dp)
                 .fillMaxWidth()
                 .weight(1f)
-                .background(color = MaterialTheme.colors.surface)
+                .background(color = KuringTheme.colors.background)
                 .border(width = 1.5f.dp, color = Color.Gray, shape = RoundedCornerShape(20.dp)),
         )
 
@@ -154,12 +148,13 @@ private fun FeedbackTextField(
                     lineHeight = 24.sp,
                     fontFamily = Pretendard,
                     fontWeight = FontWeight(400),
+                    color = KuringTheme.colors.textBody,
                 )
             },
             colors = TextFieldDefaults.textFieldColors(
-                textColor = contentColorFor(backgroundColor = MaterialTheme.colors.surface),
+                textColor = KuringTheme.colors.textBody,
                 disabledTextColor = Color.Transparent,
-                backgroundColor = MaterialTheme.colors.surface,
+                backgroundColor = KuringTheme.colors.background,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent
@@ -172,16 +167,25 @@ private fun FeedbackTextField(
 
         val (guideTextInfo, color) = when (textStatus) {
             FeedbackTextStatus.INITIAL -> {
-                Pair("", Color.Red)
+                Pair("", KuringTheme.colors.warning)
             }
+
             FeedbackTextStatus.TOO_SHORT -> {
-                Pair(stringResource(R.string.feedback_write_more), Color.Red)
+                Pair(stringResource(R.string.feedback_write_more), KuringTheme.colors.warning)
             }
+
             FeedbackTextStatus.TOO_LONG -> {
-                Pair("${feedbackContent.length}/${FeedbackViewModel.MAX_FEEDBACK_CONTENT_LENGTH}", Color.Red)
+                Pair(
+                    "${feedbackContent.length}/${FeedbackViewModel.MAX_FEEDBACK_CONTENT_LENGTH}",
+                    KuringTheme.colors.warning
+                )
             }
+
             FeedbackTextStatus.NORMAL -> {
-                Pair("${feedbackContent.length}/${FeedbackViewModel.MAX_FEEDBACK_CONTENT_LENGTH}", KuringGreen)
+                Pair(
+                    "${feedbackContent.length}/${FeedbackViewModel.MAX_FEEDBACK_CONTENT_LENGTH}",
+                    KuringTheme.colors.mainPrimary
+                )
             }
         }
 
@@ -195,45 +199,6 @@ private fun FeedbackTextField(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(bottom = 6.dp, end = 13.dp)
-        )
-    }
-}
-
-@Composable
-private fun SendFeedbackButton(
-    textStatus: FeedbackTextStatus,
-    onClickSendFeedback: () -> Unit,
-) {
-
-    val backgroundColor = when (textStatus) {
-        FeedbackTextStatus.NORMAL -> KuringGreen
-        else -> KuringSecondaryGreen
-    }
-    val textColor = when (textStatus) {
-        FeedbackTextStatus.NORMAL -> MaterialTheme.colors.surface
-        else -> KuringGreen
-    }
-
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 32.dp, vertical = 16.dp)
-            .clip(RoundedCornerShape(percent = 50))
-            .background(color = backgroundColor)
-            .clickable {
-                onClickSendFeedback()
-            }
-    ) {
-        Text(
-            text = stringResource(R.string.feedback_send_content),
-            fontSize = 16.sp,
-            lineHeight = 26.sp,
-            fontFamily = Pretendard,
-            fontWeight = FontWeight(500),
-            color = textColor,
-            modifier = Modifier
-                .align(Alignment.Center)
-                .padding(vertical = 16.dp)
         )
     }
 }

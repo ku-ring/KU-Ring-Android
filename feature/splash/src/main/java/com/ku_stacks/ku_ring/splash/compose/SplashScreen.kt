@@ -1,6 +1,7 @@
 package com.ku_stacks.ku_ring.splash.compose
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -9,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
-import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.splash.R
 
 @Composable
@@ -29,6 +30,10 @@ internal fun SplashScreen(
 @Composable
 private fun SplashScreenPreview() {
     KuringTheme {
-        SplashScreen(modifier = Modifier.fillMaxSize())
+        SplashScreen(
+            modifier = Modifier
+                .background(KuringTheme.colors.background)
+                .fillMaxSize(),
+        )
     }
 }

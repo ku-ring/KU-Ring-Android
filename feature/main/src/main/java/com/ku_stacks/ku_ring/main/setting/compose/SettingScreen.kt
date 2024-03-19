@@ -3,6 +3,7 @@ package com.ku_stacks.ku_ring.main.setting.compose
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -15,9 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ku_stacks.ku_ring.designsystem.components.CenterTitleTopBar
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
-import com.ku_stacks.ku_ring.designsystem.theme.Background
-import com.ku_stacks.ku_ring.designsystem.theme.Borderline
-import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.setting.compose.groups.FeedbackGroup
 import com.ku_stacks.ku_ring.main.setting.compose.groups.InformationGroup
@@ -78,7 +77,7 @@ private fun SettingScreenDivider(modifier: Modifier = Modifier) {
     Spacer(
         modifier = modifier
             .padding(vertical = 12.dp)
-            .background(Borderline)
+            .background(KuringTheme.colors.borderline)
             .height(1.dp)
             .fillMaxWidth(),
     )
@@ -100,9 +99,8 @@ private fun SettingScreenPreview() {
             onNavigateToKuringInstagram = {},
             onNavigateToFeedback = {},
             modifier = Modifier
-                .fillMaxWidth()
-                .height(2500.dp)
-                .background(Background),
+                .fillMaxSize()
+                .background(KuringTheme.colors.background),
         )
     }
 }

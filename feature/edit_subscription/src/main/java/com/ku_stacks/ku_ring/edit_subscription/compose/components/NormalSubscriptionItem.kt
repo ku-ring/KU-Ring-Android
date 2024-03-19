@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -31,9 +30,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ku_stacks.ku_ring.designsystem.components.LightPreview
-import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
+import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 import com.ku_stacks.ku_ring.edit_subscription.R
 import com.ku_stacks.ku_ring.edit_subscription.uimodel.NormalSubscriptionUiModel
 
@@ -61,14 +60,16 @@ private fun NormalSubscriptionItem(
     modifier: Modifier = Modifier
 ) {
     val backgroundColor by animateColorAsState(
-        targetValue = if (isSelected) MaterialTheme.colors.primary.copy(alpha = 0.1f) else Color.Black.copy(
-            alpha = 0.03f
-        ),
+        targetValue = if (isSelected) {
+            KuringTheme.colors.mainPrimary.copy(alpha = 0.1f)
+        } else {
+            KuringTheme.colors.textBody.copy(alpha = 0.03f)
+        },
         animationSpec = tween(),
         label = "background color",
     )
     val borderColor by animateColorAsState(
-        targetValue = if (isSelected) MaterialTheme.colors.primary else Color.Transparent,
+        targetValue = if (isSelected) KuringTheme.colors.mainPrimary else Color.Transparent,
         animationSpec = tween(),
         label = "border color",
     )
@@ -99,13 +100,13 @@ private fun NormalSubscriptionItem(
                 lineHeight = 24.sp,
                 fontFamily = Pretendard,
                 fontWeight = FontWeight(600),
-                color = Color(0xFF525252),
+                color = KuringTheme.colors.textBody,
             )
         )
     }
 }
 
-@LightPreview
+@LightAndDarkPreview
 @Composable
 private fun NormalSubscriptionItemPreview() {
     // Android Studio에서는 아이템을 클릭해도 배경색이 바뀌지 않는다. (프리뷰 오류)
@@ -120,6 +121,7 @@ private fun NormalSubscriptionItemPreview() {
                 isSelected = isSelected,
                 onClick = { isSelected = !isSelected },
                 modifier = Modifier
+                    .background(KuringTheme.colors.background)
                     .padding(10.dp)
                     .size(96.dp)
             )

@@ -7,9 +7,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
 import androidx.compose.ui.Modifier
-import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.edit_departments.compose.EditDepartmentsScreen
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,7 +22,7 @@ class EditDepartmentsActivity : ComponentActivity() {
                     onClose = ::finish,
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(MaterialTheme.colors.surface),
+                        .background(KuringTheme.colors.background),
                 )
             }
         }
