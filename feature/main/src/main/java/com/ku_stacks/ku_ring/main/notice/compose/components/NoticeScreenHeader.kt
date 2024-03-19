@@ -55,12 +55,12 @@ private fun NoticeScreenHeaderIcons(
         modifier = modifier,
     ) {
         NoticeScreenHeaderIcon(
-            resourceId = R.drawable.ic_search,
+            resourceId = R.drawable.ic_search_v2,
             contentDescription = stringResource(id = R.string.notice_screen_header_search),
             onClick = onSearchIconClick,
         )
         NoticeScreenHeaderIcon(
-            resourceId = R.drawable.ic_bell,
+            resourceId = R.drawable.ic_bell_v2,
             contentDescription = stringResource(id = R.string.notice_screen_header_notification),
             onClick = onNotificationIconClick,
         )

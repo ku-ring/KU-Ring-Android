@@ -115,7 +115,7 @@ private fun EditDepartmentsTitle(
 ) {
     LargeTopAppBar(
         title = stringResource(id = R.string.edit_departments_app_bar_text),
-        navigationIconId = R.drawable.ic_back,
+        navigationIconId = R.drawable.ic_back_v2,
         onNavigationIconClick = onClose,
         modifier = modifier,
     ) {

@@ -60,13 +60,13 @@ private fun SettingGroupPreview() {
     KuringTheme {
         SettingGroup(groupTitle = "정보") {
             SettingItem(
-                iconId = R.drawable.ic_rocket,
+                iconId = R.drawable.ic_rocket_v2,
                 title = "앱 버전",
                 onClick = {},
                 content = {},
             )
             SettingItem(
-                iconId = R.drawable.ic_star,
+                iconId = R.drawable.ic_star_v2,
                 title = "새로운 내용",
                 onClick = {},
                 content = {},

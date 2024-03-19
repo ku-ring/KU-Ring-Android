@@ -106,7 +106,7 @@ fun SearchTextField(
 @Composable
 private fun LeadingSearchIcon(modifier: Modifier = Modifier) {
     Icon(
-        painter = painterResource(id = R.drawable.ic_search),
+        painter = painterResource(id = R.drawable.ic_search_v2),
         contentDescription = null,
         tint = KuringTheme.colors.textCaption1,
         modifier = modifier,
@@ -137,7 +137,7 @@ private fun TrailingDeleteIcon(
     modifier: Modifier = Modifier,
 ) {
     Icon(
-        painter = painterResource(id = R.drawable.ic_close),
+        painter = painterResource(id = R.drawable.ic_x_v2),
         contentDescription = null,
         tint = KuringTheme.colors.textCaption1,
         modifier = modifier
