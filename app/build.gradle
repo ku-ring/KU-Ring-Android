@@ -79,8 +79,7 @@ android {
                     appName : "@string/app_name_debug",
                     appIcon : "@drawable/ic_ku_ring_launcher_dev"
             ]
-            buildConfigField "String", "API_BASE_URL", "\"https://kuring.herokuapp.com/api/\""
-            buildConfigField "String", "KURING_CAMPUS_OPEN_CHANNEL_URL", "\"kuring_main_anonymous\""
+            // 서버 URL은 :data:remote 모듈에 선언되어 있음
 
             applicationIdSuffix '.debug'
         }
@@ -95,8 +94,6 @@ android {
                     appName : "@string/app_name",
                     appIcon : "@drawable/ic_kuring_launcher"
             ]
-            buildConfigField "String", "API_BASE_URL", "\"https://ku-ring.com/api/\""
-            buildConfigField "String", "KURING_CAMPUS_OPEN_CHANNEL_URL", "\"kuring_campus_main_anonymous\""
         }
     }
     compileOptions {
