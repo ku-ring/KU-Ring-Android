@@ -1,7 +1,7 @@
 package com.ku_stacks.ku_ring.remote.util
 
 import android.content.Context
-import com.ku_stacks.ku_ring.util.BuildConfig
+import com.ku_stacks.ku_ring.remote.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -41,43 +41,6 @@ object RetrofitModule {
         return Retrofit.Builder()
             .client(okHttpClient)
             .baseUrl(BuildConfig.API_BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-            .build()
-    }
-
-    @Provides
-    @Singleton
-    @Named("Sendbird")
-    fun provideSendbirdOkHttpClient(): OkHttpClient {
-        return OkHttpClient.Builder()
-            .addInterceptor { chain ->
-                val newRequest = chain
-                    .request()
-                    .newBuilder()
-                    .addHeader("Content-Type", "application/json; charset=utf-8")
-                    .addHeader("Api-Token", BuildConfig.SENDBIRD_API_TOKEN)
-                    .build()
-                chain.proceed(newRequest)
-            }
-            .addInterceptor(HttpLoggingInterceptor().apply {
-                level = if (BuildConfig.DEBUG) {
-                    HttpLoggingInterceptor.Level.BODY
-                } else {
-                    HttpLoggingInterceptor.Level.NONE
-                }
-            })
-            .build()
-    }
-
-    @Provides
-    @Singleton
-    @Named("Sendbird")
-    fun provideSendbirdRetrofit(@Named("Sendbird") okHttpClient: OkHttpClient): Retrofit {
-        val url = "https://api-${BuildConfig.SENDBIRD_APP_ID}.sendbird.com/v3/"
-        return Retrofit.Builder()
-            .client(okHttpClient)
-            .baseUrl(url)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .build()
