@@ -1,5 +1,8 @@
 package com.ku_stacks.ku_ring.main.setting
 
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -71,7 +74,7 @@ class SettingFragment : Fragment() {
                             R.anim.anim_stay_exit
                         )
                     },
-                    onNavigateToKuringInstagram = {},
+                    onNavigateToKuringInstagram = ::navigateToKuringInstagram,
                     onNavigateToFeedback = { navigator.navigateToFeedback(activity) },
                     modifier = Modifier
                         .background(Background)
@@ -89,6 +92,23 @@ class SettingFragment : Fragment() {
             R.anim.anim_slide_right_enter,
             R.anim.anim_stay_exit
         )
+    }
+
+    private fun navigateToKuringInstagram() {
+        val intent = getInstagramIntent()
+        startActivity(intent)
+    }
+
+    private fun getInstagramIntent(): Intent {
+        val packageName = getString(R.string.instagram_package)
+        val appScheme = getString(R.string.instagram_app_scheme)
+        val webScheme = getString(R.string.instagram_web_scheme)
+        return try {
+            requireActivity().packageManager.getPackageInfo(packageName, 0)
+            Intent(Intent.ACTION_VIEW, Uri.parse(appScheme))
+        } catch (e: PackageManager.NameNotFoundException) {
+            Intent(Intent.ACTION_VIEW, Uri.parse(webScheme))
+        }
     }
 
     override fun onDestroyView() {
