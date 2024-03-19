@@ -1,6 +1,7 @@
 package com.ku_stacks.ku_ring.main.notice.compose.inner_screen
 
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -161,7 +162,9 @@ private fun DepartmentNoticeScreen(
                     }
                 },
                 onNavigateToEditDepartment = onNavigateToEditDepartment,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .background(KuringTheme.colors.background)
+                    .fillMaxWidth(),
             )
         },
         sheetState = sheetState,
