@@ -73,7 +73,7 @@ private fun FeedbackScreen(
             title = stringResource(R.string.feedback_send_content),
             navigation = {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_back),
+                    painter = painterResource(id = R.drawable.ic_back_v2),
                     contentDescription = null,
                     tint = KuringTheme.colors.gray600,
                 )

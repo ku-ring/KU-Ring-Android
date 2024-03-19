@@ -16,7 +16,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
@@ -121,9 +120,9 @@ private fun DepartmentItem(
             }
         ) {
             Image(
-                painter = painterResource(id = R.drawable.ic_check_circle),
+                painter = painterResource(id = R.drawable.ic_check_circle_fill_v2),
                 contentDescription = null,
-                colorFilter = ColorFilter.tint(colorResource(id = R.color.kus_green)),
+                colorFilter = ColorFilter.tint(KuringTheme.colors.mainPrimary),
             )
         }
     }

@@ -21,7 +21,8 @@ internal fun NoticeSelectionStateImage(
         label = "notice selection icon",
         modifier = modifier,
     ) {
-        val imageId = if (it) R.drawable.ic_check_checked else R.drawable.ic_check_unchecked
+        val imageId =
+            if (it) R.drawable.ic_check_circle_fill_v2 else R.drawable.ic_check_circle_fill_2_v2
         Image(
             painter = painterResource(id = imageId),
             contentDescription = null,

@@ -90,7 +90,7 @@ private fun LargeTopAppBarPreview() {
         LargeTopAppBar(
             title = "학과를 추가하거나\n삭제할 수 있어요",
             modifier = Modifier.fillMaxWidth(),
-            navigationIconId = R.drawable.ic_back,
+            navigationIconId = R.drawable.ic_back_v2,
             onNavigationIconClick = {},
         ) {
             TextButton(onClick = { }) {

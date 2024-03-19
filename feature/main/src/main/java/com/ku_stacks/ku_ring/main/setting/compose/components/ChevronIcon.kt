@@ -12,7 +12,7 @@ import com.ku_stacks.ku_ring.main.R
 @Composable
 internal fun ChevronIcon(modifier: Modifier = Modifier) {
     Icon(
-        painter = painterResource(id = R.drawable.ic_chevron),
+        painter = painterResource(id = R.drawable.ic_chevron_v2),
         contentDescription = null,
         modifier = modifier.size(20.dp),
         tint = KuringTheme.colors.gray300,

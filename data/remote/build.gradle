@@ -21,6 +21,13 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            buildConfigField "String", "API_BASE_URL", "\"https://kuring.herokuapp.com/api/\""
+            buildConfigField "String", "KURING_CAMPUS_OPEN_CHANNEL_URL", "\"kuring_campus_main_anonymous\""
+        }
+        debug {
+            buildConfigField "String", "API_BASE_URL", "\"https://kuring.herokuapp.com/api/\""
+            buildConfigField "String", "KURING_CAMPUS_OPEN_CHANNEL_URL", "\"kuring_main_anonymous\""
         }
     }
     compileOptions {
