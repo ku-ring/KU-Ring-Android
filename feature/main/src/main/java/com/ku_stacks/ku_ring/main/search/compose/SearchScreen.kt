@@ -13,11 +13,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
 import androidx.compose.material.Text
-import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -42,11 +40,8 @@ import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.components.CenterTitleTopBar
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.components.SearchTextField
-import com.ku_stacks.ku_ring.designsystem.theme.BoxBackgroundColor2
-import com.ku_stacks.ku_ring.designsystem.theme.KuringGreen
-import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
-import com.ku_stacks.ku_ring.designsystem.theme.TextCaption1
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 import com.ku_stacks.ku_ring.designsystem.utils.NoRippleInteractionSource
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.domain.Staff
@@ -97,7 +92,7 @@ private fun SearchScreen(
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.background(MaterialTheme.colors.surface)
+        modifier = modifier.background(KuringTheme.colors.background)
     ) {
         CenterTitleTopBar(
             title = stringResource(id = R.string.search),
@@ -105,7 +100,7 @@ private fun SearchScreen(
                 Icon(
                     painter = painterResource(id = R.drawable.ic_back),
                     contentDescription = null,
-                    tint = contentColorFor(backgroundColor = MaterialTheme.colors.surface)
+                    tint = KuringTheme.colors.gray600,
                 )
             },
             onNavigationClick = { onNavigationClick() },
@@ -178,7 +173,7 @@ private fun SearchResultTitle(
     Text(
         text = stringResource(id = R.string.search_result),
         style = TextStyle(
-            color = TextCaption1,
+            color = KuringTheme.colors.textCaption1,
             fontSize = 16.sp,
             fontFamily = Pretendard,
             lineHeight = 27.sp,
@@ -201,7 +196,7 @@ private fun SearchTabRow(
 
     TabRow(
         selectedTabIndex = pagerState.currentPage,
-        backgroundColor = BoxBackgroundColor2,
+        backgroundColor = KuringTheme.colors.gray100,
         indicator = {},
         divider = {},
         modifier = modifier
@@ -211,7 +206,8 @@ private fun SearchTabRow(
     ) {
         tabPages.forEachIndexed { index, searchTabInfo ->
             val isSelected = pagerState.currentPage == index
-            val tabBackgroundColor = if (isSelected) MaterialTheme.colors.surface else Color.Transparent
+            val tabBackgroundColor =
+                if (isSelected) KuringTheme.colors.background else Color.Transparent
 
             Tab(
                 selected = isSelected,
@@ -226,8 +222,8 @@ private fun SearchTabRow(
                         ),
                     )
                 },
-                unselectedContentColor = TextCaption1,
-                selectedContentColor = KuringGreen,
+                unselectedContentColor = KuringTheme.colors.textCaption1,
+                selectedContentColor = KuringTheme.colors.mainPrimary,
                 modifier = Modifier
                     .padding(horizontal = 6.dp, vertical = 5.dp)
                     .background(color = tabBackgroundColor, shape = RoundedCornerShape(12.dp)),
@@ -261,6 +257,7 @@ private fun SearchResultHorizontalPager(
                     onClickNotice = onClickNotice,
                 )
             }
+
             SearchTabInfo.Staff -> {
                 StaffSearchScreen(
                     searchState = searchState,
@@ -282,7 +279,9 @@ private fun SearchScreenPreview() {
             onClickSearch = {},
             noticeList = emptyList(),
             staffList = emptyList(),
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .background(KuringTheme.colors.background)
+                .fillMaxSize(),
             tabPages = SearchTabInfo.values().toList(),
         )
     }

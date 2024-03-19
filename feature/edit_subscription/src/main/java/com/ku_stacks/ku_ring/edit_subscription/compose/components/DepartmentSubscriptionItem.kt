@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,8 +23,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
-import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 import com.ku_stacks.ku_ring.edit_subscription.R
 import com.ku_stacks.ku_ring.edit_subscription.uimodel.DepartmentSubscriptionUiModel
 
@@ -57,7 +56,7 @@ internal fun DepartmentSubscriptionItem(
                 lineHeight = 24.sp,
                 fontFamily = Pretendard,
                 fontWeight = FontWeight(500),
-                color = MaterialTheme.colors.onSurface,
+                color = KuringTheme.colors.textBody,
             )
         )
         Spacer(modifier = Modifier.weight(1f))
@@ -92,7 +91,7 @@ private fun DepartmentSubscriptionItemPreview() {
             onClick = { isSelected = !isSelected },
             modifier = Modifier
                 .fillMaxWidth()
-                .background(MaterialTheme.colors.surface),
+                .background(KuringTheme.colors.background),
         )
     }
 }

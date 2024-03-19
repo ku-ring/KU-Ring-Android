@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -30,9 +29,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.ku_stacks.ku_ring.designsystem.R
-import com.ku_stacks.ku_ring.designsystem.theme.Gray2
-import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 
 /**
  * 사용자에게 특정 행동의 수행 여부를 물어보는 [Dialog]이다.
@@ -55,7 +53,7 @@ fun KuringAlertDialog(
     modifier: Modifier = Modifier,
     confirmText: String = stringResource(id = R.string.confirm),
     cancelText: String = stringResource(id = R.string.cancel),
-    confirmTextColor: Color = MaterialTheme.colors.primary,
+    confirmTextColor: Color = KuringTheme.colors.mainPrimary,
 ) {
     KuringAlertDialog(
         text = text,
@@ -92,7 +90,7 @@ fun KuringAlertDialog(
     modifier: Modifier = Modifier,
     confirmText: String = stringResource(id = R.string.confirm),
     cancelText: String = stringResource(id = R.string.cancel),
-    confirmTextColor: Color = MaterialTheme.colors.primary,
+    confirmTextColor: Color = KuringTheme.colors.mainPrimary,
 ) {
     Dialog(
         onDismissRequest = onDismiss,
@@ -118,12 +116,12 @@ private fun KuringAlertDialogContents(
     cancelText: String,
     onCancel: () -> Unit,
     modifier: Modifier = Modifier,
-    confirmTextColor: Color = MaterialTheme.colors.primary,
+    confirmTextColor: Color = KuringTheme.colors.mainPrimary,
 ) {
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(15.dp))
-            .background(MaterialTheme.colors.surface)
+            .background(KuringTheme.colors.background)
             .size(width = 314.dp, height = 186.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -161,7 +159,7 @@ private fun KuringAlertDialogText(
             lineHeight = 27.sp,
             fontFamily = Pretendard,
             fontWeight = FontWeight(500),
-            color = MaterialTheme.colors.onSurface,
+            color = KuringTheme.colors.textBody,
             textAlign = TextAlign.Center,
         ),
         modifier = modifier,
@@ -175,7 +173,7 @@ private fun KuringAlertDialogButtons(
     cancelText: String,
     onCancel: () -> Unit,
     modifier: Modifier = Modifier,
-    confirmTextColor: Color = Gray2,
+    confirmTextColor: Color = KuringTheme.colors.mainPrimary,
 ) {
     Row(modifier = modifier.height(IntrinsicSize.Min)) {
         KuringAlertDialogButton(
@@ -204,7 +202,7 @@ private fun KuringAlertDialogButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    textColor: Color = Gray2,
+    textColor: Color = KuringTheme.colors.textCaption1,
 ) {
     Box(
         modifier = modifier.clickable(onClick = onClick)

@@ -1,11 +1,12 @@
 package com.ku_stacks.ku_ring.main.notice.compose.components
 
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -25,9 +26,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
-import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
-import com.ku_stacks.ku_ring.designsystem.theme.TextBody
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 import com.ku_stacks.ku_ring.main.R
 
 @Composable
@@ -40,6 +40,7 @@ fun DepartmentHeader(
 
     Row(
         modifier = modifier
+            .background(KuringTheme.colors.background)
             .clearAndSetSemantics {
                 contentDescription = description
                 role = Role.Button
@@ -55,13 +56,14 @@ fun DepartmentHeader(
                 lineHeight = 27.sp,
                 fontFamily = Pretendard,
                 fontWeight = FontWeight(700),
-                color = TextBody,
+                color = KuringTheme.colors.textBody,
             ),
         )
         Spacer(modifier = Modifier.weight(1f))
-        Image(
+        Icon(
             painter = painterResource(R.drawable.ic_chevron_2),
             contentDescription = null,
+            tint = KuringTheme.colors.gray400,
         )
     }
 }

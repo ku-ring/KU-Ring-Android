@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -28,11 +27,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.R
-import com.ku_stacks.ku_ring.designsystem.theme.Background
-import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.theme.MainPrimarySelected
-import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
-import com.ku_stacks.ku_ring.designsystem.theme.TextBody
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 import com.ku_stacks.ku_ring.domain.Notice
 
 /**
@@ -53,7 +49,8 @@ fun NoticeItem(
     content: @Composable (() -> Unit)? = null,
 ) {
     // TODO: 중요 공지일 경우 배경색을 초록색으로 바꾸고, [중요] 태그 보여주기
-    val background = if (notice.isImportant) MainPrimarySelected else Background
+    val background =
+        if (notice.isImportant) KuringTheme.colors.mainPrimarySelected else KuringTheme.colors.background
     Row(
         modifier = modifier
             .clickable { onClick(notice) }
@@ -115,11 +112,11 @@ private fun NoticeItemImportantTag(modifier: Modifier = Modifier) {
             lineHeight = 17.93.sp,
             fontFamily = Pretendard,
             fontWeight = FontWeight(600),
-            color = MaterialTheme.colors.primary,
+            color = KuringTheme.colors.mainPrimary,
         ),
         modifier = modifier
             .background(color = Color.White, shape = shape)
-            .border(width = 0.5.dp, color = MaterialTheme.colors.primary, shape = shape)
+            .border(width = 0.5.dp, color = KuringTheme.colors.mainPrimary, shape = shape)
             .padding(horizontal = 8.dp, vertical = 3.dp),
     )
 }
@@ -130,7 +127,7 @@ private fun NoticeItemTitle(
     isRead: Boolean,
     modifier: Modifier = Modifier,
 ) {
-    val color = if (isRead) Color(0xFF8E8E8E) else TextBody
+    val color = if (isRead) KuringTheme.colors.textCaption1 else KuringTheme.colors.textBody
     Text(
         text = title,
         style = TextStyle(
@@ -154,7 +151,7 @@ private fun NoticeItemDate(
 ) {
     // 현재 디자인된 색깔은 다크 모드에서 너무 안 보임
     // 임시로 onSurface(alpha=0.8) 색을 사용
-    val color = if (isRead) Color(0xFF8E8E8E) else TextBody.copy(alpha = 0.8f)
+    val color = if (isRead) KuringTheme.colors.textCaption1 else KuringTheme.colors.textBody
     Text(
         text = date,
         style = TextStyle(
@@ -202,7 +199,7 @@ private fun NoticeItemPreview() {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(MaterialTheme.colors.surface),
+                .background(KuringTheme.colors.background),
         ) {
             NoticeItem(notice = notice)
             NoticeItem(notice = notice.copy(isImportant = true))

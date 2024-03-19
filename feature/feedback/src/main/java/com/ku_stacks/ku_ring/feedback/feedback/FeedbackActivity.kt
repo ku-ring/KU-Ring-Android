@@ -8,7 +8,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
-import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.feedback.R
 import com.ku_stacks.ku_ring.feedback.feedback.compose.FeedbackScreen
 import com.ku_stacks.ku_ring.ui_util.showToast

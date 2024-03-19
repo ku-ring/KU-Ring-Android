@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -17,7 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ku_stacks.ku_ring.designsystem.components.KuringCallToAction
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
-import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.archive.ArchiveViewModel
@@ -90,7 +89,7 @@ private fun ArchiveScreen(
 ) {
     Column(
         modifier = modifier
-            .background(MaterialTheme.colors.surface)
+            .background(KuringTheme.colors.background)
             .fillMaxSize(),
     ) {
         ArchiveScreenTopBar(

@@ -27,11 +27,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
-import com.ku_stacks.ku_ring.designsystem.theme.Background
-import com.ku_stacks.ku_ring.designsystem.theme.Gray300
-import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
-import com.ku_stacks.ku_ring.designsystem.theme.TextTitle
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 import com.ku_stacks.ku_ring.main.R
 
 @Composable
@@ -58,7 +55,7 @@ internal fun SettingItem(
         Icon(
             painter = painterResource(id = iconId),
             contentDescription = null,
-            tint = Gray300,
+            tint = KuringTheme.colors.gray300,
             modifier = Modifier.padding(vertical = 14.dp),
         )
         Text(
@@ -68,7 +65,7 @@ internal fun SettingItem(
                 lineHeight = 24.sp,
                 fontFamily = Pretendard,
                 fontWeight = FontWeight(500),
-                color = TextTitle,
+                color = KuringTheme.colors.textTitle,
                 letterSpacing = 0.15.sp,
             ),
         )
@@ -90,12 +87,12 @@ private fun SettingItemPreview() {
                 onClick = { angle += 90f },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Background),
+                    .background(KuringTheme.colors.background),
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_chevron),
                     contentDescription = null,
-                    tint = Gray300,
+                    tint = KuringTheme.colors.gray300,
                     modifier = Modifier.rotate(angle)
                 )
             }

@@ -22,9 +22,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ku_stacks.ku_ring.designsystem.components.LightPreview
-import com.ku_stacks.ku_ring.designsystem.theme.Gray200
-import com.ku_stacks.ku_ring.designsystem.theme.KuringGreen
-import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -39,8 +37,8 @@ fun HorizontalSlidingIndicator(
         (dotSize + spacing).toPx()
     }
 
-    val inactiveBackground = Gray200
-    val activeBackground = KuringGreen
+    val inactiveBackground = KuringTheme.colors.gray200
+    val activeBackground = KuringTheme.colors.mainPrimary
     val dotShape = RoundedCornerShape(50)
 
     Box(

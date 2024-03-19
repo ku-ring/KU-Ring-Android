@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.ku_stacks.ku_ring.designsystem.theme.Gray300
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.main.R
 
 @Composable
@@ -15,6 +15,6 @@ internal fun ChevronIcon(modifier: Modifier = Modifier) {
         painter = painterResource(id = R.drawable.ic_chevron),
         contentDescription = null,
         modifier = modifier.size(20.dp),
-        tint = Gray300,
+        tint = KuringTheme.colors.gray300,
     )
 }

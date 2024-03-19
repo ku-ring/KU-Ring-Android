@@ -4,10 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.Modifier
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.messaging.FirebaseMessaging
-import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.databinding.FragmentNoticeBinding
 import com.ku_stacks.ku_ring.main.notice.compose.NoticeScreen
@@ -61,6 +64,9 @@ class NoticesParentFragment : Fragment() {
                     onNavigateToEditDepartment = {
                         navigator.navigateToEditSubscribedDepartment(requireActivity())
                     },
+                    modifier = Modifier
+                        .background(KuringTheme.colors.background)
+                        .fillMaxSize(),
                 )
             }
         }

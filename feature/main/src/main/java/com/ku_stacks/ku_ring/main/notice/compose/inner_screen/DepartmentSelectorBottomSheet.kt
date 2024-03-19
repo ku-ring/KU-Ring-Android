@@ -23,18 +23,15 @@ import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.ku_stacks.ku_ring.designsystem.components.DepartmentWithCheckOrUncheckIcon
 import com.ku_stacks.ku_ring.designsystem.components.KuringCallToAction
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
-import com.ku_stacks.ku_ring.designsystem.theme.Background
-import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.theme.Pretendard
-import com.ku_stacks.ku_ring.designsystem.theme.SfProDisplay
-import com.ku_stacks.ku_ring.designsystem.theme.TextBody
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.SfProDisplay
 import com.ku_stacks.ku_ring.domain.Department
 import com.ku_stacks.ku_ring.main.R
 
@@ -54,7 +51,7 @@ fun DepartmentSelectorBottomSheet(
                 lineHeight = 27.sp,
                 fontFamily = Pretendard,
                 fontWeight = FontWeight(700),
-                color = TextBody,
+                color = KuringTheme.colors.textBody,
             ),
             modifier = Modifier.padding(start = 24.dp, top = 22.dp, bottom = 20.dp),
         )
@@ -93,6 +90,7 @@ private fun DepartmentItem(
     }
     ConstraintLayout(
         modifier = Modifier
+            .background(KuringTheme.colors.background)
             .clickable { onSelect(department) }
             .then(modifier)
             .clearAndSetSemantics {
@@ -105,7 +103,7 @@ private fun DepartmentItem(
             fontFamily = SfProDisplay,
             fontWeight = FontWeight.Medium,
             fontSize = 14.sp,
-            color = colorResource(id = R.color.kus_label),
+            color = KuringTheme.colors.textBody,
             modifier = Modifier.constrainAs(nameText) {
                 start.linkTo(parent.start)
                 top.linkTo(parent.top)
@@ -154,7 +152,7 @@ private fun DepartmentItemPreview() {
 }
 
 
-@Preview(showBackground = true)
+@LightAndDarkPreview
 @Composable
 private fun DepartmentSelectorBottomSheetPreview() {
     val departments = (0..3).map {
@@ -174,7 +172,7 @@ private fun DepartmentSelectorBottomSheetPreview() {
             onNavigateToEditDepartment = {},
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Background),
+                .background(KuringTheme.colors.background),
         )
     }
 }

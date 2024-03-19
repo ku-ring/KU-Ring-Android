@@ -16,8 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.ku_stacks.ku_ring.designsystem.theme.Background
-import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.databinding.FragmentSettingBinding
 import com.ku_stacks.ku_ring.main.setting.compose.SettingScreen
@@ -77,7 +76,7 @@ class SettingFragment : Fragment() {
                     onNavigateToKuringInstagram = ::navigateToKuringInstagram,
                     onNavigateToFeedback = { navigator.navigateToFeedback(activity) },
                     modifier = Modifier
-                        .background(Background)
+                        .background(KuringTheme.colors.background)
                         .fillMaxWidth()
                         .wrapContentHeight(),
                 )

@@ -6,8 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.ku_stacks.ku_ring.designsystem.components.KuringAlertDialog
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
-import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.theme.Warning
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.main.R
 
 @Composable
@@ -30,7 +29,7 @@ internal fun DeleteArchivedNoticesAlertDialog(
             confirmText = stringResource(id = R.string.alert_dialog_delete_text),
             onCancel = onDismiss,
             cancelText = stringResource(id = R.string.alert_dialog_cancel_text),
-            confirmTextColor = Warning,
+            confirmTextColor = KuringTheme.colors.warning,
         )
     }
 }
