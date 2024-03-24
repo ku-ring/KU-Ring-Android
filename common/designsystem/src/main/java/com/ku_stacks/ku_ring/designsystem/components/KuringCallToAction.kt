@@ -108,9 +108,9 @@ private fun KuringCallToActionBase(
         label = "content color",
     )
 
-    val blurModifier = if (blur) {
-        val surfaceColor = KuringTheme.colors.background
-        Modifier.drawBehind {
+    val surfaceColor = KuringTheme.colors.background
+    val blurModifier = Modifier.drawBehind {
+        if (blur) {
             val gradientHeight = size.height * 0.3f
             val gradientBrush = Brush.verticalGradient(
                 colors = listOf(Color.Transparent, surfaceColor),
@@ -123,8 +123,6 @@ private fun KuringCallToActionBase(
                 size = Size(width = size.width, height = gradientHeight),
             )
         }
-    } else {
-        Modifier
     }
 
     Button(
