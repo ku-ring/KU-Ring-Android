@@ -5,12 +5,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Icon
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.ModalBottomSheetValue
@@ -29,6 +31,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -127,9 +130,25 @@ private fun DepartmentEmptyScreen(
         )
         KuringCallToAction(
             onClick = onNavigateToEditDepartment,
-            text = stringResource(id = R.string.department_screen_add_department_button),
+            contentPadding = PaddingValues(horizontal = 20.dp, vertical = 16.dp),
             modifier = Modifier.padding(top = 12.dp),
-        )
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_plus_plain_v2),
+                contentDescription = null,
+                tint = KuringTheme.colors.background,
+                modifier = Modifier.padding(end = 4.dp),
+            )
+            Text(
+                text = stringResource(id = R.string.department_screen_add_department_button),
+                style = TextStyle(
+                    fontSize = 16.sp,
+                    lineHeight = 24.sp,
+                    fontFamily = Pretendard,
+                    fontWeight = FontWeight(600),
+                ),
+            )
+        }
     }
 }
 

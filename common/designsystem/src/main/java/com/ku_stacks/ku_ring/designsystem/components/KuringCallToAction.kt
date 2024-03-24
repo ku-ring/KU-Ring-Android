@@ -78,11 +78,12 @@ fun KuringCallToAction(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     blur: Boolean = false,
+    contentPadding: PaddingValues = PaddingValues(horizontal = 50.dp, vertical = 16.dp),
     contents: @Composable () -> Unit,
 ) {
     KuringCallToActionBase(
         onClick = onClick,
-        paddingValues = PaddingValues(horizontal = 50.dp, vertical = 16.dp),
+        paddingValues = contentPadding,
         enabled = enabled,
         blur = blur,
         modifier = modifier,
