@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
@@ -55,7 +54,7 @@ internal fun FeatureTabs(
             pagerState = pagerState,
             modifier = Modifier.fillMaxWidth(),
         )
-        Spacer(modifier = Modifier.height(43.dp))
+        Spacer(modifier = Modifier.weight(1f))
         HorizontalSlidingIndicator(
             pagerState = pagerState,
             dotSize = 8.dp,
@@ -73,9 +72,10 @@ internal fun FeatureTabs(
         )
         SkipOnboarding(
             onSkip = onSkipOnboarding,
-            modifier = Modifier.align(Alignment.CenterHorizontally),
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(bottom = 26.dp),
         )
-        Spacer(modifier = Modifier.height(26.dp))
     }
 }
 
@@ -109,6 +109,7 @@ private fun FeatureTabItems(
     ) {
         FeatureTab(
             item = tabItems[it],
+            modifier = Modifier.fillMaxWidth(),
         )
     }
 }

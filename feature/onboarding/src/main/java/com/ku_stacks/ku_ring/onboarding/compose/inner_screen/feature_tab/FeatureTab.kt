@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -32,7 +33,9 @@ internal fun FeatureTab(
         Image(
             painter = painterResource(id = item.imageId),
             contentDescription = null,
-            modifier = Modifier.padding(horizontal = 46.dp, vertical = 51.dp),
+            modifier = Modifier
+                .padding(horizontal = 46.dp, vertical = 51.dp)
+                .heightIn(max = 250.dp),
         )
         Text(
             text = stringResource(id = item.stringId),
