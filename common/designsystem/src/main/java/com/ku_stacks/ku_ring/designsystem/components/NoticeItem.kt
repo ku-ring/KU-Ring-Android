@@ -1,6 +1,5 @@
 package com.ku_stacks.ku_ring.designsystem.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -14,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -169,10 +169,11 @@ private fun NoticeItemDate(
 private fun NoticeItemBookmarkIcon(
     modifier: Modifier = Modifier,
 ) {
-    Image(
-        painter = painterResource(id = R.drawable.ic_bookmark_v2),
+    Icon(
+        painter = painterResource(id = R.drawable.ic_notice_bookmark_v2),
         contentDescription = null,
         modifier = modifier,
+        tint = KuringTheme.colors.mainPrimary,
     )
 }
 
