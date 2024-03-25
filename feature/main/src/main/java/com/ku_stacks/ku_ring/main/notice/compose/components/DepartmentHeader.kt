@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -61,11 +62,15 @@ fun DepartmentHeader(
         )
         Spacer(modifier = Modifier.weight(1f))
         Icon(
-            painter = painterResource(R.drawable.ic_chevron_v2),
+            painter = painterResource(R.drawable.ic_chevron_small_v2),
             contentDescription = null,
             tint = KuringTheme.colors.gray400,
         )
     }
+    Divider(
+        color = KuringTheme.colors.borderline,
+        thickness = 0.7.dp,
+    )
 }
 
 @LightAndDarkPreview
