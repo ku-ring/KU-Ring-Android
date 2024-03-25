@@ -1,5 +1,6 @@
 package com.ku_stacks.ku_ring.edit_subscription.compose
 
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -20,6 +21,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material.Icon
 import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
 import androidx.compose.material.TabRowDefaults
@@ -34,6 +36,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -58,6 +61,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun EditSubscriptionScreen(
     viewModel: EditSubscriptionViewModel,
+    onNavigateToBack: () -> Unit,
     onAddDepartmentButtonClick: () -> Unit,
     onSubscriptionComplete: () -> Unit,
     modifier: Modifier = Modifier,
@@ -66,6 +70,7 @@ fun EditSubscriptionScreen(
     EditSubscriptionScreen(
         categories = uiState.categories,
         departments = uiState.departments,
+        onNavigateToBack = onNavigateToBack,
         onCategoryClick = viewModel::onNormalSubscriptionItemClick,
         onDepartmentClick = viewModel::onDepartmentSubscriptionItemClick,
         onAddDepartmentButtonClick = onAddDepartmentButtonClick,
@@ -78,6 +83,7 @@ fun EditSubscriptionScreen(
 private fun EditSubscriptionScreen(
     categories: List<NormalSubscriptionUiModel>,
     departments: List<DepartmentSubscriptionUiModel>,
+    onNavigateToBack: () -> Unit,
     onCategoryClick: (Int) -> Unit,
     onDepartmentClick: (String) -> Unit,
     onAddDepartmentButtonClick: () -> Unit,
@@ -92,6 +98,14 @@ private fun EditSubscriptionScreen(
             action = stringResource(id = R.string.app_bar_action),
             onActionClick = onSubscriptionComplete,
             actionClickLabel = stringResource(id = R.string.department_subscription_complete),
+            navigation = {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_back_v2),
+                    contentDescription = stringResource(id = R.string.app_bar_navigation),
+                    tint = KuringTheme.colors.gray600,
+                )
+            },
+            onNavigationClick = onNavigateToBack,
         )
         SubscriptionTitle(modifier = Modifier.padding(start = 32.dp, top = 30.dp))
         SubscriptionTabs(
@@ -195,16 +209,21 @@ private fun SubscriptionTab(
         selectedContentColor = KuringTheme.colors.mainPrimary,
         unselectedContentColor = KuringTheme.colors.textCaption1,
     ) {
-        Text(
-            text = stringResource(id = tab.tabTitleId),
-            style = TextStyle(
-                fontSize = 16.sp,
-                lineHeight = 24.sp,
-                fontFamily = Pretendard,
-                fontWeight = FontWeight(700),
-            ),
-            modifier = Modifier.padding(horizontal = 27.dp, vertical = 14.dp),
-        )
+        Crossfade(
+            targetState = isSelected,
+            label = "subscription tab"
+        ) { isSelected ->
+            Text(
+                text = stringResource(id = tab.tabTitleId),
+                style = TextStyle(
+                    fontSize = 16.sp,
+                    lineHeight = 24.sp,
+                    fontFamily = Pretendard,
+                    fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Normal,
+                ),
+                modifier = Modifier.padding(horizontal = 27.dp, vertical = 14.dp),
+            )
+        }
     }
 }
 
@@ -386,6 +405,7 @@ private fun SubscriptionsPreview() {
         EditSubscriptionScreen(
             categories = categories,
             departments = departments,
+            onNavigateToBack = {},
             onCategoryClick = {},
             onDepartmentClick = {},
             onAddDepartmentButtonClick = {},
@@ -402,6 +422,7 @@ private fun DepartmentPagePreview_Empty() {
         EditSubscriptionScreen(
             categories = emptyList(),
             departments = emptyList(),
+            onNavigateToBack = {},
             onCategoryClick = {},
             onDepartmentClick = {},
             onAddDepartmentButtonClick = {},
