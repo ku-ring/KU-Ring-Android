@@ -56,7 +56,7 @@ class NoticesParentFragment : Fragment() {
                         navigator.navigateToSearch(requireActivity())
                     },
                     onNotificationIconClick = {
-                        navigator.navigateToNotification(requireActivity())
+                        navigator.navigateToEditSubscription(requireActivity())
                     },
                     onNoticeClick = {
                         navigator.navigateToNoticeWeb(requireActivity(), it)
