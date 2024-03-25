@@ -1,6 +1,7 @@
 package com.ku_stacks.ku_ring.edit_subscription.compose.components
 
 import androidx.annotation.DrawableRes
+import androidx.compose.animation.Crossfade
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
@@ -93,16 +94,18 @@ private fun NormalSubscriptionItem(
             painter = painterResource(id = categoryIconId),
             contentDescription = null,
         )
-        Text(
-            text = categoryName,
-            style = TextStyle(
-                fontSize = 16.sp,
-                lineHeight = 24.sp,
-                fontFamily = Pretendard,
-                fontWeight = FontWeight(600),
-                color = KuringTheme.colors.textBody,
+        Crossfade(isSelected, label = "norman item") { isSelected ->
+            Text(
+                text = categoryName,
+                style = TextStyle(
+                    fontSize = 16.sp,
+                    lineHeight = 24.sp,
+                    fontFamily = Pretendard,
+                    fontWeight = if (isSelected) FontWeight(600) else FontWeight(500),
+                    color = KuringTheme.colors.textBody,
+                )
             )
-        )
+        }
     }
 }
 

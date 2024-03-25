@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_bar_title">푸시 알림 설정</string>
+    <string name="app_bar_navigation">뒤로 가기</string>
     <string name="app_bar_action">완료</string>
 
     <string name="title">알림 받고 싶은\n카테고리를 선택해 주세요</string>
