@@ -41,4 +41,5 @@
 
     <color name="text_title">#FF333333</color>
     <color name="text_caption1">#FF868A92</color>
+    <color name="gray600">#FF262626</color>
 </resources>

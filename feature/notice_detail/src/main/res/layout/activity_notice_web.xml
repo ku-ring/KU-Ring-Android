@@ -19,29 +19,30 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/notice_header_layout"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="wrap_content"
             android:background="@color/kus_background"
             android:elevation="8dp"
+            android:paddingVertical="16dp"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageButton
                 android:id="@+id/notice_back_bt"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginStart="16dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="20dp"
                 android:background="@null"
                 android:padding="4dp"
-                android:src="@drawable/ic_back"
+                android:src="@drawable/ic_back_v2"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/kus_primary" />
+                app:tint="@color/gray600" />
 
             <TextView
                 android:id="@+id/subject_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="2dp"
                 android:ellipsize="end"
                 android:fontFamily="@font/sfpro_display_regular"
                 android:gravity="center_horizontal"
@@ -53,14 +54,13 @@
                 app:layout_constraintEnd_toStartOf="@id/notice_save_button"
                 app:layout_constraintStart_toEndOf="@id/notice_back_bt"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="2024학년도 1학기 건국대학교 학학학학학학학학학학학학"
-                />
+                tools:text="2024학년도 1학기 건국대학교 학학학학학학학학학학학학" />
 
             <ImageButton
                 android:id="@+id/notice_save_button"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginEnd="16dp"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_marginEnd="8dp"
                 android:background="@null"
                 android:contentDescription="@string/save_button_description"
                 android:padding="4dp"
@@ -73,9 +73,9 @@
 
             <ImageButton
                 android:id="@+id/notice_share_bt"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginEnd="16dp"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_marginEnd="18dp"
                 android:background="@null"
                 android:padding="4dp"
                 android:src="@drawable/ic_share"
