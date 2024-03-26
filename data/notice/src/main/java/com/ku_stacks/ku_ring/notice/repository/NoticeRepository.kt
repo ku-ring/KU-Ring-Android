@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.Flow
 interface NoticeRepository {
     fun getNotices(type: String, scope: CoroutineScope): Flowable<PagingData<Notice>>
     fun getSavedNotices(): Flow<List<Notice>>
+    suspend fun insertNotice(notice: Notice)
     fun insertNoticeAsOld(notice: Notice): Completable
     fun updateNoticeToBeRead(articleId: String, category: String): Completable
     suspend fun updateSavedStatus(articleId: String, category: String, isSaved: Boolean)

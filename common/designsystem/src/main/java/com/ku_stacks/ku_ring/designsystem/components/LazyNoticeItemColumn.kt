@@ -10,6 +10,7 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -34,6 +35,7 @@ fun LazyPagingNoticeItemColumn(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
     noticeFilter: (Notice) -> Boolean = { true },
+    onNoticeShown: (Notice) -> Unit = {},
 ) {
     LazyColumn(
         modifier = modifier
@@ -80,6 +82,9 @@ fun LazyPagingNoticeItemColumn(
                                 color = KuringTheme.colors.borderline,
                                 thickness = 0.7.dp,
                             )
+                            LaunchedEffect(notice.articleId) {
+                                onNoticeShown(notice)
+                            }
                         }
                     }
                 }
