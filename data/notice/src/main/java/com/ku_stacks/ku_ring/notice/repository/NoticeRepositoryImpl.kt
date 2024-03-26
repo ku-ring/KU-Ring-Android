@@ -137,6 +137,10 @@ class NoticeRepositoryImpl @Inject constructor(
         ).flowable
     }
 
+    override suspend fun insertNotice(notice: Notice) {
+        noticeDao.insertNotice(notice.toEntity())
+    }
+
     override fun insertNoticeAsOld(notice: Notice): Completable {
         return noticeDao.insertNoticeAsOld(notice.copy(isNew = false).toEntity())
     }
