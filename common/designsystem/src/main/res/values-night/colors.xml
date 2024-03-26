@@ -25,4 +25,7 @@
 
     <color name="kus_primary03">#08ffffff</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="text_title">#FFF5F5F5</color>
+    <color name="text_caption1">#FF878787</color>
 </resources>

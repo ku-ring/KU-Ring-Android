@@ -3,30 +3,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <ImageView
-        android:id="@+id/campus_iv"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginStart="60dp"
-        android:layout_marginEnd="60dp"
-        android:layout_marginBottom="60dp"
-        android:src="@drawable/ic_campus_man"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/campus_description_tv"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/campus_vertical"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:fontFamily="@font/sfpro_display_regular"
         android:gravity="center_horizontal"
-        android:text="@string/campus_on_construction"
-        android:textColor="@color/kus_primary"
-        android:textSize="15sp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/campus_iv" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/campus_iv"
+            android:layout_width="98dp"
+            android:layout_height="98dp"
+            android:src="@drawable/ic_construction" />
+
+        <TextView
+            android:id="@+id/campus_description_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pretendard_medium"
+            android:gravity="center_horizontal"
+            android:text="@string/campus_on_construction"
+            android:textColor="@color/text_caption1"
+            android:textSize="15sp" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
