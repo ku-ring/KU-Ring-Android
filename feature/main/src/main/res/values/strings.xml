@@ -78,6 +78,6 @@
     <string name="instagram_web_scheme">https://www.instagram.com/kuring.konkuk</string>
 
     <!--  campus map  -->
-    <string name="kuring_campus">쿠링 캠퍼스</string>
-    <string name="campus_on_construction">더 멋진 쿠링을 위해 잠시만 기다려 주세요!</string>
+    <string name="campus_map_title">캠퍼스맵</string>
+    <string name="campus_on_construction">서비스 준비 중이에요</string>
 </resources>
