@@ -155,8 +155,8 @@ private fun KuringAlertDialogText(
     Text(
         text = text,
         style = TextStyle(
-            fontSize = 18.sp,
-            lineHeight = 27.sp,
+            fontSize = 16.sp,
+            lineHeight = 24.sp,
             fontFamily = Pretendard,
             fontWeight = FontWeight(500),
             color = KuringTheme.colors.textBody,
