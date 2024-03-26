@@ -90,7 +90,11 @@ class EditDepartmentsViewModel @Inject constructor(
 
     fun onPopupConfirmButtonClick(popupUiModel: PopupUiModel) {
         when (popupUiModel) {
-            is PopupUiModel.AddPopupUiModel -> subscribeDepartment(popupUiModel.departmentName)
+            is PopupUiModel.AddPopupUiModel -> {
+                subscribeDepartment(popupUiModel.departmentName)
+                clearQuery()
+            }
+
             is PopupUiModel.DeletePopupUiModel -> unsubscribeDepartment(popupUiModel.departmentName)
             is PopupUiModel.DeleteAllPopupUiModel -> onDeleteAll()
         }
@@ -101,6 +105,10 @@ class EditDepartmentsViewModel @Inject constructor(
         viewModelScope.launch {
             departmentRepository.updateSubscribeStatus(departmentKoreanName, true)
         }
+    }
+
+    private fun clearQuery() {
+        query = ""
     }
 
     private fun unsubscribeDepartment(departmentKoreanName: String) {
