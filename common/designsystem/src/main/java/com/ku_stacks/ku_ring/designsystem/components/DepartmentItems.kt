@@ -2,7 +2,6 @@ package com.ku_stacks.ku_ring.designsystem.components
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -106,6 +105,9 @@ fun DepartmentWithCheckIcon(
         department = department,
         modifier = modifier,
     ) {
+        if (department.isSelected) {
+            SelectedDepartmentMark()
+        }
         Spacer(modifier = Modifier.weight(1f))
         CheckIconButton(onClick = { onClickDepartment(department) })
     }
@@ -118,9 +120,7 @@ private fun SelectedDepartmentMark(
     val shape = RoundedCornerShape(50)
     Box(
         modifier = modifier
-            .clip(shape)
             .background(KuringTheme.colors.mainPrimarySelected, shape)
-            .border(0.5.dp, KuringTheme.colors.mainPrimary, shape)
             .padding(horizontal = 8.dp, vertical = 2.dp),
     ) {
         Text(
