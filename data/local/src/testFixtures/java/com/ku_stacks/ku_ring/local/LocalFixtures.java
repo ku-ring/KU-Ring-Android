@@ -10,6 +10,7 @@ public class LocalFixtures {
                 "smart_ict_convergence",
                 "sicte",
                 "스마트ICT융합공학과",
+                false,
                 false
         );
     }

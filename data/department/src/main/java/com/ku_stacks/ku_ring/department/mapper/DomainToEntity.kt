@@ -10,4 +10,5 @@ fun Department.toEntity(): DepartmentEntity = DepartmentEntity(
     shortName = shortName,
     koreanName = koreanName,
     isSubscribed = isSubscribed,
+    isMainDepartment = isSelected,
 )

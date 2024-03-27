@@ -1,6 +1,10 @@
 package com.ku_stacks.ku_ring.local.room
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import com.ku_stacks.ku_ring.local.entity.DepartmentEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -37,6 +41,12 @@ interface DepartmentDao {
 
     @Query("UPDATE departments SET isSubscribed = :isSubscribed WHERE name = :name")
     fun updateSubscribeStatus(name: String, isSubscribed: Boolean)
+
+    @Query("UPDATE departments SET isMainDepartment = :isMainDepartment WHERE name = :name")
+    suspend fun updateMainDepartmentStatus(name: String, isMainDepartment: Boolean)
+
+    @Query("UPDATE departments SET isMainDepartment = 0")
+    suspend fun clearMainDepartments()
 
     @Query("UPDATE departments SET isSubscribed = 0")
     suspend fun unsubscribeAllDepartments()
