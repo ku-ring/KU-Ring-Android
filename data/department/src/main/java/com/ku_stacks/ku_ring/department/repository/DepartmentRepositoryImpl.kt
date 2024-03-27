@@ -110,6 +110,33 @@ class DepartmentRepositoryImpl @Inject constructor(
         departments = null
     }
 
+    override suspend fun updateMainDepartmentStatus(name: String, isMainDepartment: Boolean) {
+        withContext(ioDispatcher) {
+            departmentDao.updateMainDepartmentStatus(name, isMainDepartment)
+            if (!isMainDepartment) {
+                chooseMainDepartment()
+            }
+        }
+        departments = null
+    }
+
+    private suspend fun chooseMainDepartment() {
+        withContext(ioDispatcher) {
+            val subscribedDepartments = departmentDao.getDepartmentsBySubscribed(true)
+            subscribedDepartments.firstOrNull()?.let {
+                departmentDao.updateMainDepartmentStatus(it.name, true)
+            }
+        }
+        departments = null
+    }
+
+    override suspend fun clearMainDepartments() {
+        withContext(ioDispatcher) {
+            departmentDao.clearMainDepartments()
+        }
+        departments = null
+    }
+
     override suspend fun unsubscribeAllDepartments() {
         withContext(ioDispatcher) {
             departmentDao.unsubscribeAllDepartments()

@@ -9,4 +9,5 @@ data class DepartmentEntity(
     val shortName: String,
     val koreanName: String,
     val isSubscribed: Boolean,
+    val isMainDepartment: Boolean,
 )
