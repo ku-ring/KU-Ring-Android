@@ -47,8 +47,8 @@ androidx-swiperefreshlayout = 'androidx.swiperefreshlayout:swiperefreshlayout:1.
 androidx-viewpager2 = 'androidx.viewpager2:viewpager2:1.0.0'
 
 # AndroidX ViewModel
-android-lifecycle-extensions = 'android.arch.lifecycle:extensions:1.1.1'
 androidx-lifecycle-viewmodel-ktx = 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
+androidx-lifecycle-livedata = 'androidx.lifecycle:lifecycle-livedata:2.7.0'
 androidx-activity-ktx = 'androidx.activity:activity-ktx:1.2.3'
 
 # Firebase
@@ -137,7 +137,7 @@ androidx-work-testing = { module = 'androidx.work:work-testing', version.ref = '
 androidx-work-hilt = 'androidx.hilt:hilt-work:1.0.0'
 
 # Unit Test
-androidx-core-testing = 'androidx.arch.core:core-testing:2.1.0'
+androidx-core-testing = 'androidx.arch.core:core-testing:2.2.0'
 androidx-test-core = 'androidx.test:core:1.4.0'
 mockito-core = 'org.mockito:mockito-core:3.5.9'
 mockito-inline = 'org.mockito:mockito-inline:2.21.0'
@@ -211,7 +211,6 @@ rxjava = [
     'rxjava',
 ]
 viewmodel-ktx = [
-    'android-lifecycle-extensions',
     'androidx-lifecycle-viewmodel-ktx',
     'androidx-activity-ktx',
 ]
