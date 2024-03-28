@@ -64,7 +64,7 @@ dependencies {
     kaptTest libs.hilt.compiler
 
     // Lifecycle
-    testFixturesImplementation libs.android.lifecycle.extensions
+    testFixturesImplementation libs.androidx.lifecycle.livedata
 
     // retrofit
     implementation libs.bundles.retrofit
