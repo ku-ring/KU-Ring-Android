@@ -9,28 +9,29 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "KU Ring"
-include ':app'
-
-include ':common:util'
-include ':common:ui_util'
-include ':data:domain'
-include ':data:notice'
-include ':common:preferences'
-include ':data:push'
-include ':data:user'
-include ':data:staff'
-include ':data:department'
-include ':data:local'
-include ':data:remote'
-include ':common:thirdparty'
-include ':common:work'
-include ':feature:edit_subscription'
-include ':feature:feedback'
-include ':feature:my_notification'
-include ':feature:notice_detail'
-include ':feature:notion'
-include ':feature:onboarding'
-include ':feature:splash'
-include ':feature:main'
-include ':common:designsystem'
-include ':feature:edit_departments'
+include(
+        ':app',
+        ':common:util',
+        ':common:ui_util',
+        ':data:domain',
+        ':data:notice',
+        ':common:preferences',
+        ':data:push',
+        ':data:user',
+        ':data:staff',
+        ':data:department',
+        ':data:local',
+        ':data:remote',
+        ':common:thirdparty',
+        ':common:work',
+        ':feature:edit_subscription',
+        ':feature:feedback',
+        ':feature:my_notification',
+        ':feature:notice_detail',
+        ':feature:notion',
+        ':feature:onboarding',
+        ':feature:splash',
+        ':feature:main',
+        ':common:designsystem',
+        ':feature:edit_departments'
+)
