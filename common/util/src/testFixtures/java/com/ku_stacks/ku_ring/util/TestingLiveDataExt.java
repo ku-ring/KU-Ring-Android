@@ -17,7 +17,7 @@ public class TestingLiveDataExt {
         final Object[] data = new Object[1];
         final CountDownLatch latch = new CountDownLatch(1);
 
-        Observer<T> observer = new Observer<T>() {
+        Observer<T> observer = new Observer<>() {
             @Override
             public void onChanged(T value) {
                 data[0] = value;
@@ -36,22 +36,6 @@ public class TestingLiveDataExt {
 
             //noinspection unchecked
             return (T) data[0];
-        } finally {
-            liveData.removeObserver(observer);
-        }
-    }
-
-    public static <T> void observeForTesting(LiveData<T> liveData, Runnable block) {
-        Observer<T> observer = new Observer<T>() {
-            @Override
-            public void onChanged(T t) {
-                // Do nothing, just needed for observing
-            }
-        };
-
-        try {
-            liveData.observeForever(observer);
-            block.run();
         } finally {
             liveData.removeObserver(observer);
         }
