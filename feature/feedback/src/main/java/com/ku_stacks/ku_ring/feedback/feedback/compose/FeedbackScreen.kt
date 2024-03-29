@@ -29,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ku_stacks.ku_ring.designsystem.components.CenterTitleTopBar
 import com.ku_stacks.ku_ring.designsystem.components.KuringCallToAction
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
@@ -43,8 +44,8 @@ fun FeedbackScreen(
     viewModel: FeedbackViewModel,
     modifier: Modifier = Modifier,
 ) {
-    val feedbackContent by viewModel.feedbackContent.collectAsState()
-    val textStatus by viewModel.textStatus.collectAsState()
+    val feedbackContent by viewModel.feedbackContent.collectAsStateWithLifecycle()
+    val textStatus by viewModel.textStatus.collectAsStateWithLifecycle()
 
     FeedbackScreen(
         feedbackContent = feedbackContent,

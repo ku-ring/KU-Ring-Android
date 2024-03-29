@@ -73,6 +73,7 @@ dependencies {
     implementation platform(libs.compose.bom)
     implementation libs.bundles.compose
     implementation libs.bundles.compose.interop
+    implementation libs.androidx.lifecycle.runtime.compose
 
     // coroutines
     implementation libs.bundles.coroutines
