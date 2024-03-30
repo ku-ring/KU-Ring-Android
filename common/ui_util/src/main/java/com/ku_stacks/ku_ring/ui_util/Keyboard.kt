@@ -11,7 +11,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 @Composable
-fun rememberKeyboardOpen(): State<Boolean> {
+fun rememberKeyboardVisibilityState(): State<Boolean> {
     val keyboardState = remember { mutableStateOf(false) }
     val view = LocalView.current
 
