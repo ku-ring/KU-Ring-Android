@@ -40,7 +40,7 @@ import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 import com.ku_stacks.ku_ring.feedback.R
 import com.ku_stacks.ku_ring.feedback.feedback.FeedbackTextStatus
 import com.ku_stacks.ku_ring.feedback.feedback.FeedbackViewModel
-import com.ku_stacks.ku_ring.ui_util.rememberKeyboardOpen
+import com.ku_stacks.ku_ring.ui_util.rememberKeyboardVisibilityState
 
 @Composable
 fun FeedbackScreen(
@@ -69,7 +69,7 @@ private fun FeedbackScreen(
     onClickSendFeedback: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val isKeyboardOpen by rememberKeyboardOpen()
+    val isKeyboardOpen by rememberKeyboardVisibilityState()
     // TODO by Nunu 80.dp 고정 dp가 아닌 바팀 CTA 영역에 맞춰서 높이가 재조정되어야 함
     val bottomOffset by animateDpAsState(
         targetValue = if (isKeyboardOpen) 80.dp else 0.dp,
