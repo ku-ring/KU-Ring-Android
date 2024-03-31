@@ -41,8 +41,8 @@
         <activity
             android:name=".feedback.feedback.FeedbackActivity"
             android:exported="true"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".my_notification.NotificationActivity"
