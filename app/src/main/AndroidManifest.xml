@@ -41,7 +41,7 @@
         <activity
             android:name=".feedback.feedback.FeedbackActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustPan"
+            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait" />
 
         <activity
