@@ -66,7 +66,20 @@
     <string name="setting_feedback_title">피드백</string>
     <string name="setting_feedback_send_feedback">피드백 보내기</string>
 
-    <string name="open_source_license">오픈소스 라이선스</string>
+    <string name="open_source_license">사용된 오픈소스</string>
+    <string name="open_source_back">뒤로 가기</string>
+    <string name="open_source_title">쿠링에 사용된\n오픈소스예요</string>
+    <string name="open_source_item_lottie">Lottie</string>
+    <string name="open_source_item_emoji">Emoji</string>
+    <string name="open_source_oss_licenses">더 많은 오픈소스 보기</string>
+
+    <string name="open_source_emoji_top_bar">Emoji</string>
+    <string name="open_source_emoji_title">쿠링에 사용된\n이모지는요</string>
+    <string name="open_source_emoji_explanation">아래 화면에는 토스팀에서 제공한\n토스페이스가 적용되어 있어요.</string>
+    <string name="open_source_emoji_toss_face">토스페이스 저작권 안내</string>
+    <string name="open_source_emoji_detail1">• 카테고리별 푸시알림 선택 화면</string>
+    <string name="open_source_emoji_detail2">• 캠퍼스 맵 공사 중 화면(Android)</string>
+    <string name="open_source_emoji_detail3">• 피드백 보내기 화면</string>
 
     <!--  setting urls  -->
     <string name="notion_new_contents_url">https://kuring.notion.site/kuring/eec1169151ec4b49abab5e900c617690</string>
@@ -76,6 +89,8 @@
     <string name="instagram_package">com.instagram.android</string>
     <string name="instagram_app_scheme">http://instagram.com/_u/kuring.konkuk</string>
     <string name="instagram_web_scheme">https://www.instagram.com/kuring.konkuk</string>
+    <string name="toss_face_copyright">https://toss.im/tossface/copyright</string>
+    <string name="lottie_files">https://lottiefiles.com/kr/</string>
 
     <!--  campus map  -->
     <string name="campus_map_title">캠퍼스맵</string>
