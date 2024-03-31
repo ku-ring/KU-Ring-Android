@@ -1,25 +1,28 @@
 package com.ku_stacks.ku_ring.feedback.feedback.compose
 
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -70,11 +73,14 @@ private fun FeedbackScreen(
     modifier: Modifier = Modifier,
 ) {
     val isKeyboardOpen by rememberKeyboardVisibilityState()
-    // TODO by Nunu 80.dp 고정 dp가 아닌 바팀 CTA 영역에 맞춰서 높이가 재조정되어야 함
-    val bottomOffset by animateDpAsState(
-        targetValue = if (isKeyboardOpen) 80.dp else 0.dp,
-        label = "Offset of bottom"
-    )
+
+    val scrollState = rememberScrollState()
+    LaunchedEffect(isKeyboardOpen) {
+        if (isKeyboardOpen) {
+            scrollState.animateScrollTo(Int.MAX_VALUE)
+        }
+    }
+
     Scaffold(
         topBar = {
             CenterTitleTopBar(
@@ -97,7 +103,7 @@ private fun FeedbackScreen(
                 .fillMaxSize()
                 .padding(it)
                 .background(KuringTheme.colors.background)
-                .offset(y = -bottomOffset),
+                .verticalScroll(scrollState),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Image(
@@ -126,15 +132,20 @@ private fun FeedbackScreen(
                 modifier = Modifier
                     .padding(start = 20.dp, end = 20.dp, top = 32.dp)
                     .fillMaxWidth()
-                    .weight(1f)
+                    .heightIn(max = 268.dp)
                     .background(color = KuringTheme.colors.background)
                     .border(width = 1.5f.dp, color = Color.Gray, shape = RoundedCornerShape(20.dp)),
             )
+            if (!isKeyboardOpen) {
+                Spacer(modifier = Modifier.weight(1f))
+            }
             KuringCallToAction(
                 text = stringResource(id = R.string.feedback_send_content),
                 onClick = onClickSendFeedback,
                 enabled = textStatus == FeedbackTextStatus.NORMAL,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 10.dp)
             )
         }
     }
