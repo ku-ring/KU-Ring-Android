@@ -24,6 +24,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
@@ -69,7 +70,7 @@ fun DepartmentHeader(
     }
     Divider(
         color = KuringTheme.colors.borderline,
-        thickness = 0.7.dp,
+        thickness = Dp.Hairline,
     )
 }
 
