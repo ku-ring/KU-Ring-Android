@@ -10,6 +10,10 @@ on:
         default: 'warning'
       tags:
         description: 'Test scenario tags'
+      dry_run:
+        description: 'Dry run mode'
+        required: false
+        default: 'no'
 
 jobs:
   delete-branch:
@@ -21,8 +25,8 @@ jobs:
         with:
           github_token: ${{ github.token }}
           last_commit_age_days: 60
-          ignore_branches: master, develop
-          dry_run: no
+          ignore_branches: main, develop
+          dry_run: ${{ github.event.inputs.dry_run }}
 
       - name: Get output
         run: "echo 'Deleted branches: ${{ steps.delete_step.outputs.deleted_branches }}'"
