@@ -4,7 +4,6 @@ import timber.log.Timber
 
 fun splitSubjectAndTag(subject: String): Pair<String, List<String>> {
     if (subject.isEmpty()) {
-        Timber.e("subject split failed (empty), so empty contents are returned.")
         return Pair("", emptyList())
     }
 

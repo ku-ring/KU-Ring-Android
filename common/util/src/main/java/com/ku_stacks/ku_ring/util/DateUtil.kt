@@ -27,13 +27,12 @@ object DateUtil {
                 today == str
             }
 
-            19 -> {
+            10, 19 -> {
                 val dateString = str.substring(0, 4) + str.substring(5, 7) + str.substring(8, 10)
                 today == dateString
             }
 
             else -> {
-                Timber.e("DateUtil.isToday() : String length is not normal")
                 false
             }
         }

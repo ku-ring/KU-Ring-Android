@@ -32,7 +32,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.reactive.asPublisher
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 import javax.inject.Inject
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -91,7 +90,6 @@ class NoticeRepositoryImpl @Inject constructor(
 
         if (startDate.isNullOrEmpty() || DateUtil.isToday(startDate)) {
             /** 설치 이후 앱을 처음 킨 경우 */
-            Timber.e("This is first connect day")
             if (startDate.isNullOrEmpty()) {
                 pref.startDate = DateUtil.getToday()
             }
@@ -103,7 +101,6 @@ class NoticeRepositoryImpl @Inject constructor(
             }
         } else {
             /** 앱을 처음 킨 것이 아닌 경우(일반적인 케이스) */
-            Timber.e("This is not first connect day")
             return pagingData.map { notice ->
                 notice.copy(
                     isNew = notice.postedDate > startDate && !isNewRecordHashMap.containsKey(notice.articleId),
@@ -135,6 +132,10 @@ class NoticeRepositoryImpl @Inject constructor(
             ),
             pagingSourceFactory = { NoticePagingSource(type, noticeClient) }
         ).flowable
+    }
+
+    override suspend fun insertNotice(notice: Notice) {
+        noticeDao.insertNotice(notice.toEntity())
     }
 
     override fun insertNoticeAsOld(notice: Notice): Completable {
@@ -175,11 +176,7 @@ class NoticeRepositoryImpl @Inject constructor(
     override fun deleteAllNoticeRecord() { // for testing
         noticeDao.deleteAllNoticeRecord()
             .subscribeOn(Schedulers.io())
-            .subscribe({
-                Timber.e("delete Notice db success")
-            }, {
-                Timber.e("delete Notice db fail")
-            })
+            .subscribe({ }, { })
     }
 
     override fun deleteSharedPreference() { //for testing
@@ -217,27 +214,23 @@ class NoticeRepositoryImpl @Inject constructor(
             .subscribeOn(Schedulers.io())
             .subscribe({ response ->
                 if (response.isSuccess) {
-                    Timber.e("saveSubscribe success")
                     pref.firstRunFlag = false
-                } else {
-                    Timber.e("saveSubscribe failed ${response.resultCode}")
                 }
-            }, {
-                Timber.e("saveSubscribe failed $it")
-            })
+            }, { })
     }
 
-    override suspend fun getNoticeSearchResult(query: String): List<Notice> = withContext(Dispatchers.IO) {
-        val result = noticeClient.fetchNoticeList(query)
-            .takeIf { it.isSuccess }
-            ?.toNoticeList() ?: emptyList()
+    override suspend fun getNoticeSearchResult(query: String): List<Notice> =
+        withContext(Dispatchers.IO) {
+            val result = noticeClient.fetchNoticeList(query)
+                .takeIf { it.isSuccess }
+                ?.toNoticeList() ?: emptyList()
 
-        val savedArticleIdSet = noticeDao.getSavedNoticeList(true).map { it.articleId }.toSet()
+            val savedArticleIdSet = noticeDao.getSavedNoticeList(true).map { it.articleId }.toSet()
 
-        result.map {
-            it.copy(isSaved = savedArticleIdSet.contains(it.articleId))
+            result.map {
+                it.copy(isSaved = savedArticleIdSet.contains(it.articleId))
+            }
         }
-    }
 
     companion object {
         private const val pageSize = 20

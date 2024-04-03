@@ -29,10 +29,6 @@ class SearchViewModel @Inject constructor(
     private val _staffSearchResult = MutableStateFlow<List<Staff>>(listOf())
     val staffSearchResult: StateFlow<List<Staff>> = _staffSearchResult.asStateFlow()
 
-    init {
-        Timber.e("SearchViewModel init")
-    }
-
     fun onClickSearch(searchState: SearchState) {
         if (searchState.query.isBlank()) {
             return

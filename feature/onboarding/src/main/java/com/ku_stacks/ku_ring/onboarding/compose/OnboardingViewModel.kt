@@ -57,6 +57,7 @@ class OnboardingViewModel @Inject constructor(
 
         viewModelScope.launch {
             departmentRepository.updateSubscribeStatus(selectedDepartment.name, true)
+            departmentRepository.updateMainDepartmentStatus(selectedDepartment.name, true)
         }
     }
 }

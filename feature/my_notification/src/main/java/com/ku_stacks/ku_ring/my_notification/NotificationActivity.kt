@@ -84,7 +84,6 @@ class NotificationActivity : AppCompatActivity() {
         HoldableSwipeHandler.Builder(this)
             .setSwipeButtonAction(object : SwipeButtonAction {
                 override fun onClickFirstButton(absoluteAdapterPosition: Int) {
-                    Timber.e("onClickDelete position : $absoluteAdapterPosition")
                     val pushContent = notificationAdapter.currentList[absoluteAdapterPosition]
                     if (pushContent is PushContentUiModel) {
                         viewModel.deletePushDB(pushContent.articleId)

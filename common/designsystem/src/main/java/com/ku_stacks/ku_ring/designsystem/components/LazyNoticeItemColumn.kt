@@ -7,8 +7,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -22,6 +24,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import com.ku_stacks.ku_ring.designsystem.R
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.SfProDisplay
 import com.ku_stacks.ku_ring.domain.Notice
 
@@ -32,6 +35,7 @@ fun LazyPagingNoticeItemColumn(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
     noticeFilter: (Notice) -> Boolean = { true },
+    onNoticeShown: (Notice) -> Unit = {},
 ) {
     LazyColumn(
         modifier = modifier
@@ -74,6 +78,13 @@ fun LazyPagingNoticeItemColumn(
                                 notice = notice,
                                 onClick = onNoticeClick,
                             )
+                            Divider(
+                                color = KuringTheme.colors.borderline,
+                                thickness = 0.7.dp,
+                            )
+                            LaunchedEffect(notice.articleId) {
+                                onNoticeShown(notice)
+                            }
                         }
                     }
                 }

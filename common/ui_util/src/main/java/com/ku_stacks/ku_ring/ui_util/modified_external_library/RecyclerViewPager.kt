@@ -46,7 +46,6 @@ class RecyclerViewPager(
 
                 if (firstVisibleItemPosition - visibleItemCount <= prefetchDistance) {
                     val page = ++currentPage
-                    Timber.e(" nextPage: $page")
                     loadNext(page)
                 }
             } else {
@@ -61,7 +60,6 @@ class RecyclerViewPager(
 
                 if (lastVisibleItemPosition + prefetchDistance >= totalItemCount) {
                     val page = ++currentPage
-                    Timber.e(" nextPage: $page")
                     loadNext(page)
                 }
             }

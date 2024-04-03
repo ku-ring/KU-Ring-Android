@@ -56,7 +56,7 @@ class NoticesParentFragment : Fragment() {
                         navigator.navigateToSearch(requireActivity())
                     },
                     onNotificationIconClick = {
-                        navigator.navigateToNotification(requireActivity())
+                        navigator.navigateToEditSubscription(requireActivity())
                     },
                     onNoticeClick = {
                         navigator.navigateToNoticeWeb(requireActivity(), it)
@@ -77,12 +77,10 @@ class NoticesParentFragment : Fragment() {
         lifecycleScope.launch {
             firebaseMessaging.token.addOnCompleteListener { task ->
                 if (!task.isSuccessful) {
-                    Timber.e("Firebase instanceId fail : ${task.exception}")
                     return@addOnCompleteListener
                 }
                 val token = task.result
                 pref.fcmToken = token
-                Timber.e("FCM token : $token")
             }
         }
     }

@@ -32,10 +32,8 @@ class DepartmentNoticeMediator(
             LoadType.PREPEND -> getPrependKey(state)
             LoadType.APPEND -> getAppendKey(state)
         }
-        Timber.d("Load dept notices: $shortName, $loadType, $page")
 
         if (page == null || page < 0) {
-            Timber.d("Dept notices skip: $shortName, $loadType, $page")
             return MediatorResult.Success(endOfPaginationReached = page != null)
         }
 
@@ -49,16 +47,11 @@ class DepartmentNoticeMediator(
                 page = page,
                 size = itemSize
             )
-            Timber.d("Loaded dept notices: ${noticeResponse.data.lastOrNull()?.articleId}")
             insertNotices(noticeResponse.data, page)
 
             val isPageEnd = noticeResponse.data.isEmpty()
-            if (isPageEnd) {
-                Timber.d("Dept notices page end: $shortName, $loadType, $page")
-            }
             MediatorResult.Success(endOfPaginationReached = isPageEnd)
         } catch (e: Exception) {
-            Timber.e("Dept notices exception: ${e.message}")
             MediatorResult.Error(e)
         }
     }

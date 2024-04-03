@@ -13,6 +13,7 @@ object WordConverter {
             "industry_university" -> "산학"
             "normal" -> "일반"
             "library" -> "도서관"
+            "department" -> "학과" // TODO: 나중에 학과 이름으로 보여줘야 함
             else -> str
         }
     }
@@ -28,6 +29,7 @@ object WordConverter {
             "산학" -> "industry_university"
             "일반" -> "normal"
             "도서관" -> "library"
+            "학과" -> "department"
             else -> str
         }
     }
@@ -43,6 +45,7 @@ object WordConverter {
             "산학" -> "ind"
             "일반" -> "nor"
             "도서관" -> "lib"
+            "학과" -> "dep"
             else -> str
         }
     }
