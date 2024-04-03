@@ -11,13 +11,9 @@ import com.ku_stacks.ku_ring.domain.Department
 import com.ku_stacks.ku_ring.edit_departments.uimodel.DepartmentsUiModel
 import com.ku_stacks.ku_ring.edit_departments.uimodel.PopupUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -90,28 +86,43 @@ class EditDepartmentsViewModel @Inject constructor(
 
     fun onPopupConfirmButtonClick(popupUiModel: PopupUiModel) {
         when (popupUiModel) {
-            is PopupUiModel.AddPopupUiModel -> subscribeDepartment(popupUiModel.departmentName)
+            is PopupUiModel.AddPopupUiModel -> {
+                subscribeDepartment(popupUiModel.departmentName)
+                clearQuery()
+            }
+
             is PopupUiModel.DeletePopupUiModel -> unsubscribeDepartment(popupUiModel.departmentName)
+
             is PopupUiModel.DeleteAllPopupUiModel -> onDeleteAll()
         }
         closePopup()
     }
 
-    private fun subscribeDepartment(departmentKoreanName: String) {
+    private fun subscribeDepartment(selectedDepartmentName: String) {
         viewModelScope.launch {
-            departmentRepository.updateSubscribeStatus(departmentKoreanName, true)
+            if (subscribedDepartments.value.isEmpty()) {
+                departmentRepository.updateMainDepartmentStatus(selectedDepartmentName, true)
+                Timber.d("Set $selectedDepartmentName as main department")
+            }
+            departmentRepository.updateSubscribeStatus(selectedDepartmentName, true)
         }
     }
 
-    private fun unsubscribeDepartment(departmentKoreanName: String) {
+    private fun clearQuery() {
+        query = ""
+    }
+
+    private fun unsubscribeDepartment(name: String) {
         viewModelScope.launch {
-            departmentRepository.updateSubscribeStatus(departmentKoreanName, false)
+            departmentRepository.updateSubscribeStatus(name, false)
+            departmentRepository.updateMainDepartmentStatus(name, false)
         }
     }
 
     private fun onDeleteAll() {
         viewModelScope.launch {
             departmentRepository.unsubscribeAllDepartments()
+            departmentRepository.clearMainDepartments()
         }
     }
 

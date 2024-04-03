@@ -40,16 +40,11 @@ class NoticeWebViewModel @Inject constructor(
         disposable.add(
             noticeRepository.updateNoticeToBeRead(articleId, category)
                 .subscribeOn(Schedulers.io())
-                .subscribe({
-                    Timber.e("noticeRecord update true : $articleId")
-                }, {
-                    Timber.e("noticeRecord update fail : $it")
-                })
+                .subscribe({ }, { })
         )
     }
 
     fun onSaveButtonClick() {
-        Timber.e("Save button click: $webViewNotice")
         if (webViewNotice == null) return
         viewModelScope.launch {
             noticeRepository.updateSavedStatus(

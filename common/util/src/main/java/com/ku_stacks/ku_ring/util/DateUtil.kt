@@ -34,7 +34,6 @@ object DateUtil {
             }
 
             else -> {
-                Timber.e("DateUtil.isToday() : String length is not normal")
                 false
             }
         }

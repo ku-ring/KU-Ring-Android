@@ -101,7 +101,9 @@ private fun SetDepartmentScreen(
                     onSetDepartmentComplete()
                 }
             },
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 10.dp),
             blur = true,
             enabled = (selectedDepartment != null),
         )

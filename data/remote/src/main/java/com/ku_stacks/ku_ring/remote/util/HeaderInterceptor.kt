@@ -25,7 +25,6 @@ class HeaderInterceptor @Inject constructor(@ApplicationContext context: Context
         val androidVersion = Build.VERSION.SDK_INT.toString() // 33
         val androidVersionHeader = "Android/$androidVersion"
 
-        Timber.d("$androidVersionHeader, $kuringVersionHeader")
         addHeader("User-Agent", kuringVersionHeader)
         addHeader("User-Agent", androidVersionHeader)
         return this

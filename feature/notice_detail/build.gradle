@@ -38,6 +38,7 @@ android {
 }
 
 dependencies {
+    implementation project(":common:util")
     implementation project(":common:ui_util")
     implementation project(":data:domain")
     implementation project(":data:notice")

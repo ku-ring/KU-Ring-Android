@@ -57,16 +57,11 @@ class FeedbackViewModel @Inject constructor(
     val toastByResource: LiveData<Int>
         get() = _toastByResource
 
-    init {
-        Timber.e("FeedbackViewModel injected")
-    }
-
     fun sendFeedback() {
         analytics.click("send feedback button", "FeedbackActivity")
 
         firebaseMessaging.token.addOnCompleteListener { task ->
             if (!task.isSuccessful) {
-                Timber.e("Firebase get Fcm Token error : ${task.exception}")
                 analytics.errorEvent("Failed to get Fcm Token error : ${task.exception}", className)
                 _toastByResource.postValue(R.string.feedback_cannot_send)
                 return@addOnCompleteListener
@@ -91,17 +86,13 @@ class FeedbackViewModel @Inject constructor(
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    Timber.d(it.resultCode.toString())
                     if (it.isSuccess) {
-                        Timber.e("feedback success content : $content")
                         _toastByResource.value = R.string.feedback_success
                         _quit.call()
                     } else {
-                        Timber.e("feedback failed : ${it.resultCode}, ${it.resultMsg}")
                         _toast.value = it.resultMsg
                     }
                 }, {
-                    Timber.e("feedback error : $it")
                     _toastByResource.value = R.string.network_error
                 })
         }

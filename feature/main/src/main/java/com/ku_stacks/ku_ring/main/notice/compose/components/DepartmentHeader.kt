@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -23,6 +24,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
@@ -61,11 +63,15 @@ fun DepartmentHeader(
         )
         Spacer(modifier = Modifier.weight(1f))
         Icon(
-            painter = painterResource(R.drawable.ic_chevron_v2),
+            painter = painterResource(R.drawable.ic_chevron_small_v2),
             contentDescription = null,
             tint = KuringTheme.colors.gray400,
         )
     }
+    Divider(
+        color = KuringTheme.colors.borderline,
+        thickness = Dp.Hairline,
+    )
 }
 
 @LightAndDarkPreview

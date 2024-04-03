@@ -95,7 +95,6 @@ class ArchiveViewModel @Inject constructor(
                 noticeRepository.updateSavedStatus(articleId, category, false)
                 deletedNotices++
             }
-            Timber.d("$deletedNotices notice(s) were deleted.")
             updateSelectedNotices {
                 emptyMap()
             }

@@ -8,10 +8,6 @@ import timber.log.Timber
 fun List<NoticeEntity>.toNoticeList() = map { it.toNotice() }
 
 fun NoticeEntity.toNotice(): Notice {
-    if (this.subject.isEmpty()) {
-        Timber.e("Notice.subject is empty: $this")
-    }
-
     val (subject, tag) = splitSubjectAndTag(subject)
     return Notice(
         postedDate = postedDate,

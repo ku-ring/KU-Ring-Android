@@ -1,31 +1,21 @@
 package com.ku_stacks.ku_ring.onboarding.compose.inner_screen
 
-import android.os.Build.VERSION.SDK_INT
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.ImageLoader
-import coil.compose.AsyncImage
-import coil.decode.GifDecoder
-import coil.decode.ImageDecoderDecoder
-import coil.request.ImageRequest
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.ku_stacks.ku_ring.designsystem.components.KuringCallToAction
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
@@ -45,12 +35,14 @@ internal fun OnboardingCompleteScreen(
         OnboardingCompleteTitle()
         OnboardingCompleteCaption(modifier = Modifier.padding(top = 12.dp))
         Spacer(modifier = Modifier.weight(4f))
-        OnboardingCompleteGif(modifier = Modifier.size(150.dp))
+        OnboardingCompleteAnimation(modifier = Modifier.size(150.dp))
         Spacer(modifier = Modifier.weight(5f))
         KuringCallToAction(
             onClick = onStartKuring,
             text = stringResource(id = R.string.onboarding_complete_screen_cta_text),
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 10.dp),
         )
     }
 }
@@ -87,27 +79,12 @@ private fun OnboardingCompleteCaption(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun OnboardingCompleteGif(
+private fun OnboardingCompleteAnimation(
     modifier: Modifier = Modifier,
 ) {
-    val context = LocalContext.current
-    val imageLoader = remember {
-        ImageLoader(context).newBuilder()
-            .components {
-                if (SDK_INT >= 28) {
-                    add(ImageDecoderDecoder.Factory())
-                } else {
-                    add(GifDecoder.Factory())
-                }
-            }.build()
-    }
-
-    AsyncImage(
-        model = ImageRequest.Builder(LocalContext.current)
-            .data(R.drawable.onboarding_complete)
-            .decoderFactory(imageLoader.components.decoderFactories.first())
-            .build(),
-        contentDescription = null,
+    val checkLottieComposition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(R.raw.onboarding_check_animation))
+    LottieAnimation(
+        composition = checkLottieComposition,
         modifier = modifier,
     )
 }

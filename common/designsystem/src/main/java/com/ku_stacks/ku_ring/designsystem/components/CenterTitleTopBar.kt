@@ -48,8 +48,6 @@ fun CenterTitleTopBar(
     navigation: @Composable (() -> Unit)? = null,
     onNavigationClick: (() -> Unit)? = null,
     navigationClickLabel: String? = null,
-    // 현재 디자인된 Gray600 색깔은 다크 모드에서 거의 보이지 않음
-    // 따라서 임시로 onSurface를 사용하고, 다크 모드 디자인이 나오면 다시 수정
     navigationContentColor: Color = KuringTheme.colors.background,
     action: String = "",
     onActionClick: (() -> Unit)? = null,
@@ -174,10 +172,10 @@ private fun TopBarTitle(
     Text(
         text = title,
         style = TextStyle(
-            fontSize = 20.sp,
-            lineHeight = 30.sp,
+            fontSize = 18.sp,
+            lineHeight = 26.64.sp,
             fontFamily = Pretendard,
-            fontWeight = FontWeight(700),
+            fontWeight = FontWeight(600),
             color = KuringTheme.colors.textTitle,
             textAlign = TextAlign.Center,
         ),

@@ -53,6 +53,7 @@ object DBModule {
     private val MIGRATION_5_6 = object : Migration(5, 6) {
         override fun migrate(database: SupportSQLiteDatabase) {
             database.execSQL("ALTER TABLE NoticeEntity ADD COLUMN isImportant INT NOT NULL DEFAULT 0")
+            database.execSQL("ALTER TABLE departments ADD COLUMN isMainDepartment INT NOT NULL DEFAULT 0")
         }
     }
 

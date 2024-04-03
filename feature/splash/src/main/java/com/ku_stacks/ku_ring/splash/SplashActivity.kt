@@ -97,7 +97,6 @@ class SplashActivity : AppCompatActivity() {
             ExistingWorkPolicy.REPLACE,
             notificationWorkRequest,
         )
-        Timber.d("Enqueue re-engagement notification work at $afterOneWeek")
     }
 
     private fun launchedFromNoticeNotificationEvent(intent: Intent): Boolean {
@@ -112,7 +111,6 @@ class SplashActivity : AppCompatActivity() {
         for (key in this.keySet()) {
             map[key] = this.getString(key)
         }
-        Timber.d("Notification result: $map")
         return map
     }
 

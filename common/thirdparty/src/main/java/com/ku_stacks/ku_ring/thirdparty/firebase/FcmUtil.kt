@@ -74,9 +74,8 @@ class FcmUtil @Inject constructor(
                         isReadOnStorage = false
                     )
                 )
-                Timber.e("insert notification success")
             } catch (e: Exception) {
-                Timber.e("insert notification error : $e")
+                e.printStackTrace()
             }
         }
     }

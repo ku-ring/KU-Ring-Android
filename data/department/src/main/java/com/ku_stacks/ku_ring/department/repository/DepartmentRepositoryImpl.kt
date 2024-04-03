@@ -110,6 +110,33 @@ class DepartmentRepositoryImpl @Inject constructor(
         departments = null
     }
 
+    override suspend fun updateMainDepartmentStatus(name: String, isMainDepartment: Boolean) {
+        withContext(ioDispatcher) {
+            departmentDao.updateMainDepartmentStatus(name, isMainDepartment)
+            if (!isMainDepartment) {
+                chooseMainDepartment()
+            }
+        }
+        departments = null
+    }
+
+    private suspend fun chooseMainDepartment() {
+        withContext(ioDispatcher) {
+            val subscribedDepartments = departmentDao.getDepartmentsBySubscribed(true)
+            subscribedDepartments.firstOrNull()?.let {
+                departmentDao.updateMainDepartmentStatus(it.name, true)
+            }
+        }
+        departments = null
+    }
+
+    override suspend fun clearMainDepartments() {
+        withContext(ioDispatcher) {
+            departmentDao.clearMainDepartments()
+        }
+        departments = null
+    }
+
     override suspend fun unsubscribeAllDepartments() {
         withContext(ioDispatcher) {
             departmentDao.unsubscribeAllDepartments()
@@ -141,7 +168,6 @@ class DepartmentRepositoryImpl @Inject constructor(
                 }
             } ?: emptyList()
         } catch (e: Exception) {
-            Timber.e(e)
             emptyList()
         }
     }
@@ -151,7 +177,6 @@ class DepartmentRepositoryImpl @Inject constructor(
             pref.fcmToken?.let { fcmToken ->
                 departmentClient.subscribeDepartments(fcmToken, departments.map { it.shortName })
             }
-            Timber.d("Subscribed departments: ${departments.map { it.shortName }}")
         }
     }
 }

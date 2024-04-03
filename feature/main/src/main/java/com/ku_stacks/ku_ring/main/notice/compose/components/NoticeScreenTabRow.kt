@@ -42,6 +42,9 @@ internal fun NoticeScreenTabRow(
                 height = 4.dp,
             )
         },
+        divider = {
+            KuringScrollableTabRowDefaults.Divider(color = KuringTheme.colors.borderline)
+        },
         edgePadding = 20.dp,
         modifier = modifier,
     ) {
@@ -69,7 +72,9 @@ private fun NoticeScreenTabRowPreview() {
             pagerState = rememberPagerState {
                 NoticeScreenTabItem.values().size
             },
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 10.dp),
         )
     }
 }

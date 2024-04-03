@@ -42,6 +42,7 @@ class EditSubscriptionActivity : AppCompatActivity() {
             KuringTheme {
                 EditSubscriptionScreen(
                     viewModel = viewModel,
+                    onNavigateToBack = ::finish,
                     onAddDepartmentButtonClick = { navigator.navigateToEditSubscribedDepartment(this) },
                     onSubscriptionComplete = ::onSubscriptionComplete,
                     modifier = Modifier.fillMaxSize(),
