@@ -19,7 +19,8 @@ import androidx.fragment.app.viewModels
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.databinding.FragmentSettingBinding
-import com.ku_stacks.ku_ring.main.setting.compose.SettingScreen
+import com.ku_stacks.ku_ring.main.setting.compose.OpenSourceActivity
+import com.ku_stacks.ku_ring.main.setting.compose.inner_screen.SettingScreen
 import com.ku_stacks.ku_ring.ui_util.KuringNavigator
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -66,13 +67,7 @@ class SettingFragment : Fragment() {
                     onNavigateToKuringTeam = { startWebViewActivity(R.string.notion_kuring_team_url) },
                     onNavigateToPrivacyPolicy = { startWebViewActivity(R.string.notion_privacy_policy_url) },
                     onNavigateToServiceTerms = { startWebViewActivity(R.string.notion_terms_of_service_url) },
-                    onNavigateToOpenSources = {
-                        navigator.navigateToOssLicensesMenu(activity)
-                        activity.overridePendingTransition(
-                            R.anim.anim_slide_right_enter,
-                            R.anim.anim_stay_exit
-                        )
-                    },
+                    onNavigateToOpenSources = ::navigateToOpenSources,
                     onNavigateToKuringInstagram = ::navigateToKuringInstagram,
                     onNavigateToFeedback = { navigator.navigateToFeedback(activity) },
                     modifier = Modifier
@@ -91,6 +86,10 @@ class SettingFragment : Fragment() {
             R.anim.anim_slide_right_enter,
             R.anim.anim_stay_exit
         )
+    }
+
+    private fun navigateToOpenSources() {
+        OpenSourceActivity.start(requireActivity())
     }
 
     private fun navigateToKuringInstagram() {
