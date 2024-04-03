@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.main.setting.compose
+package com.ku_stacks.ku_ring.main.setting.compose.inner_screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column

@@ -7,16 +7,8 @@ import com.ku_stacks.ku_ring.department.repository.DepartmentRepository
 import com.ku_stacks.ku_ring.domain.Department
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.notice.repository.NoticeRepository
-import com.ku_stacks.ku_ring.util.modifyList
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -65,57 +57,16 @@ class DepartmentNoticeViewModel @Inject constructor(
     private fun collectSubscribedDepartments() {
         viewModelScope.launch {
             departmentRepository.getSubscribedDepartmentsAsFlow().collectLatest { departments ->
-                val beforeSelected = subscribedDepartments.value.firstOrNull { it.isSelected }
-
-                val markedDepartment =
-                    if (beforeSelected != null && departments.containsSelected(beforeSelected)) {
-                        departments.markDepartment(beforeSelected)
-                    } else {
-                        departments.selectFirstDepartment()
-                    }
-
-                _subscribedDepartments.value = markedDepartment
+                _subscribedDepartments.value = departments
                 isInitialLoading.value = false
             }
         }
     }
 
-    private fun List<Department>.containsSelected(selected: Department) =
-        this.any { it.koreanName == selected.koreanName }
-
-    private fun List<Department>.selectFirstDepartment(): List<Department> {
-        return if (this.isEmpty()) {
-            this
-        } else {
-            this.toMutableList().apply {
-                this[0] = this[0].copy(isSelected = true)
-            }
-        }
-    }
-
-    private fun List<Department>.markDepartment(department: Department): List<Department> {
-        return this.map {
-            if (it.koreanName == department.koreanName) {
-                it.copy(isSelected = true)
-            } else {
-                it
-            }
-        }
-    }
-
     fun selectDepartment(department: Department) {
-        val currentSelectedIndex = subscribedDepartments.value.indexOfFirst { it.isSelected }
-        val index =
-            subscribedDepartments.value.indexOfFirst { it.koreanName == department.koreanName }
-        if (currentSelectedIndex == index) return
-
-        _subscribedDepartments.modifyList {
-            if (index != -1) {
-                this[index] = this[index].copy(isSelected = true)
-            }
-            if (currentSelectedIndex != -1) {
-                this[currentSelectedIndex] = this[currentSelectedIndex].copy(isSelected = false)
-            }
+        viewModelScope.launch {
+            departmentRepository.clearMainDepartments()
+            departmentRepository.updateMainDepartmentStatus(department.name, true)
         }
     }
 }
