@@ -19,7 +19,6 @@ class RegisterUserWork @AssistedInject constructor(
     override suspend fun doWork(): Result {
         val token = getToken() ?: return Result.failure()
         userRepository.registerUser(token)
-        Timber.d("registered token successfully")
         return Result.success()
     }
 

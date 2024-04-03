@@ -9,7 +9,6 @@ fun <K, V> MutableStateFlow<MutableMap<K, V>>.modifyMap(block: MutableMap<K, V>.
     } catch (e: Exception) {
         return
     }
-    Timber.d("before: $value, after: $newValue")
     this.value = newValue
 }
 
@@ -19,7 +18,6 @@ fun <E> MutableStateFlow<MutableSet<E>>.modifySet(block: MutableSet<E>.() -> Uni
     } catch (e: Exception) {
         return
     }
-    Timber.d("before: $value, after: $newValue")
     this.value = newValue
 }
 
@@ -29,6 +27,5 @@ fun <E> MutableStateFlow<List<E>>.modifyList(block: MutableList<E>.() -> Unit) {
     } catch (e: Exception) {
         return
     }
-    Timber.d("before: $value, after: $newValue")
     this.value = newValue
 }

@@ -32,9 +32,7 @@ class NotificationViewModel @Inject constructor(
                 .map { pushList -> pushList.toPushUiModelList() }
                 .subscribe({
                     _pushUiModelList.postValue(it)
-                }, {
-                    Timber.e("getMyNotification failed : $it")
-                })
+                }, { })
         )
     }
 
@@ -42,16 +40,11 @@ class NotificationViewModel @Inject constructor(
         disposable.add(
             pushRepository.updateNotificationAsOld(articleId)
                 .subscribeOn(Schedulers.io())
-                .subscribe({
-                    //Timber.e("update noti success with adapter")
-                }, {
-                    Timber.e("update noti failed with adapter")
-                })
+                .subscribe({ }, { })
         )
     }
 
     fun hasSubscribingNotification(): Boolean {
-        Timber.e("get subscription")
         val numberOfSubscribingList = pref.subscription.size
         return numberOfSubscribingList != 0
     }

@@ -37,7 +37,6 @@ class DepartmentNoticeViewModel @Inject constructor(
         isInitialLoading,
         subscribedDepartments,
     ) { isInitialLoading, subscribedDepartments ->
-        Timber.d("department screen state: $isInitialLoading, ${subscribedDepartments.size}")
         when {
             isInitialLoading -> DepartmentNoticeScreenState.InitialLoading
             subscribedDepartments.isEmpty() -> DepartmentNoticeScreenState.DepartmentsEmpty

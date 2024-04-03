@@ -29,7 +29,6 @@ class CategoryNoticeViewModel @Inject constructor(
     private val articleIds = mutableSetOf<String>()
 
     fun getNotices(shortCategory: String) {
-        Timber.d("set short category as $shortCategory, viewModel hashCode: ${hashCode()}")
         _noticesFlow.value = noticeRepository.getNotices(shortCategory, viewModelScope).asFlow()
     }
 
@@ -39,7 +38,6 @@ class CategoryNoticeViewModel @Inject constructor(
             articleIds.add(notice.articleId)
             viewModelScope.launch {
                 noticeRepository.insertNotice(notice)
-                Timber.d("insert notice ${notice.articleId} to repository")
             }
         }
     }
@@ -49,7 +47,6 @@ class CategoryNoticeViewModel @Inject constructor(
 
         if (!disposable.isDisposed) {
             disposable.dispose()
-            Timber.e("compositeDisposable disposed")
         }
     }
 

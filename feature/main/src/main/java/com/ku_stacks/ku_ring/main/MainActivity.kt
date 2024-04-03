@@ -89,7 +89,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun navToNoticeActivity(webViewNotice: WebViewNotice) {
-        Timber.d("Notification received: $webViewNotice")
         navigator.navigateToNoticeWeb(this, webViewNotice)
     }
 

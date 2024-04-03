@@ -31,7 +31,6 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
     lateinit var navigator: KuringNavigator
 
     override fun onNewToken(token: String) {
-        Timber.e("refreshed token : $token")
         if (pref.fcmToken != token) {
             pref.fcmToken = token
             enqueueRegisterUserWork(token)
@@ -48,7 +47,6 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        Timber.d("Notification hello")
         if (fcmUtil.isNoticeNotification(remoteMessage.data)) {
             val articleId = remoteMessage.data["articleId"]!!
             val category = remoteMessage.data["category"]!!
@@ -56,7 +54,6 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
             val subject = remoteMessage.data["subject"]!!
             // 키 이름은 baseUrl이지만, 실제로는 full url이 내려오고 있음
             val fullUrl = remoteMessage.data["baseUrl"]!!
-            Timber.d("Notification fullUrl at firebase messaging: $fullUrl")
 
             // insert into db
             val receivedDate = DateUtil.getCurrentTime()

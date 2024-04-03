@@ -16,14 +16,8 @@ import com.ku_stacks.ku_ring.util.modifyMap
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -69,10 +63,8 @@ class EditSubscriptionViewModel @Inject constructor(
     init {
         firebaseMessaging.token.addOnCompleteListener { task ->
             if (!task.isSuccessful) {
-                Timber.e("Firebase instanceId fail : ${task.exception}")
                 analytics.errorEvent("${task.exception}", className)
             } else if (task.result == null) {
-                Timber.e("Fcm Token is null")
                 analytics.errorEvent("Fcm Token is null!", className)
             } else {
                 fcmToken = task.result
@@ -88,9 +80,7 @@ class EditSubscriptionViewModel @Inject constructor(
                     .subscribeOn(Schedulers.io())
                     .subscribe({
                         initialSortSubscription(it)
-                    }, {
-                        Timber.e("getSubscribeList fail $it")
-                    })
+                    }, { })
             )
         }
 
@@ -128,7 +118,6 @@ class EditSubscriptionViewModel @Inject constructor(
 
     fun saveSubscribe() {
         if (!isInitialLoadDone) {
-            Timber.d("return because category: $isInitialCategoryLoaded, department: $isInitialDepartmentLoaded")
             return
         }
 
@@ -151,7 +140,6 @@ class EditSubscriptionViewModel @Inject constructor(
     }
 
     private fun markDepartmentsAsEnabled(departments: List<Department>) {
-        Timber.d("Mark: add $departments to $departmentsByKoreanName")
         departmentsByKoreanName.modifyMap {
             departments.forEach {
                 this[it.koreanName] = this[it.koreanName]!!.toggle()
@@ -170,7 +158,7 @@ class EditSubscriptionViewModel @Inject constructor(
             try {
                 this[departmentName] = this[departmentName]!!.toggle()
             } catch (e: NullPointerException) {
-                Timber.d("No such department: $departmentName")
+                e.printStackTrace()
             }
         }
     }

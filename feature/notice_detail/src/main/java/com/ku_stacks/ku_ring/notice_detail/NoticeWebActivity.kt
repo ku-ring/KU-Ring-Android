@@ -36,7 +36,6 @@ class NoticeWebActivity : AppCompatActivity() {
         // Deprecated되지 않은 다른 함수가 API 33 이상에서만 사용할 수 있어서 부득이하게 deprecated 함수를 사용
         val webViewNotice = intent.getSerializableExtra(WebViewNotice.EXTRA_KEY) as? WebViewNotice
             ?: throw IllegalStateException("WebViewNotice should not be null.")
-        Timber.e("web view notice: $webViewNotice")
 
         binding.noticeBackBt.setOnClickListener { finish() }
 
@@ -57,7 +56,6 @@ class NoticeWebActivity : AppCompatActivity() {
             ): Boolean {
                 val intent = Intent(Intent.ACTION_VIEW)
                 intent.data = request.url
-                Timber.e("request url : ${request.url}")
                 startActivity(intent)
                 return true
             }
@@ -99,9 +97,7 @@ class NoticeWebActivity : AppCompatActivity() {
     }
 
     private fun updateNoticeTobeRead(articleId: String?, category: String?) {
-        if (articleId.isNullOrEmpty() || category.isNullOrEmpty()) {
-            Timber.e("articleId or category is null. articleId : $articleId, category : $category")
-        } else {
+        if (!articleId.isNullOrEmpty() && !category.isNullOrEmpty()) {
             viewModel.updateNoticeTobeRead(articleId, category)
         }
     }
@@ -140,7 +136,6 @@ class NoticeWebActivity : AppCompatActivity() {
             if (url == null || articleId == null || category == null) {
                 throw IllegalArgumentException("intent parameters shouldn't be null: $url, $articleId, $category")
             }
-            Timber.d("url: $url, articleId: $articleId, category: $category")
             return Intent(context, NoticeWebActivity::class.java).apply {
                 putExtra(
                     WebViewNotice.EXTRA_KEY, WebViewNotice(

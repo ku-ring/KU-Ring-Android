@@ -19,16 +19,12 @@ class NoticePagingSource constructor(
         val position = params.key ?: 0
         return client.fetchNoticeList(type, position, itemSize)
             .subscribeOn(Schedulers.io())
-            .doOnError {
-                Timber.e("fetchNotice error in $type : $it")
-            }
             .retryWhen { flowable ->
                 flowable.take(3).delay(5000, TimeUnit.MILLISECONDS)
             }
             .map { noticeListResponse -> noticeListResponse.toNoticeList(type) }
             .map { noticeList -> toLoadResult(noticeList, position) }
             .onErrorReturn {
-                Timber.e("error : $it")
                 LoadResult.Error(it)
             }
     }

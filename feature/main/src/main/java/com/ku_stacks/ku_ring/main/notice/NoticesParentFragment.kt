@@ -77,12 +77,10 @@ class NoticesParentFragment : Fragment() {
         lifecycleScope.launch {
             firebaseMessaging.token.addOnCompleteListener { task ->
                 if (!task.isSuccessful) {
-                    Timber.e("Firebase instanceId fail : ${task.exception}")
                     return@addOnCompleteListener
                 }
                 val token = task.result
                 pref.fcmToken = token
-                Timber.e("FCM token : $token")
             }
         }
     }

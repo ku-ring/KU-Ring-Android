@@ -141,7 +141,6 @@ class DepartmentRepositoryImpl @Inject constructor(
                 }
             } ?: emptyList()
         } catch (e: Exception) {
-            Timber.e(e)
             emptyList()
         }
     }
@@ -151,7 +150,6 @@ class DepartmentRepositoryImpl @Inject constructor(
             pref.fcmToken?.let { fcmToken ->
                 departmentClient.subscribeDepartments(fcmToken, departments.map { it.shortName })
             }
-            Timber.d("Subscribed departments: ${departments.map { it.shortName }}")
         }
     }
 }
