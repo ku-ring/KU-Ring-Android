@@ -6,13 +6,17 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.webkit.*
+import android.webkit.WebChromeClient
+import android.webkit.WebResourceRequest
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ShareCompat
 import androidx.lifecycle.lifecycleScope
 import com.ku_stacks.ku_ring.domain.WebViewNotice
 import com.ku_stacks.ku_ring.notice_detail.databinding.ActivityNoticeWebBinding
+import com.ku_stacks.ku_ring.util.WordConverter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
@@ -42,7 +46,7 @@ class NoticeWebActivity : AppCompatActivity() {
 
         binding.noticeSaveButton.setOnClickListener { viewModel.onSaveButtonClick() }
 
-        binding.subjectTitle.text = webViewNotice.subject
+        binding.subjectTitle.text = WordConverter.convertEnglishToKorean(webViewNotice.category)
 
         collectSavedStatus()
 
