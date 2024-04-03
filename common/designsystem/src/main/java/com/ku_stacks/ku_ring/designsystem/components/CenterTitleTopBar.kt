@@ -172,10 +172,10 @@ private fun TopBarTitle(
     Text(
         text = title,
         style = TextStyle(
-            fontSize = 20.sp,
-            lineHeight = 30.sp,
+            fontSize = 18.sp,
+            lineHeight = 26.64.sp,
             fontFamily = Pretendard,
-            fontWeight = FontWeight(700),
+            fontWeight = FontWeight(600),
             color = KuringTheme.colors.textTitle,
             textAlign = TextAlign.Center,
         ),
