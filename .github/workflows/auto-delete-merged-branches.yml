@@ -1,0 +1,35 @@
+name: Branch Auto Deletion
+on:
+  schedule:
+    - cron: "45 19 * * MON"
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
+      tags:
+        description: 'Test scenario tags'
+      dry_run:
+        description: 'Dry run mode'
+        required: false
+        default: 'no'
+        options:
+          - 'yes'
+          - 'no'
+
+jobs:
+  delete-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Auto Delete branches
+        uses: phpdocker-io/github-actions-delete-abandoned-branches@v1
+        id: delete_step
+        with:
+          github_token: ${{ github.token }}
+          last_commit_age_days: 60
+          ignore_branches: main, develop
+          dry_run: ${{ github.event.inputs.dry_run }}
+
+      - name: Get output
+        run: "echo 'Deleted branches: ${{ steps.delete_step.outputs.deleted_branches }}'"
