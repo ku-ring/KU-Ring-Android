@@ -32,12 +32,13 @@ fun ArchiveScreen(
     viewModel: ArchiveViewModel = hiltViewModel(),
 ) {
     val notices by viewModel.savedNotices.collectAsState()
+    val isSelectModeEnabled by viewModel.isSelectedModeEnabled.collectAsState()
     val selectedNoticeIds by viewModel.selectedNoticeIds.collectAsState()
     val isAllNoticesSelected by viewModel.isAllNoticesSelected.collectAsState()
     var isDeleteDialogVisible by rememberSaveable { mutableStateOf(false) }
 
     ArchiveScreen(
-        isSelectModeEnabled = viewModel.isSelectedModeEnabled,
+        isSelectModeEnabled = isSelectModeEnabled,
         onSelectModeEnabled = {
             viewModel.setSelectedMode(true)
         },

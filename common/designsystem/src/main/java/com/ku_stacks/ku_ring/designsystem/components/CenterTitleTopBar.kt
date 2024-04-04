@@ -106,7 +106,7 @@ fun CenterTitleTopBar(
     actionClickLabel: String? = null,
 ) {
     val backgroundColor = KuringTheme.colors.background
-    val contentPadding = PaddingValues(horizontal = 20.dp, vertical = 16.dp)
+    val contentPadding = PaddingValues(horizontal = 20.dp, vertical = 18.dp)
     Box(
         modifier = modifier
             .background(backgroundColor)

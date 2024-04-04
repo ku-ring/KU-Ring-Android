@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -56,7 +57,9 @@ internal fun SettingItem(
             painter = painterResource(id = iconId),
             contentDescription = null,
             tint = KuringTheme.colors.gray300,
-            modifier = Modifier.padding(vertical = 14.dp),
+            modifier = Modifier
+                .padding(vertical = 14.dp)
+                .size(24.dp),
         )
         Text(
             text = title,

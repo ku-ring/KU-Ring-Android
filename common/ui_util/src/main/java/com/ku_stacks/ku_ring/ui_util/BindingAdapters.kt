@@ -7,7 +7,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
-import timber.log.Timber
 
 @BindingAdapter("timeMillis")
 fun TextView.getDay(str: String) {
@@ -96,9 +95,9 @@ fun Button.disableStartButtonIf(value: Boolean) {
 @BindingAdapter("isNoticeSaved")
 fun ImageButton.setBookmarkButtonResource(value: Boolean) {
     val sourceId = if (value) {
-        R.drawable.ic_bookmark_filled
+        R.drawable.ic_bookmark_fill_v2
     } else {
-        R.drawable.ic_bookmark_border
+        R.drawable.ic_bookmark_v2
     }
     setImageResource(sourceId)
 }
