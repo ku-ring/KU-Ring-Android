@@ -1,8 +1,5 @@
 package com.ku_stacks.ku_ring.main.archive
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ku_stacks.ku_ring.domain.Notice
@@ -14,7 +11,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,8 +22,9 @@ class ArchiveViewModel @Inject constructor(
     val savedNotices: StateFlow<List<Notice>>
         get() = _savedNotices
 
-    var isSelectedModeEnabled by mutableStateOf(false)
-        private set
+    private val _isSelectModeEnabled = MutableStateFlow(false)
+    val isSelectedModeEnabled: StateFlow<Boolean>
+        get() = _isSelectModeEnabled
 
     /**
      * key: [Notice.articleId], value: [Notice.category]
@@ -41,7 +38,7 @@ class ArchiveViewModel @Inject constructor(
     }.stateIn(viewModelScope, SharingStarted.Lazily, emptySet())
 
     val isAllNoticesSelected = _selectedNotices.map {
-        it.size == savedNotices.value.size
+        it.size == savedNotices.value.size && it.isNotEmpty()
     }.stateIn(viewModelScope, SharingStarted.Lazily, false)
 
     init {
@@ -53,7 +50,7 @@ class ArchiveViewModel @Inject constructor(
     }
 
     fun setSelectedMode(value: Boolean) {
-        isSelectedModeEnabled = value
+        _isSelectModeEnabled.value = value
         if (!value) {
             updateSelectedNotices {
                 emptyMap()
@@ -88,16 +85,11 @@ class ArchiveViewModel @Inject constructor(
     }
 
     fun deleteNotices() {
-        isSelectedModeEnabled = false
         viewModelScope.launch {
-            var deletedNotices = 0
             selectedNotices.forEach { (articleId, category) ->
                 noticeRepository.updateSavedStatus(articleId, category, false)
-                deletedNotices++
             }
-            updateSelectedNotices {
-                emptyMap()
-            }
+            setSelectedMode(false)
         }
     }
 
