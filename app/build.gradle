@@ -12,9 +12,6 @@ def keystorePropertiesFile = rootProject.file("app/signing/keystore.properties")
 def localPropertiesFile = rootProject.file("local.properties")
 
 android {
-    lintOptions {
-        disable "Instantiatable"
-    }
 
     testOptions {
         unitTests {
@@ -103,6 +100,9 @@ android {
         jvmTarget = JavaVersion.VERSION_17
     }
     namespace 'com.ku_stacks.ku_ring'
+    lint {
+        disable 'Instantiatable'
+    }
 }
 
 dependencies {
