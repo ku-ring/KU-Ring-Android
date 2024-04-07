@@ -4,6 +4,12 @@ plugins {
 
 group = "com.ku_stacks.ku_ring.buildlogic"
 
+repositories {
+    google()
+    mavenCentral()
+    gradlePluginPortal()
+}
+
 java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
@@ -16,5 +22,9 @@ dependencies {
 
 gradlePlugin {
     plugins {
+        register("com.ku_stacks.ku_ring.buildlogic.primitive.KotlinPlugin") {
+            id = "com.ku_stacks.ku_ring.buildlogic.primitive.kotlin"
+            implementationClass = "com.ku_stacks.ku_ring.buildlogic.primitive.KotlinPlugin"
+        }
     }
 }
