@@ -38,5 +38,9 @@ gradlePlugin {
             id = "com.ku_stacks.ku_ring.buildlogic.primitive.hilt"
             implementationClass = "com.ku_stacks.ku_ring.buildlogic.primitive.HiltPlugin"
         }
+        register("com.ku_stacks.ku_ring.buildlogic.primitive.RoomPlugin") {
+            id = "com.ku_stacks.ku_ring.buildlogic.primitive.room"
+            implementationClass = "com.ku_stacks.ku_ring.buildlogic.primitive.RoomPlugin"
+        }
     }
 }
