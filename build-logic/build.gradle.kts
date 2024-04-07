@@ -26,5 +26,9 @@ gradlePlugin {
             id = "com.ku_stacks.ku_ring.buildlogic.primitive.kotlin"
             implementationClass = "com.ku_stacks.ku_ring.buildlogic.primitive.KotlinPlugin"
         }
+        register("com.ku_stacks.ku_ring.buildlogic.primitive.ComposePlugin") {
+            id = "com.ku_stacks.ku_ring.buildlogic.primitive.compose"
+            implementationClass = "com.ku_stacks.ku_ring.buildlogic.primitive.ComposePlugin"
+        }
     }
 }
