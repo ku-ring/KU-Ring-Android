@@ -45,8 +45,20 @@ fun DependencyHandlerScope.androidTestImplementation(
     add("androidTestImplementation", artifact)
 }
 
+fun DependencyHandlerScope.androidTestImplementation(
+    artifact: ExternalModuleDependencyBundle,
+) {
+    add("androidTestImplementation", artifact)
+}
+
 fun DependencyHandlerScope.testImplementation(
     artifact: MinimalExternalModuleDependency,
+) {
+    add("testImplementation", artifact)
+}
+
+fun DependencyHandlerScope.testImplementation(
+    artifact: ExternalModuleDependencyBundle,
 ) {
     add("testImplementation", artifact)
 }

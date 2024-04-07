@@ -50,5 +50,9 @@ gradlePlugin {
             id = "com.ku_stacks.ku_ring.buildlogic.primitive.retrofit"
             implementationClass = "com.ku_stacks.ku_ring.buildlogic.primitive.RetrofitPlugin"
         }
+        register("com.ku_stacks.ku_ring.buildlogic.primitive.TestPlugin") {
+            id = "com.ku_stacks.ku_ring.buildlogic.primitive.test"
+            implementationClass = "com.ku_stacks.ku_ring.buildlogic.primitive.TestPlugin"
+        }
     }
 }
