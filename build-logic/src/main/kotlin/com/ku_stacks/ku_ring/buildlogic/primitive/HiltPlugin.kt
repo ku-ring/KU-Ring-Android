@@ -1,5 +1,11 @@
 package com.ku_stacks.ku_ring.buildlogic.primitive
 
+import com.ku_stacks.ku_ring.buildlogic.dsl.androidTestImplementation
+import com.ku_stacks.ku_ring.buildlogic.dsl.implementation
+import com.ku_stacks.ku_ring.buildlogic.dsl.kapt
+import com.ku_stacks.ku_ring.buildlogic.dsl.library
+import com.ku_stacks.ku_ring.buildlogic.dsl.libs
+import com.ku_stacks.ku_ring.buildlogic.dsl.testImplementation
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies

@@ -1,6 +1,9 @@
 package com.ku_stacks.ku_ring.buildlogic.primitive
 
 import com.android.build.gradle.BaseExtension
+import com.ku_stacks.ku_ring.buildlogic.dsl.implementation
+import com.ku_stacks.ku_ring.buildlogic.dsl.library
+import com.ku_stacks.ku_ring.buildlogic.dsl.libs
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project

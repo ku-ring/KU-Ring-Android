@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.buildlogic.primitive
+package com.ku_stacks.ku_ring.buildlogic.dsl
 
 import org.gradle.api.Project
 import org.gradle.api.artifacts.ExternalModuleDependencyBundle
