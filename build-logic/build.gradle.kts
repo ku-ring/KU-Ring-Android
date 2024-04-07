@@ -30,5 +30,9 @@ gradlePlugin {
             id = "com.ku_stacks.ku_ring.buildlogic.primitive.compose"
             implementationClass = "com.ku_stacks.ku_ring.buildlogic.primitive.ComposePlugin"
         }
+        register("com.ku_stacks.ku_ring.buildlogic.primitive.FirebasePlugin") {
+            id = "com.ku_stacks.ku_ring.buildlogic.primitive.firebase"
+            implementationClass = "com.ku_stacks.ku_ring.buildlogic.primitive.FirebasePlugin"
+        }
     }
 }
