@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
@@ -48,7 +47,6 @@ fun NoticeItem(
     contentVerticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     content: @Composable (() -> Unit)? = null,
 ) {
-    // TODO: 중요 공지일 경우 배경색을 초록색으로 바꾸고, [중요] 태그 보여주기
     val background =
         if (notice.isImportant) KuringTheme.colors.mainPrimarySelected else KuringTheme.colors.background
     Row(
@@ -82,7 +80,7 @@ private fun NoticeItemContent(
     notice: Notice,
     modifier: Modifier = Modifier,
 ) {
-    Box(modifier = modifier.heightIn(min = 64.dp)) {
+    Box(modifier = modifier) {
         Column(
             modifier = Modifier.align(Alignment.CenterStart),
             verticalArrangement = Arrangement.spacedBy(4.dp),
