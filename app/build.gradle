@@ -73,14 +73,13 @@ android {
     }
 
     buildTypes {
+        // 서버 URL은 :data:remote에 선언되어 있음
         debug {
             minifyEnabled false
             manifestPlaceholders = [
                     appName : "@string/app_name_debug",
                     appIcon : "@drawable/ic_ku_ring_launcher_dev"
             ]
-            // 서버 URL은 :data:remote 모듈에 선언되어 있음
-
             applicationIdSuffix '.debug'
         }
 
