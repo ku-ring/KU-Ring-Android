@@ -62,5 +62,9 @@ gradlePlugin {
             id = "com.ku_stacks.ku_ring.buildlogic.kotlin"
             implementationClass = "com.ku_stacks.ku_ring.buildlogic.convention.KotlinJvmPlugin"
         }
+        register("com.ku_stacks.ku_ring.buildlogic.convention.ViewBasedFeaturePlugin") {
+            id = "com.ku_stacks.ku_ring.buildlogic.view"
+            implementationClass = "com.ku_stacks.ku_ring.buildlogic.convention.ViewBasedFeaturePlugin"
+        }
     }
 }
