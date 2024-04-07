@@ -3,7 +3,7 @@ package com.ku_stacks.ku_ring.buildlogic.dsl
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 
-internal fun Project.configureAndroidLibrary() {
+fun Project.configureAndroidLibrary() {
     android {
         setCompileSdkVersion(libs.version("compileSdk").toInt())
 

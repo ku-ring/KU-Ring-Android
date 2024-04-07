@@ -1,5 +1,6 @@
 package com.ku_stacks.ku_ring.buildlogic.convention
 
+import com.ku_stacks.ku_ring.buildlogic.dsl.configureAndroidLibrary
 import com.ku_stacks.ku_ring.buildlogic.primitive.CommonAndroidPlugin
 import com.ku_stacks.ku_ring.buildlogic.primitive.ComposePlugin
 import com.ku_stacks.ku_ring.buildlogic.primitive.FirebasePlugin
@@ -11,10 +12,15 @@ import org.gradle.kotlin.dsl.apply
 
 class ComposePlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
+        with(plugins) {
+            apply("com.android.library")
+        }
+
+        apply<KotlinPlugin>()
         apply<CommonAndroidPlugin>()
         apply<FirebasePlugin>()
         apply<HiltPlugin>()
         apply<ComposePlugin>()
-        apply<KotlinPlugin>()
+        configureAndroidLibrary()
     }
 }

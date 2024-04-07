@@ -1,7 +1,5 @@
 package com.ku_stacks.ku_ring.buildlogic.primitive
 
-import com.ku_stacks.ku_ring.buildlogic.dsl.bundle
-import com.ku_stacks.ku_ring.buildlogic.dsl.implementation
 import com.ku_stacks.ku_ring.buildlogic.dsl.implementationPlatform
 import com.ku_stacks.ku_ring.buildlogic.dsl.library
 import com.ku_stacks.ku_ring.buildlogic.dsl.libs
@@ -14,12 +12,12 @@ class FirebasePlugin : Plugin<Project> {
         with(target) {
             with(pluginManager) {
                 apply("com.google.gms.google-services")
-                apply("com.google.firebase:firebase-crashlytics-gradle")
+                apply("com.google.firebase.crashlytics")
             }
 
             dependencies {
                 implementationPlatform(libs.library("firebase-bom"))
-                implementation(libs.bundle("firebase"))
+                "implementation"(libs.findBundle("firebase").get())
             }
         }
     }

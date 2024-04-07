@@ -27,7 +27,6 @@ class ComposePlugin: Plugin<Project> {
                 implementation(libs.library("compose-material3"))
                 implementation(libs.library("compose-material-icons-core"))
                 implementation(libs.library("compose-material-icons-extended"))
-                implementation(libs.library("composeUiToolingPreview"))
                 implementation(libs.library("androidx-activity-compose"))
                 implementation(libs.library("androidx-constraintlayout-compose"))
                 implementation(libs.library("androidx-lifecycle-viewmodel-compose"))

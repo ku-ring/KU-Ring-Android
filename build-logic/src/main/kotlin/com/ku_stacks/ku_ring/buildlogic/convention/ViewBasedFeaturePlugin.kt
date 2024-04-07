@@ -1,6 +1,7 @@
 package com.ku_stacks.ku_ring.buildlogic.convention
 
 import com.android.build.gradle.BaseExtension
+import com.ku_stacks.ku_ring.buildlogic.dsl.configureAndroidLibrary
 import com.ku_stacks.ku_ring.buildlogic.dsl.debugImplementation
 import com.ku_stacks.ku_ring.buildlogic.dsl.implementation
 import com.ku_stacks.ku_ring.buildlogic.dsl.library
@@ -21,6 +22,10 @@ class ViewBasedFeaturePlugin: Plugin<Project> {
         apply<FirebasePlugin>()
         apply<HiltPlugin>()
         apply<KotlinPlugin>()
+        configureAndroidLibrary()
+        with(pluginManager) {
+            apply("com.android.library")
+        }
 
         extensions.getByType<BaseExtension>().apply {
             buildFeatures.apply {
