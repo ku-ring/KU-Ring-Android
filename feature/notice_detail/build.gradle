@@ -58,6 +58,7 @@ dependencies {
     kaptTest libs.hilt.compiler
 
     // retrofit
+    implementation platform(libs.retrofit.bom)
     implementation libs.bundles.retrofit
 
     // Timber

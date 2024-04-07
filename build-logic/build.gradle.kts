@@ -46,5 +46,9 @@ gradlePlugin {
             id = "com.ku_stacks.ku_ring.buildlogic.primitive.okhttp"
             implementationClass = "com.ku_stacks.ku_ring.buildlogic.primitive.OkHttpPlugin"
         }
+        register("com.ku_stacks.ku_ring.buildlogic.primitive.RetrofitPlugin") {
+            id = "com.ku_stacks.ku_ring.buildlogic.primitive.retrofit"
+            implementationClass = "com.ku_stacks.ku_ring.buildlogic.primitive.RetrofitPlugin"
+        }
     }
 }

@@ -67,6 +67,7 @@ dependencies {
     implementation libs.timber
 
     // retrofit
+    implementation platform(libs.retrofit.bom)
     implementation libs.bundles.retrofit
 
     // tests

@@ -67,6 +67,7 @@ dependencies {
     testFixturesImplementation libs.androidx.lifecycle.livedata
 
     // retrofit
+    implementation platform(libs.retrofit.bom)
     implementation libs.bundles.retrofit
 
     // okHttp

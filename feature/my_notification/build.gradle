@@ -65,6 +65,7 @@ dependencies {
     implementation libs.holdableswipehandler
 
     // retrofit
+    implementation platform(libs.retrofit.bom)
     implementation libs.bundles.retrofit
 
     // tag library

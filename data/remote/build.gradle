@@ -62,6 +62,7 @@ dependencies {
     testImplementation libs.kotlinx.coroutines.test
 
     // retrofit
+    implementation platform(libs.retrofit.bom)
     implementation libs.bundles.retrofit
 
     // Timber

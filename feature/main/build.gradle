@@ -94,6 +94,7 @@ dependencies {
     implementation libs.bundles.paging
 
     // retrofit
+    implementation platform(libs.retrofit.bom)
     implementation libs.bundles.retrofit
 
     // Shimmer effect
