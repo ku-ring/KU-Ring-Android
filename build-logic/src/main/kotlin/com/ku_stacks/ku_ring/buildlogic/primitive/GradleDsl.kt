@@ -27,6 +27,12 @@ fun DependencyHandlerScope.implementation(
     add("implementation", artifact)
 }
 
+fun DependencyHandlerScope.kapt(
+    artifact: MinimalExternalModuleDependency,
+) {
+    add("kapt", artifact)
+}
+
 fun DependencyHandlerScope.debugImplementation(
     artifact: MinimalExternalModuleDependency,
 ) {
