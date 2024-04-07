@@ -54,5 +54,9 @@ gradlePlugin {
             id = "com.ku_stacks.ku_ring.buildlogic.primitive.test"
             implementationClass = "com.ku_stacks.ku_ring.buildlogic.primitive.TestPlugin"
         }
+        register("com.ku_stacks.ku_ring.buildlogic.primitive.CommonAndroidPlugin") {
+            id = "com.ku_stacks.ku_ring.buildlogic.primitive.common-android"
+            implementationClass = "com.ku_stacks.ku_ring.buildlogic.primitive.CommonAndroidPlugin"
+        }
     }
 }
