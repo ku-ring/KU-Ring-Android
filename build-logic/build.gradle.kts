@@ -66,5 +66,9 @@ gradlePlugin {
             id = "com.ku_stacks.ku_ring.buildlogic.view"
             implementationClass = "com.ku_stacks.ku_ring.buildlogic.convention.ViewBasedFeaturePlugin"
         }
+        register("com.ku_stacks.ku_ring.buildlogic.convention.ComposePlugin") {
+            id = "com.ku_stacks.ku_ring.buildlogic.compose"
+            implementationClass = "com.ku_stacks.ku_ring.buildlogic.convention.ComposePlugin"
+        }
     }
 }
