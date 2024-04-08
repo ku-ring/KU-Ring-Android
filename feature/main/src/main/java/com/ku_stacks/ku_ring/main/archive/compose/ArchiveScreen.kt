@@ -27,6 +27,7 @@ import com.ku_stacks.ku_ring.main.archive.compose.components.ArchivedNotices
 import com.ku_stacks.ku_ring.main.archive.compose.components.DeleteArchivedNoticesAlertDialog
 import com.ku_stacks.ku_ring.thirdparty.di.LocalNavigator
 import com.ku_stacks.ku_ring.ui_util.preview_data.previewNotices
+import com.ku_stacks.ku_ring.util.findActivity
 
 @Composable
 fun ArchiveScreen(
@@ -39,7 +40,7 @@ fun ArchiveScreen(
     val isAllNoticesSelected by viewModel.isAllNoticesSelected.collectAsState()
     var isDeleteDialogVisible by rememberSaveable { mutableStateOf(false) }
     val navigator = LocalNavigator.current
-    val context = LocalContext.current as Activity
+    val context = LocalContext.current.findActivity()
 
     ArchiveScreen(
         isSelectModeEnabled = isSelectModeEnabled,
@@ -53,7 +54,7 @@ fun ArchiveScreen(
         notices = notices,
         onNoticeClick = { notice ->
             viewModel.updateNoticeAsReadOnStorage(notice)
-            navigator.navigateToNoticeWeb(context, notice)
+            context?.let { navigator.navigateToNoticeWeb(it, notice) }
         },
         selectedNoticeIds = selectedNoticeIds,
         toggleNoticeSelection = viewModel::toggleNoticeSelection,
