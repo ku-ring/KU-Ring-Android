@@ -16,17 +16,9 @@ android {
     setNameSpace("util")
 
     defaultConfig {
-        consumerProguardFiles("consumer-rules.pro")
         buildConfigField("String", "APPS_FLYER_DEV_KEY", properties["APPS_FLYER_DEV_KEY"] as? String ?: "")
         buildConfigField("String", "SENDBIRD_APP_ID", properties["SENDBIRD_APP_ID"] as? String ?: "")
         buildConfigField("String", "SENDBIRD_API_TOKEN", properties["SENDBIRD_API_TOKEN"] as? String ?: "")
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
     }
     testFixtures {
         enable = true
