@@ -7,7 +7,6 @@ import com.ku_stacks.ku_ring.buildlogic.dsl.implementation
 import com.ku_stacks.ku_ring.buildlogic.dsl.library
 import com.ku_stacks.ku_ring.buildlogic.dsl.libs
 import com.ku_stacks.ku_ring.buildlogic.primitive.CommonAndroidPlugin
-import com.ku_stacks.ku_ring.buildlogic.primitive.FirebasePlugin
 import com.ku_stacks.ku_ring.buildlogic.primitive.HiltPlugin
 import com.ku_stacks.ku_ring.buildlogic.primitive.KotlinPlugin
 import org.gradle.api.Plugin
