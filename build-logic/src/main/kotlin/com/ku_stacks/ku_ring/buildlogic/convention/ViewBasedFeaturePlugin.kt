@@ -18,14 +18,14 @@ import org.gradle.kotlin.dsl.getByType
 
 class ViewBasedFeaturePlugin: Plugin<Project> {
     override fun apply(target: Project) = with(target) {
-        apply<CommonAndroidPlugin>()
-        apply<FirebasePlugin>()
-        apply<HiltPlugin>()
-        apply<KotlinPlugin>()
-        configureAndroidLibrary()
         with(pluginManager) {
             apply("com.android.library")
         }
+
+        apply<KotlinPlugin>()
+        apply<CommonAndroidPlugin>()
+        apply<HiltPlugin>()
+        configureAndroidLibrary()
 
         extensions.getByType<BaseExtension>().apply {
             buildFeatures.apply {
