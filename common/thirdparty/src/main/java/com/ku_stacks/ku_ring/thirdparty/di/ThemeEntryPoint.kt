@@ -21,10 +21,10 @@ val LocalNavigator = staticCompositionLocalOf<KuringNavigator> {
     error("No Navigator Provided")
 }
 
-val LocalPreferences = staticCompositionLocalOf {
+val LocalPreferences = staticCompositionLocalOf<PreferenceUtil> {
     error("No Preferences Provided")
 }
 
-val LocalAnalytics = staticCompositionLocalOf {
+val LocalAnalytics = staticCompositionLocalOf<EventAnalytics> {
     error("No Analytics Provided")
 }
