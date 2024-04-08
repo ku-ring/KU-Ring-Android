@@ -12,14 +12,13 @@ import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.main.archive.compose.ArchiveScreen
 import com.ku_stacks.ku_ring.main.databinding.FragmentArchiveBinding
+import com.ku_stacks.ku_ring.thirdparty.compose.KuringCompositionLocalProvider
 import com.ku_stacks.ku_ring.ui_util.KuringNavigator
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class ArchiveFragment : Fragment() {
-    @Inject
-    lateinit var navigator: KuringNavigator
 
     private var _binding: FragmentArchiveBinding? = null
     private val binding: FragmentArchiveBinding
@@ -42,19 +41,16 @@ class ArchiveFragment : Fragment() {
 
     private fun setComposable() {
         binding.composeView.setContent {
-            KuringThemeTest {
-                ArchiveScreen(
-                    onNoticeClick = ::startNoticeActivity,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(KuringTheme.colors.background),
-                )
+            KuringCompositionLocalProvider {
+                KuringTheme {
+                    ArchiveScreen(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(KuringTheme.colors.background),
+                    )
+                }
             }
         }
-    }
-
-    private fun startNoticeActivity(notice: Notice) {
-        navigator.navigateToNoticeWeb(requireActivity(), notice)
     }
 
     override fun onDestroyView() {

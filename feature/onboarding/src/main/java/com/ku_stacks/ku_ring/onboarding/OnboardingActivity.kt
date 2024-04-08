@@ -10,46 +10,40 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.onboarding.compose.OnboardingScreen
-import com.ku_stacks.ku_ring.preferences.PreferenceUtil
-import com.ku_stacks.ku_ring.thirdparty.firebase.analytics.EventAnalytics
-import com.ku_stacks.ku_ring.ui_util.KuringNavigator
+import com.ku_stacks.ku_ring.thirdparty.compose.KuringCompositionLocalProvider
+import com.ku_stacks.ku_ring.thirdparty.di.LocalAnalytics
+import com.ku_stacks.ku_ring.thirdparty.di.LocalNavigator
+import com.ku_stacks.ku_ring.thirdparty.di.LocalPreferences
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class OnboardingActivity : AppCompatActivity() {
-    @Inject
-    lateinit var analytics: EventAnalytics
-
-    @Inject
-    lateinit var pref: PreferenceUtil
-
-    @Inject
-    lateinit var navigator: KuringNavigator
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
-            KuringTheme {
-                OnboardingScreen(
-                    onNavigateToMain = ::onNavigateToMain,
-                    modifier = Modifier
-                        .background(KuringTheme.colors.background)
-                        .fillMaxSize(),
-                )
+            KuringCompositionLocalProvider {
+                val navigator = LocalNavigator.current
+                val analytics = LocalAnalytics.current
+                val preferences = LocalPreferences.current
+                KuringTheme {
+                    OnboardingScreen(
+                        onNavigateToMain = {
+                            navigator.navigateToMain(this)
+                            analytics.click(
+                                screenName = "start first Subscription Notification",
+                                screenClass = "OnboardingActivity",
+                            )
+                            preferences.firstRunFlag = false
+                            finish()
+                        },
+                        modifier = Modifier
+                            .background(KuringTheme.colors.background)
+                            .fillMaxSize(),
+                    )
+                }
             }
         }
-    }
-
-    private fun onNavigateToMain() {
-        navigator.navigateToMain(this)
-        analytics.click(
-            screenName = "start first Subscription Notification",
-            screenClass = "OnboardingActivity",
-        )
-        pref.firstRunFlag = false
-        finish()
     }
 
     companion object {
