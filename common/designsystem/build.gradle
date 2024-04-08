@@ -1,8 +1,6 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
-    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -46,7 +44,4 @@ dependencies {
     implementation platform(libs.compose.bom)
     implementation libs.bundles.compose
     implementation libs.bundles.compose.interop
-
-    implementation libs.hilt.android
-    kapt libs.hilt.compiler
 }
