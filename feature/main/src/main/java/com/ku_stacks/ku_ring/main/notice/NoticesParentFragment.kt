@@ -15,6 +15,8 @@ import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.databinding.FragmentNoticeBinding
 import com.ku_stacks.ku_ring.main.notice.compose.NoticeScreen
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
+import com.ku_stacks.ku_ring.thirdparty.compose.KuringCompositionLocalProvider
+import com.ku_stacks.ku_ring.thirdparty.di.LocalNavigator
 import com.ku_stacks.ku_ring.ui_util.KuringNavigator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -29,9 +31,6 @@ class NoticesParentFragment : Fragment() {
 
     @Inject
     lateinit var firebaseMessaging: FirebaseMessaging
-
-    @Inject
-    lateinit var navigator: KuringNavigator
 
     private var _binding: FragmentNoticeBinding? = null
     private val binding
@@ -50,24 +49,27 @@ class NoticesParentFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.composeView.setContent {
-            KuringTheme {
-                NoticeScreen(
-                    onSearchIconClick = {
-                        navigator.navigateToSearch(requireActivity())
-                    },
-                    onNotificationIconClick = {
-                        navigator.navigateToEditSubscription(requireActivity())
-                    },
-                    onNoticeClick = {
-                        navigator.navigateToNoticeWeb(requireActivity(), it)
-                    },
-                    onNavigateToEditDepartment = {
-                        navigator.navigateToEditSubscribedDepartment(requireActivity())
-                    },
-                    modifier = Modifier
-                        .background(KuringTheme.colors.background)
-                        .fillMaxSize(),
-                )
+            KuringCompositionLocalProvider {
+                val navigator = LocalNavigator.current
+                KuringTheme {
+                    NoticeScreen(
+                        onSearchIconClick = {
+                            navigator.navigateToSearch(requireActivity())
+                        },
+                        onNotificationIconClick = {
+                            navigator.navigateToEditSubscription(requireActivity())
+                        },
+                        onNoticeClick = {
+                            navigator.navigateToNoticeWeb(requireActivity(), it)
+                        },
+                        onNavigateToEditDepartment = {
+                            navigator.navigateToEditSubscribedDepartment(requireActivity())
+                        },
+                        modifier = Modifier
+                            .background(KuringTheme.colors.background)
+                            .fillMaxSize(),
+                    )
+                }
             }
         }
         getFcmToken()
