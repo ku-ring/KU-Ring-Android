@@ -11,8 +11,8 @@ import org.gradle.kotlin.dsl.dependencies
 class TestPlugin: Plugin<Project> {
     override fun apply(target: Project) = with(target) {
         dependencies {
-            testImplementation(libs.bundle("unit-test"))
-            androidTestImplementation(libs.bundle("android-test"))
+            "testImplementation"(libs.findBundle("unit-test").get())
+            "androidTestImplementation"(libs.findBundle("android-test").get())
         }
     }
 }
