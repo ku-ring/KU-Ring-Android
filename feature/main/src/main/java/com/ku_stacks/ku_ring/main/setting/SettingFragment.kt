@@ -21,15 +21,13 @@ import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.databinding.FragmentSettingBinding
 import com.ku_stacks.ku_ring.main.setting.compose.OpenSourceActivity
 import com.ku_stacks.ku_ring.main.setting.compose.inner_screen.SettingScreen
+import com.ku_stacks.ku_ring.thirdparty.compose.KuringCompositionLocalProvider
+import com.ku_stacks.ku_ring.thirdparty.di.LocalNavigator
 import com.ku_stacks.ku_ring.ui_util.KuringNavigator
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class SettingFragment : Fragment() {
-
-    @Inject
-    lateinit var navigator: KuringNavigator
 
     private var _binding: FragmentSettingBinding? = null
     private val binding
@@ -57,29 +55,31 @@ class SettingFragment : Fragment() {
 
         binding.composeView.setContent {
             val isExtNotificationAllowed by viewModel.isExtNotificationAllowed.collectAsState()
-
-            KuringTheme {
-                SettingScreen(
-                    onNavigateToEditSubscription = { navigator.navigateToEditSubscription(activity) },
-                    isExtNotificationEnabled = isExtNotificationAllowed,
-                    onExtNotificationEnabledToggle = viewModel::setExtNotificationAllowed,
-                    onNavigateToUpdateLog = { startWebViewActivity(R.string.notion_new_contents_url) },
-                    onNavigateToKuringTeam = { startWebViewActivity(R.string.notion_kuring_team_url) },
-                    onNavigateToPrivacyPolicy = { startWebViewActivity(R.string.notion_privacy_policy_url) },
-                    onNavigateToServiceTerms = { startWebViewActivity(R.string.notion_terms_of_service_url) },
-                    onNavigateToOpenSources = ::navigateToOpenSources,
-                    onNavigateToKuringInstagram = ::navigateToKuringInstagram,
-                    onNavigateToFeedback = { navigator.navigateToFeedback(activity) },
-                    modifier = Modifier
-                        .background(KuringTheme.colors.background)
-                        .fillMaxWidth()
-                        .wrapContentHeight(),
-                )
+            KuringCompositionLocalProvider{
+                val navigator = LocalNavigator.current
+                KuringTheme {
+                    SettingScreen(
+                        onNavigateToEditSubscription = { navigator.navigateToEditSubscription(activity) },
+                        isExtNotificationEnabled = isExtNotificationAllowed,
+                        onExtNotificationEnabledToggle = viewModel::setExtNotificationAllowed,
+                        onNavigateToUpdateLog = { startWebViewActivity(navigator, R.string.notion_new_contents_url) },
+                        onNavigateToKuringTeam = { startWebViewActivity(navigator, R.string.notion_kuring_team_url) },
+                        onNavigateToPrivacyPolicy = { startWebViewActivity(navigator, R.string.notion_privacy_policy_url) },
+                        onNavigateToServiceTerms = { startWebViewActivity(navigator, R.string.notion_terms_of_service_url) },
+                        onNavigateToOpenSources = ::navigateToOpenSources,
+                        onNavigateToKuringInstagram = ::navigateToKuringInstagram,
+                        onNavigateToFeedback = { navigator.navigateToFeedback(activity) },
+                        modifier = Modifier
+                            .background(KuringTheme.colors.background)
+                            .fillMaxWidth()
+                            .wrapContentHeight(),
+                    )
+                }
             }
         }
     }
 
-    private fun startWebViewActivity(@StringRes urlId: Int) {
+    private fun startWebViewActivity(navigator: KuringNavigator, @StringRes urlId: Int) {
         val url = getString(urlId)
         navigator.navigateToNotionView(requireActivity(), url)
         requireActivity().overridePendingTransition(
