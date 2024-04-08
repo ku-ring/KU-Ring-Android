@@ -1,9 +1,11 @@
+import com.ku_stacks.ku_ring.buildlogic.dsl.setNameSpace
+
 plugins {
     kuring("feature")
 }
 
 android {
-    namespace = "com.ku_stacks.ku_ring.work"
+    setNameSpace("work")
 
     defaultConfig {
         consumerProguardFiles("consumer-rules.pro")
