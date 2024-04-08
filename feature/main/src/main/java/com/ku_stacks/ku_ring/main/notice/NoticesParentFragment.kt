@@ -17,10 +17,8 @@ import com.ku_stacks.ku_ring.main.notice.compose.NoticeScreen
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.thirdparty.compose.KuringCompositionLocalProvider
 import com.ku_stacks.ku_ring.thirdparty.di.LocalNavigator
-import com.ku_stacks.ku_ring.ui_util.KuringNavigator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint

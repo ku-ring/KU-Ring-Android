@@ -13,15 +13,12 @@ import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.mapper.toWebViewNotice
 import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.search.compose.SearchScreen
-import com.ku_stacks.ku_ring.ui_util.KuringNavigator
+import com.ku_stacks.ku_ring.thirdparty.compose.KuringCompositionLocalProvider
+import com.ku_stacks.ku_ring.thirdparty.di.LocalNavigator
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class SearchActivity : AppCompatActivity() {
-
-    @Inject
-    lateinit var navigator: KuringNavigator
 
     private val viewModel by viewModels<SearchViewModel>()
 
@@ -33,15 +30,18 @@ class SearchActivity : AppCompatActivity() {
 
     private fun setupView() {
         setContent {
-            KuringTheme {
-                SearchScreen(
-                    viewModel = viewModel,
-                    onNavigationClick = { finish() },
-                    onClickNotice = { navigator.navigateToNoticeWeb(this, it.toWebViewNotice()) },
-                    modifier = Modifier
-                        .background(KuringTheme.colors.background)
-                        .fillMaxSize(),
-                )
+            KuringCompositionLocalProvider {
+                val navigator = LocalNavigator.current
+                KuringTheme {
+                    SearchScreen(
+                        viewModel = viewModel,
+                        onNavigationClick = { finish() },
+                        onClickNotice = { navigator.navigateToNoticeWeb(this, it.toWebViewNotice()) },
+                        modifier = Modifier
+                            .background(KuringTheme.colors.background)
+                            .fillMaxSize(),
+                    )
+                }
             }
         }
     }
