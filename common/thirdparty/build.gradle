@@ -43,6 +43,7 @@ dependencies {
     implementation project(":common:ui_util")
     implementation project(":common:preferences")
     implementation project(":common:work")
+    implementation project(":common:designsystem")
 
     // dagger hilt
     kapt libs.androidx.hilt.compiler

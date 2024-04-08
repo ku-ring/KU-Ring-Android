@@ -39,7 +39,6 @@ android {
 
 dependencies {
     implementation project(":data:domain")
-    implementation project(":common:thirdparty")
 
     implementation libs.androidx.core.ktx
 
