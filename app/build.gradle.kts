@@ -35,8 +35,6 @@ android {
 
     defaultConfig {
         applicationId = "com.ku_stacks.ku_ring"
-        versionCode = 29
-        versionName = "1.3.6"
 
         val localProperties = Properties()
         localProperties.load(FileInputStream(localPropertiesFile))

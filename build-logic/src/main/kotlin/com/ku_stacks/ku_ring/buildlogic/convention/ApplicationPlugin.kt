@@ -7,6 +7,7 @@ import com.ku_stacks.ku_ring.buildlogic.dsl.implementation
 import com.ku_stacks.ku_ring.buildlogic.dsl.library
 import com.ku_stacks.ku_ring.buildlogic.dsl.libs
 import com.ku_stacks.ku_ring.buildlogic.dsl.testImplementation
+import com.ku_stacks.ku_ring.buildlogic.dsl.version
 import com.ku_stacks.ku_ring.buildlogic.primitive.CommonAndroidPlugin
 import com.ku_stacks.ku_ring.buildlogic.primitive.HiltPlugin
 import com.ku_stacks.ku_ring.buildlogic.primitive.KotlinPlugin
@@ -27,6 +28,10 @@ class ApplicationPlugin: Plugin<Project> {
         apply<HiltPlugin>()
         configureAndroidLibrary()
         extensions.configure<ApplicationExtension> {
+            defaultConfig {
+                versionCode = libs.version("versionCode").toInt()
+                versionName = libs.version("appVersion")
+            }
             buildTypes {
                 release {
                     isMinifyEnabled = false
