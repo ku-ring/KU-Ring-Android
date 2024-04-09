@@ -33,6 +33,18 @@ fun DependencyHandlerScope.kapt(
     add("kapt", artifact)
 }
 
+fun DependencyHandlerScope.kaptTest(
+    artifact: MinimalExternalModuleDependency,
+) {
+    add("kaptTest", artifact)
+}
+
+fun DependencyHandlerScope.kaptAndroidTest(
+    artifact: MinimalExternalModuleDependency,
+) {
+    add("kaptAndroidTest", artifact)
+}
+
 fun DependencyHandlerScope.debugImplementation(
     artifact: MinimalExternalModuleDependency,
 ) {

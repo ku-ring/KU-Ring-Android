@@ -3,6 +3,8 @@ package com.ku_stacks.ku_ring.buildlogic.primitive
 import com.ku_stacks.ku_ring.buildlogic.dsl.androidTestImplementation
 import com.ku_stacks.ku_ring.buildlogic.dsl.implementation
 import com.ku_stacks.ku_ring.buildlogic.dsl.kapt
+import com.ku_stacks.ku_ring.buildlogic.dsl.kaptAndroidTest
+import com.ku_stacks.ku_ring.buildlogic.dsl.kaptTest
 import com.ku_stacks.ku_ring.buildlogic.dsl.library
 import com.ku_stacks.ku_ring.buildlogic.dsl.libs
 import com.ku_stacks.ku_ring.buildlogic.dsl.testImplementation
@@ -24,6 +26,8 @@ class HiltPlugin: Plugin<Project> {
             kapt(libs.library("hilt-compiler"))
             testImplementation(libs.library("hilt-android-testing"))
             androidTestImplementation(libs.library("hilt-android-testing"))
+            kaptTest(libs.library("hilt-compiler"))
+            kaptAndroidTest(libs.library("hilt-compiler"))
         }
     }
 }

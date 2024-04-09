@@ -70,5 +70,9 @@ gradlePlugin {
             id = "com.ku_stacks.ku_ring.buildlogic.compose"
             implementationClass = "com.ku_stacks.ku_ring.buildlogic.convention.ComposePlugin"
         }
+        register("com.ku_stacks.ku_ring.buildlogic.convention.FeaturePlugin") {
+            id = "com.ku_stacks.ku_ring.buildlogic.feature"
+            implementationClass = "com.ku_stacks.ku_ring.buildlogic.convention.FeaturePlugin"
+        }
     }
 }
