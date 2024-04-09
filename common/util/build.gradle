@@ -49,6 +49,7 @@ dependencies {
     implementation project(":common:ui_util")
 
     implementation libs.androidx.core.ktx
+    implementation libs.androidx.appcompat
 
     // coroutines
     implementation libs.bundles.coroutines

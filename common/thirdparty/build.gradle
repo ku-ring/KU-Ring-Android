@@ -22,6 +22,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
@@ -37,6 +43,7 @@ dependencies {
     implementation project(":common:ui_util")
     implementation project(":common:preferences")
     implementation project(":common:work")
+    implementation project(":common:designsystem")
 
     // dagger hilt
     kapt libs.androidx.hilt.compiler
@@ -50,6 +57,9 @@ dependencies {
     // firebase
     implementation platform(libs.firebase.bom)
     implementation libs.bundles.firebase
+
+    implementation platform(libs.compose.bom)
+    implementation libs.bundles.compose
 
     // Timber
     implementation libs.timber
