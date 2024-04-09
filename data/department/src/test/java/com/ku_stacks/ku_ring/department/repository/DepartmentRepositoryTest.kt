@@ -24,9 +24,11 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
 @OptIn(ExperimentalCoroutinesApi::class)
+@Config(sdk = [31])
 class DepartmentRepositoryTest {
     private lateinit var departmentRepository: DepartmentRepository
     private lateinit var departmentDao: DepartmentDao

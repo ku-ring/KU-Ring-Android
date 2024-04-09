@@ -5,6 +5,7 @@ plugins {
     kuringPrimitive("retrofit")
     kuringPrimitive("okhttp")
     kuringPrimitive("test")
+    kuringPrimitive("room")
 }
 
 android {
