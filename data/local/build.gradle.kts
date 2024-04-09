@@ -1,11 +1,13 @@
+import com.ku_stacks.ku_ring.buildlogic.dsl.setNameSpace
+
 plugins {
     kuring("feature")
     kuringPrimitive("test")
-    id("java-test-fixtures")
+    `java-test-fixtures`
 }
 
 android {
-    namespace = "com.ku_stacks.ku_ring.local"
+    setNameSpace("local")
 
     testOptions {
         unitTests {
