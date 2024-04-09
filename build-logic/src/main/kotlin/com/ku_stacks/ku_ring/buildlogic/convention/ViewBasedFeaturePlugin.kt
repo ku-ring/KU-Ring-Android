@@ -25,6 +25,7 @@ class ViewBasedFeaturePlugin: Plugin<Project> {
         }
         dependencies {
             implementation(libs.library("androidx-fragment-ktx"))
+            implementation(libs.library("androidx-constraintlayout"))
             debugImplementation(libs.library("androidx-fragment-testing"))
         }
     }
