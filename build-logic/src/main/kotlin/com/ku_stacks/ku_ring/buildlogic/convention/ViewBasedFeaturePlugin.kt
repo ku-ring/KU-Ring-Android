@@ -1,10 +1,10 @@
 package com.ku_stacks.ku_ring.buildlogic.convention
 
 import com.android.build.gradle.BaseExtension
-import com.ku_stacks.ku_ring.buildlogic.dsl.debugImplementation
 import com.ku_stacks.ku_ring.buildlogic.dsl.implementation
 import com.ku_stacks.ku_ring.buildlogic.dsl.library
 import com.ku_stacks.ku_ring.buildlogic.dsl.libs
+import com.ku_stacks.ku_ring.buildlogic.dsl.testImplementation
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
@@ -25,7 +25,8 @@ class ViewBasedFeaturePlugin: Plugin<Project> {
         }
         dependencies {
             implementation(libs.library("androidx-fragment-ktx"))
-            debugImplementation(libs.library("androidx-fragment-testing"))
+            implementation(libs.library("androidx-constraintlayout"))
+            testImplementation(libs.library("androidx-fragment-testing"))
         }
     }
 }
