@@ -10,13 +10,13 @@ android {
 }
 
 dependencies {
-    implementation(project(":common:util"))
-    implementation(project(":common:designsystem"))
-    implementation(project(":common:ui_util"))
-    implementation(project(":common:thirdparty"))
-    implementation(project(":common:preferences"))
-    implementation(project(":data:domain"))
-    implementation(project(":data:department"))
+    implementation(projects.common.util)
+    implementation(projects.common.uiUtil)
+    implementation(projects.common.designsystem)
+    implementation(projects.common.thirdparty)
+    implementation(projects.common.preferences)
+    implementation(projects.data.domain)
+    implementation(projects.data.department)
 
     implementation(libs.bundles.compose.interop)
     implementation(platform(libs.firebase.bom))
