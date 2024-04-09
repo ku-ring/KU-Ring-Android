@@ -1,10 +1,12 @@
+import com.ku_stacks.ku_ring.buildlogic.dsl.setNameSpace
+
 plugins {
     kuring("view")
     kuringPrimitive("retrofit")
 }
 
 android {
-    namespace = "com.ku_stacks.ku_ring.notice_detail"
+    setNameSpace("notice_detail")
 }
 
 dependencies {
