@@ -11,18 +11,15 @@ import androidx.databinding.DataBindingUtil
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.edit_subscription.compose.EditSubscriptionScreen
 import com.ku_stacks.ku_ring.edit_subscription.databinding.ActivityEditSubscriptionBinding
-import com.ku_stacks.ku_ring.ui_util.KuringNavigator
+import com.ku_stacks.ku_ring.thirdparty.compose.KuringCompositionLocalProvider
+import com.ku_stacks.ku_ring.thirdparty.di.LocalNavigator
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class EditSubscriptionActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityEditSubscriptionBinding
     private val viewModel by viewModels<EditSubscriptionViewModel>()
-
-    @Inject
-    lateinit var navigator: KuringNavigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,14 +36,17 @@ class EditSubscriptionActivity : AppCompatActivity() {
     private fun setupView() {
         viewModel.firstRunFlag = intent.getBooleanExtra(FIRST_RUN_FLAG, false)
         binding.composeView.setContent {
-            KuringTheme {
-                EditSubscriptionScreen(
-                    viewModel = viewModel,
-                    onNavigateToBack = ::finish,
-                    onAddDepartmentButtonClick = { navigator.navigateToEditSubscribedDepartment(this) },
-                    onSubscriptionComplete = ::onSubscriptionComplete,
-                    modifier = Modifier.fillMaxSize(),
-                )
+            KuringCompositionLocalProvider {
+                val navigator = LocalNavigator.current
+                KuringTheme {
+                    EditSubscriptionScreen(
+                        viewModel = viewModel,
+                        onNavigateToBack = ::finish,
+                        onAddDepartmentButtonClick = { navigator.navigateToEditSubscribedDepartment(this) },
+                        onSubscriptionComplete = ::onSubscriptionComplete,
+                        modifier = Modifier.fillMaxSize(),
+                    )
+                }
             }
         }
     }
