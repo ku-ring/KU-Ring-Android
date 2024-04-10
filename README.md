@@ -52,6 +52,23 @@ https://play.google.com/store/apps/details?id=com.ku_stacks.ku_ring
 
 <img src="https://github.com/KU-Stacks/KU-Ring-Android/blob/main/preview/%EC%9C%A0%EB%8B%9B%20%ED%85%8C%EC%8A%A4%ED%8A%B8.JPG" width="90%"/>
 
+## Module Graph 생성 방법
+
+```shell
+# macOS 기준
+# 1. 그래프를 시각화하는 오픈소스 설치
+brew install graphviz
+
+# 그래프 생성 Gradle Task 실행
+./gradlew projectDependencyGraph
+
+# windows
+# 설치: https://graphviz.org/download/
+
+# 그래프 생성 Gradle Task 실행
+gradlew projectDependencyGraph
+```
+
 ## Version Updates
 
 ### v.1.2.3
