@@ -8,7 +8,6 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.Room
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.ku_stacks.ku_ring.local.entity.NoticeEntity
 import com.ku_stacks.ku_ring.local.room.KuRingDatabase
@@ -17,7 +16,6 @@ import com.ku_stacks.ku_ring.notice.source.DepartmentNoticeMediator
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.remote.notice.NoticeClient
 import com.ku_stacks.ku_ring.remote.notice.response.DepartmentNoticeListResponse
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertFalse
@@ -29,7 +27,6 @@ import org.mockito.Mockito
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
-@OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [24])
 class DepartmentNoticeMediatorTest {
@@ -61,7 +58,7 @@ class DepartmentNoticeMediatorTest {
 
     private fun initDB() {
         db = Room.inMemoryDatabaseBuilder(
-            ApplicationProvider.getApplicationContext(),
+            getApplicationContext(),
             KuRingDatabase::class.java
         ).allowMainThreadQueries().build()
     }
