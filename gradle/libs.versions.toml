@@ -51,7 +51,7 @@ androidx-swiperefreshlayout = 'androidx.swiperefreshlayout:swiperefreshlayout:1.
 androidx-viewpager2 = 'androidx.viewpager2:viewpager2:1.0.0'
 
 # AndroidX ViewModel
-androidx-lifecycle-viewmodel-ktx = 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
+androidx-lifecycle-viewmodel-ktx = 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0'
 androidx-lifecycle-livedata = 'androidx.lifecycle:lifecycle-livedata:2.7.0'
 androidx-activity-ktx = 'androidx.activity:activity-ktx:1.2.3'
 
