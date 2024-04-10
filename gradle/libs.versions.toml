@@ -157,7 +157,7 @@ junit = 'junit:junit:4.13.2'
 robolectric = 'org.robolectric:robolectric:4.12.1'
 
 # Android Test
-androidx-espresso-core = 'androidx.test.espresso:espresso-core:3.4.0'
+androidx-espresso-core = 'androidx.test.espresso:espresso-core:3.5.1'
 androidx-junit = 'androidx.test.ext:junit:1.1.5'
 mockito-android = 'org.mockito:mockito-android:2.28.2'
 
