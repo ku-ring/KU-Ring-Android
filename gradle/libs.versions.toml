@@ -139,7 +139,7 @@ androidx-room-testing = { module = 'androidx.room:room-testing', version.ref = '
 androidx-room-rxjava3 = { module = 'androidx.room:room-rxjava3', version.ref = 'room' }
 
 # RxJava
-rxandroid = 'io.reactivex.rxjava3:rxandroid:3.0.0'
+rxandroid = 'io.reactivex.rxjava3:rxandroid:3.0.2'
 rxjava = 'io.reactivex.rxjava3:rxjava:3.1.8'
 
 # WorkManager
