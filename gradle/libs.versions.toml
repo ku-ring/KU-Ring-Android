@@ -149,7 +149,7 @@ androidx-work-hilt = 'androidx.hilt:hilt-work:1.0.0'
 
 # Unit Test
 androidx-core-testing = 'androidx.arch.core:core-testing:2.2.0'
-androidx-test-core = 'androidx.test:core:1.4.0'
+androidx-test-core = 'androidx.test:core:1.5.0'
 mockito-core = 'org.mockito:mockito-core:3.5.9'
 mockito-inline = 'org.mockito:mockito-inline:2.21.0'
 mockito-kotlin = 'org.mockito.kotlin:mockito-kotlin:4.0.0'
