@@ -45,4 +45,15 @@ object RetrofitModule {
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .build()
     }
+
+    @Provides
+    @Singleton
+    @Named("KuringSpace")
+    fun provideKuringSpaceRetrofit(@Named("Default") okHttpClient: OkHttpClient): Retrofit {
+        return Retrofit.Builder()
+            .client(okHttpClient)
+            .baseUrl("https://raw.githubusercontent.com/ku-ring/space/main/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
 }
