@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="splash_app_icon">스플래시 화면</string>
+
+    <string name="play_store_url">https://play.google.com/store/apps/details?id=com.ku_stacks.ku_ring</string>
+    <string name="update_dialog_text">원활한 사용자 경험을 위해\n쿠링을 업데이트해 주세요.</string>
+    <string name="update_dialog_confirm">업데이트</string>
+    <string name="update_dialog_dismiss">무시하기</string>
 </resources>
