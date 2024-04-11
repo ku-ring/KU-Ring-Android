@@ -29,9 +29,19 @@ class SplashViewModel @Inject constructor(
         return if (isAppVersionDeprecated(currentVersion)) SplashScreenState.UPDATE_REQUIRED else SplashScreenState.UPDATE_NOT_REQUIRED
     }
 
-    private suspend fun isAppVersionDeprecated(currentVersion: String): Boolean {
-        val minimumVersion = kuringSpaceRepository.getMinimumAppVersion()
+    private suspend fun isAppVersionDeprecated(currentVersion: SemVer): Boolean {
+        val minimumVersion = getMinimumVersion().let {
+            SemVer.parse(it)
+        }
         return currentVersion < minimumVersion
+    }
+
+    private suspend fun getMinimumVersion(): String {
+        return try {
+            kuringSpaceRepository.getMinimumAppVersion()
+        } catch (e: Exception) {
+            "0.0.0"
+        }
     }
 
     fun dismissUpdateNotification() {
