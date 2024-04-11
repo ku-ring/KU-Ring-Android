@@ -13,10 +13,12 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
@@ -56,7 +58,7 @@ class SplashActivity : AppCompatActivity() {
 
         setContent {
             KuringTheme {
-                val screenState by viewModel.splashScreenState.collectAsState()
+                val screenState by viewModel.splashScreenState.collectAsStateWithLifecycle()
                 SplashScreen(
                     screenState = screenState,
                     onUpdateApp = ::navigateToKuringPlayStore,
@@ -98,12 +100,14 @@ class SplashActivity : AppCompatActivity() {
 
     private fun collectScreenState() {
         lifecycleScope.launch(Dispatchers.Default) {
-            viewModel.splashScreenState.collectLatest { screenState ->
-                when (screenState) {
-                    SplashScreenState.INITIAL, SplashScreenState.LOADING, SplashScreenState.UPDATE_REQUIRED -> {}
-                    SplashScreenState.DISMISS_UPDATE, SplashScreenState.UPDATE_NOT_REQUIRED -> {
-                        delay(500)
-                        parseIntent()
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.splashScreenState.collectLatest { screenState ->
+                    when (screenState) {
+                        SplashScreenState.INITIAL, SplashScreenState.LOADING, SplashScreenState.UPDATE_REQUIRED -> {}
+                        SplashScreenState.DISMISS_UPDATE, SplashScreenState.UPDATE_NOT_REQUIRED -> {
+                            delay(500)
+                            parseIntent()
+                        }
                     }
                 }
             }

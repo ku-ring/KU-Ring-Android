@@ -187,6 +187,7 @@ compose-interop = [
     'androidx-paging-compose',
     'androidx-constraintlayout-compose',
     'lottie-compose',
+    'androidx-lifecycle-runtime-compose',
 ]
 coil = [
     'coil',
