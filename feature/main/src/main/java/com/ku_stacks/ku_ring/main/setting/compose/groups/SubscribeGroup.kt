@@ -20,8 +20,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.components.KuringSwitch
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
+import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.theme.values.Pretendard
 import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.setting.compose.components.ChevronIcon
 import com.ku_stacks.ku_ring.main.setting.compose.components.SettingGroup

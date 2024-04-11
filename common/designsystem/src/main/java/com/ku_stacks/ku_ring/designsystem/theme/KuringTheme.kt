@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.designsystem.kuringtheme
+package com.ku_stacks.ku_ring.designsystem.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable

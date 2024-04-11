@@ -22,7 +22,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ku_stacks.ku_ring.designsystem.components.LightPreview
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

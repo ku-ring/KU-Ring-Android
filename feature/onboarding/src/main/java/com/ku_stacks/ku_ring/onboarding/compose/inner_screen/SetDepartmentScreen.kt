@@ -32,8 +32,8 @@ import com.ku_stacks.ku_ring.designsystem.components.DepartmentWithCheckIcon
 import com.ku_stacks.ku_ring.designsystem.components.KuringCallToAction
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.components.SearchTextField
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
+import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.theme.values.Pretendard
 import com.ku_stacks.ku_ring.domain.Department
 import com.ku_stacks.ku_ring.onboarding.R
 import com.ku_stacks.ku_ring.onboarding.compose.OnboardingViewModel

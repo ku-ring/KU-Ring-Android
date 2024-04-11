@@ -26,8 +26,8 @@ import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.components.KuringCallToAction
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.components.pager_indicator.HorizontalSlidingIndicator
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
+import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.theme.values.Pretendard
 import com.ku_stacks.ku_ring.onboarding.R
 import com.ku_stacks.ku_ring.onboarding.compose.inner_screen.feature_tab.FeatureTab
 import com.ku_stacks.ku_ring.onboarding.compose.inner_screen.feature_tab.FeatureTabItem

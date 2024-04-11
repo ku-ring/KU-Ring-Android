@@ -17,7 +17,7 @@ import com.ku_stacks.ku_ring.designsystem.components.KuringScrollableTabRow
 import com.ku_stacks.ku_ring.designsystem.components.KuringScrollableTabRowDefaults
 import com.ku_stacks.ku_ring.designsystem.components.KuringScrollableTabRowDefaults.kuringTabIndicatorOffset
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
 import com.ku_stacks.ku_ring.main.notice.NoticeScreenTabItem
 import kotlinx.coroutines.launch
 

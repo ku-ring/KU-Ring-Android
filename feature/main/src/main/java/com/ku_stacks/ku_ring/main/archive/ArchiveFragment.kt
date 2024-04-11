@@ -8,14 +8,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import androidx.fragment.app.Fragment
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.domain.Notice
+import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
 import com.ku_stacks.ku_ring.main.archive.compose.ArchiveScreen
 import com.ku_stacks.ku_ring.main.databinding.FragmentArchiveBinding
 import com.ku_stacks.ku_ring.thirdparty.compose.KuringCompositionLocalProvider
-import com.ku_stacks.ku_ring.ui_util.KuringNavigator
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class ArchiveFragment : Fragment() {

@@ -33,8 +33,8 @@ import com.ku_stacks.ku_ring.designsystem.components.DepartmentWithDeleteIcon
 import com.ku_stacks.ku_ring.designsystem.components.LargeTopAppBar
 import com.ku_stacks.ku_ring.designsystem.components.LightPreview
 import com.ku_stacks.ku_ring.designsystem.components.SearchTextField
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
+import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.theme.values.Pretendard
 import com.ku_stacks.ku_ring.domain.Department
 import com.ku_stacks.ku_ring.edit_departments.EditDepartmentsViewModel
 import com.ku_stacks.ku_ring.edit_departments.R

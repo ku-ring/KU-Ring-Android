@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.designsystem.kuringtheme.values
+package com.ku_stacks.ku_ring.designsystem.theme.values
 
 import androidx.compose.ui.graphics.Color
 

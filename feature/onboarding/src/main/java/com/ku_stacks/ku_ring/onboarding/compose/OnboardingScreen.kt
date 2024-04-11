@@ -14,7 +14,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.theme.KuringTheme
 import com.ku_stacks.ku_ring.onboarding.compose.inner_screen.ConfirmDepartmentScreen
 import com.ku_stacks.ku_ring.onboarding.compose.inner_screen.FeatureTabs
 import com.ku_stacks.ku_ring.onboarding.compose.inner_screen.OnboardingCompleteScreen
