@@ -32,7 +32,6 @@ import com.ku_stacks.ku_ring.util.DateUtil
 import com.ku_stacks.ku_ring.util.KuringNotificationManager
 import com.ku_stacks.ku_ring.work.ReEngagementNotificationWork
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -99,7 +98,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun collectScreenState() {
-        lifecycleScope.launch(Dispatchers.Default) {
+        lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.splashScreenState.collectLatest { screenState ->
                     when (screenState) {
