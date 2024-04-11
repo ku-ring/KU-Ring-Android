@@ -19,7 +19,6 @@ import com.ku_stacks.ku_ring.notice_detail.databinding.ActivityNoticeWebBinding
 import com.ku_stacks.ku_ring.util.WordConverter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import timber.log.Timber
 
 @AndroidEntryPoint
 class NoticeWebActivity : AppCompatActivity() {
