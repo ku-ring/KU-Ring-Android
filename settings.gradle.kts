@@ -44,3 +44,4 @@ include(
     ":core:designsystem",
     ":feature:edit_departments"
 )
+include(":core:tracker")
