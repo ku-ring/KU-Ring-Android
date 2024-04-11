@@ -50,6 +50,7 @@ dependencies {
     implementation project(":common:thirdparty")
     implementation project(":common:preferences")
     implementation project(":common:work")
+    implementation project(":data:space")
 
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat
@@ -76,4 +77,10 @@ dependencies {
     // WorkManager
     implementation libs.bundles.androidx.work
     androidTestImplementation libs.androidx.work.testing
+
+    // tests
+    testImplementation libs.bundles.unit.test
+
+    // semantic version parser
+    implementation libs.semver
 }

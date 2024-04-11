@@ -160,6 +160,7 @@ pageindicatorview = 'com.romandanylyk:pageindicatorview:1.0.3'
 shimmer = 'com.facebook.shimmer:shimmer:0.5.0'
 timber = 'com.jakewharton.timber:timber:4.7.1'
 holdableswipehandler = 'com.github.yeon-kyu.HoldableSwipeHandler:HoldableSwipeHandler:1.2.2'
+semver = "net.swiftzer.semver:semver:2.0.0"
 
 [bundles]
 retrofit = [
@@ -187,6 +188,7 @@ compose-interop = [
     'androidx-paging-compose',
     'androidx-constraintlayout-compose',
     'lottie-compose',
+    'androidx-lifecycle-runtime-compose',
 ]
 coil = [
     'coil',

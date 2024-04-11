@@ -5,14 +5,20 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
@@ -21,13 +27,14 @@ import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.splash.compose.SplashScreen
 import com.ku_stacks.ku_ring.thirdparty.firebase.FcmUtil
 import com.ku_stacks.ku_ring.ui_util.KuringNavigator
+import com.ku_stacks.ku_ring.ui_util.getAppVersionName
 import com.ku_stacks.ku_ring.util.DateUtil
 import com.ku_stacks.ku_ring.util.KuringNotificationManager
 import com.ku_stacks.ku_ring.work.ReEngagementNotificationWork
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -43,44 +50,28 @@ class SplashActivity : AppCompatActivity() {
     @Inject
     lateinit var navigator: KuringNavigator
 
+    private val viewModel by viewModels<SplashViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
             KuringTheme {
+                val screenState by viewModel.splashScreenState.collectAsStateWithLifecycle()
                 SplashScreen(
+                    screenState = screenState,
+                    onUpdateApp = ::navigateToKuringPlayStore,
+                    onDismissUpdateDialog = viewModel::dismissUpdateNotification,
                     modifier = Modifier
                         .fillMaxSize()
                         .background(KuringTheme.colors.background),
                 )
             }
         }
+
         enqueueReengagementNotificationWork()
-
-        lifecycleScope.launch {
-            delay(1000)
-
-            when {
-                launchedFromNoticeNotificationEvent(intent) -> {
-                    handleNoticeNotification(intent)
-                }
-
-                launchedFromCustomNotificationEvent(intent) -> {
-                    handleCustomNotification()
-                }
-
-                onboardingRequired() -> {
-                    createNotificationChannel()
-                    navigator.navigateToOnboarding(this@SplashActivity)
-                }
-
-                else -> {
-                    navigator.navigateToMain(this@SplashActivity)
-                }
-            }
-
-            finish()
-        }
+        loadMinimumAppVersion()
+        collectScreenState()
     }
 
     private fun enqueueReengagementNotificationWork() {
@@ -97,6 +88,57 @@ class SplashActivity : AppCompatActivity() {
             ExistingWorkPolicy.REPLACE,
             notificationWorkRequest,
         )
+    }
+
+    private fun loadMinimumAppVersion() {
+        lifecycleScope.launch {
+            delay(500)
+            viewModel.checkUpdateRequired(this@SplashActivity.getAppVersionName())
+        }
+    }
+
+    private fun collectScreenState() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.splashScreenState.collectLatest { screenState ->
+                    when (screenState) {
+                        SplashScreenState.INITIAL, SplashScreenState.LOADING, SplashScreenState.UPDATE_REQUIRED -> {}
+                        SplashScreenState.DISMISS_UPDATE, SplashScreenState.UPDATE_NOT_REQUIRED -> {
+                            delay(500)
+                            parseIntent()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun parseIntent() {
+        when {
+            launchedFromNoticeNotificationEvent(intent) -> {
+                handleNoticeNotification(intent)
+            }
+
+            launchedFromCustomNotificationEvent(intent) -> {
+                handleCustomNotification()
+            }
+
+            onboardingRequired() -> {
+                createNotificationChannel()
+                navigator.navigateToOnboarding(this@SplashActivity)
+            }
+
+            else -> {
+                navigator.navigateToMain(this@SplashActivity)
+            }
+        }
+        finish()
+    }
+
+    private fun navigateToKuringPlayStore() {
+        val playStoreIntent =
+            Intent(Intent.ACTION_VIEW, Uri.parse(resources.getString(R.string.play_store_url)))
+        startActivity(playStoreIntent)
     }
 
     private fun launchedFromNoticeNotificationEvent(intent: Intent): Boolean {
