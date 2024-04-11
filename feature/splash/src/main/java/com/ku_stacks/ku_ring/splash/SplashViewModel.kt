@@ -6,6 +6,7 @@ import com.ku_stacks.ku_ring.space.repository.KuringSpaceRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,8 +16,7 @@ class SplashViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _splashScreenState = MutableStateFlow(SplashScreenState.INITIAL)
-    val splashScreenState: StateFlow<SplashScreenState>
-        get() = _splashScreenState
+    val splashScreenState: StateFlow<SplashScreenState> = _splashScreenState.asStateFlow()
 
     fun checkUpdateRequired(currentVersion: String) {
         _splashScreenState.value = SplashScreenState.LOADING
