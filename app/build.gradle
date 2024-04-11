@@ -40,8 +40,8 @@ android {
         applicationId "com.ku_stacks.ku_ring"
         minSdk libs.versions.minSdk.get().toInteger()
         targetSdk libs.versions.targetSdk.get().toInteger()
-        versionCode 32
-        versionName "1.3.8"
+        versionCode 33
+        versionName "1.3.9"
 
         def localProperties = new Properties()
         localProperties.load(new FileInputStream(localPropertiesFile))
@@ -79,7 +79,7 @@ android {
                     appName : "@string/app_name_debug",
                     appIcon : "@drawable/ic_ku_ring_launcher_dev"
             ]
-            buildConfigField "String", "API_BASE_URL", "\"https://dev.ku-ring.com/api/\""
+            buildConfigField "String", "API_BASE_URL", "\"https://kuring.herokuapp.com/api/\""
             buildConfigField "String", "KURING_CAMPUS_OPEN_CHANNEL_URL", "\"kuring_main_anonymous\""
 
             applicationIdSuffix '.debug'
@@ -95,7 +95,7 @@ android {
                     appName : "@string/app_name",
                     appIcon : "@drawable/ic_kuring_launcher"
             ]
-            buildConfigField "String", "API_BASE_URL", "\"https://kuring.herokuapp.com/api/\""
+            buildConfigField "String", "API_BASE_URL", "\"https://ku-ring.com/api/\""
             buildConfigField "String", "KURING_CAMPUS_OPEN_CHANNEL_URL", "\"kuring_campus_main_anonymous\""
         }
     }
