@@ -20,19 +20,19 @@ dependencyResolutionManagement {
 rootProject.name = "KURing"
 include(
     ":app",
-    ":common:util",
-    ":common:ui_util",
+    ":core:util",
+    ":core:ui_util",
     ":data:domain",
     ":data:notice",
-    ":common:preferences",
+    ":core:preferences",
     ":data:push",
     ":data:user",
     ":data:staff",
     ":data:department",
     ":data:local",
     ":data:remote",
-    ":common:thirdparty",
-    ":common:work",
+    ":core:thirdparty",
+    ":core:work",
     ":feature:edit_subscription",
     ":feature:feedback",
     ":feature:my_notification",
@@ -41,6 +41,6 @@ include(
     ":feature:onboarding",
     ":feature:splash",
     ":feature:main",
-    ":common:designsystem",
+    ":core:designsystem",
     ":feature:edit_departments"
 )

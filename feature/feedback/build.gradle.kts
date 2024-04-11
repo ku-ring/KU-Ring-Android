@@ -11,15 +11,15 @@ android {
 }
 
 dependencies {
-    implementation(projects.common.util)
-    implementation(projects.common.uiUtil)
-    implementation(projects.common.designsystem)
-    implementation(projects.common.thirdparty)
-    implementation(projects.common.preferences)
+    implementation(projects.core.util)
+    implementation(projects.core.uiUtil)
+    implementation(projects.core.designsystem)
+    implementation(projects.core.thirdparty)
+    implementation(projects.core.preferences)
     implementation(projects.data.domain)
     implementation(projects.data.remote)
     implementation(projects.data.user)
-    testImplementation(testFixtures(projects.common.util))
+    testImplementation(testFixtures(projects.core.util))
 
     implementation(libs.bundles.compose.interop)
     implementation(platform(libs.firebase.bom))

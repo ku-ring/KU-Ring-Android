@@ -11,13 +11,13 @@ android {
 }
 
 dependencies {
-    implementation(projects.common.util)
-    implementation(projects.common.uiUtil)
-    implementation(projects.common.thirdparty)
-    implementation(projects.common.preferences)
+    implementation(projects.core.util)
+    implementation(projects.core.uiUtil)
+    implementation(projects.core.thirdparty)
+    implementation(projects.core.preferences)
     implementation(projects.data.domain)
     implementation(projects.data.push)
-    testImplementation(testFixtures(projects.common.util))
+    testImplementation(testFixtures(projects.core.util))
     testImplementation(testFixtures(projects.data.local))
 
     implementation(libs.holdableswipehandler)
