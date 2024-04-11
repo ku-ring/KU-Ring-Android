@@ -62,7 +62,7 @@ fun LazyPagingNoticeItemColumn(
                 notices?.let { notices ->
                     items(
                         count = notices.itemCount,
-                        key = notices.itemKey { notice -> notice.url },
+                        key = notices.itemKey(),
                         contentType = notices.itemContentType { it.javaClass },
                     ) { index ->
                         NoticeItem(
