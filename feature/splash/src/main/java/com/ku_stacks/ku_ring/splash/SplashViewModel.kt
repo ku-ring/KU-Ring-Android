@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import net.swiftzer.semver.SemVer
 import javax.inject.Inject
 
 @HiltViewModel
@@ -18,15 +19,13 @@ class SplashViewModel @Inject constructor(
     private val _splashScreenState = MutableStateFlow(SplashScreenState.INITIAL)
     val splashScreenState: StateFlow<SplashScreenState> = _splashScreenState.asStateFlow()
 
-    fun checkUpdateRequired(currentVersion: String) {
+    fun checkUpdateRequired(currentVersion: String) = viewModelScope.launch {
         _splashScreenState.value = SplashScreenState.LOADING
-        viewModelScope.launch {
-            _splashScreenState.value = getAppVersionState(currentVersion)
-        }
+        _splashScreenState.value = getAppVersionState(currentVersion)
     }
 
     private suspend fun getAppVersionState(currentVersion: String): SplashScreenState {
-        return if (isAppVersionDeprecated(currentVersion)) SplashScreenState.UPDATE_REQUIRED else SplashScreenState.UPDATE_NOT_REQUIRED
+        return if (isAppVersionDeprecated(SemVer.parse(currentVersion))) SplashScreenState.UPDATE_REQUIRED else SplashScreenState.UPDATE_NOT_REQUIRED
     }
 
     private suspend fun isAppVersionDeprecated(currentVersion: SemVer): Boolean {

@@ -77,4 +77,10 @@ dependencies {
     // WorkManager
     implementation libs.bundles.androidx.work
     androidTestImplementation libs.androidx.work.testing
+
+    // tests
+    testImplementation libs.bundles.unit.test
+
+    // semantic version parser
+    implementation libs.semver
 }
