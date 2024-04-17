@@ -82,7 +82,7 @@ compose-ui-tooling = { module = 'androidx.compose.ui:ui-tooling' }
 compose-ui-tooling-preview = { module = 'androidx.compose.ui:ui-tooling-preview' }
 
 # Compose Interop
-androidx-activity-compose = 'androidx.activity:activity-compose:1.7.1'
+androidx-activity-compose = 'androidx.activity:activity-compose:1.9.0'
 androidx-constraintlayout-compose = 'androidx.constraintlayout:constraintlayout-compose:1.0.1'
 androidx-lifecycle-viewmodel-compose = 'androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0'
 androidx-lifecycle-runtime-compose = 'androidx.lifecycle:lifecycle-runtime-compose:2.7.0'
