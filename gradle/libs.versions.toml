@@ -105,7 +105,7 @@ kotlinx-coroutines-rxjava3 = { module = 'org.jetbrains.kotlinx:kotlinx-coroutine
 kotlinx-coroutines-test = { module = 'org.jetbrains.kotlinx:kotlinx-coroutines-test', version.ref = 'kotlinx-coroutines' }
 
 # Hilt
-androidx-hilt-compiler = 'androidx.hilt:hilt-compiler:1.0.0'
+androidx-hilt-compiler = 'androidx.hilt:hilt-compiler:1.2.0'
 hilt-android = { module = 'com.google.dagger:hilt-android', version.ref = 'hilt' }
 hilt-android-testing = { module = 'com.google.dagger:hilt-android-testing', version.ref = 'hilt' }
 hilt-compiler = { module = 'com.google.dagger:hilt-compiler', version.ref = 'hilt' }
