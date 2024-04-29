@@ -57,7 +57,7 @@ private fun SettingGroupTitle(
 @LightAndDarkPreview
 @Composable
 private fun SettingGroupPreview() {
-    KuringThemeTest {
+    KuringTheme {
         SettingGroup(groupTitle = "정보") {
             SettingItem(
                 iconId = R.drawable.ic_rocket_v2,

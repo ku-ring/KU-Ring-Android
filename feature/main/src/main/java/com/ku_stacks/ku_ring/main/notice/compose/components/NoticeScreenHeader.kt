@@ -89,7 +89,7 @@ private fun NoticeScreenHeaderIcon(
 @LightAndDarkPreview
 @Composable
 private fun NoticeScreenHeaderPreview() {
-    KuringThemeTest {
+    KuringTheme {
         NoticeScreenHeader(
             onSearchIconClick = {},
             onNotificationIconClick = {},

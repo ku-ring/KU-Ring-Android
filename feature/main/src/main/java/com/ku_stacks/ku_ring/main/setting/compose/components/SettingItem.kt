@@ -82,7 +82,7 @@ internal fun SettingItem(
 private fun SettingItemPreview() {
     var angle by remember { mutableFloatStateOf(0f) }
 
-    KuringThemeTest {
+    KuringTheme {
         Column {
             SettingItem(
                 iconId = R.drawable.ic_bell_v2,
