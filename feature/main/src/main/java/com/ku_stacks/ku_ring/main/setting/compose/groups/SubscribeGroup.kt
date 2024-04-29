@@ -77,7 +77,7 @@ internal fun SubscribeGroup(
 @Composable
 private fun SubscribeGroupPreview() {
     var enabled by remember { mutableStateOf(false) }
-    KuringThemeTest {
+    KuringTheme {
         SubscribeGroup(
             onNavigateToEditSubscription = { },
             isExtNotificationEnabled = enabled,

@@ -33,7 +33,7 @@ internal fun SocialNetworkServiceGroup(
 @LightAndDarkPreview
 @Composable
 private fun SocialNetworkServiceGroupPreview() {
-    KuringThemeTest {
+    KuringTheme {
         SocialNetworkServiceGroup(
             onNavigateToKuringInstagram = {},
             modifier = Modifier
