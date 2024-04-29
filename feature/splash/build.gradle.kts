@@ -16,8 +16,10 @@ dependencies {
     implementation(projects.common.thirdparty)
     implementation(projects.common.preferences)
     implementation(projects.common.work)
+    implementation(projects.data.space)
 
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.semver)
 
     implementation(libs.bundles.compose.interop)
 

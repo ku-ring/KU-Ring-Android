@@ -33,7 +33,7 @@ internal fun FeedbackGroup(
 @LightAndDarkPreview
 @Composable
 private fun FeedbackGroupPreview() {
-    KuringThemeTest {
+    KuringTheme {
         FeedbackGroup(
             onNavigateToFeedback = {},
             modifier = Modifier
