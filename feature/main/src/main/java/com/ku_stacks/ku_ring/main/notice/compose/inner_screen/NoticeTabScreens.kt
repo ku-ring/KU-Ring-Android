@@ -36,7 +36,7 @@ internal fun NoticeTabScreens(
 @LightAndDarkPreview
 @Composable
 private fun NoticeTabsPreview() {
-    KuringThemeTest {
+    KuringTheme {
         NoticeTabScreens(
             onNoticeClick = {},
             onNavigateToEditDepartment = {},

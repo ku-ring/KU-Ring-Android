@@ -67,7 +67,7 @@ internal fun NoticeScreenTabRow(
 @LightAndDarkPreview
 @Composable
 private fun NoticeScreenTabRowPreview() {
-    KuringThemeTest {
+    KuringTheme {
         NoticeScreenTabRow(
             pagerState = rememberPagerState {
                 NoticeScreenTabItem.values().size

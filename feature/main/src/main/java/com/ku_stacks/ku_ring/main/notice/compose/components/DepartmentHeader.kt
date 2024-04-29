@@ -78,7 +78,7 @@ fun DepartmentHeader(
 @Composable
 private fun DepartmentHeaderPreview() {
     var showArrow by remember { mutableStateOf(false) }
-    KuringThemeTest {
+    KuringTheme {
         DepartmentHeader(
             selectedDepartmentName = "산업디자인학과",
             onClick = { showArrow = !showArrow },
