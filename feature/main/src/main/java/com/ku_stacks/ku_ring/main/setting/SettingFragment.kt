@@ -58,7 +58,7 @@ class SettingFragment : Fragment() {
         binding.composeView.setContent {
             val isExtNotificationAllowed by viewModel.isExtNotificationAllowed.collectAsState()
 
-            KuringThemeTest {
+            KuringTheme {
                 SettingScreen(
                     onNavigateToEditSubscription = { navigator.navigateToEditSubscription(activity) },
                     isExtNotificationEnabled = isExtNotificationAllowed,

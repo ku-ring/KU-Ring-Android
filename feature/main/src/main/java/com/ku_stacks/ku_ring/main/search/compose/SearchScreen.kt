@@ -271,7 +271,7 @@ private fun SearchResultHorizontalPager(
 @LightAndDarkPreview
 @Composable
 private fun SearchScreenPreview() {
-    KuringThemeTest {
+    KuringTheme {
         SearchScreen(
             searchState = rememberSearchState("산학협력"),
             onNavigationClick = {},
