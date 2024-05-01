@@ -49,10 +49,6 @@
             android:exported="true"
             android:launchMode="singleTask" />
         <activity
-            android:name=".notice_storage.NoticeStorageActivity"
-            android:exported="false"
-            android:launchMode="singleTask" />
-        <activity
             android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
             android:exported="true"
             android:theme="@style/OpenSourceItemTheme" />

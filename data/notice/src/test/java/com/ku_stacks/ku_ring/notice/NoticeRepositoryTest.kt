@@ -11,13 +11,13 @@ import com.ku_stacks.ku_ring.remote.RemoteFixtures
 import com.ku_stacks.ku_ring.remote.notice.NoticeClient
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
-import junit.framework.Assert
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -107,6 +107,6 @@ class NoticeRepositoryTest {
 
         // then
         Mockito.verify(client, times(1)).saveSubscribe(mockToken, mockRequest)
-        Assert.assertEquals(false, pref.firstRunFlag)
+        assertEquals(false, pref.firstRunFlag)
     }
 }
