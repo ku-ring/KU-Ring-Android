@@ -4,13 +4,13 @@ android-gradle = "8.1.4"
 kotlin = '1.8.22'
 hilt = '2.45'
 google-services = '4.3.14'
-firebase-gradle = '2.7.1'
+firebase-gradle = '2.9.9'
 oss-licenses-version = '0.10.4'
 compileSdk = "34"
 targetSdk = "33"
 minSdk = "24"
 appVersion = "2.0.0"
-versionCode = "29"
+versionCode = "34"
 
 # app-level dependency
 compose-compiler = '1.4.8'
