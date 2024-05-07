@@ -57,6 +57,16 @@ object DBModule {
         }
     }
 
+    private val MIGRATION_6_7 = object : Migration(6, 7) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL(
+                "CREATE TABLE IF NOT EXISTS `SearchHistoryEntity` " +
+                    "(`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                    "`keyword` TEXT NOT NULL)"
+            )
+        }
+    }
+
     @Singleton
     @Provides
     fun provideKuRingDatabase(@ApplicationContext context: Context): KuRingDatabase {
@@ -70,7 +80,8 @@ object DBModule {
                 MIGRATION_2_3,
                 MIGRATION_3_4,
                 MIGRATION_4_5,
-                MIGRATION_5_6
+                MIGRATION_5_6,
+                MIGRATION_6_7,
             )
             .build()
     }
@@ -90,5 +101,9 @@ object DBModule {
     @Singleton
     @Provides
     fun provideDepartmentDao(database: KuRingDatabase) = database.departmentDao()
+
+    @Singleton
+    @Provides
+    fun provideSearchHistoryDao(database: KuRingDatabase) = database.searchHistoryDao()
 
 }

@@ -25,7 +25,6 @@ import androidx.compose.material.TabRow
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -44,6 +43,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ku_stacks.ku_ring.designsystem.components.CenterTitleTopBar
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.components.SearchTextField
@@ -68,12 +68,12 @@ fun SearchScreen(
     searchState: SearchState = rememberSearchState(),
     tabPages: List<SearchTabInfo> = SearchTabInfo.values().toList()
 ) {
-    val noticeList by viewModel.noticeSearchResult.collectAsState(initial = emptyList())
-    val staffList by viewModel.staffSearchResult.collectAsState(initial = emptyList())
+    val noticeList by viewModel.noticeSearchResult.collectAsStateWithLifecycle(initialValue = emptyList())
+    val staffList by viewModel.staffSearchResult.collectAsStateWithLifecycle(initialValue = emptyList())
 
     SearchScreen(
         onNavigationClick = onNavigationClick,
-        onClickSearch = { viewModel.onClickSearch(it) },
+        onActionSearch = { viewModel.onActionSearch(it) },
         onClickNotice = onClickNotice,
         searchState = searchState,
         tabPages = tabPages,
@@ -87,7 +87,7 @@ fun SearchScreen(
 @Composable
 private fun SearchScreen(
     onNavigationClick: () -> Unit,
-    onClickSearch: (SearchState) -> Unit,
+    onActionSearch: (SearchState) -> Unit,
     onClickNotice: (Notice) -> Unit,
     searchState: SearchState,
     tabPages: List<SearchTabInfo>,
@@ -125,7 +125,7 @@ private fun SearchScreen(
             keyboardActions = KeyboardActions(
                 onSearch = {
                     keyboardController?.hide()
-                    onClickSearch(searchState)
+                    onActionSearch(searchState)
                 }
             ),
             modifier = Modifier
@@ -361,7 +361,7 @@ private fun SearchScreenPreview() {
             searchState = rememberSearchState("산학협력"),
             onNavigationClick = {},
             onClickNotice = {},
-            onClickSearch = {},
+            onActionSearch = {},
             noticeList = emptyList(),
             staffList = emptyList(),
             modifier = Modifier

@@ -35,3 +35,4 @@ include(
         ':common:designsystem',
         ':feature:edit_departments'
 )
+include ':data:search'
