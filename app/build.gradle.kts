@@ -10,6 +10,7 @@ plugins {
 }
 
 val keystorePropertiesFile = rootProject.file("app/signing/keystore.properties")
+val keystoreFile = rootProject.file("app/signing/ku_ring_keystore.jks")
 val localPropertiesFile = rootProject.file("local.properties")
 
 android {
@@ -25,7 +26,7 @@ android {
                 val keystoreProperties = Properties()
                 keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 
-                storeFile = File(keystoreProperties["storeFile"] as? String ?: "")
+                storeFile = keystoreFile
                 keyAlias = keystoreProperties["keyAlias"] as? String ?: ""
                 keyPassword = keystoreProperties["keyPassword"] as? String ?: ""
                 storePassword = keystoreProperties["storePassword"] as? String ?: ""
