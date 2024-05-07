@@ -33,6 +33,6 @@ include(
         ':feature:splash',
         ':feature:main',
         ':common:designsystem',
-        ':feature:edit_departments'
+        ':feature:edit_departments',
+        ':data:search'
 )
-include ':data:search'
