@@ -2,10 +2,17 @@ package com.ku_stacks.ku_ring.main.search.compose
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
@@ -126,6 +133,10 @@ private fun SearchScreen(
                 .padding(start = 20.dp, end = 20.dp, top = 20.dp, bottom = 0.dp)
         )
 
+        KeywordHistorySection(
+            modifier = Modifier.padding(top = 12.dp)
+        )
+
         SearchResultTitle()
 
         val pagerState = rememberPagerState(pageCount = { tabPages.size })
@@ -162,6 +173,80 @@ fun rememberSearchState(
             query = query,
             tab = SearchTabInfo.Notice,
             isLoading = false,
+        )
+    }
+}
+
+@Composable
+private fun KeywordHistorySection(
+    modifier: Modifier = Modifier,
+) {
+    Column(modifier) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp, vertical = 6.dp)
+        ) {
+            Text(
+                text = stringResource(id = R.string.search_keyword_history),
+                style = TextStyle(
+                    color = KuringTheme.colors.textCaption1,
+                    fontSize = 15.sp,
+                    fontFamily = Pretendard,
+                    lineHeight = 24.sp,
+                ),
+                textAlign = TextAlign.Start,
+            )
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            Text(
+                text = stringResource(id = R.string.delete_all_keyword_history),
+                style = TextStyle(
+                    color = KuringTheme.colors.textCaption2,
+                    fontSize = 12.sp,
+                    fontFamily = Pretendard,
+                    lineHeight = 20.sp,
+                ),
+                textAlign = TextAlign.Start,
+            )
+        }
+
+        LazyRow(
+            contentPadding = PaddingValues(horizontal = 20.dp),
+            horizontalArrangement = Arrangement.spacedBy(6.dp),
+            modifier = Modifier.padding(vertical = 6.dp)
+        ) {
+            // TODO : re-impl
+            val list = listOf<String>("방학", "운송수단", "운송수단", "운송수단", "운송수단", "운송수단")
+            items(list) {
+                TextChip(text = it)
+            }
+        }
+    }
+}
+
+@Composable
+private fun TextChip(
+    text: String,
+    modifier: Modifier = Modifier
+) {
+    val shape = RoundedCornerShape(50)
+    Box(
+        modifier = modifier
+            .background(KuringTheme.colors.mainPrimarySelected, shape)
+            .padding(horizontal = 12.dp, vertical = 8.dp),
+    ) {
+        Text(
+            text = text,
+            style = TextStyle(
+                fontSize = 14.sp,
+                lineHeight = 22.82.sp,
+                fontFamily = Pretendard,
+                fontWeight = FontWeight(400),
+                color = KuringTheme.colors.mainPrimary,
+            ),
         )
     }
 }
