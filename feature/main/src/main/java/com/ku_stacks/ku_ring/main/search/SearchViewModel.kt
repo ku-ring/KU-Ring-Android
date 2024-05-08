@@ -30,7 +30,7 @@ class SearchViewModel @Inject constructor(
     private val _staffSearchResult = MutableStateFlow<List<Staff>>(listOf())
     val staffSearchResult: StateFlow<List<Staff>> = _staffSearchResult.asStateFlow()
 
-    fun onActionSearch(searchState: SearchState) {
+    fun onSearch(searchState: SearchState) {
         if (searchState.query.isBlank()) {
             return
         }

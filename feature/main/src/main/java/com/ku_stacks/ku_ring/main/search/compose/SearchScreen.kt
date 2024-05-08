@@ -73,7 +73,7 @@ fun SearchScreen(
 
     SearchScreen(
         onNavigationClick = onNavigationClick,
-        onActionSearch = { viewModel.onActionSearch(it) },
+        onSearch = { viewModel.onSearch(it) },
         onClickNotice = onClickNotice,
         searchState = searchState,
         tabPages = tabPages,
@@ -87,7 +87,7 @@ fun SearchScreen(
 @Composable
 private fun SearchScreen(
     onNavigationClick: () -> Unit,
-    onActionSearch: (SearchState) -> Unit,
+    onSearch: (SearchState) -> Unit,
     onClickNotice: (Notice) -> Unit,
     searchState: SearchState,
     tabPages: List<SearchTabInfo>,
@@ -125,7 +125,7 @@ private fun SearchScreen(
             keyboardActions = KeyboardActions(
                 onSearch = {
                     keyboardController?.hide()
-                    onActionSearch(searchState)
+                    onSearch(searchState)
                 }
             ),
             modifier = Modifier
@@ -361,7 +361,7 @@ private fun SearchScreenPreview() {
             searchState = rememberSearchState("산학협력"),
             onNavigationClick = {},
             onClickNotice = {},
-            onActionSearch = {},
+            onSearch = {},
             noticeList = emptyList(),
             staffList = emptyList(),
             modifier = Modifier
