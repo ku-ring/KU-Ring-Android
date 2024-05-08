@@ -221,14 +221,14 @@ private fun KeywordHistorySection(
             // TODO : re-impl
             val list = listOf<String>("방학", "운송수단", "운송수단", "운송수단", "운송수단", "운송수단")
             items(list) {
-                TextChip(text = it)
+                SearchHistoryChip(text = it)
             }
         }
     }
 }
 
 @Composable
-private fun TextChip(
+private fun SearchHistoryChip(
     text: String,
     modifier: Modifier = Modifier
 ) {
