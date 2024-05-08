@@ -32,7 +32,7 @@ class SearchHistoryRepositoryImplTest {
     }
 
     @Test
-    fun `최초 addSearchHistory 호출 시 insert 가 호출된다`() = runTest {
+    fun `최초 addSearchHistory 호출 시 데이터를 insert 한다`() = runTest {
         // Given
         Mockito.`when`(dao.getEntityOrNull(any())).thenReturn(null)
 
@@ -46,7 +46,7 @@ class SearchHistoryRepositoryImplTest {
     }
 
     @Test
-    fun `키워드가 이미 있을땐 기존 키워드를 삭제하고 새 키워드를 insert  한다`() = runTest {
+    fun `키워드가 이미 있을때 addSearchHistory 호출 시 기존 데이터를 삭제후 insert 한다`() = runTest {
         // Given
         Mockito.`when`(dao.getEntityOrNull(any())).thenReturn(SearchHistoryEntity(123, "ABC"))
 
