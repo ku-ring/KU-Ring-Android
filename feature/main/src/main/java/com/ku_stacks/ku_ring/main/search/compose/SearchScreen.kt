@@ -73,7 +73,7 @@ fun SearchScreen(
 
     SearchScreen(
         onNavigationClick = onNavigationClick,
-        onSearch = { viewModel.onSearch(it) },
+        onSearch = viewModel::onSearch,
         onClickNotice = onClickNotice,
         searchState = searchState,
         tabPages = tabPages,
