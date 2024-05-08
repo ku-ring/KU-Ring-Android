@@ -2,6 +2,7 @@ package com.ku_stacks.ku_ring.main.search.compose
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -138,6 +139,10 @@ private fun SearchScreen(
 
         KeywordHistorySection(
             keywordHistories = keywordHistories,
+            onClickSearchHistory = {
+                searchState.query = it
+                onSearch(searchState)
+            },
             modifier = Modifier.padding(top = 12.dp)
         )
 
@@ -184,6 +189,7 @@ fun rememberSearchState(
 @Composable
 private fun KeywordHistorySection(
     keywordHistories: List<String>,
+    onClickSearchHistory: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier) {
@@ -224,7 +230,11 @@ private fun KeywordHistorySection(
             modifier = Modifier.padding(vertical = 6.dp)
         ) {
             items(keywordHistories) {
-                SearchHistoryChip(text = it)
+                SearchHistoryChip(
+                    text = it,
+                    modifier = Modifier
+                        .clickable { onClickSearchHistory(it) }
+                )
             }
         }
     }
