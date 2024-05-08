@@ -23,4 +23,8 @@ class SearchHistoryRepositoryImpl @Inject constructor(
     override suspend fun getAllSearchHistory(): Flow<List<String>> {
         return searchHistoryDao.getAllSearchHistory()
     }
+
+    override suspend fun clearSearchHistories() {
+        searchHistoryDao.deleteAll()
+    }
 }

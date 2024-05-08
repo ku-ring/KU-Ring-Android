@@ -22,4 +22,7 @@ interface SearchHistoryDao {
 
     @Query("SELECT keyword FROM SearchHistoryEntity ORDER BY id DESC")
     fun getAllSearchHistory(): Flow<List<String>>
+
+    @Query("DELETE FROM SearchHistoryEntity")
+    suspend fun deleteAll()
 }

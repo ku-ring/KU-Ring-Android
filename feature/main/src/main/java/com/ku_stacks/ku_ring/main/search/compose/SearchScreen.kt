@@ -1,5 +1,8 @@
 package com.ku_stacks.ku_ring.main.search.compose
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -77,6 +80,7 @@ fun SearchScreen(
         onNavigationClick = onNavigationClick,
         onSearch = viewModel::onSearch,
         onClickNotice = onClickNotice,
+        onClickClearSearchHistory = viewModel::clearSearchHistory,
         searchState = searchState,
         tabPages = tabPages,
         noticeList = noticeList,
@@ -92,6 +96,7 @@ private fun SearchScreen(
     onNavigationClick: () -> Unit,
     onSearch: (SearchState) -> Unit,
     onClickNotice: (Notice) -> Unit,
+    onClickClearSearchHistory: () -> Unit,
     searchState: SearchState,
     tabPages: List<SearchTabInfo>,
     noticeList: List<Notice>,
@@ -137,14 +142,22 @@ private fun SearchScreen(
                 .padding(start = 20.dp, end = 20.dp, top = 20.dp, bottom = 0.dp)
         )
 
-        KeywordHistorySection(
-            keywordHistories = keywordHistories,
-            onClickSearchHistory = {
-                searchState.query = it
-                onSearch(searchState)
-            },
-            modifier = Modifier.padding(top = 12.dp)
-        )
+        AnimatedVisibility(
+            visible = keywordHistories.isNotEmpty(),
+            exit = fadeOut() + slideOutVertically(),
+        ) {
+            KeywordHistorySection(
+                keywordHistories = keywordHistories,
+                onClickSearchHistory = {
+                    searchState.query = it
+                    onSearch(searchState)
+                },
+                onClickClearSearchHistory = {
+                    onClickClearSearchHistory()
+                },
+                modifier = Modifier.padding(top = 12.dp)
+            )
+        }
 
         SearchResultTitle()
 
@@ -190,6 +203,7 @@ fun rememberSearchState(
 private fun KeywordHistorySection(
     keywordHistories: List<String>,
     onClickSearchHistory: (String) -> Unit,
+    onClickClearSearchHistory: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier) {
@@ -221,6 +235,8 @@ private fun KeywordHistorySection(
                     lineHeight = 20.sp,
                 ),
                 textAlign = TextAlign.Start,
+                modifier = Modifier
+                    .clickable { onClickClearSearchHistory() }
             )
         }
 
@@ -375,6 +391,7 @@ private fun SearchScreenPreview() {
             onNavigationClick = {},
             onClickNotice = {},
             onSearch = {},
+            onClickClearSearchHistory = {},
             noticeList = emptyList(),
             staffList = emptyList(),
             keywordHistories = emptyList(),

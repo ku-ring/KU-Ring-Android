@@ -7,4 +7,6 @@ interface SearchHistoryRepository {
     suspend fun addSearchHistory(keyword: String)
 
     suspend fun getAllSearchHistory(): Flow<List<String>>
+
+    suspend fun clearSearchHistories()
 }

@@ -79,4 +79,10 @@ class SearchViewModel @Inject constructor(
         val professors = staffRepository.searchStaff(query)
         _staffSearchResult.update { professors }
     }
+
+    fun clearSearchHistory() {
+        viewModelScope.launch {
+            searchHistoryRepository.clearSearchHistories()
+        }
+    }
 }
