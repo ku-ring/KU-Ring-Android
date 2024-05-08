@@ -54,11 +54,6 @@ object DBModule {
         override fun migrate(database: SupportSQLiteDatabase) {
             database.execSQL("ALTER TABLE NoticeEntity ADD COLUMN isImportant INT NOT NULL DEFAULT 0")
             database.execSQL("ALTER TABLE departments ADD COLUMN isMainDepartment INT NOT NULL DEFAULT 0")
-        }
-    }
-
-    private val MIGRATION_6_7 = object : Migration(6, 7) {
-        override fun migrate(database: SupportSQLiteDatabase) {
             database.execSQL(
                 "CREATE TABLE IF NOT EXISTS `SearchHistoryEntity` " +
                     "(`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
@@ -81,7 +76,6 @@ object DBModule {
                 MIGRATION_3_4,
                 MIGRATION_4_5,
                 MIGRATION_5_6,
-                MIGRATION_6_7,
             )
             .build()
     }

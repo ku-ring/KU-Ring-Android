@@ -16,7 +16,7 @@ import com.ku_stacks.ku_ring.local.entity.SearchHistoryEntity
         DepartmentEntity::class,
         SearchHistoryEntity::class,
     ],
-    version = 7,
+    version = 6,
     exportSchema = false
 )
 abstract class KuRingDatabase : RoomDatabase() {
