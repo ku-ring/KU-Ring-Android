@@ -232,7 +232,7 @@ private fun SearchHistoryChip(
     text: String,
     modifier: Modifier = Modifier
 ) {
-    val shape = RoundedCornerShape(50)
+    val shape = RoundedCornerShape(percent = 50)
     Box(
         modifier = modifier
             .background(KuringTheme.colors.mainPrimarySelected, shape)
