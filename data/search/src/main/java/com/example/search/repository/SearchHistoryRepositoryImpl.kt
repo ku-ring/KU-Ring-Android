@@ -7,7 +7,7 @@ import javax.inject.Inject
 class SearchHistoryRepositoryImpl @Inject constructor(
     private val searchHistoryDao: SearchHistoryDao,
 ) : SearchHistoryRepository {
-    override suspend fun insert(keyword: String) {
+    override suspend fun addSearchHistory(keyword: String) {
         searchHistoryDao.insert(
             SearchHistoryEntity(keyword = keyword)
         )

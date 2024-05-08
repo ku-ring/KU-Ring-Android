@@ -52,7 +52,7 @@ class SearchViewModel @Inject constructor(
     }
 
     private suspend fun updateKeywordHistory(keyword: String) {
-        searchHistoryRepository.insert(keyword)
+        searchHistoryRepository.addSearchHistory(keyword)
     }
 
     private suspend fun searchNotice(query: String) {
