@@ -70,6 +70,7 @@ fun SearchScreen(
 ) {
     val noticeList by viewModel.noticeSearchResult.collectAsStateWithLifecycle(initialValue = emptyList())
     val staffList by viewModel.staffSearchResult.collectAsStateWithLifecycle(initialValue = emptyList())
+    val keywordHistories by viewModel.searchHistories.collectAsStateWithLifecycle(initialValue = emptyList())
 
     SearchScreen(
         onNavigationClick = onNavigationClick,
@@ -79,6 +80,7 @@ fun SearchScreen(
         tabPages = tabPages,
         noticeList = noticeList,
         staffList = staffList,
+        keywordHistories = keywordHistories,
         modifier = modifier,
     )
 }
@@ -93,6 +95,7 @@ private fun SearchScreen(
     tabPages: List<SearchTabInfo>,
     noticeList: List<Notice>,
     staffList: List<Staff>,
+    keywordHistories: List<String>,
     modifier: Modifier = Modifier,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -134,6 +137,7 @@ private fun SearchScreen(
         )
 
         KeywordHistorySection(
+            keywordHistories = keywordHistories,
             modifier = Modifier.padding(top = 12.dp)
         )
 
@@ -179,6 +183,7 @@ fun rememberSearchState(
 
 @Composable
 private fun KeywordHistorySection(
+    keywordHistories: List<String>,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier) {
@@ -218,9 +223,7 @@ private fun KeywordHistorySection(
             horizontalArrangement = Arrangement.spacedBy(6.dp),
             modifier = Modifier.padding(vertical = 6.dp)
         ) {
-            // TODO : re-impl
-            val list = listOf<String>("방학", "운송수단", "운송수단", "운송수단", "운송수단", "운송수단")
-            items(list) {
+            items(keywordHistories) {
                 SearchHistoryChip(text = it)
             }
         }
@@ -364,6 +367,7 @@ private fun SearchScreenPreview() {
             onSearch = {},
             noticeList = emptyList(),
             staffList = emptyList(),
+            keywordHistories = emptyList(),
             modifier = Modifier
                 .background(KuringTheme.colors.background)
                 .fillMaxSize(),
