@@ -54,6 +54,11 @@ object DBModule {
         override fun migrate(database: SupportSQLiteDatabase) {
             database.execSQL("ALTER TABLE NoticeEntity ADD COLUMN isImportant INT NOT NULL DEFAULT 0")
             database.execSQL("ALTER TABLE departments ADD COLUMN isMainDepartment INT NOT NULL DEFAULT 0")
+            database.execSQL(
+                "CREATE TABLE IF NOT EXISTS `SearchHistoryEntity` " +
+                    "(`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                    "`keyword` TEXT NOT NULL)"
+            )
         }
     }
 
@@ -70,7 +75,7 @@ object DBModule {
                 MIGRATION_2_3,
                 MIGRATION_3_4,
                 MIGRATION_4_5,
-                MIGRATION_5_6
+                MIGRATION_5_6,
             )
             .build()
     }
@@ -90,5 +95,9 @@ object DBModule {
     @Singleton
     @Provides
     fun provideDepartmentDao(database: KuRingDatabase) = database.departmentDao()
+
+    @Singleton
+    @Provides
+    fun provideSearchHistoryDao(database: KuRingDatabase) = database.searchHistoryDao()
 
 }

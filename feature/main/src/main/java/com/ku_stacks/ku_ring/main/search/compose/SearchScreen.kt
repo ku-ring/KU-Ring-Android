@@ -1,11 +1,22 @@
 package com.ku_stacks.ku_ring.main.search.compose
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
@@ -18,7 +29,6 @@ import androidx.compose.material.TabRow
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -37,6 +47,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ku_stacks.ku_ring.designsystem.components.CenterTitleTopBar
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.components.SearchTextField
@@ -61,17 +72,20 @@ fun SearchScreen(
     searchState: SearchState = rememberSearchState(),
     tabPages: List<SearchTabInfo> = SearchTabInfo.values().toList()
 ) {
-    val noticeList by viewModel.noticeSearchResult.collectAsState(initial = emptyList())
-    val staffList by viewModel.staffSearchResult.collectAsState(initial = emptyList())
+    val noticeList by viewModel.noticeSearchResult.collectAsStateWithLifecycle(initialValue = emptyList())
+    val staffList by viewModel.staffSearchResult.collectAsStateWithLifecycle(initialValue = emptyList())
+    val keywordHistories by viewModel.searchHistories.collectAsStateWithLifecycle(initialValue = emptyList())
 
     SearchScreen(
         onNavigationClick = onNavigationClick,
-        onClickSearch = { viewModel.onClickSearch(it) },
+        onSearch = viewModel::onSearch,
         onClickNotice = onClickNotice,
+        onClickClearSearchHistory = viewModel::clearSearchHistory,
         searchState = searchState,
         tabPages = tabPages,
         noticeList = noticeList,
         staffList = staffList,
+        keywordHistories = keywordHistories,
         modifier = modifier,
     )
 }
@@ -80,12 +94,14 @@ fun SearchScreen(
 @Composable
 private fun SearchScreen(
     onNavigationClick: () -> Unit,
-    onClickSearch: (SearchState) -> Unit,
+    onSearch: (SearchState) -> Unit,
     onClickNotice: (Notice) -> Unit,
+    onClickClearSearchHistory: () -> Unit,
     searchState: SearchState,
     tabPages: List<SearchTabInfo>,
     noticeList: List<Notice>,
     staffList: List<Staff>,
+    keywordHistories: List<String>,
     modifier: Modifier = Modifier,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -118,13 +134,30 @@ private fun SearchScreen(
             keyboardActions = KeyboardActions(
                 onSearch = {
                     keyboardController?.hide()
-                    onClickSearch(searchState)
+                    onSearch(searchState)
                 }
             ),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 20.dp, end = 20.dp, top = 20.dp, bottom = 0.dp)
         )
+
+        AnimatedVisibility(
+            visible = keywordHistories.isNotEmpty(),
+            exit = fadeOut() + slideOutVertically(),
+        ) {
+            KeywordHistorySection(
+                keywordHistories = keywordHistories,
+                onClickSearchHistory = {
+                    searchState.query = it
+                    onSearch(searchState)
+                },
+                onClickClearSearchHistory = {
+                    onClickClearSearchHistory()
+                },
+                modifier = Modifier.padding(top = 12.dp)
+            )
+        }
 
         SearchResultTitle()
 
@@ -162,6 +195,87 @@ fun rememberSearchState(
             query = query,
             tab = SearchTabInfo.Notice,
             isLoading = false,
+        )
+    }
+}
+
+@Composable
+private fun KeywordHistorySection(
+    keywordHistories: List<String>,
+    onClickSearchHistory: (String) -> Unit,
+    onClickClearSearchHistory: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Column(modifier) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp, vertical = 6.dp)
+        ) {
+            Text(
+                text = stringResource(id = R.string.search_keyword_history),
+                style = TextStyle(
+                    color = KuringTheme.colors.textCaption1,
+                    fontSize = 15.sp,
+                    fontFamily = Pretendard,
+                    lineHeight = 24.sp,
+                ),
+                textAlign = TextAlign.Start,
+            )
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            Text(
+                text = stringResource(id = R.string.delete_all_keyword_history),
+                style = TextStyle(
+                    color = KuringTheme.colors.textCaption2,
+                    fontSize = 12.sp,
+                    fontFamily = Pretendard,
+                    lineHeight = 20.sp,
+                ),
+                textAlign = TextAlign.Start,
+                modifier = Modifier
+                    .clickable { onClickClearSearchHistory() }
+            )
+        }
+
+        LazyRow(
+            contentPadding = PaddingValues(horizontal = 20.dp),
+            horizontalArrangement = Arrangement.spacedBy(6.dp),
+            modifier = Modifier.padding(vertical = 6.dp)
+        ) {
+            items(keywordHistories) {
+                SearchHistoryChip(
+                    text = it,
+                    modifier = Modifier
+                        .clickable { onClickSearchHistory(it) }
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun SearchHistoryChip(
+    text: String,
+    modifier: Modifier = Modifier
+) {
+    val shape = RoundedCornerShape(percent = 50)
+    Box(
+        modifier = modifier
+            .background(KuringTheme.colors.mainPrimarySelected, shape)
+            .padding(horizontal = 12.dp, vertical = 8.dp),
+    ) {
+        Text(
+            text = text,
+            style = TextStyle(
+                fontSize = 14.sp,
+                lineHeight = 22.82.sp,
+                fontFamily = Pretendard,
+                fontWeight = FontWeight(400),
+                color = KuringTheme.colors.mainPrimary,
+            ),
         )
     }
 }
@@ -276,9 +390,11 @@ private fun SearchScreenPreview() {
             searchState = rememberSearchState("산학협력"),
             onNavigationClick = {},
             onClickNotice = {},
-            onClickSearch = {},
+            onSearch = {},
+            onClickClearSearchHistory = {},
             noticeList = emptyList(),
             staffList = emptyList(),
+            keywordHistories = emptyList(),
             modifier = Modifier
                 .background(KuringTheme.colors.background)
                 .fillMaxSize(),

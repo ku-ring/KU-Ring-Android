@@ -6,6 +6,7 @@ import com.ku_stacks.ku_ring.local.entity.BlackUserEntity
 import com.ku_stacks.ku_ring.local.entity.DepartmentEntity
 import com.ku_stacks.ku_ring.local.entity.NoticeEntity
 import com.ku_stacks.ku_ring.local.entity.PushEntity
+import com.ku_stacks.ku_ring.local.entity.SearchHistoryEntity
 
 @Database(
     entities = [
@@ -13,6 +14,7 @@ import com.ku_stacks.ku_ring.local.entity.PushEntity
         PushEntity::class,
         BlackUserEntity::class,
         DepartmentEntity::class,
+        SearchHistoryEntity::class,
     ],
     version = 6,
     exportSchema = false
@@ -22,4 +24,5 @@ abstract class KuRingDatabase : RoomDatabase() {
     abstract fun pushDao(): PushDao
     abstract fun blackUserDao(): BlackUserDao
     abstract fun departmentDao(): DepartmentDao
+    abstract fun searchHistoryDao(): SearchHistoryDao
 }

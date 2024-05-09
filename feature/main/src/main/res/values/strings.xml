@@ -45,6 +45,8 @@
     <string name="search_advice">찾고 싶은 공지사항이나 교직원을 검색해보세요\n(공지 제목 / 교수 이름 / 학과 / 단과대학)</string>
     <string name="search_staff_copy_email_complete">이메일이 클립보드에 복사되었어요</string>
     <string name="search_staff_copy_phone_number_complete">전화번호가 클립보드에 복사되었어요</string>
+    <string name="search_keyword_history">최근 검색어</string>
+    <string name="delete_all_keyword_history">전체 삭제</string>
 
     <!--  setting  -->
     <string name="setting_subscribe_title">공지 구독</string>
