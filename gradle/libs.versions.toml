@@ -162,7 +162,7 @@ androidx-junit = 'androidx.test.ext:junit:1.1.5'
 mockito-android = 'org.mockito:mockito-android:5.11.0'
 
 # Other libraries
-androidtagview = 'com.github.yeon-kyu:AndroidTagView:v1.1.7-alpha1'
+androidtagview = 'com.github.yeon-kyu:AndroidTagView:1.1.7'
 keyboardvisibilityevent = 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:3.0.0-RC3'
 leakcanary-android = 'com.squareup.leakcanary:leakcanary-android:2.13'
 pageindicatorview = 'com.romandanylyk:pageindicatorview:1.0.3'
