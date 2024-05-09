@@ -23,6 +23,7 @@ dependencies {
     implementation(projects.data.notice)
     implementation(projects.data.push)
     implementation(projects.data.staff)
+    implementation(projects.data.search)
     testImplementation(testFixtures(projects.common.util))
     testImplementation(testFixtures(projects.data.domain))
 
