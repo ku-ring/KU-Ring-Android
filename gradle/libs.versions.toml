@@ -145,7 +145,7 @@ rxjava = 'io.reactivex.rxjava3:rxjava:3.1.8'
 # WorkManager
 androidx-work-runtime-ktx = { module = 'androidx.work:work-runtime-ktx', version.ref = 'work' }
 androidx-work-testing = { module = 'androidx.work:work-testing', version.ref = 'work' }
-androidx-work-hilt = 'androidx.hilt:hilt-work:1.0.0'
+androidx-work-hilt = 'androidx.hilt:hilt-work:1.2.0'
 
 # Unit Test
 androidx-core-testing = 'androidx.arch.core:core-testing:2.2.0'
