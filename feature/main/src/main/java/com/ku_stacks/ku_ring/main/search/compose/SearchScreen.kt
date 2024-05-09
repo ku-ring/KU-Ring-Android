@@ -1,7 +1,11 @@
 package com.ku_stacks.ku_ring.main.search.compose
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -70,15 +74,18 @@ fun SearchScreen(
 ) {
     val noticeList by viewModel.noticeSearchResult.collectAsStateWithLifecycle(initialValue = emptyList())
     val staffList by viewModel.staffSearchResult.collectAsStateWithLifecycle(initialValue = emptyList())
+    val keywordHistories by viewModel.searchHistories.collectAsStateWithLifecycle(initialValue = emptyList())
 
     SearchScreen(
         onNavigationClick = onNavigationClick,
         onSearch = viewModel::onSearch,
         onClickNotice = onClickNotice,
+        onClickClearSearchHistory = viewModel::clearSearchHistory,
         searchState = searchState,
         tabPages = tabPages,
         noticeList = noticeList,
         staffList = staffList,
+        keywordHistories = keywordHistories,
         modifier = modifier,
     )
 }
@@ -89,10 +96,12 @@ private fun SearchScreen(
     onNavigationClick: () -> Unit,
     onSearch: (SearchState) -> Unit,
     onClickNotice: (Notice) -> Unit,
+    onClickClearSearchHistory: () -> Unit,
     searchState: SearchState,
     tabPages: List<SearchTabInfo>,
     noticeList: List<Notice>,
     staffList: List<Staff>,
+    keywordHistories: List<String>,
     modifier: Modifier = Modifier,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -133,9 +142,22 @@ private fun SearchScreen(
                 .padding(start = 20.dp, end = 20.dp, top = 20.dp, bottom = 0.dp)
         )
 
-        KeywordHistorySection(
-            modifier = Modifier.padding(top = 12.dp)
-        )
+        AnimatedVisibility(
+            visible = keywordHistories.isNotEmpty(),
+            exit = fadeOut() + slideOutVertically(),
+        ) {
+            KeywordHistorySection(
+                keywordHistories = keywordHistories,
+                onClickSearchHistory = {
+                    searchState.query = it
+                    onSearch(searchState)
+                },
+                onClickClearSearchHistory = {
+                    onClickClearSearchHistory()
+                },
+                modifier = Modifier.padding(top = 12.dp)
+            )
+        }
 
         SearchResultTitle()
 
@@ -179,6 +201,9 @@ fun rememberSearchState(
 
 @Composable
 private fun KeywordHistorySection(
+    keywordHistories: List<String>,
+    onClickSearchHistory: (String) -> Unit,
+    onClickClearSearchHistory: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier) {
@@ -210,6 +235,8 @@ private fun KeywordHistorySection(
                     lineHeight = 20.sp,
                 ),
                 textAlign = TextAlign.Start,
+                modifier = Modifier
+                    .clickable { onClickClearSearchHistory() }
             )
         }
 
@@ -218,10 +245,12 @@ private fun KeywordHistorySection(
             horizontalArrangement = Arrangement.spacedBy(6.dp),
             modifier = Modifier.padding(vertical = 6.dp)
         ) {
-            // TODO : re-impl
-            val list = listOf<String>("방학", "운송수단", "운송수단", "운송수단", "운송수단", "운송수단")
-            items(list) {
-                SearchHistoryChip(text = it)
+            items(keywordHistories) {
+                SearchHistoryChip(
+                    text = it,
+                    modifier = Modifier
+                        .clickable { onClickSearchHistory(it) }
+                )
             }
         }
     }
@@ -362,8 +391,10 @@ private fun SearchScreenPreview() {
             onNavigationClick = {},
             onClickNotice = {},
             onSearch = {},
+            onClickClearSearchHistory = {},
             noticeList = emptyList(),
             staffList = emptyList(),
+            keywordHistories = emptyList(),
             modifier = Modifier
                 .background(KuringTheme.colors.background)
                 .fillMaxSize(),
