@@ -32,6 +32,7 @@ include(
     ":data:local",
     ":data:remote",
     ":data:space",
+    ":data:search",
     ":common:thirdparty",
     ":common:work",
     ":feature:edit_subscription",
