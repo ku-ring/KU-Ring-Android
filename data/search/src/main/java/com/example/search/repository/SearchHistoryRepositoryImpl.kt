@@ -9,9 +9,9 @@ class SearchHistoryRepositoryImpl @Inject constructor(
     private val searchHistoryDao: SearchHistoryDao,
 ) : SearchHistoryRepository {
     override suspend fun addSearchHistory(keyword: String) {
-        val prevEntity = searchHistoryDao.getEntityOrNull(keyword)
+        val previousEntity = searchHistoryDao.getEntityOrNull(keyword)
 
-        prevEntity?.let {
+        previousEntity?.let {
             searchHistoryDao.delete(it)
         }
 
