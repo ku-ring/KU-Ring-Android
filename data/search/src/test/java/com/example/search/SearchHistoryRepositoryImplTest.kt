@@ -14,7 +14,6 @@ import org.mockito.kotlin.clearInvocations
 import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 
-
 class SearchHistoryRepositoryImplTest {
 
     private lateinit var repository: SearchHistoryRepositoryImpl
