@@ -17,7 +17,7 @@
         android:allowBackup="false"
         android:icon="${appIcon}"
         android:label="${appName}"
-        android:roundIcon="@drawable/ic_ku_ring_launcher_round"
+        android:roundIcon="${appIcon}"
         android:supportsRtl="true"
         android:theme="@style/Theme.KURing"
         android:usesCleartextTraffic="true"

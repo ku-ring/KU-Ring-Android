@@ -91,7 +91,7 @@ android {
 
             manifestPlaceholders = [
                     appName : "@string/app_name",
-                    appIcon : "@drawable/ic_kuring_launcher"
+                    appIcon: "@drawable/ic_app_v2"
             ]
         }
     }
