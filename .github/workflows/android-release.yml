@@ -55,7 +55,7 @@ jobs:
       
     # Upload AAB
     - name: Upload a Build AAB Artifact
-      uses: actions/upload-artifact@v4.3.1
+      uses: actions/upload-artifact@v4.3.3
       with:
         # Artifact name
         name: app-release.aab
@@ -65,7 +65,7 @@ jobs:
 
     # Upload APK
     - name: Upload a Build APK Artifact
-      uses: actions/upload-artifact@v4.3.1
+      uses: actions/upload-artifact@v4.3.3
       with:
         # Artifact name
         name: app-release.apk
