@@ -3,7 +3,7 @@
 android-gradle = "8.1.4"
 kotlin = '1.8.22'
 hilt = '2.45'
-google-services = '4.3.14'
+google-services = '4.4.1'
 firebase-gradle = '2.9.9'
 oss-licenses-version = '0.10.4'
 compileSdk = "34"
