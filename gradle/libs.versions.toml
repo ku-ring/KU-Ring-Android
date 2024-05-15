@@ -45,7 +45,7 @@ android-material = 'com.google.android.material:material:1.4.0'
 # AndroidX
 androidx-appcompat = 'androidx.appcompat:appcompat:1.6.1'
 androidx-constraintlayout = 'androidx.constraintlayout:constraintlayout:2.1.4'
-androidx-core-ktx = 'androidx.core:core-ktx:1.12.0'
+androidx-core-ktx = 'androidx.core:core-ktx:1.13.1'
 androidx-startup-runtime = 'androidx.startup:startup-runtime:1.1.1'
 androidx-swiperefreshlayout = 'androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01'
 androidx-viewpager2 = 'androidx.viewpager2:viewpager2:1.0.0'
