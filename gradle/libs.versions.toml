@@ -150,7 +150,7 @@ androidx-work-hilt = 'androidx.hilt:hilt-work:1.2.0'
 # Unit Test
 androidx-core-testing = 'androidx.arch.core:core-testing:2.2.0'
 androidx-test-core = 'androidx.test:core:1.5.0'
-mockito-core = 'org.mockito:mockito-core:5.11.0'
+mockito-core = 'org.mockito:mockito-core:5.12.0'
 mockito-inline = 'org.mockito:mockito-inline:5.2.0'
 mockito-kotlin = 'org.mockito.kotlin:mockito-kotlin:5.3.1'
 junit = 'junit:junit:4.13.2'
@@ -159,7 +159,7 @@ robolectric = 'org.robolectric:robolectric:4.12.1'
 # Android Test
 androidx-espresso-core = 'androidx.test.espresso:espresso-core:3.5.1'
 androidx-junit = 'androidx.test.ext:junit:1.1.5'
-mockito-android = 'org.mockito:mockito-android:5.11.0'
+mockito-android = 'org.mockito:mockito-android:5.12.0'
 
 # Other libraries
 androidtagview = 'com.github.yeon-kyu:AndroidTagView:v1.1.7-alpha1'
