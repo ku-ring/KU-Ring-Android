@@ -40,7 +40,7 @@ firebase-crashlytics-gradle = { module = 'com.google.firebase:firebase-crashlyti
 oss-licenses = { module = 'com.google.android.gms:oss-licenses-plugin', version.ref = 'oss-licenses-version' }
 
 # Android
-android-material = 'com.google.android.material:material:1.4.0'
+android-material = 'com.google.android.material:material:1.12.0'
 
 # AndroidX
 androidx-appcompat = 'androidx.appcompat:appcompat:1.6.1'
