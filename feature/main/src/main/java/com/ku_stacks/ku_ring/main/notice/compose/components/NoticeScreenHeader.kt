@@ -33,7 +33,7 @@ internal fun NoticeScreenHeader(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(
-            painter = painterResource(id = R.drawable.img_kuring),
+            painter = painterResource(id = R.drawable.ic_kuring_v2),
             contentDescription = null,
         )
         Spacer(modifier = Modifier.weight(1f))
