@@ -122,7 +122,7 @@ androidx-paging-common-ktx = { module = 'androidx.paging:paging-common-ktx', ver
 androidx-paging-runtime-ktx = { module = 'androidx.paging:paging-runtime-ktx', version.ref = 'paging' }
 
 # Play Services
-play-services-oss-licenses = 'com.google.android.gms:play-services-oss-licenses:17.0.0'
+play-services-oss-licenses = 'com.google.android.gms:play-services-oss-licenses:17.1.0'
 play-services-auth = 'com.google.android.gms:play-services-auth:21.1.1'
 
 # Retrofit
