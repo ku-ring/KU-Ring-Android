@@ -17,7 +17,7 @@ import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 
-class ApplicationPlugin: Plugin<Project> {
+class ApplicationPlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
         with(pluginManager) {
             apply("com.android.application")
@@ -35,8 +35,14 @@ class ApplicationPlugin: Plugin<Project> {
             buildTypes {
                 release {
                     isMinifyEnabled = false
-                    proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+                    proguardFiles(
+                        getDefaultProguardFile("proguard-android-optimize.txt"),
+                        "proguard-rules.pro"
+                    )
                 }
+            }
+            buildFeatures {
+                dataBinding = true
             }
         }
         dependencies {
