@@ -114,6 +114,9 @@ dependencies {
     implementation(libs.bundles.androidx.work)
     debugImplementation(libs.leakcanary.android)
     implementation(libs.play.services.auth)
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.crashlytics.ktx)
 }
 
 kapt {
