@@ -43,7 +43,7 @@ fun KuringWebView(
             modifier = modifier,
         )
     } else {
-        KuringWebViewUrlNull(modifier = modifier)
+        KuringWebViewErrorScreen(modifier = modifier)
     }
 }
 
@@ -96,7 +96,7 @@ private fun createWebView(context: Context, onSetProgress: (Int) -> Unit) = WebV
 }
 
 @Composable
-private fun KuringWebViewUrlNull(modifier: Modifier = Modifier) {
+private fun KuringWebViewErrorScreen(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier.background(KuringTheme.colors.background),
         horizontalAlignment = Alignment.CenterHorizontally,
