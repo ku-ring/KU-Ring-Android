@@ -17,9 +17,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ShareCompat
@@ -108,23 +110,20 @@ private fun NoticeWebScreenActions(
     webViewNotice: WebViewNotice,
     modifier: Modifier = Modifier,
 ) {
-    val bookmarkIconId =
-        if (isSaved) R.drawable.ic_bookmark_fill_v2 else R.drawable.ic_bookmark_v2
     val context = LocalContext.current
-
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         Icon(
-            painter = painterResource(id = bookmarkIconId),
+            imageVector = ImageVector.vectorResource(id = if (isSaved) R.drawable.ic_bookmark_fill_v2 else R.drawable.ic_bookmark_v2),
             contentDescription = stringResource(id = R.string.save_button_description),
             tint = KuringTheme.colors.gray600,
             modifier = Modifier
                 .clickable(role = Role.Switch, onClick = onSaveButtonClick),
         )
         Icon(
-            painter = painterResource(id = R.drawable.ic_share_v2),
+            imageVector = ImageVector.vectorResource(id = R.drawable.ic_share_v2),
             contentDescription = stringResource(id = R.string.share_externally_description),
             tint = KuringTheme.colors.gray600,
             modifier = Modifier.clickable(
