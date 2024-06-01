@@ -1,113 +1,36 @@
 package com.ku_stacks.ku_ring.notice_detail
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.webkit.WebChromeClient
-import android.webkit.WebResourceRequest
-import android.webkit.WebView
-import android.webkit.WebViewClient
-import androidx.activity.viewModels
+import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ShareCompat
-import androidx.lifecycle.lifecycleScope
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.Modifier
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.WebViewNotice
-import com.ku_stacks.ku_ring.notice_detail.databinding.ActivityNoticeWebBinding
-import com.ku_stacks.ku_ring.util.WordConverter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import timber.log.Timber
 
 @AndroidEntryPoint
 class NoticeWebActivity : AppCompatActivity() {
 
-    private val viewModel by viewModels<NoticeWebViewModel>()
-    private lateinit var binding: ActivityNoticeWebBinding
-
-    @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityNoticeWebBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
         // Deprecated되지 않은 다른 함수가 API 33 이상에서만 사용할 수 있어서 부득이하게 deprecated 함수를 사용
         val webViewNotice = intent.getSerializableExtra(WebViewNotice.EXTRA_KEY) as? WebViewNotice
             ?: throw IllegalStateException("WebViewNotice should not be null.")
 
-        binding.noticeBackBt.setOnClickListener { finish() }
-
-        binding.noticeShareBt.setOnClickListener {
-            shareLinkExternally(webViewNotice.url)
-        }
-
-        binding.noticeSaveButton.setOnClickListener { viewModel.onSaveButtonClick() }
-
-        binding.subjectTitle.text = WordConverter.convertEnglishToKorean(webViewNotice.category)
-
-        collectSavedStatus()
-
-        binding.noticeWebView.webViewClient = object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(
-                view: WebView,
-                request: WebResourceRequest
-            ): Boolean {
-                val intent = Intent(Intent.ACTION_VIEW)
-                intent.data = request.url
-                startActivity(intent)
-                return true
+        setContent {
+            KuringTheme {
+                NoticeWebScreen(
+                    webViewNotice = webViewNotice,
+                    onNavigateBack = ::finish,
+                    modifier = Modifier.fillMaxSize(),
+                )
             }
         }
-
-        binding.noticeWebView.settings.apply {
-            builtInZoomControls = true
-            domStorageEnabled = true
-            javaScriptEnabled = true
-            loadWithOverviewMode = true
-            setSupportZoom(true)
-            displayZoomControls = false
-        }
-
-        // WebChromeClient
-        binding.noticeWebView.webChromeClient = object : WebChromeClient() {
-            override fun onProgressChanged(view: WebView, newProgress: Int) {
-                binding.noticeProgressbar.progress = newProgress
-                if (newProgress == 100) {
-                    updateNoticeTobeRead(webViewNotice.articleId, webViewNotice.category)
-                    binding.noticeProgressbar.visibility = View.GONE
-                    binding.noticeWebView.webChromeClient = null
-                } else {
-                    binding.noticeProgressbar.visibility = View.VISIBLE
-                }
-                super.onProgressChanged(view, newProgress)
-            }
-        }
-
-        binding.noticeWebView.loadUrl(webViewNotice.url)
-    }
-
-    private fun collectSavedStatus() {
-        lifecycleScope.launchWhenResumed {
-            viewModel.isSaved.collectLatest { isSaved ->
-                binding.isNoticeSaved = isSaved
-            }
-        }
-    }
-
-    private fun updateNoticeTobeRead(articleId: String?, category: String?) {
-        if (!articleId.isNullOrEmpty() && !category.isNullOrEmpty()) {
-            viewModel.updateNoticeTobeRead(articleId, category)
-        }
-    }
-
-    private fun shareLinkExternally(url: String) {
-        ShareCompat.IntentBuilder(this)
-            .setChooserTitle(R.string.share_externally)
-            .setText(url)
-            .setType("text/plain")
-            .startChooser()
     }
 
     override fun finish() {

@@ -3,6 +3,7 @@ package com.ku_stacks.ku_ring.designsystem.components
 import android.content.Context
 import android.view.ViewGroup
 import android.webkit.WebChromeClient
+import android.webkit.WebSettings
 import android.webkit.WebView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -19,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -36,10 +38,13 @@ import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 fun KuringWebView(
     url: String?,
     modifier: Modifier = Modifier,
+    customSettings: WebSettings.() -> Unit = {},
 ) {
-    if (url != null) {
+    // Preview에서 android view를 지원하지 않으므로, 프리뷰가 아닐 때에만 웹뷰를 보여주도록 설정
+    if (url != null && !LocalInspectionMode.current) {
         KuringWebView(
             url = url,
+            customSettings = customSettings,
             modifier = modifier,
         )
     } else {
@@ -51,6 +56,7 @@ fun KuringWebView(
 @Composable
 private fun KuringWebView(
     url: String,
+    customSettings: WebSettings.() -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var progress by remember { mutableIntStateOf(0) }
@@ -65,7 +71,11 @@ private fun KuringWebView(
         }
         AndroidView(
             factory = { context ->
-                createWebView(context) { progress = it }
+                createWebView(
+                    context = context,
+                    onSetProgress = { progress = it },
+                    customSettings = customSettings,
+                )
             },
             update = {
                 it.loadUrl(url)
@@ -74,7 +84,11 @@ private fun KuringWebView(
     }
 }
 
-private fun createWebView(context: Context, onSetProgress: (Int) -> Unit) = WebView(context).apply {
+private fun createWebView(
+    context: Context,
+    onSetProgress: (Int) -> Unit,
+    customSettings: WebSettings.() -> Unit = {},
+) = WebView(context).apply {
     layoutParams = ViewGroup.LayoutParams(
         ViewGroup.LayoutParams.MATCH_PARENT,
         ViewGroup.LayoutParams.MATCH_PARENT
@@ -92,6 +106,7 @@ private fun createWebView(context: Context, onSetProgress: (Int) -> Unit) = WebV
         loadWithOverviewMode = true
         blockNetworkLoads = false
         setSupportZoom(false)
+        customSettings()
     }
 }
 
@@ -121,7 +136,6 @@ private fun KuringWebViewErrorScreen(modifier: Modifier = Modifier) {
     }
 }
 
-// 프리뷰에서 실제 웹 페이지를 보여줄 수 없으므로, URL이 없는 프리뷰만 작성함
 @LightAndDarkPreview
 @Composable
 private fun KuringWebViewPreview_urlNull() {

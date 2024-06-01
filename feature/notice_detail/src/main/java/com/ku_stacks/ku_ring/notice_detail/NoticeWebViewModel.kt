@@ -11,7 +11,6 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -36,9 +35,9 @@ class NoticeWebViewModel @Inject constructor(
         }
     }
 
-    fun updateNoticeTobeRead(articleId: String, category: String) {
+    fun updateNoticeTobeRead(webViewNotice: WebViewNotice) {
         disposable.add(
-            noticeRepository.updateNoticeToBeRead(articleId, category)
+            noticeRepository.updateNoticeToBeRead(webViewNotice.articleId, webViewNotice.category)
                 .subscribeOn(Schedulers.io())
                 .subscribe({ }, { })
         )
