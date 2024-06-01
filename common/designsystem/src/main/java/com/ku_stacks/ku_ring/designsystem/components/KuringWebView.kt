@@ -36,10 +36,12 @@ import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 fun KuringWebView(
     url: String?,
     modifier: Modifier = Modifier,
+    customSettings: WebSettings.() -> Unit = {},
 ) {
     if (url != null) {
         KuringWebView(
             url = url,
+            customSettings = customSettings,
             modifier = modifier,
         )
     } else {
@@ -51,6 +53,7 @@ fun KuringWebView(
 @Composable
 private fun KuringWebView(
     url: String,
+    customSettings: WebSettings.() -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var progress by remember { mutableIntStateOf(0) }
@@ -65,7 +68,11 @@ private fun KuringWebView(
         }
         AndroidView(
             factory = { context ->
-                createWebView(context) { progress = it }
+                createWebView(
+                    context = context,
+                    onSetProgress = { progress = it },
+                    customSettings = customSettings,
+                )
             },
             update = {
                 it.loadUrl(url)
@@ -74,7 +81,11 @@ private fun KuringWebView(
     }
 }
 
-private fun createWebView(context: Context, onSetProgress: (Int) -> Unit) = WebView(context).apply {
+private fun createWebView(
+    context: Context,
+    onSetProgress: (Int) -> Unit,
+    customSettings: WebSettings.() -> Unit = {},
+) = WebView(context).apply {
     layoutParams = ViewGroup.LayoutParams(
         ViewGroup.LayoutParams.MATCH_PARENT,
         ViewGroup.LayoutParams.MATCH_PARENT
@@ -92,6 +103,7 @@ private fun createWebView(context: Context, onSetProgress: (Int) -> Unit) = WebV
         loadWithOverviewMode = true
         blockNetworkLoads = false
         setSupportZoom(false)
+        customSettings()
     }
 }
 
