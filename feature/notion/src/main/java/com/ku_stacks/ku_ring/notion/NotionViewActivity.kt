@@ -4,42 +4,26 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.webkit.WebChromeClient
-import android.webkit.WebView
-import android.widget.ProgressBar
+import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.Modifier
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 
 class NotionViewActivity : AppCompatActivity() {
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_personal_data)
 
         val url = intent.getStringExtra(NOTION_URL)
-
-        val webView = findViewById<WebView>(R.id.personal_data_webview)
-        val progressBar = findViewById<ProgressBar>(R.id.personal_data_progressbar)
-
-        webView.settings.apply {
-            builtInZoomControls = false
-            domStorageEnabled = true
-            javaScriptEnabled = true
-            loadWithOverviewMode = true
-            setSupportZoom(false)
-        }
-
-        // WebChromeClient
-        webView.webChromeClient = object : WebChromeClient() {
-            override fun onProgressChanged(view: WebView, newProgress: Int) {
-                progressBar.progress = newProgress
-                progressBar.visibility = if (newProgress == 100) View.GONE else View.VISIBLE
-                super.onProgressChanged(view, newProgress)
+        setContent {
+            KuringTheme {
+                NotionScreen(
+                    url = url,
+                    modifier = Modifier.fillMaxSize(),
+                )
             }
-        }
-        url?.let {
-            webView.loadUrl(it)
         }
     }
 
