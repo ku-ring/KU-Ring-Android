@@ -23,6 +23,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ShareCompat
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ku_stacks.ku_ring.designsystem.components.KuringWebView
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.components.topbar.CenterTitleTopBar
@@ -32,6 +34,25 @@ import com.ku_stacks.ku_ring.util.WordConverter
 
 @Composable
 fun NoticeWebScreen(
+    webViewNotice: WebViewNotice,
+    onNavigateBack: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: NoticeWebViewModel = hiltViewModel(),
+) {
+    val isSaved by viewModel.isSaved.collectAsStateWithLifecycle()
+
+    NoticeWebScreen(
+        webViewNotice = webViewNotice,
+        isSaved = isSaved,
+        onNavigateBack = onNavigateBack,
+        onSaveButtonClick = viewModel::onSaveButtonClick,
+        afterPageLoaded = viewModel::updateNoticeTobeRead,
+        modifier = modifier,
+    )
+}
+
+@Composable
+private fun NoticeWebScreen(
     webViewNotice: WebViewNotice,
     isSaved: Boolean,
     onNavigateBack: () -> Unit,

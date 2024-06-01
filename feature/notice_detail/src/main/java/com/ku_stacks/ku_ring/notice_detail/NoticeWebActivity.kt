@@ -1,29 +1,20 @@
 package com.ku_stacks.ku_ring.notice_detail
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.WebViewNotice
-import com.ku_stacks.ku_ring.notice_detail.databinding.ActivityNoticeWebBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class NoticeWebActivity : AppCompatActivity() {
 
-    private val viewModel by viewModels<NoticeWebViewModel>()
-    private lateinit var binding: ActivityNoticeWebBinding
-
-    @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -32,14 +23,10 @@ class NoticeWebActivity : AppCompatActivity() {
             ?: throw IllegalStateException("WebViewNotice should not be null.")
 
         setContent {
-            val isSaved by viewModel.isSaved.collectAsStateWithLifecycle()
             KuringTheme {
                 NoticeWebScreen(
                     webViewNotice = webViewNotice,
-                    isSaved = isSaved,
                     onNavigateBack = ::finish,
-                    onSaveButtonClick = viewModel::onSaveButtonClick,
-                    afterPageLoaded = viewModel::updateNoticeTobeRead,
                     modifier = Modifier.fillMaxSize(),
                 )
             }
