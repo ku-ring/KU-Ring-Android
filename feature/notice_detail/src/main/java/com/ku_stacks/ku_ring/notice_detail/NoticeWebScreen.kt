@@ -46,7 +46,7 @@ fun NoticeWebScreen(
         isSaved = isSaved,
         onNavigateBack = onNavigateBack,
         onSaveButtonClick = viewModel::onSaveButtonClick,
-        afterPageLoaded = viewModel::updateNoticeTobeRead,
+        doAfterPageLoaded = viewModel::updateNoticeTobeRead,
         modifier = modifier,
     )
 }
@@ -57,12 +57,12 @@ private fun NoticeWebScreen(
     isSaved: Boolean,
     onNavigateBack: () -> Unit,
     onSaveButtonClick: () -> Unit,
-    afterPageLoaded: (WebViewNotice) -> Unit,
+    doAfterPageLoaded: (WebViewNotice) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     DisposableEffect(webViewNotice) {
         onDispose {
-            afterPageLoaded(webViewNotice)
+            doAfterPageLoaded(webViewNotice)
         }
     }
 
@@ -158,7 +158,7 @@ private fun NoticeWebScreenPreview() {
             isSaved = isSaved,
             onNavigateBack = {},
             onSaveButtonClick = { isSaved = !isSaved },
-            afterPageLoaded = {},
+            doAfterPageLoaded = {},
             modifier = Modifier
                 .background(KuringTheme.colors.background)
                 .fillMaxSize(),
