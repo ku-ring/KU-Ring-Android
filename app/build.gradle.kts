@@ -115,7 +115,8 @@ dependencies {
     implementation(libs.bundles.androidx.work)
     debugImplementation(libs.leakcanary.android)
     implementation(libs.play.services.auth)
-
+    androidTestImplementation(libs.androidx.navigation.testing)
+    androidTestImplementation(libs.androidx.espresso.intents)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.crashlytics.ktx)
 }

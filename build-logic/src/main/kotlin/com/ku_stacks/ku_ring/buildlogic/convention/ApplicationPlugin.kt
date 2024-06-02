@@ -43,6 +43,10 @@ class ApplicationPlugin : Plugin<Project> {
             }
             buildFeatures {
                 dataBinding = true
+                compose = true
+            }
+            composeOptions {
+                kotlinCompilerExtensionVersion = libs.version("compose-compiler")
             }
         }
         dependencies {
