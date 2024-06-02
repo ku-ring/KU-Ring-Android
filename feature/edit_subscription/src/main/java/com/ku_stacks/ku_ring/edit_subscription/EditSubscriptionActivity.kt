@@ -45,11 +45,8 @@ class EditSubscriptionActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val FIRST_RUN_FLAG = "firstRunFlag"
-        fun start(activity: Activity, isFirstRun: Boolean) {
-            val intent = Intent(activity, EditSubscriptionActivity::class.java).apply {
-                putExtra(FIRST_RUN_FLAG, isFirstRun)
-            }
+        fun start(activity: Activity) {
+            val intent = Intent(activity, EditSubscriptionActivity::class.java)
             activity.startActivity(intent)
         }
     }
