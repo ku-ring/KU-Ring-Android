@@ -24,3 +24,5 @@ local.properties
 .idea/other.xml
 
 .idea/androidTestResultsUserPreferences.xml
+
+.idea/deploymentTargetSelector.xml
