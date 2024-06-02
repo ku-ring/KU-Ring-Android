@@ -22,3 +22,5 @@ local.properties
 .idea/material_theme_project_new.xml
 
 .idea/other.xml
+
+.idea/androidTestResultsUserPreferences.xml
