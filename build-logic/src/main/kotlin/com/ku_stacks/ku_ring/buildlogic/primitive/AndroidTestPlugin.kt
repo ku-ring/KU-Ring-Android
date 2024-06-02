@@ -8,10 +8,11 @@ import org.gradle.kotlin.dsl.dependencies
 class AndroidTestPlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
         dependencies {
-            "androidTestImplementation"(libs.findBundle("android-test").get())
-            "androidTestImplementation"(platform(libs.findLibrary("compose-bom")))
-            "androidTestImplementation"(libs.findLibrary("compose-ui-test"))
-            "debugImplementation"(libs.findLibrary("compose-ui-test-manifest"))
+           "androidTestImplementation"(libs.findBundle("android-test").get())
+            "androidTestImplementation"(platform(libs.findLibrary("compose-bom").get()))
+            "androidTestImplementation"(libs.findLibrary("compose-ui-test").get())
+            "androidTestImplementation"(libs.findLibrary("compose-ui-test-junit4").get())
+            "debugImplementation"(libs.findLibrary("compose-ui-test-manifest").get())
         }
     }
 }

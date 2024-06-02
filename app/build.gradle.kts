@@ -4,6 +4,7 @@ import java.util.Properties
 plugins {
     kuring("application")
     kuringPrimitive("test")
+    kuringPrimitive("android-test")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
     id("com.google.android.gms.oss-licenses-plugin")

@@ -58,13 +58,18 @@ gradlePlugin {
             id = "com.ku_stacks.ku_ring.buildlogic.primitive.common-android"
             implementationClass = "com.ku_stacks.ku_ring.buildlogic.primitive.CommonAndroidPlugin"
         }
+        register("com.ku_stacks.ku_ring.buildlogic.primitive.AndroidTestPlugin") {
+            id = "com.ku_stacks.ku_ring.buildlogic.primitive.android-test"
+            implementationClass = "com.ku_stacks.ku_ring.buildlogic.primitive.AndroidTestPlugin"
+        }
         register("com.ku_stacks.ku_ring.buildlogic.convention.KotlinJvmPlugin") {
             id = "com.ku_stacks.ku_ring.buildlogic.kotlin"
             implementationClass = "com.ku_stacks.ku_ring.buildlogic.convention.KotlinJvmPlugin"
         }
         register("com.ku_stacks.ku_ring.buildlogic.convention.ViewBasedFeaturePlugin") {
             id = "com.ku_stacks.ku_ring.buildlogic.view"
-            implementationClass = "com.ku_stacks.ku_ring.buildlogic.convention.ViewBasedFeaturePlugin"
+            implementationClass =
+                "com.ku_stacks.ku_ring.buildlogic.convention.ViewBasedFeaturePlugin"
         }
         register("com.ku_stacks.ku_ring.buildlogic.convention.ComposePlugin") {
             id = "com.ku_stacks.ku_ring.buildlogic.compose"
