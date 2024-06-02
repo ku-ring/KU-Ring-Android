@@ -13,7 +13,6 @@ import com.ku_stacks.ku_ring.edit_subscription.EditSubscriptionActivity
 import com.ku_stacks.ku_ring.feedback.feedback.FeedbackActivity
 import com.ku_stacks.ku_ring.main.MainActivity
 import com.ku_stacks.ku_ring.main.search.SearchActivity
-import com.ku_stacks.ku_ring.my_notification.NotificationActivity
 import com.ku_stacks.ku_ring.notice_detail.NoticeWebActivity
 import com.ku_stacks.ku_ring.notion.NotionViewActivity
 import com.ku_stacks.ku_ring.onboarding.OnboardingActivity
@@ -57,10 +56,6 @@ class KuringNavigatorImpl @Inject constructor() : KuringNavigator {
         subject: String,
     ) {
         MainActivity.start(activity, url, articleId, category, subject)
-    }
-
-    override fun navigateToNotification(activity: Activity) {
-        NotificationActivity.start(activity)
     }
 
     override fun navigateToSearch(activity: Activity) {

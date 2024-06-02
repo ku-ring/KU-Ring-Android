@@ -14,7 +14,6 @@ interface KuringNavigator {
     fun createMainIntent(context: Context): Intent
     fun navigateToMain(activity: Activity)
     fun navigateToMain(activity: Activity, url: String, articleId: String, category: String, subject: String)
-    fun navigateToNotification(activity: Activity)
     fun navigateToSearch(activity: Activity)
     fun createNoticeWebIntent(
         context: Context,
