@@ -23,7 +23,6 @@ class TestPlugin : Plugin<Project> {
 
         dependencies {
             "testImplementation"(libs.findBundle("unit-test").get())
-            // "androidTestImplementation"(libs.findBundle("android-test").get())
         }
     }
 }
