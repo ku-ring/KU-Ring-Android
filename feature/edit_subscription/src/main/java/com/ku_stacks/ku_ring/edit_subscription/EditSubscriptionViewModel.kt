@@ -16,7 +16,12 @@ import com.ku_stacks.ku_ring.util.modifyMap
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -56,9 +61,6 @@ class EditSubscriptionViewModel @Inject constructor(
     private var isInitialDepartmentLoaded = false
     val isInitialLoadDone: Boolean
         get() = isInitialCategoryLoaded && isInitialDepartmentLoaded
-
-    /** 첫 앱 구동자에게 보여지는 온보딩 후의 푸시 세팅을 위한 분기처리 용도 */
-    var firstRunFlag = false
 
     init {
         firebaseMessaging.token.addOnCompleteListener { task ->

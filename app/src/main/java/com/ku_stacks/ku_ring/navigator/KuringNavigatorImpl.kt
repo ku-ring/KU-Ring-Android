@@ -21,15 +21,8 @@ import com.ku_stacks.ku_ring.ui_util.KuringNavigator
 import javax.inject.Inject
 
 class KuringNavigatorImpl @Inject constructor() : KuringNavigator {
-
-    override fun createEditSubscriptionIntent(context: Context, isFirstRun: Boolean): Intent {
-        return Intent(context, EditSubscriptionActivity::class.java).apply {
-            putExtra(EditSubscriptionActivity.FIRST_RUN_FLAG, isFirstRun)
-        }
-    }
-
-    override fun navigateToEditSubscription(activity: Activity, isFirstRun: Boolean) {
-        EditSubscriptionActivity.start(activity, isFirstRun)
+    override fun navigateToEditSubscription(activity: Activity) {
+        EditSubscriptionActivity.start(activity)
     }
 
     override fun navigateToEditSubscribedDepartment(activity: Activity) {

@@ -43,6 +43,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ku_stacks.ku_ring.designsystem.components.KuringCallToAction
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.components.LightPreview
@@ -60,13 +61,14 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun EditSubscriptionScreen(
-    viewModel: EditSubscriptionViewModel,
     onNavigateToBack: () -> Unit,
     onAddDepartmentButtonClick: () -> Unit,
-    onSubscriptionComplete: () -> Unit,
+    onFinish: () -> Unit,
     modifier: Modifier = Modifier,
+    viewModel: EditSubscriptionViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
+
     EditSubscriptionScreen(
         categories = uiState.categories,
         departments = uiState.departments,
@@ -74,7 +76,12 @@ fun EditSubscriptionScreen(
         onCategoryClick = viewModel::onNormalSubscriptionItemClick,
         onDepartmentClick = viewModel::onDepartmentSubscriptionItemClick,
         onAddDepartmentButtonClick = onAddDepartmentButtonClick,
-        onSubscriptionComplete = onSubscriptionComplete,
+        onSubscriptionComplete = {
+            if (viewModel.isInitialLoadDone) {
+                viewModel.saveSubscribe()
+                onFinish()
+            }
+        },
         modifier = modifier,
     )
 }

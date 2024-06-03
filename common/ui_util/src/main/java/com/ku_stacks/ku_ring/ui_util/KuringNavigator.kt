@@ -7,8 +7,7 @@ import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.domain.WebViewNotice
 
 interface KuringNavigator {
-    fun createEditSubscriptionIntent(context: Context, isFirstRun: Boolean = false): Intent
-    fun navigateToEditSubscription(activity: Activity, isFirstRun: Boolean = false)
+    fun navigateToEditSubscription(activity: Activity)
     fun navigateToEditSubscribedDepartment(activity: Activity)
     fun navigateToFeedback(activity: Activity)
     fun createMainIntent(context: Context): Intent
