@@ -37,7 +37,6 @@ include(
     ":common:work",
     ":feature:edit_subscription",
     ":feature:feedback",
-    ":feature:my_notification",
     ":feature:notice_detail",
     ":feature:notion",
     ":feature:onboarding",

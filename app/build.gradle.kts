@@ -101,7 +101,6 @@ dependencies {
     implementation(projects.feature.editDepartments)
     implementation(projects.feature.editSubscription)
     implementation(projects.feature.feedback)
-    implementation(projects.feature.myNotification)
     implementation(projects.feature.noticeDetail)
     implementation(projects.feature.notion)
     implementation(projects.feature.onboarding)
