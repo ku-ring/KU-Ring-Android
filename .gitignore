@@ -16,3 +16,13 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+.idea/git_toolbox_prj.xml
+
+.idea/material_theme_project_new.xml
+
+.idea/other.xml
+
+.idea/androidTestResultsUserPreferences.xml
+
+.idea/deploymentTargetSelector.xml

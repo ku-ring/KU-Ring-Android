@@ -20,7 +20,7 @@ import com.ku_stacks.ku_ring.splash.SplashScreenState
 import com.ku_stacks.ku_ring.splash.compose.components.UpdateAppDialog
 
 @Composable
-internal fun SplashScreen(
+fun SplashScreen(
     screenState: SplashScreenState,
     onUpdateApp: () -> Unit,
     onDismissUpdateDialog: () -> Unit,

@@ -1,10 +1,7 @@
 package com.ku_stacks.ku_ring.buildlogic.primitive
 
 import com.android.build.gradle.BaseExtension
-import com.ku_stacks.ku_ring.buildlogic.dsl.androidTestImplementation
-import com.ku_stacks.ku_ring.buildlogic.dsl.bundle
 import com.ku_stacks.ku_ring.buildlogic.dsl.libs
-import com.ku_stacks.ku_ring.buildlogic.dsl.testImplementation
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
@@ -23,7 +20,6 @@ class TestPlugin : Plugin<Project> {
 
         dependencies {
             "testImplementation"(libs.findBundle("unit-test").get())
-            // "androidTestImplementation"(libs.findBundle("android-test").get())
         }
     }
 }
