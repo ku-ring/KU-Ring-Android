@@ -93,7 +93,7 @@ private fun AppVersionText(
 private fun InformationGroupPreview() {
     KuringTheme {
         InformationGroup(
-            appVersion = "2.0.0",
+            appVersion = "2.0.1",
             onNavigateToUpdateLog = {},
             onNavigateToKuringTeam = {},
             onNavigateToPrivacyPolicy = {},
