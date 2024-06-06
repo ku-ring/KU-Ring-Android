@@ -1,6 +1,4 @@
-<p align="center">
- <img src="https://github.com/KU-Stacks/KU-Ring-Android/blob/main/preview/concat.png" align="right" width="30%"/>
-</p>
+<img src="https://github.com/KU-Stacks/KU-Ring-Android/blob/main/preview/concat.png" alt="쿠링 소개 이미지"/>
 
 <a href='https://play.google.com/store/apps/details?id=com.ku_stacks.ku_ring'><img alt='Google Play에서 쿠링 다운로드' width=250 src='https://play.google.com/intl/ko/badges/static/images/badges/ko_badge_web_generic.png'/></a>
 
@@ -13,7 +11,6 @@
 # Tech Stack
 
 ## Architecture
-
 - Jetpack Compose w/ MVVM
 - Unidirectional Data Flow
 - Dependency injection by Hilt
@@ -29,25 +26,22 @@
 - Navigation w/ Compose
 
 ## Async
-
 - Kotlin Coroutines (main)
 - RxJava (sub)
 
 ## Network Requests
-
 - Retrofit2
 - Gson
 
 ## other Libraries
-
 - Firebase
   - Crashlytics
   - Analytics
+  - Remote Messaging
 - LeakCanary
 - [SemVer](https://github.com/semver/semver)
 
 ## Test
-
 - Junit4
 - Robolectric
 - Mockito
