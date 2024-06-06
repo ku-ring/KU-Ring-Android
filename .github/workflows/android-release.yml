@@ -3,12 +3,13 @@ name: Android-release CI/CD
 on:
   push:
     branches:
-      - release
+      - release/*
       - main
   pull_request:
     branches:
-      - release
+      - release/*
       - main
+  workflow_dispatch:
 
 jobs:
   build:
