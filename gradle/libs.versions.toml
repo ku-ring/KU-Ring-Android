@@ -15,7 +15,7 @@ versionCode = "20001"
 
 # app-level dependency
 compose-compiler = '1.4.8'
-compose-bom = '2024.01.00'
+compose-bom = '2024.06.00'
 coil = '2.6.0'
 fragment = '1.5.0'
 kotlinx-coroutines = '1.8.0'
