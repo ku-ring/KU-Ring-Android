@@ -3,6 +3,9 @@
 <resources>
     <string name="setting_screen_top_app_bar_title">더보기</string>
 
+    <!--  navigation  -->
+    <string name="main_bottom_navigation_item">%s 화면으로 이동하기</string>
+
     <string name="search_result">검색 결과</string>
     <string name="search_type_notice">공지</string>
     <string name="search_type_professor">교수명</string>
