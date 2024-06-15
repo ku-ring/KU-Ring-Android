@@ -3,9 +3,8 @@ package com.ku_stacks.ku_ring.notice.paging_source
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.paging.PagingSource.LoadParams
 import androidx.paging.PagingSource.LoadResult
-import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.notice.source.NoticePagingSource
-import com.ku_stacks.ku_ring.remote.RemoteFixtures
+import com.ku_stacks.ku_ring.notice.test.NoticeTestUtil
 import com.ku_stacks.ku_ring.remote.notice.NoticeClient
 import io.reactivex.rxjava3.core.Single
 import org.junit.Before
@@ -29,7 +28,7 @@ class NoticePagingSourceTest {
     @Test
     fun `load PagingSource Refresh Success Test`() {
         // given
-        val mockData = RemoteFixtures.noticeListResponse()
+        val mockData = NoticeTestUtil.fakeNoticeListResponse()
         Mockito.`when`(client.fetchNoticeList("bch", 0, 20)).thenReturn(Single.just(mockData))
 
         // when, then
@@ -40,23 +39,8 @@ class NoticePagingSourceTest {
             .assertNoErrors()
             .assertValueCount(1)
             .assertValue(
-                LoadResult.Page<Int, Notice>(
-                    data = listOf(
-                        Notice(
-                            postedDate = "20220203",
-                            subject = "2022학년도 1학기 재입학 합격자 유의사항 안내",
-                            category = "bachelor",
-                            url = "https://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do?forum=notice&sort=6&id=5b4f972&cat=0000300001",
-                            articleId = "5b4a11b",
-                            isNew = false,
-                            isRead = false,
-                            isSubscribing = false,
-                            isSaved = false,
-                            isReadOnStorage = false,
-                            isImportant = false,
-                            tag = emptyList()
-                        )
-                    ),
+                LoadResult.Page(
+                    data = listOf(NoticeTestUtil.fakeNotice()),
                     prevKey = null,
                     nextKey = 20
                 )
@@ -68,7 +52,7 @@ class NoticePagingSourceTest {
     @Test
     fun `load PagingSource Append Success Test`() {
         // given
-        val mockData = RemoteFixtures.noticeListResponse()
+        val mockData = NoticeTestUtil.fakeNoticeListResponse()
         Mockito.`when`(client.fetchNoticeList("bch", 20, 20)).thenReturn(Single.just(mockData))
 
         // when, then
@@ -79,23 +63,8 @@ class NoticePagingSourceTest {
             .assertNoErrors()
             .assertValueCount(1)
             .assertValue(
-                LoadResult.Page<Int, Notice>(
-                    data = listOf(
-                        Notice(
-                            postedDate = "20220203",
-                            subject = "2022학년도 1학기 재입학 합격자 유의사항 안내",
-                            category = "bachelor",
-                            url = "https://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do?forum=notice&sort=6&id=5b4f972&cat=0000300001",
-                            articleId = "5b4a11b",
-                            isNew = false,
-                            isRead = false,
-                            isSubscribing = false,
-                            isSaved = false,
-                            isReadOnStorage = false,
-                            isImportant = false,
-                            tag = emptyList()
-                        )
-                    ),
+                LoadResult.Page(
+                    data = listOf(NoticeTestUtil.fakeNotice()),
                     prevKey = 0,
                     nextKey = 40
                 )

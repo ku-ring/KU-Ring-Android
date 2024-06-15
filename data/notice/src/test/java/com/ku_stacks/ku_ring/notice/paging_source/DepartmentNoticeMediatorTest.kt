@@ -13,9 +13,9 @@ import com.ku_stacks.ku_ring.local.entity.NoticeEntity
 import com.ku_stacks.ku_ring.local.room.KuRingDatabase
 import com.ku_stacks.ku_ring.local.room.NoticeDao
 import com.ku_stacks.ku_ring.notice.source.DepartmentNoticeMediator
+import com.ku_stacks.ku_ring.notice.test.NoticeTestUtil
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.remote.notice.NoticeClient
-import com.ku_stacks.ku_ring.remote.notice.response.DepartmentNoticeListResponse
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertFalse
@@ -76,7 +76,7 @@ class DepartmentNoticeMediatorTest {
     @OptIn(ExperimentalPagingApi::class)
     fun `noticeClient succeeds and returns some notices`() = runTest {
         // given
-        val mockResponse = DepartmentNoticeListResponse.mockSucceeded(pageSize)
+        val mockResponse = NoticeTestUtil.fakeDepartmentNoticeListResponse(pageSize)
         Mockito.`when`(
             client.fetchDepartmentNoticeList(
                 type = "dep",
@@ -104,7 +104,7 @@ class DepartmentNoticeMediatorTest {
     @OptIn(ExperimentalPagingApi::class)
     fun `noticeClient succeeds but returns empty list`() = runTest {
         // given
-        val mockResponse = DepartmentNoticeListResponse.mockEmpty()
+        val mockResponse = NoticeTestUtil.fakeEmptyDepartmentNoticeListResponse()
         Mockito.`when`(
             client.fetchDepartmentNoticeList(
                 shortName = shortName,

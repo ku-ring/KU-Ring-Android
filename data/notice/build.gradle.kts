@@ -23,8 +23,7 @@ dependencies {
     implementation(projects.data.domain)
     implementation(projects.data.local)
     implementation(projects.data.remote)
-    testImplementation(testFixtures(projects.data.remote))
-    testImplementation(testFixtures(projects.data.local))
+    testImplementation(projects.data.notice.test)
 
     implementation(libs.bundles.paging)
     testImplementation(libs.kotlinx.coroutines.test)
