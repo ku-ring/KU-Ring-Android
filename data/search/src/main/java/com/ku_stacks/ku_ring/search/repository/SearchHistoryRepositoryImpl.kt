@@ -1,4 +1,4 @@
-package com.example.search.repository
+package com.ku_stacks.ku_ring.search.repository
 
 import com.ku_stacks.ku_ring.local.entity.SearchHistoryEntity
 import com.ku_stacks.ku_ring.local.room.SearchHistoryDao

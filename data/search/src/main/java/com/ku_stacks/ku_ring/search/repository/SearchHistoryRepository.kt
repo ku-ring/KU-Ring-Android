@@ -1,4 +1,4 @@
-package com.example.search.repository
+package com.ku_stacks.ku_ring.search.repository
 
 import kotlinx.coroutines.flow.Flow
 

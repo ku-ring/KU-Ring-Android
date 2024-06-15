@@ -1,9 +1,9 @@
-package com.example.search
+package com.ku_stacks.ku_ring.search
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.search.repository.SearchHistoryRepositoryImpl
 import com.ku_stacks.ku_ring.local.entity.SearchHistoryEntity
 import com.ku_stacks.ku_ring.local.room.SearchHistoryDao
+import com.ku_stacks.ku_ring.search.repository.SearchHistoryRepositoryImpl
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule

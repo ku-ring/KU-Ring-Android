@@ -1,7 +1,7 @@
-package com.example.search.di
+package com.ku_stacks.ku_ring.search.di
 
-import com.example.search.repository.SearchHistoryRepository
-import com.example.search.repository.SearchHistoryRepositoryImpl
+import com.ku_stacks.ku_ring.search.repository.SearchHistoryRepository
+import com.ku_stacks.ku_ring.search.repository.SearchHistoryRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
