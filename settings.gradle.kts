@@ -25,6 +25,7 @@ include(
     ":data:domain",
     ":data:domain:testUtils",
     ":data:notice",
+    ":data:notice:test",
     ":common:preferences",
     ":data:push",
     ":data:user",
