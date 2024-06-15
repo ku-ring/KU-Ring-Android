@@ -20,21 +20,9 @@ android {
         buildConfigField("String", "SENDBIRD_APP_ID", properties["SENDBIRD_APP_ID"] as? String ?: "")
         buildConfigField("String", "SENDBIRD_API_TOKEN", properties["SENDBIRD_API_TOKEN"] as? String ?: "")
     }
-    testFixtures {
-        enable = true
-    }
 }
 
 dependencies {
     implementation(projects.common.uiUtil)
     testImplementation(libs.kotlinx.coroutines.test)
-
-    // Lifecycle
-    testFixturesImplementation(libs.androidx.lifecycle.livedata)
-
-    // rxJava
-    testFixturesImplementation(libs.bundles.rxjava)
-
-    // tests
-    testFixturesImplementation(libs.bundles.unit.test)
 }

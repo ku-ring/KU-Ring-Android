@@ -19,7 +19,7 @@ dependencies {
     implementation(projects.data.domain)
     implementation(projects.data.remote)
     implementation(projects.data.user)
-    testImplementation(testFixtures(projects.common.util))
+    testImplementation(projects.common.testUtil)
 
     implementation(libs.bundles.compose.interop)
     implementation(platform(libs.firebase.bom))

@@ -2,12 +2,12 @@ package com.ku_stacks.ku_ring.main.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.search.repository.SearchHistoryRepository
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.domain.Staff
 import com.ku_stacks.ku_ring.main.search.compose.SearchState
 import com.ku_stacks.ku_ring.main.search.compose.SearchTabInfo
 import com.ku_stacks.ku_ring.notice.repository.NoticeRepository
+import com.ku_stacks.ku_ring.search.repository.SearchHistoryRepository
 import com.ku_stacks.ku_ring.staff.repository.StaffRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

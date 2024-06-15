@@ -1,13 +1,12 @@
 package com.ku_stacks.ku_ring.notice
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.ku_stacks.ku_ring.local.LocalFixtures
 import com.ku_stacks.ku_ring.local.room.NoticeDao
 import com.ku_stacks.ku_ring.notice.mapper.toNotice
 import com.ku_stacks.ku_ring.notice.repository.NoticeRepository
 import com.ku_stacks.ku_ring.notice.repository.NoticeRepositoryImpl
+import com.ku_stacks.ku_ring.notice.test.NoticeTestUtil
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
-import com.ku_stacks.ku_ring.remote.RemoteFixtures
 import com.ku_stacks.ku_ring.remote.notice.NoticeClient
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
@@ -51,7 +50,7 @@ class NoticeRepositoryTest {
     @Test
     fun `insert Notice As Old Test`() {
         // given
-        val mockData = LocalFixtures.noticeEntity()
+        val mockData = NoticeTestUtil.fakeNoticeEntity()
         Mockito.`when`(dao.insertNoticeAsOld(mockData)).thenReturn(Completable.complete())
 
         // when + then
@@ -63,7 +62,7 @@ class NoticeRepositoryTest {
     @Test
     fun `updateNotice Test`() {
         // given
-        val mockData = LocalFixtures.readNoticeEntity()
+        val mockData = NoticeTestUtil.fakeNoticeEntity().copy(isRead = true)
         Mockito.`when`(dao.updateNoticeAsRead(mockData.articleId, mockData.category))
             .thenReturn(Completable.complete())
 
@@ -78,7 +77,7 @@ class NoticeRepositoryTest {
         // given
         val mockToken =
             "AAAAn6eQM_Y:APA91bES4rjrFwPY5i_Hz-kT0u32SzIUxreYm9qaQHZeYKGGV_BmHZNJhHvlDjyQA6LveNdxCVrwzsq78jgsnCw8OumbtM5L3cc17XgdqZ_dlpsPzR7TlJwBFTXRFLPst663IeX27sb0"
-        val mockSubscribeList = RemoteFixtures.subscribeListResponse()
+        val mockSubscribeList = NoticeTestUtil.fakeSubscribeListResponse()
 
         Mockito.`when`(client.fetchSubscribe(mockToken)).thenReturn(Single.just(mockSubscribeList))
         val expected = mockSubscribeList.categoryList.map { it.koreanName }
@@ -95,18 +94,18 @@ class NoticeRepositoryTest {
     @Test
     fun `save Subscription To Remote Test`() {
         // given
-        val mockRequest = RemoteFixtures.subscribeRequest()
-        val mockResponse = RemoteFixtures.defaultResponse()
-        val mockToken = "mockToken"
+        val request = NoticeTestUtil.fakeSubscribeRequest()
+        val response = NoticeTestUtil.fakeDefaultResponse()
+        val token = "mockToken"
 
-        Mockito.`when`(client.saveSubscribe(mockToken, mockRequest))
-            .thenReturn(Single.just(mockResponse))
+        Mockito.`when`(client.saveSubscribe(token, request))
+            .thenReturn(Single.just(response))
 
         // when
-        repository.saveSubscriptionToRemote(mockToken, mockRequest.categories)
+        repository.saveSubscriptionToRemote(token, request.categories)
 
         // then
-        Mockito.verify(client, times(1)).saveSubscribe(mockToken, mockRequest)
+        Mockito.verify(client, times(1)).saveSubscribe(token, request)
         assertEquals(false, pref.firstRunFlag)
     }
 }

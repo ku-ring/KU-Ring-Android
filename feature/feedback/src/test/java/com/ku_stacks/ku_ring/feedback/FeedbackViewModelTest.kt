@@ -10,10 +10,10 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.ku_stacks.ku_ring.feedback.feedback.FeedbackViewModel
 import com.ku_stacks.ku_ring.feedback.util.MainDispatcherRule
 import com.ku_stacks.ku_ring.remote.util.DefaultResponse
+import com.ku_stacks.ku_ring.testutil.MockUtil
+import com.ku_stacks.ku_ring.testutil.SchedulersTestRule
 import com.ku_stacks.ku_ring.thirdparty.firebase.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.user.repository.UserRepository
-import com.ku_stacks.ku_ring.util.MockUtil
-import com.ku_stacks.ku_ring.util.SchedulersTestRule
 import io.reactivex.rxjava3.core.Single
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
@@ -31,9 +31,9 @@ import java.util.concurrent.Executor
 class FeedbackViewModelTest {
 
     private lateinit var viewModel: FeedbackViewModel
-    private val userRepository: UserRepository = MockUtil.mock(UserRepository::class.java)
-    private val analytics: EventAnalytics = MockUtil.mock(EventAnalytics::class.java)
-    private val firebaseMessaging: FirebaseMessaging = MockUtil.mock(FirebaseMessaging::class.java)
+    private val userRepository: UserRepository = MockUtil.mock()
+    private val analytics: EventAnalytics = MockUtil.mock()
+    private val firebaseMessaging: FirebaseMessaging = MockUtil.mock()
 
     private lateinit var successTask: Task<String>
     private val mockToken = "mockToken"

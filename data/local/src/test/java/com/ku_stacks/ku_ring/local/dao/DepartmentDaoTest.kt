@@ -1,8 +1,8 @@
 package com.ku_stacks.ku_ring.local.dao
 
 import com.ku_stacks.ku_ring.local.LocalDbAbstract
-import com.ku_stacks.ku_ring.local.LocalFixtures
 import com.ku_stacks.ku_ring.local.room.DepartmentDao
+import com.ku_stacks.ku_ring.local.test.LocalTestUtil
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -26,7 +26,7 @@ class DepartmentDaoTest : LocalDbAbstract() {
     fun `insertDepartment and updateDepartment test`() = runTest {
         // given
         assert(departmentDao.isEmpty())
-        val entity = LocalFixtures.departmentEntity()
+        val entity = LocalTestUtil.fakeDepartmentEntity()
         departmentDao.insertDepartment(entity)
         assertFalse(departmentDao.isEmpty())
 

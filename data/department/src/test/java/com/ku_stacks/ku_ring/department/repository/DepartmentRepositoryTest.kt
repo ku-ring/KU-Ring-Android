@@ -3,13 +3,13 @@ package com.ku_stacks.ku_ring.department.repository
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.ku_stacks.ku_ring.department.mapper.toDepartment
+import com.ku_stacks.ku_ring.department.test.DepartmentTestUtil
 import com.ku_stacks.ku_ring.local.room.DepartmentDao
 import com.ku_stacks.ku_ring.local.room.KuRingDatabase
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.remote.department.DepartmentClient
 import com.ku_stacks.ku_ring.remote.department.response.DepartmentListResponse
 import com.ku_stacks.ku_ring.remote.department.response.DepartmentResponse
-import com.ku_stacks.ku_ring.testutils.DomainTestUtils
 import junit.framework.Assert
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -74,7 +74,7 @@ class DepartmentRepositoryTest {
     fun `insert and update departments test`() = runTest {
         // given
         val departments = (1..10).map {
-            DomainTestUtils.createDepartment(
+            DepartmentTestUtil.fakeDepartment(
                 name = it.toString(),
                 shortName = "dep$it",
                 koreanName = "학과 $it",
