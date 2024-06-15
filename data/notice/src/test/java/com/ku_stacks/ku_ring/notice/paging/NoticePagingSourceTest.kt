@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.notice.paging_source
+package com.ku_stacks.ku_ring.notice.paging
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.paging.PagingSource.LoadParams
