@@ -21,6 +21,8 @@ android {
 }
 
 dependencies {
+    testImplementation(projects.data.local.test)
+
     implementation(libs.bundles.paging)
     testImplementation(libs.kotlinx.coroutines.test)
 }
