@@ -24,7 +24,6 @@ dependencies {
     implementation(projects.data.push)
     implementation(projects.data.staff)
     implementation(projects.data.search)
-    testImplementation(testFixtures(projects.common.util))
 
     implementation(libs.bundles.compose.interop)
     implementation(platform(libs.firebase.bom))

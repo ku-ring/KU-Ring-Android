@@ -4,7 +4,6 @@ plugins {
     kuring("feature")
     kuringPrimitive("room")
     kuringPrimitive("test")
-    `java-test-fixtures`
 }
 
 android {
@@ -14,9 +13,6 @@ android {
         unitTests {
             isIncludeAndroidResources = true
         }
-    }
-    testFixtures {
-        enable = true
     }
 }
 
