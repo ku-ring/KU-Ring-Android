@@ -1,7 +1,7 @@
 [versions]
 # project-level dependency
 android-gradle = "8.1.4"
-kotlin = '1.8.22'
+kotlin = '1.9.24'
 hilt = '2.45'
 google-services = '4.4.1'
 firebase-gradle = '2.9.9'
