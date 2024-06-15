@@ -23,6 +23,7 @@ include(
     ":common:util",
     ":common:ui_util",
     ":data:domain",
+    ":data:domain:testUtils",
     ":data:notice",
     ":common:preferences",
     ":data:push",
