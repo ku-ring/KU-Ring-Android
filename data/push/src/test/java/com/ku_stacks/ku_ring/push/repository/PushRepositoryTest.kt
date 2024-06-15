@@ -1,9 +1,9 @@
 package com.ku_stacks.ku_ring.push.repository
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.ku_stacks.ku_ring.local.LocalFixtures
 import com.ku_stacks.ku_ring.local.room.PushDao
 import com.ku_stacks.ku_ring.push.mapper.toPushList
+import com.ku_stacks.ku_ring.push.test.PushTestUtil
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
 import org.junit.Before
@@ -27,7 +27,7 @@ class PushRepositoryTest {
     @Test
     fun `get MyNotification List Test`() {
         // given
-        val mockData = listOf(LocalFixtures.pushEntity())
+        val mockData = listOf(PushTestUtil.fakePushEntity())
         Mockito.`when`(dao.getNotificationList()).thenReturn(Flowable.just(mockData))
 
         val expectedData = mockData.toPushList()
@@ -41,7 +41,7 @@ class PushRepositoryTest {
     @Test
     fun `update Notification As Old Test`() {
         // given
-        val mockData = LocalFixtures.pushEntity()
+        val mockData = PushTestUtil.fakePushEntity()
         Mockito.`when`(dao.updateNotificationAsOld(mockData.articleId, false))
             .thenReturn(Completable.complete())
 
@@ -68,7 +68,7 @@ class PushRepositoryTest {
     @Test
     fun `delete notification Test`() {
         //given
-        val mockData = LocalFixtures.pushEntity()
+        val mockData = PushTestUtil.fakePushEntity()
         Mockito.`when`(dao.deleteNotification(mockData.articleId))
             .thenReturn(Completable.complete())
 

@@ -21,7 +21,7 @@ dependencies {
     implementation(projects.data.domain)
     implementation(projects.data.local)
     implementation(projects.data.remote)
-    testImplementation(testFixtures(projects.data.local))
+    testImplementation(projects.data.push.test)
 
     testImplementation(libs.kotlinx.coroutines.test)
 }
