@@ -39,6 +39,7 @@ include(
     ":data:search",
     ":common:thirdparty",
     ":common:work",
+    ":common:testUtil",
     ":feature:edit_subscription",
     ":feature:feedback",
     ":feature:notice_detail",
