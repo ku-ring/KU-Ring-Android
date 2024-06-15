@@ -28,6 +28,7 @@ include(
     ":data:notice:test",
     ":common:preferences",
     ":data:push",
+    ":data:push:test",
     ":data:user",
     ":data:staff",
     ":data:department",
