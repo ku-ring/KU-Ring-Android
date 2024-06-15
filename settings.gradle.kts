@@ -30,6 +30,7 @@ include(
     ":data:user",
     ":data:staff",
     ":data:department",
+    ":data:department:test",
     ":data:local",
     ":data:remote",
     ":data:space",
