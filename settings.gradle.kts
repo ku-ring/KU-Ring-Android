@@ -34,6 +34,7 @@ include(
     ":data:department",
     ":data:department:test",
     ":data:local",
+    ":data:local:test",
     ":data:remote",
     ":data:space",
     ":data:search",
