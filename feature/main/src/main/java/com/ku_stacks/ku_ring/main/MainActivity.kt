@@ -12,7 +12,6 @@ import com.ku_stacks.ku_ring.main.databinding.ActivityMainBinding
 import com.ku_stacks.ku_ring.ui_util.KuringNavigator
 import com.ku_stacks.ku_ring.ui_util.showToast
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -37,10 +36,10 @@ class MainActivity : AppCompatActivity() {
 
     private var backPressedTime = 0L
 
-    override fun onNewIntent(intent: Intent?) {
+    override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
 
-        (intent?.getSerializableExtra(WebViewNotice.EXTRA_KEY) as? WebViewNotice)?.let { webViewNotice ->
+        (intent.getSerializableExtra(WebViewNotice.EXTRA_KEY) as? WebViewNotice)?.let { webViewNotice ->
             navToNoticeActivity(webViewNotice)
         }
     }

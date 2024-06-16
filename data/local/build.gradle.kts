@@ -20,5 +20,6 @@ dependencies {
     testImplementation(projects.data.local.test)
 
     implementation(libs.bundles.paging)
+    implementation(libs.androidx.room.paging)
     testImplementation(libs.kotlinx.coroutines.test)
 }
