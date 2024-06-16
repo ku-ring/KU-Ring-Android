@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    >
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -41,8 +40,8 @@
         <activity
             android:name=".feedback.feedback.FeedbackActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustResize"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".my_notification.NotificationActivity"
@@ -76,9 +75,10 @@
             android:name=".onboarding.OnboardingActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
-        <activity android:name=".main.search.SearchActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="false" />
+        <activity
+            android:name=".main.search.SearchActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"
@@ -94,7 +94,8 @@
                 tools:node="remove" />
         </provider>
 
-        <service android:name="com.ku_stacks.ku_ring.thirdparty.firebase.MyFireBaseMessagingService"
+        <service
+            android:name="com.ku_stacks.ku_ring.thirdparty.firebase.MyFireBaseMessagingService"
             android:enabled="true"
             android:exported="false"
             android:stopWithTask="false">
