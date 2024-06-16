@@ -18,6 +18,7 @@ java {
 dependencies {
     compileOnly(libs.kotlin.gradle)
     compileOnly(libs.android.gradle)
+    compileOnly(libs.compose.compiler.plugin)
 }
 
 gradlePlugin {

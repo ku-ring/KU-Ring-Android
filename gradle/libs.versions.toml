@@ -1,8 +1,8 @@
 [versions]
 # project-level dependency
-android-gradle = "8.1.4"
-kotlin = '1.8.22'
-hilt = '2.45'
+android-gradle = "8.5.0"
+kotlin = '2.0.0'
+hilt = '2.51.1'
 google-services = '4.4.2'
 firebase-gradle = '3.0.1'
 oss-licenses-version = '0.10.6'
@@ -85,6 +85,7 @@ compose-ui-test-junit4 = { module = 'androidx.compose.ui:ui-test-junit4' }
 compose-ui-test-manifest = { module = 'androidx.compose.ui:ui-test-manifest' }
 compose-ui-tooling = { module = 'androidx.compose.ui:ui-tooling' }
 compose-ui-tooling-preview = { module = 'androidx.compose.ui:ui-tooling-preview' }
+compose-compiler-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 
 # Compose Interop
 androidx-activity-compose = 'androidx.activity:activity-compose:1.9.0'
@@ -267,3 +268,4 @@ kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
 crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlytics" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

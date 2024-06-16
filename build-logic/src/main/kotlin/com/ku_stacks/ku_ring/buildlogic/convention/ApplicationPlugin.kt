@@ -1,7 +1,6 @@
 package com.ku_stacks.ku_ring.buildlogic.convention
 
 import com.android.build.api.dsl.ApplicationExtension
-import com.android.build.api.dsl.LibraryExtension
 import com.ku_stacks.ku_ring.buildlogic.dsl.configureAndroidLibrary
 import com.ku_stacks.ku_ring.buildlogic.dsl.implementation
 import com.ku_stacks.ku_ring.buildlogic.dsl.library
@@ -9,6 +8,7 @@ import com.ku_stacks.ku_ring.buildlogic.dsl.libs
 import com.ku_stacks.ku_ring.buildlogic.dsl.testImplementation
 import com.ku_stacks.ku_ring.buildlogic.dsl.version
 import com.ku_stacks.ku_ring.buildlogic.primitive.CommonAndroidPlugin
+import com.ku_stacks.ku_ring.buildlogic.primitive.ComposePlugin
 import com.ku_stacks.ku_ring.buildlogic.primitive.HiltPlugin
 import com.ku_stacks.ku_ring.buildlogic.primitive.KotlinPlugin
 import org.gradle.api.Plugin
@@ -26,6 +26,7 @@ class ApplicationPlugin : Plugin<Project> {
         apply<KotlinPlugin>()
         apply<CommonAndroidPlugin>()
         apply<HiltPlugin>()
+        apply<ComposePlugin>()
         configureAndroidLibrary()
         extensions.configure<ApplicationExtension> {
             defaultConfig {
@@ -43,10 +44,6 @@ class ApplicationPlugin : Plugin<Project> {
             }
             buildFeatures {
                 dataBinding = true
-                compose = true
-            }
-            composeOptions {
-                kotlinCompilerExtensionVersion = libs.version("compose-compiler")
             }
         }
         dependencies {
