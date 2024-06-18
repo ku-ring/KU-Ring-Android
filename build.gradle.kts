@@ -11,6 +11,7 @@ buildscript {
         classpath(libs.google.services)
         classpath(libs.firebase.crashlytics.gradle)
         classpath(libs.oss.licenses)
+        classpath(libs.kotlinx.serialization.plugin)
     }
 }
 
