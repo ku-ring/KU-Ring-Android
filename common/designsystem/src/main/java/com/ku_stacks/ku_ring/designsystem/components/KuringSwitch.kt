@@ -115,7 +115,7 @@ fun KuringSwitch(
             snapAnimationSpec = AnimationSpec,
             decayAnimationSpec = object : DecayAnimationSpec<Float> {
                 override fun <V : AnimationVector> vectorize(typeConverter: TwoWayConverter<Float, V>): VectorizedDecayAnimationSpec<V> {
-                    TODO("Not yet implemented by mwy3055")
+                    return vectorize(typeConverter)
                 }
             },
         )
