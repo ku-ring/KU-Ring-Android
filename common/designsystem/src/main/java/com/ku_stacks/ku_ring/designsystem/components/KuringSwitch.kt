@@ -1,7 +1,11 @@
 package com.ku_stacks.ku_ring.designsystem.components
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.AnimationVector
+import androidx.compose.animation.core.DecayAnimationSpec
 import androidx.compose.animation.core.TweenSpec
+import androidx.compose.animation.core.TwoWayConverter
+import androidx.compose.animation.core.VectorizedDecayAnimationSpec
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -102,13 +106,18 @@ fun KuringSwitch(
     val anchoredDraggableState = remember(maxBound, switchVelocityThresholdPx) {
         AnchoredDraggableState(
             initialValue = checked,
-            animationSpec = AnimationSpec,
             anchors = DraggableAnchors {
                 false at minBound
                 true at maxBound
             },
-            positionalThreshold = { distance -> distance * SwitchPositionalThreshold },
-            velocityThreshold = { switchVelocityThresholdPx }
+            positionalThreshold = { distance: Float -> distance * SwitchPositionalThreshold },
+            velocityThreshold = { switchVelocityThresholdPx },
+            snapAnimationSpec = AnimationSpec,
+            decayAnimationSpec = object : DecayAnimationSpec<Float> {
+                override fun <V : AnimationVector> vectorize(typeConverter: TwoWayConverter<Float, V>): VectorizedDecayAnimationSpec<V> {
+                    return vectorize(typeConverter)
+                }
+            },
         )
     }
     val currentOnCheckedChange by rememberUpdatedState(onCheckedChange)

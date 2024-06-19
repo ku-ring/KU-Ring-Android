@@ -18,6 +18,7 @@ class KotlinPlugin : Plugin<Project> {
         with(target) {
             with(plugins) {
                 apply("kotlin-android")
+                apply("kotlinx-serialization")
             }
 
             tasks.withType<KotlinCompile> {
@@ -36,6 +37,8 @@ class KotlinPlugin : Plugin<Project> {
                 implementation(libs.library("kotlinx-coroutines-android"))
                 implementation(libs.library("kotlinx-coroutines-reactive"))
                 implementation(libs.library("kotlinx-coroutines-rxjava3"))
+
+                implementation(libs.library("kotlinx-serialization"))
             }
         }
 }

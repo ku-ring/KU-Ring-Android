@@ -32,7 +32,7 @@ firebase = '33.1.0'
 work = '2.9.0'
 desugarJdk = "2.0.4"
 crashlytics = "3.0.1"
-androidx-navigation = "2.7.7"
+androidx-navigation = "2.8.0-beta03"
 androidx-espresso = "3.5.1"
 
 [libraries]
@@ -43,6 +43,7 @@ hilt-android-gradle = { module = 'com.google.dagger:hilt-android-gradle-plugin',
 google-services = { module = 'com.google.gms:google-services', version.ref = 'google-services' }
 firebase-crashlytics-gradle = { module = 'com.google.firebase:firebase-crashlytics-gradle', version.ref = 'firebase-gradle' }
 oss-licenses = { module = 'com.google.android.gms:oss-licenses-plugin', version.ref = 'oss-licenses-version' }
+kotlinx-serialization-plugin = { module = 'org.jetbrains.kotlin:kotlin-serialization', version.ref = 'kotlin' }
 
 # Android
 android-material = 'com.google.android.material:material:1.12.0'
@@ -94,7 +95,7 @@ androidx-lifecycle-viewmodel-compose = { module = 'androidx.lifecycle:lifecycle-
 androidx-lifecycle-runtime-compose = { module = 'androidx.lifecycle:lifecycle-runtime-compose', version.ref = 'androidx-lifecycle' }
 androidx-paging-compose = { module = 'androidx.paging:paging-compose', version.ref = 'paging' }
 hilt-navigation-compose = 'androidx.hilt:hilt-navigation-compose:1.2.0'
-androidx-navigation-compose = 'androidx.navigation:navigation-compose:2.7.7'
+androidx-navigation-compose = { module = 'androidx.navigation:navigation-compose', version.ref = 'androidx-navigation' }
 lottie-compose = 'com.airbnb.android:lottie-compose:6.4.1'
 
 # Coil
@@ -109,6 +110,9 @@ kotlinx-coroutines-reactive = { module = 'org.jetbrains.kotlinx:kotlinx-coroutin
 kotlinx-coroutines-rxjava3 = { module = 'org.jetbrains.kotlinx:kotlinx-coroutines-rx3', version.ref = 'kotlinx-coroutines' }
 # Test는 bundle로 묶지 말기 (필요한 모듈에서만 별도로 선언)
 kotlinx-coroutines-test = { module = 'org.jetbrains.kotlinx:kotlinx-coroutines-test', version.ref = 'kotlinx-coroutines' }
+
+# Kotlin Serialization
+kotlinx-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.0"
 
 # Hilt
 androidx-hilt-compiler = 'androidx.hilt:hilt-compiler:1.2.0'
