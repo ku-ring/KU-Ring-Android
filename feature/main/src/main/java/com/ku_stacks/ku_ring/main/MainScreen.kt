@@ -7,13 +7,11 @@ import android.net.Uri
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -26,6 +24,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.main.archive.compose.ArchiveScreen
+import com.ku_stacks.ku_ring.main.campusmap.CampusMapScreen
 import com.ku_stacks.ku_ring.main.notice.compose.NoticeScreen
 import com.ku_stacks.ku_ring.main.setting.SettingViewModel
 import com.ku_stacks.ku_ring.main.setting.compose.OpenSourceActivity
@@ -141,17 +140,7 @@ fun NavGraphBuilder.mainScreenNavGraph(
         )
     }
     composable<MainScreenRoute.CampusMap> {
-        Box(
-            modifier =
-                Modifier
-                    .background(KuringTheme.colors.background)
-                    .fillMaxSize(),
-        ) {
-            Text(
-                text = "TODO: Compose migration하기",
-                color = KuringTheme.colors.textBody,
-            )
-        }
+        CampusMapScreen()
     }
     composable<MainScreenRoute.Settings> {
         // TODO by mwy3055: SettingScreen 내부도 navigation으로 migrate해야 함
