@@ -10,8 +10,8 @@ compileSdk = "34"
 targetSdk = "33"
 minSdk = "24"
 # Update appVersion, versionCode both
-appVersion = "2.0.1"
-versionCode = "20001"
+appVersion = "2.0.2"
+versionCode = "20002"
 
 # app-level dependency
 compose-compiler = '1.4.8'
