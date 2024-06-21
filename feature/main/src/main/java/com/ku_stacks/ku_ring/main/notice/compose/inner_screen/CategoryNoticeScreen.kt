@@ -17,7 +17,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.ku_stacks.ku_ring.designsystem.components.LazyPagingNoticeItemColumn
@@ -30,7 +30,7 @@ internal fun CategoryNoticeScreen(
     shortCategoryName: String,
     onNoticeClick: (Notice) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: CategoryNoticeViewModel = viewModel(key = shortCategoryName),
+    viewModel: CategoryNoticeViewModel = hiltViewModel(key = shortCategoryName),
 ) {
     LaunchedEffect(shortCategoryName) {
         viewModel.getNotices(shortCategoryName)
