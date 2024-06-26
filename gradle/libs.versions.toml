@@ -33,7 +33,7 @@ work = '2.9.0'
 desugarJdk = "2.0.4"
 crashlytics = "3.0.2"
 androidx-navigation = "2.8.0-beta03"
-androidx-espresso = "3.6.0"
+androidx-espresso = "3.6.1"
 
 [libraries]
 # Project-level dependencies
