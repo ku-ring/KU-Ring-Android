@@ -49,7 +49,7 @@ kotlinx-serialization-plugin = { module = 'org.jetbrains.kotlin:kotlin-serializa
 android-material = 'com.google.android.material:material:1.12.0'
 
 # AndroidX
-androidx-appcompat = 'androidx.appcompat:appcompat:1.7.0'
+androidx-appcompat = 'androidx.appcompat:appcompat:1.7.1'
 androidx-constraintlayout = 'androidx.constraintlayout:constraintlayout:2.1.4'
 androidx-core-ktx = 'androidx.core:core-ktx:1.13.1'
 androidx-startup-runtime = 'androidx.startup:startup-runtime:1.1.1'
