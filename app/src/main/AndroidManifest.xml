@@ -42,11 +42,6 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
-
-        <activity
-            android:name=".my_notification.NotificationActivity"
-            android:exported="true"
-            android:launchMode="singleTask" />
         <activity
             android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
             android:exported="true"
