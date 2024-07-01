@@ -15,7 +15,6 @@ import org.gradle.kotlin.dsl.dependencies
 class HiltPlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
         with(pluginManager) {
-            apply("kotlin-kapt")
             apply("com.google.devtools.ksp")
             apply("dagger.hilt.android.plugin")
         }

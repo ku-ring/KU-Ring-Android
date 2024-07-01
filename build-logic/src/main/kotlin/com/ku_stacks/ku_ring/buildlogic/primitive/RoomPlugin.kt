@@ -12,7 +12,6 @@ import org.gradle.kotlin.dsl.dependencies
 class RoomPlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
         with(pluginManager) {
-            apply("kotlin-kapt")
             apply("com.google.devtools.ksp")
         }
 

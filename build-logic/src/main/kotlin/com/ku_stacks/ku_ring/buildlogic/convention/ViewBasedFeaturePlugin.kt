@@ -11,8 +11,12 @@ import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
 
-class ViewBasedFeaturePlugin: Plugin<Project> {
+class ViewBasedFeaturePlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
+        with(pluginManager) {
+            apply("kotlin-kapt") // remove when view binding is no longer used
+        }
+
         apply<FeaturePlugin>()
 
         extensions.getByType<BaseExtension>().apply {
