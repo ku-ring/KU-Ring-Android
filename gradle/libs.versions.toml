@@ -2,6 +2,7 @@
 # project-level dependency
 android-gradle = "8.5.0"
 kotlin = '2.0.0'
+ksp = '2.0.0-1.0.22'
 hilt = '2.51.1'
 google-services = '4.4.2'
 firebase-gradle = '3.0.2'
@@ -274,6 +275,7 @@ android-application = { id = "com.android.application", version.ref = "android-g
 android-library = { id = "com.android.library", version.ref = "android-gradle" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
 crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlytics" }

@@ -27,22 +27,22 @@ fun DependencyHandlerScope.implementation(
     add("implementation", artifact)
 }
 
-fun DependencyHandlerScope.kapt(
+fun DependencyHandlerScope.ksp(
     artifact: MinimalExternalModuleDependency,
 ) {
-    add("kapt", artifact)
+    add("ksp", artifact)
 }
 
-fun DependencyHandlerScope.kaptTest(
+fun DependencyHandlerScope.kspTest(
     artifact: MinimalExternalModuleDependency,
 ) {
-    add("kaptTest", artifact)
+    add("kspTest", artifact)
 }
 
-fun DependencyHandlerScope.kaptAndroidTest(
+fun DependencyHandlerScope.kspAndroidTest(
     artifact: MinimalExternalModuleDependency,
 ) {
-    add("kaptAndroidTest", artifact)
+    add("kspAndroidTest", artifact)
 }
 
 fun DependencyHandlerScope.debugImplementation(

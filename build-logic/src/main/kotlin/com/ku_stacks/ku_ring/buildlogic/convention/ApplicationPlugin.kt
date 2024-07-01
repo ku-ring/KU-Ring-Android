@@ -21,6 +21,7 @@ class ApplicationPlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
         with(pluginManager) {
             apply("com.android.application")
+            apply("kotlin-kapt") // remove when view binding is no longer used
         }
 
         apply<KotlinPlugin>()
