@@ -40,10 +40,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        (intent?.getSerializableExtra(WebViewNotice.EXTRA_KEY) as? WebViewNotice)?.let { webViewNotice ->
-            navToNoticeActivity(webViewNotice)
-        }
-
         setContent {
             KuringTheme {
                 var currentRoute: MainScreenRoute by remember { mutableStateOf(MainScreenRoute.Notice) }
@@ -60,6 +56,10 @@ class MainActivity : AppCompatActivity() {
                     modifier = Modifier.fillMaxSize().background(KuringTheme.colors.background),
                 )
             }
+        }
+
+        (intent?.getSerializableExtra(WebViewNotice.EXTRA_KEY) as? WebViewNotice)?.let { webViewNotice ->
+            navToNoticeActivity(webViewNotice)
         }
     }
 
