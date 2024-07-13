@@ -11,10 +11,10 @@ android {
 
 dependencies {
     implementation(projects.data.local)
-    implementation(projects.common.util)
-    implementation(projects.common.uiUtil)
-    implementation(projects.common.preferences)
-    implementation(projects.common.work)
+    implementation(projects.core.util)
+    implementation(projects.core.uiUtil)
+    implementation(projects.core.preferences)
+    implementation(projects.core.work)
 
     // firebase
     implementation(platform(libs.firebase.bom))

@@ -23,6 +23,6 @@ android {
 }
 
 dependencies {
-    implementation(projects.common.uiUtil)
+    implementation(projects.core.uiUtil)
     testImplementation(libs.kotlinx.coroutines.test)
 }

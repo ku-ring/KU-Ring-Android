@@ -11,12 +11,12 @@ android {
 }
 
 dependencies {
-    implementation(projects.common.designsystem)
-    implementation(projects.common.util)
-    implementation(projects.common.uiUtil)
-    implementation(projects.common.thirdparty)
-    implementation(projects.common.preferences)
-    implementation(projects.common.work)
+    implementation(projects.core.designsystem)
+    implementation(projects.core.util)
+    implementation(projects.core.uiUtil)
+    implementation(projects.core.thirdparty)
+    implementation(projects.core.preferences)
+    implementation(projects.core.work)
     implementation(projects.data.space)
 
     implementation(libs.androidx.constraintlayout)

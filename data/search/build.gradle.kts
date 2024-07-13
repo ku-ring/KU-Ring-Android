@@ -17,7 +17,7 @@ android {
 }
 
 dependencies {
-    implementation(projects.common.util)
+    implementation(projects.core.util)
     implementation(projects.data.domain)
     implementation(projects.data.local)
     implementation(projects.data.remote)

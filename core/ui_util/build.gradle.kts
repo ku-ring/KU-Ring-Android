@@ -11,6 +11,6 @@ android {
 
 dependencies {
     implementation(projects.data.domain)
-    implementation(projects.common.designsystem)
+    implementation(projects.core.designsystem)
     implementation(libs.bundles.compose.interop)
 }

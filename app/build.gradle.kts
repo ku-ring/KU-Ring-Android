@@ -95,9 +95,9 @@ android {
 }
 
 dependencies {
-    implementation(projects.common.util)
-    implementation(projects.common.uiUtil)
-    implementation(projects.common.thirdparty)
+    implementation(projects.core.util)
+    implementation(projects.core.uiUtil)
+    implementation(projects.core.thirdparty)
     implementation(projects.data.domain)
     implementation(projects.feature.editDepartments)
     implementation(projects.feature.editSubscription)

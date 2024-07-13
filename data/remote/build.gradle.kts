@@ -25,7 +25,7 @@ android {
 }
 
 dependencies {
-    implementation(projects.common.util)
+    implementation(projects.core.util)
 
     testImplementation(libs.kotlinx.coroutines.test)
 }

@@ -13,11 +13,11 @@ android {
 }
 
 dependencies {
-    implementation(projects.common.util)
-    implementation(projects.common.uiUtil)
-    implementation(projects.common.designsystem)
-    implementation(projects.common.preferences)
-    implementation(projects.common.thirdparty)
+    implementation(projects.core.util)
+    implementation(projects.core.uiUtil)
+    implementation(projects.core.designsystem)
+    implementation(projects.core.preferences)
+    implementation(projects.core.thirdparty)
     implementation(projects.data.domain)
     implementation(projects.data.department)
     implementation(projects.data.notice)

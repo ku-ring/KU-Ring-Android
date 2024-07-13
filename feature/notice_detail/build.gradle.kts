@@ -10,9 +10,9 @@ android {
 }
 
 dependencies {
-    implementation(projects.common.util)
-    implementation(projects.common.uiUtil)
-    implementation(projects.common.designsystem)
+    implementation(projects.core.util)
+    implementation(projects.core.uiUtil)
+    implementation(projects.core.designsystem)
     implementation(projects.data.domain)
     implementation(projects.data.notice)
 
