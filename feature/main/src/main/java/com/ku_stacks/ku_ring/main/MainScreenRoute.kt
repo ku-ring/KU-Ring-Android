@@ -1,46 +1,22 @@
 package com.ku_stacks.ku_ring.main
 
+import com.ku_stacks.ku_ring.ui_util.KuringRoute
 import kotlinx.serialization.Serializable
 
 @Serializable
-sealed interface MainScreenRoute {
-    val route: String
+sealed interface MainScreenRoute : KuringRoute {
 
     @Serializable
-    data object Notice : MainScreenRoute {
-        override val route: String
-            get() =
-                this::class.java.canonicalName
-                    ?.toString()
-                    .toString()
-    }
+    data object Notice : MainScreenRoute
 
     @Serializable
-    data object Archive : MainScreenRoute {
-        override val route: String
-            get() =
-                this::class.java.canonicalName
-                    ?.toString()
-                    .toString()
-    }
+    data object Archive : MainScreenRoute
 
     @Serializable
-    data object CampusMap : MainScreenRoute {
-        override val route: String
-            get() =
-                this::class.java.canonicalName
-                    ?.toString()
-                    .toString()
-    }
+    data object CampusMap : MainScreenRoute
 
     @Serializable
-    data object Settings : MainScreenRoute {
-        override val route: String
-            get() =
-                this::class.java.canonicalName
-                    ?.toString()
-                    .toString()
-    }
+    data object Settings : MainScreenRoute
 
     companion object {
         val entries = listOf(Notice, Archive, CampusMap, Settings)
