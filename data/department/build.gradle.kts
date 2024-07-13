@@ -18,8 +18,8 @@ android {
 }
 
 dependencies {
-    implementation(projects.common.util)
-    implementation(projects.common.preferences)
+    implementation(projects.core.util)
+    implementation(projects.core.preferences)
     implementation(projects.data.domain)
     implementation(projects.data.local)
     implementation(projects.data.remote)

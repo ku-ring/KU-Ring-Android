@@ -11,7 +11,7 @@ android {
 }
 
 dependencies {
-    implementation(projects.common.util)
+    implementation(projects.core.util)
     implementation(projects.data.remote)
 
     testImplementation(libs.kotlinx.coroutines.test)

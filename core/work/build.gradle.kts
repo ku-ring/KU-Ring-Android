@@ -9,8 +9,8 @@ android {
 }
 
 dependencies {
-    implementation(projects.common.util)
-    implementation(projects.common.uiUtil)
+    implementation(projects.core.util)
+    implementation(projects.core.uiUtil)
     implementation(projects.data.user)
 
     // WorkManager
