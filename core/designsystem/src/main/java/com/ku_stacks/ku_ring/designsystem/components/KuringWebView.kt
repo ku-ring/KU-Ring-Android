@@ -63,7 +63,7 @@ private fun KuringWebView(
 
     Column(modifier = modifier) {
         if (progress != 100) {
-            ßLinearProgressIndicator(
+            LinearProgressIndicator(
                 progress = { progress / 100f },
                 color = KuringTheme.colors.mainPrimary,
                 trackColor = KuringTheme.colors.background,
