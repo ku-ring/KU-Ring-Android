@@ -13,18 +13,11 @@ import org.gradle.kotlin.dsl.getByType
 
 class ViewBasedFeaturePlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
-        with(pluginManager) {
-            apply("kotlin-kapt") // remove when view binding is no longer used
-        }
-
         apply<FeaturePlugin>()
 
         extensions.getByType<BaseExtension>().apply {
             buildFeatures.apply {
                 viewBinding = true
-            }
-            dataBinding {
-                enable = true
             }
         }
         dependencies {

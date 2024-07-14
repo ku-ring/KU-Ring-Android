@@ -33,7 +33,6 @@ import com.ku_stacks.ku_ring.designsystem.R
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 
-
 @Composable
 fun KuringWebView(
     url: String?,

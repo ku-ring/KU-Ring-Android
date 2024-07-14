@@ -7,8 +7,8 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import androidx.core.view.isVisible
 import com.ku_stacks.ku_ring.ui_util.R
-import com.ku_stacks.ku_ring.ui_util.visibleIf
 
 class KuringDialog(context: Context) : Dialog(context) {
 
@@ -83,7 +83,7 @@ class KuringDialog(context: Context) : Dialog(context) {
             confirmButton.text = it
         }
 
-        titleTextView.visibleIf(title != null)
-        descriptionTextView.visibleIf(description != null)
+        titleTextView.isVisible = title != null
+        descriptionTextView.isVisible = description != null
     }
 }
