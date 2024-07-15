@@ -6,6 +6,8 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -42,7 +44,7 @@ fun MainScreen(
     modifier: Modifier = Modifier,
 ) {
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = currentBackStackEntry?.let { MainScreenRoute.of(it) }
+    val currentRoute = currentBackStackEntry?.let { MainScreenRoute.fromNavBackStackEntry(it) }
         ?: MainScreenRoute.Notice
 
     Scaffold(
@@ -67,24 +69,22 @@ fun MainScreen(
                     .padding(it)
                     .fillMaxSize(),
                 enterTransition = {
-                    val initialRoute = MainScreenRoute.of(initialState)
-                    val targetRoute = MainScreenRoute.of(targetState)
-                    val enterDirection =
-                        slideDirection(
-                            initialRoute = initialRoute,
-                            targetRoute = targetRoute,
-                        )
-                    slideIntoContainer(enterDirection)
+                    if (MainScreenRoute.contains(initialState) &&
+                        MainScreenRoute.contains(targetState)
+                    ) {
+                        fadeIn(initialAlpha = 1f)
+                    } else {
+                        slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Start)
+                    }
                 },
                 exitTransition = {
-                    val initialRoute = MainScreenRoute.of(initialState)
-                    val targetRoute = MainScreenRoute.of(targetState)
-                    val enterDirection =
-                        slideDirection(
-                            initialRoute = initialRoute,
-                            targetRoute = targetRoute,
-                        )
-                    slideOutOfContainer(enterDirection)
+                    if (MainScreenRoute.contains(initialState) &&
+                        MainScreenRoute.contains(targetState)
+                    ) {
+                        fadeOut(targetAlpha = 1f)
+                    } else {
+                        slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.End)
+                    }
                 },
             ) {
                 mainScreenNavGraph(
@@ -94,23 +94,6 @@ fun MainScreen(
             }
         }
     }
-}
-
-private fun MainScreenRoute.screenOrder() =
-    when (this) {
-        is MainScreenRoute.Notice -> 0
-        is MainScreenRoute.Archive -> 1
-        is MainScreenRoute.CampusMap -> 2
-        is MainScreenRoute.Settings -> 3
-    }
-
-private fun slideDirection(
-    initialRoute: MainScreenRoute,
-    targetRoute: MainScreenRoute,
-) = if (initialRoute.screenOrder() > targetRoute.screenOrder()) {
-    AnimatedContentTransitionScope.SlideDirection.Right
-} else {
-    AnimatedContentTransitionScope.SlideDirection.Left
 }
 
 fun NavGraphBuilder.mainScreenNavGraph(
