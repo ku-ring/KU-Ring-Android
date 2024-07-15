@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.StringRes
 import com.google.android.material.snackbar.Snackbar
 import com.ku_stacks.ku_ring.ui_util.dialogs.KuringDialog
 
@@ -12,6 +13,8 @@ fun View.showSnackBar(msg: String) =
 
 fun Context.showToast(msg: String) =
     Toast.makeText(applicationContext, msg, Toast.LENGTH_SHORT).show()
+
+fun Context.showToast(@StringRes id: Int) = showToast(getString(id))
 
 fun Context.makeDialog(title: String? = null, description: String? = null): KuringDialog {
     return KuringDialog(this).apply {
