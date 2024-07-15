@@ -32,6 +32,7 @@ import com.ku_stacks.ku_ring.main.setting.compose.inner_screen.SettingScreen
 import com.ku_stacks.ku_ring.thirdparty.compose.KuringCompositionLocalProvider
 import com.ku_stacks.ku_ring.thirdparty.di.LocalNavigator
 import com.ku_stacks.ku_ring.ui_util.KuringNavigator
+import com.ku_stacks.ku_ring.ui_util.showToast
 import com.ku_stacks.ku_ring.util.findActivity
 
 @Composable
@@ -126,6 +127,12 @@ fun NavGraphBuilder.mainScreenNavGraph(
             },
             onNavigateToEditDepartment = {
                 navigator.navigateToEditSubscribedDepartment(activity)
+            },
+            onBackSingleTap = {
+                activity.showToast(R.string.home_finish_if_back_again)
+            },
+            onBackDoubleTap = {
+                activity.finish()
             },
             modifier =
             Modifier
