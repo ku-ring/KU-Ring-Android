@@ -8,10 +8,6 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
@@ -43,17 +39,9 @@ class MainActivity : AppCompatActivity() {
 
         setContent {
             KuringTheme {
-                var currentRoute: MainScreenRoute by remember { mutableStateOf(MainScreenRoute.Notice) }
                 val navController = rememberNavController()
                 MainScreen(
                     navController = navController,
-                    currentRoute = currentRoute,
-                    onNavigateToRoute = {
-                        if (currentRoute != it) {
-                            currentRoute = it
-                            navController.navigate(it)
-                        }
-                    },
                     modifier = Modifier.fillMaxSize().background(KuringTheme.colors.background),
                 )
             }

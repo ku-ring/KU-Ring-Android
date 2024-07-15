@@ -13,7 +13,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -22,6 +24,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.main.archive.compose.ArchiveScreen
 import com.ku_stacks.ku_ring.main.campusmap.CampusMapScreen
@@ -38,15 +41,21 @@ import com.ku_stacks.ku_ring.util.findActivity
 @Composable
 fun MainScreen(
     navController: NavHostController,
-    currentRoute: MainScreenRoute,
-    onNavigateToRoute: (MainScreenRoute) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val currentBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute by remember {
+        derivedStateOf {
+            currentBackStackEntry?.let { MainScreenRoute.of(it) }
+                ?: MainScreenRoute.Notice
+        }
+    }
+
     Scaffold(
         bottomBar = {
             MainScreenNavigationBar(
                 currentRoute = currentRoute,
-                onNavigationItemClick = { onNavigateToRoute(it) },
+                onNavigationItemClick = { navController.navigate(it) },
                 modifier = Modifier.fillMaxWidth(),
             )
         },
