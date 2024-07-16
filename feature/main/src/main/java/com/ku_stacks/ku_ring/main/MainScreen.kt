@@ -22,6 +22,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.main.archive.compose.ArchiveScreen
 import com.ku_stacks.ku_ring.main.campusmap.CampusMapScreen
@@ -32,20 +33,23 @@ import com.ku_stacks.ku_ring.main.setting.compose.inner_screen.SettingScreen
 import com.ku_stacks.ku_ring.thirdparty.compose.KuringCompositionLocalProvider
 import com.ku_stacks.ku_ring.thirdparty.di.LocalNavigator
 import com.ku_stacks.ku_ring.ui_util.KuringNavigator
+import com.ku_stacks.ku_ring.ui_util.showToast
 import com.ku_stacks.ku_ring.util.findActivity
 
 @Composable
 fun MainScreen(
     navController: NavHostController,
-    currentRoute: MainScreenRoute,
-    onNavigateToRoute: (MainScreenRoute) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val currentBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = currentBackStackEntry?.let { MainScreenRoute.of(it) }
+        ?: MainScreenRoute.Notice
+
     Scaffold(
         bottomBar = {
             MainScreenNavigationBar(
                 currentRoute = currentRoute,
-                onNavigationItemClick = { onNavigateToRoute(it) },
+                onNavigationItemClick = { navController.navigate(it) },
                 modifier = Modifier.fillMaxWidth(),
             )
         },
@@ -59,10 +63,12 @@ fun MainScreen(
             NavHost(
                 navController = navController,
                 startDestination = MainScreenRoute.Notice,
-                modifier = Modifier.padding(it).fillMaxSize(),
+                modifier = Modifier
+                    .padding(it)
+                    .fillMaxSize(),
                 enterTransition = {
-                    val initialRoute = MainScreenRoute.of(initialState.destination.route.orEmpty())
-                    val targetRoute = MainScreenRoute.of(targetState.destination.route.orEmpty())
+                    val initialRoute = MainScreenRoute.of(initialState)
+                    val targetRoute = MainScreenRoute.of(targetState)
                     val enterDirection =
                         slideDirection(
                             initialRoute = initialRoute,
@@ -71,8 +77,8 @@ fun MainScreen(
                     slideIntoContainer(enterDirection)
                 },
                 exitTransition = {
-                    val initialRoute = MainScreenRoute.of(initialState.destination.route.orEmpty())
-                    val targetRoute = MainScreenRoute.of(targetState.destination.route.orEmpty())
+                    val initialRoute = MainScreenRoute.of(initialState)
+                    val targetRoute = MainScreenRoute.of(targetState)
                     val enterDirection =
                         slideDirection(
                             initialRoute = initialRoute,
@@ -125,18 +131,24 @@ fun NavGraphBuilder.mainScreenNavGraph(
             onNavigateToEditDepartment = {
                 navigator.navigateToEditSubscribedDepartment(activity)
             },
+            onBackSingleTap = {
+                activity.showToast(R.string.home_finish_if_back_again)
+            },
+            onBackDoubleTap = {
+                activity.finish()
+            },
             modifier =
-                Modifier
-                    .background(KuringTheme.colors.background)
-                    .fillMaxSize(),
+            Modifier
+                .background(KuringTheme.colors.background)
+                .fillMaxSize(),
         )
     }
     composable<MainScreenRoute.Archive> {
         ArchiveScreen(
             modifier =
-                Modifier
-                    .background(KuringTheme.colors.background)
-                    .fillMaxSize(),
+            Modifier
+                .background(KuringTheme.colors.background)
+                .fillMaxSize(),
         )
     }
     composable<MainScreenRoute.CampusMap> {
@@ -166,10 +178,10 @@ fun NavGraphBuilder.mainScreenNavGraph(
             onNavigateToKuringInstagram = { activity.navigateToKuringInstagram() },
             onNavigateToFeedback = { navigator.navigateToFeedback(activity) },
             modifier =
-                Modifier
-                    .background(KuringTheme.colors.background)
-                    .fillMaxWidth()
-                    .wrapContentHeight(),
+            Modifier
+                .background(KuringTheme.colors.background)
+                .fillMaxWidth()
+                .wrapContentHeight(),
         )
     }
 }

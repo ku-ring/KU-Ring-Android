@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.ku_stacks.ku_ring.designsystem.components.DoubleTapBackHandler
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.Notice
@@ -20,8 +21,17 @@ internal fun NoticeScreen(
     onNotificationIconClick: () -> Unit,
     onNoticeClick: (Notice) -> Unit,
     onNavigateToEditDepartment: () -> Unit,
+    onBackSingleTap: () -> Unit,
+    onBackDoubleTap: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    DoubleTapBackHandler(
+        enabled = true,
+        tapInterval = 2000L,
+        onSingleTap = onBackSingleTap,
+        onDoubleTap = onBackDoubleTap,
+    )
+
     Column(modifier = modifier) {
         NoticeScreenHeader(
             onSearchIconClick = onSearchIconClick,
@@ -38,6 +48,7 @@ internal fun NoticeScreen(
     }
 }
 
+
 @LightAndDarkPreview
 @Composable
 private fun NoticeScreenPreview() {
@@ -47,6 +58,8 @@ private fun NoticeScreenPreview() {
             onNotificationIconClick = {},
             onNoticeClick = {},
             onNavigateToEditDepartment = {},
+            onBackSingleTap = {},
+            onBackDoubleTap = {},
             modifier = Modifier
                 .fillMaxSize()
                 .background(KuringTheme.colors.background),
