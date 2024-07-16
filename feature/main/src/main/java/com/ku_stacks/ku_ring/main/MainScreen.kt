@@ -13,9 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -44,12 +42,8 @@ fun MainScreen(
     modifier: Modifier = Modifier,
 ) {
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute by remember {
-        derivedStateOf {
-            currentBackStackEntry?.let { MainScreenRoute.of(it) }
-                ?: MainScreenRoute.Notice
-        }
-    }
+    val currentRoute = currentBackStackEntry?.let { MainScreenRoute.of(it) }
+        ?: MainScreenRoute.Notice
 
     Scaffold(
         bottomBar = {
