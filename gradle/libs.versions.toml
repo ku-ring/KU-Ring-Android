@@ -53,6 +53,7 @@ retrofit = '2.11.0'
 firebase = '33.1.2'
 crashlytics = "3.0.2"
 lottie = "6.4.1"
+ktor = "3.0.0-beta-2"
 
 [libraries]
 # Project-level dependencies
@@ -181,6 +182,10 @@ retrofit-adapter-rxjava3 = { module = 'com.squareup.retrofit2:adapter-rxjava3' }
 # RxJava
 rxandroid = 'io.reactivex.rxjava3:rxandroid:3.0.2'
 rxjava = 'io.reactivex.rxjava3:rxjava:3.1.8'
+
+# Ktor
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
 
 # Other libraries
 androidtagview = 'com.github.yeon-kyu:AndroidTagView:v1.1.7-alpha1'
