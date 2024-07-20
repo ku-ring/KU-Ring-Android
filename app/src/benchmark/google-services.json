@@ -1,0 +1,106 @@
+{
+  "project_info": {
+    "project_number": "685711045622",
+    "project_id": "ku-stack",
+    "storage_bucket": "ku-stack.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:685711045622:android:28bf6ef6d971b980a64dd7",
+        "android_client_info": {
+          "package_name": "com.ku_stacks.ku_ring"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "685711045622-d2m3dm6hpinceceltb3n2etfpvlo8mi6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ku_stacks.ku_ring",
+            "certificate_hash": "e097e1f4bca322353e924e344ebb29c750d9483a"
+          }
+        },
+        {
+          "client_id": "685711045622-tdtif3467hl7opu27gnqch45p940p3s3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ku_stacks.ku_ring",
+            "certificate_hash": "e4e689f21f0d2f187799b0dd79b19705f0816e42"
+          }
+        },
+        {
+          "client_id": "685711045622-kil1s76k0c2c9hivbukdti2l82ehrv5p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTuxvDIcWw_1MFZPiqQikIM0WmlRoRaxY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "685711045622-kil1s76k0c2c9hivbukdti2l82ehrv5p.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "685711045622-081gun5pba587ob7skgrikjjng8pfp09.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.kuring.app"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:685711045622:android:3976e60a05911976a64dd7",
+        "android_client_info": {
+          "package_name": "com.ku_stacks.ku_ring.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "685711045622-i938t2b7n416askkvc6p56990tlsigdf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ku_stacks.ku_ring.debug",
+            "certificate_hash": "a1a143e1726ff633a5862fb40fe25b87f1930fc9"
+          }
+        },
+        {
+          "client_id": "685711045622-kil1s76k0c2c9hivbukdti2l82ehrv5p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTuxvDIcWw_1MFZPiqQikIM0WmlRoRaxY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "685711045622-kil1s76k0c2c9hivbukdti2l82ehrv5p.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "685711045622-081gun5pba587ob7skgrikjjng8pfp09.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.kuring.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

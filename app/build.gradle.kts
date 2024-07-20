@@ -59,9 +59,21 @@ android {
             )
             applicationIdSuffix = ".debug"
         }
+        create("benchmark") {
+            initWith(buildTypes.getByName("release"))
+            matchingFallbacks += listOf("release")
+            signingConfig = signingConfigs.getByName("debug")
+            manifestPlaceholders.putAll(
+                mapOf(
+                    "appName" to "Kuring Benchmark",
+                    "appIcon" to "@drawable/ic_ku_ring_launcher"
+                )
+            )
+        }
         release {
+            manifestPlaceholders += mapOf()
             isDebuggable = false
-            signingConfig = signingConfigs.getByName("release")
+            signingConfig = signingConfigs.getByName("debug")
             manifestPlaceholders.putAll(
                 mapOf(
                     "appName" to "@string/app_name",

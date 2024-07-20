@@ -54,6 +54,8 @@ okhttp = '4.12.0'
 retrofit = '2.11.0'
 firebase = '33.4.0'
 crashlytics = "3.0.2"
+uiautomator = "2.3.0"
+benchmarkMacroJunit4 = "1.2.4"
 lottie = "6.5.2"
 ktor = "3.0.0"
 
@@ -190,6 +192,8 @@ pageindicatorview = 'com.romandanylyk:pageindicatorview:1.0.3'
 shimmer = 'com.facebook.shimmer:shimmer:0.5.0'
 timber = 'com.jakewharton.timber:timber:5.0.1'
 semver = "net.swiftzer.semver:semver:2.0.0"
+androidx-uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
+androidx-benchmark-macro-junit4 = { group = "androidx.benchmark", name = "benchmark-macro-junit4", version.ref = "benchmarkMacroJunit4" }
 
 [bundles]
 retrofit = [
@@ -271,3 +275,4 @@ dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
 crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlytics" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+android-test = { id = "com.android.test", version.ref = "android-gradle" }

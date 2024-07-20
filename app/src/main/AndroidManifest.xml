@@ -21,6 +21,9 @@
         android:theme="@style/Theme.KURing"
         android:usesCleartextTraffic="true"
         tools:replace="icon, label">
+        <profileable
+            android:shell="true"
+            tools:targetApi="29" />
 
         <activity
             android:name=".splash.SplashActivity"
@@ -28,10 +31,10 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".main.MainActivity"
             android:exported="true"
@@ -46,26 +49,21 @@
             android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
             android:exported="true"
             android:theme="@style/OpenSourceItemTheme" />
-
         <activity
             android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
             android:exported="true"
             android:theme="@style/OpenSourceItemTheme" />
-
         <activity
             android:name=".notice_detail.NoticeWebActivity"
             android:exported="true" />
-
         <activity
             android:name=".edit_subscription.EditSubscriptionActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/EditSubscriptionTheme" />
-
         <activity
             android:name=".notion.NotionViewActivity"
             android:exported="true" />
-
         <activity
             android:name=".onboarding.OnboardingActivity"
             android:exported="true"
@@ -107,11 +105,9 @@
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-6671968113098923~7129948779" />
-
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_status_bar" />
-
     </application>
 
 </manifest>
