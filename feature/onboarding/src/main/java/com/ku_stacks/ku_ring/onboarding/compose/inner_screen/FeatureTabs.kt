@@ -83,7 +83,8 @@ internal fun FeatureTabs(
             onSkip = onSkipOnboarding,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .padding(bottom = 26.dp),
+                .padding(bottom = 26.dp)
+                .testTag("skip_onboarding"),
         )
     }
 }
