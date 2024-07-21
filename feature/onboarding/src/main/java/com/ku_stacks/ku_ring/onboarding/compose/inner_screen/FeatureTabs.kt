@@ -15,10 +15,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -32,7 +36,7 @@ import com.ku_stacks.ku_ring.onboarding.R
 import com.ku_stacks.ku_ring.onboarding.compose.inner_screen.feature_tab.FeatureTab
 import com.ku_stacks.ku_ring.onboarding.compose.inner_screen.feature_tab.FeatureTabItem
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalComposeUiApi::class)
 @Composable
 internal fun FeatureTabs(
     onNavigateToSetDepartment: () -> Unit,
@@ -44,7 +48,10 @@ internal fun FeatureTabs(
     Column(
         modifier = modifier
             .background(KuringTheme.colors.background)
-            .fillMaxSize(),
+            .fillMaxSize()
+            .semantics {
+                testTagsAsResourceId = true
+            },
     ) {
         FeatureTabsTitle(
             modifier = Modifier.padding(top = 76.dp, start = 20.dp),
@@ -52,7 +59,9 @@ internal fun FeatureTabs(
         FeatureTabItems(
             tabItems = tabItems,
             pagerState = pagerState,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .testTag("feature_tab"),
         )
         Spacer(modifier = Modifier.weight(1f))
         HorizontalSlidingIndicator(
