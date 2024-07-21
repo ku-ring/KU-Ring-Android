@@ -6,6 +6,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.main.notice.NoticeScreenTabItem
@@ -20,7 +21,8 @@ internal fun NoticeHorizontalPager(
 ) {
     HorizontalPager(
         state = pagerState,
-        modifier = modifier,
+        modifier = modifier
+            .testTag("notice_pager"),
     ) { pageIndex ->
         if (pageIndex == 0) {
             DepartmentNoticeScreen(

@@ -14,8 +14,12 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
@@ -36,6 +40,7 @@ import com.ku_stacks.ku_ring.ui_util.KuringNavigator
 import com.ku_stacks.ku_ring.ui_util.showToast
 import com.ku_stacks.ku_ring.util.findActivity
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun MainScreen(
     navController: NavHostController,
@@ -65,7 +70,10 @@ fun MainScreen(
                 startDestination = MainScreenRoute.Notice,
                 modifier = Modifier
                     .padding(it)
-                    .fillMaxSize(),
+                    .fillMaxSize()
+                    .semantics {
+                        testTagsAsResourceId = true
+                    },
                 enterTransition = {
                     val initialRoute = MainScreenRoute.of(initialState)
                     val targetRoute = MainScreenRoute.of(targetState)
@@ -140,7 +148,8 @@ fun NavGraphBuilder.mainScreenNavGraph(
             modifier =
             Modifier
                 .background(KuringTheme.colors.background)
-                .fillMaxSize(),
+                .fillMaxSize()
+                .testTag("notice_screen"),
         )
     }
     composable<MainScreenRoute.Archive> {
