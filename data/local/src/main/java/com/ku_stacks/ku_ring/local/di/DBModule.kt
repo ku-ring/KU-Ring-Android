@@ -68,6 +68,21 @@ object DBModule {
             }
         }
 
+    private val MIGRATION_6_7 = object : Migration(6, 7) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL(
+                """
+                CREATE TABLE IF NOT EXISTS KuringBotMessageEntity(
+                    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                    message TEXT NOT NULL,
+                    postedEpochSeconds INTEGER NOT NULL,
+                    isQuery INTEGER NOT NULL
+                )
+            """.trimIndent()
+            )
+        }
+    }
+
     @Singleton
     @Provides
     fun provideKuRingDatabase(
@@ -84,6 +99,7 @@ object DBModule {
                 MIGRATION_3_4,
                 MIGRATION_4_5,
                 MIGRATION_5_6,
+                MIGRATION_6_7,
             ).build()
 
     @Singleton
