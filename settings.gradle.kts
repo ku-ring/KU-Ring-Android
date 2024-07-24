@@ -27,6 +27,7 @@ include(
     ":data:notice",
     ":data:notice:test",
     ":core:preferences",
+    ":data:ai",
     ":data:push",
     ":data:push:test",
     ":data:user",
