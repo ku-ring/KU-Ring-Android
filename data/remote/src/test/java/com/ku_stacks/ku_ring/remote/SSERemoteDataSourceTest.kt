@@ -30,7 +30,6 @@ class SSERemoteDataSourceTest {
         // when
         val session = sseDataSource.openKuringBotSSESession(query, testToken)
         val response = session?.reduce { accumulator, value -> accumulator + value }
-        println("response: $response")
 
         // then
         assertNotNull(session)
