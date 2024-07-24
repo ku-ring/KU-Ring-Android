@@ -27,4 +27,5 @@ abstract class KuRingDatabase : RoomDatabase() {
     abstract fun blackUserDao(): BlackUserDao
     abstract fun departmentDao(): DepartmentDao
     abstract fun searchHistoryDao(): SearchHistoryDao
+    abstract fun kuringBotMessageDao(): KuringBotMessageDao
 }

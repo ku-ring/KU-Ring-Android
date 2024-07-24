@@ -121,4 +121,8 @@ object DBModule {
     @Singleton
     @Provides
     fun provideSearchHistoryDao(database: KuRingDatabase) = database.searchHistoryDao()
+
+    @Singleton
+    @Provides
+    fun provideKuringBotMessageDao(database: KuRingDatabase) = database.kuringBotMessageDao()
 }
