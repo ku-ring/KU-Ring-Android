@@ -12,6 +12,8 @@ class KtorPlugin : Plugin<Project> {
         dependencies {
             implementation(libs.library("ktor-client-core"))
             implementation(libs.library("ktor-client-cio"))
+            implementation(libs.library("ktor-client-content-negotiation"))
+            implementation(libs.library("ktor-serialization-kotlinx-json"))
         }
     }
 }
