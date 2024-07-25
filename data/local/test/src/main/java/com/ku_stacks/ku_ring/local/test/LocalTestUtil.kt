@@ -55,11 +55,11 @@ object LocalTestUtil {
     fun fakeKuringBotMessageEntity(
         message: String = "",
         postedEpochSeconds: Long = 0L,
-        isQuery: Boolean = false,
+        type: Int = 0,
     ) = KuringBotMessageEntity(
         id = 0,
         message = message,
         postedEpochSeconds = postedEpochSeconds,
-        isQuery = isQuery,
+        type = type,
     )
 }
