@@ -11,7 +11,9 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.sse.SSE
+import io.ktor.serialization.kotlinx.json.json
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -69,6 +71,9 @@ object RemoteModule {
             install(SSE) {
                 showCommentEvents()
                 showRetryEvents()
+            }
+            install(ContentNegotiation) {
+                json()
             }
         }
         return SSERemoteDataSource(client)
