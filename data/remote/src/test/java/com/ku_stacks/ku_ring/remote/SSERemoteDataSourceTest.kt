@@ -29,24 +29,45 @@ class SSERemoteDataSourceTest {
 
         // when
         val tokens = mutableListOf<String>()
-        val session = sseDataSource.openKuringBotSSESession(query, testToken) {
-            assert(it.startsWith("data:"))
-            tokens.add(it.removePrefix("data:"))
+        sseDataSource.openKuringBotSSESession(query, testToken) {
+            tokens.add(it)
         }
 
         // then
-        assertNotNull(session)
         assert(tokens.isNotEmpty())
     }
 
     @Test
-    fun `test wrong query is given`() = runTest {
+    fun `get response even when wrong query is given`() = runTest {
         // given
         val testToken = System.currentTimeMillis().toString()
 
-        // when + then
+        // when
+        val tokens = mutableListOf<String>()
         sseDataSource.openKuringBotSSESession(wrongQuery, testToken) {
-            assert(!it.startsWith("data:"))
+            tokens.add(it)
         }
+
+        // then
+        assert(tokens.isNotEmpty())
+    }
+
+    @Test
+    fun `get response even when the token is expired`() = runTest {
+        // given
+        val testToken = System.currentTimeMillis().toString()
+
+        // when
+        sseDataSource.openKuringBotSSESession(query, testToken) {}
+        sseDataSource.openKuringBotSSESession(query, testToken) {}
+
+        val tokens = mutableListOf<String>()
+        sseDataSource.openKuringBotSSESession(query, testToken) {
+            tokens.add(it)
+        }
+
+        // then
+        assertNotNull(tokens)
+        assert(tokens.isNotEmpty())
     }
 }
