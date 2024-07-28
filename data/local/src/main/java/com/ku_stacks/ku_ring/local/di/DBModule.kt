@@ -76,7 +76,7 @@ object DBModule {
                     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
                     message TEXT NOT NULL,
                     postedEpochSeconds INTEGER NOT NULL,
-                    type INTEGER NOT NULL
+                    isQuery INTEGER NOT NULL
                 )
             """.trimIndent()
             )

@@ -25,7 +25,7 @@ interface KuringBotMessageDao {
      *
      * @return 주어진 기간동안 사용자가 전송한 질문의 수
      */
-    @Query("SELECT count(*) FROM KuringBotMessageEntity WHERE type = 0 AND postedEpochSeconds BETWEEN :from AND :to")
+    @Query("SELECT count(*) FROM KuringBotMessageEntity WHERE isQuery = 0 AND postedEpochSeconds BETWEEN :from AND :to")
     suspend fun getQueryCount(from: Long, to: Long): Int
 
     @Query("DELETE FROM KuringBotMessageEntity")

@@ -28,7 +28,7 @@ class KuringBotMessageDaoTest : LocalDbAbstract() {
         // given + when
         assert(dao.getAllMessages().isEmpty())
         val messages = (0 until 4).map {
-            LocalTestUtil.fakeKuringBotMessageEntity(type = 0)
+            LocalTestUtil.fakeKuringBotMessageEntity(isQuery = it % 2 == 0)
         }
         dao.insertMessages(messages)
 
@@ -45,7 +45,7 @@ class KuringBotMessageDaoTest : LocalDbAbstract() {
         val messages = (0 until 4).map {
             LocalTestUtil.fakeKuringBotMessageEntity(
                 postedEpochSeconds = it + postedSecondOffset,
-                type = it % 2,
+                isQuery = it % 2 == 0,
             )
         }
         dao.insertMessages(messages)
@@ -64,7 +64,7 @@ class KuringBotMessageDaoTest : LocalDbAbstract() {
         val messages = (0 until 4).map {
             LocalTestUtil.fakeKuringBotMessageEntity(
                 postedEpochSeconds = it.toLong(),
-                type = 0,
+                isQuery = it % 2 == 0,
             )
         }
         dao.insertMessages(messages)
