@@ -54,7 +54,7 @@ internal fun SurveyPopup(
 ) {
     var isHiddenByUser by rememberSaveable { mutableStateOf(false) }
     val isSurveyComplete by viewModel.isSurveyComplete.collectAsStateWithLifecycle()
-    val isSurveyFinished = LocalDate.now() > LocalDate.of(2024, 8, 5)
+    val isSurveyFinished = remember { LocalDate.now() > LocalDate.of(2024, 8, 5) }
 
     if (!isHiddenByUser && !isSurveyComplete && !isSurveyFinished) {
         val context = LocalContext.current
