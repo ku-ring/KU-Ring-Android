@@ -43,6 +43,10 @@ gradlePlugin {
             id = "com.ku_stacks.ku_ring.buildlogic.primitive.room"
             implementationClass = "com.ku_stacks.ku_ring.buildlogic.primitive.RoomPlugin"
         }
+        register("com.ku_stacks.ku_ring.buildlogic.primitive.KtorPlugin") {
+            id = "com.ku_stacks.ku_ring.buildlogic.primitive.ktor"
+            implementationClass = "com.ku_stacks.ku_ring.buildlogic.primitive.KtorPlugin"
+        }
         register("com.ku_stacks.ku_ring.buildlogic.primitive.OkHttpPlugin") {
             id = "com.ku_stacks.ku_ring.buildlogic.primitive.okhttp"
             implementationClass = "com.ku_stacks.ku_ring.buildlogic.primitive.OkHttpPlugin"

@@ -3,6 +3,7 @@ import com.ku_stacks.ku_ring.buildlogic.dsl.setNameSpace
 plugins {
     kuring("feature")
     kuringPrimitive("retrofit")
+    kuringPrimitive("ktor")
     kuringPrimitive("okhttp")
     kuringPrimitive("test")
 }

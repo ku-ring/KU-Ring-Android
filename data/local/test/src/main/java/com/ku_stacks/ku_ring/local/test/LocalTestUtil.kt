@@ -1,6 +1,7 @@
 package com.ku_stacks.ku_ring.local.test
 
 import com.ku_stacks.ku_ring.local.entity.DepartmentEntity
+import com.ku_stacks.ku_ring.local.entity.KuringBotMessageEntity
 import com.ku_stacks.ku_ring.local.entity.NoticeEntity
 import com.ku_stacks.ku_ring.local.entity.PushEntity
 
@@ -49,5 +50,16 @@ object LocalTestUtil {
         fullUrl = "http://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do?forum=notice&sort=6&id=5b4f972&cat=0000300001",
         isNew = true,
         receivedDate = "20220114-005036",
+    )
+
+    fun fakeKuringBotMessageEntity(
+        message: String = "",
+        postedEpochSeconds: Long = 0L,
+        isQuery: Boolean = false,
+    ) = KuringBotMessageEntity(
+        id = 0,
+        message = message,
+        postedEpochSeconds = postedEpochSeconds,
+        isQuery = isQuery,
     )
 }

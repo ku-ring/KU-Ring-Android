@@ -2,11 +2,16 @@ package com.ku_stacks.ku_ring.remote.util
 
 import android.content.Context
 import com.ku_stacks.ku_ring.remote.BuildConfig
+import com.ku_stacks.ku_ring.remote.kuringbot.KuringBotClient
+import com.ku_stacks.ku_ring.remote.kuringbot.KuringBotSSEClient
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.cio.CIO
+import io.ktor.client.plugins.sse.SSE
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -17,7 +22,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RetrofitModule {
+object NetworkModule {
     @Provides
     @Singleton
     @Named("Default")
@@ -55,5 +60,17 @@ object RetrofitModule {
             .baseUrl("https://raw.githubusercontent.com/ku-ring/space/main/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideKuringBotClient(): KuringBotClient {
+        val client = HttpClient(CIO) {
+            install(SSE) {
+                showCommentEvents()
+                showRetryEvents()
+            }
+        }
+        return KuringBotSSEClient(client)
     }
 }
