@@ -22,7 +22,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RemoteModule {
+object NetworkModule {
     @Provides
     @Singleton
     @Named("Default")
