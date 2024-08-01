@@ -15,7 +15,7 @@ class SSERemoteDataSource @Inject constructor(
     override suspend fun openKuringBotSSESession(
         query: String,
         token: String,
-        onData: (String) -> Unit,
+        onReceived: (String) -> Unit,
     ) {
         val url = BuildConfig.API_BASE_URL + "v2/ai/messages"
         client.sse(
@@ -28,7 +28,7 @@ class SSERemoteDataSource @Inject constructor(
             }
         ) {
             incoming.collectLatest { incoming ->
-                incoming.data?.ifEmpty { " " }?.let(onData)
+                incoming.data?.ifEmpty { " " }?.let(onReceived)
             }
         }
     }
