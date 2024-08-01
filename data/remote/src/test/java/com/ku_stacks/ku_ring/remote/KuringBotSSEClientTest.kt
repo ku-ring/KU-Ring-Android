@@ -5,6 +5,7 @@ import com.ku_stacks.ku_ring.remote.kuringbot.KuringBotSSEClient
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.sse.SSE
+import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNotNull
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
@@ -34,7 +35,10 @@ class KuringBotSSEClientTest {
         }
 
         // then
-        assert(tokens.isNotEmpty())
+        assertEquals(
+            "학생복지처 장학복지팀의 전화번호는 02-450-3211~2이며, 건국사랑/장학사정관장학/기금장학과 관련된 문의는 02-450-3967로 하시면 됩니다.",
+            tokens.joinToString("")
+        )
     }
 
     @Test
@@ -49,7 +53,7 @@ class KuringBotSSEClientTest {
         }
 
         // then
-        assert(tokens.isNotEmpty())
+        assertEquals("죄송합니다, 관련된 내용에 대하여 알지 못합니다.", tokens.joinToString(""))
     }
 
     @Test
@@ -68,6 +72,6 @@ class KuringBotSSEClientTest {
 
         // then
         assertNotNull(tokens)
-        assert(tokens.isNotEmpty())
+        assertEquals("남은 질문 횟수가 부족합니다.", tokens.joinToString(""))
     }
 }
