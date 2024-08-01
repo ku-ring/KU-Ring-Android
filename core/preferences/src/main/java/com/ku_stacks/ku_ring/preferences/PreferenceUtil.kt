@@ -34,6 +34,10 @@ class PreferenceUtil(@ApplicationContext context: Context) {
         get() = prefs.getString(CAMPUS_USER_ID, null) ?: ""
         set(value) = prefs.edit().putString(CAMPUS_USER_ID, value).apply()
 
+    var is2024SurveyComplete: Boolean
+        get() = prefs.getBoolean(SURVEY_2024_COMPLETE, false)
+        set(value) = prefs.edit().putBoolean(SURVEY_2024_COMPLETE, value).apply()
+
     fun deleteStartDate() {
         prefs.edit().remove(START_DATE).apply()
     }
@@ -53,5 +57,6 @@ class PreferenceUtil(@ApplicationContext context: Context) {
         const val SUBSCRIPTION = "SUBSCRIPTION"
         const val DEFAULT_NOTIFICATION = "DEFAULT_NOTIFICATION"
         const val CAMPUS_USER_ID = "CAMPUS_USER_ID"
+        const val SURVEY_2024_COMPLETE = "SURVEY_2024_COMPLETE"
     }
 }
