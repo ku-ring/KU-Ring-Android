@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.remote.sse
+package com.ku_stacks.ku_ring.remote.kuringbot
 
 import com.ku_stacks.ku_ring.remote.BuildConfig
 import io.ktor.client.HttpClient
@@ -8,9 +8,9 @@ import io.ktor.client.request.parameter
 import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
-class SSERemoteDataSource @Inject constructor(
+class KuringBotSSEClient @Inject constructor(
     private val client: HttpClient,
-) : SSEDataSource {
+) : KuringBotClient {
 
     override suspend fun openKuringBotSSESession(
         query: String,

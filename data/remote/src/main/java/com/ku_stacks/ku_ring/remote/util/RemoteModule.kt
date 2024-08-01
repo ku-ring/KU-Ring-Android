@@ -2,8 +2,8 @@ package com.ku_stacks.ku_ring.remote.util
 
 import android.content.Context
 import com.ku_stacks.ku_ring.remote.BuildConfig
-import com.ku_stacks.ku_ring.remote.sse.SSEDataSource
-import com.ku_stacks.ku_ring.remote.sse.SSERemoteDataSource
+import com.ku_stacks.ku_ring.remote.kuringbot.KuringBotClient
+import com.ku_stacks.ku_ring.remote.kuringbot.KuringBotSSEClient
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -64,13 +64,13 @@ object RemoteModule {
 
     @Provides
     @Singleton
-    fun provideSSERemoteDataSource(): SSEDataSource {
+    fun provideKuringBotClient(): KuringBotClient {
         val client = HttpClient(CIO) {
             install(SSE) {
                 showCommentEvents()
                 showRetryEvents()
             }
         }
-        return SSERemoteDataSource(client)
+        return KuringBotSSEClient(client)
     }
 }

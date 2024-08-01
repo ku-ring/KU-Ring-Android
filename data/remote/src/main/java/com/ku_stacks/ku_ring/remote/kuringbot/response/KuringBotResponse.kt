@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.remote.sse.response
+package com.ku_stacks.ku_ring.remote.kuringbot.response
 
 import kotlinx.serialization.Serializable
 

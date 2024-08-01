@@ -1,7 +1,7 @@
 package com.ku_stacks.ku_ring.remote
 
-import com.ku_stacks.ku_ring.remote.sse.SSEDataSource
-import com.ku_stacks.ku_ring.remote.sse.SSERemoteDataSource
+import com.ku_stacks.ku_ring.remote.kuringbot.KuringBotClient
+import com.ku_stacks.ku_ring.remote.kuringbot.KuringBotSSEClient
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.sse.SSE
@@ -9,8 +9,8 @@ import junit.framework.TestCase.assertNotNull
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
-class SSERemoteDataSourceTest {
-    private val sseDataSource: SSEDataSource = SSERemoteDataSource(
+class KuringBotSSEClientTest {
+    private val kuringBotClient: KuringBotClient = KuringBotSSEClient(
         HttpClient(CIO) {
             install(SSE) {
                 showCommentEvents()
@@ -29,7 +29,7 @@ class SSERemoteDataSourceTest {
 
         // when
         val tokens = mutableListOf<String>()
-        sseDataSource.openKuringBotSSESession(query, testToken) {
+        kuringBotClient.openKuringBotSSESession(query, testToken) {
             tokens.add(it)
         }
 
@@ -44,7 +44,7 @@ class SSERemoteDataSourceTest {
 
         // when
         val tokens = mutableListOf<String>()
-        sseDataSource.openKuringBotSSESession(wrongQuery, testToken) {
+        kuringBotClient.openKuringBotSSESession(wrongQuery, testToken) {
             tokens.add(it)
         }
 
@@ -58,11 +58,11 @@ class SSERemoteDataSourceTest {
         val testToken = System.currentTimeMillis().toString()
 
         // when
-        sseDataSource.openKuringBotSSESession(query, testToken) {}
-        sseDataSource.openKuringBotSSESession(query, testToken) {}
+        kuringBotClient.openKuringBotSSESession(query, testToken) {}
+        kuringBotClient.openKuringBotSSESession(query, testToken) {}
 
         val tokens = mutableListOf<String>()
-        sseDataSource.openKuringBotSSESession(query, testToken) {
+        kuringBotClient.openKuringBotSSESession(query, testToken) {
             tokens.add(it)
         }
 
