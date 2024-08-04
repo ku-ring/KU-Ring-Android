@@ -12,7 +12,7 @@ class KuringBotSSEClient @Inject constructor(
     private val client: HttpClient,
 ) : KuringBotClient {
 
-    override suspend fun openKuringBotSSESession(
+    override suspend fun openKuringBotConnection(
         query: String,
         token: String,
         onReceived: (String) -> Unit,

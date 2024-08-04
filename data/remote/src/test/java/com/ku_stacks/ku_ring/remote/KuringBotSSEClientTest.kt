@@ -28,7 +28,7 @@ class KuringBotSSEClientTest {
 
         // when
         val tokens = mutableListOf<String>()
-        kuringBotClient.openKuringBotSSESession(query, testToken) {
+        kuringBotClient.openKuringBotConnection(query, testToken) {
             tokens.add(it)
         }
 
@@ -43,7 +43,7 @@ class KuringBotSSEClientTest {
 
         // when
         val tokens = mutableListOf<String>()
-        kuringBotClient.openKuringBotSSESession(wrongQuery, testToken) {
+        kuringBotClient.openKuringBotConnection(wrongQuery, testToken) {
             tokens.add(it)
         }
 
@@ -57,11 +57,11 @@ class KuringBotSSEClientTest {
         val testToken = System.currentTimeMillis().toString()
 
         // when
-        kuringBotClient.openKuringBotSSESession(query, testToken) {}
-        kuringBotClient.openKuringBotSSESession(query, testToken) {}
+        kuringBotClient.openKuringBotConnection(query, testToken) {}
+        kuringBotClient.openKuringBotConnection(query, testToken) {}
 
         val tokens = mutableListOf<String>()
-        kuringBotClient.openKuringBotSSESession(query, testToken) {
+        kuringBotClient.openKuringBotConnection(query, testToken) {
             tokens.add(it)
         }
 
