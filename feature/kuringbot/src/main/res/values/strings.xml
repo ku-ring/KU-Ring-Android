@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="kuringbot_title">쿠링봇</string>
+    <string name="kuringbot_back_button">뒤로 가기</string>
+    <string name="kuringbot_info_button">도움말 보기</string>
+    <string name="kuringbot_info">쿠링봇은 2024년 6월 이후의 공지사항 내용을 기준으로 답변할 수 있어요.\n테스트 기간인 관계로 한 달에 2회까지만 질문 가능해요.</string>
+
+    <string name="kuringbot_empty_message">궁금한 건국대학교의\n공지 내용을 질문해보세요</string>
+
+    <string name="kuringbot_text_field_placeholder">질문을 입력해주세요</string>
+    <string name="kuringbot_send_query">쿠링봇에 질문 보내기</string>
+    <string name="kuringbot_stop_response">응답 생성 중단</string>
+
+    <string name="kuringbot_send_dialog_text">전송하시면 횟수 차감이 인정돼요.\n전송할까요?</string>
+    <string name="kuringbot_send_dialog_send">전송하기</string>
+    <string name="kuringbot_send_dialog_cancel">취소하기</string>
+
+    <string name="kuringbot_disclaimer">쿠링봇은 실수를 할 수 있습니다. 중요한 정보를 확인하세요.</string>
+</resources>
