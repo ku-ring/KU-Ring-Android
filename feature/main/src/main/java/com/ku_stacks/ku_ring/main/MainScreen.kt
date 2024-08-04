@@ -46,21 +46,24 @@ fun MainScreen(
     val currentRoute = currentBackStackEntry?.let { MainScreenRoute.of(it) }
         ?: MainScreenRoute.Notice
 
-    Scaffold(
-        bottomBar = {
-            MainScreenNavigationBar(
-                currentRoute = currentRoute,
-                onNavigationItemClick = { navController.navigate(it) },
-                modifier = Modifier.fillMaxWidth(),
-            )
-        },
-        modifier = modifier,
-    ) {
-        KuringCompositionLocalProvider {
-            val navigator = LocalNavigator.current
-            val activity =
-                LocalContext.current.findActivity() ?: return@KuringCompositionLocalProvider
+    KuringCompositionLocalProvider {
+        val navigator = LocalNavigator.current
+        val activity =
+            LocalContext.current.findActivity() ?: return@KuringCompositionLocalProvider
 
+        Scaffold(
+            bottomBar = {
+                MainScreenNavigationBar(
+                    currentRoute = currentRoute,
+                    onNavigationItemClick = { navController.navigate(it) },
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            },
+            floatingActionButton = {
+                KuringBotFab(onClick = { navigator.navigateToKuringBot(activity) })
+            },
+            modifier = modifier,
+        ) {
             NavHost(
                 navController = navController,
                 startDestination = MainScreenRoute.Notice,

@@ -10,6 +10,9 @@
     <string name="search_type_notice">공지</string>
     <string name="search_type_professor">교수명</string>
 
+    <!--  fab  -->
+    <string name="main_screen_fab">쿠링봇</string>
+
     <!--  home  -->
     <string name="home_bell_icn">home bell img</string>
     <string name="home_finish_if_back_again">"뒤로가기를 한 번 더 누르시면 종료됩니다"</string>
