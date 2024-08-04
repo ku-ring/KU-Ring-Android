@@ -74,6 +74,10 @@
             android:name=".main.search.SearchActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".kuringbot.KuringBotActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"
