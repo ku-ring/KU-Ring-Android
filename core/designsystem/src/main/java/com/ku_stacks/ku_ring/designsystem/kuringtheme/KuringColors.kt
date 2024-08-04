@@ -1,42 +1,8 @@
 package com.ku_stacks.ku_ring.designsystem.kuringtheme
 
-import androidx.compose.runtime.Stable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.staticCompositionLocalOf
-import androidx.compose.runtime.structuralEqualityPolicy
+import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.BackgroundDark
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.BackgroundLight
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.BorderlineDark
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.BorderlineLight
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Gray100Dark
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Gray100Light
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Gray200Dark
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Gray200Light
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Gray300Dark
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Gray300Light
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Gray400Dark
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Gray400Light
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Gray600Dark
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Gray600Light
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.KuringLogoTextDark
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.KuringLogoTextLight
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.MainPrimaryDark
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.MainPrimaryLight
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.MainPrimarySelectedDark
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.MainPrimarySelectedLight
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.TextBodyDark
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.TextBodyLight
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.TextCaption1Dark
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.TextCaption1Light
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.TextCaption2Dark
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.TextCaption2Light
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.TextTitleDark
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.TextTitleLight
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.WarningDark
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.WarningLight
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.*
 
 /**
  * 쿠링 앱에서 사용하는 색깔 테마이다.
@@ -52,6 +18,7 @@ class KuringColors internal constructor(
     textBody: Color,
     textCaption1: Color,
     textCaption2: Color,
+    textCaption3: Color,
     gray100: Color,
     gray200: Color,
     gray300: Color,
@@ -76,6 +43,8 @@ class KuringColors internal constructor(
     var textCaption1 by mutableStateOf(textCaption1, structuralEqualityPolicy())
         internal set
     var textCaption2 by mutableStateOf(textCaption2, structuralEqualityPolicy())
+        internal set
+    var textCaption3 by mutableStateOf(textCaption3, structuralEqualityPolicy())
         internal set
     var gray100 by mutableStateOf(gray100, structuralEqualityPolicy())
         internal set
@@ -103,6 +72,7 @@ class KuringColors internal constructor(
         textBody: Color = this.textBody,
         textCaption1: Color = this.textCaption1,
         textCaption2: Color = this.textCaption2,
+        textCaption3: Color = this.textCaption3,
         gray100: Color = this.gray100,
         gray200: Color = this.gray200,
         gray300: Color = this.gray300,
@@ -120,6 +90,7 @@ class KuringColors internal constructor(
         textBody,
         textCaption1,
         textCaption2,
+        textCaption3,
         gray100,
         gray200,
         gray300,
@@ -140,6 +111,7 @@ class KuringColors internal constructor(
                 "textBody=$textBody, " +
                 "textCaption1=$textCaption1, " +
                 "textCaption2=$textCaption2, " +
+                "textCaption3=$textCaption3, " +
                 "gray100=$gray100, " +
                 "gray200=$gray200, " +
                 "gray300=$gray300, " +
@@ -161,6 +133,7 @@ fun kuringLightColors() = KuringColors(
     textBody = TextBodyLight,
     textCaption1 = TextCaption1Light,
     textCaption2 = TextCaption2Light,
+    textCaption3 = TextCaption3Light,
     gray100 = Gray100Light,
     gray200 = Gray200Light,
     gray300 = Gray300Light,
@@ -180,6 +153,7 @@ fun kuringDarkColors() = KuringColors(
     textBody = TextBodyDark,
     textCaption1 = TextCaption1Dark,
     textCaption2 = TextCaption2Dark,
+    textCaption3 = TextCaption3Dark,
     gray100 = Gray100Dark,
     gray200 = Gray200Dark,
     gray300 = Gray300Dark,
