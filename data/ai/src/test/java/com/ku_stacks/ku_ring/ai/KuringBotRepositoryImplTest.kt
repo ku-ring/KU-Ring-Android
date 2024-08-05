@@ -25,17 +25,17 @@ class KuringBotRepositoryImplTest {
     @Test
     fun `test when exception is thrown`() = runTest {
         val tokens = mutableListOf<String>()
-        val onData: (String) -> Unit = { data ->
+        val onReceived: (String) -> Unit = { data ->
             tokens.add(data)
         }
 
         // given
         val token = System.currentTimeMillis().toString()
-        Mockito.`when`(kuringBotClient.openKuringBotConnection(query, token, onData))
+        Mockito.`when`(kuringBotClient.openKuringBotConnection(query, token, onReceived))
             .thenThrow(MockitoException("test exception"))
 
         // when
-        repository.openKuringBotSession(query, token, onData)
+        repository.openKuringBotSession(query, token, onReceived)
 
         // then
         assert(tokens.size == 1)
