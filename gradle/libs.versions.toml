@@ -2,7 +2,7 @@
 # project-level dependency
 android-gradle = "8.5.1"
 kotlin = '2.0.0'
-ksp = '2.0.0-1.0.24'
+ksp = '2.0.10-1.0.24'
 hilt = '2.52'
 google-services = '4.4.2'
 firebase-gradle = '3.0.2'
