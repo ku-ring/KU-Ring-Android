@@ -152,6 +152,12 @@ class KuringBotViewModel @Inject constructor(
         _uiState.update { it.copy(isSendQuestionDialogVisible = value) }
     }
 
+    override fun onCleared() {
+        super.onCleared()
+
+        currentKuringBotJob = null
+    }
+
     companion object {
         // TODO: 출시 때 2로 수정하기
         private const val QUESTION_LENGTH_LIMIT = 200
