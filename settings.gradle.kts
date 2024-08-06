@@ -50,5 +50,6 @@ include(
     ":feature:splash",
     ":feature:main",
     ":core:designsystem",
+    ":feature:kuringbot",
     ":feature:edit_departments"
 )
