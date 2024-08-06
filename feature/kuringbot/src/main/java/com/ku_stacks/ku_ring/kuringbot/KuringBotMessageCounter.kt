@@ -19,6 +19,8 @@ class KuringBotMessageCounter @Inject constructor() {
             if (message.isQuery) {
                 increaseMessageCount(message)
             }
+            // 답변이거나
+            // 질문이면서 다음 메시지가 답변이 아닌 경우 (즉 답변이 오기 전에 중단된 경우)
             if (!message.isQuery || !(index + 1 in messages.indices && !messages[index + 1].isQuery)) {
                 uiMessages.add(calculateQuestionsRemaining(message.postedDate))
             }
