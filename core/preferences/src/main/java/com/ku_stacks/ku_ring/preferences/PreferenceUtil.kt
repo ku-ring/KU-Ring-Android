@@ -18,8 +18,8 @@ class PreferenceUtil(@ApplicationContext context: Context) {
         get() = prefs.getString(START_DATE, "")
         set(value) = prefs.edit().putString(START_DATE, value).apply()
 
-    var fcmToken: String?
-        get() = prefs.getString(FCM_TOKEN, "")
+    var fcmToken: String
+        get() = prefs.getString(FCM_TOKEN, "") ?: ""
         set(value) = prefs.edit().putString(FCM_TOKEN, value).apply()
 
     var subscription: Set<String>
