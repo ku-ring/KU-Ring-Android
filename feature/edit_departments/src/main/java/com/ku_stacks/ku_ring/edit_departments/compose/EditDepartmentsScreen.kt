@@ -2,18 +2,12 @@ package com.ku_stacks.ku_ring.edit_departments.compose
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,13 +20,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.ku_stacks.ku_ring.designsystem.components.DarkPreview
-import com.ku_stacks.ku_ring.designsystem.components.DepartmentWithAddIcon
-import com.ku_stacks.ku_ring.designsystem.components.DepartmentWithCheckIcon
-import com.ku_stacks.ku_ring.designsystem.components.DepartmentWithDeleteIcon
-import com.ku_stacks.ku_ring.designsystem.components.LargeTopAppBar
-import com.ku_stacks.ku_ring.designsystem.components.LightPreview
-import com.ku_stacks.ku_ring.designsystem.components.SearchTextField
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.ku_stacks.ku_ring.designsystem.components.*
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 import com.ku_stacks.ku_ring.domain.Department
@@ -46,7 +35,7 @@ internal fun EditDepartmentsScreen(
     modifier: Modifier = Modifier,
     viewModel: EditDepartmentsViewModel = hiltViewModel(),
 ) {
-    val departmentsUiModel by viewModel.departments.collectAsState()
+    val departmentsUiModel by viewModel.departments.collectAsStateWithLifecycle()
 
     EditDepartmentsScreen(
         onClose = onClose,

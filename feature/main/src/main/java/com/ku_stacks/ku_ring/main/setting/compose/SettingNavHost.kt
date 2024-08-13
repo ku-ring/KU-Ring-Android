@@ -4,10 +4,10 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -67,7 +67,7 @@ private fun NavGraphBuilder.settingNavGraph(
     modifier: Modifier = Modifier,
 ) {
     composable(SettingDestinations.SETTING_SCREEN) {
-        val isExtNotificationAllowed by viewModel.isExtNotificationAllowed.collectAsState()
+        val isExtNotificationAllowed by viewModel.isExtNotificationAllowed.collectAsStateWithLifecycle()
         SettingScreen(
             onNavigateToEditSubscription = navigateToEditSubscription,
             isExtNotificationEnabled = isExtNotificationAllowed,
