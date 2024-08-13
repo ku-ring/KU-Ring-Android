@@ -190,13 +190,11 @@ ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negoti
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 
 # Other libraries
-androidtagview = 'com.github.yeon-kyu:AndroidTagView:v1.1.7-alpha1'
 keyboardvisibilityevent = 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:3.0.0-RC3'
 leakcanary-android = 'com.squareup.leakcanary:leakcanary-android:2.14'
 pageindicatorview = 'com.romandanylyk:pageindicatorview:1.0.3'
 shimmer = 'com.facebook.shimmer:shimmer:0.5.0'
 timber = 'com.jakewharton.timber:timber:5.0.1'
-holdableswipehandler = 'com.github.yeon-kyu.HoldableSwipeHandler:HoldableSwipeHandler:1.2.2'
 semver = "net.swiftzer.semver:semver:2.0.0"
 
 [bundles]

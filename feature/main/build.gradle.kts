@@ -32,5 +32,4 @@ dependencies {
     implementation(libs.bundles.paging)
     implementation(libs.shimmer)
     implementation(libs.androidx.swiperefreshlayout)
-    implementation(libs.androidtagview)
 }
