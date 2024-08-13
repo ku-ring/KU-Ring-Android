@@ -22,10 +22,7 @@ class KuringBotViewModel @Inject constructor(
     private val messageCounter: KuringBotMessageCounter,
     preferences: PreferenceUtil,
 ) : ViewModel() {
-    // TODO: 출시 때 토큰 수정하기
-    private val token =
-        "e1Xo4i7QTYiZhtqQv__QBz:APA91bE8rGtQ5IpIwn3MhC1cXBQ6wkpC-JeZzJ8-o8SclLhObCGphPQ-A5fgNHhUaqz12BN5fuqDuqjCY79cBvlQx1kEesPq7KZYSK-WmgAxQUu1kN04jVj3Zw0Aao2YY3z8jmy5Ezcj"
-//        private val token = preferences.fcmToken
+    private val token = preferences.fcmToken
 
     private val _uiState = MutableStateFlow(KuringBotUIState.Empty)
     val uiState: StateFlow<KuringBotUIState>
@@ -159,7 +156,6 @@ class KuringBotViewModel @Inject constructor(
     }
 
     companion object {
-        // TODO: 출시 때 2로 수정하기
         private const val QUESTION_LENGTH_LIMIT = 200
     }
 
