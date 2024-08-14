@@ -59,9 +59,6 @@ fun MainScreen(
                     modifier = Modifier.fillMaxWidth(),
                 )
             },
-            floatingActionButton = {
-                KuringBotFab(onClick = { navigator.navigateToKuringBot(activity) })
-            },
             modifier = modifier,
         ) {
             NavHost(

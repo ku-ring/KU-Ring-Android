@@ -2,17 +2,21 @@ package com.ku_stacks.ku_ring.main.notice.compose
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import com.ku_stacks.ku_ring.designsystem.components.DoubleTapBackHandler
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.Notice
+import com.ku_stacks.ku_ring.main.notice.compose.components.KuringBotFab
 import com.ku_stacks.ku_ring.main.notice.compose.components.NoticeScreenHeader
 import com.ku_stacks.ku_ring.main.notice.compose.inner_screen.NoticeTabScreens
+import com.ku_stacks.ku_ring.thirdparty.di.LocalNavigator
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -32,18 +36,27 @@ internal fun NoticeScreen(
         onDoubleTap = onBackDoubleTap,
     )
 
-    Column(modifier = modifier) {
-        NoticeScreenHeader(
-            onSearchIconClick = onSearchIconClick,
-            onNotificationIconClick = onNotificationIconClick,
-            modifier = Modifier.fillMaxWidth(),
-        )
+    val navigator = LocalNavigator.current
+    val context = LocalContext.current
+    Scaffold(
+        topBar = {
+            NoticeScreenHeader(
+                onSearchIconClick = onSearchIconClick,
+                onNotificationIconClick = onNotificationIconClick,
+                modifier = Modifier.fillMaxWidth(),
+            )
+        },
+        floatingActionButton = {
+            KuringBotFab(onClick = { navigator.navigateToKuringBot(context) })
+        },
+        modifier = modifier,
+    ) { contentPadding ->
         NoticeTabScreens(
             onNoticeClick = onNoticeClick,
             onNavigateToEditDepartment = onNavigateToEditDepartment,
             modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f),
+                .padding(contentPadding)
+                .fillMaxSize(),
         )
     }
 }

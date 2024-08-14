@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.main
+package com.ku_stacks.ku_ring.main.notice.compose.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
+import com.ku_stacks.ku_ring.main.R
 
 @Composable
 internal fun KuringBotFab(
