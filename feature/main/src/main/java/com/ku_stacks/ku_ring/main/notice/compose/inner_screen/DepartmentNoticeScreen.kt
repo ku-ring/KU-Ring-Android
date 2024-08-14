@@ -23,7 +23,9 @@ import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -49,6 +51,7 @@ import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.notice.DepartmentNoticeScreenState
 import com.ku_stacks.ku_ring.main.notice.DepartmentNoticeViewModel
+import com.ku_stacks.ku_ring.main.notice.compose.LocalKuringBotFabState
 import com.ku_stacks.ku_ring.main.notice.compose.components.DepartmentHeader
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -169,6 +172,18 @@ private fun DepartmentNoticeScreen(
         initialValue = ModalBottomSheetValue.Hidden,
         animationSpec = tween(durationMillis = 250)
     )
+
+    val kuringBotFabState = LocalKuringBotFabState.current
+
+    val isOpening by remember { derivedStateOf { sheetState.targetValue != ModalBottomSheetValue.Hidden } }
+    val shouldFabVisible = !sheetState.isVisible && !isOpening
+    LaunchedEffect(shouldFabVisible) {
+        if (shouldFabVisible) {
+            kuringBotFabState.show()
+        } else {
+            kuringBotFabState.hide()
+        }
+    }
 
     ModalBottomSheetLayout(
         sheetContent = {

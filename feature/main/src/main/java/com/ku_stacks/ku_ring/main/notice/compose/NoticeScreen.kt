@@ -36,30 +36,45 @@ internal fun NoticeScreen(
         onDoubleTap = onBackDoubleTap,
     )
 
-    val navigator = LocalNavigator.current
-    val context = LocalContext.current
-    Scaffold(
-        topBar = {
-            NoticeScreenHeader(
-                onSearchIconClick = onSearchIconClick,
-                onNotificationIconClick = onNotificationIconClick,
-                modifier = Modifier.fillMaxWidth(),
+    NoticeCompositionLocalProvider {
+        val navigator = LocalNavigator.current
+        val context = LocalContext.current
+        val kuringBotFabState = LocalKuringBotFabState.current
+        Scaffold(
+            topBar = {
+                NoticeScreenHeader(
+                    onSearchIconClick = onSearchIconClick,
+                    onNotificationIconClick = onNotificationIconClick,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            },
+            floatingActionButton = {
+                if (kuringBotFabState.isVisible) {
+                    KuringBotFab(onClick = { navigator.navigateToKuringBot(context) })
+                }
+            },
+            modifier = modifier,
+        ) { contentPadding ->
+            NoticeTabScreens(
+                onNoticeClick = onNoticeClick,
+                onNavigateToEditDepartment = onNavigateToEditDepartment,
+                modifier = Modifier
+                    .padding(contentPadding)
+                    .fillMaxSize(),
             )
-        },
-        floatingActionButton = {
-            KuringBotFab(onClick = { navigator.navigateToKuringBot(context) })
-        },
-        modifier = modifier,
-    ) { contentPadding ->
-        NoticeTabScreens(
-            onNoticeClick = onNoticeClick,
-            onNavigateToEditDepartment = onNavigateToEditDepartment,
-            modifier = Modifier
-                .padding(contentPadding)
-                .fillMaxSize(),
-        )
+        }
     }
 }
+
+/*
+NoticeScreen
+- KuringBotFab
+- NoticeTabScreens
+  - DepartmentNoticeScreen
+    - DepartmentNoticeScreen
+      - DepartmentSelectorBottomSheet
+  - CategoryNoticeScreen
+ */
 
 
 @LightAndDarkPreview
