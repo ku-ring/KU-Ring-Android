@@ -1,6 +1,9 @@
 package com.ku_stacks.ku_ring.main.notice.compose
 
-import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,7 +21,6 @@ import com.ku_stacks.ku_ring.main.notice.compose.components.NoticeScreenHeader
 import com.ku_stacks.ku_ring.main.notice.compose.inner_screen.NoticeTabScreens
 import com.ku_stacks.ku_ring.thirdparty.di.LocalNavigator
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun NoticeScreen(
     onSearchIconClick: () -> Unit,
@@ -49,7 +51,11 @@ internal fun NoticeScreen(
                 )
             },
             floatingActionButton = {
-                if (kuringBotFabState.isVisible) {
+                AnimatedVisibility(
+                    visible = kuringBotFabState.isVisible,
+                    enter = fadeIn(tween(40)),
+                    exit = fadeOut(targetAlpha = 1f),
+                ) {
                     KuringBotFab(onClick = { navigator.navigateToKuringBot(context) })
                 }
             },
@@ -65,17 +71,6 @@ internal fun NoticeScreen(
         }
     }
 }
-
-/*
-NoticeScreen
-- KuringBotFab
-- NoticeTabScreens
-  - DepartmentNoticeScreen
-    - DepartmentNoticeScreen
-      - DepartmentSelectorBottomSheet
-  - CategoryNoticeScreen
- */
-
 
 @LightAndDarkPreview
 @Composable
