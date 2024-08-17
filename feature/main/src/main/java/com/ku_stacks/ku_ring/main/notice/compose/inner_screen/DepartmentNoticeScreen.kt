@@ -31,6 +31,7 @@ import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.notice.DepartmentNoticeScreenState
 import com.ku_stacks.ku_ring.main.notice.DepartmentNoticeViewModel
+import com.ku_stacks.ku_ring.main.notice.compose.LocalKuringBotFabState
 import com.ku_stacks.ku_ring.main.notice.compose.components.DepartmentHeader
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -151,6 +152,18 @@ private fun DepartmentNoticeScreen(
         initialValue = ModalBottomSheetValue.Hidden,
         animationSpec = tween(durationMillis = 250)
     )
+
+    val kuringBotFabState = LocalKuringBotFabState.current
+
+    val isOpening by remember { derivedStateOf { sheetState.targetValue != ModalBottomSheetValue.Hidden } }
+    val shouldFabVisible = !sheetState.isVisible && !isOpening
+    LaunchedEffect(shouldFabVisible) {
+        if (shouldFabVisible) {
+            kuringBotFabState.show()
+        } else {
+            kuringBotFabState.hide()
+        }
+    }
 
     ModalBottomSheetLayout(
         sheetContent = {

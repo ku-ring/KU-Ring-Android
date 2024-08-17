@@ -181,7 +181,7 @@ retrofit-adapter-rxjava3 = { module = 'com.squareup.retrofit2:adapter-rxjava3' }
 
 # RxJava
 rxandroid = 'io.reactivex.rxjava3:rxandroid:3.0.2'
-rxjava = 'io.reactivex.rxjava3:rxjava:3.1.8'
+rxjava = 'io.reactivex.rxjava3:rxjava:3.1.9'
 
 # Ktor
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
