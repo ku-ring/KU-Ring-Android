@@ -1,12 +1,10 @@
 package com.ku_stacks.ku_ring.main.archive.compose
 
-import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -16,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ku_stacks.ku_ring.designsystem.components.KuringCallToAction
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
@@ -34,10 +33,10 @@ fun ArchiveScreen(
     modifier: Modifier = Modifier,
     viewModel: ArchiveViewModel = hiltViewModel(),
 ) {
-    val notices by viewModel.savedNotices.collectAsState()
-    val isSelectModeEnabled by viewModel.isSelectedModeEnabled.collectAsState()
-    val selectedNoticeIds by viewModel.selectedNoticeIds.collectAsState()
-    val isAllNoticesSelected by viewModel.isAllNoticesSelected.collectAsState()
+    val notices by viewModel.savedNotices.collectAsStateWithLifecycle()
+    val isSelectModeEnabled by viewModel.isSelectedModeEnabled.collectAsStateWithLifecycle()
+    val selectedNoticeIds by viewModel.selectedNoticeIds.collectAsStateWithLifecycle()
+    val isAllNoticesSelected by viewModel.isAllNoticesSelected.collectAsStateWithLifecycle()
     var isDeleteDialogVisible by rememberSaveable { mutableStateOf(false) }
     val navigator = LocalNavigator.current
     val context = LocalContext.current.findActivity()

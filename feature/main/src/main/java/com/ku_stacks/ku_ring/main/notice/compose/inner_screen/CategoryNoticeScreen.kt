@@ -9,7 +9,6 @@ import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -18,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.ku_stacks.ku_ring.designsystem.components.LazyPagingNoticeItemColumn
@@ -36,7 +36,7 @@ internal fun CategoryNoticeScreen(
         viewModel.getNotices(shortCategoryName)
     }
 
-    val noticesFlow by viewModel.noticesFlow.collectAsState()
+    val noticesFlow by viewModel.noticesFlow.collectAsStateWithLifecycle()
     val notices = noticesFlow?.collectAsLazyPagingItems()
 
     var isRefreshing by remember { mutableStateOf(false) }

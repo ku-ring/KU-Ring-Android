@@ -2,19 +2,13 @@ package com.ku_stacks.ku_ring.onboarding.compose.inner_screen
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,6 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ku_stacks.ku_ring.designsystem.components.DepartmentWithAddIcon
 import com.ku_stacks.ku_ring.designsystem.components.DepartmentWithCheckIcon
 import com.ku_stacks.ku_ring.designsystem.components.KuringCallToAction
@@ -45,10 +40,10 @@ internal fun SetDepartmentScreen(
     onSetDepartmentComplete: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val query by viewModel.query.collectAsState()
-    val isInitialSearch by viewModel.isInitialSearch.collectAsState()
-    val departments by viewModel.departments.collectAsState()
-    val selectedDepartment by viewModel.selectedDepartment.collectAsState()
+    val query by viewModel.query.collectAsStateWithLifecycle()
+    val isInitialSearch by viewModel.isInitialSearch.collectAsStateWithLifecycle()
+    val departments by viewModel.departments.collectAsStateWithLifecycle()
+    val selectedDepartment by viewModel.selectedDepartment.collectAsStateWithLifecycle()
 
     SetDepartmentScreen(
         query = query,
