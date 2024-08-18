@@ -30,7 +30,6 @@ import com.ku_stacks.ku_ring.main.notice.compose.NoticeScreen
 import com.ku_stacks.ku_ring.main.setting.SettingViewModel
 import com.ku_stacks.ku_ring.main.setting.compose.OpenSourceActivity
 import com.ku_stacks.ku_ring.main.setting.compose.inner_screen.SettingScreen
-import com.ku_stacks.ku_ring.main.survey.SurveyPopup
 import com.ku_stacks.ku_ring.thirdparty.compose.KuringCompositionLocalProvider
 import com.ku_stacks.ku_ring.thirdparty.di.LocalNavigator
 import com.ku_stacks.ku_ring.ui_util.KuringNavigator
@@ -95,9 +94,6 @@ fun MainScreen(
             }
         }
     }
-
-    /* TODO: 8월 5일 이후 첫 출시에서 설문조사 코드 제거하기 */
-    SurveyPopup()
 }
 
 private fun MainScreenRoute.screenOrder() =
