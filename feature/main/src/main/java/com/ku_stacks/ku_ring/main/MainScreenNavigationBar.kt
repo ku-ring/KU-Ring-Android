@@ -53,7 +53,11 @@ internal fun MainScreenNavigationBar(
                             id = R.string.main_bottom_navigation_item,
                             label
                         ),
-                        onClick = { onNavigationItemClick(route) },
+                        onClick = {
+                            if (currentRoute != route) {
+                                onNavigationItemClick(route)
+                            }
+                        },
                     ).padding(vertical = 11.dp),
             )
         }
