@@ -70,6 +70,7 @@ class SplashActivity : AppCompatActivity() {
         }
 
         enqueueReengagementNotificationWork()
+        updateDepartmentsFromRemote()
         loadMinimumAppVersion()
         collectScreenState()
     }
@@ -88,6 +89,12 @@ class SplashActivity : AppCompatActivity() {
             ExistingWorkPolicy.REPLACE,
             notificationWorkRequest,
         )
+    }
+
+    private fun updateDepartmentsFromRemote() {
+        lifecycleScope.launch {
+            viewModel.updateDepartmentsFromRemote()
+        }
     }
 
     private fun loadMinimumAppVersion() {
