@@ -1,5 +1,6 @@
 package com.ku_stacks.ku_ring.designsystem.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -39,6 +40,7 @@ fun LazyPagingNoticeItemColumn(
 ) {
     LazyColumn(
         modifier = modifier
+            .background(KuringTheme.colors.background)
             .fillMaxSize(),
         contentPadding = contentPadding,
     ) {
