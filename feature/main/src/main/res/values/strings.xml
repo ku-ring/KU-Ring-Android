@@ -43,6 +43,8 @@
     <string name="department_screen_add_department_caption">아직 추가된 학과가 없어요.\n관심 학과를 추가하고 공지를 확인해 보세요!</string>
     <string name="department_screen_add_department_button">학과 추가하기</string>
 
+    <string name="unsupported_department">홈페이지 사정 상,\n공지를 불러올 수 없는 학과예요.</string>
+
     <string name="department_selector_bottom_sheet_cta">학과 편집하기</string>
 
     <!--  search  -->
