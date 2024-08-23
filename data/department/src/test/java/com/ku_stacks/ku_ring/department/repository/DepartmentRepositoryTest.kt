@@ -2,6 +2,7 @@ package com.ku_stacks.ku_ring.department.repository
 
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
+import com.ku_stacks.ku_ring.department.UnsupportedDepartmentUtil
 import com.ku_stacks.ku_ring.department.mapper.toDepartment
 import com.ku_stacks.ku_ring.department.test.DepartmentTestUtil
 import com.ku_stacks.ku_ring.local.room.DepartmentDao
@@ -100,6 +101,7 @@ class DepartmentRepositoryTest {
         val expectedDepartments =
             updatedDepartmentsResponse.map { it.toDepartment() }.sortedBy { it.name }
         val actual = departmentRepository.getAllDepartments().sortedBy { it.name }
+            .filterNot { UnsupportedDepartmentUtil.isUnsupportedDepartment(it.name) }
         assertEquals(expectedDepartments, actual)
     }
 

@@ -1,5 +1,6 @@
 package com.ku_stacks.ku_ring.splash
 
+import com.ku_stacks.ku_ring.department.repository.DepartmentRepository
 import com.ku_stacks.ku_ring.space.repository.KuringSpaceRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -16,14 +17,17 @@ import org.mockito.Mockito
 class SplashViewModelTest {
 
     private val dispatcher = StandardTestDispatcher()
-    private val repository: KuringSpaceRepository = Mockito.mock(KuringSpaceRepository::class.java)
+    private val kuringSpaceRepository: KuringSpaceRepository =
+        Mockito.mock(KuringSpaceRepository::class.java)
+    private val departmentRepository: DepartmentRepository =
+        Mockito.mock(DepartmentRepository::class.java)
     private lateinit var viewModel: SplashViewModel
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     fun init() {
         Dispatchers.setMain(dispatcher)
-        viewModel = SplashViewModel(repository)
+        viewModel = SplashViewModel(kuringSpaceRepository, departmentRepository)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -62,7 +66,7 @@ class SplashViewModelTest {
         currentVersion: String,
         expected: SplashScreenState,
     ) {
-        Mockito.`when`(repository.getMinimumAppVersion()).thenReturn(minimumVersion)
+        Mockito.`when`(kuringSpaceRepository.getMinimumAppVersion()).thenReturn(minimumVersion)
         viewModel.checkUpdateRequired(currentVersion).join()
 
         assertEquals(expected, viewModel.splashScreenState.value)
@@ -72,7 +76,7 @@ class SplashViewModelTest {
         currentVersion: String,
         exceptionClass: Class<out Exception>,
     ) {
-        Mockito.`when`(repository.getMinimumAppVersion()).thenThrow(exceptionClass)
+        Mockito.`when`(kuringSpaceRepository.getMinimumAppVersion()).thenThrow(exceptionClass)
         viewModel.checkUpdateRequired(currentVersion).join()
 
         assertEquals(SplashScreenState.UPDATE_NOT_REQUIRED, viewModel.splashScreenState.value)
