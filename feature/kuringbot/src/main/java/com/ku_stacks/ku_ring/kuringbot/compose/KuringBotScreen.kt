@@ -6,15 +6,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -311,26 +308,28 @@ private fun KuringBotMessages(
 
 @Composable
 private fun KuringBotUIMessage(message: KuringBotUIMessage) {
-    when (message) {
-        KuringBotUIMessage.Loading -> {
-            LoadingMessage()
-        }
-
-        is KuringBotUIMessage.Question -> {
-            Box(modifier = Modifier.fillMaxWidth()) {
-                QuestionMessage(
-                    message = message,
-                    modifier = Modifier.align(Alignment.CenterEnd),
-                )
+    SelectionContainer {
+        when (message) {
+            KuringBotUIMessage.Loading -> {
+                LoadingMessage()
             }
-        }
 
-        is KuringBotUIMessage.QuestionsRemaining -> {
-            QuestionsRemainingMessage(message = message)
-        }
+            is KuringBotUIMessage.Question -> {
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    QuestionMessage(
+                        message = message,
+                        modifier = Modifier.align(Alignment.CenterEnd),
+                    )
+                }
+            }
 
-        is KuringBotUIMessage.Response -> {
-            ResponseMessage(message = message)
+            is KuringBotUIMessage.QuestionsRemaining -> {
+                QuestionsRemainingMessage(message = message)
+            }
+
+            is KuringBotUIMessage.Response -> {
+                ResponseMessage(message = message)
+            }
         }
     }
 }
