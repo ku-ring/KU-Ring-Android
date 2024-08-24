@@ -3,24 +3,12 @@ package com.ku_stacks.ku_ring.designsystem.components
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.minimumInteractiveComponentSize
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -65,9 +53,10 @@ fun DepartmentWithAddIcon(
     BaseDepartment(
         department = department,
         modifier = modifier,
+        onClick = { onAddDepartment(department) }
     ) {
         Spacer(modifier = Modifier.weight(1f))
-        AddIconButton(onClick = { onAddDepartment(department) })
+        AddIcon()
     }
 }
 
@@ -80,6 +69,7 @@ fun DepartmentWithCheckOrUncheckIcon(
     BaseDepartment(
         department = department,
         modifier = modifier,
+        onClick = { onClickDepartment(department) }
     ) {
         Spacer(modifier = Modifier.weight(1f))
         Crossfade(
@@ -87,9 +77,9 @@ fun DepartmentWithCheckOrUncheckIcon(
             label = "department check/uncheck",
         ) {
             if (it) {
-                CheckIconButton(onClick = { onClickDepartment(department) })
+                CheckIcon()
             } else {
-                UncheckIconButton(onClick = { onClickDepartment(department) })
+                UncheckIcon()
             }
         }
     }
@@ -104,12 +94,14 @@ fun DepartmentWithCheckIcon(
     BaseDepartment(
         department = department,
         modifier = modifier,
+        onClick = { onClickDepartment(department) },
+        role = Role.Checkbox,
     ) {
         if (department.isSelected) {
             SelectedDepartmentMark()
         }
         Spacer(modifier = Modifier.weight(1f))
-        CheckIconButton(onClick = { onClickDepartment(department) })
+        CheckIcon()
     }
 }
 
@@ -159,57 +151,42 @@ private fun DeleteButton(
 }
 
 @Composable
-private fun AddIconButton(
-    onClick: () -> Unit,
+private fun AddIcon(
     modifier: Modifier = Modifier,
     contentDescription: String? = null,
 ) {
-    IconButton(
-        onClick = onClick,
-        modifier = modifier,
-    ) {
-        Icon(
-            painter = painterResource(id = R.drawable.ic_plus_v2),
-            contentDescription = contentDescription,
-            tint = KuringTheme.colors.gray300,
-        )
-    }
+    Icon(
+        painter = painterResource(id = R.drawable.ic_plus_v2),
+        contentDescription = contentDescription,
+        tint = KuringTheme.colors.gray300,
+        modifier = modifier.minimumInteractiveComponentSize(),
+    )
 }
 
 @Composable
-private fun CheckIconButton(
-    onClick: () -> Unit,
+private fun CheckIcon(
     modifier: Modifier = Modifier,
     contentDescription: String? = null,
 ) {
-    IconButton(
-        onClick = onClick,
-        modifier = modifier,
-    ) {
-        Icon(
-            painter = painterResource(id = R.drawable.ic_check_circle_fill_v2),
-            contentDescription = contentDescription,
-            tint = KuringTheme.colors.mainPrimary,
-        )
-    }
+    Icon(
+        painter = painterResource(id = R.drawable.ic_check_circle_fill_v2),
+        contentDescription = contentDescription,
+        tint = KuringTheme.colors.mainPrimary,
+        modifier = modifier.minimumInteractiveComponentSize(),
+    )
 }
 
 @Composable
-private fun UncheckIconButton(
-    onClick: () -> Unit,
+private fun UncheckIcon(
     modifier: Modifier = Modifier,
     contentDescription: String? = null,
 ) {
-    IconButton(
-        onClick = onClick,
-        modifier = modifier,
-    ) {
-        Icon(
-            painter = painterResource(id = R.drawable.ic_check_circle_fill_2_v2),
-            contentDescription = contentDescription,
-            tint = KuringTheme.colors.gray300,
-        )
-    }
+    Icon(
+        painter = painterResource(id = R.drawable.ic_check_circle_fill_2_v2),
+        contentDescription = contentDescription,
+        tint = KuringTheme.colors.gray300,
+        modifier = modifier.minimumInteractiveComponentSize(),
+    )
 }
 
 @Composable
