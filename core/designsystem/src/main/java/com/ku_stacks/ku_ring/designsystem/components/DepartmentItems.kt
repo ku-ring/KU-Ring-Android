@@ -216,10 +216,13 @@ private fun UncheckIconButton(
 private fun BaseDepartment(
     department: Department,
     modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null,
+    role: Role? = if (onClick == null) null else Role.Button,
     contents: @Composable RowScope.() -> Unit = {},
 ) {
     Row(
         modifier = modifier
+            .clickable(enabled = onClick != null, onClick = { onClick?.invoke() }, role = role)
             .background(KuringTheme.colors.background)
             .padding(horizontal = 24.dp),
         verticalAlignment = Alignment.CenterVertically,
