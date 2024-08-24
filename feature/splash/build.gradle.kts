@@ -18,6 +18,7 @@ dependencies {
     implementation(projects.core.preferences)
     implementation(projects.core.work)
     implementation(projects.data.space)
+    implementation(projects.data.department)
 
     implementation(libs.androidx.constraintlayout)
     implementation(libs.semver)

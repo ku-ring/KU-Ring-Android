@@ -30,12 +30,6 @@ class OnboardingViewModel @Inject constructor(
     val selectedDepartment: StateFlow<Department?>
         get() = _selectedDepartment
 
-    init {
-        viewModelScope.launch {
-            departmentRepository.updateDepartmentsFromRemote()
-        }
-    }
-
     fun onQueryUpdate(newQuery: String) {
         _query.value = newQuery
     }

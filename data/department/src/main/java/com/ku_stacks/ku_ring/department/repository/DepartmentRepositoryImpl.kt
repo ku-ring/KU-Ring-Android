@@ -1,5 +1,6 @@
 package com.ku_stacks.ku_ring.department.repository
 
+import com.ku_stacks.ku_ring.department.UnsupportedDepartmentUtil
 import com.ku_stacks.ku_ring.department.mapper.toDepartment
 import com.ku_stacks.ku_ring.department.mapper.toDepartmentList
 import com.ku_stacks.ku_ring.department.mapper.toEntity
@@ -14,7 +15,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 import javax.inject.Inject
 
 class DepartmentRepositoryImpl @Inject constructor(
@@ -36,6 +36,7 @@ class DepartmentRepositoryImpl @Inject constructor(
                 updateDepartmentsName(it)
             }
         }
+        addUnsupportedDepartments()
     }
 
     private suspend fun fetchDepartmentsFromRemote(): List<Department>? {
@@ -60,6 +61,14 @@ class DepartmentRepositoryImpl @Inject constructor(
             }
         }
         this.departments = null
+    }
+
+    private suspend fun addUnsupportedDepartments() {
+        UnsupportedDepartmentUtil.getUnsupportedDepartments().forEach { department ->
+            if (departmentDao.getDepartmentsByName(department.name).isEmpty()) {
+                departmentDao.insertDepartment(department.toEntity())
+            }
+        }
     }
 
     private suspend fun insertDepartment(department: Department) {
