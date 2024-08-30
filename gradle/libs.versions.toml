@@ -124,7 +124,7 @@ androidx-work-runtime-ktx = { module = 'androidx.work:work-runtime-ktx', version
 androidx-hilt-work = { module = "androidx.hilt:hilt-work", version.ref = "androidx-hilt" }
 
 # Unit Test
-mockito-core = 'org.mockito:mockito-core:5.12.0'
+mockito-core = 'org.mockito:mockito-core:5.13.0'
 mockito-inline = 'org.mockito:mockito-inline:5.2.0'
 mockito-kotlin = 'org.mockito.kotlin:mockito-kotlin:5.4.0'
 junit = 'junit:junit:4.13.2'
@@ -141,7 +141,7 @@ hilt-android-testing = { module = 'com.google.dagger:hilt-android-testing', vers
 androidx-espresso-core = { module = 'androidx.test.espresso:espresso-core', version.ref = 'androidx-espresso' }
 androidx-espresso-intents = { module = 'androidx.test.espresso:espresso-intents', version.ref = 'androidx-espresso' }
 androidx-junit = 'androidx.test.ext:junit:1.2.1'
-mockito-android = 'org.mockito:mockito-android:5.12.0'
+mockito-android = 'org.mockito:mockito-android:5.13.0'
 androidx-test-runner = { module = 'androidx.test:runner', version.ref = 'androidx-test' }
 androidx-test-rules = { module = 'androidx.test:rules', version.ref = 'androidx-test' }
 
