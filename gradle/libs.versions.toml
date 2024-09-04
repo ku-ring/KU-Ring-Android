@@ -41,7 +41,7 @@ androidx-swiperefreshlayout = '1.2.0-alpha01'
 android-material = '1.12.0'
 androidx-hilt = "1.2.0"
 androidx-test = "1.6.1"
-desugarJdk = "2.1.1"
+desugarJdk = "2.1.2"
 
 # Test
 androidx-espresso = "3.6.1"
