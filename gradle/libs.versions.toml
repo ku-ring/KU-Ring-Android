@@ -24,7 +24,7 @@ compose-compiler = '1.4.8'
 compose-bom = '2024.08.00'
 
 # Androidx
-androidx-lifecycle = '2.8.4'
+androidx-lifecycle = '2.8.5'
 androidx-appcompat = "1.7.0"
 androidx-constraintlayout = "2.1.4"
 androidx-constraintlayout-compose = "1.0.1"
