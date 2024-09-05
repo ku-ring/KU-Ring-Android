@@ -48,11 +48,11 @@ jobs:
 
     # Build APK Release
     - name: Build release Apk
-      run: ./gradlew assembleRelease
+      run: ./gradlew :app:assembleRelease
 
     # Build AAB Release
     - name: Build release Bundle
-      run: ./gradlew bundleRelease
+      run: ./gradlew :app:bundleRelease
       
     # Upload AAB
     - name: Upload a Build AAB Artifact
