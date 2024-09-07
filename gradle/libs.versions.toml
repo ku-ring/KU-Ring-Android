@@ -1,8 +1,8 @@
 [versions]
 # project-level dependency
 android-gradle = "8.6.0"
-kotlin = '2.0.20'
-ksp = '2.0.20-1.0.24'
+kotlin = '2.0.10'
+ksp = '2.0.10-1.0.24'
 hilt = '2.52'
 google-services = '4.4.2'
 firebase-gradle = '3.0.2'
