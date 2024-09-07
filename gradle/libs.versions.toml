@@ -40,6 +40,8 @@ androidx-startup = '1.1.1'
 androidx-swiperefreshlayout = '1.2.0-alpha01'
 android-material = '1.12.0'
 androidx-hilt = "1.2.0"
+androidx-test-core = "1.6.1"
+androidx-test-rules = "1.6.1"
 androidx-test = "1.6.2"
 desugarJdk = "2.1.2"
 
@@ -132,7 +134,7 @@ robolectric = 'org.robolectric:robolectric:4.13'
 
 # Android Test
 androidx-core-testing = 'androidx.arch.core:core-testing:2.2.0'
-androidx-test-core = { module = 'androidx.test:core', version.ref = 'androidx-test' }
+androidx-test-core = { module = 'androidx.test:core', version.ref = 'androidx-test-core' }
 androidx-fragment-testing = { module = 'androidx.fragment:fragment-testing', version.ref = 'androidx-fragment' }
 androidx-navigation-testing = { group = "androidx.navigation", name = "navigation-testing", version.ref = "androidx-navigation" }
 androidx-work-testing = { module = 'androidx.work:work-testing', version.ref = 'androidx-work' }
@@ -143,13 +145,13 @@ androidx-espresso-intents = { module = 'androidx.test.espresso:espresso-intents'
 androidx-junit = 'androidx.test.ext:junit:1.2.1'
 mockito-android = 'org.mockito:mockito-android:5.13.0'
 androidx-test-runner = { module = 'androidx.test:runner', version.ref = 'androidx-test' }
-androidx-test-rules = { module = 'androidx.test:rules', version.ref = 'androidx-test' }
+androidx-test-rules = { module = 'androidx.test:rules', version.ref = 'androidx-test-rules' }
 
 # Firebase
 firebase-bom = { module = 'com.google.firebase:firebase-bom', version.ref = 'firebase' }
-firebase-messaging-ktx = { module = 'com.google.firebase:firebase-messaging-ktx' }
-firebase-analytics-ktx = { module = 'com.google.firebase:firebase-analytics-ktx' }
-firebase-crashlytics-ktx = { module = 'com.google.firebase:firebase-crashlytics-ktx' }
+firebase-messaging-ktx = { module = 'com.google.firebase:firebase-messaging' }
+firebase-analytics-ktx = { module = 'com.google.firebase:firebase-analytics' }
+firebase-crashlytics-ktx = { module = 'com.google.firebase:firebase-crashlytics' }
 
 # Lottie
 lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottie" }
