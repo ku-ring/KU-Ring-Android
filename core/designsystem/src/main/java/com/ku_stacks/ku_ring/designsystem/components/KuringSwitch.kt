@@ -35,7 +35,7 @@ import androidx.compose.material.LocalAbsoluteElevation
 import androidx.compose.material.LocalElevationOverlay
 import androidx.compose.material.Switch
 import androidx.compose.material.minimumInteractiveComponentSize
-import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
@@ -259,7 +259,7 @@ private fun BoxScope.SwitchImpl(
             .offset { IntOffset(thumbValue().roundToInt(), 0) }
             .indication(
                 interactionSource = interactionSource,
-                indication = rememberRipple(bounded = false, radius = ThumbRippleRadius)
+                indication = ripple(bounded = false, radius = ThumbRippleRadius)
             )
             .requiredSize(ThumbDiameter)
             .shadow(elevation, CircleShape, clip = false)

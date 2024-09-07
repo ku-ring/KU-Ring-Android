@@ -42,7 +42,7 @@ jobs:
       
     # Build Debug App
     - name: Build with Gradle
-      run: ./gradlew assembleDebug
+      run: ./gradlew :app:assembleDebug
       
     # Run unit test
     - name: Run unit test
