@@ -16,7 +16,7 @@ versionCode = "20100"
 
 # app-level dependency
 # Kotlin
-kotlinx-coroutines = '1.8.1'
+kotlinx-coroutines = '1.9.0'
 kotlinx-serialization-json = "1.7.2"
 
 # Compose
