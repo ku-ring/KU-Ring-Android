@@ -6,6 +6,7 @@ import androidx.paging.PagingSource.LoadResult
 import com.ku_stacks.ku_ring.notice.source.NoticePagingSource
 import com.ku_stacks.ku_ring.notice.test.NoticeTestUtil
 import com.ku_stacks.ku_ring.remote.notice.NoticeClient
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -28,7 +29,7 @@ class NoticePagingSourceTest {
     }
 
     @Test
-    suspend fun `load PagingSource Refresh Success Test`() {
+    fun `load PagingSource Refresh Success Test`() = runTest {
         // given
         val mockData = NoticeTestUtil.fakeNoticeListResponse()
         Mockito.`when`(
@@ -63,7 +64,7 @@ class NoticePagingSourceTest {
     }
 
     @Test
-    suspend fun `load PagingSource Append Success Test`() {
+    fun `load PagingSource Append Success Test`() = runTest {
         // given
         val mockData = NoticeTestUtil.fakeNoticeListResponse()
         Mockito.`when`(

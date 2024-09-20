@@ -157,7 +157,6 @@ class FeedbackViewModelTest {
         assertEquals(R.string.feedback_too_short, viewModel.toastByResource.value)
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `send Feedback Fail Test - too long`() = runTest {
         // given
@@ -180,7 +179,6 @@ class FeedbackViewModelTest {
         assertEquals(R.string.feedback_too_long, viewModel.toastByResource.value)
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `send Feedback Fail Test - server response error`() = runTest {
         // given
