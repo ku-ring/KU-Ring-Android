@@ -9,15 +9,13 @@ import com.ku_stacks.ku_ring.thirdparty.firebase.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.ui_util.SingleLiveEvent
 import com.ku_stacks.ku_ring.user.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import timber.log.Timber
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,8 +24,6 @@ class FeedbackViewModel @Inject constructor(
     private val analytics: EventAnalytics,
     private val firebaseMessaging: FirebaseMessaging
 ) : ViewModel() {
-
-    private val disposable = CompositeDisposable()
 
     private val _feedbackContent = MutableStateFlow("")
     val feedbackContent = _feedbackContent.asStateFlow()
@@ -58,43 +54,50 @@ class FeedbackViewModel @Inject constructor(
         get() = _toastByResource
 
     fun sendFeedback() {
-        analytics.click("send feedback button", "FeedbackActivity")
+        analytics.click(
+            "send feedback button",
+            "FeedbackActivity"
+        )
+        viewModelScope.launch {
+            runCatching {
+                firebaseMessaging.token.await()
+            }.onSuccess { fcmToken ->
+                if (fcmToken == null) {
+                    analytics.errorEvent(
+                        "Fcm Token is null!",
+                        className
+                    )
+                    _toastByResource.postValue(R.string.feedback_cannot_send)
+                    return@onSuccess
+                }
 
-        firebaseMessaging.token.addOnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                analytics.errorEvent("Failed to get Fcm Token error : ${task.exception}", className)
-                _toastByResource.postValue(R.string.feedback_cannot_send)
-                return@addOnCompleteListener
-            }
-            val fcmToken = task.result
-            if (fcmToken == null) {
-                analytics.errorEvent("Fcm Token is null!", className)
-                _toastByResource.postValue(R.string.feedback_cannot_send)
-                return@addOnCompleteListener
-            }
+                if (textStatus.value == FeedbackTextStatus.TOO_SHORT) {
+                    _toastByResource.value = R.string.feedback_too_short
+                    return@onSuccess
+                } else if (textStatus.value == FeedbackTextStatus.TOO_LONG) {
+                    _toastByResource.value = R.string.feedback_too_long
+                    return@onSuccess
+                }
 
-            if (textStatus.value == FeedbackTextStatus.TOO_SHORT) {
-                _toastByResource.value = R.string.feedback_too_short
-                return@addOnCompleteListener
-            } else if (textStatus.value == FeedbackTextStatus.TOO_LONG) {
-                _toastByResource.value = R.string.feedback_too_long
-                return@addOnCompleteListener
-            }
+                val content = feedbackContent.value
 
-            val content = feedbackContent.value
-            userRepository.sendFeedback(content)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
+                userRepository.sendFeedback(content).onSuccess {
                     if (it.isSuccess) {
                         _toastByResource.value = R.string.feedback_success
                         _quit.call()
                     } else {
                         _toast.value = it.resultMsg
                     }
-                }, {
-                    _toastByResource.value = R.string.network_error
-                })
+                }.onFailure {
+                    _toastByResource.postValue(R.string.feedback_cannot_send)
+                }
+            }.onFailure {
+                analytics.errorEvent(
+                    "Failed to get Fcm Token error : ${it.message}",
+                    className
+                )
+                _toastByResource.postValue(R.string.feedback_cannot_send)
+            }
         }
     }
 
@@ -103,16 +106,11 @@ class FeedbackViewModel @Inject constructor(
     }
 
     fun closeFeedback() {
-        analytics.click("close feedback button", "FeedbackActivity")
+        analytics.click(
+            "close feedback button",
+            "FeedbackActivity"
+        )
         _quit.call()
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-
-        if (!disposable.isDisposed) {
-            disposable.dispose()
-        }
     }
 
     companion object {
