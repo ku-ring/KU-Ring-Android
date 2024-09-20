@@ -1,50 +1,42 @@
 package com.ku_stacks.ku_ring.notice.source
 
+import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import androidx.paging.rxjava3.RxPagingSource
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.notice.mapper.toNoticeList
 import com.ku_stacks.ku_ring.remote.notice.NoticeClient
-import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.schedulers.Schedulers
-import timber.log.Timber
-import java.util.concurrent.TimeUnit
 
-class NoticePagingSource constructor(
+class NoticePagingSource(
     private val type: String,
     private val client: NoticeClient
-) : RxPagingSource<Int, Notice>() {
-
-    override fun loadSingle(params: LoadParams<Int>): Single<LoadResult<Int, Notice>> {
+) : PagingSource<Int, Notice>() {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Notice> {
         val position = params.key ?: 0
-        return client.fetchNoticeList(type, position, itemSize)
-            .subscribeOn(Schedulers.io())
-            .retryWhen { flowable ->
-                flowable.take(3).delay(5000, TimeUnit.MILLISECONDS)
-            }
-            .map { noticeListResponse -> noticeListResponse.toNoticeList(type) }
-            .map { noticeList -> toLoadResult(noticeList, position) }
-            .onErrorReturn {
-                LoadResult.Error(it)
-            }
-    }
+        val pages = runCatching {
+            client.fetchNoticeList(
+                type,
+                position,
+                ITEM_SIZE
+            )
+        }.getOrElse {
+            return LoadResult.Error(it)
+        }.toNoticeList(type)
 
-    private fun toLoadResult(data: List<Notice>, position: Int): LoadResult<Int, Notice> {
         return LoadResult.Page(
-            data = data,
-            prevKey = if (position == 0) null else position - itemSize,
-            nextKey = if (data.isEmpty()) null else position + itemSize
+            data = pages,
+            prevKey = if (position == 0) null else position - ITEM_SIZE,
+            nextKey = if (pages.isEmpty()) null else position + ITEM_SIZE
         )
     }
 
     override fun getRefreshKey(state: PagingState<Int, Notice>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             val anchorPage = state.closestPageToPosition(anchorPosition)
-            anchorPage?.prevKey?.plus(itemSize) ?: anchorPage?.nextKey?.minus(itemSize)
+            anchorPage?.prevKey?.plus(ITEM_SIZE) ?: anchorPage?.nextKey?.minus(ITEM_SIZE)
         }
     }
 
     companion object {
-        const val itemSize = 20
+        const val ITEM_SIZE = 20
     }
 }

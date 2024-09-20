@@ -12,11 +12,11 @@ import javax.inject.Inject
 class NoticeClient @Inject constructor(
     private val noticeService: NoticeService
 ) {
-    fun fetchNoticeList(
+    suspend fun fetchNoticeList(
         type: String,
         offset: Int,
         max: Int
-    ): Single<NoticeListResponse> = noticeService.fetchNoticeList(type, offset, max)
+    ): NoticeListResponse = noticeService.fetchNoticeList(type, offset, max)
 
     fun fetchSubscribe(
         token: String

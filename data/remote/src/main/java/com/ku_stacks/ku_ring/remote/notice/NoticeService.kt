@@ -15,11 +15,11 @@ import retrofit2.http.Query
 
 interface NoticeService {
     @GET("v2/notices")
-    fun fetchNoticeList(
+    suspend fun fetchNoticeList(
         @Query("type") type: String,
         @Query("page") page: Int,
         @Query("size") size: Int,
-    ): Single<NoticeListResponse>
+    ): NoticeListResponse
 
     @GET("v2/users/subscriptions/categories")
     fun fetchSubscribeList(
