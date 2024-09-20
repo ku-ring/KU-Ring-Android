@@ -6,11 +6,10 @@ import androidx.lifecycle.viewModelScope
 import com.ku_stacks.ku_ring.domain.WebViewNotice
 import com.ku_stacks.ku_ring.notice.repository.NoticeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -18,10 +17,7 @@ class NoticeWebViewModel @Inject constructor(
     private val noticeRepository: NoticeRepository,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
-
-    private val disposable = CompositeDisposable()
-    private val webViewNotice =
-        savedStateHandle.get(WebViewNotice.EXTRA_KEY) as? WebViewNotice
+    private val webViewNotice: WebViewNotice? by lazy { savedStateHandle[WebViewNotice.EXTRA_KEY] }
 
     private val _isSaved = MutableStateFlow(false)
     val isSaved: StateFlow<Boolean>
@@ -36,29 +32,23 @@ class NoticeWebViewModel @Inject constructor(
     }
 
     fun updateNoticeTobeRead(webViewNotice: WebViewNotice) {
-        disposable.add(
-            noticeRepository.updateNoticeToBeRead(webViewNotice.articleId, webViewNotice.category)
-                .subscribeOn(Schedulers.io())
-                .subscribe({ }, { })
-        )
+        viewModelScope.launch {
+            runCatching {
+                noticeRepository.updateNoticeToBeReadOnStorage(webViewNotice.articleId, webViewNotice.category)
+            }.onFailure {
+                Timber.e(it)
+            }
+        }
     }
 
     fun onSaveButtonClick() {
         if (webViewNotice == null) return
         viewModelScope.launch {
             noticeRepository.updateSavedStatus(
-                webViewNotice.articleId,
-                webViewNotice.category,
+                webViewNotice?.articleId.orEmpty(),
+                webViewNotice?.category.orEmpty(),
                 !isSaved.value
             )
-        }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-
-        if (!disposable.isDisposed) {
-            disposable.dispose()
         }
     }
 }

@@ -6,7 +6,6 @@ import com.ku_stacks.ku_ring.remote.notice.response.NoticeListResponse
 import com.ku_stacks.ku_ring.remote.notice.response.SearchNoticeListResponse
 import com.ku_stacks.ku_ring.remote.notice.response.SubscribeListResponse
 import com.ku_stacks.ku_ring.remote.util.DefaultResponse
-import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
 class NoticeClient @Inject constructor(

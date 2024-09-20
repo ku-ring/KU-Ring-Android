@@ -11,8 +11,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.reactive.asFlow
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,7 +27,7 @@ class CategoryNoticeViewModel @Inject constructor(
     private val articleIds = mutableSetOf<String>()
 
     fun getNotices(shortCategory: String) {
-        _noticesFlow.value = noticeRepository.getNotices(shortCategory, viewModelScope).asFlow()
+        _noticesFlow.value = noticeRepository.getNotices(shortCategory, viewModelScope)
     }
 
     fun insertNoticeToLocal(notice: Notice) {

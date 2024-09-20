@@ -4,9 +4,8 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import androidx.paging.map
-import androidx.paging.rxjava3.cachedIn
-import androidx.paging.rxjava3.flowable
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.local.entity.NoticeEntity
 import com.ku_stacks.ku_ring.local.room.NoticeDao
@@ -20,20 +19,19 @@ import com.ku_stacks.ku_ring.remote.notice.NoticeClient
 import com.ku_stacks.ku_ring.remote.notice.request.SubscribeRequest
 import com.ku_stacks.ku_ring.util.DateUtil
 import com.ku_stacks.ku_ring.util.IODispatcher
-import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Flowable
-import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.reactive.asPublisher
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class NoticeRepositoryImpl @Inject constructor(
     private val noticeClient: NoticeClient,
     private val noticeDao: NoticeDao,
@@ -42,11 +40,12 @@ class NoticeRepositoryImpl @Inject constructor(
 ) : NoticeRepository {
     private val isNewRecordHashMap = HashMap<String, NoticeEntity>()
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     override fun getNotices(
         type: String,
         scope: CoroutineScope
-    ): Flowable<PagingData<Notice>> {
-        val flowableRemote = getSingleLocalNotice().flatMap { getFlowableRemoteNotice(type) }.map {
+    ): Flow<PagingData<Notice>> {
+        val flowableRemote = getSingleLocalNotice().flatMapConcat { getFlowableRemoteNotice(type) }.map {
             transformRemoteData(
                 it,
                 type
@@ -66,9 +65,8 @@ class NoticeRepositoryImpl @Inject constructor(
         }
 
         val savedPublisherLocal = noticeDao.getNoticesBySaved(true).map { notices -> notices.map { it.articleId } }
-            .asPublisher(scope.coroutineContext)
 
-        return Flowable.combineLatest(
+        return combine(
             flowableRemote,
             flowableLocal,
             savedPublisherLocal,
@@ -112,20 +110,19 @@ class NoticeRepositoryImpl @Inject constructor(
         }
     }
 
-    private fun getSingleLocalNotice(): Flowable<List<NoticeEntity>> {
-        return noticeDao.getOldNoticeList().subscribeOn(Schedulers.io()).toFlowable()
-            .doOnNext { // local 데이터가 처음 발행될때 HashMap 에 저장 (단 한번만 실행)
-                if (isNewRecordHashMap.size == 0) {
-                    for (localNotice in it) {
-                        isNewRecordHashMap[localNotice.articleId] = localNotice
-                    }
+    private fun getSingleLocalNotice(): Flow<List<NoticeEntity>> {
+        return noticeDao.getOldNoticeList().onEach {
+            if (isNewRecordHashMap.isEmpty()) {
+                for (localNotice in it) {
+                    isNewRecordHashMap[localNotice.articleId] = localNotice
                 }
             }
+        }
     }
 
-    private fun getFlowableRemoteNotice(type: String): Flowable<PagingData<Notice>> {
+    private fun getFlowableRemoteNotice(type: String): Flow<PagingData<Notice>> {
         return Pager(config = PagingConfig(
-            pageSize = pageSize,
+            pageSize = PAGE_SIZE,
             /** 이것보다 PagingSource 에서 ItemCount 가 중요함 */
             enablePlaceholders = true
         ),
@@ -134,14 +131,14 @@ class NoticeRepositoryImpl @Inject constructor(
                     type,
                     noticeClient
                 )
-            }).flowable
+            }).flow
     }
 
     override suspend fun insertNotice(notice: Notice) {
         noticeDao.insertNotice(notice.toEntity())
     }
 
-    override fun insertNoticeAsOld(notice: Notice): Completable {
+    override suspend fun insertNoticeAsOld(notice: Notice) {
         return noticeDao.insertNoticeAsOld(notice.copy(isNew = false).toEntity())
     }
 
@@ -151,14 +148,16 @@ class NoticeRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun updateNoticeToBeRead(
+    override suspend fun updateNoticeToBeRead(
         articleId: String,
         category: String
-    ): Completable {
-        return noticeDao.updateNoticeAsRead(
-            articleId,
-            category
-        )
+    ) {
+        withContext(ioDispatcher) {
+            noticeDao.updateNoticeAsRead(
+                articleId,
+                category
+            )
+        }
     }
 
     override suspend fun updateSavedStatus(
@@ -201,12 +200,11 @@ class NoticeRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun deleteAllNoticeRecord() { // for testing
-        noticeDao.deleteAllNoticeRecord().subscribeOn(Schedulers.io()).subscribe({ },
-            { })
+    override suspend fun deleteAllNoticeRecord() { // for testing
+        noticeDao.deleteAllNoticeRecord()
     }
 
-    override fun deleteSharedPreference() { //for testing
+    override suspend fun deleteSharedPreference() { //for testing
         pref.deleteStartDate()
     }
 
@@ -215,7 +213,7 @@ class NoticeRepositoryImpl @Inject constructor(
         val pagingSourceFactory = { noticeDao.getDepartmentNotices(shortName) }
         return Pager(
             config = PagingConfig(
-                pageSize = pageSize,
+                pageSize = PAGE_SIZE,
                 enablePlaceholders = true,
             ),
             remoteMediator = DepartmentNoticeMediator(
@@ -260,6 +258,6 @@ class NoticeRepositoryImpl @Inject constructor(
     }
 
     companion object {
-        private const val pageSize = 20
+        private const val PAGE_SIZE = 20
     }
 }
