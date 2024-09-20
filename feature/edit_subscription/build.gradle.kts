@@ -22,6 +22,5 @@ dependencies {
     implementation(libs.bundles.compose.interop)
     implementation(platform(libs.firebase.bom))
     implementation(libs.bundles.firebase)
-    implementation(libs.bundles.rxjava)
     testImplementation(libs.kotlinx.coroutines.test)
 }

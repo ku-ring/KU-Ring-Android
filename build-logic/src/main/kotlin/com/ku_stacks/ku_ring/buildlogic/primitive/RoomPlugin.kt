@@ -18,7 +18,6 @@ class RoomPlugin : Plugin<Project> {
         dependencies {
             implementation(libs.library("androidx-room-ktx"))
             implementation(libs.library("androidx-room-runtime"))
-            implementation(libs.library("androidx-room-rxjava3"))
             ksp(libs.library("androidx-room-compiler"))
             testImplementation(libs.library("androidx-room-testing"))
         }

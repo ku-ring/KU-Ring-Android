@@ -11,6 +11,5 @@ android {
 
 dependencies {
     implementation(libs.androidx.lifecycle.livedata)
-    implementation(libs.bundles.rxjava)
     implementation(libs.bundles.unit.test)
 }

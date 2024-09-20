@@ -5,7 +5,6 @@ import okhttp3.mockwebserver.MockWebServer
 import okio.buffer
 import okio.source
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.nio.charset.StandardCharsets
 
@@ -41,7 +40,6 @@ abstract class ApiAbstract<T> {
         return Retrofit.Builder()
             .baseUrl(mockWebServer.url("/"))
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .build()
             .create(clazz)
     }

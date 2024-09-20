@@ -8,12 +8,11 @@ import com.ku_stacks.ku_ring.notice.repository.NoticeRepositoryImpl
 import com.ku_stacks.ku_ring.notice.test.NoticeTestUtil
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.remote.notice.NoticeClient
-import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Single
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -39,7 +38,12 @@ class NoticeRepositoryTest {
     @Before
     fun setup() {
         Dispatchers.setMain(testDispatcher)
-        repository = NoticeRepositoryImpl(client, dao, pref, testDispatcher)
+        repository = NoticeRepositoryImpl(
+            client,
+            dao,
+            pref,
+            testDispatcher
+        )
     }
 
     @After
@@ -48,64 +52,83 @@ class NoticeRepositoryTest {
     }
 
     @Test
-    fun `insert Notice As Old Test`() {
+    fun `insert Notice As Old Test`() = runTest {
         // given
         val mockData = NoticeTestUtil.fakeNoticeEntity()
-        Mockito.`when`(dao.insertNoticeAsOld(mockData)).thenReturn(Completable.complete())
+        dao.insertNoticeAsOld(mockData)
 
         // when + then
         repository.insertNoticeAsOld(mockData.toNotice())
-            .test()
-            .assertComplete()
     }
 
     @Test
-    fun `updateNotice Test`() {
+    fun `updateNotice Test`() = runTest {
         // given
         val mockData = NoticeTestUtil.fakeNoticeEntity().copy(isRead = true)
-        Mockito.`when`(dao.updateNoticeAsRead(mockData.articleId, mockData.category))
-            .thenReturn(Completable.complete())
+        dao.updateNoticeAsRead(
+            mockData.articleId,
+            mockData.category
+        )
+
 
         // when + then
-        repository.updateNoticeToBeRead(mockData.articleId, mockData.category)
-            .test()
-            .assertComplete()
+        repository.updateNoticeToBeRead(
+            mockData.articleId,
+            mockData.category
+        )
     }
 
     @Test
-    fun `fetch Subscription From Remote Test`() {
+    fun `fetch Subscription From Remote Test`() = runTest {
         // given
         val mockToken =
             "AAAAn6eQM_Y:APA91bES4rjrFwPY5i_Hz-kT0u32SzIUxreYm9qaQHZeYKGGV_BmHZNJhHvlDjyQA6LveNdxCVrwzsq78jgsnCw8OumbtM5L3cc17XgdqZ_dlpsPzR7TlJwBFTXRFLPst663IeX27sb0"
         val mockSubscribeList = NoticeTestUtil.fakeSubscribeListResponse()
 
-        Mockito.`when`(client.fetchSubscribe(mockToken)).thenReturn(Single.just(mockSubscribeList))
+        Mockito.`when`(client.fetchSubscribe(mockToken)).thenReturn(mockSubscribeList)
         val expected = mockSubscribeList.categoryList.map { it.koreanName }
 
         // when + then
-        repository.fetchSubscriptionFromRemote(mockToken)
-            .test()
-            .assertNoErrors()
-            .assertValue(expected)
+        val result = repository.fetchSubscriptionFromRemote(mockToken)
+        assert(result == expected)
 
-        Mockito.verify(client, Mockito.atLeastOnce()).fetchSubscribe(mockToken)
+        Mockito.verify(
+            client,
+            Mockito.atLeastOnce()
+        ).fetchSubscribe(mockToken)
     }
 
     @Test
-    fun `save Subscription To Remote Test`() {
+    fun `save Subscription To Remote Test`() = runTest {
         // given
         val request = NoticeTestUtil.fakeSubscribeRequest()
         val response = NoticeTestUtil.fakeDefaultResponse()
         val token = "mockToken"
 
-        Mockito.`when`(client.saveSubscribe(token, request))
-            .thenReturn(Single.just(response))
+        Mockito.`when`(
+            client.saveSubscribe(
+                token,
+                request
+            )
+        ).thenReturn(response)
 
         // when
-        repository.saveSubscriptionToRemote(token, request.categories)
+        repository.saveSubscriptionToRemote(
+            token,
+            request.categories
+        )
 
         // then
-        Mockito.verify(client, times(1)).saveSubscribe(token, request)
-        assertEquals(false, pref.firstRunFlag)
+        Mockito.verify(
+            client,
+            times(1)
+        ).saveSubscribe(
+            token,
+            request
+        )
+        assertEquals(
+            false,
+            pref.firstRunFlag
+        )
     }
 }

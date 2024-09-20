@@ -11,10 +11,8 @@ import com.ku_stacks.ku_ring.feedback.feedback.FeedbackViewModel
 import com.ku_stacks.ku_ring.feedback.util.MainDispatcherRule
 import com.ku_stacks.ku_ring.remote.util.DefaultResponse
 import com.ku_stacks.ku_ring.testutil.MockUtil
-import com.ku_stacks.ku_ring.testutil.SchedulersTestRule
 import com.ku_stacks.ku_ring.thirdparty.firebase.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.user.repository.UserRepository
-import io.reactivex.rxjava3.core.Single
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
@@ -41,11 +39,6 @@ class FeedbackViewModelTest {
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
 
-    @Rule
-    @JvmField
-    val testSchedulersRule = SchedulersTestRule()
-
-    @OptIn(ExperimentalCoroutinesApi::class)
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
@@ -122,7 +115,6 @@ class FeedbackViewModelTest {
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `send Feedback Success Test`() = runTest {
         // given
@@ -137,8 +129,8 @@ class FeedbackViewModelTest {
             resultCode = 200,
             data = null,
         )
-        Mockito.`when`(userRepository.sendFeedback(mockFeedbackContent))
-            .thenReturn(Single.just(mockResponse))
+        Mockito.`when`(userRepository.sendFeedback(mockFeedbackContent).getOrNull())
+            .thenReturn(mockResponse)
 
         // when
         viewModel.sendFeedback()
@@ -148,7 +140,6 @@ class FeedbackViewModelTest {
         assertEquals(R.string.feedback_success, viewModel.toastByResource.value)
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `send Feedback Fail Test - too short`() = runTest {
         // given
@@ -205,8 +196,8 @@ class FeedbackViewModelTest {
             resultCode = 500,
             data = null,
         )
-        Mockito.`when`(userRepository.sendFeedback(mockFeedbackContent))
-            .thenReturn(Single.just(mockResponse))
+        Mockito.`when`(userRepository.sendFeedback(mockFeedbackContent).getOrNull())
+            .thenReturn(mockResponse)
 
         // when
         viewModel.sendFeedback()
