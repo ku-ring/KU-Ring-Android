@@ -14,7 +14,6 @@ import com.ku_stacks.ku_ring.util.WordConverter
 import com.ku_stacks.ku_ring.util.modifyList
 import com.ku_stacks.ku_ring.util.modifyMap
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -32,9 +31,6 @@ class EditSubscriptionViewModel @Inject constructor(
     private val preferenceUtil: PreferenceUtil,
     firebaseMessaging: FirebaseMessaging
 ) : ViewModel() {
-
-    private val disposable = CompositeDisposable()
-
     private val initialCategories = MutableStateFlow(emptyList<NormalSubscriptionUiModel>())
     private val initialDepartments = MutableStateFlow(emptyList<Department>())
 
@@ -209,14 +205,6 @@ class EditSubscriptionViewModel @Inject constructor(
         isSelected,
         !isNotificationEnabled
     )
-
-    override fun onCleared() {
-        super.onCleared()
-
-        if (!disposable.isDisposed) {
-            disposable.dispose()
-        }
-    }
 
     companion object {
         private val className: String = EditSubscriptionViewModel::class.java.simpleName

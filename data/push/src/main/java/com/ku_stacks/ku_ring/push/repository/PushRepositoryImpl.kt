@@ -3,38 +3,34 @@ package com.ku_stacks.ku_ring.push.repository
 import com.ku_stacks.ku_ring.domain.Push
 import com.ku_stacks.ku_ring.local.room.PushDao
 import com.ku_stacks.ku_ring.push.mapper.toPushList
-import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Flowable
-import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class PushRepositoryImpl @Inject constructor(
     private val dao: PushDao
 ) : PushRepository {
-    override fun getMyNotificationList(): Flowable<List<Push>> {
+    override fun getMyNotificationList(): Flow<List<Push>> {
         return dao.getNotificationList()
             .distinctUntilChanged()
             .map { pushEntityList -> pushEntityList.toPushList() }
     }
 
-    override fun updateNotificationAsOld(articleId: String): Completable {
-        return dao.updateNotificationAsOld(articleId, false)
+    override suspend fun updateNotificationAsOld(articleId: String) {
+        dao.updateNotificationAsOld(articleId, false)
     }
 
-    override fun getNotificationCount(): Flowable<Int> {
+    override fun getNotificationCount(): Flow<Int> {
         return dao.getNotificationCount(true)
     }
 
-    override fun deleteNotification(articleId: String) {
+    override suspend fun deleteNotification(articleId: String) {
         dao.deleteNotification(articleId)
-            .subscribeOn(Schedulers.io())
-            .subscribe({}, {})
     }
 
     //not using now
-    override fun deleteAllNotification() {
+    override suspend fun deleteAllNotification() {
         dao.deleteAllNotification()
-            .subscribeOn(Schedulers.io())
-            .subscribe({}, {})
     }
 }
