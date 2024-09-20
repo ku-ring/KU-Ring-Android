@@ -20,7 +20,7 @@ interface NoticeRepository {
     fun deleteAllNoticeRecord()
     fun deleteSharedPreference()
     fun getDepartmentNotices(shortName: String): Flow<PagingData<Notice>>
-    fun fetchSubscriptionFromRemote(token: String): Single<List<String>>
-    fun saveSubscriptionToRemote(token: String, subscribeCategories: List<String>)
+    suspend fun fetchSubscriptionFromRemote(token: String): List<String>
+    suspend fun saveSubscriptionToRemote(token: String, subscribeCategories: List<String>)
     suspend fun getNoticeSearchResult(query: String): List<Notice>
 }

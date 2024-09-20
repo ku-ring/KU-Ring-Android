@@ -16,16 +16,21 @@ class NoticeClient @Inject constructor(
         type: String,
         offset: Int,
         max: Int
-    ): NoticeListResponse = noticeService.fetchNoticeList(type, offset, max)
+    ): NoticeListResponse = noticeService.fetchNoticeList(
+        type,
+        offset,
+        max
+    )
 
-    fun fetchSubscribe(
-        token: String
-    ): Single<SubscribeListResponse> = noticeService.fetchSubscribeList(token)
+    suspend fun fetchSubscribe(token: String): SubscribeListResponse = noticeService.fetchSubscribeList(token)
 
-    fun saveSubscribe(
+    suspend fun saveSubscribe(
         token: String,
         subscribeRequest: SubscribeRequest
-    ): Single<DefaultResponse> = noticeService.saveSubscribeList(token, subscribeRequest)
+    ): DefaultResponse = noticeService.saveSubscribeList(
+        token,
+        subscribeRequest
+    )
 
     suspend fun fetchDepartmentNoticeList(
         type: String = "dep",
@@ -33,8 +38,13 @@ class NoticeClient @Inject constructor(
         page: Int,
         size: Int,
         important: Boolean = false,
-    ): DepartmentNoticeListResponse =
-        noticeService.fetchDepartmentNoticeList(type, shortName, page, size, important)
+    ): DepartmentNoticeListResponse = noticeService.fetchDepartmentNoticeList(
+        type,
+        shortName,
+        page,
+        size,
+        important
+    )
 
     suspend fun fetchNoticeList(
         content: String

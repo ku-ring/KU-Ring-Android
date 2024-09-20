@@ -6,7 +6,6 @@ import com.ku_stacks.ku_ring.remote.notice.response.NoticeListResponse
 import com.ku_stacks.ku_ring.remote.notice.response.SearchNoticeListResponse
 import com.ku_stacks.ku_ring.remote.notice.response.SubscribeListResponse
 import com.ku_stacks.ku_ring.remote.util.DefaultResponse
-import io.reactivex.rxjava3.core.Single
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -22,15 +21,15 @@ interface NoticeService {
     ): NoticeListResponse
 
     @GET("v2/users/subscriptions/categories")
-    fun fetchSubscribeList(
+    suspend fun fetchSubscribeList(
         @Header("User-Token") token: String
-    ): Single<SubscribeListResponse>
+    ): SubscribeListResponse
 
     @POST("v2/users/subscriptions/categories")
-    fun saveSubscribeList(
+    suspend fun saveSubscribeList(
         @Header("User-Token") token: String,
         @Body subscribeRequest: SubscribeRequest
-    ): Single<DefaultResponse>
+    ): DefaultResponse
 
     @GET("v2/notices")
     suspend fun fetchDepartmentNoticeList(
@@ -45,5 +44,4 @@ interface NoticeService {
     suspend fun fetchNotices(
         @Query("content") content: String,
     ): SearchNoticeListResponse
-
 }

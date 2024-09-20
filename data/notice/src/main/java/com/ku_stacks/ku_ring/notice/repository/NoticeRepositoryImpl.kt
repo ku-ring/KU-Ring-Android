@@ -22,7 +22,6 @@ import com.ku_stacks.ku_ring.util.DateUtil
 import com.ku_stacks.ku_ring.util.IODispatcher
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
-import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -43,27 +42,30 @@ class NoticeRepositoryImpl @Inject constructor(
 ) : NoticeRepository {
     private val isNewRecordHashMap = HashMap<String, NoticeEntity>()
 
-    override fun getNotices(type: String, scope: CoroutineScope): Flowable<PagingData<Notice>> {
-        val flowableRemote = getSingleLocalNotice()
-            .flatMap { getFlowableRemoteNotice(type) }
-            .map { transformRemoteData(it, type) }
-            .cachedIn(scope)
+    override fun getNotices(
+        type: String,
+        scope: CoroutineScope
+    ): Flowable<PagingData<Notice>> {
+        val flowableRemote = getSingleLocalNotice().flatMap { getFlowableRemoteNotice(type) }.map {
+            transformRemoteData(
+                it,
+                type
+            )
+        }.cachedIn(scope)
 
         /**
         하나의 insert에 대해서 2개 또는 3개의 변화 감지가 발생할 것임.
         그 이유는 양옆 fragment 의 viewModel 에서 호출하기 때문
          */
-        val flowableLocal = noticeDao.getReadNoticeList(true)
-            .distinctUntilChanged { old, new ->
-                /**
-                DB insert 되는 경우, 업데이트를 감지하기 위함이므로 성능을 위해
-                모든 내용을 비교하기 보다는 size 만 비교하는 것으로 재정의함.
-                 */
-                old.size == new.size
-            }
+        val flowableLocal = noticeDao.getReadNoticeList(true).distinctUntilChanged { old, new ->
+            /**
+            DB insert 되는 경우, 업데이트를 감지하기 위함이므로 성능을 위해
+            모든 내용을 비교하기 보다는 size 만 비교하는 것으로 재정의함.
+             */
+            old.size == new.size
+        }
 
-        val savedPublisherLocal = noticeDao.getNoticesBySaved(true)
-            .map { notices -> notices.map { it.articleId } }
+        val savedPublisherLocal = noticeDao.getNoticesBySaved(true).map { notices -> notices.map { it.articleId } }
             .asPublisher(scope.coroutineContext)
 
         return Flowable.combineLatest(
@@ -111,9 +113,7 @@ class NoticeRepositoryImpl @Inject constructor(
     }
 
     private fun getSingleLocalNotice(): Flowable<List<NoticeEntity>> {
-        return noticeDao.getOldNoticeList()
-            .subscribeOn(Schedulers.io())
-            .toFlowable()
+        return noticeDao.getOldNoticeList().subscribeOn(Schedulers.io()).toFlowable()
             .doOnNext { // local 데이터가 처음 발행될때 HashMap 에 저장 (단 한번만 실행)
                 if (isNewRecordHashMap.size == 0) {
                     for (localNotice in it) {
@@ -124,14 +124,17 @@ class NoticeRepositoryImpl @Inject constructor(
     }
 
     private fun getFlowableRemoteNotice(type: String): Flowable<PagingData<Notice>> {
-        return Pager(
-            config = PagingConfig(
-                pageSize = pageSize,
-                /** 이것보다 PagingSource 에서 ItemCount 가 중요함 */
-                enablePlaceholders = true
-            ),
-            pagingSourceFactory = { NoticePagingSource(type, noticeClient) }
-        ).flowable
+        return Pager(config = PagingConfig(
+            pageSize = pageSize,
+            /** 이것보다 PagingSource 에서 ItemCount 가 중요함 */
+            enablePlaceholders = true
+        ),
+            pagingSourceFactory = {
+                NoticePagingSource(
+                    type,
+                    noticeClient
+                )
+            }).flowable
     }
 
     override suspend fun insertNotice(notice: Notice) {
@@ -148,22 +151,47 @@ class NoticeRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun updateNoticeToBeRead(articleId: String, category: String): Completable {
-        return noticeDao.updateNoticeAsRead(articleId, category)
+    override fun updateNoticeToBeRead(
+        articleId: String,
+        category: String
+    ): Completable {
+        return noticeDao.updateNoticeAsRead(
+            articleId,
+            category
+        )
     }
 
-    override suspend fun updateSavedStatus(articleId: String, category: String, isSaved: Boolean) {
+    override suspend fun updateSavedStatus(
+        articleId: String,
+        category: String,
+        isSaved: Boolean
+    ) {
         withContext(ioDispatcher) {
-            noticeDao.updateNoticeSaveState(articleId, category, isSaved)
+            noticeDao.updateNoticeSaveState(
+                articleId,
+                category,
+                isSaved
+            )
             if (!isSaved) {
-                noticeDao.updateNoticeAsReadOnStorage(articleId, category, false)
+                noticeDao.updateNoticeAsReadOnStorage(
+                    articleId,
+                    category,
+                    false
+                )
             }
         }
     }
 
-    override suspend fun updateNoticeToBeReadOnStorage(articleId: String, category: String) {
+    override suspend fun updateNoticeToBeReadOnStorage(
+        articleId: String,
+        category: String
+    ) {
         withContext(ioDispatcher) {
-            noticeDao.updateNoticeAsReadOnStorage(articleId, category, true)
+            noticeDao.updateNoticeAsReadOnStorage(
+                articleId,
+                category,
+                true
+            )
         }
     }
 
@@ -174,9 +202,8 @@ class NoticeRepositoryImpl @Inject constructor(
     }
 
     override fun deleteAllNoticeRecord() { // for testing
-        noticeDao.deleteAllNoticeRecord()
-            .subscribeOn(Schedulers.io())
-            .subscribe({ }, { })
+        noticeDao.deleteAllNoticeRecord().subscribeOn(Schedulers.io()).subscribe({ },
+            { })
     }
 
     override fun deleteSharedPreference() { //for testing
@@ -201,36 +228,36 @@ class NoticeRepositoryImpl @Inject constructor(
         ).flow.map { noticeEntityPagingData -> noticeEntityPagingData.map { it.toNotice() } }
     }
 
-    override fun fetchSubscriptionFromRemote(token: String): Single<List<String>> {
-        return noticeClient.fetchSubscribe(token)
-            .map { response ->
-                response.categoryList.map { it.koreanName }
-            }
+    override suspend fun fetchSubscriptionFromRemote(token: String): List<String> {
+        return noticeClient.fetchSubscribe(token).categoryList.map { it.koreanName }
     }
 
-    override fun saveSubscriptionToRemote(token: String, subscribeCategories: List<String>) {
+    override suspend fun saveSubscriptionToRemote(
+        token: String,
+        subscribeCategories: List<String>
+    ) {
         val subscribeRequest = SubscribeRequest(subscribeCategories)
-        noticeClient.saveSubscribe(token, subscribeRequest)
-            .subscribeOn(Schedulers.io())
-            .subscribe({ response ->
-                if (response.isSuccess) {
-                    pref.firstRunFlag = false
-                }
-            }, { })
-    }
-
-    override suspend fun getNoticeSearchResult(query: String): List<Notice> =
-        withContext(Dispatchers.IO) {
-            val result = noticeClient.fetchNoticeList(query)
-                .takeIf { it.isSuccess }
-                ?.toNoticeList() ?: emptyList()
-
-            val savedArticleIdSet = noticeDao.getSavedNoticeList(true).map { it.articleId }.toSet()
-
-            result.map {
-                it.copy(isSaved = savedArticleIdSet.contains(it.articleId))
+        runCatching {
+            noticeClient.saveSubscribe(
+                token,
+                subscribeRequest
+            )
+        }.onSuccess {
+            if (it.isSuccess) {
+                pref.firstRunFlag = false
             }
         }
+    }
+
+    override suspend fun getNoticeSearchResult(query: String): List<Notice> = withContext(Dispatchers.IO) {
+        val result = noticeClient.fetchNoticeList(query).takeIf { it.isSuccess }?.toNoticeList() ?: emptyList()
+
+        val savedArticleIdSet = noticeDao.getSavedNoticeList(true).map { it.articleId }.toSet()
+
+        result.map {
+            it.copy(isSaved = savedArticleIdSet.contains(it.articleId))
+        }
+    }
 
     companion object {
         private const val pageSize = 20
