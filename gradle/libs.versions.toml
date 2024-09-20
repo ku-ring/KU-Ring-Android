@@ -17,7 +17,7 @@ versionCode = "20101"
 # app-level dependency
 # Kotlin
 kotlinx-coroutines = '1.9.0'
-kotlinx-serialization-json = "1.7.2"
+kotlinx-serialization-json = "1.7.3"
 
 # Compose
 compose-compiler = '1.4.8'
