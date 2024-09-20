@@ -21,7 +21,6 @@ dependencies {
     implementation(projects.data.domain)
     implementation(projects.data.department)
     implementation(projects.data.notice)
-    implementation(projects.data.push)
     implementation(projects.data.staff)
     implementation(projects.data.search)
 
