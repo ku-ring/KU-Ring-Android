@@ -3,26 +3,21 @@ package com.ku_stacks.ku_ring.feedback.feedback
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.messaging.FirebaseMessaging
 import com.ku_stacks.ku_ring.feedback.R
+import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.thirdparty.firebase.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.ui_util.SingleLiveEvent
 import com.ku_stacks.ku_ring.user.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 @HiltViewModel
 class FeedbackViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val analytics: EventAnalytics,
-    private val firebaseMessaging: FirebaseMessaging
+    private val preferenceUtil: PreferenceUtil,
 ) : ViewModel() {
 
     private val _feedbackContent = MutableStateFlow("")
@@ -59,43 +54,34 @@ class FeedbackViewModel @Inject constructor(
             "FeedbackActivity"
         )
         viewModelScope.launch {
-            runCatching {
-                firebaseMessaging.token.await()
-            }.onSuccess { fcmToken ->
-                if (fcmToken == null) {
-                    analytics.errorEvent(
-                        "Fcm Token is null!",
-                        className
-                    )
-                    _toastByResource.postValue(R.string.feedback_cannot_send)
-                    return@onSuccess
-                }
-
-                if (textStatus.value == FeedbackTextStatus.TOO_SHORT) {
-                    _toastByResource.value = R.string.feedback_too_short
-                    return@onSuccess
-                } else if (textStatus.value == FeedbackTextStatus.TOO_LONG) {
-                    _toastByResource.value = R.string.feedback_too_long
-                    return@onSuccess
-                }
-
-                val content = feedbackContent.value
-
-                userRepository.sendFeedback(content).onSuccess {
-                    if (it.isSuccess) {
-                        _toastByResource.value = R.string.feedback_success
-                        _quit.call()
-                    } else {
-                        _toast.value = it.resultMsg
-                    }
-                }.onFailure {
-                    _toastByResource.postValue(R.string.feedback_cannot_send)
-                }
-            }.onFailure {
+            val fcmToken = preferenceUtil.fcmToken
+            if (fcmToken.isEmpty()) {
                 analytics.errorEvent(
-                    "Failed to get Fcm Token error : ${it.message}",
+                    "Fcm Token is null!",
                     className
                 )
+                _toastByResource.postValue(R.string.feedback_cannot_send)
+                return@launch
+            }
+
+            if (textStatus.value == FeedbackTextStatus.TOO_SHORT) {
+                _toastByResource.value = R.string.feedback_too_short
+                return@launch
+            } else if (textStatus.value == FeedbackTextStatus.TOO_LONG) {
+                _toastByResource.value = R.string.feedback_too_long
+                return@launch
+            }
+
+            val content = feedbackContent.value
+
+            userRepository.sendFeedback(content).onSuccess {
+                if (it.isSuccess) {
+                    _toastByResource.value = R.string.feedback_success
+                    _quit.call()
+                } else {
+                    _toast.value = it.resultMsg
+                }
+            }.onFailure {
                 _toastByResource.postValue(R.string.feedback_cannot_send)
             }
         }
