@@ -2,6 +2,7 @@ package com.ku_stacks.ku_ring.remote
 
 import com.ku_stacks.ku_ring.remote.user.UserService
 import com.ku_stacks.ku_ring.remote.user.request.FeedbackRequest
+import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -23,7 +24,7 @@ class UserServiceTest : ApiAbstract<UserService>() {
     }
 
     @Test
-    fun `send Feedback Test`() {
+    fun `send Feedback Test`() = runTest {
         // given
         enqueueResponse("/DefaultResponse.json")
 
@@ -32,7 +33,7 @@ class UserServiceTest : ApiAbstract<UserService>() {
         val mockRequest = FeedbackRequest(
             content = "쿠링은 좋은 어플리케이션입니다."
         )
-        val response = service.sendFeedback(token, mockRequest).blockingGet()
+        val response = service.sendFeedback(token, mockRequest)
         mockWebServer.takeRequest()
 
         // then

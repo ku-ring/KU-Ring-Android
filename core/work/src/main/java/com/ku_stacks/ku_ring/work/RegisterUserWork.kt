@@ -8,7 +8,6 @@ import androidx.work.WorkerParameters
 import com.ku_stacks.ku_ring.user.repository.UserRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import timber.log.Timber
 
 @HiltWorker
 class RegisterUserWork @AssistedInject constructor(

@@ -26,8 +26,7 @@
 - Navigation w/ Compose
 
 ## Async
-- Kotlin Coroutines (main)
-- RxJava (sub)
+- Kotlin Coroutines
 
 ## Network Requests
 - Retrofit2

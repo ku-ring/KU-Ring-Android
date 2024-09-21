@@ -3,31 +3,22 @@ package com.ku_stacks.ku_ring.feedback.feedback
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.messaging.FirebaseMessaging
 import com.ku_stacks.ku_ring.feedback.R
+import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.thirdparty.firebase.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.ui_util.SingleLiveEvent
 import com.ku_stacks.ku_ring.user.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
-import timber.log.Timber
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class FeedbackViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val analytics: EventAnalytics,
-    private val firebaseMessaging: FirebaseMessaging
+    private val preferenceUtil: PreferenceUtil,
 ) : ViewModel() {
-
-    private val disposable = CompositeDisposable()
 
     private val _feedbackContent = MutableStateFlow("")
     val feedbackContent = _feedbackContent.asStateFlow()
@@ -58,43 +49,41 @@ class FeedbackViewModel @Inject constructor(
         get() = _toastByResource
 
     fun sendFeedback() {
-        analytics.click("send feedback button", "FeedbackActivity")
-
-        firebaseMessaging.token.addOnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                analytics.errorEvent("Failed to get Fcm Token error : ${task.exception}", className)
+        analytics.click(
+            "send feedback button",
+            "FeedbackActivity"
+        )
+        viewModelScope.launch {
+            val fcmToken = preferenceUtil.fcmToken
+            if (fcmToken.isEmpty()) {
+                analytics.errorEvent(
+                    "Fcm Token is null!",
+                    className
+                )
                 _toastByResource.postValue(R.string.feedback_cannot_send)
-                return@addOnCompleteListener
-            }
-            val fcmToken = task.result
-            if (fcmToken == null) {
-                analytics.errorEvent("Fcm Token is null!", className)
-                _toastByResource.postValue(R.string.feedback_cannot_send)
-                return@addOnCompleteListener
+                return@launch
             }
 
             if (textStatus.value == FeedbackTextStatus.TOO_SHORT) {
                 _toastByResource.value = R.string.feedback_too_short
-                return@addOnCompleteListener
+                return@launch
             } else if (textStatus.value == FeedbackTextStatus.TOO_LONG) {
                 _toastByResource.value = R.string.feedback_too_long
-                return@addOnCompleteListener
+                return@launch
             }
 
             val content = feedbackContent.value
-            userRepository.sendFeedback(content)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    if (it.isSuccess) {
-                        _toastByResource.value = R.string.feedback_success
-                        _quit.call()
-                    } else {
-                        _toast.value = it.resultMsg
-                    }
-                }, {
-                    _toastByResource.value = R.string.network_error
-                })
+
+            userRepository.sendFeedback(content).onSuccess {
+                if (it.isSuccess) {
+                    _toastByResource.value = R.string.feedback_success
+                    _quit.call()
+                } else {
+                    _toast.value = it.resultMsg
+                }
+            }.onFailure {
+                _toastByResource.postValue(R.string.feedback_cannot_send)
+            }
         }
     }
 
@@ -103,16 +92,11 @@ class FeedbackViewModel @Inject constructor(
     }
 
     fun closeFeedback() {
-        analytics.click("close feedback button", "FeedbackActivity")
+        analytics.click(
+            "close feedback button",
+            "FeedbackActivity"
+        )
         _quit.call()
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-
-        if (!disposable.isDisposed) {
-            disposable.dispose()
-        }
     }
 
     companion object {

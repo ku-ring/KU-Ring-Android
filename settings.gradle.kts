@@ -28,8 +28,6 @@ include(
     ":data:notice:test",
     ":core:preferences",
     ":data:ai",
-    ":data:push",
-    ":data:push:test",
     ":data:user",
     ":data:staff",
     ":data:department",

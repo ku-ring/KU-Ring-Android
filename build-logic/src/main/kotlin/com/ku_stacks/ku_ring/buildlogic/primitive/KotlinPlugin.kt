@@ -36,7 +36,6 @@ class KotlinPlugin : Plugin<Project> {
                 implementation(libs.library("kotlinx-coroutines-core"))
                 implementation(libs.library("kotlinx-coroutines-android"))
                 implementation(libs.library("kotlinx-coroutines-reactive"))
-                implementation(libs.library("kotlinx-coroutines-rxjava3"))
 
                 implementation(libs.library("kotlinx-serialization"))
             }
