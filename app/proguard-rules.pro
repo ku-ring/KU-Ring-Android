@@ -33,11 +33,6 @@
 -keep class com.ku_stacks.ku_ring.local.room.** { *; }
 # domain classes
 -keep class com.ku_stacks.ku_ring.domain.** { *; }
-# rxjava classes
--keep class io.reactivex.rxjava3.core.Flowable
--keep class io.reactivex.rxjava3.core.Maybe
--keep class io.reactivex.rxjava3.core.Observable
--keep class io.reactivex.rxjava3.core.Single
 # Keep generic signature of Call, Response (R8 full mode strips signatures from non-kept items).
 -keep interface retrofit2.Call
 -keep class retrofit2.Response

@@ -6,15 +6,13 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
-import com.google.firebase.messaging.FirebaseMessaging
 import com.ku_stacks.ku_ring.feedback.feedback.FeedbackViewModel
 import com.ku_stacks.ku_ring.feedback.util.MainDispatcherRule
+import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.remote.util.DefaultResponse
 import com.ku_stacks.ku_ring.testutil.MockUtil
-import com.ku_stacks.ku_ring.testutil.SchedulersTestRule
 import com.ku_stacks.ku_ring.thirdparty.firebase.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.user.repository.UserRepository
-import io.reactivex.rxjava3.core.Single
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
@@ -28,12 +26,13 @@ import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 import java.util.concurrent.Executor
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class FeedbackViewModelTest {
 
     private lateinit var viewModel: FeedbackViewModel
     private val userRepository: UserRepository = MockUtil.mock()
     private val analytics: EventAnalytics = MockUtil.mock()
-    private val firebaseMessaging: FirebaseMessaging = MockUtil.mock()
+    private val preferenceUtil: PreferenceUtil = MockUtil.mock()
 
     private lateinit var successTask: Task<String>
     private val mockToken = "mockToken"
@@ -41,17 +40,12 @@ class FeedbackViewModelTest {
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
 
-    @Rule
-    @JvmField
-    val testSchedulersRule = SchedulersTestRule()
-
-    @OptIn(ExperimentalCoroutinesApi::class)
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
     @Before
     fun setup() {
-        viewModel = FeedbackViewModel(userRepository, analytics, firebaseMessaging)
+        viewModel = FeedbackViewModel(userRepository, analytics, preferenceUtil)
 
         /** mocking for fcm dependency */
         successTask = object : Task<String>() {
@@ -122,7 +116,6 @@ class FeedbackViewModelTest {
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `send Feedback Success Test`() = runTest {
         // given
@@ -130,15 +123,15 @@ class FeedbackViewModelTest {
         viewModel.updateFeedbackContent(mockFeedbackContent)
         viewModel.textStatus.first()
 
-        Mockito.`when`(firebaseMessaging.token).thenReturn(successTask)
+        Mockito.`when`(preferenceUtil.fcmToken).thenReturn(mockToken)
 
         val mockResponse = DefaultResponse(
             resultMsg = "성공",
             resultCode = 200,
             data = null,
         )
-        Mockito.`when`(userRepository.sendFeedback(mockFeedbackContent))
-            .thenReturn(Single.just(mockResponse))
+        Mockito.`when`(userRepository.sendFeedback(mockFeedbackContent).getOrNull())
+            .thenReturn(mockResponse)
 
         // when
         viewModel.sendFeedback()
@@ -148,7 +141,6 @@ class FeedbackViewModelTest {
         assertEquals(R.string.feedback_success, viewModel.toastByResource.value)
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `send Feedback Fail Test - too short`() = runTest {
         // given
@@ -156,7 +148,7 @@ class FeedbackViewModelTest {
         viewModel.updateFeedbackContent(mockFeedbackContent)
         viewModel.textStatus.first()
 
-        Mockito.`when`(firebaseMessaging.token).thenReturn(successTask)
+        Mockito.`when`(preferenceUtil.fcmToken).thenReturn(mockToken)
 
         // when
         viewModel.sendFeedback()
@@ -166,7 +158,6 @@ class FeedbackViewModelTest {
         assertEquals(R.string.feedback_too_short, viewModel.toastByResource.value)
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `send Feedback Fail Test - too long`() = runTest {
         // given
@@ -175,7 +166,7 @@ class FeedbackViewModelTest {
             mockFeedbackContent += "a"
         }
 
-        Mockito.`when`(firebaseMessaging.token).thenReturn(successTask)
+        Mockito.`when`(preferenceUtil.fcmToken).thenReturn(mockToken)
 
         // when
         viewModel.updateFeedbackContent(mockFeedbackContent)
@@ -189,7 +180,6 @@ class FeedbackViewModelTest {
         assertEquals(R.string.feedback_too_long, viewModel.toastByResource.value)
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `send Feedback Fail Test - server response error`() = runTest {
         // given
@@ -197,7 +187,7 @@ class FeedbackViewModelTest {
         viewModel.updateFeedbackContent(mockFeedbackContent)
         viewModel.textStatus.first()
 
-        Mockito.`when`(firebaseMessaging.token).thenReturn(successTask)
+        Mockito.`when`(preferenceUtil.fcmToken).thenReturn(mockToken)
 
         val expectedResponseMsg = "알 수 없는 서버 오류"
         val mockResponse = DefaultResponse(
@@ -205,8 +195,8 @@ class FeedbackViewModelTest {
             resultCode = 500,
             data = null,
         )
-        Mockito.`when`(userRepository.sendFeedback(mockFeedbackContent))
-            .thenReturn(Single.just(mockResponse))
+        Mockito.`when`(userRepository.sendFeedback(mockFeedbackContent).getOrNull())
+            .thenReturn(mockResponse)
 
         // when
         viewModel.sendFeedback()

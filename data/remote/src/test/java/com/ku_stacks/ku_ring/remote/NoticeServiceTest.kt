@@ -25,13 +25,12 @@ class NoticeServiceTest : ApiAbstract<NoticeService>() {
     }
 
     @Test
-    fun `fetch Bachelor Notice From Network Test`() {
+    fun `fetch Bachelor Notice From Network Test`() = runTest {
         // given
         enqueueResponse("/NoticeResponse.json")
 
         // when
         val response = service.fetchNoticeList("bch", 0, 20)
-            .blockingGet()
         mockWebServer.takeRequest()
 
         // then
@@ -45,14 +44,13 @@ class NoticeServiceTest : ApiAbstract<NoticeService>() {
     }
 
     @Test
-    fun `fetch SubscribeList Test`() {
+    fun `fetch SubscribeList Test`() = runTest {
         // given
         enqueueResponse("/SubscriptionResponse.json")
         val mockToken = "mockToken"
 
         // when
         val response = service.fetchSubscribeList(mockToken)
-            .blockingGet()
         mockWebServer.takeRequest()
 
         // then
@@ -64,7 +62,7 @@ class NoticeServiceTest : ApiAbstract<NoticeService>() {
     }
 
     @Test
-    fun `save SubscribeList Test`() {
+    fun `save SubscribeList Test`() = runTest {
         // given
         enqueueResponse("/DefaultResponse.json")
 
@@ -72,7 +70,7 @@ class NoticeServiceTest : ApiAbstract<NoticeService>() {
         val mockRequest = SubscribeRequest(
             categories = listOf("bachelor")
         )
-        val response = service.saveSubscribeList(token = "mockToken", mockRequest).blockingGet()
+        val response = service.saveSubscribeList(token = "mockToken", mockRequest)
         mockWebServer.takeRequest()
 
         // then

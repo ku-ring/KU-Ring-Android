@@ -59,6 +59,7 @@ fun EditSubscriptionScreen(
     viewModel: EditSubscriptionViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val scope = rememberCoroutineScope()
 
     EditSubscriptionScreen(
         categories = uiState.categories,
@@ -68,9 +69,11 @@ fun EditSubscriptionScreen(
         onDepartmentClick = viewModel::onDepartmentSubscriptionItemClick,
         onAddDepartmentButtonClick = onAddDepartmentButtonClick,
         onSubscriptionComplete = {
-            if (viewModel.isInitialLoadDone) {
-                viewModel.saveSubscribe()
-                onFinish()
+            scope.launch {
+                if (viewModel.isInitialLoadDone) {
+                    viewModel.saveSubscribe()
+                    onFinish()
+                }
             }
         },
         modifier = modifier,

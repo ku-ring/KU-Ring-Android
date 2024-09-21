@@ -6,22 +6,16 @@ import androidx.paging.PagingData
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.notice.repository.NoticeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.reactive.asFlow
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class CategoryNoticeViewModel @Inject constructor(
     private val noticeRepository: NoticeRepository,
 ) : ViewModel() {
-
-    private val disposable = CompositeDisposable()
-
     private var _noticesFlow: MutableStateFlow<Flow<PagingData<Notice>>?> = MutableStateFlow(null)
     val noticesFlow: StateFlow<Flow<PagingData<Notice>>?>
         get() = _noticesFlow
@@ -29,7 +23,7 @@ class CategoryNoticeViewModel @Inject constructor(
     private val articleIds = mutableSetOf<String>()
 
     fun getNotices(shortCategory: String) {
-        _noticesFlow.value = noticeRepository.getNotices(shortCategory, viewModelScope).asFlow()
+        _noticesFlow.value = noticeRepository.getNotices(shortCategory, viewModelScope)
     }
 
     fun insertNoticeToLocal(notice: Notice) {
@@ -41,13 +35,4 @@ class CategoryNoticeViewModel @Inject constructor(
             }
         }
     }
-
-    override fun onCleared() {
-        super.onCleared()
-
-        if (!disposable.isDisposed) {
-            disposable.dispose()
-        }
-    }
-
 }

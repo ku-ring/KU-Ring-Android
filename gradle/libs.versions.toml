@@ -71,7 +71,6 @@ kotlinx-serialization-plugin = { module = 'org.jetbrains.kotlin:kotlin-serializa
 kotlinx-coroutines-android = { module = 'org.jetbrains.kotlinx:kotlinx-coroutines-android', version.ref = 'kotlinx-coroutines' }
 kotlinx-coroutines-core = { module = 'org.jetbrains.kotlinx:kotlinx-coroutines-core', version.ref = 'kotlinx-coroutines' }
 kotlinx-coroutines-reactive = { module = 'org.jetbrains.kotlinx:kotlinx-coroutines-reactive', version.ref = 'kotlinx-coroutines' }
-kotlinx-coroutines-rxjava3 = { module = 'org.jetbrains.kotlinx:kotlinx-coroutines-rx3', version.ref = 'kotlinx-coroutines' }
 # Test는 bundle로 묶지 말기 (필요한 모듈에서만 별도로 선언)
 kotlinx-coroutines-test = { module = 'org.jetbrains.kotlinx:kotlinx-coroutines-test', version.ref = 'kotlinx-coroutines' }
 kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
@@ -114,13 +113,11 @@ hilt-navigation-compose = { module = 'androidx.hilt:hilt-navigation-compose', ve
 androidx-navigation-compose = { module = 'androidx.navigation:navigation-compose', version.ref = 'androidx-navigation' }
 desugarLibs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugarJdk" }
 androidx-hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "androidx-hilt" }
-androidx-paging-rxjava3 = { module = 'androidx.paging:paging-rxjava3', version.ref = 'androidx-paging' }
 androidx-paging-common-ktx = { module = 'androidx.paging:paging-common-ktx', version.ref = 'androidx-paging' }
 androidx-paging-runtime-ktx = { module = 'androidx.paging:paging-runtime-ktx', version.ref = 'androidx-paging' }
 androidx-room-ktx = { module = 'androidx.room:room-ktx', version.ref = 'androidx-room' }
 androidx-room-runtime = { module = 'androidx.room:room-runtime', version.ref = 'androidx-room' }
 androidx-room-compiler = { module = 'androidx.room:room-compiler', version.ref = 'androidx-room' }
-androidx-room-rxjava3 = { module = 'androidx.room:room-rxjava3', version.ref = 'androidx-room' }
 androidx-room-paging = { module = 'androidx.room:room-paging', version.ref = 'androidx-room' }
 androidx-work-runtime-ktx = { module = 'androidx.work:work-runtime-ktx', version.ref = 'androidx-work' }
 androidx-hilt-work = { module = "androidx.hilt:hilt-work", version.ref = "androidx-hilt" }
@@ -179,11 +176,6 @@ play-services-auth = 'com.google.android.gms:play-services-auth:21.2.0'
 retrofit-bom = { module = 'com.squareup.retrofit2:retrofit-bom', version.ref = 'retrofit' }
 retrofit = { module = 'com.squareup.retrofit2:retrofit' }
 retrofit-converter-gson = { module = 'com.squareup.retrofit2:converter-gson' }
-retrofit-adapter-rxjava3 = { module = 'com.squareup.retrofit2:adapter-rxjava3' }
-
-# RxJava
-rxandroid = 'io.reactivex.rxjava3:rxandroid:3.0.2'
-rxjava = 'io.reactivex.rxjava3:rxjava:3.1.9'
 
 # Ktor
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
@@ -203,7 +195,6 @@ semver = "net.swiftzer.semver:semver:2.0.0"
 retrofit = [
     'retrofit',
     'retrofit-converter-gson',
-    'retrofit-adapter-rxjava3'
 ]
 compose = [
     'compose-foundation',
@@ -236,7 +227,6 @@ coroutines = [
     'kotlinx-coroutines-android',
     'kotlinx-coroutines-core',
     'kotlinx-coroutines-reactive',
-    'kotlinx-coroutines-rxjava3',
 ]
 firebase = [
     'firebase-analytics-ktx',
@@ -246,11 +236,6 @@ firebase = [
 paging = [
     'androidx-paging-runtime-ktx',
     'androidx-paging-common-ktx',
-    'androidx-paging-rxjava3',
-]
-rxjava = [
-    'rxandroid',
-    'rxjava',
 ]
 viewmodel-ktx = [
     'androidx-lifecycle-viewmodel-ktx',

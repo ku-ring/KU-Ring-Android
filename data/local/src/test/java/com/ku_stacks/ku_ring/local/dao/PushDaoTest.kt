@@ -3,6 +3,7 @@ package com.ku_stacks.ku_ring.local.dao
 import com.ku_stacks.ku_ring.local.LocalDbAbstract
 import com.ku_stacks.ku_ring.local.room.PushDao
 import com.ku_stacks.ku_ring.local.test.LocalTestUtil
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
@@ -30,14 +31,9 @@ class PushDaoTest : LocalDbAbstract() {
         pushDao.insertNotification(pushMock)
 
         // when
-        val pushFromDB = pushDao.getNotificationList().blockingFirst()[0]
+        val pushFromDB = pushDao.getNotificationList().first().first()
 
         // then
-        /**
-         * 두 데이터를 가져오는 방식이 하나는 coroutine 이고 하나는 RxJava 라서 그런지
-         * pushMock.toString() 과 pushFromDB.toString() 의 값이 다르게 보인다.(주솟값)
-         * 따라서 객체 내부의 값을 직접 비교하였다.
-         */
         assertThat(pushFromDB.articleId, `is`(pushMock.articleId))
         assertThat(pushFromDB.category, `is`(pushMock.category))
         assertThat(pushFromDB.postedDate, `is`(pushMock.postedDate))
@@ -52,10 +48,10 @@ class PushDaoTest : LocalDbAbstract() {
         // given
         val pushMock = LocalTestUtil.fakePushEntity()
         pushDao.insertNotification(pushMock)
-        pushDao.updateNotificationAsOld(pushMock.articleId, false).blockingSubscribe()
+        pushDao.updateNotificationAsOld(pushMock.articleId, false)
 
         // when
-        val pushFromDB = pushDao.getNotificationList().blockingFirst()[0]
+        val pushFromDB = pushDao.getNotificationList().first().first()
 
         // then : updateConfirmedNotification 하면 isNew 값이 false
         assertThat(pushFromDB.articleId, `is`(pushMock.articleId))
@@ -65,7 +61,7 @@ class PushDaoTest : LocalDbAbstract() {
     @Test
     fun `getNotificationCount Test`() = runBlocking {
         // 공지가 없으면 0개의 데이터임을 확인
-        var notiCountFromDB = pushDao.getNotificationCount(true).blockingFirst()
+        var notiCountFromDB = pushDao.getNotificationCount(true).first()
         assertThat(notiCountFromDB, `is`(0))
 
         // given
@@ -73,34 +69,34 @@ class PushDaoTest : LocalDbAbstract() {
         pushDao.insertNotification(pushMock)
 
         // when
-        notiCountFromDB = pushDao.getNotificationCount(true).blockingFirst()
+        notiCountFromDB = pushDao.getNotificationCount(true).first()
         // then : insert 후에 1개의 데이터
         assertThat(notiCountFromDB, `is`(1))
 
         // when
-        pushDao.updateNotificationAsOld(pushMock.articleId, false).blockingSubscribe()
+        pushDao.updateNotificationAsOld(pushMock.articleId, false)
         // then : isNew 를 false 로 업데이트하면 0개의 데이터
-        notiCountFromDB = pushDao.getNotificationCount(true).blockingFirst()
+        notiCountFromDB = pushDao.getNotificationCount(true).first()
         assertThat(notiCountFromDB, `is`(0))
     }
 
     @Test
     fun `deleteNotification Test`() = runBlocking {
         // 처음엔 0개의 데이터임을 확인
-        var notiCountFromDB = pushDao.getNotificationCount(true).blockingFirst()
+        var notiCountFromDB = pushDao.getNotificationCount(true).first()
         assertThat(notiCountFromDB, `is`(0))
 
         // when
         val pushMock = LocalTestUtil.fakePushEntity()
         pushDao.insertNotification(pushMock)
         // then : insert 후에 1개의 데이터
-        notiCountFromDB = pushDao.getNotificationCount(true).blockingFirst()
+        notiCountFromDB = pushDao.getNotificationCount(true).first()
         assertThat(notiCountFromDB, `is`(1))
 
         // when
-        pushDao.deleteNotification(pushMock.articleId).blockingSubscribe()
+        pushDao.deleteNotification(pushMock.articleId)
         // then : delete 후에 0개의 데이터
-        notiCountFromDB = pushDao.getNotificationCount(true).blockingFirst()
+        notiCountFromDB = pushDao.getNotificationCount(true).first()
         assertThat(notiCountFromDB, `is`(0))
     }
 }

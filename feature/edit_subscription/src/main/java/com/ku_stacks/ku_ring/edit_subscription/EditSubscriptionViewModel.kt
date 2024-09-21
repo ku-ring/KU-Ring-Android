@@ -14,8 +14,6 @@ import com.ku_stacks.ku_ring.util.WordConverter
 import com.ku_stacks.ku_ring.util.modifyList
 import com.ku_stacks.ku_ring.util.modifyMap
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -33,9 +31,6 @@ class EditSubscriptionViewModel @Inject constructor(
     private val preferenceUtil: PreferenceUtil,
     firebaseMessaging: FirebaseMessaging
 ) : ViewModel() {
-
-    private val disposable = CompositeDisposable()
-
     private val initialCategories = MutableStateFlow(emptyList<NormalSubscriptionUiModel>())
     private val initialDepartments = MutableStateFlow(emptyList<Department>())
 
@@ -46,13 +41,17 @@ class EditSubscriptionViewModel @Inject constructor(
         categories,
         departmentsByKoreanName,
     ) { categories, departmentsByKoreanName ->
-        val sortedDepartments = departmentsByKoreanName.values.map { it.toSubscriptionUiModel() }
-            .sortedWith(DepartmentComparator)
+        val sortedDepartments =
+            departmentsByKoreanName.values.map { it.toSubscriptionUiModel() }.sortedWith(DepartmentComparator)
         EditSubscriptionUiState(
             categories = categories,
             departments = sortedDepartments,
         )
-    }.stateIn(viewModelScope, SharingStarted.Lazily, EditSubscriptionUiState.initialValue)
+    }.stateIn(
+        viewModelScope,
+        SharingStarted.Lazily,
+        EditSubscriptionUiState.initialValue
+    )
 
     private var fcmToken: String? = null
 
@@ -65,9 +64,15 @@ class EditSubscriptionViewModel @Inject constructor(
     init {
         firebaseMessaging.token.addOnCompleteListener { task ->
             if (!task.isSuccessful) {
-                analytics.errorEvent("${task.exception}", className)
+                analytics.errorEvent(
+                    "${task.exception}",
+                    className
+                )
             } else if (task.result == null) {
-                analytics.errorEvent("Fcm Token is null!", className)
+                analytics.errorEvent(
+                    "Fcm Token is null!",
+                    className
+                )
             } else {
                 fcmToken = task.result
                 syncWithServer()
@@ -75,15 +80,19 @@ class EditSubscriptionViewModel @Inject constructor(
         }
     }
 
-    fun syncWithServer() {
+    private fun syncWithServer() {
         fcmToken?.let {
-            disposable.add(
-                noticeRepository.fetchSubscriptionFromRemote(fcmToken!!)
-                    .subscribeOn(Schedulers.io())
-                    .subscribe({
-                        initialSortSubscription(it)
-                    }, { })
-            )
+            viewModelScope.launch {
+                runCatching {
+                    val subscribingList = noticeRepository.fetchSubscriptionFromRemote(it)
+                    initialSortSubscription(subscribingList)
+                }.onFailure {
+                    analytics.errorEvent(
+                        "${it.message}",
+                        className
+                    )
+                }
+            }
         }
 
         viewModelScope.launch {
@@ -95,10 +104,9 @@ class EditSubscriptionViewModel @Inject constructor(
 
     private fun collectSubscribedDepartments() {
         viewModelScope.launch {
-            departmentRepository.getSubscribedDepartmentsAsFlow()
-                .collectLatest { subscribedDepartments ->
-                    setDepartmentsToMap(subscribedDepartments)
-                }
+            departmentRepository.getSubscribedDepartmentsAsFlow().collectLatest { subscribedDepartments ->
+                setDepartmentsToMap(subscribedDepartments)
+            }
         }
     }
 
@@ -118,25 +126,21 @@ class EditSubscriptionViewModel @Inject constructor(
         }
     }
 
-    fun saveSubscribe() {
+    suspend fun saveSubscribe() {
         if (!isInitialLoadDone) {
             return
         }
 
         fcmToken?.let { fcmToken ->
-            val notificationEnabledCategories =
-                categories.value.filter { it.isSelected }.map { it.categoryName }
+            val notificationEnabledCategories = categories.value.filter { it.isSelected }.map { it.categoryName }
             preferenceUtil.saveSubscriptionFromKorean(notificationEnabledCategories)
-            noticeRepository.saveSubscriptionToRemote(
-                token = fcmToken,
+            noticeRepository.saveSubscriptionToRemote(token = fcmToken,
                 subscribeCategories = notificationEnabledCategories.map { category ->
                     WordConverter.convertKoreanToEnglish(category)
-                }
-            )
+                })
         }
         viewModelScope.launch {
-            val subscribedDepartments =
-                departmentsByKoreanName.value.values.filter { it.isNotificationEnabled }
+            val subscribedDepartments = departmentsByKoreanName.value.values.filter { it.isNotificationEnabled }
             departmentRepository.saveSubscribedDepartmentsToRemote(subscribedDepartments)
         }
     }
@@ -193,16 +197,14 @@ class EditSubscriptionViewModel @Inject constructor(
         isSelected = isNotificationEnabled
     )
 
-    private fun Department.toggle() =
-        Department(name, shortName, koreanName, isSubscribed, isSelected, !isNotificationEnabled)
-
-    override fun onCleared() {
-        super.onCleared()
-
-        if (!disposable.isDisposed) {
-            disposable.dispose()
-        }
-    }
+    private fun Department.toggle() = Department(
+        name,
+        shortName,
+        koreanName,
+        isSubscribed,
+        isSelected,
+        !isNotificationEnabled
+    )
 
     companion object {
         private val className: String = EditSubscriptionViewModel::class.java.simpleName

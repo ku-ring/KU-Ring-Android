@@ -14,7 +14,6 @@ class RetrofitPlugin: Plugin<Project> {
             implementationPlatform(libs.library("retrofit-bom"))
             implementation(libs.library("retrofit"))
             implementation(libs.library("retrofit-converter-gson"))
-            implementation(libs.library("retrofit-adapter-rxjava3"))
         }
     }
 }

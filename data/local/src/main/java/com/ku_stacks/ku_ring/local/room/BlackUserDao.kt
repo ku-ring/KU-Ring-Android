@@ -5,14 +5,13 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.ku_stacks.ku_ring.local.entity.BlackUserEntity
-import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Single
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface BlackUserDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun blockUser(user: BlackUserEntity): Completable
+    suspend fun blockUser(user: BlackUserEntity)
 
     @Query("SELECT * FROM BlackUserEntity")
-    fun getBlackList(): Single<List<BlackUserEntity>>
+    fun getBlackList(): Flow<List<BlackUserEntity>>
 }
