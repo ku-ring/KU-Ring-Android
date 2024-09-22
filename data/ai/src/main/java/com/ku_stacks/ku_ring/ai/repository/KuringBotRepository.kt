@@ -40,6 +40,7 @@ interface KuringBotRepository {
      */
     suspend fun insertMessage(message: KuringBotMessage)
 
+    // TODO: 질문 횟수를 서버에서 받아오게 구현한 후 삭제
     /**
      * 지정된 기간 동안에 전송한 질문의 수를 반환한다.
      *
@@ -48,4 +49,11 @@ interface KuringBotRepository {
      * @return [from]부터 [to]까지 전송한 질문의 수 (inclusive)
      */
     suspend fun getQueryCount(from: LocalDate, to: LocalDate): Int
+
+    /**
+     * 남은 질문 횟수를 반환한다.
+     *
+     * @param token 사용자의 FCM 토큰
+     */
+    suspend fun getQueryCount(token: String): Int
 }

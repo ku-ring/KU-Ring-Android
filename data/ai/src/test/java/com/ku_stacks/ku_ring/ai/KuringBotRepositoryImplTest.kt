@@ -4,6 +4,7 @@ import com.ku_stacks.ku_ring.ai.repository.KuringBotRepository
 import com.ku_stacks.ku_ring.ai.repository.KuringBotRepositoryImpl
 import com.ku_stacks.ku_ring.local.room.KuringBotMessageDao
 import com.ku_stacks.ku_ring.remote.kuringbot.KuringBotClient
+import com.ku_stacks.ku_ring.remote.user.UserClient
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
@@ -13,13 +14,14 @@ import org.mockito.exceptions.base.MockitoException
 class KuringBotRepositoryImplTest {
     private val kuringBotClient = Mockito.mock(KuringBotClient::class.java)
     private val dao = Mockito.mock(KuringBotMessageDao::class.java)
+    private val userClient = Mockito.mock(UserClient::class.java)
     private lateinit var repository: KuringBotRepository
 
     private val query = "교내,외 장학금 및 학자금 대출 관련 전화번호들을 안내를 해줘"
 
     @Before
     fun setup() {
-        repository = KuringBotRepositoryImpl(kuringBotClient, dao)
+        repository = KuringBotRepositoryImpl(kuringBotClient, dao, userClient)
     }
 
     @Test

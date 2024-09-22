@@ -5,6 +5,7 @@ import com.ku_stacks.ku_ring.ai.mapper.toEntity
 import com.ku_stacks.ku_ring.domain.KuringBotMessage
 import com.ku_stacks.ku_ring.local.room.KuringBotMessageDao
 import com.ku_stacks.ku_ring.remote.kuringbot.KuringBotClient
+import com.ku_stacks.ku_ring.remote.user.UserClient
 import com.ku_stacks.ku_ring.util.toEpochSecond
 import java.time.LocalDate
 import javax.inject.Inject
@@ -12,6 +13,7 @@ import javax.inject.Inject
 class KuringBotRepositoryImpl @Inject constructor(
     private val kuringBotClient: KuringBotClient,
     private val kuringBotMessageDao: KuringBotMessageDao,
+    private val userClient: UserClient,
 ) : KuringBotRepository {
 
     override suspend fun openKuringBotSession(
@@ -40,6 +42,10 @@ class KuringBotRepositoryImpl @Inject constructor(
 
     override suspend fun getQueryCount(from: LocalDate, to: LocalDate): Int {
         return kuringBotMessageDao.getQueryCount(from.toEpochSecond(), to.toEpochSecond())
+    }
+
+    override suspend fun getQueryCount(token: String): Int {
+        return userClient.getKuringBotQueryCount(token)
     }
 
     companion object {
