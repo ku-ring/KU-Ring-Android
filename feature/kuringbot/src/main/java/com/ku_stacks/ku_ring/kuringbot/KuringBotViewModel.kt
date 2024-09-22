@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ku_stacks.ku_ring.ai.repository.KuringBotRepository
 import com.ku_stacks.ku_ring.domain.KuringBotMessage
+import com.ku_stacks.ku_ring.kuringbot.mapper.toUIMessages
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -14,12 +15,12 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
 class KuringBotViewModel @Inject constructor(
     private val kuringBotRepository: KuringBotRepository,
-    private val messageCounter: KuringBotMessageCounter,
     preferences: PreferenceUtil,
 ) : ViewModel() {
     private val token = preferences.fcmToken
@@ -40,8 +41,7 @@ class KuringBotViewModel @Inject constructor(
     }
 
     private fun addInitialMessages(messages: List<KuringBotMessage>) {
-        val uiMessages = messageCounter.convertInitialUIMessages(messages)
-        addUiMessages(uiMessages)
+        addUiMessages(messages.toUIMessages())
     }
 
     private fun addUiMessages(messages: List<KuringBotUIMessage>) {
@@ -92,16 +92,17 @@ class KuringBotViewModel @Inject constructor(
             response = response.copy(message = response.message + it)
             updateLastMessage(response)
         }
-        addUiMessage(messageCounter.calculateQuestionsRemaining(response.postedTime))
+
+        addQueryCountMessage()
 
         stopKuringBotJob(response)
     }
 
     private fun addUiMessage(message: KuringBotUIMessage) {
         addUiMessages(listOf(message))
-        if (message is KuringBotUIMessage.Question) {
-            messageCounter.increaseMessageCount(message.toDomain())
-        }
+//        if (message is KuringBotUIMessage.Question) {
+//            messageCounter.increaseMessageCount(message.toDomain())
+//        }
     }
 
     private suspend fun saveMessageToLocal(message: KuringBotUIMessage.Savable) =
@@ -116,6 +117,15 @@ class KuringBotViewModel @Inject constructor(
     private fun updateLastMessage(message: KuringBotUIMessage) {
         val newMessages = uiState.value.messages.dropLast(1) + message
         updateMessages(newMessages)
+    }
+
+    private suspend fun addQueryCountMessage() {
+        addUiMessage(
+            KuringBotUIMessage.QuestionsRemaining(
+                kuringBotRepository.getQueryCount(token),
+                LocalDate.now(),
+            )
+        )
     }
 
     private suspend fun stopKuringBotJob(response: KuringBotUIMessage.Response) {
@@ -138,8 +148,9 @@ class KuringBotViewModel @Inject constructor(
                 if (savable is KuringBotUIMessage.Response) {
                     saveMessageToLocal(savable)
                 }
-                addUiMessage(messageCounter.calculateQuestionsRemaining(savable.postedTime))
+//                addUiMessage(messageCounter.calculateQuestionsRemaining(savable.postedTime))
             }
+            addQueryCountMessage()
 
             stopKuringBotJob()
         }
