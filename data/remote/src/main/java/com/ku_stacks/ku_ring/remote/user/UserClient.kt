@@ -20,4 +20,12 @@ class UserClient @Inject constructor(
 
     suspend fun registerUser(token: String): DefaultResponse =
         userService.registerUser(RegisterUserRequest(token))
+
+    suspend fun getKuringBotQueryCount(token: String): Int {
+        return try {
+            userService.getKuringBotQueryCount(token).data.leftAskCount
+        } catch (e: Exception) {
+            0
+        }
+    }
 }
