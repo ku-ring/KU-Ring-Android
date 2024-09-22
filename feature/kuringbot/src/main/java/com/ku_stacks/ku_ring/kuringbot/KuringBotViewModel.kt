@@ -100,9 +100,6 @@ class KuringBotViewModel @Inject constructor(
 
     private fun addUiMessage(message: KuringBotUIMessage) {
         addUiMessages(listOf(message))
-//        if (message is KuringBotUIMessage.Question) {
-//            messageCounter.increaseMessageCount(message.toDomain())
-//        }
     }
 
     private suspend fun saveMessageToLocal(message: KuringBotUIMessage.Savable) =
@@ -148,7 +145,6 @@ class KuringBotViewModel @Inject constructor(
                 if (savable is KuringBotUIMessage.Response) {
                     saveMessageToLocal(savable)
                 }
-//                addUiMessage(messageCounter.calculateQuestionsRemaining(savable.postedTime))
             }
             addQueryCountMessage()
 

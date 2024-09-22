@@ -1,7 +1,6 @@
 package com.ku_stacks.ku_ring.ai.repository
 
 import com.ku_stacks.ku_ring.domain.KuringBotMessage
-import java.time.LocalDate
 
 interface KuringBotRepository {
     /**
@@ -39,16 +38,6 @@ interface KuringBotRepository {
      * @param message 로컬에 저장할 메시지
      */
     suspend fun insertMessage(message: KuringBotMessage)
-
-    // TODO: 질문 횟수를 서버에서 받아오게 구현한 후 삭제
-    /**
-     * 지정된 기간 동안에 전송한 질문의 수를 반환한다.
-     *
-     * @param from 기간의 시작
-     * @param to 기간의 끝
-     * @return [from]부터 [to]까지 전송한 질문의 수 (inclusive)
-     */
-    suspend fun getQueryCount(from: LocalDate, to: LocalDate): Int
 
     /**
      * 남은 질문 횟수를 반환한다.
