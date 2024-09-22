@@ -22,10 +22,8 @@ class UserClient @Inject constructor(
         userService.registerUser(RegisterUserRequest(token))
 
     suspend fun getKuringBotQueryCount(token: String): Int {
-        return try {
+        return runCatching {
             userService.getKuringBotQueryCount(token).data.leftAskCount
-        } catch (e: Exception) {
-            0
-        }
+        }.getOrElse { 0 }
     }
 }
