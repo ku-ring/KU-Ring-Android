@@ -38,6 +38,7 @@ import com.ku_stacks.ku_ring.kuringbot.R
 import com.ku_stacks.ku_ring.kuringbot.compose.components.*
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.Month
 
 @Composable
 internal fun KuringBotScreen(
@@ -357,13 +358,21 @@ private fun KuringBotScreenPreview() {
     }
 }
 
-private val previewMessages = listOf(
+private val previewMessages: List<KuringBotUIMessage> = listOf(
     KuringBotUIMessage.Question(
         message = "예시 질문".repeat(10),
-        postedTime = LocalDateTime.now(),
+        postedTime = LocalDateTime.of(2024, Month.JANUARY, 1, 12, 0),
     ),
     KuringBotUIMessage.Response(
         message = "예시 대답".repeat(10),
+        postedTime = LocalDateTime.of(2024, Month.JANUARY, 1, 12, 0),
+    ),
+    KuringBotUIMessage.Question(
+        message = "예시 질문",
+        postedTime = LocalDateTime.now(),
+    ),
+    KuringBotUIMessage.Response(
+        message = "예시 대답",
         postedTime = LocalDateTime.now(),
     ),
     KuringBotUIMessage.QuestionsRemaining(
@@ -381,7 +390,7 @@ private val previewMessages = listOf(
     KuringBotUIMessage.QuestionsRemaining(
         questionsRemaining = 0,
         postedTime = LocalDate.now(),
-    )
+    ),
 )
 
 @LightAndDarkPreview
