@@ -12,7 +12,6 @@ plugins {
 
 val keystorePropertiesFile = rootProject.file("app/signing/keystore.properties")
 val keystoreFile = rootProject.file("app/signing/ku_ring_keystore.jks")
-val localPropertiesFile = rootProject.file("local.properties")
 
 android {
     namespace = "com.ku_stacks.ku_ring"
@@ -38,24 +37,6 @@ android {
     defaultConfig {
         applicationId = "com.ku_stacks.ku_ring"
 
-        val localProperties = Properties()
-        localProperties.load(FileInputStream(localPropertiesFile))
-
-        buildConfigField(
-            "String",
-            "APPS_FLYER_DEV_KEY",
-            localProperties["APPS_FLYER_DEV_KEY"] as? String ?: ""
-        )
-        buildConfigField(
-            "String",
-            "SENDBIRD_APP_ID",
-            localProperties["SENDBIRD_APP_ID"] as? String ?: ""
-        )
-        buildConfigField(
-            "String",
-            "SENDBIRD_API_TOKEN",
-            localProperties["SENDBIRD_API_TOKEN"] as? String ?: ""
-        )
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments(mapOf("room.schemaLocation" to "$projectDir/schemas"))
