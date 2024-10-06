@@ -23,7 +23,7 @@ class CategoryNoticeViewModel @Inject constructor(
     private val articleIds = mutableSetOf<String>()
 
     fun getNotices(shortCategory: String) {
-        _noticesFlow.value = noticeRepository.getNotices(shortCategory, viewModelScope)
+        _noticesFlow.value = noticeRepository.getNotices(shortCategory)
     }
 
     fun insertNoticeToLocal(notice: Notice) {
