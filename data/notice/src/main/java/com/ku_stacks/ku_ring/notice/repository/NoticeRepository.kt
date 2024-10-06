@@ -2,7 +2,6 @@ package com.ku_stacks.ku_ring.notice.repository
 
 import androidx.paging.PagingData
 import com.ku_stacks.ku_ring.domain.Notice
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 
 interface NoticeRepository {
@@ -13,10 +12,7 @@ interface NoticeRepository {
      * @return 공지 페이징 객체
      */
     fun getNotices(categoryShortName: String): Flow<PagingData<Notice>>
-    fun getNotices(type: String, scope: CoroutineScope): Flow<PagingData<Notice>>
     fun getSavedNotices(): Flow<List<Notice>>
-    suspend fun insertNotice(notice: Notice)
-    suspend fun insertNoticeAsOld(notice: Notice)
     suspend fun updateNoticeToBeRead(articleId: String, category: String)
     suspend fun updateSavedStatus(articleId: String, category: String, isSaved: Boolean)
     suspend fun updateNoticeToBeReadOnStorage(articleId: String, category: String)

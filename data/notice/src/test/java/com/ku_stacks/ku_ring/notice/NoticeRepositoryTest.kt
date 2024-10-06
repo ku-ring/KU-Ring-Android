@@ -2,7 +2,6 @@ package com.ku_stacks.ku_ring.notice
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.ku_stacks.ku_ring.local.room.NoticeDao
-import com.ku_stacks.ku_ring.notice.mapper.toNotice
 import com.ku_stacks.ku_ring.notice.repository.NoticeRepository
 import com.ku_stacks.ku_ring.notice.repository.NoticeRepositoryImpl
 import com.ku_stacks.ku_ring.notice.test.NoticeTestUtil
@@ -49,16 +48,6 @@ class NoticeRepositoryTest {
     @After
     fun tearDown() {
         Dispatchers.resetMain()
-    }
-
-    @Test
-    fun `insert Notice As Old Test`() = runTest {
-        // given
-        val mockData = NoticeTestUtil.fakeNoticeEntity()
-        dao.insertNoticeAsOld(mockData)
-
-        // when + then
-        repository.insertNoticeAsOld(mockData.toNotice())
     }
 
     @Test
