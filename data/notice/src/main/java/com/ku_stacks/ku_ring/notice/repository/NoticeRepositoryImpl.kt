@@ -1,17 +1,13 @@
 package com.ku_stacks.ku_ring.notice.repository
 
-import androidx.paging.ExperimentalPagingApi
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import androidx.paging.cachedIn
-import androidx.paging.map
+import androidx.paging.*
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.local.entity.NoticeEntity
 import com.ku_stacks.ku_ring.local.room.NoticeDao
 import com.ku_stacks.ku_ring.notice.mapper.toEntity
 import com.ku_stacks.ku_ring.notice.mapper.toNotice
 import com.ku_stacks.ku_ring.notice.mapper.toNoticeList
+import com.ku_stacks.ku_ring.notice.source.CategoryNoticeMediator
 import com.ku_stacks.ku_ring.notice.source.DepartmentNoticeMediator
 import com.ku_stacks.ku_ring.notice.source.NoticePagingSource
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
@@ -19,18 +15,11 @@ import com.ku_stacks.ku_ring.remote.notice.NoticeClient
 import com.ku_stacks.ku_ring.remote.notice.request.SubscribeRequest
 import com.ku_stacks.ku_ring.util.DateUtil
 import com.ku_stacks.ku_ring.util.IODispatcher
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flatMapConcat
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.withContext
+import com.ku_stacks.ku_ring.util.WordConverter
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
+import kotlin.collections.set
 
 class NoticeRepositoryImpl @Inject constructor(
     private val noticeClient: NoticeClient,
@@ -40,17 +29,35 @@ class NoticeRepositoryImpl @Inject constructor(
 ) : NoticeRepository {
     private val isNewRecordHashMap = HashMap<String, NoticeEntity>()
 
+    @OptIn(ExperimentalPagingApi::class)
+    override fun getNotices(categoryShortName: String): Flow<PagingData<Notice>> {
+        val pagingSourceFactory = {
+            noticeDao.getNotices(WordConverter.convertShortNameToFullName(categoryShortName))
+        }
+        return Pager(
+            config = PagingConfig(pageSize = PAGE_SIZE, enablePlaceholders = true),
+            remoteMediator = CategoryNoticeMediator(
+                categoryShortName,
+                noticeClient,
+                noticeDao,
+                pref,
+            ),
+            pagingSourceFactory = pagingSourceFactory,
+        ).flow.map { noticeEntityPagingData -> noticeEntityPagingData.map { it.toNotice() } }
+    }
+
     @OptIn(ExperimentalCoroutinesApi::class)
     override fun getNotices(
         type: String,
         scope: CoroutineScope
     ): Flow<PagingData<Notice>> {
-        val flowableRemote = getSingleLocalNotice().flatMapConcat { getFlowableRemoteNotice(type) }.map {
-            transformRemoteData(
-                it,
-                type
-            )
-        }.cachedIn(scope)
+        val flowableRemote =
+            getSingleLocalNotice().flatMapConcat { getFlowableRemoteNotice(type) }.map {
+                transformRemoteData(
+                    it,
+                    type
+                )
+            }.cachedIn(scope)
 
         /**
         하나의 insert에 대해서 2개 또는 3개의 변화 감지가 발생할 것임.
@@ -64,7 +71,8 @@ class NoticeRepositoryImpl @Inject constructor(
             old.size == new.size
         }
 
-        val savedPublisherLocal = noticeDao.getNoticesBySaved(true).map { notices -> notices.map { it.articleId } }
+        val savedPublisherLocal =
+            noticeDao.getNoticesBySaved(true).map { notices -> notices.map { it.articleId } }
 
         return combine(
             flowableRemote,
@@ -247,15 +255,17 @@ class NoticeRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getNoticeSearchResult(query: String): List<Notice> = withContext(Dispatchers.IO) {
-        val result = noticeClient.fetchNoticeList(query).takeIf { it.isSuccess }?.toNoticeList() ?: emptyList()
+    override suspend fun getNoticeSearchResult(query: String): List<Notice> =
+        withContext(Dispatchers.IO) {
+            val result = noticeClient.fetchNoticeList(query).takeIf { it.isSuccess }?.toNoticeList()
+                ?: emptyList()
 
-        val savedArticleIdSet = noticeDao.getSavedNoticeList(true).map { it.articleId }.toSet()
+            val savedArticleIdSet = noticeDao.getSavedNoticeList(true).map { it.articleId }.toSet()
 
-        result.map {
-            it.copy(isSaved = savedArticleIdSet.contains(it.articleId))
+            result.map {
+                it.copy(isSaved = savedArticleIdSet.contains(it.articleId))
+            }
         }
-    }
 
     companion object {
         private const val PAGE_SIZE = 20
