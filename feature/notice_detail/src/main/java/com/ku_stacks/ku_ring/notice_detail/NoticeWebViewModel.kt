@@ -35,6 +35,10 @@ class NoticeWebViewModel @Inject constructor(
         viewModelScope.launch {
             runCatching {
                 noticeRepository.updateNoticeToBeReadOnStorage(webViewNotice.articleId, webViewNotice.category)
+                noticeRepository.updateNoticeToBeRead(
+                    webViewNotice.articleId,
+                    webViewNotice.category
+                )
             }.onFailure {
                 Timber.e(it)
             }

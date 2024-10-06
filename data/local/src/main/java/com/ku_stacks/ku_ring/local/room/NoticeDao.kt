@@ -16,6 +16,24 @@ interface NoticeDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertNotice(notice: NoticeEntity)
 
+    // TODO: 하단 getDepartmentNotices의 use case를 모두 이 함수로 대체하기 (이름만 다른 동일한 함수임)
+    /**
+     * 공지를 삽입한다. 이미 저장되어 있는 공지는 덮어쓰지 않는다.
+     *
+     * @param notices 삽입할 공지
+     */
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertNotices(notices: List<NoticeEntity>)
+
+    /**
+     * 카테고리 공지를 페이징 객체의 형태로 가져온다.
+     *
+     * @param categoryName 카테고리 이름
+     * @return 주어진 카테고리 공지의 페이징 객체
+     */
+    @Query("SELECT * FROM NoticeEntity WHERE category = :categoryName ORDER BY isImportant, postedDate DESC, articleId DESC")
+    fun getNotices(categoryName: String): PagingSource<Int, NoticeEntity>
+
     @Query("SELECT * FROM NoticeEntity ORDER BY isImportant")
     fun getOldNoticeList(): Flow<List<NoticeEntity>>
 

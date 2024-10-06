@@ -55,7 +55,6 @@ internal fun CategoryNoticeScreen(
         onNoticeClick = onNoticeClick,
         refreshState = refreshState,
         isRefreshing = isRefreshing,
-        onNoticeShown = viewModel::insertNoticeToLocal,
         modifier = modifier,
     )
 }
@@ -67,7 +66,6 @@ private fun CategoryNoticeScreenContents(
     onNoticeClick: (Notice) -> Unit,
     refreshState: PullRefreshState,
     isRefreshing: Boolean,
-    onNoticeShown: (Notice) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Box(modifier = modifier) {
@@ -79,8 +77,6 @@ private fun CategoryNoticeScreenContents(
                 .pullRefresh(refreshState),
             // TODO: 일단 비중요 공지만 보여주고, 나중에 정책이 결정되면 다시 수정하기
             noticeFilter = { !it.isImportant },
-            // TODO: see CategoryNoticeViewModel.insertNoticeToLocal
-            onNoticeShown = onNoticeShown,
         )
 
         PullRefreshIndicator(
