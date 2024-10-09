@@ -55,7 +55,7 @@ retrofit = '2.11.0'
 firebase = '33.4.0'
 crashlytics = "3.0.2"
 lottie = "6.5.2"
-ktor = "3.0.0-rc-2"
+ktor = "3.0.0"
 
 [libraries]
 # Project-level dependencies
