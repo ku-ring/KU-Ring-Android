@@ -3,12 +3,7 @@ package com.ku_stacks.ku_ring.notice.test
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.local.entity.NoticeEntity
 import com.ku_stacks.ku_ring.remote.notice.request.SubscribeRequest
-import com.ku_stacks.ku_ring.remote.notice.response.CategoryResponse
-import com.ku_stacks.ku_ring.remote.notice.response.DepartmentNoticeListResponse
-import com.ku_stacks.ku_ring.remote.notice.response.DepartmentNoticeResponse
-import com.ku_stacks.ku_ring.remote.notice.response.NoticeListResponse
-import com.ku_stacks.ku_ring.remote.notice.response.NoticeResponse
-import com.ku_stacks.ku_ring.remote.notice.response.SubscribeListResponse
+import com.ku_stacks.ku_ring.remote.notice.response.*
 import com.ku_stacks.ku_ring.remote.util.DefaultResponse
 
 object NoticeTestUtil {
@@ -74,6 +69,12 @@ object NoticeTestUtil {
         subject = "2023학년도 전과 선발자 안내",
         postedDate = "20230208",
         url = "http://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do?forum=notice&sort=6&id=5b4f972&cat=0000300001",
+    )
+
+    fun fakeEmptyNoticeListResponse() = NoticeListResponse(
+        resultMsg = "성공",
+        resultCode = 200,
+        noticeResponse = emptyList(),
     )
 
     fun fakeDepartmentNoticeListResponse(dataSize: Int) = DepartmentNoticeListResponse(

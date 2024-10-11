@@ -49,4 +49,28 @@ object WordConverter {
             else -> str
         }
     }
+
+    /**
+     * 짧은 형태의 카테고리 이름을 완전한 형식으로 변환한다.
+     * 지원하는 짧은 이름은 `bch`, `sch`, `emp`, `nat`, `stu`, `ind`, `nor`, `lib`, `dep`이다.
+     *
+     * 지원하는 이름 외의 문자열이 입력으로 주어지면, 입력을 그대로 반환한다.
+     *
+     * @param str 짧은 카테고리 이름
+     * @return 완전한 카테고리 이름
+     */
+    fun convertShortNameToFullName(str: String): String {
+        return when (str) {
+            "bch" -> "bachelor"
+            "sch" -> "scholarship"
+            "emp" -> "employment"
+            "nat" -> "national"
+            "stu" -> "student"
+            "ind" -> "industry_university"
+            "nor" -> "normal"
+            "lib" -> "library"
+            "dep" -> "department"
+            else -> str
+        }
+    }
 }

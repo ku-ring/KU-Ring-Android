@@ -13,15 +13,12 @@ class NoticeClient @Inject constructor(
 ) {
     suspend fun fetchNoticeList(
         type: String,
-        offset: Int,
-        max: Int
-    ): NoticeListResponse = noticeService.fetchNoticeList(
-        type,
-        offset,
-        max
-    )
+        page: Int,
+        size: Int
+    ): NoticeListResponse = noticeService.fetchNoticeList(type, page, size)
 
-    suspend fun fetchSubscribe(token: String): SubscribeListResponse = noticeService.fetchSubscribeList(token)
+    suspend fun fetchSubscribe(token: String): SubscribeListResponse =
+        noticeService.fetchSubscribeList(token)
 
     suspend fun saveSubscribe(
         token: String,
