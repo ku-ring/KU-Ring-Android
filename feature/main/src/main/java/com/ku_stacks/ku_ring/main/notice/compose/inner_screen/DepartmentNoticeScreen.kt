@@ -2,34 +2,14 @@ package com.ku_stacks.ku_ring.main.notice.compose.inner_screen
 
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
-import androidx.compose.material.ModalBottomSheetLayout
-import androidx.compose.material.ModalBottomSheetState
-import androidx.compose.material.ModalBottomSheetValue
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.PullRefreshState
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
-import androidx.compose.material.rememberModalBottomSheetState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -84,7 +64,7 @@ internal fun DepartmentNoticeScreen(
 
     when (departmentNoticeScreenState) {
         DepartmentNoticeScreenState.InitialLoading -> {
-            Box(modifier = modifier) {
+            Box(modifier = modifier.background(KuringTheme.colors.background)) {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             }
         }
@@ -92,7 +72,7 @@ internal fun DepartmentNoticeScreen(
         DepartmentNoticeScreenState.DepartmentsEmpty -> {
             DepartmentEmptyScreen(
                 onNavigateToEditDepartment = onNavigateToEditDepartment,
-                modifier = modifier,
+                modifier = modifier.background(KuringTheme.colors.background),
             )
         }
 
