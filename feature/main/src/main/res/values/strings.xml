@@ -70,6 +70,8 @@
     <string name="setting_information_service_terms">서비스 이용약관</string>
     <string name="setting_information_open_sources">사용된 오픈소스</string>
 
+    <string name="setting_kuring_members">Designed by 김예은, 이소영, 조혜준.\nDeveloped by 명우영, 이석준, 이현우\nManaged by 채수빈</string>
+
     <string name="setting_sns_title">SNS</string>
     <string name="setting_sns_instagram">인스타그램</string>
 
