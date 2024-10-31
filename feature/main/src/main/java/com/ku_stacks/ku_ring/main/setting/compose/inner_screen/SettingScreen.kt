@@ -9,14 +9,19 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.components.topbar.CenterTitleTopBar
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.setting.compose.groups.FeedbackGroup
 import com.ku_stacks.ku_ring.main.setting.compose.groups.InformationGroup
@@ -63,6 +68,7 @@ internal fun SettingScreen(
                 onNavigateToOpenSources = onNavigateToOpenSources,
             )
             SettingScreenDivider()
+            KuringMemberText()
             SocialNetworkServiceGroup(onNavigateToKuringInstagram = onNavigateToKuringInstagram)
             SettingScreenDivider()
             FeedbackGroup(onNavigateToFeedback = onNavigateToFeedback)
@@ -80,6 +86,21 @@ private fun SettingScreenDivider(modifier: Modifier = Modifier) {
             .background(KuringTheme.colors.borderline)
             .height(1.dp)
             .fillMaxWidth(),
+    )
+}
+
+@Composable
+private fun KuringMemberText(modifier: Modifier = Modifier) {
+    Text(
+        text = stringResource(R.string.setting_kuring_members),
+        style = TextStyle(
+            fontSize = 12.sp,
+            fontFamily = Pretendard,
+            fontWeight = FontWeight(400),
+            color = KuringTheme.colors.textCaption1,
+            letterSpacing = 0.15.sp,
+        ),
+        modifier = modifier.padding(20.dp)
     )
 }
 
