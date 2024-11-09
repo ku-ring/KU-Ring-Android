@@ -1,5 +1,6 @@
 package com.ku_stacks.ku_ring.remote.library.di
 
+import com.ku_stacks.ku_ring.remote.library.LibraryClient
 import com.ku_stacks.ku_ring.remote.library.LibraryService
 import dagger.Module
 import dagger.Provides
@@ -16,4 +17,10 @@ object LibraryModule {
     @Singleton
     fun provideLibraryService(@Named("Library") retrofit: Retrofit): LibraryService
         = retrofit.create(LibraryService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideLibraryClient(libraryService: LibraryService): LibraryClient
+        = LibraryClient(libraryService)
+
 }
