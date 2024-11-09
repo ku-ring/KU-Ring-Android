@@ -51,3 +51,4 @@ include(
     ":feature:kuringbot",
     ":feature:edit_departments"
 )
+include(":data:library")
