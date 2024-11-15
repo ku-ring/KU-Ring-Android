@@ -32,6 +32,7 @@ include(
     ":data:staff",
     ":data:department",
     ":data:department:test",
+    ":data:library",
     ":data:local",
     ":data:local:test",
     ":data:remote",
@@ -51,4 +52,3 @@ include(
     ":feature:kuringbot",
     ":feature:edit_departments"
 )
-include(":data:library")
