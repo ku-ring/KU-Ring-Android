@@ -42,8 +42,8 @@ jobs:
       
     # Build Debug App
     - name: Build with Gradle
-      run: ./gradlew :app:assembleDebug -PisCI=true
+      run: ./gradlew :app:assembleDebug
       
     # Run unit test
     - name: Run unit test
-      run: ./gradlew testdebugUnitTest
+      run: ./gradlew testDebugUnitTest
