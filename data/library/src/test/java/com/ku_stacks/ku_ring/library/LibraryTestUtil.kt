@@ -18,7 +18,7 @@ object LibraryTestUtil {
             libraryRooms = listOf(
                 LibraryRoomResponse(
                     id = 102,
-                    roomName = "제 1 열람실 (23구역)",
+                    roomName = "제 1 열람실 (A구역)",
                     roomType = LibraryRoomTypeResponse(
                         id = 1,
                         roomName = "열람실",

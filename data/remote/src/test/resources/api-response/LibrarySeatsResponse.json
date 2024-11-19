@@ -1,0 +1,185 @@
+{
+    "success": true,
+    "code": "success.retrieved",
+    "message": "조회되었습니다.",
+    "data": {
+        "totalCount": 7,
+        "list": [
+            {
+                "id": 102,
+                "name": "제 1열람실 (A구역)",
+                "roomType": {
+                    "id": 4,
+                    "name": "열람실",
+                    "sortOrder": 1
+                },
+                "awaitable": false,
+                "isChargeable": true,
+                "branch": {
+                    "id": 1,
+                    "name": "상허기념도서관",
+                    "alias": "상허",
+                    "libraryCode": "211004",
+                    "sortOrder": 1
+                },
+                "unableMessage": null,
+                "seats": {
+                    "total": 219,
+                    "occupied": 177,
+                    "waiting": 0,
+                    "available": 42
+                }
+            },
+            {
+                "id": 101,
+                "name": "제 1열람실 (B구역)",
+                "roomType": {
+                    "id": 4,
+                    "name": "열람실",
+                    "sortOrder": 1
+                },
+                "awaitable": false,
+                "isChargeable": true,
+                "branch": {
+                    "id": 1,
+                    "name": "상허기념도서관",
+                    "alias": "상허",
+                    "libraryCode": "211004",
+                    "sortOrder": 1
+                },
+                "unableMessage": null,
+                "seats": {
+                    "total": 189,
+                    "occupied": 147,
+                    "waiting": 0,
+                    "available": 42
+                }
+            },
+            {
+                "id": 103,
+                "name": "제 2 열람실",
+                "roomType": {
+                    "id": 4,
+                    "name": "열람실",
+                    "sortOrder": 1
+                },
+                "awaitable": false,
+                "isChargeable": true,
+                "branch": {
+                    "id": 1,
+                    "name": "상허기념도서관",
+                    "alias": "상허",
+                    "libraryCode": "211004",
+                    "sortOrder": 1
+                },
+                "unableMessage": null,
+                "seats": {
+                    "total": 147,
+                    "occupied": 64,
+                    "waiting": 0,
+                    "available": 83
+                }
+            },
+            {
+                "id": 104,
+                "name": "제 3열람실 (A구역)",
+                "roomType": {
+                    "id": 4,
+                    "name": "열람실",
+                    "sortOrder": 1
+                },
+                "awaitable": false,
+                "isChargeable": true,
+                "branch": {
+                    "id": 1,
+                    "name": "상허기념도서관",
+                    "alias": "상허",
+                    "libraryCode": "211004",
+                    "sortOrder": 1
+                },
+                "unableMessage": null,
+                "seats": {
+                    "total": 332,
+                    "occupied": 72,
+                    "waiting": 0,
+                    "available": 260
+                }
+            },
+            {
+                "id": 105,
+                "name": "제 3열람실 (B구역)",
+                "roomType": {
+                    "id": 4,
+                    "name": "열람실",
+                    "sortOrder": 1
+                },
+                "awaitable": false,
+                "isChargeable": true,
+                "branch": {
+                    "id": 1,
+                    "name": "상허기념도서관",
+                    "alias": "상허",
+                    "libraryCode": "211004",
+                    "sortOrder": 1
+                },
+                "unableMessage": null,
+                "seats": {
+                    "total": 284,
+                    "occupied": 54,
+                    "waiting": 0,
+                    "available": 230
+                }
+            },
+            {
+                "id": 106,
+                "name": "제 4 열람실",
+                "roomType": {
+                    "id": 4,
+                    "name": "열람실",
+                    "sortOrder": 1
+                },
+                "awaitable": false,
+                "isChargeable": true,
+                "branch": {
+                    "id": 1,
+                    "name": "상허기념도서관",
+                    "alias": "상허",
+                    "libraryCode": "211004",
+                    "sortOrder": 1
+                },
+                "unableMessage": null,
+                "seats": {
+                    "total": 172,
+                    "occupied": 15,
+                    "waiting": 0,
+                    "available": 157
+                }
+            },
+            {
+                "id": 107,
+                "name": "제 5 열람실",
+                "roomType": {
+                    "id": 4,
+                    "name": "열람실",
+                    "sortOrder": 1
+                },
+                "awaitable": false,
+                "isChargeable": true,
+                "branch": {
+                    "id": 1,
+                    "name": "상허기념도서관",
+                    "alias": "상허",
+                    "libraryCode": "211004",
+                    "sortOrder": 1
+                },
+                "unableMessage": null,
+                "seats": {
+                    "total": 168,
+                    "occupied": 27,
+                    "waiting": 0,
+                    "available": 141
+                }
+            }
+        ]
+    }
+}
