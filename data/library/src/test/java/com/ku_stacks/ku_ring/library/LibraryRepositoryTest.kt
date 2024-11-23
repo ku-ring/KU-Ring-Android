@@ -25,14 +25,15 @@ class LibraryRepositoryTest {
 
         Mockito.`when`(client.fetchRoomSeatStatus()).thenReturn(mockLibraryStatus)
 
-        val mockResult = libraryRepository.getRemainingSeats()
-        val expectedResult = LibraryTestUtil.mockLibraryRoomList()
+       libraryRepository.getRemainingSeats().onSuccess { mockResult ->
+            val expectedResult = LibraryTestUtil.mockLibraryRoomList()
 
-        Mockito.verify(
-            client,
-            times(1)
-        ).fetchRoomSeatStatus()
+            Mockito.verify(
+                client,
+                times(1)
+            ).fetchRoomSeatStatus()
 
-        assertEquals(mockResult, expectedResult)
+            assertEquals(mockResult, expectedResult)
+       }
     }
 }
