@@ -6,5 +6,5 @@ data class LibraryRoomListResponse(
     @SerializedName(value = "totalCount")
     val resultCount: Int,
     @SerializedName(value = "list")
-    val libraryRooms: List<LibraryRoomResponse>
+    val libraryRooms: List<LibraryRoomResponse>,
 )

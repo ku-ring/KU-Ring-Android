@@ -10,5 +10,5 @@ data class LibraryRoomSeatResponse(
     @SerializedName("waiting")
     val waiting: Int,
     @SerializedName("available")
-    val available: Int
+    val available: Int,
 )

@@ -12,5 +12,5 @@ data class LibraryRoomBranchResponse (
     @SerializedName("libraryCode")
     val libraryCode: String,
     @SerializedName("sortOrder")
-    val sortOrder: Int
+    val sortOrder: Int,
 )

@@ -18,5 +18,5 @@ data class LibraryRoomResponse(
     @SerializedName("unableMessage")
     val unableMessage: String?,
     @SerializedName("seats")
-    val seats: LibraryRoomSeatResponse
+    val seats: LibraryRoomSeatResponse,
 )

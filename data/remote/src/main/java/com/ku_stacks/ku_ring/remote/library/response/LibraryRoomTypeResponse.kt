@@ -8,5 +8,5 @@ data class LibraryRoomTypeResponse(
     @SerializedName("name")
     val roomName: String,
     @SerializedName("sortOrder")
-    val sortOrder: Int
+    val sortOrder: Int,
 )
