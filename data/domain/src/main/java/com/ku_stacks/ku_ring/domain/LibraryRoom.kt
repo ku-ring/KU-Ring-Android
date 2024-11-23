@@ -4,5 +4,5 @@ data class LibraryRoom(
     val name: String,
     val totalSeats: Int,
     val occupiedSeats: Int,
-    val availableSeats: Int
+    val availableSeats: Int,
 )
