@@ -71,4 +71,15 @@ object NetworkModule {
         }
         return KuringBotSSEClient(client)
     }
+
+    @Provides
+    @Singleton
+    @Named("Library")
+    fun provideLibraryRetrofit(@Named("Default") okHttpClient: OkHttpClient): Retrofit {
+        return Retrofit.Builder()
+            .client(okHttpClient)
+            .baseUrl("https://library.konkuk.ac.kr/pyxis-api/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
 }

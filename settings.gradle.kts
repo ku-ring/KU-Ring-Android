@@ -32,6 +32,7 @@ include(
     ":data:staff",
     ":data:department",
     ":data:department:test",
+    ":data:library",
     ":data:local",
     ":data:local:test",
     ":data:remote",
