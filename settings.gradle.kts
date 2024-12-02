@@ -43,6 +43,7 @@ include(
     ":core:testUtil",
     ":feature:edit_subscription",
     ":feature:feedback",
+    ":feature:library",
     ":feature:notice_detail",
     ":feature:notion",
     ":feature:onboarding",
