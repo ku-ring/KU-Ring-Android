@@ -12,6 +12,7 @@ import com.ku_stacks.ku_ring.edit_departments.EditDepartmentsActivity
 import com.ku_stacks.ku_ring.edit_subscription.EditSubscriptionActivity
 import com.ku_stacks.ku_ring.feedback.feedback.FeedbackActivity
 import com.ku_stacks.ku_ring.kuringbot.KuringBotActivity
+import com.ku_stacks.ku_ring.library.LibrarySeatActivity
 import com.ku_stacks.ku_ring.main.MainActivity
 import com.ku_stacks.ku_ring.main.search.SearchActivity
 import com.ku_stacks.ku_ring.notice_detail.NoticeWebActivity
@@ -94,5 +95,9 @@ class KuringNavigatorImpl @Inject constructor() : KuringNavigator {
 
     override fun navigateToKuringBot(context: Context) {
         KuringBotActivity.start(context)
+    }
+
+    override fun navigateToLibrarySeat(activity: Activity) {
+        LibrarySeatActivity.start(activity)
     }
 }

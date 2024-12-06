@@ -28,4 +28,5 @@ interface KuringNavigator {
     fun navigateToSplash(activity: Activity)
     fun navigateToOssLicensesMenu(activity: Activity)
     fun navigateToKuringBot(context: Context)
+    fun navigateToLibrarySeat(activity: Activity)
 }
