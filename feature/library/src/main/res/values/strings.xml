@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="library_seats_available_ratio">%s / %s</string>
+    <string name="library_seats_title">도서관 잔여좌석</string>
+    <string name="library_seats_description">도서관 잔여좌석을 확인할 수 있어요.\n열람실 예약하러가기 버튼을 누르면 \n도서관 앱으로 이동해요.</string>
+    <string name="library_seats_button_reservation">예약하기</string>
+</resources>
