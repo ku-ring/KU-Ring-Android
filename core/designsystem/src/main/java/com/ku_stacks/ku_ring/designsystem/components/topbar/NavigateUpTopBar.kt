@@ -22,13 +22,14 @@ import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 /**
  * 뒤로 가기 버튼만 포함하는 탑바.
  *
- * @param onNavigationClick 뒤로 가기 버튼을 눌렀을 때 발생시킬 이벤트
+ * @param navigationIconId 아이콘 아이디
+ * @param onNavigationIconClick 아이콘 버튼을 눌렀을 때 발생시킬 이벤트
  * @param modifier 적용할 [Modifier]
  */
 @Composable
 fun NavigateUpTopBar(
-    onNavigationIconClick: () -> Unit,
     @DrawableRes navigationIconId: Int,
+    onNavigationIconClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val interaction = remember { MutableInteractionSource() }
