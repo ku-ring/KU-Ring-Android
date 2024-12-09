@@ -15,6 +15,10 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -37,10 +41,13 @@ internal fun LibrarySeatScreen(
     onReservationButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    var isLoading by remember { mutableStateOf(false) }
+
     LibrarySeatScreen(
         onBackButtonClick = onBackButtonClick,
         onReservationButtonClick = onReservationButtonClick,
-        onStatusReloadButtonClick = {},
+        onStatusReloadButtonClick = { isLoading = !isLoading },
+        isLoading = isLoading,
         modifier = modifier,
         seatStatus = emptyList()
     )
@@ -48,11 +55,12 @@ internal fun LibrarySeatScreen(
 
 @Composable
 private fun LibrarySeatScreen(
+    isLoading: Boolean,
+    seatStatus: List<LibraryRoom>,
     onBackButtonClick: () -> Unit,
     onReservationButtonClick: () -> Unit,
     onStatusReloadButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
-    seatStatus: List<LibraryRoom>
 ) {
     Scaffold(
         topBar = {
@@ -69,7 +77,8 @@ private fun LibrarySeatScreen(
         },
         floatingActionButton = {
             SeatStatusReloadFab(
-                onClick = onStatusReloadButtonClick
+                onClick = onStatusReloadButtonClick,
+                isLoading = isLoading
             )
         },
         containerColor = KuringTheme.colors.background,
@@ -135,11 +144,14 @@ private const val GRID_CELLS_NUM = 2
 @LightAndDarkPreview
 @Composable
 private fun LibrarySeatScreenPreview() {
+    var isLoading by remember { mutableStateOf(false) }
+
     KuringTheme {
         LibrarySeatScreen(
             onBackButtonClick = {},
             onReservationButtonClick = {},
-            onStatusReloadButtonClick = {},
+            onStatusReloadButtonClick = { isLoading = !isLoading},
+            isLoading = isLoading,
             seatStatus = listOf(
                 LibraryRoom(
                     name = "제 1열람실 (A구역)",
