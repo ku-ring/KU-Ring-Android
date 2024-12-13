@@ -1,7 +1,7 @@
 [versions]
 # project-level dependency
 android-gradle = "8.7.3"
-kotlin = '2.0.21'
+kotlin = '2.1.0'
 ksp = '2.0.21-1.0.27'
 hilt = '2.53.1'
 google-services = '4.4.2'
