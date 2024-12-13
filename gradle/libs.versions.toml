@@ -170,7 +170,7 @@ okhttp-mockwebserver = { module = 'com.squareup.okhttp3:mockwebserver' }
 
 # Play Services
 play-services-oss-licenses = 'com.google.android.gms:play-services-oss-licenses:17.1.0'
-play-services-auth = 'com.google.android.gms:play-services-auth:21.2.0'
+play-services-auth = 'com.google.android.gms:play-services-auth:21.3.0'
 
 # Retrofit
 retrofit-bom = { module = 'com.squareup.retrofit2:retrofit-bom', version.ref = 'retrofit' }
