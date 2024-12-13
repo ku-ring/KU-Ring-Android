@@ -150,7 +150,7 @@ private fun LibrarySeatScreenPreview() {
         LibrarySeatScreen(
             onBackButtonClick = {},
             onReservationButtonClick = {},
-            onStatusReloadButtonClick = { isLoading = !isLoading},
+            onStatusReloadButtonClick = { isLoading = !isLoading },
             isLoading = isLoading,
             seatStatus = listOf(
                 LibraryRoom(
