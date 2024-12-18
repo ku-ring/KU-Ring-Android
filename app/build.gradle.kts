@@ -89,6 +89,7 @@ dependencies {
     implementation(projects.feature.splash)
     implementation(projects.feature.main)
     implementation(projects.feature.kuringbot)
+    implementation(projects.feature.library)
 
     implementation(libs.androidx.startup.runtime)
     testImplementation(libs.kotlinx.coroutines.test)
