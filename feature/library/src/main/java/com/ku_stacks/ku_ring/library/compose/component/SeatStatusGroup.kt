@@ -33,9 +33,7 @@ internal fun SeatStatusGroup(
             .background(color = KuringTheme.colors.background),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Box(
-            contentAlignment = Alignment.Center
-        ) {
+        Box(contentAlignment = Alignment.Center) {
             CircularProgressIndicator(
                 progress = occupiedSeat / totalSeat.toFloat(),
                 color = KuringTheme.colors.gray100,
@@ -52,6 +50,7 @@ internal fun SeatStatusGroup(
                 Text(
                     text = availableSeat.toString(),
                     style = TextStyle.Default.copy(
+                        fontFamily = Pretendard,
                         fontSize = 24.sp,
                         fontWeight = FontWeight.SemiBold,
                         lineHeight = (24 * 1.5).sp,
@@ -61,6 +60,7 @@ internal fun SeatStatusGroup(
                 Text(
                     text = stringResource(R.string.library_seats_available_ratio, occupiedSeat, totalSeat),
                     style = TextStyle.Default.copy(
+                        fontFamily = Pretendard,
                         fontSize = 13.sp,
                         fontWeight = FontWeight.Light,
                         lineHeight = (14 * 1.5f).sp,

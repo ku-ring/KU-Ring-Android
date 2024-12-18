@@ -3,13 +3,11 @@ package com.ku_stacks.ku_ring.designsystem.components.topbar
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -32,8 +30,6 @@ fun NavigateUpTopBar(
     onNavigationIconClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val interaction = remember { MutableInteractionSource() }
-
     Row(
         modifier = modifier
             .background(KuringTheme.colors.background)
@@ -44,11 +40,7 @@ fun NavigateUpTopBar(
             imageVector = ImageVector.vectorResource(id = navigationIconId),
             contentDescription = null,
             tint = KuringTheme.colors.textBody,
-            modifier = Modifier.clickable(
-                indication = null,
-                interactionSource = interaction,
-                onClick = onNavigationIconClick
-            )
+            modifier = Modifier.clickable { onNavigationIconClick() }
         )
 
     }

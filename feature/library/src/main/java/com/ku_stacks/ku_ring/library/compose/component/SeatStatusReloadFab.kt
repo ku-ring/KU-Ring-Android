@@ -38,10 +38,9 @@ internal fun SeatStatusReloadFab(
     val rotation = remember { Animatable(DEFAULT_ANIMATION_VALUE) }
 
     val iconTint by animateColorAsState(
-        targetValue = if(isLoading) KuringTheme.colors.mainPrimary else KuringTheme.colors.gray300,
+        targetValue = if (isLoading) KuringTheme.colors.mainPrimary else KuringTheme.colors.gray300,
         label = "LibraryFAB"
     )
-
 
     LaunchedEffect(isLoading) {
         if (isLoading) {
@@ -65,12 +64,9 @@ internal fun SeatStatusReloadFab(
         elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 2.dp),
         modifier = modifier,
     ) {
-
-        Box(
-            contentAlignment = Alignment.Center
-        ) {
+        Box(contentAlignment = Alignment.Center) {
             Icon(
-                imageVector = ImageVector.vectorResource(id = R.drawable.ic_refresh),
+                imageVector = ImageVector.vectorResource(id = R.drawable.ic_refresh_v2),
                 contentDescription = null,
                 modifier = Modifier
                     .padding(11.dp)

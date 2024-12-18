@@ -55,8 +55,8 @@ internal fun LibrarySeatScreen(
 
 @Composable
 private fun LibrarySeatScreen(
-    isLoading: Boolean,
     seatStatus: List<LibraryRoom>,
+    isLoading: Boolean,
     onBackButtonClick: () -> Unit,
     onReservationButtonClick: () -> Unit,
     onStatusReloadButtonClick: () -> Unit,
