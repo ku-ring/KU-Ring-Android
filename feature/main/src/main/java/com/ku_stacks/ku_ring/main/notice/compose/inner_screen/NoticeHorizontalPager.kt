@@ -46,19 +46,5 @@ internal fun NoticeHorizontalPager(
                 )
             }
         }
-        /*if (pageIndex == 0) {
-            DepartmentNoticeScreen(
-                viewModel = hiltViewModel(),
-                onNoticeClick = onNoticeClick,
-                onNavigateToEditDepartment = onNavigateToEditDepartment,
-                modifier = Modifier.fillMaxSize(),
-            )
-        } else {
-            CategoryNoticeScreen(
-                shortCategoryName = NoticeScreenTabItem.values()[pageIndex].shortCategoryName,
-                onNoticeClick = onNoticeClick,
-                modifier = Modifier.fillMaxSize(),
-            )
-        }*/
     }
 }
