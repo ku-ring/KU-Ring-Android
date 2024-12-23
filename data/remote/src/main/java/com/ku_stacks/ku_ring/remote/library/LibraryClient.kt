@@ -9,6 +9,6 @@ class LibraryClient @Inject constructor(private val libraryService: LibraryServi
     suspend fun fetchRoomSeatStatus(): LibrarySeatResponse = libraryService.fetchLibrarySeatStatus(
         methodCode = LibrarySeatRequest.METHOD_CODE,
         roomTypeId = LibrarySeatRequest.ROOM_TYPE_ID,
-        branchTypeId = LibrarySeatRequest.BRANCH_TYPE_ID,
+        branchGroupId = LibrarySeatRequest.BRANCH_GROUP_ID,
     )
 }

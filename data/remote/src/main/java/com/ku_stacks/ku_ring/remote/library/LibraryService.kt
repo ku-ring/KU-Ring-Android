@@ -9,6 +9,6 @@ interface LibraryService {
     suspend fun fetchLibrarySeatStatus(
         @Query("smufMethodCode") methodCode: String,
         @Query("roomTypeId") roomTypeId: Int,
-        @Query("branchTypeId") branchTypeId: Int,
+        @Query("branchGroupId") branchGroupId: Int,
     ): LibrarySeatResponse
 }
