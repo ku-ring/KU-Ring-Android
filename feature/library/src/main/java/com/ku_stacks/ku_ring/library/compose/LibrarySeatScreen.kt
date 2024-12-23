@@ -12,50 +12,65 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.components.topbar.NavigateUpTopBar
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.SfProDisplay
 import com.ku_stacks.ku_ring.domain.LibraryRoom
 import com.ku_stacks.ku_ring.feature.library.R
+import com.ku_stacks.ku_ring.library.LibrarySeatViewModel
+import com.ku_stacks.ku_ring.library.SeatLoadState
 import com.ku_stacks.ku_ring.library.compose.component.ReservationButtonBottomBar
 import com.ku_stacks.ku_ring.library.compose.component.SeatStatusGroup
 import com.ku_stacks.ku_ring.library.compose.component.SeatStatusReloadFab
 
 @Composable
 internal fun LibrarySeatScreen(
-    onBackButtonClick: () -> Unit,
-    onReservationButtonClick: () -> Unit,
+    onNavigateBack: () -> Unit,
+    onLaunchLibraryIntent: () -> Unit,
     modifier: Modifier = Modifier,
+    viewModel: LibrarySeatViewModel = hiltViewModel(),
 ) {
-    var isLoading by remember { mutableStateOf(false) }
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        viewModel.getLibrarySeatStatus()
+    }
 
     LibrarySeatScreen(
-        onBackButtonClick = onBackButtonClick,
-        onReservationButtonClick = onReservationButtonClick,
-        onStatusReloadButtonClick = { isLoading = !isLoading },
-        isLoading = isLoading,
+        onBackButtonClick = onNavigateBack,
+        onReservationButtonClick = onLaunchLibraryIntent,
+        onStatusReloadButtonClick = viewModel::getLibrarySeatStatus,
+        isLoading = uiState.isLoading,
         modifier = modifier,
-        seatStatus = emptyList()
+        seatStatus = uiState.loadState
     )
 }
 
 @Composable
 private fun LibrarySeatScreen(
-    seatStatus: List<LibraryRoom>,
+    seatStatus: SeatLoadState,
     isLoading: Boolean,
     onBackButtonClick: () -> Unit,
     onReservationButtonClick: () -> Unit,
@@ -82,60 +97,97 @@ private fun LibrarySeatScreen(
             )
         },
         containerColor = KuringTheme.colors.background,
-        modifier = modifier
-            .fillMaxWidth()
+        modifier = modifier.fillMaxSize()
     ) { innerPadding ->
-        Box(
-            modifier = Modifier.padding(innerPadding)
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(GRID_CELLS_NUM),
+            verticalArrangement = Arrangement.spacedBy(32.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            contentPadding = PaddingValues(bottom = 63.dp),
+            modifier = Modifier
+                .padding(innerPadding)
         ) {
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(GRID_CELLS_NUM),
-                verticalArrangement = Arrangement.spacedBy(32.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                contentPadding = PaddingValues(bottom = 63.dp),
-                modifier = Modifier.fillMaxSize()
-            ) {
-                item(span = { GridItemSpan(maxLineSpan) }) {
-                    Column(
-                        modifier = Modifier.padding(start = 20.dp)
-                    ) {
-                        Text(
-                            stringResource(R.string.library_seats_title),
-                            style = TextStyle(
-                                fontSize = 24.sp,
-                                lineHeight = 36.sp,
-                                fontFamily = Pretendard,
-                                fontWeight = FontWeight(700),
-                                color = KuringTheme.colors.textTitle,
-                            ),
-                            modifier = Modifier.padding(top = 18.dp)
-                        )
+            item(span = { GridItemSpan(maxLineSpan) }) {
+                Column(
+                    modifier = Modifier.padding(start = 20.dp)
+                ) {
+                    Text(
+                        stringResource(R.string.library_seats_title),
+                        style = TextStyle(
+                            fontSize = 24.sp,
+                            lineHeight = 36.sp,
+                            fontFamily = Pretendard,
+                            fontWeight = FontWeight(700),
+                            color = KuringTheme.colors.textTitle,
+                        ),
+                        modifier = Modifier.padding(top = 18.dp)
+                    )
 
-                        Text(
-                            text = stringResource(R.string.library_seats_description),
-                            style = TextStyle.Default.copy(
-                                color = KuringTheme.colors.textCaption1,
-                                fontSize = 15.sp,
-                                fontWeight = FontWeight.Medium,
-                                lineHeight = (15 * 1.63f).sp,
-                            ),
-                            modifier = Modifier.padding(top = 8.dp)
+                    Text(
+                        text = stringResource(R.string.library_seats_description),
+                        style = TextStyle.Default.copy(
+                            color = KuringTheme.colors.textCaption1,
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Medium,
+                            lineHeight = (15 * 1.63f).sp,
+                        ),
+                        modifier = Modifier.padding(top = 8.dp)
+                    )
+                }
+            }
+
+            when (seatStatus) {
+                is SeatLoadState.InitialLoading -> {
+                    item(span = { GridItemSpan(maxLineSpan) }) {
+                        PagingLoadingIndicator()
+                    }
+                }
+
+                is SeatLoadState.Error -> {
+                    item(span = { GridItemSpan(maxLineSpan) }) {
+                        LoadingErrorText()
+                    }
+                }
+
+                is SeatLoadState.Success -> {
+                    items(seatStatus.rooms, key = { item -> item.name }) { status ->
+                        SeatStatusGroup(
+                            roomName = status.name,
+                            totalSeat = status.totalSeats,
+                            occupiedSeat = status.occupiedSeats,
+                            availableSeat = status.availableSeats,
+                            modifier = Modifier.wrapContentSize()
                         )
                     }
                 }
 
-                items(seatStatus, key = { item -> item.name }) { status ->
-                    SeatStatusGroup(
-                        roomName = status.name,
-                        totalSeat = status.totalSeats,
-                        occupiedSeat = status.occupiedSeats,
-                        availableSeat = status.availableSeats,
-                        modifier = Modifier.wrapContentSize()
-                    )
-                }
             }
         }
+    }
+}
 
+@Composable
+private fun PagingLoadingIndicator(modifier: Modifier = Modifier) {
+    Box(modifier = modifier, contentAlignment = Alignment.TopCenter) {
+        CircularProgressIndicator(
+            color = colorResource(id = com.ku_stacks.ku_ring.designsystem.R.color.kus_green),
+            modifier = Modifier.align(Alignment.Center),
+        )
+    }
+}
+
+@Composable
+private fun LoadingErrorText(modifier: Modifier = Modifier) {
+    Box(modifier = modifier) {
+        androidx.compose.material.Text(
+            text = stringResource(id = com.ku_stacks.ku_ring.designsystem.R.string.notice_refresh_error_message),
+            fontFamily = SfProDisplay,
+            fontWeight = FontWeight.Normal,
+            fontSize = 14.sp,
+            color = colorResource(id = com.ku_stacks.ku_ring.designsystem.R.color.kus_label),
+            modifier = Modifier.align(Alignment.Center),
+            textAlign = TextAlign.Center,
+        )
     }
 }
 
@@ -152,50 +204,42 @@ private fun LibrarySeatScreenPreview() {
             onReservationButtonClick = {},
             onStatusReloadButtonClick = { isLoading = !isLoading },
             isLoading = isLoading,
-            seatStatus = listOf(
-                LibraryRoom(
-                    name = "제 1열람실 (A구역)",
-                    totalSeats = 143,
-                    occupiedSeats = 15,
-                    availableSeats = 128
-                ),
-                LibraryRoom(
-                    name = "제 1열람실 (B구역)",
-                    totalSeats = 143,
-                    occupiedSeats = 15,
-                    availableSeats = 128
-                ),
-                LibraryRoom(
-                    name = "제 2열람실 (A구역)",
-                    totalSeats = 143,
-                    occupiedSeats = 15,
-                    availableSeats = 128
-                ),
-                LibraryRoom(
-                    name = "제 2열람실 (B구역)",
-                    totalSeats = 143,
-                    occupiedSeats = 15,
-                    availableSeats = 128
-                ),
-                LibraryRoom(
-                    name = "제 3열람실 (A구역)",
-                    totalSeats = 143,
-                    occupiedSeats = 15,
-                    availableSeats = 128
-                ),
-                LibraryRoom(
-                    name = "제 3열람실 (B구역)",
-                    totalSeats = 143,
-                    occupiedSeats = 15,
-                    availableSeats = 128
-                ),
-                LibraryRoom(
-                    name = "제 4열람실 (A구역)",
-                    totalSeats = 143,
-                    occupiedSeats = 15,
-                    availableSeats = 128
-                ),
+            seatStatus = SeatLoadState.Success(
+                listOf(
+                    LibraryRoom(
+                        name = "제 1열람실 (A구역)",
+                        totalSeats = 143,
+                        occupiedSeats = 15,
+                        availableSeats = 128
+                    ),
+                    LibraryRoom(
+                        name = "제 1열람실 (B구역)",
+                        totalSeats = 143,
+                        occupiedSeats = 15,
+                        availableSeats = 128
+                    ),
+                    LibraryRoom(
+                        name = "제 2열람실 (A구역)",
+                        totalSeats = 143,
+                        occupiedSeats = 15,
+                        availableSeats = 128
+                    ),
+                )
             )
+        )
+    }
+}
+
+@LightAndDarkPreview
+@Composable
+private fun LoadingPreview() {
+    KuringTheme {
+        LibrarySeatScreen(
+            onBackButtonClick = {},
+            onReservationButtonClick = {},
+            onStatusReloadButtonClick = { },
+            isLoading = false,
+            seatStatus = SeatLoadState.InitialLoading
         )
     }
 }
