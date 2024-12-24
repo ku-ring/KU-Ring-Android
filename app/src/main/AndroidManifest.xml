@@ -11,6 +11,10 @@
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28" />
 
+    <queries>
+        <package android:name="kr.ac.kku.library" />
+    </queries>
+
     <application
         android:name="com.ku_stacks.ku_ring.KuRingApplication"
         android:allowBackup="false"
