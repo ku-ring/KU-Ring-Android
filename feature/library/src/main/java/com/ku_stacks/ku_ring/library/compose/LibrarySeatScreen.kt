@@ -145,7 +145,9 @@ private fun LibrarySeatScreen(
 
                 is SeatLoadState.Error -> {
                     item(span = { GridItemSpan(maxLineSpan) }) {
-                        LoadingErrorText()
+                        LoadingErrorText(
+                            modifier = Modifier
+                        )
                     }
                 }
 
@@ -179,13 +181,15 @@ private fun PagingLoadingIndicator(modifier: Modifier = Modifier) {
 @Composable
 private fun LoadingErrorText(modifier: Modifier = Modifier) {
     Box(modifier = modifier) {
-        androidx.compose.material.Text(
-            text = stringResource(id = com.ku_stacks.ku_ring.designsystem.R.string.notice_refresh_error_message),
+        Text(
+            text = stringResource(id = R.string.library_seats_load_fail),
             fontFamily = SfProDisplay,
             fontWeight = FontWeight.Normal,
             fontSize = 14.sp,
-            color = colorResource(id = com.ku_stacks.ku_ring.designsystem.R.color.kus_label),
-            modifier = Modifier.align(Alignment.Center),
+            color = KuringTheme.colors.textCaption1,
+            modifier = Modifier
+                .align(Alignment.Center)
+                .padding(top = 30.dp),
             textAlign = TextAlign.Center,
         )
     }
@@ -232,14 +236,14 @@ private fun LibrarySeatScreenPreview() {
 
 @LightAndDarkPreview
 @Composable
-private fun LoadingPreview() {
+private fun LibrarySeatFailPreview() {
     KuringTheme {
         LibrarySeatScreen(
             onBackButtonClick = {},
             onReservationButtonClick = {},
             onStatusReloadButtonClick = { },
             isLoading = false,
-            seatStatus = SeatLoadState.InitialLoading
+            seatStatus = SeatLoadState.Error
         )
     }
 }
