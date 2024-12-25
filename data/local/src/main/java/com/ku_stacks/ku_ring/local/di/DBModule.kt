@@ -155,4 +155,8 @@ object DBModule {
     @Singleton
     @Provides
     fun provideKuringBotMessageDao(database: KuRingDatabase) = database.kuringBotMessageDao()
+
+    @Singleton
+    @Provides
+    fun provideCategoryOrderDao(database: KuRingDatabase) = database.categoryOrderDao()
 }
