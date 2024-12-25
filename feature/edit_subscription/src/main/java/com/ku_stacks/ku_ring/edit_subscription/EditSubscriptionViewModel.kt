@@ -13,6 +13,7 @@ import com.ku_stacks.ku_ring.thirdparty.firebase.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.util.WordConverter
 import com.ku_stacks.ku_ring.util.modifyList
 import com.ku_stacks.ku_ring.util.modifyMap
+import com.ku_stacks.ku_ring.util.suspendRunCatching
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -83,7 +84,7 @@ class EditSubscriptionViewModel @Inject constructor(
     private fun syncWithServer() {
         fcmToken?.let {
             viewModelScope.launch {
-                runCatching {
+                suspendRunCatching {
                     val subscribingList = noticeRepository.fetchSubscriptionFromRemote(it)
                     initialSortSubscription(subscribingList)
                 }.onFailure {
