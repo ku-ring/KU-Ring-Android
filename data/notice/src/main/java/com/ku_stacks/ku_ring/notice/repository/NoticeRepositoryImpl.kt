@@ -12,6 +12,7 @@ import com.ku_stacks.ku_ring.remote.notice.NoticeClient
 import com.ku_stacks.ku_ring.remote.notice.request.SubscribeRequest
 import com.ku_stacks.ku_ring.util.IODispatcher
 import com.ku_stacks.ku_ring.util.WordConverter
+import com.ku_stacks.ku_ring.util.suspendRunCatching
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -136,7 +137,7 @@ class NoticeRepositoryImpl @Inject constructor(
         subscribeCategories: List<String>
     ) {
         val subscribeRequest = SubscribeRequest(subscribeCategories)
-        runCatching {
+        suspendRunCatching {
             noticeClient.saveSubscribe(
                 token,
                 subscribeRequest

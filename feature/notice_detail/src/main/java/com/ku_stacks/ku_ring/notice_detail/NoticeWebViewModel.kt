@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ku_stacks.ku_ring.domain.WebViewNotice
 import com.ku_stacks.ku_ring.notice.repository.NoticeRepository
+import com.ku_stacks.ku_ring.util.suspendRunCatching
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -33,7 +34,7 @@ class NoticeWebViewModel @Inject constructor(
 
     fun updateNoticeTobeRead(webViewNotice: WebViewNotice) {
         viewModelScope.launch {
-            runCatching {
+            suspendRunCatching {
                 noticeRepository.updateNoticeToBeReadOnStorage(webViewNotice.articleId, webViewNotice.category)
                 noticeRepository.updateNoticeToBeRead(
                     webViewNotice.articleId,

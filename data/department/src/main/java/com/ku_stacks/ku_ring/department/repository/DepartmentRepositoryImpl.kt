@@ -10,6 +10,7 @@ import com.ku_stacks.ku_ring.local.room.DepartmentDao
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.remote.department.DepartmentClient
 import com.ku_stacks.ku_ring.util.IODispatcher
+import com.ku_stacks.ku_ring.util.suspendRunCatching
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -40,7 +41,7 @@ class DepartmentRepositoryImpl @Inject constructor(
     }
 
     private suspend fun fetchDepartmentsFromRemote(): List<Department>? {
-        return runCatching {
+        return suspendRunCatching {
             departmentClient.fetchDepartmentList().data?.map { it.toDepartment() } ?: emptyList()
         }.getOrNull()
     }
