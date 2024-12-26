@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun rememberDragDropState(lazyListState: LazyListState, onMove: (Int, Int) -> Unit): DragDropState {
     val scope = rememberCoroutineScope()
-    val state = remember(lazyListState) {
+    val state = remember(lazyListState, onMove) {
         DragDropState(state = lazyListState, onMove = onMove, scope = scope)
     }
     LaunchedEffect(state) {
