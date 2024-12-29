@@ -183,7 +183,7 @@ private fun LoadingErrorText(modifier: Modifier = Modifier) {
     Box(modifier = modifier) {
         Text(
             text = stringResource(id = R.string.library_seats_load_fail),
-            fontFamily = SfProDisplay,
+            fontFamily = Pretendard,
             fontWeight = FontWeight.Normal,
             fontSize = 14.sp,
             color = KuringTheme.colors.textCaption1,
