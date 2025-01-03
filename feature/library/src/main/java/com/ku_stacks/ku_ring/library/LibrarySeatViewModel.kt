@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.ku_stacks.ku_ring.library.repository.LibraryRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -17,8 +16,7 @@ class LibrarySeatViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(LibrarySeatUiState.Empty)
-    val uiState: StateFlow<LibrarySeatUiState>
-        get() = _uiState.asStateFlow()
+    val uiState = _uiState.asStateFlow()
 
     fun getLibrarySeatStatus() = viewModelScope.launch {
         updateIsLoading( true)
