@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
+import com.ku_stacks.ku_ring.designsystem.components.indicator.PagingLoadingIndicator
 import com.ku_stacks.ku_ring.designsystem.components.topbar.NavigateUpTopBar
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
@@ -168,15 +169,6 @@ private fun LibrarySeatScreen(
     }
 }
 
-@Composable
-private fun PagingLoadingIndicator(modifier: Modifier = Modifier) {
-    Box(modifier = modifier, contentAlignment = Alignment.TopCenter) {
-        CircularProgressIndicator(
-            color = colorResource(id = com.ku_stacks.ku_ring.designsystem.R.color.kus_green),
-            modifier = Modifier.align(Alignment.Center),
-        )
-    }
-}
 
 @Composable
 private fun LoadingErrorText(modifier: Modifier = Modifier) {

@@ -20,6 +20,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import com.ku_stacks.ku_ring.designsystem.R
+import com.ku_stacks.ku_ring.designsystem.components.indicator.PagingLoadingIndicator
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.SfProDisplay
 import com.ku_stacks.ku_ring.domain.Notice
@@ -81,16 +82,6 @@ fun LazyPagingNoticeItemColumn(
                 }
             }
         }
-    }
-}
-
-@Composable
-private fun PagingLoadingIndicator(modifier: Modifier = Modifier) {
-    Box(modifier = modifier) {
-        CircularProgressIndicator(
-            color = colorResource(id = R.color.kus_green),
-            modifier = Modifier.align(Alignment.Center),
-        )
     }
 }
 
