@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.library.compose.LibrarySeatScreen
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class LibrarySeatActivity : AppCompatActivity() {
@@ -64,6 +65,7 @@ class LibrarySeatActivity : AppCompatActivity() {
                 PackageManager.MATCH_UNINSTALLED_PACKAGES
             )
         } catch (e: PackageManager.NameNotFoundException) {
+            Timber.e("PackageManager could not find $KU_LIBRARY_PACKAGE_NAME: $e")
             throw e
         }
     }
