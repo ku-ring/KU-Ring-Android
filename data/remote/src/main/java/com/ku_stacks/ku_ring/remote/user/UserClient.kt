@@ -3,6 +3,7 @@ package com.ku_stacks.ku_ring.remote.user
 import com.ku_stacks.ku_ring.remote.user.request.FeedbackRequest
 import com.ku_stacks.ku_ring.remote.user.request.RegisterUserRequest
 import com.ku_stacks.ku_ring.remote.util.DefaultResponse
+import com.ku_stacks.ku_ring.util.suspendRunCatching
 import javax.inject.Inject
 
 class UserClient @Inject constructor(
@@ -22,7 +23,7 @@ class UserClient @Inject constructor(
         userService.registerUser(RegisterUserRequest(token))
 
     suspend fun getKuringBotQueryCount(token: String): Int {
-        return runCatching {
+        return suspendRunCatching {
             userService.getKuringBotQueryCount(token).data.leftAskCount
         }.getOrElse { 0 }
     }

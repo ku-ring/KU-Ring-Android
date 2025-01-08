@@ -11,6 +11,7 @@ import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.remote.notice.NoticeClient
 import com.ku_stacks.ku_ring.remote.notice.response.NoticeResponse
 import com.ku_stacks.ku_ring.util.DateUtil
+import com.ku_stacks.ku_ring.util.suspendRunCatching
 
 @OptIn(ExperimentalPagingApi::class)
 class CategoryNoticeMediator(
@@ -36,7 +37,7 @@ class CategoryNoticeMediator(
             return MediatorResult.Success(endOfPaginationReached = page != null)
         }
 
-        return runCatching {
+        return suspendRunCatching {
             val noticeResponse = noticeClient.fetchNoticeList(categoryShortName, page, itemSize)
             insertNotices(noticeResponse.noticeResponse)
 
