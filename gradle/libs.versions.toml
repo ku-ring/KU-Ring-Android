@@ -1,6 +1,6 @@
 [versions]
 # project-level dependency
-android-gradle = "8.7.3"
+android-gradle = "8.8.0"
 kotlin = '2.1.0'
 ksp = '2.1.0-1.0.29'
 hilt = '2.54'
