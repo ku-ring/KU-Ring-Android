@@ -19,7 +19,7 @@ class LibrarySeatViewModel @Inject constructor(
     val uiState = _uiState.asStateFlow()
 
     fun getLibrarySeatStatus() = viewModelScope.launch {
-        updateIsLoading( true)
+        updateIsLoading(true)
 
         libraryRepository.getRemainingSeats()
             .onSuccess { rooms ->
