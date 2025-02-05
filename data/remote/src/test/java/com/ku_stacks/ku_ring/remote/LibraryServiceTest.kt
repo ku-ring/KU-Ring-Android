@@ -31,7 +31,7 @@ class LibraryServiceTest : ApiAbstract<LibraryService>() {
         val response = service.fetchLibrarySeatStatus(
             methodCode = "PC",
             roomTypeId = 4,
-            branchTypeId = 1,
+            branchGroupId = 1,
         )
         mockWebServer.takeRequest()
 

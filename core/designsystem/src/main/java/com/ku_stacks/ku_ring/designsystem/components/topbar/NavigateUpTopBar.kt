@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -32,6 +33,7 @@ fun NavigateUpTopBar(
 ) {
     Row(
         modifier = modifier
+            .statusBarsPadding()
             .background(KuringTheme.colors.background)
             .padding(start = 20.dp, top = 18.dp, bottom = 21.dp),
         verticalAlignment = Alignment.CenterVertically,

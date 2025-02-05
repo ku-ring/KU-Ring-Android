@@ -18,6 +18,7 @@ import com.ku_stacks.ku_ring.main.notice.compose.components.NoticeScreenTabRow
 internal fun NoticeTabScreens(
     onNoticeClick: (Notice) -> Unit,
     onNavigateToEditDepartment: () -> Unit,
+    onNavigateToLibrarySeat: () -> Unit,
     modifier: Modifier = Modifier,
     pagerState: PagerState = rememberPagerState { NoticeScreenTabItem.values().size },
 ) {
@@ -27,6 +28,7 @@ internal fun NoticeTabScreens(
             pagerState = pagerState,
             onNoticeClick = onNoticeClick,
             onNavigateToEditDepartment = onNavigateToEditDepartment,
+            onNavigateToLibrarySeat = onNavigateToLibrarySeat,
         )
     }
 }
@@ -40,6 +42,7 @@ private fun NoticeTabsPreview() {
         NoticeTabScreens(
             onNoticeClick = {},
             onNavigateToEditDepartment = {},
+            onNavigateToLibrarySeat = {},
             modifier = Modifier.fillMaxWidth(),
         )
     }

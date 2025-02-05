@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.designsystem.components.pager_indicator
+package com.ku_stacks.ku_ring.designsystem.components.indicator
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background

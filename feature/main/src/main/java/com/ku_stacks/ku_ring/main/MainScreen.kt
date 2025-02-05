@@ -131,6 +131,9 @@ fun NavGraphBuilder.mainScreenNavGraph(
             onNavigateToEditDepartment = {
                 navigator.navigateToEditSubscribedDepartment(activity)
             },
+            onNavigateToLibrarySeat = {
+                navigator.navigateToLibrarySeat(activity)
+            },
             onBackSingleTap = {
                 activity.showToast(R.string.home_finish_if_back_again)
             },
