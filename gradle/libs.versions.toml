@@ -43,7 +43,7 @@ androidx-hilt = "1.2.0"
 androidx-test-core = "1.6.1"
 androidx-test-rules = "1.6.1"
 androidx-test = "1.6.2"
-desugarJdk = "2.1.4"
+desugarJdk = "2.1.5"
 
 # Test
 androidx-espresso = "3.6.1"
