@@ -8,7 +8,7 @@ addAssignees: author
 reviewers:
   - mwy3055
   - l2hyunwoo
-  - boiledEgg-s
+  - boiledeggg
 
 # A list of keywords to be skipped the process that add reviewers if pull requests include it
 skipKeywords:
