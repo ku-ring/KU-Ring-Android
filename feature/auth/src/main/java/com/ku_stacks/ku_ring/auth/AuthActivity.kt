@@ -6,14 +6,19 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.ku_stacks.ku_ring.auth.compose.AuthScreen
 import feature.auth.R
 
-class AuthActivity: AppCompatActivity() {
+class AuthActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContent {}
+        setContent {
+            AuthScreen(
+                onNavigateUp = this::finish
+            )
+        }
     }
 
     override fun finish() {
