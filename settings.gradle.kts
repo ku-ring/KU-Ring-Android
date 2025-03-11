@@ -41,6 +41,7 @@ include(
     ":core:thirdparty",
     ":core:work",
     ":core:testUtil",
+    ":feature:auth",
     ":feature:edit_subscription",
     ":feature:feedback",
     ":feature:library",
