@@ -5,6 +5,17 @@
     <string name="email_input_group_placeholder_email">힉교 이메일 주소</string>
     <string name="email_input_group_button_resend">재전송</string>
     <string name="email_input_group_button_email">인증번호</string>
+
+    <!--Code Input Group-->
     <string name="code_input_group_placeholder_code">인증번호</string>
     <string name="code_input_group_button">인증번호</string>
+
+    <!--SignIn Screen-->
+    <string name="sign_in_top_bar_heading">로그인</string>
+    <string name="sign_in_top_bar_sub_heading">로그인 후 쿠링과 함께\n다채로운 캠퍼스 생활을 즐겨보세요:)</string>
+    <string name="sign_in_text_field_placeholder_email">학교 이메일 주소</string>
+    <string name="sign_in_text_field_placeholder_password">6~20자 영문 소문자+숫자</string>
+    <string name="sign_in_button_sign_in">로그인</string>
+    <string name="sign_in_extra_option_find_password">비밀번호 찾기</string>
+    <string name="sign_in_extra_option_sign_up">회원가입 하기</string>
 </resources>
