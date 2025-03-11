@@ -2,6 +2,7 @@ package com.ku_stacks.ku_ring.auth.compose.signin
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.dialog
 import com.ku_stacks.ku_ring.auth.compose.signin.inner_screen.SignInScreen
 
 internal fun NavGraphBuilder.signInNavGraph(
