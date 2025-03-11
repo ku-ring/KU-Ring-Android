@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--Email Input Group-->
+    <string name="email_input_group_placeholder_email">힉교 이메일 주소</string>
+    <string name="email_input_group_button_resend">재전송</string>
+    <string name="email_input_group_button_email">인증번호</string>
+    <string name="code_input_group_placeholder_code">인증번호</string>
+    <string name="code_input_group_button">인증번호</string>
+</resources>
