@@ -20,6 +20,7 @@ internal fun RoundedCornerButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    contentPadding: PaddingValues = PaddingValues(vertical = 16.dp),
 ) {
     Button(
         onClick = onClick,
@@ -27,7 +28,7 @@ internal fun RoundedCornerButton(
             containerColor = KuringTheme.colors.mainPrimary,
             contentColor = KuringTheme.colors.background,
         ),
-        contentPadding = PaddingValues(vertical = 16.dp),
+        contentPadding = contentPadding,
         modifier = modifier,
     ) {
         Text(
