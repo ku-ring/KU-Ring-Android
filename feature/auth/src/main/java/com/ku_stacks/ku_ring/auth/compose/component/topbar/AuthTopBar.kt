@@ -27,8 +27,8 @@ import feature.auth.R
  */
 @Composable
 internal fun ColumnScope.AuthTopBar(
-    heading: String,
-    subHeading: String,
+    headingText: String,
+    subHeadingText: String,
     onBackButtonClick: () -> Unit,
 ) {
     NavigateUpTopBar(
@@ -42,7 +42,7 @@ internal fun ColumnScope.AuthTopBar(
         verticalArrangement = Arrangement.spacedBy(5.dp)
     ) {
         Text(
-            text = heading,
+            text = headingText,
             style = TextStyle(
                 fontSize = 24.sp,
                 lineHeight = 36.sp,
@@ -58,7 +58,7 @@ internal fun ColumnScope.AuthTopBar(
         )
 
         Text(
-            text = subHeading,
+            text = subHeadingText,
             style = TextStyle(
                 fontSize = 15.sp,
                 lineHeight = 24.sp,
@@ -80,8 +80,8 @@ private fun AuthTopBar_SignIn_Preview() {
     KuringTheme {
         Column(Modifier.background(KuringTheme.colors.background)) {
             AuthTopBar(
-                heading = "로그인",
-                subHeading = "로그인 후 쿠링과 함께\n다채로운 캠퍼스 생활을 즐겨보세요:)",
+                headingText = "로그인",
+                subHeadingText = "로그인 후 쿠링과 함께\n다채로운 캠퍼스 생활을 즐겨보세요:)",
                 onBackButtonClick = {},
             )
         }
@@ -97,8 +97,8 @@ private fun AuthTopBar_SignUp_Preview() {
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             AuthTopBar(
-                heading = "개인정보 수집/이용 동의 ",
-                subHeading = "회원 가입 전 하단 유의사항을 확인하고,\n개인정보 수집 및 이용에 동의해주세요.",
+                headingText = "개인정보 수집/이용 동의 ",
+                subHeadingText = "회원 가입 전 하단 유의사항을 확인하고,\n개인정보 수집 및 이용에 동의해주세요.",
                 onBackButtonClick = {},
             )
         }

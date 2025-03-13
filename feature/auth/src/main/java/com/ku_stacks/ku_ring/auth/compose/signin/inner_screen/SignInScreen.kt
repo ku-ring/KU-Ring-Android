@@ -17,7 +17,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -100,8 +99,8 @@ private fun SignInScreen(
     ) {
         Column(Modifier.fillMaxWidth()) {
             AuthTopBar(
-                heading = stringResource(sign_in_top_bar_heading),
-                subHeading = stringResource(sign_in_top_bar_sub_heading),
+                headingText = stringResource(sign_in_top_bar_heading),
+                subHeadingText = stringResource(sign_in_top_bar_sub_heading),
                 onBackButtonClick = onBackButtonClick,
             )
         }
