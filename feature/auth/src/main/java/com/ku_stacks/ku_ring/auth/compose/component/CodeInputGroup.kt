@@ -21,6 +21,9 @@ import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import feature.auth.R.string.code_input_group_button
 import feature.auth.R.string.code_input_group_placeholder_code
 
+private const val TEXT_FIELD_WEIGHT = 210/375f
+private const val BUTTON_WEIGHT = 114/375f
+
 @Composable
 internal fun CodeInputField(
     text: String,
@@ -54,9 +57,6 @@ internal fun CodeInputField(
         )
     }
 }
-
-private const val TEXT_FIELD_WEIGHT = 210/375f
-private const val BUTTON_WEIGHT = 114/375f
 
 @LightAndDarkPreview
 @Composable

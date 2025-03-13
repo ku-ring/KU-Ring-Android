@@ -23,6 +23,9 @@ import feature.auth.R.string.email_input_group_button_email
 import feature.auth.R.string.email_input_group_button_resend
 import feature.auth.R.string.email_input_group_placeholder_email
 
+private const val TEXT_FIELD_WEIGHT = 210 / 375f
+private const val BUTTON_WEIGHT = 114 / 375f
+
 @Composable
 internal fun EmailInputField(
     text: String,
@@ -62,9 +65,6 @@ internal fun EmailInputField(
         )
     }
 }
-
-private const val TEXT_FIELD_WEIGHT = 210 / 375f
-private const val BUTTON_WEIGHT = 114 / 375f
 
 @LightAndDarkPreview
 @Composable
