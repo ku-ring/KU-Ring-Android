@@ -26,22 +26,22 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
-import com.ku_stacks.ku_ring.auth.compose.component.textfield.TextFieldState.Correct
-import com.ku_stacks.ku_ring.auth.compose.component.textfield.TextFieldState.Empty
-import com.ku_stacks.ku_ring.auth.compose.component.textfield.TextFieldState.Error
+import com.ku_stacks.ku_ring.auth.compose.component.textfield.OutlinedTextFieldState.Correct
+import com.ku_stacks.ku_ring.auth.compose.component.textfield.OutlinedTextFieldState.Empty
+import com.ku_stacks.ku_ring.auth.compose.component.textfield.OutlinedTextFieldState.Error
 import com.ku_stacks.ku_ring.designsystem.components.textfield.KuringTextField
 import com.ku_stacks.ku_ring.designsystem.components.textfield.KuringTextFieldDefault
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 
 /**
- * [TextFieldState] 값에 따라 테두리 색상이 바뀌는 TextField 컴포넌트입니다.
+ * [OutlinedTextFieldState] 값에 따라 테두리 색상이 바뀌는 TextField 컴포넌트입니다.
  *
  * @param query TextField의 값
  * @param onQueryUpdate TextField의 값을 업데이트하는 콜백
  * @param modifier [Modifier]
  * @param placeholderText 힌트로 표시되는 문자열입니다
- * @param textFieldState [TextFieldState]
+ * @param textFieldState [OutlinedTextFieldState]
  * @param suffix innerTextField의 후행 요소입니다.
  * @param keyboardOptions 키보드의 입력 옵션입니다.
  * @param keyboardActions 키보드의 액션입니다.
@@ -50,12 +50,12 @@ import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
  */
 
 @Composable
-fun OutlinedSupportingTextField(
+internal fun OutlinedSupportingTextField(
     query: String,
     onQueryUpdate: (String) -> Unit,
     modifier: Modifier = Modifier,
     placeholderText: String = "",
-    textFieldState: TextFieldState = Empty,
+    textFieldState: OutlinedTextFieldState = Empty,
     suffix: @Composable (() -> Unit)? = null,
     keyboardOptions: KeyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
     keyboardActions: KeyboardActions = KeyboardActions(),
@@ -113,10 +113,10 @@ fun OutlinedSupportingTextField(
  * @property Error 입력값이 기댓값과 다른 경우를 나타냅니다.
  * @property Empty 상태값이 필요없는 경우에 사용합니다.
  */
-sealed class TextFieldState {
-    data class Correct(val message: String) : TextFieldState()
-    data class Error(val message: String) : TextFieldState()
-    data object Empty : TextFieldState()
+internal sealed class OutlinedTextFieldState {
+    data class Correct(val message: String) : OutlinedTextFieldState()
+    data class Error(val message: String) : OutlinedTextFieldState()
+    data object Empty : OutlinedTextFieldState()
 
     fun getText(): String? = when (this) {
         is Correct -> message

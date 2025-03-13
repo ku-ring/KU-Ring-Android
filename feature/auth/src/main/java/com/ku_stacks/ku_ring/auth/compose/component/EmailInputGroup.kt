@@ -16,7 +16,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.ku_stacks.ku_ring.auth.compose.component.button.VerificationButton
 import com.ku_stacks.ku_ring.auth.compose.component.textfield.OutlinedSupportingTextField
-import com.ku_stacks.ku_ring.auth.compose.component.textfield.TextFieldState
+import com.ku_stacks.ku_ring.auth.compose.component.textfield.OutlinedTextFieldState
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import feature.auth.R.string.email_input_group_button_email
@@ -29,7 +29,7 @@ internal fun EmailInputField(
     onTextChange: (String) -> Unit,
     onSendButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
-    textFieldState: TextFieldState = TextFieldState.Empty,
+    textFieldState: OutlinedTextFieldState = OutlinedTextFieldState.Empty,
     isCodeSent: Boolean = false,
 ) {
     val buttonTextRes = remember(isCodeSent) {

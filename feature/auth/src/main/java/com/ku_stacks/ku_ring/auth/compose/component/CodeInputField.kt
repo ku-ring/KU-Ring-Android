@@ -15,7 +15,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.ku_stacks.ku_ring.auth.compose.component.button.VerificationButton
 import com.ku_stacks.ku_ring.auth.compose.component.textfield.OutlinedSupportingTextField
-import com.ku_stacks.ku_ring.auth.compose.component.textfield.TextFieldState
+import com.ku_stacks.ku_ring.auth.compose.component.textfield.OutlinedTextFieldState
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import feature.auth.R.string.code_input_group_button
@@ -28,7 +28,7 @@ internal fun CodeInputField(
     onVerifyButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
     timeSuffix: @Composable (() -> Unit)? = null,
-    textFieldState: TextFieldState = TextFieldState.Empty,
+    textFieldState: OutlinedTextFieldState = OutlinedTextFieldState.Empty,
 ) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(11.dp),
@@ -70,7 +70,7 @@ private fun CodeInputFieldPreview() {
             text = code,
             onTextChange = { code = it },
             onVerifyButtonClick = { isVerified = !isVerified },
-            textFieldState = TextFieldState.Correct("확인되었습니다."),
+            textFieldState = OutlinedTextFieldState.Correct("확인되었습니다."),
         )
     }
 }
