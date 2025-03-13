@@ -26,7 +26,7 @@ import feature.auth.R
  * ColumnScope의 verticalArrangement를 사용하여 탑바와 하단 컨텐츠를 분리합니다.
  */
 @Composable
-internal fun ColumnScope.AuthTopBar(
+internal fun AuthTopBar(
     headingText: String,
     subHeadingText: String,
     onBackButtonClick: () -> Unit,
