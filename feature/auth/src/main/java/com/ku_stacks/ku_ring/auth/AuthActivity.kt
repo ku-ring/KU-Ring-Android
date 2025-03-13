@@ -1,6 +1,6 @@
 package com.ku_stacks.ku_ring.auth
 
-import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
@@ -27,8 +27,8 @@ class AuthActivity : AppCompatActivity() {
     }
 
     companion object {
-        fun start(activity: Activity) {
-            with(activity) {
+        fun start(context: Context) {
+            with(context) {
                 val intent = Intent(this, AuthActivity::class.java)
                 startActivity(intent)
             }
