@@ -36,11 +36,11 @@ import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
  */
 
 @Composable
-fun PlainTextField(
+internal fun PlainTextField(
     query: String,
     onQueryUpdate: (String) -> Unit,
+    placeholderText: String,
     modifier: Modifier = Modifier,
-    placeholderText: String = "",
     shape: Shape = RoundedCornerShape(8.dp),
     keyboardOptions: KeyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
     keyboardActions: KeyboardActions = KeyboardActions(),
