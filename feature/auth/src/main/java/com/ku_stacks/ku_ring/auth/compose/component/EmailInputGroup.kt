@@ -19,9 +19,9 @@ import com.ku_stacks.ku_ring.auth.compose.component.textfield.OutlinedSupporting
 import com.ku_stacks.ku_ring.auth.compose.component.textfield.OutlinedTextFieldState
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import feature.auth.R.string.email_input_group_button_email
-import feature.auth.R.string.email_input_group_button_resend
-import feature.auth.R.string.email_input_group_placeholder_email
+import com.ku_stacks.ku_ring.feature.auth.R.string.email_input_group_button_email
+import com.ku_stacks.ku_ring.feature.auth.R.string.email_input_group_button_resend
+import com.ku_stacks.ku_ring.feature.auth.R.string.email_input_group_placeholder_email
 
 private const val TEXT_FIELD_WEIGHT = 210 / 375f
 private const val BUTTON_WEIGHT = 114 / 375f

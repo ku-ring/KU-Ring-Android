@@ -22,9 +22,9 @@ import com.ku_stacks.ku_ring.auth.compose.component.button.RoundedCornerButton
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
-import feature.auth.R.string.dialog_sub_heading_sign_in_wrong
-import feature.auth.R.string.dialog_heading_sign_in_wrong
-import feature.auth.R.string.dialog_proceed_sign_in_wrong
+import com.ku_stacks.ku_ring.feature.auth.R.string.dialog_sub_heading_sign_in_wrong
+import com.ku_stacks.ku_ring.feature.auth.R.string.dialog_heading_sign_in_wrong
+import com.ku_stacks.ku_ring.feature.auth.R.string.dialog_proceed_sign_in_wrong
 
 @Composable
 internal fun SignInDialog(

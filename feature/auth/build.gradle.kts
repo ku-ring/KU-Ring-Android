@@ -1,4 +1,5 @@
 import com.ku_stacks.ku_ring.buildlogic.dsl.implementation
+import com.ku_stacks.ku_ring.buildlogic.dsl.setNameSpace
 
 plugins {
     kuring("view")
@@ -6,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "feature.auth"
+    setNameSpace("feature.auth")
 }
 
 dependencies {

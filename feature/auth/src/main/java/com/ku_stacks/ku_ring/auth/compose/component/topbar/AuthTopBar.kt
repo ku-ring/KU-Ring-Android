@@ -18,7 +18,7 @@ import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.components.topbar.NavigateUpTopBar
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
-import feature.auth.R
+import com.ku_stacks.ku_ring.feature.auth.R
 
 /**
  * Auth 모듈의 모든 화면에서 공통으로 사용되는 탑바 컴포넌트입니다.

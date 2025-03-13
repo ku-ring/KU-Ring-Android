@@ -18,8 +18,8 @@ import com.ku_stacks.ku_ring.auth.compose.component.textfield.OutlinedSupporting
 import com.ku_stacks.ku_ring.auth.compose.component.textfield.OutlinedTextFieldState
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import feature.auth.R.string.code_input_group_button
-import feature.auth.R.string.code_input_group_placeholder_code
+import com.ku_stacks.ku_ring.feature.auth.R.string.code_input_group_button
+import com.ku_stacks.ku_ring.feature.auth.R.string.code_input_group_placeholder_code
 
 private const val TEXT_FIELD_WEIGHT = 210/375f
 private const val BUTTON_WEIGHT = 114/375f

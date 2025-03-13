@@ -39,13 +39,13 @@ import com.ku_stacks.ku_ring.auth.compose.signin.SignInViewModel
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
-import feature.auth.R.string.sign_in_button_sign_in
-import feature.auth.R.string.sign_in_extra_option_find_password
-import feature.auth.R.string.sign_in_extra_option_sign_up
-import feature.auth.R.string.sign_in_text_field_placeholder_email
-import feature.auth.R.string.sign_in_text_field_placeholder_password
-import feature.auth.R.string.sign_in_top_bar_heading
-import feature.auth.R.string.sign_in_top_bar_sub_heading
+import com.ku_stacks.ku_ring.feature.auth.R.string.sign_in_button_sign_in
+import com.ku_stacks.ku_ring.feature.auth.R.string.sign_in_extra_option_find_password
+import com.ku_stacks.ku_ring.feature.auth.R.string.sign_in_extra_option_sign_up
+import com.ku_stacks.ku_ring.feature.auth.R.string.sign_in_text_field_placeholder_email
+import com.ku_stacks.ku_ring.feature.auth.R.string.sign_in_text_field_placeholder_password
+import com.ku_stacks.ku_ring.feature.auth.R.string.sign_in_top_bar_heading
+import com.ku_stacks.ku_ring.feature.auth.R.string.sign_in_top_bar_sub_heading
 
 @Composable
 internal fun SignInScreen(
