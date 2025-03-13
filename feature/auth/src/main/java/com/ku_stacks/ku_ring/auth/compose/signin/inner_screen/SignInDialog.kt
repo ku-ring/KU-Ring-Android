@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.auth.compose.component
+package com.ku_stacks.ku_ring.auth.compose.signin.inner_screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -22,12 +22,12 @@ import com.ku_stacks.ku_ring.auth.compose.component.button.RoundedCornerButton
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
-import feature.auth.R.string.dialog_heading_sign_in_wrong
 import feature.auth.R.string.dialog_sub_heading_sign_in_wrong
+import feature.auth.R.string.dialog_heading_sign_in_wrong
 import feature.auth.R.string.dialog_proceed_sign_in_wrong
 
 @Composable
-fun AuthDialog(
+internal fun SignInDialog(
     onDismissRequest: () -> Unit,
 ) {
     val backgroundColor = KuringTheme.colors.background
@@ -94,6 +94,6 @@ fun AuthDialog(
 @Composable
 private fun AuthDialogPreview() {
     KuringTheme {
-        AuthDialog(onDismissRequest = {})
+        SignInDialog(onDismissRequest = {})
     }
 }
