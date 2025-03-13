@@ -2,11 +2,13 @@ package com.ku_stacks.ku_ring.auth.compose.component.button
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -20,10 +22,12 @@ internal fun RoundedCornerButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    shape: Shape = RoundedCornerShape(50),
     contentPadding: PaddingValues = PaddingValues(vertical = 16.dp),
 ) {
     Button(
         onClick = onClick,
+        shape = shape,
         colors = ButtonDefaults.textButtonColors(
             containerColor = KuringTheme.colors.mainPrimary,
             contentColor = KuringTheme.colors.background,
