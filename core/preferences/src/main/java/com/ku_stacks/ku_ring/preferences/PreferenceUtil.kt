@@ -18,6 +18,10 @@ class PreferenceUtil(@ApplicationContext context: Context) {
         get() = prefs.getString(START_DATE, "")
         set(value) = prefs.edit().putString(START_DATE, value).apply()
 
+    var accessToken: String
+        get() = prefs.getString(ACCESS_TOKEN, "") ?: ""
+        set(value) = prefs.edit().putString(ACCESS_TOKEN, value).apply()
+
     var fcmToken: String
         get() = prefs.getString(FCM_TOKEN, "") ?: ""
         set(value) = prefs.edit().putString(FCM_TOKEN, value).apply()
@@ -53,6 +57,7 @@ class PreferenceUtil(@ApplicationContext context: Context) {
     companion object {
         const val FIRST_RUN = "FIRST_RUN"
         const val START_DATE = "START_DATE"
+        const val ACCESS_TOKEN = "ACCESS_TOKEN"
         const val FCM_TOKEN = "FCM_TOKEN"
         const val SUBSCRIPTION = "SUBSCRIPTION"
         const val DEFAULT_NOTIFICATION = "DEFAULT_NOTIFICATION"
