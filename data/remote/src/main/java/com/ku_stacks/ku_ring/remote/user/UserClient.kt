@@ -2,6 +2,8 @@ package com.ku_stacks.ku_ring.remote.user
 
 import com.ku_stacks.ku_ring.remote.user.request.FeedbackRequest
 import com.ku_stacks.ku_ring.remote.user.request.RegisterUserRequest
+import com.ku_stacks.ku_ring.remote.user.request.SignInRequest
+import com.ku_stacks.ku_ring.remote.user.request.SignUpRequest
 import com.ku_stacks.ku_ring.remote.util.DefaultResponse
 import com.ku_stacks.ku_ring.util.suspendRunCatching
 import javax.inject.Inject
@@ -27,4 +29,19 @@ class UserClient @Inject constructor(
             userService.getKuringBotQueryCount(token).data.leftAskCount
         }.getOrElse { 0 }
     }
+
+    suspend fun signUp(token: String, email: String, password: String): DefaultResponse =
+        userService.signUp(
+            token = token,
+            request = SignUpRequest(email, password)
+        )
+
+    suspend fun signIn(token: String, email: String, password: String): DefaultResponse =
+        userService.signIn(
+            token = token,
+            request = SignInRequest(email, password)
+        )
+
+    suspend fun logout(token: String, accessToken: String): DefaultResponse =
+        userService.logout(token, accessToken)
 }
