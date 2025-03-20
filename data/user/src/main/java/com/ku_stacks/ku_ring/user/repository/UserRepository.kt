@@ -12,4 +12,8 @@ interface UserRepository {
     fun getBlackUserList(): Flow<List<String>>
     suspend fun sendFeedback(feedback: String): Result<DefaultResponse>
     suspend fun registerUser(token: String): DefaultResponse
+
+    suspend fun signUpUser(email: String, password: String): Result<Unit>
+    suspend fun signInUser(email: String, password: String): Result<Unit>
+    suspend fun logoutUser(): Result<Unit>
 }

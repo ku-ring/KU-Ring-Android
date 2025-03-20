@@ -9,6 +9,7 @@ import com.ku_stacks.ku_ring.remote.util.DefaultResponse
 import com.ku_stacks.ku_ring.util.suspendRunCatching
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import timber.log.Timber
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
@@ -44,5 +45,40 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun registerUser(token: String): DefaultResponse {
         return userClient.registerUser(token)
+    }
+
+    override suspend fun signUpUser(
+        email: String,
+        password: String
+    ): Result<Unit> = runCatching {
+        userClient.signUp(
+            token = pref.fcmToken,
+            email = email,
+            password = password,
+        )
+    }
+
+    override suspend fun signInUser(
+        email: String,
+        password: String
+    ): Result<Unit> = runCatching {
+        val response = userClient.signIn(
+            token = pref.fcmToken,
+            email = email,
+            password = password,
+        )
+
+        if(response.isSuccess) {
+            pref.accessToken = response.data.accessToken
+        } else {
+            Timber.e(response.message)
+        }
+    }
+
+    override suspend fun logoutUser(): Result<Unit> = runCatching {
+        userClient.logout(
+            token = pref.fcmToken,
+            accessToken = pref.accessToken,
+        )
     }
 }
