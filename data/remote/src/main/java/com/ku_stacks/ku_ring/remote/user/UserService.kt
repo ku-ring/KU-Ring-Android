@@ -5,6 +5,7 @@ import com.ku_stacks.ku_ring.remote.user.request.RegisterUserRequest
 import com.ku_stacks.ku_ring.remote.user.request.SignInRequest
 import com.ku_stacks.ku_ring.remote.user.request.SignUpRequest
 import com.ku_stacks.ku_ring.remote.user.response.KuringBotQueryCountResponse
+import com.ku_stacks.ku_ring.remote.user.response.SignInResponse
 import com.ku_stacks.ku_ring.remote.util.DefaultResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -34,7 +35,7 @@ interface UserService {
     suspend fun signIn(
         @Header("User-Token") token: String,
         @Body request: SignInRequest,
-    ): DefaultResponse
+    ): SignInResponse
 
     @GET("v2/users/logout")
     suspend fun logout(

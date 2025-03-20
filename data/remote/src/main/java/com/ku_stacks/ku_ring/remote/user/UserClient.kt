@@ -4,6 +4,7 @@ import com.ku_stacks.ku_ring.remote.user.request.FeedbackRequest
 import com.ku_stacks.ku_ring.remote.user.request.RegisterUserRequest
 import com.ku_stacks.ku_ring.remote.user.request.SignInRequest
 import com.ku_stacks.ku_ring.remote.user.request.SignUpRequest
+import com.ku_stacks.ku_ring.remote.user.response.SignInResponse
 import com.ku_stacks.ku_ring.remote.util.DefaultResponse
 import com.ku_stacks.ku_ring.util.suspendRunCatching
 import javax.inject.Inject
@@ -36,7 +37,7 @@ class UserClient @Inject constructor(
             request = SignUpRequest(email, password)
         )
 
-    suspend fun signIn(token: String, email: String, password: String): DefaultResponse =
+    suspend fun signIn(token: String, email: String, password: String): SignInResponse =
         userService.signIn(
             token = token,
             request = SignInRequest(email, password)
