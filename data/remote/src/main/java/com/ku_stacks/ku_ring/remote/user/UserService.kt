@@ -37,7 +37,7 @@ interface UserService {
         @Body request: SignInRequest,
     ): SignInResponse
 
-    @GET("v2/users/logout")
+    @POST("v2/users/logout")
     suspend fun logout(
         @Header("User-Token") token: String,
         @Header("Authorization") accessToken: String,
