@@ -76,9 +76,15 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun logoutUser(): Result<Unit> = runCatching {
-        userClient.logout(
+        val response = userClient.logout(
             token = pref.fcmToken,
             accessToken = pref.accessToken,
         )
+
+        if(response.isSuccess) {
+            pref.deleteAccessToken()
+        } else {
+            Timber.e(response.resultMsg)
+        }
     }
 }

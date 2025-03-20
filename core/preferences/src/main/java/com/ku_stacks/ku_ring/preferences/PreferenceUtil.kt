@@ -46,6 +46,10 @@ class PreferenceUtil(@ApplicationContext context: Context) {
         prefs.edit().remove(START_DATE).apply()
     }
 
+    fun deleteAccessToken() {
+        prefs.edit().remove(ACCESS_TOKEN).apply()
+    }
+
     fun saveSubscriptionFromKorean(koreanDepartmentNames: List<String>) {
         val stringSet = koreanDepartmentNames.map {
             WordConverter.convertKoreanToShortEnglish(it)
