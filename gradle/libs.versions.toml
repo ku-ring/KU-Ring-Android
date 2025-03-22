@@ -21,7 +21,7 @@ kotlinx-serialization-json = "1.8.0"
 
 # Compose
 compose-compiler = '1.4.8'
-compose-bom = '2025.02.00'
+compose-bom = '2025.03.00'
 
 # Androidx
 androidx-lifecycle = '2.8.7'
