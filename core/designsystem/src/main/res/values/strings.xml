@@ -17,6 +17,9 @@
     <string name="notice_refresh_error_message">공지 로드 중 에러가 발생했어요.\n잠시 후 다시 시도해 주세요.</string>
     <string name="webview_url_null">페이지 로드 중 에러가 발생했어요.\n잠시 후 다시 시도해 주세요.</string>
 
+    <string name="comment_reply_icon">대댓글 달기</string>
+    <string name="comment_delete">댓글 삭제하기</string>
+
     <!-- re-engagement notification -->
     <string name="reengagement_title">공지를 일주일 이상 확인하지 않았어요!</string>
     <string name="reengagement_body">놓친 공지가 있는지 확인해보세요 🔔</string>
