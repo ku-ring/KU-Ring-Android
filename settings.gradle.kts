@@ -38,6 +38,7 @@ include(
     ":data:remote",
     ":data:space",
     ":data:search",
+    ":domain:user",
     ":core:thirdparty",
     ":core:work",
     ":core:testUtil",
