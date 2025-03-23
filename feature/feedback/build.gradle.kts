@@ -18,7 +18,7 @@ dependencies {
     implementation(projects.core.preferences)
     implementation(projects.data.domain)
     implementation(projects.data.remote)
-    implementation(projects.data.user)
+    implementation(projects.domain.user)
     testImplementation(projects.core.testUtil)
 
     implementation(libs.bundles.compose.interop)

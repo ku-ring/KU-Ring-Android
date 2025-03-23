@@ -3,11 +3,11 @@ package com.ku_stacks.ku_ring.feedback.feedback
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ku_stacks.ku_ring.domain.user.repository.UserRepository
 import com.ku_stacks.ku_ring.feedback.R
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.thirdparty.firebase.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.ui_util.SingleLiveEvent
-import com.ku_stacks.ku_ring.user.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -75,11 +75,12 @@ class FeedbackViewModel @Inject constructor(
             val content = feedbackContent.value
 
             userRepository.sendFeedback(content).onSuccess {
-                if (it.isSuccess) {
+                val (isSuccess, resultMessage) = it
+                if (isSuccess) {
                     _toastByResource.value = R.string.feedback_success
                     _quit.call()
                 } else {
-                    _toast.value = it.resultMsg
+                    _toast.value = resultMessage
                 }
             }.onFailure {
                 _toastByResource.postValue(R.string.feedback_cannot_send)

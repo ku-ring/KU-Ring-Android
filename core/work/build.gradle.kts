@@ -11,7 +11,7 @@ android {
 dependencies {
     implementation(projects.core.util)
     implementation(projects.core.uiUtil)
-    implementation(projects.data.user)
+    implementation(projects.domain.user)
 
     // WorkManager
     api(libs.bundles.androidx.work)
