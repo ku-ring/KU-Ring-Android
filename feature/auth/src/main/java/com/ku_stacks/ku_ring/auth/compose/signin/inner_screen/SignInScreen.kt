@@ -73,7 +73,7 @@ internal fun SignInScreen(
     }
 
     SignInScreen(
-        id = viewModel.id,
+        id = viewModel.email,
         password = viewModel.password,
         isSignInFailed = viewModel.signInDialogState,
         onBackButtonClick = onNavigateUp,

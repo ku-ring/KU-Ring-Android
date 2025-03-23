@@ -16,12 +16,11 @@ import javax.inject.Inject
 class SignInViewModel @Inject constructor(
     private val userRepository: UserRepository
 ) : ViewModel() {
-    //TODO: 로직 구현시 지워질 예정
-    private var _email by mutableStateOf("")
-    val id get() = _email
+    var email by mutableStateOf("")
+        private set
 
-    private var _password by mutableStateOf("")
-    val password get() = _password
+    var password by mutableStateOf("")
+        private set
 
     private var _signInDialogState by mutableStateOf(false)
     val signInDialogState get() = _signInDialogState
@@ -29,12 +28,12 @@ class SignInViewModel @Inject constructor(
     private val _sideEffect = Channel<SignInSideEffect>()
     val sideEffect = _sideEffect.receiveAsFlow()
 
-    fun updateEmail(id: String) {
-        _email = id
+    fun updateEmail(email: String) {
+        this.email = email
     }
 
     fun updatePassword(password: String) {
-        _password = password
+        this.password = password
     }
 
     fun updateSignInDialogState(state: Boolean) {
@@ -43,8 +42,8 @@ class SignInViewModel @Inject constructor(
 
     fun signInUser() = viewModelScope.launch {
         userRepository.signUpUser(
-            email = _email,
-            password = _password
+            email = email,
+            password = password
         ).onSuccess {
             _sideEffect.send(SignInSideEffect.NavigateToMain)
         }.onFailure {
