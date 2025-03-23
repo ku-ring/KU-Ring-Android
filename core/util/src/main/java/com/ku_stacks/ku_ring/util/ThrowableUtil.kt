@@ -1,15 +1,21 @@
 package com.ku_stacks.ku_ring.util
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import retrofit2.HttpException
 
-fun Throwable.getHttpExceptionMessage(): String? = when(this) {
+fun Throwable.getHttpExceptionMessage(): String? = when (this) {
     is HttpException -> {
         val errorBody = response()?.errorBody()?.string()
 
         if (!errorBody.isNullOrBlank()) {
-            Json.decodeFromString<ErrorMessage>(errorBody).resultMsg
+            runCatching {
+                Json.decodeFromString<ErrorMessage>(errorBody).resultMessage
+            }.fold(
+                onSuccess = { it },
+                onFailure = { null }
+            )
         } else null
     }
     else -> null
@@ -17,7 +23,8 @@ fun Throwable.getHttpExceptionMessage(): String? = when(this) {
 
 @Serializable
 private data class ErrorMessage(
-    val resultMsg: String,
+    @SerialName("resultMsg")
+    val resultMessage: String,
     val resultCode: Int,
     val isSuccess: Boolean,
 )
