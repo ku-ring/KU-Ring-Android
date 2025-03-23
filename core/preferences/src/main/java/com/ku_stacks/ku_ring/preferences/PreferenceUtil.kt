@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.ku_stacks.ku_ring.util.WordConverter
 import dagger.hilt.android.qualifiers.ApplicationContext
+import androidx.core.content.edit
 
 class PreferenceUtil(@ApplicationContext context: Context) {
 
@@ -20,7 +21,7 @@ class PreferenceUtil(@ApplicationContext context: Context) {
 
     var accessToken: String
         get() = prefs.getString(ACCESS_TOKEN, "") ?: ""
-        set(value) = prefs.edit().putString(ACCESS_TOKEN, value).apply()
+        set(value) = prefs.edit { putString(ACCESS_TOKEN, value) }
 
     var fcmToken: String
         get() = prefs.getString(FCM_TOKEN, "") ?: ""
@@ -47,7 +48,7 @@ class PreferenceUtil(@ApplicationContext context: Context) {
     }
 
     fun deleteAccessToken() {
-        prefs.edit().remove(ACCESS_TOKEN).apply()
+        prefs.edit { remove(ACCESS_TOKEN) }
     }
 
     fun saveSubscriptionFromKorean(koreanDepartmentNames: List<String>) {
