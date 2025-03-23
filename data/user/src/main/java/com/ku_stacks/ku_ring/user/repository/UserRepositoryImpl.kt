@@ -68,7 +68,7 @@ class UserRepositoryImpl @Inject constructor(
             password = password,
         )
 
-        if(response.isSuccess) {
+        if (response.isSuccess) {
             pref.accessToken = response.data.accessToken
         } else {
             Timber.e(response.message)
@@ -81,7 +81,7 @@ class UserRepositoryImpl @Inject constructor(
             accessToken = pref.accessToken,
         )
 
-        if(response.isSuccess) {
+        if (response.isSuccess) {
             pref.deleteAccessToken()
         } else {
             Timber.e(response.resultMsg)
