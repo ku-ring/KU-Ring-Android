@@ -1,5 +1,6 @@
 package com.ku_stacks.ku_ring.user.repository
 
+import com.ku_stacks.ku_ring.domain.CategoryOrder
 import com.ku_stacks.ku_ring.remote.util.DefaultResponse
 import kotlinx.coroutines.flow.Flow
 
@@ -16,4 +17,9 @@ interface UserRepository {
     suspend fun signUpUser(email: String, password: String): Result<Unit>
     suspend fun signInUser(email: String, password: String): Result<Unit>
     suspend fun logoutUser(): Result<Unit>
+
+    suspend fun getCategoryOrders(): List<CategoryOrder>
+    fun getCategoryOrdersAsFlow(): Flow<List<CategoryOrder>>
+    suspend fun updateCategoryOrder(order: CategoryOrder)
+    suspend fun updateCategoryOrders(orders: List<CategoryOrder>)
 }

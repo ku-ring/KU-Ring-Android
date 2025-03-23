@@ -1,8 +1,8 @@
 [versions]
 # project-level dependency
-android-gradle = "8.8.1"
-kotlin = '2.1.10'
-ksp = '2.1.10-1.0.30'
+android-gradle = "8.9.0"
+kotlin = '2.1.20'
+ksp = '2.1.20-1.0.31'
 hilt = '2.55'
 google-services = '4.4.2'
 firebase-gradle = '3.0.3'
@@ -21,21 +21,21 @@ kotlinx-serialization-json = "1.8.0"
 
 # Compose
 compose-compiler = '1.4.8'
-compose-bom = '2025.02.00'
+compose-bom = '2025.03.00'
 
 # Androidx
 androidx-lifecycle = '2.8.7'
 androidx-appcompat = "1.7.0"
-androidx-constraintlayout = "2.2.0"
-androidx-constraintlayout-compose = "1.1.0"
+androidx-constraintlayout = "2.2.1"
+androidx-constraintlayout-compose = "1.1.1"
 androidx-activity = '1.9.3'
 androidx-core = "1.13.1"
 androidx-fragment = '1.8.6'
-androidx-paging = '3.3.5'
+androidx-paging = '3.3.6'
 androidx-room = '2.6.1'
 androidx-viewpager2 = '1.1.0'
 androidx-work = '2.9.1'
-androidx-navigation = "2.8.7"
+androidx-navigation = "2.8.9"
 androidx-startup = '1.2.0'
 androidx-swiperefreshlayout = '1.2.0-alpha01'
 android-material = '1.12.0'
@@ -43,7 +43,7 @@ androidx-hilt = "1.2.0"
 androidx-test-core = "1.6.1"
 androidx-test-rules = "1.6.1"
 androidx-test = "1.6.2"
-desugarJdk = "2.1.4"
+desugarJdk = "2.1.5"
 
 # Test
 androidx-espresso = "3.6.1"
@@ -52,10 +52,10 @@ androidx-espresso = "3.6.1"
 coil = '2.7.0'
 okhttp = '4.12.0'
 retrofit = '2.11.0'
-firebase = '33.9.0'
+firebase = '33.11.0'
 crashlytics = "3.0.3"
-lottie = "6.6.2"
-ktor = "3.1.0"
+lottie = "6.6.4"
+ktor = "3.1.1"
 
 [libraries]
 # Project-level dependencies
@@ -123,7 +123,7 @@ androidx-work-runtime-ktx = { module = 'androidx.work:work-runtime-ktx', version
 androidx-hilt-work = { module = "androidx.hilt:hilt-work", version.ref = "androidx-hilt" }
 
 # Unit Test
-mockito-core = 'org.mockito:mockito-core:5.15.2'
+mockito-core = 'org.mockito:mockito-core:5.16.1'
 mockito-inline = 'org.mockito:mockito-inline:5.2.0'
 mockito-kotlin = 'org.mockito.kotlin:mockito-kotlin:5.4.0'
 junit = 'junit:junit:4.13.2'
@@ -140,7 +140,7 @@ hilt-android-testing = { module = 'com.google.dagger:hilt-android-testing', vers
 androidx-espresso-core = { module = 'androidx.test.espresso:espresso-core', version.ref = 'androidx-espresso' }
 androidx-espresso-intents = { module = 'androidx.test.espresso:espresso-intents', version.ref = 'androidx-espresso' }
 androidx-junit = 'androidx.test.ext:junit:1.2.1'
-mockito-android = 'org.mockito:mockito-android:5.15.2'
+mockito-android = 'org.mockito:mockito-android:5.16.1'
 androidx-test-runner = { module = 'androidx.test:runner', version.ref = 'androidx-test' }
 androidx-test-rules = { module = 'androidx.test:rules', version.ref = 'androidx-test-rules' }
 
@@ -189,7 +189,7 @@ leakcanary-android = 'com.squareup.leakcanary:leakcanary-android:2.14'
 pageindicatorview = 'com.romandanylyk:pageindicatorview:1.0.3'
 shimmer = 'com.facebook.shimmer:shimmer:0.5.0'
 timber = 'com.jakewharton.timber:timber:5.0.1'
-semver = "net.swiftzer.semver:semver:2.0.0"
+semver = "net.swiftzer.semver:semver:2.1.0"
 
 [bundles]
 retrofit = [
