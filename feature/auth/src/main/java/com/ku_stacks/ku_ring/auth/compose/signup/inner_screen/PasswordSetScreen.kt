@@ -13,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.ku_stacks.ku_ring.auth.compose.component.textfield.OutlinedSupportingTextField
 import com.ku_stacks.ku_ring.auth.compose.component.textfield.OutlinedTextFieldState
@@ -80,6 +81,7 @@ private fun PasswordSetScreen(
             onQueryUpdate = onPasswordChange,
             textFieldState = passwordTextFieldState,
             placeholderText = stringResource(sign_up_password_placeholder_password),
+            visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 20.dp, end = 20.dp, top = 45.dp),
@@ -90,6 +92,7 @@ private fun PasswordSetScreen(
             onQueryUpdate = onPasswordCheckChange,
             textFieldState = passwordCheckTextFieldState,
             placeholderText = stringResource(sign_up_password_placeholder_password_check),
+            visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 20.dp, end = 20.dp, top = 8.dp),
