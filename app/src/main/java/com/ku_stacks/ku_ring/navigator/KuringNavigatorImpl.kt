@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.ku_stacks.ku_ring.R
+import com.ku_stacks.ku_ring.auth.AuthActivity
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.domain.WebViewNotice
 import com.ku_stacks.ku_ring.domain.mapper.toWebViewNotice
@@ -99,5 +100,9 @@ class KuringNavigatorImpl @Inject constructor() : KuringNavigator {
 
     override fun navigateToLibrarySeat(activity: Activity) {
         LibrarySeatActivity.start(activity)
+    }
+
+    override fun navigateToAuth(activity: Activity) {
+        AuthActivity.start(activity)
     }
 }
