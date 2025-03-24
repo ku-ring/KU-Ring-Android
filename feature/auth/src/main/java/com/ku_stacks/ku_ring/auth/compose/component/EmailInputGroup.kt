@@ -27,7 +27,7 @@ private const val TEXT_FIELD_WEIGHT = 210 / 375f
 private const val BUTTON_WEIGHT = 114 / 375f
 
 @Composable
-internal fun EmailInputField(
+internal fun EmailInputGroup(
     text: String,
     onTextChange: (String) -> Unit,
     onSendButtonClick: () -> Unit,
@@ -73,7 +73,7 @@ private fun EmailInputFieldPreview() {
     var isCodeSent by remember { mutableStateOf(false) }
 
     KuringTheme {
-        EmailInputField(
+        EmailInputGroup(
             text = email,
             onTextChange = { email = it },
             onSendButtonClick = { isCodeSent = !isCodeSent },
