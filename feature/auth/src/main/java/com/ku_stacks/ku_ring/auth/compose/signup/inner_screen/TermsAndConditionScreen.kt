@@ -50,7 +50,7 @@ import com.ku_stacks.ku_ring.feature.auth.R.string.sign_up_terms_top_bar_sub_hea
 
 
 @Composable
-internal fun TermsScreen(
+internal fun TermsAndConditionsScreen(
     onNavigateUp: () -> Unit,
     onNavigateToEmailVerification: () -> Unit,
     modifier: Modifier = Modifier,
