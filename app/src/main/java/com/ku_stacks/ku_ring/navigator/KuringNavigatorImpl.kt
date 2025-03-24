@@ -102,7 +102,7 @@ class KuringNavigatorImpl @Inject constructor() : KuringNavigator {
         LibrarySeatActivity.start(activity)
     }
 
-    override fun navigateToAuth(activity: Activity) {
-        AuthActivity.start(activity)
+    override fun navigateToAuth(context: Context) {
+        AuthActivity.start(context)
     }
 }
