@@ -200,13 +200,10 @@ private fun UserGrantRadioButton(
 }
 
 @Composable
-private fun CheckIcon(
-    modifier: Modifier = Modifier,
-    contentDescription: String? = null,
-) {
+private fun CheckIcon(modifier: Modifier = Modifier) {
     Icon(
         painter = painterResource(ic_check_circle_fill_v2),
-        contentDescription = contentDescription,
+        contentDescription = stringResource(sign_up_terms_conditions_request_approved),
         tint = KuringTheme.colors.mainPrimary,
         modifier = modifier
             .size(24.dp)
@@ -215,13 +212,10 @@ private fun CheckIcon(
 }
 
 @Composable
-private fun UncheckIcon(
-    modifier: Modifier = Modifier,
-    contentDescription: String? = null,
-) {
+private fun UncheckIcon(modifier: Modifier = Modifier) {
     Icon(
         painter = painterResource(ic_check_circle_fill_2_v2),
-        contentDescription = contentDescription,
+        contentDescription = stringResource(sign_up_terms_conditions_request_declined),
         tint = KuringTheme.colors.gray300,
         modifier = modifier
             .size(24.dp)
