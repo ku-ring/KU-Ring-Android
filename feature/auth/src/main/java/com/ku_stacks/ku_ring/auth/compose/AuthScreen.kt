@@ -12,8 +12,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.ku_stacks.ku_ring.auth.compose.signin.signInNavGraph
 import com.ku_stacks.ku_ring.auth.compose.signup.signUpNavGraph
-import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 
 @Composable
 internal fun AuthScreen(
@@ -58,11 +56,3 @@ internal fun animationDirection(initialState: NavBackStackEntry, targetState: Na
 
 internal val NavBackStackEntry.screenOrder: Int
     get() = AuthDestination.getOrder(destination)
-
-@LightAndDarkPreview
-@Composable
-private fun AuthScreenPreview() {
-    KuringTheme {
-        AuthScreen(onNavigateUp = {})
-    }
-}
