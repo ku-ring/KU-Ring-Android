@@ -19,7 +19,7 @@ internal sealed interface AuthDestination {
     data object SignUpEmailVerification : AuthDestination
 
     @Serializable
-    data object SignUpPasswordSet : AuthDestination
+    data object SignUpSetPassword : AuthDestination
 
     @Serializable
     data object SignUpComplete : AuthDestination
@@ -31,7 +31,7 @@ internal sealed interface AuthDestination {
                 route.hasRoute(SignUp::class) -> 1
                 route.hasRoute(SignUpTermsAndConditions::class) -> 2
                 route.hasRoute(SignUpEmailVerification::class) -> 3
-                route.hasRoute(SignUpPasswordSet::class) -> 4
+                route.hasRoute(SignUpSetPassword::class) -> 4
                 route.hasRoute(SignUpComplete::class) -> 5
                 else -> 6
             }

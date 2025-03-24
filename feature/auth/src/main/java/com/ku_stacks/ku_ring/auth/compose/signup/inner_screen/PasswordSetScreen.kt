@@ -30,7 +30,7 @@ import com.ku_stacks.ku_ring.feature.auth.R.string.sign_up_password_top_bar_head
 import com.ku_stacks.ku_ring.feature.auth.R.string.sign_up_password_top_bar_sub_heading
 
 @Composable
-internal fun PasswordSetScreen(
+internal fun SetPasswordScreen(
     onNavigateUp: () -> Unit,
     onNavigateToSignUpComplete: () -> Unit,
     modifier: Modifier = Modifier,
@@ -38,7 +38,7 @@ internal fun PasswordSetScreen(
     var password by remember { mutableStateOf("") }
     var passwordCheck by remember { mutableStateOf("") }
 
-    PasswordSetScreen(
+    SetPasswordScreen(
         password = password,
         passwordCheck = passwordCheck,
         passwordTextFieldState = OutlinedTextFieldState.Empty,
@@ -53,7 +53,7 @@ internal fun PasswordSetScreen(
 }
 
 @Composable
-private fun PasswordSetScreen(
+private fun SetPasswordScreen(
     password: String,
     passwordCheck: String,
     passwordTextFieldState: OutlinedTextFieldState,
@@ -113,7 +113,7 @@ private fun PasswordSetScreen(
 
 @LightAndDarkPreview
 @Composable
-private fun PasswordScreenPreview() {
+private fun SetPasswordScreenPreview() {
     var password by remember { mutableStateOf("") }
     var passwordCheck by remember { mutableStateOf("") }
     val passwordTextFieldState = if (password.isNotBlank() && password.length < 6) {
@@ -132,7 +132,7 @@ private fun PasswordScreenPreview() {
     }
 
     KuringTheme {
-        PasswordSetScreen(
+        SetPasswordScreen(
             password = password,
             passwordCheck = passwordCheck,
             passwordTextFieldState = passwordTextFieldState,

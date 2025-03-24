@@ -6,7 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.ku_stacks.ku_ring.auth.compose.AuthDestination
 import com.ku_stacks.ku_ring.auth.compose.signup.inner_screen.EmailVerificationScreen
-import com.ku_stacks.ku_ring.auth.compose.signup.inner_screen.PasswordSetScreen
+import com.ku_stacks.ku_ring.auth.compose.signup.inner_screen.SetPasswordScreen
 import com.ku_stacks.ku_ring.auth.compose.signup.inner_screen.SignUpCompleteScreen
 import com.ku_stacks.ku_ring.auth.compose.signup.inner_screen.TermsAndConditionsScreen
 
@@ -28,12 +28,12 @@ internal fun NavGraphBuilder.signUpNavGraph(
             EmailVerificationScreen(
                 onNavigateUp = navController::navigateUp,
                 onNavigateToPassword = {
-                    navController.navigate(AuthDestination.SignUpPasswordSet)
+                    navController.navigate(AuthDestination.SignUpSetPassword)
                 },
             )
         }
-        composable<AuthDestination.SignUpPasswordSet> {
-            PasswordSetScreen(
+        composable<AuthDestination.SignUpSetPassword> {
+            SetPasswordScreen(
                 onNavigateUp = navController::navigateUp,
                 onNavigateToSignUpComplete = {
                     navController.navigate(AuthDestination.SignUpComplete)
