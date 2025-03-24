@@ -41,18 +41,11 @@ internal fun AuthScreen(
         modifier = modifier.fillMaxSize()
     ) {
         signInNavGraph(
+            navController = navController,
             onNavigateUp = onNavigateUp,
-            onNavigateToMain = navController::navigateUp,
-            onNavigateToSignUp = { navController.navigate(AuthDestination.SignUp) },
-            onNavigateToFindPassword = { },  //TODO: 비밀번호 찾기 화면으로 이동
         )
 
-        signUpNavGraph(
-            navController = navController,
-            onSignUpComplete = {
-                navController.popBackStack(AuthDestination.SignIn, inclusive = false)
-            },
-        )
+        signUpNavGraph(navController = navController)
     }
 }
 

@@ -11,7 +11,6 @@ import com.ku_stacks.ku_ring.auth.compose.signup.inner_screen.SignUpCompleteScre
 import com.ku_stacks.ku_ring.auth.compose.signup.inner_screen.TermsAndConditionsScreen
 
 internal fun NavGraphBuilder.signUpNavGraph(
-    onSignUpComplete: () -> Unit,
     navController: NavHostController,
 ) {
     navigation<AuthDestination.SignUp>(
@@ -43,7 +42,9 @@ internal fun NavGraphBuilder.signUpNavGraph(
         }
         composable<AuthDestination.SignUpComplete> {
             SignUpCompleteScreen(
-                onNavigateToSignIn = onSignUpComplete,
+                onNavigateToSignIn = {
+                    navController.popBackStack(AuthDestination.SignIn, inclusive = false)
+                },
             )
         }
     }
