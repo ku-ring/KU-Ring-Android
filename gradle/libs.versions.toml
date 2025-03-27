@@ -55,7 +55,7 @@ retrofit = '2.11.0'
 firebase = '33.11.0'
 crashlytics = "3.0.3"
 lottie = "6.6.4"
-ktor = "3.1.1"
+ktor = "3.1.2"
 javax-inject = "1"
 
 [libraries]
