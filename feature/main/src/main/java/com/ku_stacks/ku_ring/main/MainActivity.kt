@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
+import androidx.core.content.IntentCompat
 import androidx.navigation.compose.rememberNavController
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.WebViewNotice
@@ -25,7 +26,12 @@ class MainActivity : AppCompatActivity() {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
 
-        (intent.getSerializableExtra(WebViewNotice.EXTRA_KEY) as? WebViewNotice)?.let { webViewNotice ->
+        val notice = IntentCompat.getSerializableExtra(
+            intent,
+            WebViewNotice.EXTRA_KEY,
+            WebViewNotice::class.java
+        )
+        notice?.let { webViewNotice ->
             navToNoticeActivity(webViewNotice)
         }
     }
@@ -33,7 +39,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        (intent?.getSerializableExtra(WebViewNotice.EXTRA_KEY) as? WebViewNotice)?.let { webViewNotice ->
+        val notice = IntentCompat.getSerializableExtra(
+            intent,
+            WebViewNotice.EXTRA_KEY,
+            WebViewNotice::class.java
+        )
+        notice?.let { webViewNotice ->
             navToNoticeActivity(webViewNotice)
         }
 
@@ -42,7 +53,9 @@ class MainActivity : AppCompatActivity() {
                 val navController = rememberNavController()
                 MainScreen(
                     navController = navController,
-                    modifier = Modifier.fillMaxSize().background(KuringTheme.colors.background),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(KuringTheme.colors.background),
                 )
             }
         }
