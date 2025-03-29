@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -23,8 +24,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ku_stacks.ku_ring.auth.compose.component.button.RoundedCornerButton
 import com.ku_stacks.ku_ring.auth.compose.component.topbar.AuthTopBar
+import com.ku_stacks.ku_ring.auth.compose.signout.SignOutViewModel
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
@@ -41,8 +44,13 @@ internal fun SignOutScreen(
     onNavigateUp: () -> Unit,
     onNavigateToSignOutComplete: () -> Unit,
     modifier: Modifier = Modifier,
+    viewModel: SignOutViewModel = hiltViewModel()
 ) {
     var isConfirmDialogVisible by remember { mutableStateOf(false) }
+
+    LaunchedEffect(viewModel.isSignOutSuccess) {
+        if (viewModel.isSignOutSuccess) onNavigateToSignOutComplete()
+    }
 
     Column(
         modifier = modifier
@@ -91,10 +99,7 @@ internal fun SignOutScreen(
     ) {
         SignOutDialog(
             onDismiss = { isConfirmDialogVisible = false },
-            onConfirm = {
-                // TODO: 뷰모델 탈퇴 API 호출
-                onNavigateToSignOutComplete()
-            }
+            onConfirm = viewModel::signOut
         )
     }
 }
