@@ -81,4 +81,14 @@
     <string name="sign_up_complete_sub_heading">이어서 쿠링을 더 다채롭게 이용해보세요!</string>
     <string name="sign_up_complete_button_proceed">로그인 후 쿠링 계속하기</string>
 
+    <!--SignOut Screen-->
+    <string name="sign_out_top_bar_heading">탈퇴하기</string>
+    <string name="sign_out_top_bar_sub_heading">쿠링을 탈퇴하기 전에\n하단 정보를 확인해주세요.</string>
+    <string name="sign_out_info_title_1">처음부터 다시 가입해야해요. 🔐</string>
+    <string name="sign_out_info_content_1">탈퇴 회원의 개인정보는 관련 법령에 따라 일정 기간\n안전하게 보관되며, 그 이후 자동 파기 되어요.\n다시 앱을 시작하려면 회원가입부터 다시 해야 해요.</string>
+    <string name="sign_out_info_title_2">등록된 댓글은 자동으로 삭제되지 않아요. 💬</string>
+    <string name="sign_out_info_content_2">탈퇴 전 개별적으로 삭제되었는지 확인해주세요.</string>
+    <string name="sign_out_button_confirm">탈퇴하기</string>
+    <string name="sign_out_button_cancel">취소</string>
+    <string name="sign_out_dialog_text">정말 쿠링을 탈퇴하시겠어요?\n해당 단계 이후 계정 복구가 불가해요.</string>
 </resources>
