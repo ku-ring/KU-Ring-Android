@@ -56,7 +56,6 @@ internal fun EmailVerificationScreen(
         onEmailChange = { email = it },
         onCodeChange = { code = it },
         onSendCodeClick = { isCodeSent = !isCodeSent },
-        onVerifyCodeClick = { isVerified = !isVerified },
         onBackButtonClick = onNavigateUp,
         onKuMailClick = {},
         onProceedButtonClick = onNavigateToPassword,
@@ -73,7 +72,6 @@ internal fun EmailVerificationScreen(
     onEmailChange: (String) -> Unit,
     onCodeChange: (String) -> Unit,
     onSendCodeClick: () -> Unit,
-    onVerifyCodeClick: () -> Unit,
     onBackButtonClick: () -> Unit,
     onKuMailClick: () -> Unit,
     onProceedButtonClick: () -> Unit,
@@ -107,7 +105,6 @@ internal fun EmailVerificationScreen(
             CodeInputField(
                 text = code,
                 onTextChange = onCodeChange,
-                onVerifyButtonClick = onVerifyCodeClick,
                 modifier = Modifier
                     .padding(top = 8.dp)
             )
@@ -151,17 +148,15 @@ private fun EmailVerificationScreenPreview() {
         var email by remember { mutableStateOf("") }
         var code by remember { mutableStateOf("") }
         var isCodeSent by remember { mutableStateOf(false) }
-        var isVerified by remember { mutableStateOf(false) }
 
         EmailVerificationScreen(
             email = email,
             code = code,
             isCodeSent = isCodeSent,
-            isVerified = isVerified,
+            isVerified = false,
             onEmailChange = { email = it },
             onCodeChange = { code = it },
             onSendCodeClick = { isCodeSent = !isCodeSent },
-            onVerifyCodeClick = { isVerified = !isVerified },
             onBackButtonClick = { },
             onKuMailClick = {},
             onProceedButtonClick = { },
