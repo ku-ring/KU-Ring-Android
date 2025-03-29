@@ -91,4 +91,8 @@
     <string name="sign_out_button_confirm">탈퇴하기</string>
     <string name="sign_out_button_cancel">취소</string>
     <string name="sign_out_dialog_text">정말 쿠링을 탈퇴하시겠어요?\n해당 단계 이후 계정 복구가 불가해요.</string>
+    <string name="sign_out_complete_top_bar_heading">탈퇴가 완료되었어요.</string>
+    <string name="sign_out_complete_top_bar_sub_heading">쿠링이 필요할 때 또 만나요!</string>
+    <string name="sign_out_complete_app_icon">쿠링</string>
+    <string name="sign_out_complete_button">확인</string>
 </resources>
