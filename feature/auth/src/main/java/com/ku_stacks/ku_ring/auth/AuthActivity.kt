@@ -24,7 +24,7 @@ class AuthActivity : AppCompatActivity() {
             }
             AuthScreen(
                 onNavigateUp = {
-                    onBackPressedDispatcherOwner?.onBackPressedDispatcher.onBackPressed()
+                    onBackPressedDispatcherOwner?.onBackPressedDispatcher?.onBackPressed()
                 }
             )
         }
