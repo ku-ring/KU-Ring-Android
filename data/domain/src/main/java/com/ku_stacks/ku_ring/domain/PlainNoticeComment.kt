@@ -9,5 +9,5 @@ data class PlainNoticeComment(
     val content: String,
     val postedDatetime: String,
     val updatedDatetime: String,
-    // Field "destroyedAt" is not used now. Add when needed.
+    // TODO: Field "destroyedAt" is not used now. Add when needed.
 )
