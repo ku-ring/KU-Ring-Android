@@ -22,6 +22,8 @@ class ResetPasswordViewModel @Inject constructor() : ViewModel() {
     var codeInputFieldEnable = MutableStateFlow(false)
         private set
 
+    var password by mutableStateOf("")
+
     fun updateEmail(email: String) {
         this.email = email
         codeInputFieldEnable.value = false
@@ -49,5 +51,19 @@ class ResetPasswordViewModel @Inject constructor() : ViewModel() {
             // TODO: 텍스트필드에 오류 메시지 표시
             Timber.e("current code: $code")
         }
+    }
+
+    fun checkPassword(): Boolean = password.matches(passwordRegex)
+
+    fun resetPassword() = viewModelScope.launch {
+        runCatching {
+            // TODO: 비밀번호 재설정 API 호출
+        }.onSuccess {
+            _sideEffect.send(ResetPasswordSideEffect.NavigateToSignIn)
+        }.onFailure(Timber::e)
+    }
+
+    companion object {
+        private val passwordRegex = Regex("^(?=.*[a-z])(?=.*\\d)[a-z\\d]{6,20}$")
     }
 }

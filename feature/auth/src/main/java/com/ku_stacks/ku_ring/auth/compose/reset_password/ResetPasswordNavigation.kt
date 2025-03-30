@@ -6,7 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.ku_stacks.ku_ring.auth.compose.AuthDestination
 import com.ku_stacks.ku_ring.auth.compose.reset_password.inner_screen.EmailVerificationScreen
-import com.ku_stacks.ku_ring.auth.compose.reset_password.inner_screen.ReSetPasswordScreen
+import com.ku_stacks.ku_ring.auth.compose.reset_password.inner_screen.ResetPasswordScreen
 
 internal fun NavGraphBuilder.resetPasswordNavGraph(
     navController: NavHostController,
@@ -23,7 +23,7 @@ internal fun NavGraphBuilder.resetPasswordNavGraph(
             )
         }
         composable<AuthDestination.ResetPasswordSetPassword> {
-            ReSetPasswordScreen(
+            ResetPasswordScreen(
                 onNavigateUp = navController::navigateUp,
                 onNavigateToSignIn = {
                     navController.popBackStack(AuthDestination.SignIn, inclusive = false)

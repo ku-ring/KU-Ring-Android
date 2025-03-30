@@ -59,8 +59,8 @@ internal fun EmailVerificationScreen(
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle)
             .collect { sideEffect ->
-                when (sideEffect) {
-                    ResetPasswordSideEffect.NavigateToResetPassword -> onNavigateToPassword()
+                if (sideEffect is ResetPasswordSideEffect.NavigateToResetPassword) {
+                    onNavigateToPassword()
                 }
             }
     }
