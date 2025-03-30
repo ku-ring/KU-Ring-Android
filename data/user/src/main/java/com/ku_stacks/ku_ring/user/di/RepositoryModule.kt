@@ -1,6 +1,6 @@
 package com.ku_stacks.ku_ring.user.di
 
-import com.ku_stacks.ku_ring.user.repository.UserRepository
+import com.ku_stacks.ku_ring.domain.user.repository.UserRepository
 import com.ku_stacks.ku_ring.user.repository.UserRepositoryImpl
 import dagger.Binds
 import dagger.Module

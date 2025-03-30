@@ -1,8 +1,8 @@
 [versions]
 # project-level dependency
-android-gradle = "8.9.0"
+android-gradle = "8.9.1"
 kotlin = '2.1.20'
-ksp = '2.1.20-1.0.31'
+ksp = '2.1.20-1.0.32'
 hilt = '2.55'
 google-services = '4.4.2'
 firebase-gradle = '3.0.3'
@@ -21,7 +21,7 @@ kotlinx-serialization-json = "1.8.0"
 
 # Compose
 compose-compiler = '1.4.8'
-compose-bom = '2025.03.00'
+compose-bom = '2025.03.01'
 
 # Androidx
 androidx-lifecycle = '2.8.7'
@@ -55,7 +55,8 @@ retrofit = '2.11.0'
 firebase = '33.11.0'
 crashlytics = "3.0.3"
 lottie = "6.6.4"
-ktor = "3.1.1"
+ktor = "3.1.2"
+javax-inject = "1"
 
 [libraries]
 # Project-level dependencies
@@ -161,6 +162,8 @@ coil-compose = { module = 'io.coil-kt:coil-compose', version.ref = 'coil' }
 # Hilt
 hilt-android = { module = 'com.google.dagger:hilt-android', version.ref = 'hilt' }
 hilt-compiler = { module = 'com.google.dagger:hilt-compiler', version.ref = 'hilt' }
+
+javax-inject = { group = "javax.inject", name = "javax.inject", version.ref = "javax-inject" }
 
 # OkHttp
 okhttp-bom = { module = "com.squareup.okhttp3:okhttp-bom", version.ref = "okhttp" }

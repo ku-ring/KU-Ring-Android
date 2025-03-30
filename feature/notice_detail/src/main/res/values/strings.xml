@@ -7,4 +7,9 @@
     <string name="download_success">다운로드가 완료되었어요</string>
     <string name="download_fail">다운로드에 실패했어요</string>
     <string name="share_externally_description">공유하기</string>
+
+    <!--  Comment resources  -->
+    <string name="see_comment">댓글 보기</string>
+    <string name="comment_bottom_sheet_title">댓글</string>
+    <string name="comment_bottom_sheet_error_loading">댓글 로드 중 에러가 발생했어요. 잠시 후 다시 시도해 주세요.</string>
 </resources>

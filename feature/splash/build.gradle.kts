@@ -19,6 +19,8 @@ dependencies {
     implementation(projects.core.work)
     implementation(projects.data.space)
     implementation(projects.data.department)
+    implementation(projects.data.user)
+    implementation(projects.domain.user)
 
     implementation(libs.androidx.constraintlayout)
     implementation(libs.semver)

@@ -1,13 +1,13 @@
 package com.ku_stacks.ku_ring.user.repository
 
 import com.ku_stacks.ku_ring.domain.CategoryOrder
+import com.ku_stacks.ku_ring.domain.user.repository.UserRepository
 import com.ku_stacks.ku_ring.local.entity.BlackUserEntity
 import com.ku_stacks.ku_ring.local.room.BlackUserDao
 import com.ku_stacks.ku_ring.local.room.CategoryOrderDao
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.remote.user.UserClient
 import com.ku_stacks.ku_ring.remote.user.request.FeedbackRequest
-import com.ku_stacks.ku_ring.remote.util.DefaultResponse
 import com.ku_stacks.ku_ring.user.mapper.toDomain
 import com.ku_stacks.ku_ring.user.mapper.toEntity
 import com.ku_stacks.ku_ring.util.suspendRunCatching
@@ -39,17 +39,19 @@ class UserRepositoryImpl @Inject constructor(
         return dao.getBlackList().map { it.map { it.userId } }
     }
 
-    override suspend fun sendFeedback(feedback: String): Result<DefaultResponse> {
+    override suspend fun sendFeedback(feedback: String): Result<Pair<Boolean, String>> {
         return suspendRunCatching {
             userClient.sendFeedback(
                 token = pref.fcmToken,
                 feedbackRequest = FeedbackRequest(feedback)
             )
+        }.map {
+            it.isSuccess to it.resultMsg
         }
     }
 
-    override suspend fun registerUser(token: String): DefaultResponse {
-        return userClient.registerUser(token)
+    override suspend fun registerUser(token: String) {
+        userClient.registerUser(token)
     }
 
     override suspend fun signUpUser(

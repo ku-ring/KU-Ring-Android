@@ -6,14 +6,12 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
+import com.ku_stacks.ku_ring.domain.user.repository.UserRepository
 import com.ku_stacks.ku_ring.feedback.feedback.FeedbackViewModel
 import com.ku_stacks.ku_ring.feedback.util.MainDispatcherRule
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
-import com.ku_stacks.ku_ring.remote.util.DefaultResponse
 import com.ku_stacks.ku_ring.testutil.MockUtil
 import com.ku_stacks.ku_ring.thirdparty.firebase.analytics.EventAnalytics
-import com.ku_stacks.ku_ring.user.repository.UserRepository
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -26,7 +24,6 @@ import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 import java.util.concurrent.Executor
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class FeedbackViewModelTest {
 
     private lateinit var viewModel: FeedbackViewModel
@@ -125,11 +122,7 @@ class FeedbackViewModelTest {
 
         Mockito.`when`(preferenceUtil.fcmToken).thenReturn(mockToken)
 
-        val mockResponse = DefaultResponse(
-            resultMsg = "성공",
-            resultCode = 200,
-            data = null,
-        )
+        val mockResponse = true to "성공"
         Mockito.`when`(userRepository.sendFeedback(mockFeedbackContent).getOrNull())
             .thenReturn(mockResponse)
 
@@ -190,11 +183,7 @@ class FeedbackViewModelTest {
         Mockito.`when`(preferenceUtil.fcmToken).thenReturn(mockToken)
 
         val expectedResponseMsg = "알 수 없는 서버 오류"
-        val mockResponse = DefaultResponse(
-            resultMsg = expectedResponseMsg,
-            resultCode = 500,
-            data = null,
-        )
+        val mockResponse = false to expectedResponseMsg
         Mockito.`when`(userRepository.sendFeedback(mockFeedbackContent).getOrNull())
             .thenReturn(mockResponse)
 

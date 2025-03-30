@@ -14,6 +14,7 @@ dependencies {
     implementation(projects.core.preferences)
     implementation(projects.data.local)
     implementation(projects.data.domain)
+    implementation(projects.domain.user)
     api(projects.data.remote)
     testImplementation(libs.kotlinx.coroutines.test)
 }
