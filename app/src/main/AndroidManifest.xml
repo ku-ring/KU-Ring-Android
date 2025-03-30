@@ -86,7 +86,8 @@
             android:name=".library.LibrarySeatActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".auth.AuthActivity"
+        <activity
+            android:name=".auth.AuthActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
 
