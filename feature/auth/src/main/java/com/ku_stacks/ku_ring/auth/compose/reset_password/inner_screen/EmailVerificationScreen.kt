@@ -22,6 +22,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -44,7 +45,7 @@ import com.ku_stacks.ku_ring.feature.auth.R.string.reset_password_verification_b
 import com.ku_stacks.ku_ring.feature.auth.R.string.reset_password_verification_navigate_to_ku_mail
 import com.ku_stacks.ku_ring.feature.auth.R.string.reset_password_verification_top_bar_heading
 import com.ku_stacks.ku_ring.feature.auth.R.string.reset_password_verification_top_bar_sub_heading
-
+import com.ku_stacks.ku_ring.util.moveToKUMail
 
 @Composable
 internal fun EmailVerificationScreen(
@@ -55,6 +56,7 @@ internal fun EmailVerificationScreen(
 ) {
     val codeInputFieldEnable by viewModel.codeInputFieldEnable.collectAsStateWithLifecycle()
     val lifecycleOwner = LocalLifecycleOwner.current
+    val context = LocalContext.current
 
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle)
@@ -71,7 +73,7 @@ internal fun EmailVerificationScreen(
         onEmailChange = viewModel::updateEmail,
         onSendCodeClick = viewModel::sendVerificationCode,
         onBackButtonClick = onNavigateUp,
-        onKuMailClick = {},
+        onKuMailClick = context::moveToKUMail,
         onProceedButtonClick = viewModel::verifyCode,
         modifier = modifier,
     )
