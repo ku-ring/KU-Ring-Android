@@ -95,6 +95,14 @@ fun LazyPagingCommentColumn(
                             )
                         }
                     }
+
+                    if (comments.loadState.append == LoadState.Loading) {
+                        item {
+                            PagingLoadingIndicator(
+                                modifier = Modifier.size(40.dp),
+                            )
+                        }
+                    }
                 }
             }
         }
