@@ -112,7 +112,7 @@ fun LazyPagingCommentColumn(
 @LightAndDarkPreview
 @Composable
 private fun LazyPagingCommentColumnPreview() {
-    val fakeDataFlow = MutableStateFlow(PagingData.from(fakeComments))
+    val fakeDataFlow = MutableStateFlow(PagingData.from(fakeComments(10)))
     val fakePagingData = fakeDataFlow.collectAsLazyPagingItems()
     KuringTheme {
         LazyPagingCommentColumn(

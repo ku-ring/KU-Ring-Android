@@ -58,7 +58,7 @@ internal fun CommentsBottomSheet(
 @LightAndDarkPreview
 @Composable
 private fun CommentsBottomSheetPreview() {
-    val fakeDataFlow = MutableStateFlow(PagingData.from(fakeComments))
+    val fakeDataFlow = MutableStateFlow(PagingData.from(fakeComments(10)))
     val fakePagingData = fakeDataFlow.collectAsLazyPagingItems()
 
     KuringTheme {
