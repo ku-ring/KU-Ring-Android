@@ -10,12 +10,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,9 +27,15 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.flowWithLifecycle
 import com.ku_stacks.ku_ring.auth.compose.component.CodeInputField
 import com.ku_stacks.ku_ring.auth.compose.component.EmailInputGroup
 import com.ku_stacks.ku_ring.auth.compose.component.topbar.AuthTopBar
+import com.ku_stacks.ku_ring.auth.compose.reset_password.ResetPasswordSideEffect
+import com.ku_stacks.ku_ring.auth.compose.reset_password.ResetPasswordViewModel
 import com.ku_stacks.ku_ring.designsystem.components.KuringCallToAction
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
@@ -42,23 +51,28 @@ internal fun EmailVerificationScreen(
     onNavigateUp: () -> Unit,
     onNavigateToPassword: () -> Unit,
     modifier: Modifier = Modifier,
+    viewModel: ResetPasswordViewModel = hiltViewModel()
 ) {
-    var email by remember { mutableStateOf("") }
-    var code by remember { mutableStateOf("") }
-    var isCodeSent by remember { mutableStateOf(false) }
-    var isVerified by remember { mutableStateOf(false) }
+    val codeInputFieldEnable by viewModel.codeInputFieldEnable.collectAsStateWithLifecycle()
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
+        viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle)
+            .collect { sideEffect ->
+                when (sideEffect) {
+                    ResetPasswordSideEffect.NavigateToResetPassword -> onNavigateToPassword()
+                }
+            }
+    }
 
     EmailVerificationScreen(
-        email = email,
-        code = code,
-        isCodeSent = isCodeSent,
-        isVerified = isVerified,
-        onEmailChange = { email = it },
-        onCodeChange = { code = it },
-        onSendCodeClick = { isCodeSent = !isCodeSent },
+        email = viewModel.email,
+        codeInputFieldEnable = codeInputFieldEnable,
+        onEmailChange = viewModel::updateEmail,
+        onSendCodeClick = viewModel::sendVerificationCode,
         onBackButtonClick = onNavigateUp,
         onKuMailClick = {},
-        onProceedButtonClick = onNavigateToPassword,
+        onProceedButtonClick = viewModel::verifyCode,
         modifier = modifier,
     )
 }
@@ -66,21 +80,25 @@ internal fun EmailVerificationScreen(
 @Composable
 internal fun EmailVerificationScreen(
     email: String,
-    code: String,
-    isCodeSent: Boolean,
-    isVerified: Boolean,
+    codeInputFieldEnable: Boolean,
     onEmailChange: (String) -> Unit,
-    onCodeChange: (String) -> Unit,
     onSendCodeClick: () -> Unit,
     onBackButtonClick: () -> Unit,
     onKuMailClick: () -> Unit,
-    onProceedButtonClick: () -> Unit,
+    onProceedButtonClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    var code by rememberSaveable { mutableStateOf("") }
+
+    LaunchedEffect(codeInputFieldEnable) {
+        if (!codeInputFieldEnable) code = ""
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(color = KuringTheme.colors.background)
+            .imePadding()
     ) {
         AuthTopBar(
             headingText = stringResource(reset_password_verification_top_bar_heading),
@@ -92,19 +110,19 @@ internal fun EmailVerificationScreen(
             text = email,
             onTextChange = onEmailChange,
             onSendButtonClick = onSendCodeClick,
-            isCodeSent = isCodeSent,
+            isCodeSent = codeInputFieldEnable,
             modifier = Modifier
                 .padding(top = 45.dp)
         )
 
         AnimatedVisibility(
-            visible = isCodeSent,
+            visible = codeInputFieldEnable,
             enter = fadeIn(),
             exit = fadeOut()
         ) {
             CodeInputField(
                 text = code,
-                onTextChange = onCodeChange,
+                onTextChange = { code = it },
                 modifier = Modifier
                     .padding(top = 8.dp)
             )
@@ -132,8 +150,8 @@ internal fun EmailVerificationScreen(
 
         KuringCallToAction(
             text = stringResource(reset_password_verification_button_proceed),
-            onClick = onProceedButtonClick,
-            enabled = isVerified,
+            onClick = { onProceedButtonClick(code) },
+            enabled = codeInputFieldEnable && code.isNotBlank(),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 20.dp)
@@ -146,16 +164,12 @@ internal fun EmailVerificationScreen(
 private fun EmailVerificationScreenPreview() {
     KuringTheme {
         var email by remember { mutableStateOf("") }
-        var code by remember { mutableStateOf("") }
         var isCodeSent by remember { mutableStateOf(false) }
 
         EmailVerificationScreen(
             email = email,
-            code = code,
-            isCodeSent = isCodeSent,
-            isVerified = false,
+            codeInputFieldEnable = isCodeSent,
             onEmailChange = { email = it },
-            onCodeChange = { code = it },
             onSendCodeClick = { isCodeSent = !isCodeSent },
             onBackButtonClick = { },
             onKuMailClick = {},
