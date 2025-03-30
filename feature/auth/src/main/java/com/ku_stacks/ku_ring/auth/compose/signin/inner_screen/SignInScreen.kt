@@ -15,6 +15,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,10 +34,12 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.flowWithLifecycle
 import com.ku_stacks.ku_ring.auth.compose.component.button.RoundedCornerButton
 import com.ku_stacks.ku_ring.auth.compose.component.textfield.PlainTextField
 import com.ku_stacks.ku_ring.auth.compose.component.topbar.AuthTopBar
+import com.ku_stacks.ku_ring.auth.compose.signin.SignInSideEffect
 import com.ku_stacks.ku_ring.auth.compose.signin.SignInViewModel
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
@@ -48,6 +51,7 @@ import com.ku_stacks.ku_ring.feature.auth.R.string.sign_in_text_field_placeholde
 import com.ku_stacks.ku_ring.feature.auth.R.string.sign_in_text_field_placeholder_password
 import com.ku_stacks.ku_ring.feature.auth.R.string.sign_in_top_bar_heading
 import com.ku_stacks.ku_ring.feature.auth.R.string.sign_in_top_bar_sub_heading
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 internal fun SignInScreen(
@@ -58,19 +62,27 @@ internal fun SignInScreen(
     modifier: Modifier = Modifier,
     viewModel: SignInViewModel = hiltViewModel(),
 ) {
-    //TODO: 로직 구현시 지워질 예정
-    val id by viewModel.id.collectAsStateWithLifecycle()
-    val password by viewModel.password.collectAsStateWithLifecycle()
+    val lifecycleOwner = LocalLifecycleOwner.current
+    LaunchedEffect(viewModel.sideEffect) {
+        viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
+            .collectLatest { sideEffect ->
+                when (sideEffect) {
+                    SignInSideEffect.NavigateToMain -> onNavigateToMain()
+                }
+            }
+    }
 
     SignInScreen(
-        id = id,
-        password = password,
+        id = viewModel.email,
+        password = viewModel.password,
+        isSignInFailed = viewModel.signInDialogState,
         onBackButtonClick = onNavigateUp,
-        onIdTextFieldValueChange = viewModel::updateId,
+        onIdTextFieldValueChange = viewModel::updateEmail,
         onPasswordTextFieldValueChange = viewModel::updatePassword,
-        onSignInButtonClick = onNavigateToMain,
+        onSignInButtonClick = viewModel::signInUser,
         onSignUpButtonClick = onNavigateToSignUp,
         onFindPasswordButtonClick = onNavigateToFindPassword,
+        onSignInDialogDismiss = { viewModel.updateSignInDialogState(false) },
         modifier = modifier
     )
 }
@@ -79,12 +91,14 @@ internal fun SignInScreen(
 private fun SignInScreen(
     id: String,
     password: String,
+    isSignInFailed: Boolean,
     onBackButtonClick: () -> Unit,
     onIdTextFieldValueChange: (String) -> Unit,
     onPasswordTextFieldValueChange: (String) -> Unit,
     onSignInButtonClick: () -> Unit,
     onSignUpButtonClick: () -> Unit,
     onFindPasswordButtonClick: () -> Unit,
+    onSignInDialogDismiss: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val focusManager = LocalFocusManager.current
@@ -159,6 +173,10 @@ private fun SignInScreen(
                 .height(44.dp),
         )
     }
+
+    if (isSignInFailed) {
+        SignInDialog(onDismissRequest = onSignInDialogDismiss)
+    }
 }
 
 @Composable
@@ -220,12 +238,36 @@ private fun SignInScreenPreview() {
         SignInScreen(
             id = id,
             password = password,
+            isSignInFailed = false,
             onBackButtonClick = {},
             onIdTextFieldValueChange = { id = it },
             onPasswordTextFieldValueChange = { password = it },
             onSignInButtonClick = {},
             onSignUpButtonClick = {},
             onFindPasswordButtonClick = {},
+            onSignInDialogDismiss = {}
+        )
+    }
+}
+
+@LightAndDarkPreview
+@Composable
+private fun SignInFailedScreenPreview() {
+    KuringTheme {
+        var id by remember { mutableStateOf("") }
+        var password by remember { mutableStateOf("") }
+
+        SignInScreen(
+            id = id,
+            password = password,
+            isSignInFailed = true,
+            onBackButtonClick = {},
+            onIdTextFieldValueChange = { id = it },
+            onPasswordTextFieldValueChange = { password = it },
+            onSignInButtonClick = {},
+            onSignUpButtonClick = {},
+            onFindPasswordButtonClick = {},
+            onSignInDialogDismiss = {}
         )
     }
 }

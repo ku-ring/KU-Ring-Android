@@ -29,4 +29,5 @@ interface KuringNavigator {
     fun navigateToOssLicensesMenu(activity: Activity)
     fun navigateToKuringBot(context: Context)
     fun navigateToLibrarySeat(activity: Activity)
+    fun navigateToAuth(context: Context)
 }
