@@ -13,7 +13,7 @@ android {
 dependencies {
     implementation(projects.core.util)
     implementation(projects.core.designsystem)
-    implementation(projects.data.user)
+    implementation(projects.domain.user)
 
     implementation(libs.bundles.compose.interop)
 }
