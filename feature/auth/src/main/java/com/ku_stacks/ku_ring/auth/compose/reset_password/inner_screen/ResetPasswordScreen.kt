@@ -32,7 +32,7 @@ import com.ku_stacks.ku_ring.feature.auth.R.string.reset_supporting_text_not_equ
 @Composable
 internal fun ReSetPasswordScreen(
     onNavigateUp: () -> Unit,
-    onNavigateToSignUpComplete: () -> Unit,
+    onNavigateToSignIn: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var password by remember { mutableStateOf("") }
@@ -47,7 +47,7 @@ internal fun ReSetPasswordScreen(
         onBackButtonClick = onNavigateUp,
         onPasswordChange = { password = it },
         onPasswordCheckChange = { passwordCheck = it },
-        onProceedButtonClick = onNavigateToSignUpComplete,
+        onProceedButtonClick = onNavigateToSignIn,
         modifier = modifier,
     )
 }

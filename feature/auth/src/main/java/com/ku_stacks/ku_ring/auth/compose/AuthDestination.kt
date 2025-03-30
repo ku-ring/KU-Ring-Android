@@ -24,6 +24,15 @@ internal sealed interface AuthDestination {
     @Serializable
     data object SignUpComplete : AuthDestination
 
+    @Serializable
+    data object ResetPassword : AuthDestination
+
+    @Serializable
+    data object ResetPasswordEmailVerification : AuthDestination
+
+    @Serializable
+    data object ResetPasswordSetPassword : AuthDestination
+
     companion object {
         fun getOrder(route: NavDestination): Int =
             when {
@@ -33,6 +42,9 @@ internal sealed interface AuthDestination {
                 route.hasRoute(SignUpEmailVerification::class) -> 3
                 route.hasRoute(SignUpSetPassword::class) -> 4
                 route.hasRoute(SignUpComplete::class) -> 5
+                route.hasRoute(ResetPassword::class) -> 1
+                route.hasRoute(ResetPasswordEmailVerification::class) -> 2
+                route.hasRoute(ResetPasswordSetPassword::class) -> 3
                 else -> 6
             }
     }
