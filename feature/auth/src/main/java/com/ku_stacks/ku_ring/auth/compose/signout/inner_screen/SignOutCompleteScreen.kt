@@ -1,5 +1,6 @@
 package com.ku_stacks.ku_ring.auth.compose.signout.inner_screen
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -29,6 +30,10 @@ internal fun SignOutCompleteScreen(
     onNavigateToMyPage: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    BackHandler {
+        onNavigateToMyPage()
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize()
