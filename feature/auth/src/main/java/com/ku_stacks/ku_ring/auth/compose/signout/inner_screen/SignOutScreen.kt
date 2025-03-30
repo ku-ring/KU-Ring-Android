@@ -1,6 +1,5 @@
 package com.ku_stacks.ku_ring.auth.compose.signout.inner_screen
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -94,12 +93,13 @@ internal fun SignOutScreen(
         )
     }
 
-    AnimatedVisibility(
-        visible = isConfirmDialogVisible
-    ) {
+    if (isConfirmDialogVisible) {
         SignOutDialog(
             onDismiss = { isConfirmDialogVisible = false },
-            onConfirm = viewModel::signOut
+            onConfirm = {
+                isConfirmDialogVisible = false
+                viewModel.signOut()
+            },
         )
     }
 }
