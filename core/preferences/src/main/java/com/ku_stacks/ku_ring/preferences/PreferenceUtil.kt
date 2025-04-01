@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.ku_stacks.ku_ring.util.WordConverter
 import dagger.hilt.android.qualifiers.ApplicationContext
+import androidx.core.content.edit
 
 class PreferenceUtil(@ApplicationContext context: Context) {
 
@@ -17,6 +18,10 @@ class PreferenceUtil(@ApplicationContext context: Context) {
     var startDate: String?
         get() = prefs.getString(START_DATE, "")
         set(value) = prefs.edit().putString(START_DATE, value).apply()
+
+    var accessToken: String
+        get() = prefs.getString(ACCESS_TOKEN, "") ?: ""
+        set(value) = prefs.edit { putString(ACCESS_TOKEN, value) }
 
     var fcmToken: String
         get() = prefs.getString(FCM_TOKEN, "") ?: ""
@@ -42,6 +47,10 @@ class PreferenceUtil(@ApplicationContext context: Context) {
         prefs.edit().remove(START_DATE).apply()
     }
 
+    fun deleteAccessToken() {
+        prefs.edit { remove(ACCESS_TOKEN) }
+    }
+
     fun saveSubscriptionFromKorean(koreanDepartmentNames: List<String>) {
         val stringSet = koreanDepartmentNames.map {
             WordConverter.convertKoreanToShortEnglish(it)
@@ -53,6 +62,7 @@ class PreferenceUtil(@ApplicationContext context: Context) {
     companion object {
         const val FIRST_RUN = "FIRST_RUN"
         const val START_DATE = "START_DATE"
+        const val ACCESS_TOKEN = "ACCESS_TOKEN"
         const val FCM_TOKEN = "FCM_TOKEN"
         const val SUBSCRIPTION = "SUBSCRIPTION"
         const val DEFAULT_NOTIFICATION = "DEFAULT_NOTIFICATION"

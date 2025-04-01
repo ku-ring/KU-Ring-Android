@@ -5,7 +5,7 @@ import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.Data
 import androidx.work.WorkerParameters
-import com.ku_stacks.ku_ring.user.repository.UserRepository
+import com.ku_stacks.ku_ring.domain.user.repository.UserRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 

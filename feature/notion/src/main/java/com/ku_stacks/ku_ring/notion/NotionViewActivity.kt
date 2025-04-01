@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,17 +20,18 @@ class NotionViewActivity : AppCompatActivity() {
         val url = intent.getStringExtra(NOTION_URL)
         setContent {
             KuringTheme {
+                BackHandler {
+                    overridePendingTransition(
+                        R.anim.anim_slide_left_enter,
+                        R.anim.anim_slide_left_exit
+                    )
+                }
                 NotionScreen(
                     url = url,
                     modifier = Modifier.fillMaxSize(),
                 )
             }
         }
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
     }
 
     companion object {
