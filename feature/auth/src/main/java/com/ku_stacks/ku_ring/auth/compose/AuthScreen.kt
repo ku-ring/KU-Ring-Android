@@ -1,13 +1,17 @@
 package com.ku_stacks.ku_ring.auth.compose
 
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.IntOffset
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.ku_stacks.ku_ring.auth.compose.signin.SignInDestination
 import com.ku_stacks.ku_ring.auth.compose.signin.signInNavGraph
+import com.ku_stacks.ku_ring.auth.compose.signup.signUpNavGraph
 
 @Composable
 internal fun AuthScreen(
@@ -15,16 +19,40 @@ internal fun AuthScreen(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
 ) {
+    val navigationSpec = tween<IntOffset>(durationMillis = 200)
+
     NavHost(
         navController = navController,
-        startDestination = SignInDestination.SignIn,
+        startDestination = AuthDestination.SignIn,
+        enterTransition = {
+            slideIntoContainer(
+                towards = animationDirection(initialState, targetState),
+                animationSpec = navigationSpec,
+            )
+        },
+        exitTransition = {
+            slideOutOfContainer(
+                towards = animationDirection(initialState, targetState),
+                animationSpec = navigationSpec,
+            )
+        },
         modifier = modifier.fillMaxSize()
     ) {
         signInNavGraph(
+            navController = navController,
             onNavigateUp = onNavigateUp,
-            onNavigateToMain = { }, //TODO: 로그인으로 진입하기 전 화면으로 이동
-            onNavigateToSignUp = { }, // TODO: 회원가입 화면으로 이동
-            onNavigateToFindPassword = {},  //TODO: 비밀번호 찾기 화면으로 이동
         )
+
+        signUpNavGraph(navController = navController)
     }
 }
+
+internal fun animationDirection(initialState: NavBackStackEntry, targetState: NavBackStackEntry) =
+    if (initialState.screenOrder < targetState.screenOrder) {
+        AnimatedContentTransitionScope.SlideDirection.Left
+    } else {
+        AnimatedContentTransitionScope.SlideDirection.Right
+    }
+
+internal val NavBackStackEntry.screenOrder: Int
+    get() = AuthDestination.getOrder(destination)

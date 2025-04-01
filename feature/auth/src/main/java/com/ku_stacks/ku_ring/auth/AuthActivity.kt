@@ -8,6 +8,9 @@ import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.ui.Modifier
 import com.ku_stacks.ku_ring.auth.compose.AuthScreen
 import com.ku_stacks.ku_ring.feature.auth.R
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,7 +30,10 @@ class AuthActivity : AppCompatActivity() {
             AuthScreen(
                 onNavigateUp = {
                     onBackPressedDispatcherOwner?.onBackPressedDispatcher?.onBackPressed()
-                }
+                },
+                modifier = Modifier
+                    .fillMaxSize()
+                    .navigationBarsPadding()
             )
         }
     }
