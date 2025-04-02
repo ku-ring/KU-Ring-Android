@@ -43,7 +43,7 @@ internal fun SignOutGuideScreen(
     onNavigateUp: () -> Unit,
     onNavigateToSignOutComplete: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: SignOutViewModel = hiltViewModel()
+    viewModel: SignOutViewModel = hiltViewModel(),
 ) {
     var isConfirmDialogVisible by remember { mutableStateOf(false) }
 
@@ -59,7 +59,7 @@ internal fun SignOutGuideScreen(
         AuthTopBar(
             headingText = stringResource(sign_out_top_bar_heading),
             subHeadingText = stringResource(sign_out_top_bar_sub_heading),
-            onBackButtonClick = onNavigateUp
+            onBackButtonClick = onNavigateUp,
         )
 
         TextBox(
@@ -67,7 +67,7 @@ internal fun SignOutGuideScreen(
             content = stringResource(sign_out_info_content_1),
             modifier = Modifier
                 .padding(start = 20.dp, end = 20.dp, top = 45.dp)
-                .fillMaxWidth()
+                .fillMaxWidth(),
         )
 
         TextBox(
@@ -75,7 +75,7 @@ internal fun SignOutGuideScreen(
             content = stringResource(sign_out_info_content_2),
             modifier = Modifier
                 .padding(start = 20.dp, end = 20.dp, top = 10.dp)
-                .fillMaxWidth()
+                .fillMaxWidth(),
         )
 
         Spacer(modifier = Modifier.weight(1f))
@@ -89,7 +89,7 @@ internal fun SignOutGuideScreen(
             onClick = { isConfirmDialogVisible = true },
             modifier = Modifier
                 .padding(20.dp)
-                .fillMaxWidth()
+                .fillMaxWidth(),
         )
     }
 
@@ -108,7 +108,7 @@ internal fun SignOutGuideScreen(
 private fun TextBox(
     title: String,
     content: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(3.dp),
@@ -153,7 +153,6 @@ private fun TextBox(
         )
     }
 }
-
 
 @LightAndDarkPreview
 @Composable

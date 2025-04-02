@@ -21,7 +21,7 @@ internal fun SignOutDialog(
         onDismiss = onDismiss,
         confirmText = stringResource(sign_out_button_confirm),
         cancelText = stringResource(sign_out_button_cancel),
-        confirmTextColor = KuringTheme.colors.warning
+        confirmTextColor = KuringTheme.colors.warning,
     )
 }
 

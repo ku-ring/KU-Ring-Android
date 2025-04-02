@@ -10,7 +10,7 @@ import com.ku_stacks.ku_ring.auth.compose.signout.inner_screen.SignOutGuideScree
 
 internal fun NavGraphBuilder.signOutNavGraph(
     onNavigateUp: () -> Unit,
-    navController: NavHostController
+    navController: NavHostController,
 ) {
     navigation<AuthDestination.SignOut>(
         startDestination = AuthDestination.SignOutGuide,
