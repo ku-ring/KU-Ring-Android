@@ -30,4 +30,5 @@ interface KuringNavigator {
     fun navigateToKuringBot(context: Context)
     fun navigateToLibrarySeat(activity: Activity)
     fun navigateToAuth(context: Context)
+    fun navigateToSignOut(context: Context)
 }

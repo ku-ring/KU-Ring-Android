@@ -39,7 +39,7 @@ import com.ku_stacks.ku_ring.feature.auth.R.string.sign_out_top_bar_heading
 import com.ku_stacks.ku_ring.feature.auth.R.string.sign_out_top_bar_sub_heading
 
 @Composable
-internal fun SignOutScreen(
+internal fun SignOutGuideScreen(
     onNavigateUp: () -> Unit,
     onNavigateToSignOutComplete: () -> Unit,
     modifier: Modifier = Modifier,
@@ -159,7 +159,7 @@ private fun TextBox(
 @Composable
 private fun SignOutPreview() {
     KuringTheme {
-        SignOutScreen(
+        SignOutGuideScreen(
             onNavigateUp = {},
             onNavigateToSignOutComplete = {}
         )

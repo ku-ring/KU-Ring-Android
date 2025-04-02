@@ -11,11 +11,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.ku_stacks.ku_ring.auth.compose.signin.signInNavGraph
+import com.ku_stacks.ku_ring.auth.compose.signout.signOutNavGraph
 import com.ku_stacks.ku_ring.auth.compose.signup.signUpNavGraph
 
 @Composable
 internal fun AuthScreen(
     onNavigateUp: () -> Unit,
+    startDestination: AuthDestination,
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
 ) {
@@ -23,7 +25,7 @@ internal fun AuthScreen(
 
     NavHost(
         navController = navController,
-        startDestination = AuthDestination.SignIn,
+        startDestination = startDestination,
         enterTransition = {
             slideIntoContainer(
                 towards = animationDirection(initialState, targetState),
@@ -44,15 +46,20 @@ internal fun AuthScreen(
         )
 
         signUpNavGraph(navController = navController)
+
+        signOutNavGraph(
+            onNavigateUp = onNavigateUp,
+            navController = navController
+        )
     }
 }
 
-internal fun animationDirection(initialState: NavBackStackEntry, targetState: NavBackStackEntry) =
+private fun animationDirection(initialState: NavBackStackEntry, targetState: NavBackStackEntry) =
     if (initialState.screenOrder < targetState.screenOrder) {
         AnimatedContentTransitionScope.SlideDirection.Left
     } else {
         AnimatedContentTransitionScope.SlideDirection.Right
     }
 
-internal val NavBackStackEntry.screenOrder: Int
+private val NavBackStackEntry.screenOrder: Int
     get() = AuthDestination.getOrder(destination)
