@@ -19,8 +19,8 @@ fun Context.findActivity(): AppCompatActivity? {
     return null
 }
 
-fun Context.moveToKUMail() = try {
-    val intent = Intent(Intent.ACTION_VIEW, "https://kumail.konkuk.ac.kr/".toUri())
+fun Context.navigateToExternalBrowser(url: String) = try {
+    val intent = Intent(Intent.ACTION_VIEW, url.toUri())
     startActivity(intent)
 } catch (e: ActivityNotFoundException) {
     Timber.e(e.printStackTrace().toString())
