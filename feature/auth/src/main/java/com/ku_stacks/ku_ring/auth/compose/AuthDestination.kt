@@ -34,6 +34,11 @@ internal sealed interface AuthDestination {
     data object ResetPasswordSetPassword : AuthDestination
 
     companion object {
+        /*
+         * 화면 접근 순서를 나타내는 번호를 반환하는 함수
+         * SignIn(0)을 거쳐야 SignUp, ResetPassword 흐름으로 진입 가능
+         * 이후 각 플로우는 화면 이름과 순서대로 접근 가능
+         */
         fun getOrder(route: NavDestination): Int =
             when {
                 route.hasRoute(SignIn::class) -> 0
