@@ -9,11 +9,6 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -21,6 +16,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.flowWithLifecycle
 import com.ku_stacks.ku_ring.auth.compose.component.PasswordInputGroup
+import com.ku_stacks.ku_ring.auth.compose.component.PasswordInputState
+import com.ku_stacks.ku_ring.auth.compose.component.rememberPasswordInputState
 import com.ku_stacks.ku_ring.auth.compose.component.topbar.AuthTopBar
 import com.ku_stacks.ku_ring.auth.compose.reset_password.ResetPasswordSideEffect
 import com.ku_stacks.ku_ring.auth.compose.reset_password.ResetPasswordViewModel
@@ -39,9 +36,7 @@ internal fun ResetPasswordScreen(
     viewModel: ResetPasswordViewModel = hiltViewModel()
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
-    val isPasswordValid: Boolean = with(viewModel) {
-        remember(viewModel.password) { checkPassword() }
-    }
+    val passwordInputState = rememberPasswordInputState()
 
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle)
@@ -53,27 +48,20 @@ internal fun ResetPasswordScreen(
     }
 
     ResetPasswordScreen(
-        password = viewModel.password,
-        isPasswordValid = isPasswordValid,
-        onPasswordChange = { viewModel.password = it },
+        passwordInputState = passwordInputState,
         onBackButtonClick = onNavigateUp,
-        onProceedButtonClick = viewModel::resetPassword,
+        onProceedButtonClick = { viewModel.resetPassword(passwordInputState.password) },
         modifier = modifier,
     )
 }
 
 @Composable
 private fun ResetPasswordScreen(
-    password: String,
-    isPasswordValid: Boolean,
-    onPasswordChange: (String) -> Unit,
+    passwordInputState: PasswordInputState,
     onBackButtonClick: () -> Unit,
     onProceedButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var proceedButtonEnabled by rememberSaveable { mutableStateOf(false) }
-    var passwordCheck by rememberSaveable { mutableStateOf("") }
-
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -87,12 +75,7 @@ private fun ResetPasswordScreen(
         )
 
         PasswordInputGroup(
-            password = password,
-            isPasswordValid = isPasswordValid,
-            onPasswordChange = onPasswordChange,
-            passwordCheck = passwordCheck,
-            onPasswordCheckChange = { passwordCheck = it },
-            onConditionsPass = { proceedButtonEnabled = it },
+            state = passwordInputState,
             modifier = Modifier.padding(horizontal = 20.dp)
         )
 
@@ -101,7 +84,7 @@ private fun ResetPasswordScreen(
         KuringCallToAction(
             text = stringResource(reset_password_button_proceed),
             onClick = onProceedButtonClick,
-            enabled = proceedButtonEnabled,
+            enabled = passwordInputState.passwordAllCorrect,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 20.dp)
@@ -112,14 +95,10 @@ private fun ResetPasswordScreen(
 @LightAndDarkPreview
 @Composable
 private fun SetPasswordScreenPreview() {
-    var password by remember { mutableStateOf("") }
-
     KuringTheme {
         ResetPasswordScreen(
-            password = password,
-            isPasswordValid = password.isNotBlank(),
+            passwordInputState = rememberPasswordInputState(),
             onBackButtonClick = {},
-            onPasswordChange = { password = it },
             onProceedButtonClick = {},
         )
     }
