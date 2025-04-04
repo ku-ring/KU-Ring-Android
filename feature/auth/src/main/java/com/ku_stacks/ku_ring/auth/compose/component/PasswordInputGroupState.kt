@@ -10,17 +10,17 @@ import androidx.compose.runtime.setValue
 import com.ku_stacks.ku_ring.auth.compose.component.textfield.OutlinedTextFieldState
 
 @Composable
-internal fun rememberPasswordInputState(
+internal fun rememberPasswordInputGroupState(
     initialPassword: String = "",
     initialPasswordCheck: String = "",
-): PasswordInputState = rememberSaveable(saver = PasswordInputState.Saver) {
-    PasswordInputState(
+): PasswordInputGroupState = rememberSaveable(saver = PasswordInputGroupState.Saver) {
+    PasswordInputGroupState(
         initialPassword = initialPassword,
         initialPasswordCheck = initialPasswordCheck,
     )
 }
 
-internal class PasswordInputState(
+internal class PasswordInputGroupState(
     private val initialPassword: String,
     private val initialPasswordCheck: String,
 ) {
@@ -54,7 +54,7 @@ internal class PasswordInputState(
         private const val PASSWORD_CHECK_ERROR_MESSAGE = "비밀번호가 일치하지 않습니다."
         private val passwordRegex = Regex("^(?=.*[a-z])(?=.*\\d)[a-z\\d]{6,20}$")
 
-        internal val Saver: Saver<PasswordInputState, *> = listSaver(
+        internal val Saver: Saver<PasswordInputGroupState, *> = listSaver(
             save = {
                 listOf(
                     it.password,
@@ -62,7 +62,7 @@ internal class PasswordInputState(
                 )
             },
             restore = {
-                PasswordInputState(
+                PasswordInputGroupState(
                     initialPassword = it[0],
                     initialPasswordCheck = it[1],
                 )

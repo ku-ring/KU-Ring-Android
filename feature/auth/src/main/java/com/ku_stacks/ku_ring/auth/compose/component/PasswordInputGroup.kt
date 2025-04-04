@@ -36,7 +36,7 @@ import com.ku_stacks.ku_ring.feature.auth.R.string.reset_password_placeholder_pa
  */
 @Composable
 internal fun PasswordInputGroup(
-    state: PasswordInputState,
+    state: PasswordInputGroupState,
     modifier: Modifier = Modifier,
 ) {
     var isPasswordVisible by remember { mutableStateOf(false) }
@@ -110,7 +110,7 @@ private fun PasswordInputGroupPreview() {
     KuringTheme {
         Column {
             PasswordInputGroup(
-                state = rememberPasswordInputState(),
+                state = rememberPasswordInputGroupState(),
                 modifier = Modifier.padding(horizontal = 20.dp)
             )
         }

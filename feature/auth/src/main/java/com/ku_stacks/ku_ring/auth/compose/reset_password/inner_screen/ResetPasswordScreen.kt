@@ -16,8 +16,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.flowWithLifecycle
 import com.ku_stacks.ku_ring.auth.compose.component.PasswordInputGroup
-import com.ku_stacks.ku_ring.auth.compose.component.PasswordInputState
-import com.ku_stacks.ku_ring.auth.compose.component.rememberPasswordInputState
+import com.ku_stacks.ku_ring.auth.compose.component.PasswordInputGroupState
+import com.ku_stacks.ku_ring.auth.compose.component.rememberPasswordInputGroupState
 import com.ku_stacks.ku_ring.auth.compose.component.topbar.AuthTopBar
 import com.ku_stacks.ku_ring.auth.compose.reset_password.ResetPasswordSideEffect
 import com.ku_stacks.ku_ring.auth.compose.reset_password.ResetPasswordViewModel
@@ -36,7 +36,7 @@ internal fun ResetPasswordScreen(
     viewModel: ResetPasswordViewModel = hiltViewModel()
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
-    val passwordInputState = rememberPasswordInputState()
+    val passwordInputState = rememberPasswordInputGroupState()
 
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle)
@@ -57,7 +57,7 @@ internal fun ResetPasswordScreen(
 
 @Composable
 private fun ResetPasswordScreen(
-    passwordInputState: PasswordInputState,
+    passwordInputState: PasswordInputGroupState,
     onBackButtonClick: () -> Unit,
     onProceedButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -97,7 +97,7 @@ private fun ResetPasswordScreen(
 private fun SetPasswordScreenPreview() {
     KuringTheme {
         ResetPasswordScreen(
-            passwordInputState = rememberPasswordInputState(),
+            passwordInputState = rememberPasswordInputGroupState(),
             onBackButtonClick = {},
             onProceedButtonClick = {},
         )
