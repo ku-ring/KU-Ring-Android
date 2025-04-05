@@ -12,7 +12,7 @@ data class UserDataResponse(
     @Serializable
     data class UserData(
         @SerialName("email") val email: String,
-        @SerialName("nickname") val nickName: String,
+        @SerialName("nickname") val nickname: String,
     )
 }
 
