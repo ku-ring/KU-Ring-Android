@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -19,12 +18,12 @@ class ResetPasswordViewModel @Inject constructor() : ViewModel() {
     val sideEffect = _sideEffect.receiveAsFlow()
 
     var email by mutableStateOf("")
-    var codeInputFieldEnable = MutableStateFlow(false)
+    var codeInputFieldEnable by mutableStateOf(false)
         private set
 
     fun updateEmail(email: String) {
         this.email = email
-        codeInputFieldEnable.value = false
+        codeInputFieldEnable = false
     }
 
     fun sendVerificationCode() = viewModelScope.launch {
@@ -32,7 +31,7 @@ class ResetPasswordViewModel @Inject constructor() : ViewModel() {
             // TODO: 이메일 확인 및 인증번호 전송 API 호출
             if (!email.endsWith("@konkuk.ac.kr")) throw Exception()
         }.onSuccess {
-            codeInputFieldEnable.value = true
+            codeInputFieldEnable = true
         }.onFailure {
             // TODO: 텍스트필드에 오류 메시지 표시
             Timber.e("current email: $email")
