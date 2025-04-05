@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ku_stacks.ku_ring.auth.compose.component.textfield.OutlinedSupportingTextField
+import com.ku_stacks.ku_ring.auth.compose.component.textfield.OutlinedTextFieldState
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.feature.auth.R.string.reset_password_placeholder_password
 import com.ku_stacks.ku_ring.feature.auth.R.string.reset_password_placeholder_password_check
@@ -39,47 +41,55 @@ internal fun PasswordInputGroup(
     state: PasswordInputGroupState,
     modifier: Modifier = Modifier,
 ) {
-    var isPasswordVisible by remember { mutableStateOf(false) }
-    var isPasswordCheckVisible by remember { mutableStateOf(false) }
-
-
     Column(modifier = modifier) {
-        OutlinedSupportingTextField(
+        PasswordInputTextField(
             query = state.password,
             onQueryUpdate = { state.password = it },
             textFieldState = state.passwordOutlinedTextFieldState,
             placeholderText = stringResource(reset_password_placeholder_password),
-            visualTransformation = if (isPasswordVisible) VisualTransformation.None
-            else PasswordVisualTransformation(),
-            suffix = {
-                VisibilityControlButton(
-                    isVisible = isPasswordVisible,
-                    onClick = { isPasswordVisible = !isPasswordVisible }
-                )
-            },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 45.dp),
         )
 
-        OutlinedSupportingTextField(
+        PasswordInputTextField(
             query = state.passwordCheck,
             onQueryUpdate = { state.passwordCheck = it },
             textFieldState = state.passwordCheckOutlinedTextFieldState,
             placeholderText = stringResource(reset_password_placeholder_password_check),
-            visualTransformation = if (isPasswordCheckVisible) VisualTransformation.None
-            else PasswordVisualTransformation(),
-            suffix = {
-                VisibilityControlButton(
-                    isVisible = isPasswordCheckVisible,
-                    onClick = { isPasswordCheckVisible = !isPasswordCheckVisible }
-                )
-            },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 8.dp),
         )
     }
+}
+
+@Composable
+private fun PasswordInputTextField(
+    query: String,
+    onQueryUpdate: (String) -> Unit,
+    textFieldState: OutlinedTextFieldState,
+    placeholderText: String,
+    modifier: Modifier = Modifier,
+) {
+    var textFieldVisibility by rememberSaveable { mutableStateOf(false) }
+    val visualTransformation = if (textFieldVisibility) VisualTransformation.None
+    else PasswordVisualTransformation()
+
+    OutlinedSupportingTextField(
+        query = query,
+        onQueryUpdate = onQueryUpdate,
+        textFieldState = textFieldState,
+        placeholderText = placeholderText,
+        visualTransformation = visualTransformation,
+        suffix = {
+            VisibilityControlButton(
+                isVisible = textFieldVisibility,
+                onClick = { textFieldVisibility = !textFieldVisibility }
+            )
+        },
+        modifier = modifier
+    )
 }
 
 // TODO: 아이콘 리소스 변경
