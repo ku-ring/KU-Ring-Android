@@ -60,7 +60,7 @@ class UserClient @Inject constructor(
             request = request,
         )
 
-    suspend fun withdraw(accessToken: String): DefaultResponse =
+    suspend fun withdrawUser(accessToken: String): DefaultResponse =
         userService.withdraw(
             accessToken = accessToken
         )
