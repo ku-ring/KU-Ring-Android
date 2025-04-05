@@ -32,22 +32,27 @@ class UserClient @Inject constructor(
     }
 
     suspend fun getUserData(accessToken: String): UserDataResponse =
-        userService.getUserData(accessToken)
-
-    suspend fun signUp(token: String, email: String, password: String): DefaultResponse =
-        userService.signUp(
-            token = token,
-            request = AuthorizeUserRequest(email, password)
+        userService.getUserData(
+            accessToken = accessToken
         )
 
-    suspend fun signIn(token: String, email: String, password: String): SignInResponse =
+    suspend fun signUp(token: String, request: AuthorizeUserRequest): DefaultResponse =
+        userService.signUp(
+            token = token,
+            request = request
+        )
+
+    suspend fun signIn(token: String, request: AuthorizeUserRequest): SignInResponse =
         userService.signIn(
             token = token,
-            request = AuthorizeUserRequest(email, password)
+            request = request
         )
 
     suspend fun logout(token: String, accessToken: String): DefaultResponse =
-        userService.logout(token, accessToken)
+        userService.logout(
+            token = token,
+            accessToken = accessToken
+        )
 
     suspend fun patchPassword(token: String, request: AuthorizeUserRequest): DefaultResponse =
         userService.patchPassword(
@@ -56,5 +61,7 @@ class UserClient @Inject constructor(
         )
 
     suspend fun withdraw(accessToken: String): DefaultResponse =
-        userService.withdraw(accessToken)
+        userService.withdraw(
+            accessToken = accessToken
+        )
 }
