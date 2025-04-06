@@ -1,0 +1,78 @@
+{
+  "code": 200,
+  "message": "공지 조회에 성공하였습니다",
+  "data": {
+    "comments": [
+      {
+        "comment": {
+          "id": 2,
+          "parentId": null,
+          "userId": 3,
+          "nickName": "건덕이686003",
+          "noticeId": 168950,
+          "content": "새로운 댓글내용",
+          "destroyedAt": null,
+          "createdAt": "2025-04-06T16:25:14.674806",
+          "updatedAt": "2025-04-06T17:05:39.122804"
+        },
+        "subComments": []
+      },
+      {
+        "comment": {
+          "id": 3,
+          "parentId": null,
+          "userId": 3,
+          "nickName": "건덕이686003",
+          "noticeId": 168950,
+          "content": "댓글내용1234",
+          "destroyedAt": null,
+          "createdAt": "2025-04-06T17:08:58.314926",
+          "updatedAt": "2025-04-06T17:08:58.314926"
+        },
+        "subComments": []
+      },
+      {
+        "comment": {
+          "id": 5,
+          "parentId": null,
+          "userId": 3,
+          "nickName": "건덕이686003",
+          "noticeId": 168950,
+          "content": "댓글내용123456",
+          "destroyedAt": null,
+          "createdAt": "2025-04-06T17:15:47.124662",
+          "updatedAt": "2025-04-06T17:15:47.124662"
+        },
+        "subComments": []
+      },
+      {
+        "comment": {
+          "id": 6,
+          "parentId": null,
+          "userId": 3,
+          "nickName": "건덕이686003",
+          "noticeId": 168950,
+          "content": "댓글내용1234567",
+          "destroyedAt": null,
+          "createdAt": "2025-04-06T17:15:49.715444",
+          "updatedAt": "2025-04-06T17:15:49.715444"
+        },
+        "subComments": [
+          {
+            "id": 7,
+            "parentId": 6,
+            "userId": 3,
+            "nickName": "건덕이686003",
+            "noticeId": 168950,
+            "content": "댓글내용1234567",
+            "destroyedAt": null,
+            "createdAt": "2025-04-06T17:15:49.715444",
+            "updatedAt": "2025-04-06T17:15:49.715444"
+          }
+        ]
+      }
+    ],
+    "endCursor": null,
+    "hasNext": false
+  }
+}
