@@ -30,7 +30,7 @@ class NoticeCommentClient @Inject constructor(
     suspend fun deleteComment(
         noticeId: Int,
         commentId: Int,
-    ): String = noticeCommentService.deleteComment(
+    ): DefaultResponse = noticeCommentService.deleteComment(
         noticeId = noticeId,
         commentId = commentId,
     )

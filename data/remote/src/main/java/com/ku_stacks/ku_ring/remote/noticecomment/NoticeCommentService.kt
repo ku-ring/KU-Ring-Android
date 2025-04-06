@@ -29,7 +29,7 @@ interface NoticeCommentService {
     suspend fun deleteComment(
         @Path("id") noticeId: Int,
         @Path("commentId") commentId: Int,
-    ): String
+    ): DefaultResponse
 
     @GET("v2/notices/{id}/comments")
     suspend fun getComment(
