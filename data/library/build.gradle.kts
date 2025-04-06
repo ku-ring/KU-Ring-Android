@@ -8,7 +8,6 @@ plugins {
 
 android {
     setNameSpace("library")
-    compileSdk = 34
 
     testOptions {
         unitTests {
