@@ -2,7 +2,14 @@ package com.ku_stacks.ku_ring.designsystem.components.comment
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -154,7 +161,7 @@ private fun CommentHeader(
 
 private val previewComment = PlainNoticeComment(
     id = 0,
-    parentNoticeId = 0,
+    parentCommentId = 0,
     authorId = 0,
     authorName = "쿠링",
     noticeId = 0,

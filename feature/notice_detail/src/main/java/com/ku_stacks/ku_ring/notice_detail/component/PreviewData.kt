@@ -5,7 +5,7 @@ import com.ku_stacks.ku_ring.domain.PlainNoticeComment
 
 internal val fakePlainComment = PlainNoticeComment(
     id = 0,
-    parentNoticeId = 0,
+    parentCommentId = 0,
     authorId = 0,
     authorName = "쿠링",
     noticeId = 0,
@@ -18,7 +18,12 @@ internal val fakeComments: (Int) -> List<NoticeComment> = { size ->
     List(size) { index ->
         NoticeComment(
             comment = fakePlainComment.copy(id = index, authorName = "쿠링 $index"),
-            replies = List(2) { fakePlainComment.copy(id = index * 10 + it) },
+            replies = List(2) {
+                fakePlainComment.copy(
+                    id = index * 10 + it,
+                    parentCommentId = index,
+                )
+            },
             hasNext = (index == size - 1),
         )
     }
