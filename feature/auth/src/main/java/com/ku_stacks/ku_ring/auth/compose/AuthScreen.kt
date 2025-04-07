@@ -10,6 +10,7 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.ku_stacks.ku_ring.auth.compose.reset_password.resetPasswordNavGraph
 import com.ku_stacks.ku_ring.auth.compose.signin.signInNavGraph
 import com.ku_stacks.ku_ring.auth.compose.signout.signOutNavGraph
 import com.ku_stacks.ku_ring.auth.compose.signup.signUpNavGraph
@@ -46,6 +47,8 @@ internal fun AuthScreen(
         )
 
         signUpNavGraph(navController = navController)
+
+        resetPasswordNavGraph(navController = navController)
 
         signOutNavGraph(
             onNavigateUp = onNavigateUp,

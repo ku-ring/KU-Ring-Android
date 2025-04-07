@@ -15,7 +15,7 @@ internal fun NavGraphBuilder.signInNavGraph(
             onNavigateUp = onNavigateUp,
             onNavigateToMain = navController::navigateUp,
             onNavigateToSignUp = { navController.navigate(AuthDestination.SignUp) },
-            onNavigateToFindPassword = { },  //TODO: 비밀번호 찾기 화면으로 이동
+            onNavigateToFindPassword = { navController.navigate(AuthDestination.ResetPassword) },
         )
     }
 }
