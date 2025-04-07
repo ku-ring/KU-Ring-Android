@@ -1,8 +1,12 @@
 package com.ku_stacks.ku_ring.util
 
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.ContextWrapper
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
+import timber.log.Timber
 
 fun Context.findActivity(): AppCompatActivity? {
     var currentContext = this
@@ -13,4 +17,11 @@ fun Context.findActivity(): AppCompatActivity? {
         currentContext = currentContext.baseContext
     }
     return null
+}
+
+fun Context.navigateToExternalBrowser(url: String) = try {
+    val intent = Intent(Intent.ACTION_VIEW, url.toUri())
+    startActivity(intent)
+} catch (e: ActivityNotFoundException) {
+    Timber.e(e.printStackTrace().toString())
 }
