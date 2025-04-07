@@ -57,6 +57,8 @@
     <string name="delete_all_keyword_history">전체 삭제</string>
 
     <!--  setting  -->
+    <string name="setting_profile_sign_in">로그인하기</string>
+
     <string name="setting_subscribe_title">공지 구독</string>
     <string name="setting_subscribe_notifications">공지 구독하기</string>
     <string name="setting_subscribe_others">기타 알림 받기</string>
