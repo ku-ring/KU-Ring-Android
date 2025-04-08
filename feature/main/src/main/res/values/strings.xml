@@ -80,6 +80,9 @@
     <string name="setting_feedback_title">피드백</string>
     <string name="setting_feedback_send_feedback">피드백 보내기</string>
 
+    <string name="setting_logout">로그아웃하기</string>
+    <string name="setting_sign_out">탈퇴하기</string>
+
     <string name="open_source_license">사용된 오픈소스</string>
     <string name="open_source_back">뒤로 가기</string>
     <string name="open_source_title">쿠링에 사용된\n오픈소스예요</string>
