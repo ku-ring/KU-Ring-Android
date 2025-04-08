@@ -10,11 +10,11 @@ class NoticeCommentClient @Inject constructor(
 ) {
     suspend fun createComment(
         noticeId: Int,
-        parentNoticeId: Int?,
+        parentCommentId: Int?,
         content: String,
     ): DefaultResponse = noticeCommentService.createComment(
         noticeId = noticeId,
-        request = NoticeCommentCreateRequest(parentNoticeId, content),
+        request = NoticeCommentCreateRequest(parentCommentId, content),
     )
 
     suspend fun editComment(
