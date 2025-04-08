@@ -161,7 +161,11 @@ fun NavGraphBuilder.mainScreenNavGraph(
         // TODO by mwy3055: SettingScreen 내부도 navigation으로 migrate해야 함
         val viewModel = hiltViewModel<SettingViewModel>()
         val isExtNotificationAllowed by viewModel.isExtNotificationAllowed.collectAsStateWithLifecycle()
+        val userProfileState by viewModel.userProfileState.collectAsStateWithLifecycle()
+
         SettingScreen(
+            userProfileState = userProfileState,
+            onNavigateToSignIn = { navigator.navigateToAuth(activity) },
             onNavigateToEditSubscription = { navigator.navigateToEditSubscription(activity) },
             isExtNotificationEnabled = isExtNotificationAllowed,
             onExtNotificationEnabledToggle = viewModel::setExtNotificationAllowed,
@@ -180,6 +184,8 @@ fun NavGraphBuilder.mainScreenNavGraph(
             onNavigateToOpenSources = { OpenSourceActivity.start(activity) },
             onNavigateToKuringInstagram = { activity.navigateToKuringInstagram() },
             onNavigateToFeedback = { navigator.navigateToFeedback(activity) },
+            onLogoutClick = viewModel::logout,
+            onNavigateToSignOut = { /*TODO: 탈퇴 화면 이동 로직*/ },
             modifier =
             Modifier
                 .background(KuringTheme.colors.background)
