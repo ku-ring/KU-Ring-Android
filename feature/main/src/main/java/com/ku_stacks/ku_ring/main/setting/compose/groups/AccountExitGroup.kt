@@ -11,17 +11,18 @@ import com.ku_stacks.ku_ring.main.R.drawable.ic_trashcan_v2
 import com.ku_stacks.ku_ring.main.R.drawable.ic_user_x_v2
 import com.ku_stacks.ku_ring.main.R.string.setting_logout
 import com.ku_stacks.ku_ring.main.R.string.setting_sign_out
+import com.ku_stacks.ku_ring.main.setting.UserProfileState
 import com.ku_stacks.ku_ring.main.setting.compose.components.ChevronIcon
 import com.ku_stacks.ku_ring.main.setting.compose.components.SettingItem
 
 @Composable
 internal fun AccountExitGroup(
-    isLoggedIn: Boolean,
+    userProfileState: UserProfileState,
     onLogoutClick: () -> Unit,
     onNavigateToSignOut: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    if (isLoggedIn) {
+    if (userProfileState is UserProfileState.LoggedIn) {
         Column(modifier.background(KuringTheme.colors.background)) {
             SettingItem(
                 iconId = ic_user_x_v2,
@@ -46,7 +47,7 @@ private fun AccountExitGroupPreview() {
     KuringTheme {
         Column {
             AccountExitGroup(
-                isLoggedIn = true,
+                userProfileState = UserProfileState.LoggedIn("쿠링이"),
                 onLogoutClick = {},
                 onNavigateToSignOut = {}
             )

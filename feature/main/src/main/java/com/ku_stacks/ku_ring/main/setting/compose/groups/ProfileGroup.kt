@@ -8,18 +8,22 @@ import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.main.R.drawable.ic_user_v2
 import com.ku_stacks.ku_ring.main.R.string.setting_profile_sign_in
+import com.ku_stacks.ku_ring.main.setting.UserProfileState
 import com.ku_stacks.ku_ring.main.setting.compose.components.ChevronIcon
 import com.ku_stacks.ku_ring.main.setting.compose.components.SettingItem
 
 @Composable
 internal fun ProfileGroup(
-    nickName: String?,
+    userProfileState: UserProfileState,
     onNavigateToSignIn: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val title: String = nickName ?: stringResource(setting_profile_sign_in)
-    val onClick = onNavigateToSignIn.takeIf { nickName.isNullOrBlank() }
-    val content: @Composable () -> Unit = { ChevronIcon().takeIf { nickName.isNullOrBlank() } }
+    val loggedIn = userProfileState is UserProfileState.LoggedIn
+    val title: String =
+        if (loggedIn) (userProfileState as UserProfileState.LoggedIn).nickname
+        else stringResource(setting_profile_sign_in)
+    val onClick = onNavigateToSignIn.takeIf { !loggedIn }
+    val content: @Composable () -> Unit = { ChevronIcon().takeIf { !loggedIn } }
 
     SettingItem(
         iconId = ic_user_v2,
@@ -35,7 +39,7 @@ internal fun ProfileGroup(
 private fun LoggedInProfilePreview() {
     KuringTheme {
         ProfileGroup(
-            nickName = "쿠링이",
+            userProfileState = UserProfileState.LoggedIn("쿠링이"),
             onNavigateToSignIn = {},
         )
     }
@@ -46,7 +50,7 @@ private fun LoggedInProfilePreview() {
 private fun NotLoggedInProfilePreview() {
     KuringTheme {
         ProfileGroup(
-            nickName = null,
+            userProfileState = UserProfileState.LoggedIn("쿠링이"),
             onNavigateToSignIn = {},
         )
     }
