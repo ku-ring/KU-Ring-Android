@@ -41,4 +41,19 @@ class UserServiceTest : ApiAbstract<UserService>() {
         assertEquals("성공", response.resultMsg)
         assertEquals(null, response.data)
     }
+
+    @Test
+    fun `get UserData Test`() = runTest {
+        //given
+        enqueueResponse("/UserDataResponse.json")
+
+        // when
+        val token = "mockToken"
+
+        val response = service.getUserData(token)
+        mockWebServer.takeRequest()
+
+        assertEquals("test@konkuk.ac.kr", response.data.email)
+        assertEquals("test1234", response.data.nickname)
+    }
 }

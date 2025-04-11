@@ -1,10 +1,10 @@
 package com.ku_stacks.ku_ring.remote.user
 
+import com.ku_stacks.ku_ring.remote.user.request.AuthorizeUserRequest
 import com.ku_stacks.ku_ring.remote.user.request.FeedbackRequest
 import com.ku_stacks.ku_ring.remote.user.request.RegisterUserRequest
-import com.ku_stacks.ku_ring.remote.user.request.SignInRequest
-import com.ku_stacks.ku_ring.remote.user.request.SignUpRequest
 import com.ku_stacks.ku_ring.remote.user.response.SignInResponse
+import com.ku_stacks.ku_ring.remote.user.response.UserDataResponse
 import com.ku_stacks.ku_ring.remote.util.DefaultResponse
 import com.ku_stacks.ku_ring.util.suspendRunCatching
 import javax.inject.Inject
@@ -31,18 +31,37 @@ class UserClient @Inject constructor(
         }.getOrElse { 0 }
     }
 
-    suspend fun signUp(token: String, email: String, password: String): DefaultResponse =
-        userService.signUp(
-            token = token,
-            request = SignUpRequest(email, password)
+    suspend fun getUserData(accessToken: String): UserDataResponse =
+        userService.getUserData(
+            accessToken = accessToken
         )
 
-    suspend fun signIn(token: String, email: String, password: String): SignInResponse =
+    suspend fun signUp(token: String, request: AuthorizeUserRequest): DefaultResponse =
+        userService.signUp(
+            token = token,
+            request = request
+        )
+
+    suspend fun signIn(token: String, request: AuthorizeUserRequest): SignInResponse =
         userService.signIn(
             token = token,
-            request = SignInRequest(email, password)
+            request = request
         )
 
     suspend fun logout(token: String, accessToken: String): DefaultResponse =
-        userService.logout(token, accessToken)
+        userService.logout(
+            token = token,
+            accessToken = accessToken
+        )
+
+    suspend fun patchPassword(token: String, request: AuthorizeUserRequest): DefaultResponse =
+        userService.patchPassword(
+            token = token,
+            request = request,
+        )
+
+    suspend fun withdrawUser(accessToken: String): DefaultResponse =
+        userService.withdraw(
+            accessToken = accessToken
+        )
 }
