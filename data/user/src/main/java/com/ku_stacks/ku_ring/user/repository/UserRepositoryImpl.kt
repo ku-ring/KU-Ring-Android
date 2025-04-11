@@ -1,12 +1,14 @@
 package com.ku_stacks.ku_ring.user.repository
 
 import com.ku_stacks.ku_ring.domain.CategoryOrder
+import com.ku_stacks.ku_ring.domain.User
 import com.ku_stacks.ku_ring.domain.user.repository.UserRepository
 import com.ku_stacks.ku_ring.local.entity.BlackUserEntity
 import com.ku_stacks.ku_ring.local.room.BlackUserDao
 import com.ku_stacks.ku_ring.local.room.CategoryOrderDao
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.remote.user.UserClient
+import com.ku_stacks.ku_ring.remote.user.request.AuthorizeUserRequest
 import com.ku_stacks.ku_ring.remote.user.request.FeedbackRequest
 import com.ku_stacks.ku_ring.user.mapper.toDomain
 import com.ku_stacks.ku_ring.user.mapper.toEntity
@@ -54,46 +56,59 @@ class UserRepositoryImpl @Inject constructor(
         userClient.registerUser(token)
     }
 
+    override suspend fun getUserData(): Result<User> = runCatching {
+        userClient.getUserData(pref.accessToken).toDomain()
+    }
+
     override suspend fun signUpUser(
         email: String,
-        password: String
+        password: String,
     ): Result<Unit> = runCatching {
         userClient.signUp(
             token = pref.fcmToken,
-            email = email,
-            password = password,
+            request = AuthorizeUserRequest(email, password),
         )
     }
 
     override suspend fun signInUser(
         email: String,
-        password: String
+        password: String,
     ): Result<Unit> = runCatching {
-        val response = userClient.signIn(
+        userClient.signIn(
             token = pref.fcmToken,
-            email = email,
-            password = password,
-        )
-
-        if (response.isSuccess) {
-            pref.accessToken = response.data.accessToken
-        } else {
-            Timber.e(response.message)
+            request = AuthorizeUserRequest(email, password),
+        ).run {
+            if (isSuccess) pref.accessToken = data.accessToken
+            else Timber.e(message)
         }
     }
 
     override suspend fun logoutUser(): Result<Unit> = runCatching {
-        val response = userClient.logout(
+        userClient.logout(
             token = pref.fcmToken,
             accessToken = pref.accessToken,
-        )
-
-        if (response.isSuccess) {
-            pref.deleteAccessToken()
-        } else {
-            Timber.e(response.resultMsg)
+        ).run {
+            if (isSuccess) pref.deleteAccessToken()
+            else Timber.e(resultMsg)
         }
     }
+
+    override suspend fun withdrawUser(): Result<Unit> = runCatching {
+        userClient.withdrawUser(
+            accessToken = pref.accessToken,
+        ).run {
+            if (isSuccess) pref.deleteAccessToken()
+            else Timber.e(resultMsg)
+        }
+    }
+
+    override suspend fun patchPassword(email: String, password: String): Result<Unit> =
+        runCatching {
+            userClient.patchPassword(
+                token = pref.fcmToken,
+                request = AuthorizeUserRequest(email, password),
+            )
+        }
 
     override suspend fun getCategoryOrders(): List<CategoryOrder> {
         return categoryOrderDao.getCategoryOrders().toDomain()

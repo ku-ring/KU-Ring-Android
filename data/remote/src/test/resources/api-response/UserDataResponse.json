@@ -1,0 +1,8 @@
+{
+  "code": 200,
+  "message": "회원정보 조회에 성공했습니다.",
+  "data": {
+    "email": "test@konkuk.ac.kr",
+    "nickname": "test1234"
+  }
+}
