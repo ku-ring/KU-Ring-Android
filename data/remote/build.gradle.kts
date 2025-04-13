@@ -27,6 +27,7 @@ android {
 
 dependencies {
     implementation(projects.core.util)
+    implementation(projects.core.preferences)
 
     testImplementation(libs.kotlinx.coroutines.test)
 }
