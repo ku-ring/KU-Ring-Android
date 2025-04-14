@@ -20,6 +20,9 @@ class KuringTimer(
 
     private var leftTimeInSeconds by mutableIntStateOf(0)
 
+    val isTimeUp: Boolean
+        get() = leftTimeInSeconds <= 0
+
     private fun initializeTimer() {
         job?.cancel()
         leftTimeInSeconds = (DEFAULT_MINUTE * 60 + DEFAULT_SECOND)
@@ -52,7 +55,7 @@ class KuringTimer(
     }
 
     companion object {
-        private const val DEFAULT_MINUTE = 5
-        private const val DEFAULT_SECOND = 0
+        private const val DEFAULT_MINUTE = 0
+        private const val DEFAULT_SECOND = 10
     }
 }

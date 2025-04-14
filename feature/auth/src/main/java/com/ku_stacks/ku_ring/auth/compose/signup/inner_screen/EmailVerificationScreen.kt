@@ -17,6 +17,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -43,6 +44,7 @@ import com.ku_stacks.ku_ring.feature.auth.R.string.sign_up_button_proceed
 import com.ku_stacks.ku_ring.feature.auth.R.string.sign_up_navigate_to_ku_mail
 import com.ku_stacks.ku_ring.feature.auth.R.string.sign_up_top_bar_heading
 import com.ku_stacks.ku_ring.feature.auth.R.string.sign_up_top_bar_sub_heading
+import com.ku_stacks.ku_ring.util.KuringTimer
 import com.ku_stacks.ku_ring.util.navigateToExternalBrowser
 
 private const val KU_MAIL_URL = "https://kumail.konkuk.ac.kr/"
@@ -74,7 +76,10 @@ internal fun EmailVerificationScreen(
         onEmailChange = { viewModel.email = it },
         code = code,
         onCodeChange = { code = it },
-        onSendCodeClick = viewModel::sendVerificationCode,
+        onSendCodeClick = {
+            viewModel.sendVerificationCode()
+            code = ""
+        },
         onBackButtonClick = onNavigateUp,
         onKuMailClick = { context.navigateToExternalBrowser(KU_MAIL_URL) },
         onProceedButtonClick = { viewModel.verifyVerificationCode(code) },
@@ -96,6 +101,9 @@ internal fun EmailVerificationScreen(
     onProceedButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val coroutineScope = rememberCoroutineScope()
+    val timer = remember { KuringTimer(coroutineScope) }
+
     val codeInputFieldEnable = remember(emailInputFieldState) {
         emailInputFieldState is OutlinedTextFieldState.Correct
     }
@@ -130,7 +138,12 @@ internal fun EmailVerificationScreen(
                 onTextChange = onCodeChange,
                 textFieldState = codeInputFieldState,
                 modifier = Modifier.padding(top = 8.dp),
-                timeSuffix = { CodeTimer(enabled = codeInputFieldEnable) }
+                timeSuffix = {
+                    CodeTimer(
+                        timer = timer,
+                        enabled = codeInputFieldEnable
+                    )
+                }
             )
         }
 
@@ -157,7 +170,7 @@ internal fun EmailVerificationScreen(
         KuringCallToAction(
             text = stringResource(sign_up_button_proceed),
             onClick = onProceedButtonClick,
-            enabled = codeInputFieldEnable && code.isNotBlank(),
+            enabled = codeInputFieldEnable && code.isNotBlank() && !timer.isTimeUp,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 20.dp)

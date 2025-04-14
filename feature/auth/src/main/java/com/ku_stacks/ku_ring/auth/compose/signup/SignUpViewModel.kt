@@ -27,8 +27,14 @@ class SignUpViewModel @Inject constructor(
     var emailVerifiedState by mutableStateOf<VerifiedState>(VerifiedState.Initial)
     var codeVerifiedState by mutableStateOf<VerifiedState>(VerifiedState.Initial)
 
-    fun sendVerificationCode() = viewModelScope.launch {
+    private fun initializeVerifiedState() {
         emailVerifiedState = VerifiedState.Initial
+        codeVerifiedState = VerifiedState.Initial
+    }
+
+    fun sendVerificationCode() = viewModelScope.launch {
+        initializeVerifiedState()
+
         verificationRepository.sendVerificationCode(email)
             .onSuccess {
                 emailVerifiedState = VerifiedState.Success
