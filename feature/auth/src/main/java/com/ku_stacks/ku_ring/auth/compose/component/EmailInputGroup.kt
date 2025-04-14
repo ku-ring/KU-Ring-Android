@@ -33,10 +33,10 @@ internal fun EmailInputGroup(
     onSendButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
     textFieldState: OutlinedTextFieldState = OutlinedTextFieldState.Empty,
-    isCodeSent: Boolean = false,
+    isCodeSent: Boolean = false, // TODO: ResetPassword 로직 구현 시 삭제
 ) {
-    val buttonTextRes = remember(isCodeSent) {
-        if (isCodeSent) email_input_group_button_resend
+    val buttonTextRes = remember(textFieldState) {
+        if (textFieldState is OutlinedTextFieldState.Correct) email_input_group_button_resend
         else email_input_group_button_email
     }
 
@@ -77,7 +77,7 @@ private fun EmailInputFieldPreview() {
             text = email,
             onTextChange = { email = it },
             onSendButtonClick = { isCodeSent = !isCodeSent },
-            isCodeSent = isCodeSent,
+            textFieldState = OutlinedTextFieldState.Correct(""),
             modifier = Modifier
         )
     }
