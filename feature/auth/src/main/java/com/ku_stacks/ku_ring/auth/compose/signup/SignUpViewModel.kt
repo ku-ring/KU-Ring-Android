@@ -9,7 +9,10 @@ import com.ku_stacks.ku_ring.domain.user.repository.UserRepository
 import com.ku_stacks.ku_ring.util.getHttpExceptionMessage
 import com.ku_stacks.ku_ring.verification.repository.VerificationRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -17,6 +20,8 @@ class SignUpViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val verificationRepository: VerificationRepository
 ) : ViewModel() {
+    private val _sideEffect = Channel<SignUpSideEffect>()
+    val sideEffect = _sideEffect.receiveAsFlow()
 
     var email by mutableStateOf("")
     var emailVerifiedState by mutableStateOf<VerifiedState>(VerifiedState.Initial)
@@ -43,6 +48,13 @@ class SignUpViewModel @Inject constructor(
                 val message = exception.getHttpExceptionMessage()
                 codeVerifiedState = VerifiedState.Fail(message)
             }
+    }
+
+    fun signUpUser(password: String) = viewModelScope.launch {
+        userRepository.signUpUser(email, password)
+            .onSuccess {
+
+            }.onFailure(Timber::e)
     }
 }
 
