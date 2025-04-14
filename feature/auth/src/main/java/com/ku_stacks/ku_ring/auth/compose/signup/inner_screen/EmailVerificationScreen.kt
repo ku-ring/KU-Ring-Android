@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ku_stacks.ku_ring.auth.compose.component.CodeInputField
+import com.ku_stacks.ku_ring.auth.compose.component.CodeTimer
 import com.ku_stacks.ku_ring.auth.compose.component.EmailInputGroup
 import com.ku_stacks.ku_ring.auth.compose.component.textfield.OutlinedTextFieldState
 import com.ku_stacks.ku_ring.auth.compose.component.topbar.AuthTopBar
@@ -128,8 +129,8 @@ internal fun EmailVerificationScreen(
                 text = code,
                 onTextChange = onCodeChange,
                 textFieldState = codeInputFieldState,
-                modifier = Modifier
-                    .padding(top = 8.dp)
+                modifier = Modifier.padding(top = 8.dp),
+                timeSuffix = { CodeTimer(enabled = codeInputFieldEnable) }
             )
         }
 
