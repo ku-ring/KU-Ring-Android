@@ -2,9 +2,8 @@ package com.ku_stacks.ku_ring.auth
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
-import androidx.activity.compose.BackHandler
-import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -23,26 +22,32 @@ class AuthActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val onBackPressedDispatcherOwner = LocalOnBackPressedDispatcherOwner.current
             val startDestination = if (intent.getStringExtra(INTENT_KEY) == INTENT_SIGN_OUT) {
                 AuthDestination.SignOut
             } else {
                 AuthDestination.SignIn
             }
 
-            BackHandler {
-                overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
-            }
-
             AuthScreen(
-                onNavigateUp = {
-                    onBackPressedDispatcherOwner?.onBackPressedDispatcher?.onBackPressed()
-                },
+                onNavigateUp = ::finish,
                 startDestination = startDestination,
                 modifier = Modifier
                     .fillMaxSize()
                     .navigationBarsPadding()
             )
+        }
+    }
+
+    override fun finish() {
+        super.finish()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            overrideActivityTransition(
+                OVERRIDE_TRANSITION_CLOSE,
+                R.anim.anim_slide_left_enter,
+                R.anim.anim_slide_left_exit
+            )
+        } else {
+            overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
         }
     }
 
