@@ -124,7 +124,7 @@ private fun TextBox(
     ) {
         Text(
             text = title,
-            style = TextStyle.Default.copy(
+            style = TextStyle(
                 fontSize = 16.sp,
                 lineHeight = 22.sp,
                 fontFamily = Pretendard,
@@ -139,7 +139,7 @@ private fun TextBox(
 
         Text(
             text = content,
-            style = TextStyle.Default.copy(
+            style = TextStyle(
                 fontSize = 14.sp,
                 lineHeight = (14 * 1.63f).sp,
                 fontFamily = Pretendard,
