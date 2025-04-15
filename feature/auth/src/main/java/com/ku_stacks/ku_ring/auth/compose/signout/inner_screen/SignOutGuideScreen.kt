@@ -24,8 +24,11 @@ import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.flowWithLifecycle
 import com.ku_stacks.ku_ring.auth.compose.component.button.RoundedCornerButton
 import com.ku_stacks.ku_ring.auth.compose.component.topbar.AuthTopBar
+import com.ku_stacks.ku_ring.auth.compose.signout.SignOutSideEffect
 import com.ku_stacks.ku_ring.auth.compose.signout.SignOutViewModel
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
@@ -45,11 +48,31 @@ internal fun SignOutGuideScreen(
     modifier: Modifier = Modifier,
     viewModel: SignOutViewModel = hiltViewModel(),
 ) {
-    var isConfirmDialogVisible by remember { mutableStateOf(false) }
+    val lifecycleOwner = LocalLifecycleOwner.current
 
-    LaunchedEffect(viewModel.isSignOutSuccess) {
-        if (viewModel.isSignOutSuccess) onNavigateToSignOutComplete()
+    LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
+        viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
+            .collect { sideEffect ->
+                when (sideEffect) {
+                    SignOutSideEffect.NavigateToSignOutComplete -> onNavigateToSignOutComplete()
+                }
+            }
     }
+
+    SignOutGuideScreen(
+        onBackButtonClick = onNavigateUp,
+        onSignOutConfirm = viewModel::signOut,
+        modifier = modifier
+    )
+}
+
+@Composable
+internal fun SignOutGuideScreen(
+    onBackButtonClick: () -> Unit,
+    onSignOutConfirm: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    var isConfirmDialogVisible by remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier
@@ -59,7 +82,7 @@ internal fun SignOutGuideScreen(
         AuthTopBar(
             headingText = stringResource(sign_out_top_bar_heading),
             subHeadingText = stringResource(sign_out_top_bar_sub_heading),
-            onBackButtonClick = onNavigateUp,
+            onBackButtonClick = onBackButtonClick,
         )
 
         TextBox(
@@ -98,7 +121,7 @@ internal fun SignOutGuideScreen(
             onDismiss = { isConfirmDialogVisible = false },
             onConfirm = {
                 isConfirmDialogVisible = false
-                viewModel.signOut()
+                onSignOutConfirm()
             },
         )
     }

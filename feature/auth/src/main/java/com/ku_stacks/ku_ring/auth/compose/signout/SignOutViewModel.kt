@@ -1,20 +1,21 @@
 package com.ku_stacks.ku_ring.auth.compose.signout
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SignOutViewModel @Inject constructor(
 ) : ViewModel() {
-    var isSignOutSuccess: Boolean by mutableStateOf(false)
-        private set
+    private val _sideEffect = Channel<SignOutSideEffect>()
+    val sideEffect = _sideEffect.receiveAsFlow()
 
-    fun signOut() {
+    fun signOut() = viewModelScope.launch {
         // TODO: 회원탈퇴 API 호출
-        isSignOutSuccess = true
+        _sideEffect.trySend(SignOutSideEffect.NavigateToSignOutComplete)
     }
 }
