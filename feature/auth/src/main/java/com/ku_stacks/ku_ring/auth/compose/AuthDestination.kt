@@ -55,13 +55,13 @@ internal sealed interface AuthDestination {
                 route.hasRoute(SignUpEmailVerification::class) -> 3
                 route.hasRoute(SignUpSetPassword::class) -> 4
                 route.hasRoute(SignUpComplete::class) -> 5
-                route.hasRoute(ResetPassword::class) -> 1
-                route.hasRoute(ResetPasswordEmailVerification::class) -> 2
-                route.hasRoute(ResetPasswordSetPassword::class) -> 3
-                route.hasRoute(SignOut::class) -> 0
-                route.hasRoute(SignOutGuide::class) -> 1
-                route.hasRoute(SignOutComplete::class) -> 2
-                else -> 6
+                route.hasRoute(ResetPassword::class) -> 101
+                route.hasRoute(ResetPasswordEmailVerification::class) -> 102
+                route.hasRoute(ResetPasswordSetPassword::class) -> 103
+                route.hasRoute(SignOut::class) -> 200
+                route.hasRoute(SignOutGuide::class) -> 201
+                route.hasRoute(SignOutComplete::class) -> 202
+                else -> 300
             }
     }
 }
