@@ -160,14 +160,13 @@ fun NavGraphBuilder.mainScreenNavGraph(
     composable<MainScreenRoute.Settings> {
         // TODO by mwy3055: SettingScreen 내부도 navigation으로 migrate해야 함
         val viewModel = hiltViewModel<SettingViewModel>()
-        val isExtNotificationAllowed by viewModel.isExtNotificationAllowed.collectAsStateWithLifecycle()
-        val userProfileState by viewModel.userProfileState.collectAsStateWithLifecycle()
+        val settingsUiState by viewModel.settingUiState.collectAsStateWithLifecycle()
 
         SettingScreen(
-            userProfileState = userProfileState,
+            userProfileState = settingsUiState.userProfileState,
             onNavigateToSignIn = { navigator.navigateToAuth(activity) },
             onNavigateToEditSubscription = { navigator.navigateToEditSubscription(activity) },
-            isExtNotificationEnabled = isExtNotificationAllowed,
+            isExtNotificationEnabled = settingsUiState.isExtNotificationAllowed,
             onExtNotificationEnabledToggle = viewModel::setExtNotificationAllowed,
             onNavigateToUpdateLog = {
                 activity.startWebView(navigator, R.string.notion_new_contents_url)

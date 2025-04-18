@@ -73,13 +73,13 @@ private fun NavGraphBuilder.settingNavGraph(
     modifier: Modifier = Modifier,
 ) {
     composable(SettingDestinations.SETTING_SCREEN) {
-        val isExtNotificationAllowed by viewModel.isExtNotificationAllowed.collectAsStateWithLifecycle()
-        val userProfileState by viewModel.userProfileState.collectAsStateWithLifecycle()
+        val settingsUiState by viewModel.settingUiState.collectAsStateWithLifecycle()
+
         SettingScreen(
-            userProfileState = userProfileState,
+            userProfileState = settingsUiState.userProfileState,
             onNavigateToSignIn = navigateToSignIn,
             onNavigateToEditSubscription = navigateToEditSubscription,
-            isExtNotificationEnabled = isExtNotificationAllowed,
+            isExtNotificationEnabled = settingsUiState.isExtNotificationAllowed,
             onExtNotificationEnabledToggle = viewModel::setExtNotificationAllowed,
             onNavigateToUpdateLog = { startWebViewActivity(R.string.notion_new_contents_url) },
             onNavigateToKuringTeam = { startWebViewActivity(R.string.notion_kuring_team_url) },
