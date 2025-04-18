@@ -1,5 +1,5 @@
 package com.ku_stacks.ku_ring.auth.compose.signup
 
 sealed interface SignUpSideEffect {
-    data object OnSignUpComplete : SignUpSideEffect
+    data object NavigateToComplete : SignUpSideEffect
 }

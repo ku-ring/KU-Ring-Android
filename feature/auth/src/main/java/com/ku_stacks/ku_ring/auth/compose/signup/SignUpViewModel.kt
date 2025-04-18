@@ -59,7 +59,7 @@ class SignUpViewModel @Inject constructor(
     fun signUpUser(password: String) = viewModelScope.launch {
         userRepository.signUpUser(email, password)
             .onSuccess {
-
+                _sideEffect.send(SignUpSideEffect.NavigateToComplete)
             }.onFailure(Timber::e)
     }
 }
