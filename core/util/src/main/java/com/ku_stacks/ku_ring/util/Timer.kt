@@ -55,7 +55,7 @@ class KuringTimer(
     }
 
     companion object {
-        private const val DEFAULT_MINUTE = 0
-        private const val DEFAULT_SECOND = 10
+        private const val DEFAULT_MINUTE = 5
+        private const val DEFAULT_SECOND = 0
     }
 }
