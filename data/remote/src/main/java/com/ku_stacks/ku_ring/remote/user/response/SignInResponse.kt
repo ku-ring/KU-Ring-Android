@@ -14,6 +14,6 @@ data class SignInResponse(
         @SerialName("accessToken") val accessToken: String,
     )
 
-    val isSuccess: Boolean = (code == 200)
+    val isSuccess: Boolean get() = (code == 200)
 }
 
