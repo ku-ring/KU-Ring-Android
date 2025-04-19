@@ -77,7 +77,9 @@ class UserRepositoryImpl @Inject constructor(
         userClient.signIn(
             token = pref.fcmToken,
             request = AuthorizeUserRequest(email, password),
-        ).run {
+        )
+    }.map {
+        with(it) {
             if (isSuccess) pref.accessToken = data.accessToken
             else Timber.e(message)
         }
