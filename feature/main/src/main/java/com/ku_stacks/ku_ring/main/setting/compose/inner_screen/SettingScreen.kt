@@ -23,16 +23,21 @@ import com.ku_stacks.ku_ring.designsystem.components.topbar.CenterTitleTopBar
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 import com.ku_stacks.ku_ring.main.R
+import com.ku_stacks.ku_ring.main.setting.SettingUiState
+import com.ku_stacks.ku_ring.main.setting.UserProfileState
+import com.ku_stacks.ku_ring.main.setting.compose.groups.AccountExitGroup
 import com.ku_stacks.ku_ring.main.setting.compose.groups.FeedbackGroup
 import com.ku_stacks.ku_ring.main.setting.compose.groups.InformationGroup
+import com.ku_stacks.ku_ring.main.setting.compose.groups.ProfileGroup
 import com.ku_stacks.ku_ring.main.setting.compose.groups.SocialNetworkServiceGroup
 import com.ku_stacks.ku_ring.main.setting.compose.groups.SubscribeGroup
 import com.ku_stacks.ku_ring.ui_util.getAppVersionName
 
 @Composable
 internal fun SettingScreen(
+    settingUiState: SettingUiState,
+    onNavigateToSignIn: () -> Unit,
     onNavigateToEditSubscription: () -> Unit,
-    isExtNotificationEnabled: Boolean,
     onExtNotificationEnabledToggle: (Boolean) -> Unit,
     onNavigateToUpdateLog: () -> Unit,
     onNavigateToKuringTeam: () -> Unit,
@@ -41,6 +46,8 @@ internal fun SettingScreen(
     onNavigateToOpenSources: () -> Unit,
     onNavigateToKuringInstagram: () -> Unit,
     onNavigateToFeedback: () -> Unit,
+    onLogoutClick: () -> Unit,
+    onNavigateToSignOut: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val scrollState = rememberScrollState()
@@ -52,28 +59,43 @@ internal fun SettingScreen(
             action = {},
             modifier = Modifier.padding(vertical = 16.dp),
         )
-        Column(modifier = Modifier.verticalScroll(scrollState)) {
-            SubscribeGroup(
-                onNavigateToEditSubscription = onNavigateToEditSubscription,
-                isExtNotificationEnabled = isExtNotificationEnabled,
-                onExtNotificationEnabledToggle = onExtNotificationEnabledToggle,
-            )
-            SettingScreenDivider()
-            InformationGroup(
-                appVersion = appVersion,
-                onNavigateToUpdateLog = onNavigateToUpdateLog,
-                onNavigateToKuringTeam = onNavigateToKuringTeam,
-                onNavigateToPrivacyPolicy = onNavigateToPrivacyPolicy,
-                onNavigateToServiceTerms = onNavigateToServiceTerms,
-                onNavigateToOpenSources = onNavigateToOpenSources,
-            )
-            SettingScreenDivider()
-            KuringMemberText()
-            SocialNetworkServiceGroup(onNavigateToKuringInstagram = onNavigateToKuringInstagram)
-            SettingScreenDivider()
-            FeedbackGroup(onNavigateToFeedback = onNavigateToFeedback)
+        if (settingUiState is SettingUiState.Success) {
+            with(settingUiState) {
+                Column(modifier = Modifier.verticalScroll(scrollState)) {
+                    ProfileGroup(
+                        userProfileState = userProfileState,
+                        onNavigateToSignIn = onNavigateToSignIn,
+                    )
+                    SettingScreenDivider()
+                    SubscribeGroup(
+                        onNavigateToEditSubscription = onNavigateToEditSubscription,
+                        isExtNotificationEnabled = isExtNotificationEnabled,
+                        onExtNotificationEnabledToggle = onExtNotificationEnabledToggle,
+                    )
+                    SettingScreenDivider()
+                    InformationGroup(
+                        appVersion = appVersion,
+                        onNavigateToUpdateLog = onNavigateToUpdateLog,
+                        onNavigateToKuringTeam = onNavigateToKuringTeam,
+                        onNavigateToPrivacyPolicy = onNavigateToPrivacyPolicy,
+                        onNavigateToServiceTerms = onNavigateToServiceTerms,
+                        onNavigateToOpenSources = onNavigateToOpenSources,
+                    )
+                    SettingScreenDivider()
+                    KuringMemberText()
+                    SocialNetworkServiceGroup(onNavigateToKuringInstagram = onNavigateToKuringInstagram)
+                    SettingScreenDivider()
+                    FeedbackGroup(onNavigateToFeedback = onNavigateToFeedback)
+                    SettingScreenDivider()
+                    AccountExitGroup(
+                        userProfileState = userProfileState,
+                        onLogoutClick = onLogoutClick,
+                        onNavigateToSignOut = onNavigateToSignOut,
+                    )
 
-            Spacer(modifier = Modifier.height(100.dp))
+                    Spacer(modifier = Modifier.height(100.dp))
+                }
+            }
         }
     }
 }
@@ -109,8 +131,12 @@ private fun KuringMemberText(modifier: Modifier = Modifier) {
 private fun SettingScreenPreview() {
     KuringTheme {
         SettingScreen(
+            settingUiState = SettingUiState.Success(
+                isExtNotificationEnabled = true,
+                userProfileState = UserProfileState.LoggedIn("홍길동"),
+            ),
+            onNavigateToSignIn = {},
             onNavigateToEditSubscription = {},
-            isExtNotificationEnabled = true,
             onExtNotificationEnabledToggle = {},
             onNavigateToUpdateLog = {},
             onNavigateToKuringTeam = {},
@@ -119,6 +145,8 @@ private fun SettingScreenPreview() {
             onNavigateToOpenSources = {},
             onNavigateToKuringInstagram = {},
             onNavigateToFeedback = {},
+            onLogoutClick = {},
+            onNavigateToSignOut = {},
             modifier = Modifier
                 .fillMaxSize()
                 .background(KuringTheme.colors.background),

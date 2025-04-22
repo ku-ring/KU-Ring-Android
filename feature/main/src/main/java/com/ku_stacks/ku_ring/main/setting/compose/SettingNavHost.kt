@@ -21,11 +21,13 @@ import com.ku_stacks.ku_ring.main.setting.compose.inner_screen.SettingScreen
 // TODO: 향후 compose 완전 migration 시 사용
 @Composable
 internal fun SettingHavHost(
+    navigateToSignIn: () -> Unit,
     navigateToEditSubscription: () -> Unit,
     startWebViewActivity: (Int) -> Unit,
     navigateToKuringInstagram: () -> Unit,
     navigateToFeedback: () -> Unit,
     navigateToOssLicenses: () -> Unit,
+    navigateToSignOut: () -> Unit,
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     viewModel: SettingViewModel = hiltViewModel(),
@@ -44,11 +46,13 @@ internal fun SettingHavHost(
         settingNavGraph(
             navController = navController,
             viewModel = viewModel,
+            navigateToSignIn = navigateToSignIn,
             navigateToEditSubscription = navigateToEditSubscription,
             startWebViewActivity = startWebViewActivity,
             navigateToKuringInstagram = navigateToKuringInstagram,
             navigateToFeedback = navigateToFeedback,
             navigateToOssLicenses = navigateToOssLicenses,
+            navigateToSignOut = navigateToSignOut,
             modifier = Modifier
                 .background(background)
                 .fillMaxSize(),
@@ -57,6 +61,7 @@ internal fun SettingHavHost(
 }
 
 private fun NavGraphBuilder.settingNavGraph(
+    navigateToSignIn: () -> Unit,
     navController: NavHostController,
     viewModel: SettingViewModel,
     navigateToEditSubscription: () -> Unit,
@@ -64,13 +69,16 @@ private fun NavGraphBuilder.settingNavGraph(
     navigateToKuringInstagram: () -> Unit,
     navigateToFeedback: () -> Unit,
     navigateToOssLicenses: () -> Unit,
+    navigateToSignOut: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     composable(SettingDestinations.SETTING_SCREEN) {
-        val isExtNotificationAllowed by viewModel.isExtNotificationAllowed.collectAsStateWithLifecycle()
+        val settingsUiState by viewModel.settingUiState.collectAsStateWithLifecycle()
+
         SettingScreen(
+            settingUiState = settingsUiState,
+            onNavigateToSignIn = navigateToSignIn,
             onNavigateToEditSubscription = navigateToEditSubscription,
-            isExtNotificationEnabled = isExtNotificationAllowed,
             onExtNotificationEnabledToggle = viewModel::setExtNotificationAllowed,
             onNavigateToUpdateLog = { startWebViewActivity(R.string.notion_new_contents_url) },
             onNavigateToKuringTeam = { startWebViewActivity(R.string.notion_kuring_team_url) },
@@ -79,6 +87,8 @@ private fun NavGraphBuilder.settingNavGraph(
             onNavigateToOpenSources = { navController.navigate(SettingDestinations.OPEN_SOURCE) },
             onNavigateToKuringInstagram = navigateToKuringInstagram,
             onNavigateToFeedback = navigateToFeedback,
+            onLogoutClick = viewModel::logout,
+            onNavigateToSignOut = navigateToSignOut,
             modifier = modifier,
         )
     }

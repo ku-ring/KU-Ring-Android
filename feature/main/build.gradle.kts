@@ -23,6 +23,7 @@ dependencies {
     implementation(projects.data.notice)
     implementation(projects.data.staff)
     implementation(projects.data.search)
+    implementation(projects.domain.user)
 
     implementation(libs.bundles.compose.interop)
     implementation(platform(libs.firebase.bom))
