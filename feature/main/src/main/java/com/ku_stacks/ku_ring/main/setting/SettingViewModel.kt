@@ -27,17 +27,18 @@ class SettingViewModel @Inject constructor(
         _isExtNotificationAllowed,
         _userProfileState,
     ) { isExtNotificationAllowed, userProfileState ->
-        SettingUiState(
-            isExtNotificationAllowed = isExtNotificationAllowed,
-            userProfileState = userProfileState,
-        )
+        when (userProfileState) {
+            is UserProfileState.InitialLoading -> SettingUiState.Initial
+            is UserProfileState.NotLoggedIn -> SettingUiState.Error
+            is UserProfileState.LoggedIn -> SettingUiState.Success(
+                isExtNotificationAllowed = isExtNotificationAllowed,
+                userProfileState = userProfileState,
+            )
+        }
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = SettingUiState(
-            isExtNotificationAllowed = pref.extNotificationAllowed,
-            userProfileState = UserProfileState.InitialLoading,
-        ),
+        initialValue = SettingUiState.Initial,
     )
 
     init {
@@ -64,10 +65,14 @@ class SettingViewModel @Inject constructor(
     }
 }
 
-data class SettingUiState(
-    val isExtNotificationAllowed: Boolean,
-    val userProfileState: UserProfileState,
-)
+sealed class SettingUiState {
+    data object Initial : SettingUiState()
+    data object Error : SettingUiState()
+    data class Success(
+        val userProfileState: UserProfileState,
+        val isExtNotificationAllowed: Boolean,
+    ) : SettingUiState()
+}
 
 sealed class UserProfileState {
     data object InitialLoading : UserProfileState()
