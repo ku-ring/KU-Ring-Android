@@ -103,6 +103,11 @@ class KuringNavigatorImpl @Inject constructor() : KuringNavigator {
     }
 
     override fun navigateToAuth(context: Context) {
-        AuthActivity.start(context)
+        AuthActivity.startAuth(context)
     }
+
+    override fun navigateToSignOut(context: Context) {
+        AuthActivity.startSignOut(context)
+    }
+
 }

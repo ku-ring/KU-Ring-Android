@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,15 +24,16 @@ internal fun RoundedCornerButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(50),
+    colors: ButtonColors = ButtonDefaults.textButtonColors(
+        containerColor = KuringTheme.colors.mainPrimary,
+        contentColor = KuringTheme.colors.background,
+    ),
     contentPadding: PaddingValues = PaddingValues(vertical = 16.dp),
 ) {
     Button(
         onClick = onClick,
         shape = shape,
-        colors = ButtonDefaults.textButtonColors(
-            containerColor = KuringTheme.colors.mainPrimary,
-            contentColor = KuringTheme.colors.background,
-        ),
+        colors = colors,
         contentPadding = contentPadding,
         modifier = modifier,
     ) {

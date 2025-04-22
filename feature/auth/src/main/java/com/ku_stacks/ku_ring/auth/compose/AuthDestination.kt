@@ -4,7 +4,6 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
 import kotlinx.serialization.Serializable
 
-
 internal sealed interface AuthDestination {
     @Serializable
     data object SignIn : AuthDestination
@@ -33,6 +32,15 @@ internal sealed interface AuthDestination {
     @Serializable
     data object ResetPasswordSetPassword : AuthDestination
 
+    @Serializable
+    data object SignOut : AuthDestination
+
+    @Serializable
+    data object SignOutGuide : AuthDestination
+
+    @Serializable
+    data object SignOutComplete : AuthDestination
+
     companion object {
         /*
          * 화면 접근 순서를 나타내는 번호를 반환하는 함수
@@ -47,10 +55,13 @@ internal sealed interface AuthDestination {
                 route.hasRoute(SignUpEmailVerification::class) -> 3
                 route.hasRoute(SignUpSetPassword::class) -> 4
                 route.hasRoute(SignUpComplete::class) -> 5
-                route.hasRoute(ResetPassword::class) -> 1
-                route.hasRoute(ResetPasswordEmailVerification::class) -> 2
-                route.hasRoute(ResetPasswordSetPassword::class) -> 3
-                else -> 6
+                route.hasRoute(ResetPassword::class) -> 101
+                route.hasRoute(ResetPasswordEmailVerification::class) -> 102
+                route.hasRoute(ResetPasswordSetPassword::class) -> 103
+                route.hasRoute(SignOut::class) -> 200
+                route.hasRoute(SignOutGuide::class) -> 201
+                route.hasRoute(SignOutComplete::class) -> 202
+                else -> 300
             }
     }
 }
