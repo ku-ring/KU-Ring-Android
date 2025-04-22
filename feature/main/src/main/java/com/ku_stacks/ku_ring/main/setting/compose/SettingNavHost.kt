@@ -76,10 +76,9 @@ private fun NavGraphBuilder.settingNavGraph(
         val settingsUiState by viewModel.settingUiState.collectAsStateWithLifecycle()
 
         SettingScreen(
-            userProfileState = settingsUiState.userProfileState,
+            settingUiState = settingsUiState,
             onNavigateToSignIn = navigateToSignIn,
             onNavigateToEditSubscription = navigateToEditSubscription,
-            isExtNotificationEnabled = settingsUiState.isExtNotificationAllowed,
             onExtNotificationEnabledToggle = viewModel::setExtNotificationAllowed,
             onNavigateToUpdateLog = { startWebViewActivity(R.string.notion_new_contents_url) },
             onNavigateToKuringTeam = { startWebViewActivity(R.string.notion_kuring_team_url) },

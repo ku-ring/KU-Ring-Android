@@ -29,9 +29,10 @@ class SettingViewModel @Inject constructor(
     ) { isExtNotificationAllowed, userProfileState ->
         when (userProfileState) {
             is UserProfileState.InitialLoading -> SettingUiState.Initial
-            is UserProfileState.NotLoggedIn -> SettingUiState.Error
+            is UserProfileState.Error -> SettingUiState.Error
+            is UserProfileState.NotLoggedIn,
             is UserProfileState.LoggedIn -> SettingUiState.Success(
-                isExtNotificationAllowed = isExtNotificationAllowed,
+                isExtNotificationEnabled = isExtNotificationAllowed,
                 userProfileState = userProfileState,
             )
         }
@@ -70,12 +71,13 @@ sealed class SettingUiState {
     data object Error : SettingUiState()
     data class Success(
         val userProfileState: UserProfileState,
-        val isExtNotificationAllowed: Boolean,
+        val isExtNotificationEnabled: Boolean,
     ) : SettingUiState()
 }
 
 sealed class UserProfileState {
     data object InitialLoading : UserProfileState()
+    data object Error : UserProfileState()
     data object NotLoggedIn : UserProfileState()
     data class LoggedIn(val nickname: String) : UserProfileState()
 }
