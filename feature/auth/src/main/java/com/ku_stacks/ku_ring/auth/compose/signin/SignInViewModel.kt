@@ -41,7 +41,7 @@ class SignInViewModel @Inject constructor(
     }
 
     fun signInUser() = viewModelScope.launch {
-        userRepository.signUpUser(
+        userRepository.signInUser(
             email = email,
             password = password
         ).onSuccess {
