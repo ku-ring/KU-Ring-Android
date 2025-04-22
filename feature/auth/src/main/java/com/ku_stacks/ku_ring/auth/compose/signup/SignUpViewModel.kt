@@ -25,7 +25,9 @@ class SignUpViewModel @Inject constructor(
 
     var email by mutableStateOf("")
     var emailVerifiedState by mutableStateOf<VerifiedState>(VerifiedState.Initial)
+        private set
     var codeVerifiedState by mutableStateOf<VerifiedState>(VerifiedState.Initial)
+        private set
 
     private fun initializeVerifiedState() {
         emailVerifiedState = VerifiedState.Initial
