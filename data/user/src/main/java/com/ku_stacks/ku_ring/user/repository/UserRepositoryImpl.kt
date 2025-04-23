@@ -94,12 +94,10 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun withdrawUser(): Result<Unit> = runCatching {
-        userClient.withdrawUser(
-            accessToken = pref.accessToken,
-        ).run {
-            if (isSuccess) pref.deleteAccessToken()
-            else Timber.e(resultMsg)
-        }
+        userClient.withdrawUser()
+    }.map { response ->
+        if (response.resultCode == 204) pref.deleteAccessToken()
+        else Timber.e(response.resultMsg)
     }
 
     override suspend fun patchPassword(email: String, password: String): Result<Unit> =

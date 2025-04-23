@@ -52,7 +52,5 @@ interface UserService {
     ): DefaultResponse
 
     @DELETE("v2/users/withdraw")
-    suspend fun withdraw(
-        @Header("Authorization") accessToken: String,
-    ): DefaultResponse
+    suspend fun withdraw(): DefaultResponse
 }
