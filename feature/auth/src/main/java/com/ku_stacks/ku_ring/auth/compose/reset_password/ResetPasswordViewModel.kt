@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ku_stacks.ku_ring.auth.compose.state.VerifiedState
+import com.ku_stacks.ku_ring.domain.user.repository.UserRepository
 import com.ku_stacks.ku_ring.util.getHttpExceptionMessage
 import com.ku_stacks.ku_ring.verification.repository.VerificationRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,6 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ResetPasswordViewModel @Inject constructor(
+    private val userRepository: UserRepository,
     private val verificationRepository: VerificationRepository
 ) : ViewModel() {
     private val _sideEffect = Channel<ResetPasswordSideEffect>()
@@ -58,11 +60,11 @@ class ResetPasswordViewModel @Inject constructor(
     }
 
     fun resetPassword(password: String) = viewModelScope.launch {
-        runCatching {
-            // TODO: 비밀번호 재설정 API 호출
-            Timber.tag("ResetPasswordViewModel").d("current password: $password")
-        }.onSuccess {
-            _sideEffect.send(ResetPasswordSideEffect.NavigateToSignIn)
-        }.onFailure(Timber::e)
+
+        userRepository.patchPassword(email = email, password = password)
+            .onSuccess {
+                _sideEffect.send(ResetPasswordSideEffect.NavigateToSignIn)
+            }
+            .onFailure(Timber::e)
     }
 }
