@@ -18,6 +18,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -32,6 +33,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.flowWithLifecycle
 import com.ku_stacks.ku_ring.auth.compose.component.CodeInputField
+import com.ku_stacks.ku_ring.auth.compose.component.CodeTimer
 import com.ku_stacks.ku_ring.auth.compose.component.EmailInputGroup
 import com.ku_stacks.ku_ring.auth.compose.component.topbar.AuthTopBar
 import com.ku_stacks.ku_ring.auth.compose.reset_password.ResetPasswordSideEffect
@@ -45,6 +47,7 @@ import com.ku_stacks.ku_ring.feature.auth.R.string.reset_password_verification_b
 import com.ku_stacks.ku_ring.feature.auth.R.string.reset_password_verification_navigate_to_ku_mail
 import com.ku_stacks.ku_ring.feature.auth.R.string.reset_password_verification_top_bar_heading
 import com.ku_stacks.ku_ring.feature.auth.R.string.reset_password_verification_top_bar_sub_heading
+import com.ku_stacks.ku_ring.util.KuringTimer
 import com.ku_stacks.ku_ring.util.navigateToExternalBrowser
 
 private const val KU_MAIL_URL = "https://kumail.konkuk.ac.kr/"
@@ -102,6 +105,8 @@ internal fun EmailVerificationScreen(
     onProceedButtonClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val coroutineScope = rememberCoroutineScope()
+    val timer = remember { KuringTimer(coroutineScope) }
 
     val codeInputFieldEnable = remember(emailVerifiedState) {
         emailVerifiedState is VerifiedState.Success
@@ -111,7 +116,7 @@ internal fun EmailVerificationScreen(
         modifier = modifier
             .fillMaxSize()
             .background(color = KuringTheme.colors.background)
-            .imePadding()
+            .imePadding(),
     ) {
         AuthTopBar(
             headingText = stringResource(reset_password_verification_top_bar_heading),
@@ -124,8 +129,7 @@ internal fun EmailVerificationScreen(
             onTextChange = onEmailChange,
             onSendButtonClick = onSendCodeClick,
             verifiedState = VerifiedState.Initial,
-            modifier = Modifier
-                .padding(top = 45.dp)
+            modifier = Modifier.padding(top = 45.dp)
         )
 
         AnimatedVisibility(
@@ -137,8 +141,13 @@ internal fun EmailVerificationScreen(
                 text = code,
                 onTextChange = onCodeChange,
                 verifiedState = codeVerifiedState,
-                modifier = Modifier
-                    .padding(top = 8.dp)
+                modifier = Modifier.padding(top = 8.dp),
+                timeSuffix = {
+                    CodeTimer(
+                        timer = timer,
+                        enabled = codeInputFieldEnable
+                    )
+                }
             )
         }
 
@@ -168,7 +177,7 @@ internal fun EmailVerificationScreen(
             enabled = codeInputFieldEnable && code.isNotBlank(),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 20.dp)
+                .padding(bottom = 20.dp),
         )
     }
 }
@@ -190,7 +199,7 @@ private fun EmailVerificationScreenPreview() {
             onCodeChange = { code = it },
             onSendCodeClick = { isCodeSent = !isCodeSent },
             onBackButtonClick = { },
-            onKuMailClick = {},
+            onKuMailClick = { },
             onProceedButtonClick = { },
         )
     }
