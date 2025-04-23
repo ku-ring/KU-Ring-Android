@@ -86,7 +86,7 @@ internal fun EmailVerificationScreen(
         onSendCodeClick = viewModel::sendVerificationCode,
         onBackButtonClick = onNavigateUp,
         onKuMailClick = { context.navigateToExternalBrowser(KU_MAIL_URL) },
-        onProceedButtonClick = viewModel::verifyVerificationCode,
+        onProceedButtonClick = { viewModel.verifyVerificationCode(code) },
         modifier = modifier,
     )
 }
@@ -102,7 +102,7 @@ internal fun EmailVerificationScreen(
     onSendCodeClick: () -> Unit,
     onBackButtonClick: () -> Unit,
     onKuMailClick: () -> Unit,
-    onProceedButtonClick: (String) -> Unit,
+    onProceedButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -173,7 +173,7 @@ internal fun EmailVerificationScreen(
 
         KuringCallToAction(
             text = stringResource(reset_password_verification_button_proceed),
-            onClick = { onProceedButtonClick(code) },
+            onClick = onProceedButtonClick,
             enabled = codeInputFieldEnable && code.isNotBlank(),
             modifier = Modifier
                 .fillMaxWidth()
