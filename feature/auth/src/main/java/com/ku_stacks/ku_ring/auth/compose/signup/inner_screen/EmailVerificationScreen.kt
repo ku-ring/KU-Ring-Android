@@ -118,7 +118,7 @@ internal fun EmailVerificationScreen(
             text = email,
             onTextChange = onEmailChange,
             onSendButtonClick = onSendCodeClick,
-            verifiedState = VerifiedState.Initial,
+            verifiedState = emailVerifiedState,
             modifier = Modifier
                 .padding(top = 45.dp)
         )
@@ -131,7 +131,7 @@ internal fun EmailVerificationScreen(
             CodeInputField(
                 text = code,
                 onTextChange = onCodeChange,
-                verifiedState = VerifiedState.Initial,
+                verifiedState = codeVerifiedState,
                 modifier = Modifier.padding(top = 8.dp),
                 timeSuffix = {
                     CodeTimer(
