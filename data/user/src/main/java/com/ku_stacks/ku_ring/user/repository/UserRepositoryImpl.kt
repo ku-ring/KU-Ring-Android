@@ -107,7 +107,6 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun patchPassword(email: String, password: String): Result<Unit> =
         runCatching {
             userClient.patchPassword(
-                token = pref.fcmToken,
                 request = AuthorizeUserRequest(email, password),
             )
         }
