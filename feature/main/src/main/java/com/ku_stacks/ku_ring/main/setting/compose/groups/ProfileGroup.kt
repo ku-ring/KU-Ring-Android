@@ -23,7 +23,7 @@ internal fun ProfileGroup(
         if (loggedIn) (userProfileState as UserProfileState.LoggedIn).nickname
         else stringResource(setting_profile_sign_in)
     val onClick = onNavigateToSignIn.takeIf { !loggedIn }
-    val content: @Composable () -> Unit = { ChevronIcon().takeIf { !loggedIn } }
+    val content: @Composable () -> Unit = { if (!loggedIn) ChevronIcon() }
 
     SettingItem(
         iconId = ic_user_v2,
@@ -50,7 +50,7 @@ private fun LoggedInProfilePreview() {
 private fun NotLoggedInProfilePreview() {
     KuringTheme {
         ProfileGroup(
-            userProfileState = UserProfileState.LoggedIn("쿠링이"),
+            userProfileState = UserProfileState.NotLoggedIn,
             onNavigateToSignIn = {},
         )
     }
