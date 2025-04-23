@@ -183,7 +183,7 @@ fun NavGraphBuilder.mainScreenNavGraph(
             onNavigateToKuringInstagram = { activity.navigateToKuringInstagram() },
             onNavigateToFeedback = { navigator.navigateToFeedback(activity) },
             onLogoutClick = viewModel::logout,
-            onNavigateToSignOut = { /*TODO: 탈퇴 화면 이동 로직*/ },
+            onNavigateToSignOut = { navigator.navigateToSignOut(activity) },
             modifier =
             Modifier
                 .background(KuringTheme.colors.background)

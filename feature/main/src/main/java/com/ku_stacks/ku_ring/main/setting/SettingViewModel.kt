@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -52,16 +53,22 @@ class SettingViewModel @Inject constructor(
     }
 
     fun logout() = viewModelScope.launch {
-        //TODO: 로그아웃 API 연결
+        userRepository.logoutUser()
+            .onSuccess { updateUserProfileState() }
+            .onFailure { _userProfileState.value = UserProfileState.Error }
     }
 
     fun getUserData() = viewModelScope.launch {
-        //TODO: 유저 정보 API 연결
-        updateUserProfileState()
+        userRepository.getUserData()
+            .onSuccess { updateUserProfileState(it.nickName) }
+            .onFailure {
+                _userProfileState.value = UserProfileState.Error
+                Timber.e(it)
+            }
     }
 
     private fun updateUserProfileState(nickName: String? = null) = _userProfileState.update {
-        if (nickName == null) UserProfileState.NotLoggedIn
+        if (nickName.isNullOrBlank()) UserProfileState.NotLoggedIn
         else UserProfileState.LoggedIn(nickName)
     }
 }
