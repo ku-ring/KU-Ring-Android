@@ -11,6 +11,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -18,11 +22,15 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ku_stacks.ku_ring.designsystem.components.KuringAlertDialog
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.components.topbar.CenterTitleTopBar
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 import com.ku_stacks.ku_ring.main.R
+import com.ku_stacks.ku_ring.main.R.string.setting_logout_dialog_confirm
+import com.ku_stacks.ku_ring.main.R.string.setting_logout_dialog_dismiss
+import com.ku_stacks.ku_ring.main.R.string.setting_logout_dialog_title
 import com.ku_stacks.ku_ring.main.setting.SettingUiState
 import com.ku_stacks.ku_ring.main.setting.UserProfileState
 import com.ku_stacks.ku_ring.main.setting.compose.groups.AccountExitGroup
@@ -52,6 +60,8 @@ internal fun SettingScreen(
 ) {
     val scrollState = rememberScrollState()
     val appVersion = LocalContext.current.getAppVersionName()
+
+    var isLogoutDialogVisible by rememberSaveable { mutableStateOf(false) }
 
     Column(modifier = modifier) {
         CenterTitleTopBar(
@@ -89,7 +99,7 @@ internal fun SettingScreen(
                     SettingScreenDivider()
                     AccountExitGroup(
                         userProfileState = userProfileState,
-                        onLogoutClick = onLogoutClick,
+                        onLogoutClick = { isLogoutDialogVisible = true },
                         onNavigateToSignOut = onNavigateToSignOut,
                     )
 
@@ -97,6 +107,16 @@ internal fun SettingScreen(
                 }
             }
         }
+    }
+
+    if (isLogoutDialogVisible) {
+        LogoutDialog(
+            onDismiss = { isLogoutDialogVisible = false },
+            onConfirm = {
+                isLogoutDialogVisible = false
+                onLogoutClick()
+            }
+        )
     }
 }
 
@@ -123,6 +143,22 @@ private fun KuringMemberText(modifier: Modifier = Modifier) {
             letterSpacing = 0.15.sp,
         ),
         modifier = modifier.padding(20.dp)
+    )
+}
+
+@Composable
+private fun LogoutDialog(
+    onDismiss: () -> Unit,
+    onConfirm: () -> Unit,
+) {
+    KuringAlertDialog(
+        text = stringResource(setting_logout_dialog_title),
+        onConfirm = onConfirm,
+        onCancel = onDismiss,
+        onDismiss = onDismiss,
+        confirmText = stringResource(setting_logout_dialog_confirm),
+        cancelText = stringResource(setting_logout_dialog_dismiss),
+        confirmTextColor = KuringTheme.colors.warning,
     )
 }
 
