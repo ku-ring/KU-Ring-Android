@@ -14,12 +14,11 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,6 +31,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import com.ku_stacks.ku_ring.auth.compose.component.CodeInputField
 import com.ku_stacks.ku_ring.auth.compose.component.CodeTimer
 import com.ku_stacks.ku_ring.auth.compose.component.EmailInputGroup
@@ -49,6 +49,7 @@ import com.ku_stacks.ku_ring.feature.auth.R.string.reset_password_verification_t
 import com.ku_stacks.ku_ring.feature.auth.R.string.reset_password_verification_top_bar_sub_heading
 import com.ku_stacks.ku_ring.util.KuringTimer
 import com.ku_stacks.ku_ring.util.navigateToExternalBrowser
+import kotlinx.coroutines.launch
 
 private const val KU_MAIL_URL = "https://kumail.konkuk.ac.kr/"
 
@@ -62,31 +63,35 @@ internal fun EmailVerificationScreen(
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
 
-    var code by rememberSaveable { mutableStateOf("") }
-
-    LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
-        viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle)
-            .collect { sideEffect ->
-                if (sideEffect is ResetPasswordSideEffect.NavigateToResetPassword) {
-                    onNavigateToPassword()
+    DisposableEffect(viewModel.sideEffect, lifecycleOwner) {
+        lifecycleOwner.lifecycleScope.launch {
+            viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle)
+                .collect { sideEffect ->
+                    if (sideEffect is ResetPasswordSideEffect.NavigateToResetPassword) {
+                        onNavigateToPassword()
+                    }
                 }
+        }
+
+        onDispose {
+            with(viewModel) {
+                updateEmail("")
+                updateCode("")
             }
+        }
     }
 
     EmailVerificationScreen(
         email = viewModel.email,
-        code = code,
+        code = viewModel.code,
         emailVerifiedState = viewModel.emailVerifiedState,
         codeVerifiedState = viewModel.codeVerifiedState,
-        onEmailChange = {
-            viewModel.email = it
-            code = ""
-        },
-        onCodeChange = { code = it },
+        onEmailChange = viewModel::updateEmail,
+        onCodeChange = viewModel::updateCode,
         onSendCodeClick = viewModel::sendVerificationCode,
         onBackButtonClick = onNavigateUp,
         onKuMailClick = { context.navigateToExternalBrowser(KU_MAIL_URL) },
-        onProceedButtonClick = { viewModel.verifyVerificationCode(code) },
+        onProceedButtonClick = viewModel::verifyVerificationCode,
         modifier = modifier,
     )
 }
