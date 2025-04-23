@@ -33,7 +33,6 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.flowWithLifecycle
 import com.ku_stacks.ku_ring.auth.compose.component.CodeInputField
 import com.ku_stacks.ku_ring.auth.compose.component.EmailInputGroup
-import com.ku_stacks.ku_ring.auth.compose.component.textfield.OutlinedTextFieldState
 import com.ku_stacks.ku_ring.auth.compose.component.topbar.AuthTopBar
 import com.ku_stacks.ku_ring.auth.compose.reset_password.ResetPasswordSideEffect
 import com.ku_stacks.ku_ring.auth.compose.reset_password.ResetPasswordViewModel
@@ -73,7 +72,7 @@ internal fun EmailVerificationScreen(
         email = viewModel.email,
         emailVerifiedState = viewModel.emailVerifiedState,
         codeVerifiedState = viewModel.codeVerifiedState,
-        onEmailChange = viewModel::updateEmail,
+        onEmailChange = { viewModel.email = it },
         onSendCodeClick = viewModel::sendVerificationCode,
         onBackButtonClick = onNavigateUp,
         onKuMailClick = { context.navigateToExternalBrowser(KU_MAIL_URL) },
@@ -167,17 +166,6 @@ internal fun EmailVerificationScreen(
                 .fillMaxWidth()
                 .padding(bottom = 20.dp)
         )
-    }
-}
-
-@Composable
-private fun rememberOutlinedTextFieldState(
-    verifiedState: VerifiedState
-) = remember(verifiedState) {
-    when (verifiedState) {
-        is VerifiedState.Initial -> OutlinedTextFieldState.Empty
-        is VerifiedState.Success -> OutlinedTextFieldState.Correct("")
-        is VerifiedState.Fail -> OutlinedTextFieldState.Error(verifiedState.message ?: "")
     }
 }
 

@@ -28,14 +28,6 @@ class ResetPasswordViewModel @Inject constructor(
     var codeVerifiedState by mutableStateOf<VerifiedState>(VerifiedState.Initial)
         private set
 
-    var codeInputFieldEnable by mutableStateOf(false)
-        private set
-
-    fun updateEmail(email: String) {
-        this.email = email
-        codeInputFieldEnable = false
-    }
-
     private fun initializeVerifiedState() {
         emailVerifiedState = VerifiedState.Initial
         codeVerifiedState = VerifiedState.Initial
