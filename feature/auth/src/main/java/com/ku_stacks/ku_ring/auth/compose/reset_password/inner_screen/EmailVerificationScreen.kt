@@ -33,9 +33,11 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.flowWithLifecycle
 import com.ku_stacks.ku_ring.auth.compose.component.CodeInputField
 import com.ku_stacks.ku_ring.auth.compose.component.EmailInputGroup
+import com.ku_stacks.ku_ring.auth.compose.component.textfield.OutlinedTextFieldState
 import com.ku_stacks.ku_ring.auth.compose.component.topbar.AuthTopBar
 import com.ku_stacks.ku_ring.auth.compose.reset_password.ResetPasswordSideEffect
 import com.ku_stacks.ku_ring.auth.compose.reset_password.ResetPasswordViewModel
+import com.ku_stacks.ku_ring.auth.compose.state.VerifiedState
 import com.ku_stacks.ku_ring.designsystem.components.KuringCallToAction
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
@@ -58,6 +60,9 @@ internal fun EmailVerificationScreen(
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
 
+    val emailInputFieldState = rememberOutlinedTextFieldState(viewModel.emailVerifiedState)
+    val codeInputFieldState = rememberOutlinedTextFieldState(viewModel.codeVerifiedState)
+
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle)
             .collect { sideEffect ->
@@ -69,7 +74,8 @@ internal fun EmailVerificationScreen(
 
     EmailVerificationScreen(
         email = viewModel.email,
-        codeInputFieldEnable = viewModel.codeInputFieldEnable,
+        emailInputFieldState = emailInputFieldState,
+        codeInputFieldState = codeInputFieldState,
         onEmailChange = viewModel::updateEmail,
         onSendCodeClick = viewModel::sendVerificationCode,
         onBackButtonClick = onNavigateUp,
@@ -82,7 +88,8 @@ internal fun EmailVerificationScreen(
 @Composable
 internal fun EmailVerificationScreen(
     email: String,
-    codeInputFieldEnable: Boolean,
+    emailInputFieldState: OutlinedTextFieldState,
+    codeInputFieldState: OutlinedTextFieldState,
     onEmailChange: (String) -> Unit,
     onSendCodeClick: () -> Unit,
     onBackButtonClick: () -> Unit,
@@ -91,6 +98,10 @@ internal fun EmailVerificationScreen(
     modifier: Modifier = Modifier,
 ) {
     var code by rememberSaveable { mutableStateOf("") }
+
+    val codeInputFieldEnable = remember(emailInputFieldState) {
+        emailInputFieldState is OutlinedTextFieldState.Correct
+    }
 
     LaunchedEffect(codeInputFieldEnable) {
         if (!codeInputFieldEnable) code = ""
@@ -112,7 +123,7 @@ internal fun EmailVerificationScreen(
             text = email,
             onTextChange = onEmailChange,
             onSendButtonClick = onSendCodeClick,
-            isCodeSent = codeInputFieldEnable,
+            textFieldState = emailInputFieldState,
             modifier = Modifier
                 .padding(top = 45.dp)
         )
@@ -125,6 +136,7 @@ internal fun EmailVerificationScreen(
             CodeInputField(
                 text = code,
                 onTextChange = { code = it },
+                textFieldState = codeInputFieldState,
                 modifier = Modifier
                     .padding(top = 8.dp)
             )
@@ -161,6 +173,17 @@ internal fun EmailVerificationScreen(
     }
 }
 
+@Composable
+private fun rememberOutlinedTextFieldState(
+    verifiedState: VerifiedState
+) = remember(verifiedState) {
+    when (verifiedState) {
+        is VerifiedState.Initial -> OutlinedTextFieldState.Empty
+        is VerifiedState.Success -> OutlinedTextFieldState.Correct("")
+        is VerifiedState.Fail -> OutlinedTextFieldState.Error(verifiedState.message ?: "")
+    }
+}
+
 @LightAndDarkPreview
 @Composable
 private fun EmailVerificationScreenPreview() {
@@ -170,7 +193,8 @@ private fun EmailVerificationScreenPreview() {
 
         EmailVerificationScreen(
             email = email,
-            codeInputFieldEnable = isCodeSent,
+            emailInputFieldState = OutlinedTextFieldState.Empty,
+            codeInputFieldState = OutlinedTextFieldState.Empty,
             onEmailChange = { email = it },
             onSendCodeClick = { isCodeSent = !isCodeSent },
             onBackButtonClick = { },
