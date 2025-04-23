@@ -59,6 +59,8 @@ internal fun EmailVerificationScreen(
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
 
+    var code by rememberSaveable { mutableStateOf("") }
+
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle)
             .collect { sideEffect ->
@@ -70,9 +72,14 @@ internal fun EmailVerificationScreen(
 
     EmailVerificationScreen(
         email = viewModel.email,
+        code = code,
         emailVerifiedState = viewModel.emailVerifiedState,
         codeVerifiedState = viewModel.codeVerifiedState,
-        onEmailChange = { viewModel.email = it },
+        onEmailChange = {
+            viewModel.email = it
+            code = ""
+        },
+        onCodeChange = { code = it },
         onSendCodeClick = viewModel::sendVerificationCode,
         onBackButtonClick = onNavigateUp,
         onKuMailClick = { context.navigateToExternalBrowser(KU_MAIL_URL) },
@@ -84,23 +91,20 @@ internal fun EmailVerificationScreen(
 @Composable
 internal fun EmailVerificationScreen(
     email: String,
+    code: String,
     emailVerifiedState: VerifiedState,
     codeVerifiedState: VerifiedState,
     onEmailChange: (String) -> Unit,
+    onCodeChange: (String) -> Unit,
     onSendCodeClick: () -> Unit,
     onBackButtonClick: () -> Unit,
     onKuMailClick: () -> Unit,
     onProceedButtonClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var code by rememberSaveable { mutableStateOf("") }
 
     val codeInputFieldEnable = remember(emailVerifiedState) {
         emailVerifiedState is VerifiedState.Success
-    }
-
-    LaunchedEffect(codeInputFieldEnable) {
-        if (!codeInputFieldEnable) code = ""
     }
 
     Column(
@@ -131,7 +135,7 @@ internal fun EmailVerificationScreen(
         ) {
             CodeInputField(
                 text = code,
-                onTextChange = { code = it },
+                onTextChange = onCodeChange,
                 verifiedState = codeVerifiedState,
                 modifier = Modifier
                     .padding(top = 8.dp)
@@ -174,13 +178,16 @@ internal fun EmailVerificationScreen(
 private fun EmailVerificationScreenPreview() {
     KuringTheme {
         var email by remember { mutableStateOf("") }
+        var code by remember { mutableStateOf("") }
         var isCodeSent by remember { mutableStateOf(false) }
 
         EmailVerificationScreen(
             email = email,
+            code = code,
             emailVerifiedState = VerifiedState.Initial,
             codeVerifiedState = VerifiedState.Initial,
             onEmailChange = { email = it },
+            onCodeChange = { code = it },
             onSendCodeClick = { isCodeSent = !isCodeSent },
             onBackButtonClick = { },
             onKuMailClick = {},
