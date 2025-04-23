@@ -57,10 +57,6 @@ internal fun EmailVerificationScreen(
     viewModel: SignUpViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
-
-    val emailInputFieldState = rememberOutlinedTextFieldState(viewModel.emailVerifiedState)
-    val codeInputFieldState = rememberOutlinedTextFieldState(viewModel.codeVerifiedState)
-
     var code by rememberSaveable { mutableStateOf("") }
 
     LaunchedEffect(viewModel.codeVerifiedState) {
@@ -71,8 +67,8 @@ internal fun EmailVerificationScreen(
 
     EmailVerificationScreen(
         email = viewModel.email,
-        emailInputFieldState = emailInputFieldState,
-        codeInputFieldState = codeInputFieldState,
+        emailVerifiedState = viewModel.emailVerifiedState,
+        codeVerifiedState = viewModel.codeVerifiedState,
         onEmailChange = { viewModel.email = it },
         code = code,
         onCodeChange = { code = it },
@@ -91,8 +87,8 @@ internal fun EmailVerificationScreen(
 internal fun EmailVerificationScreen(
     email: String,
     code: String,
-    emailInputFieldState: OutlinedTextFieldState,
-    codeInputFieldState: OutlinedTextFieldState,
+    emailVerifiedState: VerifiedState,
+    codeVerifiedState: VerifiedState,
     onEmailChange: (String) -> Unit,
     onCodeChange: (String) -> Unit,
     onSendCodeClick: () -> Unit,
@@ -104,8 +100,8 @@ internal fun EmailVerificationScreen(
     val coroutineScope = rememberCoroutineScope()
     val timer = remember { KuringTimer(coroutineScope) }
 
-    val codeInputFieldEnable = remember(emailInputFieldState) {
-        emailInputFieldState is OutlinedTextFieldState.Correct
+    val codeInputFieldEnable = remember(emailVerifiedState) {
+        emailVerifiedState is VerifiedState.Success
     }
 
     Column(
@@ -123,7 +119,7 @@ internal fun EmailVerificationScreen(
             text = email,
             onTextChange = onEmailChange,
             onSendButtonClick = onSendCodeClick,
-            textFieldState = emailInputFieldState,
+            verifiedState = VerifiedState.Initial,
             modifier = Modifier
                 .padding(top = 45.dp)
         )
@@ -136,7 +132,7 @@ internal fun EmailVerificationScreen(
             CodeInputField(
                 text = code,
                 onTextChange = onCodeChange,
-                textFieldState = codeInputFieldState,
+                verifiedState = VerifiedState.Initial,
                 modifier = Modifier.padding(top = 8.dp),
                 timeSuffix = {
                     CodeTimer(
@@ -199,8 +195,8 @@ private fun EmailVerificationScreenPreview() {
 
         EmailVerificationScreen(
             email = email,
-            emailInputFieldState = OutlinedTextFieldState.Empty,
-            codeInputFieldState = OutlinedTextFieldState.Empty,
+            emailVerifiedState = VerifiedState.Initial,
+            codeVerifiedState = VerifiedState.Initial,
             onEmailChange = { email = it },
             onSendCodeClick = { codeInputFieldEnable = !codeInputFieldEnable },
             onBackButtonClick = { },

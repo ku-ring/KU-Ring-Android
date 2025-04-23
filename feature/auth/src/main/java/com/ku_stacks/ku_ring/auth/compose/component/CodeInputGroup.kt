@@ -13,6 +13,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.ku_stacks.ku_ring.auth.compose.component.textfield.OutlinedSupportingTextField
 import com.ku_stacks.ku_ring.auth.compose.component.textfield.OutlinedTextFieldState
+import com.ku_stacks.ku_ring.auth.compose.state.VerifiedState
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.feature.auth.R.string.code_input_group_placeholder_code
@@ -21,10 +22,18 @@ import com.ku_stacks.ku_ring.feature.auth.R.string.code_input_group_placeholder_
 internal fun CodeInputField(
     text: String,
     onTextChange: (String) -> Unit,
+    verifiedState: VerifiedState,
     modifier: Modifier = Modifier,
     timeSuffix: @Composable (() -> Unit)? = null,
-    textFieldState: OutlinedTextFieldState = OutlinedTextFieldState.Empty,
 ) {
+    val textFieldState = remember(verifiedState) {
+        when (verifiedState) {
+            is VerifiedState.Initial -> OutlinedTextFieldState.Empty
+            is VerifiedState.Success -> OutlinedTextFieldState.Correct("")
+            is VerifiedState.Fail -> OutlinedTextFieldState.Error(verifiedState.message ?: "")
+        }
+    }
+
     OutlinedSupportingTextField(
         query = text,
         onQueryUpdate = onTextChange,
@@ -47,7 +56,7 @@ private fun CodeInputFieldPreview() {
         CodeInputField(
             text = code,
             onTextChange = { code = it },
-            textFieldState = OutlinedTextFieldState.Correct("확인되었습니다."),
+            verifiedState = VerifiedState.Initial,
         )
     }
 }

@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.ku_stacks.ku_ring.auth.compose.component.button.VerificationButton
 import com.ku_stacks.ku_ring.auth.compose.component.textfield.OutlinedSupportingTextField
 import com.ku_stacks.ku_ring.auth.compose.component.textfield.OutlinedTextFieldState
+import com.ku_stacks.ku_ring.auth.compose.state.VerifiedState
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.feature.auth.R.string.email_input_group_button_email
@@ -32,9 +33,16 @@ internal fun EmailInputGroup(
     onTextChange: (String) -> Unit,
     onSendButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
-    textFieldState: OutlinedTextFieldState = OutlinedTextFieldState.Empty,
-    isCodeSent: Boolean = false, // TODO: ResetPassword 로직 구현 시 삭제
+    verifiedState: VerifiedState,
 ) {
+    val textFieldState = remember(verifiedState) {
+        when (verifiedState) {
+            is VerifiedState.Initial -> OutlinedTextFieldState.Empty
+            is VerifiedState.Success -> OutlinedTextFieldState.Correct("")
+            is VerifiedState.Fail -> OutlinedTextFieldState.Error(verifiedState.message ?: "")
+        }
+    }
+
     val buttonTextRes = remember(textFieldState) {
         if (textFieldState is OutlinedTextFieldState.Correct) email_input_group_button_resend
         else email_input_group_button_email
@@ -77,7 +85,7 @@ private fun EmailInputFieldPreview() {
             text = email,
             onTextChange = { email = it },
             onSendButtonClick = { isCodeSent = !isCodeSent },
-            textFieldState = OutlinedTextFieldState.Correct(""),
+            verifiedState = VerifiedState.Initial,
             modifier = Modifier
         )
     }

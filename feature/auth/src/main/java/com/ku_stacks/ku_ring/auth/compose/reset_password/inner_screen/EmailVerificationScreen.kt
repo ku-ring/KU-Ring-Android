@@ -60,9 +60,6 @@ internal fun EmailVerificationScreen(
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
 
-    val emailInputFieldState = rememberOutlinedTextFieldState(viewModel.emailVerifiedState)
-    val codeInputFieldState = rememberOutlinedTextFieldState(viewModel.codeVerifiedState)
-
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle)
             .collect { sideEffect ->
@@ -74,8 +71,8 @@ internal fun EmailVerificationScreen(
 
     EmailVerificationScreen(
         email = viewModel.email,
-        emailInputFieldState = emailInputFieldState,
-        codeInputFieldState = codeInputFieldState,
+        emailVerifiedState = viewModel.emailVerifiedState,
+        codeVerifiedState = viewModel.codeVerifiedState,
         onEmailChange = viewModel::updateEmail,
         onSendCodeClick = viewModel::sendVerificationCode,
         onBackButtonClick = onNavigateUp,
@@ -88,8 +85,8 @@ internal fun EmailVerificationScreen(
 @Composable
 internal fun EmailVerificationScreen(
     email: String,
-    emailInputFieldState: OutlinedTextFieldState,
-    codeInputFieldState: OutlinedTextFieldState,
+    emailVerifiedState: VerifiedState,
+    codeVerifiedState: VerifiedState,
     onEmailChange: (String) -> Unit,
     onSendCodeClick: () -> Unit,
     onBackButtonClick: () -> Unit,
@@ -99,8 +96,8 @@ internal fun EmailVerificationScreen(
 ) {
     var code by rememberSaveable { mutableStateOf("") }
 
-    val codeInputFieldEnable = remember(emailInputFieldState) {
-        emailInputFieldState is OutlinedTextFieldState.Correct
+    val codeInputFieldEnable = remember(emailVerifiedState) {
+        emailVerifiedState is VerifiedState.Success
     }
 
     LaunchedEffect(codeInputFieldEnable) {
@@ -123,7 +120,7 @@ internal fun EmailVerificationScreen(
             text = email,
             onTextChange = onEmailChange,
             onSendButtonClick = onSendCodeClick,
-            textFieldState = emailInputFieldState,
+            verifiedState = VerifiedState.Initial,
             modifier = Modifier
                 .padding(top = 45.dp)
         )
@@ -136,7 +133,7 @@ internal fun EmailVerificationScreen(
             CodeInputField(
                 text = code,
                 onTextChange = { code = it },
-                textFieldState = codeInputFieldState,
+                verifiedState = codeVerifiedState,
                 modifier = Modifier
                     .padding(top = 8.dp)
             )
@@ -193,8 +190,8 @@ private fun EmailVerificationScreenPreview() {
 
         EmailVerificationScreen(
             email = email,
-            emailInputFieldState = OutlinedTextFieldState.Empty,
-            codeInputFieldState = OutlinedTextFieldState.Empty,
+            emailVerifiedState = VerifiedState.Initial,
+            codeVerifiedState = VerifiedState.Initial,
             onEmailChange = { email = it },
             onSendCodeClick = { isCodeSent = !isCodeSent },
             onBackButtonClick = { },
