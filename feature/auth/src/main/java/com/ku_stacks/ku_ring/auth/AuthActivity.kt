@@ -38,6 +38,19 @@ class AuthActivity : AppCompatActivity() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            overrideActivityTransition(
+                OVERRIDE_TRANSITION_OPEN,
+                R.anim.anim_slide_right_enter,
+                R.anim.anim_slide_right_exit
+            )
+        } else {
+            overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_slide_right_exit)
+        }
+    }
+
     override fun finish() {
         super.finish()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
