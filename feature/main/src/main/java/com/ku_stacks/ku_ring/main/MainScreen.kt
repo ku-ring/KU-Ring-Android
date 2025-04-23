@@ -10,7 +10,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -186,9 +185,8 @@ fun NavGraphBuilder.mainScreenNavGraph(
             onNavigateToSignOut = { navigator.navigateToSignOut(activity) },
             modifier =
             Modifier
-                .background(KuringTheme.colors.background)
-                .fillMaxWidth()
-                .wrapContentHeight(),
+                .fillMaxSize()
+                .background(KuringTheme.colors.background),
         )
     }
 }
