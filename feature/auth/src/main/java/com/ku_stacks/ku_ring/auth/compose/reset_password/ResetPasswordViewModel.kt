@@ -5,6 +5,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ku_stacks.ku_ring.auth.compose.state.VerifiedState
+import com.ku_stacks.ku_ring.util.getHttpExceptionMessage
+import com.ku_stacks.ku_ring.verification.repository.VerificationRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -13,11 +16,18 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class ResetPasswordViewModel @Inject constructor() : ViewModel() {
+class ResetPasswordViewModel @Inject constructor(
+    private val verificationRepository: VerificationRepository
+) : ViewModel() {
     private val _sideEffect = Channel<ResetPasswordSideEffect>()
     val sideEffect = _sideEffect.receiveAsFlow()
 
     var email by mutableStateOf("")
+    var emailVerifiedState by mutableStateOf<VerifiedState>(VerifiedState.Initial)
+        private set
+    var codeVerifiedState by mutableStateOf<VerifiedState>(VerifiedState.Initial)
+        private set
+
     var codeInputFieldEnable by mutableStateOf(false)
         private set
 
@@ -26,28 +36,33 @@ class ResetPasswordViewModel @Inject constructor() : ViewModel() {
         codeInputFieldEnable = false
     }
 
-    fun sendVerificationCode() = viewModelScope.launch {
-        runCatching {
-            // TODO: 이메일 확인 및 인증번호 전송 API 호출
-            if (!email.endsWith("@konkuk.ac.kr")) throw Exception()
-        }.onSuccess {
-            codeInputFieldEnable = true
-        }.onFailure {
-            // TODO: 텍스트필드에 오류 메시지 표시
-            Timber.e("current email: $email")
-        }
+    private fun initializeVerifiedState() {
+        emailVerifiedState = VerifiedState.Initial
+        codeVerifiedState = VerifiedState.Initial
     }
 
-    fun verifyCode(code: String) = viewModelScope.launch {
-        runCatching {
-            // TODO: 인증번호 확인 API 호출
-            if (code.length < 6 || code.length > 20) throw Exception()
-        }.onSuccess {
-            _sideEffect.send(ResetPasswordSideEffect.NavigateToResetPassword)
-        }.onFailure {
-            // TODO: 텍스트필드에 오류 메시지 표시
-            Timber.e("current code: $code")
-        }
+    fun sendVerificationCode() = viewModelScope.launch {
+        initializeVerifiedState()
+
+        verificationRepository.sendVerificationCode(email)
+            .onSuccess {
+                emailVerifiedState = VerifiedState.Success
+            }
+            .onFailure { exception ->
+                val message = exception.getHttpExceptionMessage()
+                emailVerifiedState = VerifiedState.Fail(message)
+            }
+    }
+
+    fun verifyVerificationCode(code: String) = viewModelScope.launch {
+        verificationRepository.verifyCode(email = email, code = code)
+            .onSuccess {
+                codeVerifiedState = VerifiedState.Success
+            }
+            .onFailure { exception ->
+                val message = exception.getHttpExceptionMessage()
+                codeVerifiedState = VerifiedState.Fail(message)
+            }
     }
 
     fun resetPassword(password: String) = viewModelScope.launch {

@@ -74,7 +74,7 @@ internal fun EmailVerificationScreen(
         onSendCodeClick = viewModel::sendVerificationCode,
         onBackButtonClick = onNavigateUp,
         onKuMailClick = { context.navigateToExternalBrowser(KU_MAIL_URL) },
-        onProceedButtonClick = viewModel::verifyCode,
+        onProceedButtonClick = viewModel::verifyVerificationCode,
         modifier = modifier,
     )
 }
