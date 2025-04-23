@@ -57,6 +57,7 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getUserData(): Result<User> = runCatching {
+        if (pref.accessToken.isBlank()) return Result.success(User.EMPTY)
         userClient.getUserData().toDomain()
     }
 

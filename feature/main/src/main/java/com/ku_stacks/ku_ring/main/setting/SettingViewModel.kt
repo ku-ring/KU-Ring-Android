@@ -55,14 +55,14 @@ class SettingViewModel @Inject constructor(
     fun logout() = viewModelScope.launch {
         userRepository.logoutUser()
             .onSuccess { updateUserProfileState() }
-            .onFailure { _userProfileState.value = UserProfileState.Error }
+            .onFailure(Timber::e)
     }
 
     fun getUserData() = viewModelScope.launch {
         userRepository.getUserData()
             .onSuccess { updateUserProfileState(it.nickName) }
             .onFailure {
-                _userProfileState.value = UserProfileState.Error
+                updateUserProfileState()
                 Timber.e(it)
             }
     }
