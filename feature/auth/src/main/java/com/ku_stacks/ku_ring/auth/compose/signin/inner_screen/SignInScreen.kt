@@ -67,7 +67,9 @@ internal fun SignInScreen(
         viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collectLatest { sideEffect ->
                 when (sideEffect) {
-                    SignInSideEffect.NavigateToMain -> onNavigateToMain()
+                    SignInSideEffect.NavigateToMain -> {
+                        onNavigateToMain()
+                    }
                 }
             }
     }

@@ -43,10 +43,6 @@ class SettingViewModel @Inject constructor(
         initialValue = SettingUiState.Initial,
     )
 
-    init {
-        getUserData()
-    }
-
     fun setExtNotificationAllowed(value: Boolean) {
         pref.extNotificationAllowed = value
         _isExtNotificationAllowed.value = value
