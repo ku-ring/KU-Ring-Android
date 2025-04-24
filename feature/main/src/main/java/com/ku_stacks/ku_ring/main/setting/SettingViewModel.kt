@@ -56,10 +56,11 @@ class SettingViewModel @Inject constructor(
 
     fun getUserData() = viewModelScope.launch {
         userRepository.getUserData()
-            .onSuccess { updateUserProfileState(it.nickName) }
+            .onSuccess {
+                updateUserProfileState(it.nickName)
+            }
             .onFailure {
-                updateUserProfileState()
-                Timber.e(it)
+                _userProfileState.update { UserProfileState.Error }
             }
     }
 
