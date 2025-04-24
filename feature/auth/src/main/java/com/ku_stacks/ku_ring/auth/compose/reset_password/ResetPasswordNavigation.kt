@@ -13,7 +13,7 @@ internal fun NavGraphBuilder.resetPasswordNavGraph(
     navController: NavHostController,
 ) {
     navigation<AuthDestination.ResetPassword>(
-        startDestination = AuthDestination.ResetPasswordSetPassword,
+        startDestination = AuthDestination.ResetPasswordEmailVerification,
     ) {
         composable<AuthDestination.ResetPasswordEmailVerification> { backStackEntry ->
             val viewModel = backStackEntry.sharedViewModel<ResetPasswordViewModel>(navController)
