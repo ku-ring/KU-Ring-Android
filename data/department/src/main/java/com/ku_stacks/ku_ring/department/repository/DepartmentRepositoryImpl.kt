@@ -34,7 +34,7 @@ class DepartmentRepositoryImpl @Inject constructor(
             if (departmentDao.isEmpty()) {
                 departmentDao.insertDepartments(departments.toEntityList())
             } else {
-                updateDepartmentsName(it)
+                updateDepartments(it)
             }
         }
         addUnsupportedDepartments()
@@ -44,6 +44,22 @@ class DepartmentRepositoryImpl @Inject constructor(
         return suspendRunCatching {
             departmentClient.fetchDepartmentList().data?.map { it.toDepartment() } ?: emptyList()
         }.getOrNull()
+    }
+
+    private suspend fun updateDepartments(departments: List<Department>) {
+        insertNewDepartments(departments)
+        updateDepartmentsName(departments)
+    }
+
+    private suspend fun insertNewDepartments(departments: List<Department>) {
+        val savedDepartmentsName = getAllDepartments().map { it.name }.toSet()
+        val insertTargets = departments.filter { department ->
+            department.name !in savedDepartmentsName
+        }
+
+        withContext(ioDispatcher) {
+            insertDepartments(insertTargets)
+        }
     }
 
     private suspend fun updateDepartmentsName(departments: List<Department>) {
