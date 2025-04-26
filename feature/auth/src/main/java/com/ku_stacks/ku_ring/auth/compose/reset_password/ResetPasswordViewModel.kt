@@ -50,7 +50,7 @@ class ResetPasswordViewModel @Inject constructor(
     fun sendVerificationCode() = viewModelScope.launch {
         codeVerifiedState = VerifiedState.Initial
 
-        verificationRepository.sendVerificationCode(email)
+        verificationRepository.sendVerificationCodeForPasswordReset(email)
             .onSuccess {
                 emailVerifiedState = VerifiedState.Success
             }

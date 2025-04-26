@@ -7,8 +7,13 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface VerificationService {
-    @POST("v2/verification-code")
+    @POST("v2/verification-code/signup")
     suspend fun sendVerificationCode(
+        @Body request: SendCodeRequest,
+    ): DefaultResponse
+
+    @POST("v2/verification-code/password-reset")
+    suspend fun sendVerificationCodeForPasswordReset(
         @Body request: SendCodeRequest,
     ): DefaultResponse
 

@@ -8,9 +8,12 @@ import javax.inject.Inject
 class VerificationClient @Inject constructor(
     private val verificationService: VerificationService,
 ) {
-    suspend fun sendVerificationCode(email: String): DefaultResponse =
-        verificationService.sendVerificationCode(SendCodeRequest(email))
+    suspend fun sendVerificationCode(request: SendCodeRequest): DefaultResponse =
+        verificationService.sendVerificationCode(request)
 
-    suspend fun verifyVerificationCode(email: String, code: String): DefaultResponse =
-        verificationService.verifyVerificationCode(VerifyCodeRequest(email, code))
+    suspend fun sendVerificationCodeForPasswordReset(request: SendCodeRequest): DefaultResponse =
+        verificationService.sendVerificationCodeForPasswordReset(request)
+
+    suspend fun verifyVerificationCode(request: VerifyCodeRequest): DefaultResponse =
+        verificationService.verifyVerificationCode(request)
 }
