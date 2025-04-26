@@ -73,7 +73,6 @@ class ResetPasswordViewModel @Inject constructor(
     }
 
     fun resetPassword(password: String) = viewModelScope.launch {
-
         userRepository.patchPassword(email = email, password = password)
             .onSuccess {
                 _sideEffect.send(ResetPasswordSideEffect.NavigateToSignIn)

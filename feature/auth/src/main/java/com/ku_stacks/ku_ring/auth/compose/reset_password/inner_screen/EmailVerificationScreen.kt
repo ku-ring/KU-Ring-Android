@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -113,8 +114,8 @@ internal fun EmailVerificationScreen(
     val coroutineScope = rememberCoroutineScope()
     val timer = remember { KuringTimer(coroutineScope) }
 
-    val codeInputFieldEnable = remember(emailVerifiedState) {
-        emailVerifiedState is VerifiedState.Success
+    val codeInputFieldEnable by remember {
+        derivedStateOf { emailVerifiedState is VerifiedState.Success }
     }
 
     Column(
