@@ -12,16 +12,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -39,7 +35,6 @@ import com.ku_stacks.ku_ring.thirdparty.di.LocalNavigator
 import com.ku_stacks.ku_ring.ui_util.KuringNavigator
 import com.ku_stacks.ku_ring.ui_util.showToast
 import com.ku_stacks.ku_ring.util.findActivity
-import kotlinx.coroutines.launch
 
 @Composable
 fun MainScreen(
@@ -166,19 +161,11 @@ fun NavGraphBuilder.mainScreenNavGraph(
         // TODO by mwy3055: SettingScreen 내부도 navigation으로 migrate해야 함
         val viewModel = hiltViewModel<SettingViewModel>()
         val settingsUiState by viewModel.settingUiState.collectAsStateWithLifecycle()
-        val lifecycleOwner = LocalLifecycleOwner.current
 
-        DisposableEffect(lifecycleOwner) {
-            val observer = LifecycleEventObserver { _, event ->
-                if (event == Lifecycle.Event.ON_RESUME) {
-                    lifecycleOwner.lifecycleScope.launch {
-                        viewModel.getUserData()
-                    }
-                }
-            }
-            lifecycleOwner.lifecycle.addObserver(observer)
-            onDispose {
-                lifecycleOwner.lifecycle.removeObserver(observer)
+        LifecycleResumeEffect(Unit) {
+            viewModel.getUserData()
+            onPauseOrDispose {
+                // No resources to clean up
             }
         }
 
