@@ -27,6 +27,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ku_stacks.ku_ring.designsystem.R.color.kus_label
+import com.ku_stacks.ku_ring.designsystem.R.string.network_error
 import com.ku_stacks.ku_ring.designsystem.components.KuringAlertDialog
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.components.topbar.CenterTitleTopBar
@@ -34,6 +36,7 @@ import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.SfProDisplay
 import com.ku_stacks.ku_ring.main.R
+import com.ku_stacks.ku_ring.main.R.string.setting_kuring_members
 import com.ku_stacks.ku_ring.main.R.string.setting_logout_dialog_confirm
 import com.ku_stacks.ku_ring.main.R.string.setting_logout_dialog_dismiss
 import com.ku_stacks.ku_ring.main.R.string.setting_logout_dialog_title
@@ -151,7 +154,7 @@ private fun SettingScreenDivider(modifier: Modifier = Modifier) {
 @Composable
 private fun KuringMemberText(modifier: Modifier = Modifier) {
     Text(
-        text = stringResource(R.string.setting_kuring_members),
+        text = stringResource(setting_kuring_members),
         style = TextStyle(
             fontSize = 12.sp,
             fontFamily = Pretendard,
@@ -193,11 +196,11 @@ private fun LoadingScreen() {
 private fun ErrorScreen() {
     Box(modifier = Modifier.fillMaxSize()) {
         androidx.compose.material.Text(
-            text = stringResource(id = com.ku_stacks.ku_ring.designsystem.R.string.network_error),
+            text = stringResource(id = network_error),
             fontFamily = SfProDisplay,
             fontWeight = FontWeight.Normal,
             fontSize = 14.sp,
-            color = colorResource(id = com.ku_stacks.ku_ring.designsystem.R.color.kus_label),
+            color = colorResource(id = kus_label),
             modifier = Modifier.align(Alignment.Center),
             textAlign = TextAlign.Center,
         )
