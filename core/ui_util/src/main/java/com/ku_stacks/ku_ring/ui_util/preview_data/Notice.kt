@@ -5,6 +5,7 @@ import com.ku_stacks.ku_ring.domain.Notice
 val previewNotices = (1..10).map {
     Notice(
         articleId = "5b4a11b$it",
+        id = it,
         category = "bachelor",
         subject = "2023학년도 전과 선발자 안내",
         postedDate = "2023.02.08",
