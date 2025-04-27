@@ -12,7 +12,6 @@ import com.ku_stacks.ku_ring.util.KuringNotificationManager
 import com.ku_stacks.ku_ring.util.WordConverter
 import com.ku_stacks.ku_ring.work.RegisterUserWork
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -48,6 +47,8 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         if (fcmUtil.isNoticeNotification(remoteMessage.data)) {
+            // TODO by mwy3055: 알림 잘 오는 거 확인되면 return으로 바꾸기 (see SplashActivity)
+            val id = remoteMessage.data["id"]?.toInt() ?: 0
             val articleId = remoteMessage.data["articleId"]!!
             val category = remoteMessage.data["category"]!!
             val postedDate = remoteMessage.data["postedDate"]!!
@@ -59,6 +60,7 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
             val receivedDate = DateUtil.getCurrentTime()
             fcmUtil.insertNotificationIntoDatabase(
                 articleId = articleId,
+                id = id,
                 category = category,
                 postedDate = postedDate,
                 subject = subject,

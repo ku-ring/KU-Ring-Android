@@ -2,7 +2,13 @@ package com.ku_stacks.ku_ring.local.room
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.ku_stacks.ku_ring.local.entity.*
+import com.ku_stacks.ku_ring.local.entity.BlackUserEntity
+import com.ku_stacks.ku_ring.local.entity.CategoryOrderEntity
+import com.ku_stacks.ku_ring.local.entity.DepartmentEntity
+import com.ku_stacks.ku_ring.local.entity.KuringBotMessageEntity
+import com.ku_stacks.ku_ring.local.entity.NoticeEntity
+import com.ku_stacks.ku_ring.local.entity.PushEntity
+import com.ku_stacks.ku_ring.local.entity.SearchHistoryEntity
 
 @Database(
     entities = [
@@ -14,7 +20,7 @@ import com.ku_stacks.ku_ring.local.entity.*
         KuringBotMessageEntity::class,
         CategoryOrderEntity::class,
     ],
-    version = 8,
+    version = 9,
     exportSchema = false
 )
 abstract class KuRingDatabase : RoomDatabase() {

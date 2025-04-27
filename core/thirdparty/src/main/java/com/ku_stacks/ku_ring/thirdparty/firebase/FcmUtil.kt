@@ -9,7 +9,6 @@ import com.ku_stacks.ku_ring.util.IODispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 class FcmUtil @Inject constructor(
@@ -41,6 +40,7 @@ class FcmUtil @Inject constructor(
 
     fun insertNotificationIntoDatabase(
         articleId: String,
+        id: Int,
         category: String,
         postedDate: String,
         subject: String,
@@ -63,6 +63,7 @@ class FcmUtil @Inject constructor(
                 noticeDao.insertNotice(
                     NoticeEntity(
                         articleId = articleId,
+                        id = id,
                         category = category,
                         subject = subject,
                         postedDate = postedDate,

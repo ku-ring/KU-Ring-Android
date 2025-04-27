@@ -165,6 +165,8 @@ class SplashActivity : AppCompatActivity() {
 
     private fun handleNoticeNotification(intent: Intent) {
         intent.extras?.toMap()?.let { map ->
+            // TODO by mwy3055: 알림 잘 오는 거 확인되면 return으로 바꾸기
+            val id = map["id"]?.toInt() ?: 0
             val articleId = map["articleId"] ?: return
             val category = map["category"] ?: return
             val postedDate = map["postedDate"] ?: return
@@ -173,6 +175,7 @@ class SplashActivity : AppCompatActivity() {
 
             fcmUtil.insertNotificationIntoDatabase(
                 articleId = articleId,
+                id = id,
                 category = category,
                 postedDate = postedDate,
                 subject = subject,
