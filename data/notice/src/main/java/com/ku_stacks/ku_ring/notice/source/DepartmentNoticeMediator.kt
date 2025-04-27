@@ -9,7 +9,6 @@ import com.ku_stacks.ku_ring.local.room.NoticeDao
 import com.ku_stacks.ku_ring.notice.mapper.toEntityList
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.remote.notice.NoticeClient
-import com.ku_stacks.ku_ring.remote.notice.response.DepartmentNoticeResponse
 import com.ku_stacks.ku_ring.util.DateUtil
 import timber.log.Timber
 
@@ -47,7 +46,11 @@ class DepartmentNoticeMediator(
                 page = page,
                 size = itemSize
             )
-            insertNotices(noticeResponse.data, page)
+
+            val startDate = getAppStartedDate()
+            val entities = noticeResponse.data.toEntityList(shortName, startDate)
+            insertNotices(entities, page)
+            updateNoticesId(entities)
 
             val isPageEnd = noticeResponse.data.isEmpty()
             MediatorResult.Success(endOfPaginationReached = isPageEnd)
@@ -63,16 +66,27 @@ class DepartmentNoticeMediator(
             size = itemSize,
             important = true
         )
-        insertNotices(importNoticesResponse.data, 0)
+
+        val startDate = getAppStartedDate()
+        val entities = importNoticesResponse.data.toEntityList(shortName, startDate)
+        insertNotices(entities, 0)
     }
 
-    private suspend fun insertNotices(notices: List<DepartmentNoticeResponse>, page: Int) {
-        val startDate = getAppStartedDate()
-        val noticeEntities = notices.toEntityList(shortName, startDate)
+    private suspend fun insertNotices(noticeEntities: List<NoticeEntity>, page: Int) {
         noticeEntities.map {
             pageNumberMap[PageKey(it.articleId, shortName)] = page
         }
         noticeDao.insertDepartmentNotices(noticeEntities)
+    }
+
+    private suspend fun updateNoticesId(entities: List<NoticeEntity>) {
+        Timber.d("Update notices: ${entities.size}")
+        entities.forEach { entity ->
+            if (noticeDao.getDepartmentNoticeId(entity.articleId, entity.department) == 0) {
+                Timber.d("Update notice id ${entity.articleId}")
+                noticeDao.updateDepartmentNoticeId(entity.articleId, entity.department, entity.id)
+            }
+        }
     }
 
     private fun getAppStartedDate(): String {

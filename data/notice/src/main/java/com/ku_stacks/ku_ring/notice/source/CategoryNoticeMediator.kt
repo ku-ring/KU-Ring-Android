@@ -50,6 +50,15 @@ class CategoryNoticeMediator(
     private suspend fun insertNotices(noticeResponses: List<NoticeResponse>) {
         val entities = noticeResponses.toEntities(getAppStartedDate())
         noticeDao.insertNotices(entities)
+        updateNoticesId(entities)
+    }
+
+    private suspend fun updateNoticesId(entities: List<NoticeEntity>) {
+        entities.forEach { entity ->
+            if (noticeDao.getNoticeId(entity.articleId, entity.category) == 0) {
+                noticeDao.updateNoticeId(entity.articleId, entity.category, entity.id)
+            }
+        }
     }
 
     private fun getAppStartedDate(): String {
