@@ -8,6 +8,7 @@ fun List<NoticeResponse>.toEntities(startDate: String) = map { it.toNoticeEntity
 
 fun NoticeResponse.toNoticeEntity(startDate: String) = NoticeEntity(
     articleId = articleId,
+    id = id,
     category = category,
     department = "",
     subject = subject,
@@ -31,6 +32,7 @@ fun List<DepartmentNoticeResponse>.toEntityList(shortName: String, startDate: St
 fun DepartmentNoticeResponse.toNoticeEntity(shortName: String, startDate: String): NoticeEntity {
     return NoticeEntity(
         articleId = articleId!!,
+        id = id!!,
         category = category!!,
         department = shortName,
         subject = subject!!,

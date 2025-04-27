@@ -13,6 +13,7 @@ fun NoticeEntity.toNotice(): Notice {
         department = department,
         url = url,
         articleId = articleId,
+        id = id,
         isNew = isNew,
         isRead = isRead,
         isSubscribing = false,
