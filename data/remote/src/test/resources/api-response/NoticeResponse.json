@@ -3,6 +3,7 @@
   "message": "공지 조회에 성공하였습니다",
   "data": [
     {
+      "id": 12345,
       "articleId": "5b45b56",
       "postedDate": "20220105",
       "subject": "subject_1",
@@ -11,6 +12,7 @@
       "important": true
     },
     {
+      "id": 12346,
       "articleId": "5b45b56",
       "postedDate": "20220105",
       "subject": "subject_2",
@@ -19,6 +21,7 @@
       "important": true
     },
     {
+      "id": 12347,
       "articleId": "5b45b56",
       "postedDate": "20220105",
       "subject": "subject_3",

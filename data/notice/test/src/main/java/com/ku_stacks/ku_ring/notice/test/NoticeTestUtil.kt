@@ -3,12 +3,18 @@ package com.ku_stacks.ku_ring.notice.test
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.local.entity.NoticeEntity
 import com.ku_stacks.ku_ring.remote.notice.request.SubscribeRequest
-import com.ku_stacks.ku_ring.remote.notice.response.*
+import com.ku_stacks.ku_ring.remote.notice.response.CategoryResponse
+import com.ku_stacks.ku_ring.remote.notice.response.DepartmentNoticeListResponse
+import com.ku_stacks.ku_ring.remote.notice.response.DepartmentNoticeResponse
+import com.ku_stacks.ku_ring.remote.notice.response.NoticeListResponse
+import com.ku_stacks.ku_ring.remote.notice.response.NoticeResponse
+import com.ku_stacks.ku_ring.remote.notice.response.SubscribeListResponse
 import com.ku_stacks.ku_ring.remote.util.DefaultResponse
 
 object NoticeTestUtil {
     fun fakeNoticeEntity() = NoticeEntity(
         articleId = "5b4a11b",
+        id = 0,
         category = "bachelor",
         department = "",
         subject = "2023학년도 전과 선발자 안내",
@@ -23,6 +29,7 @@ object NoticeTestUtil {
 
     fun fakeNotice() = Notice(
         articleId = "5b4a11b",
+        id = 0,
         category = "bachelor",
         department = "",
         subject = "2023학년도 전과 선발자 안내",
@@ -64,6 +71,7 @@ object NoticeTestUtil {
 
     fun fakeNoticeResponse() = NoticeResponse(
         articleId = "5b4a11b",
+        id = 0,
         category = "bachelor",
         isImportant = false,
         subject = "2023학년도 전과 선발자 안내",
@@ -83,6 +91,7 @@ object NoticeTestUtil {
         data = (1..dataSize).map {
             DepartmentNoticeResponse(
                 articleId = it.toString(),
+                id = it,
                 category = "bachelor",
                 subject = "2023학년도 전과 선발자 안내",
                 postedDate = "20230208",

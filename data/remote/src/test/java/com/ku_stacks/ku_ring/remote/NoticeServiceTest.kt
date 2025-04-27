@@ -37,6 +37,7 @@ class NoticeServiceTest : ApiAbstract<NoticeService>() {
         assertEquals(3, response.noticeResponse.size)
 
         assertEquals(true, response.isSuccess)
+        assertEquals(12345, response.noticeResponse[0].id)
         assertEquals("5b45b56", response.noticeResponse[0].articleId)
         assertEquals("student", response.noticeResponse[0].category)
         assertEquals("20220105", response.noticeResponse[0].postedDate)
