@@ -63,16 +63,13 @@ class SettingViewModel @Inject constructor(
             .onFailure { exception ->
                 val message = exception.getHttpExceptionMessage()
 
-                if (message.equals(NO_USER_MESSAGE)) {
+                if (message != null) {
+                    // 쿠링 서버의 응답 형식에 맞게 파싱되었음을 의미
                     _userProfileState.update { UserProfileState.NotLoggedIn }
                 } else {
                     _userProfileState.update { UserProfileState.Error }
                 }
             }
-    }
-
-    companion object {
-        private const val NO_USER_MESSAGE = "계정을 찾을 수 없습니다."
     }
 }
 
