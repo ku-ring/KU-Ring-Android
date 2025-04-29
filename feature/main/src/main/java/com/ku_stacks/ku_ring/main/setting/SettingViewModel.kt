@@ -57,8 +57,8 @@ class SettingViewModel @Inject constructor(
 
     fun getUserData() = viewModelScope.launch {
         userRepository.getUserData()
-            .onSuccess {
-                UserProfileState.LoggedIn(it.nickName)
+            .onSuccess { response ->
+                _userProfileState.update { UserProfileState.LoggedIn(response.nickName) }
             }
             .onFailure { exception ->
                 val message = exception.getHttpExceptionMessage()
