@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ku_stacks.ku_ring.domain.user.repository.UserRepository
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
+import com.ku_stacks.ku_ring.util.getHttpExceptionMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -50,23 +51,28 @@ class SettingViewModel @Inject constructor(
 
     fun logout() = viewModelScope.launch {
         userRepository.logoutUser()
-            .onSuccess { updateUserProfileState() }
+            .onSuccess { _userProfileState.update { UserProfileState.NotLoggedIn } }
             .onFailure(Timber::e)
     }
 
     fun getUserData() = viewModelScope.launch {
         userRepository.getUserData()
             .onSuccess {
-                updateUserProfileState(it.nickName)
+                UserProfileState.LoggedIn(it.nickName)
             }
-            .onFailure {
-                _userProfileState.update { UserProfileState.Error }
+            .onFailure { exception ->
+                val message = exception.getHttpExceptionMessage()
+
+                if (message.equals(NO_USER_MESSAGE)) {
+                    _userProfileState.update { UserProfileState.NotLoggedIn }
+                } else {
+                    _userProfileState.update { UserProfileState.Error }
+                }
             }
     }
 
-    private fun updateUserProfileState(nickName: String? = null) = _userProfileState.update {
-        if (nickName.isNullOrBlank()) UserProfileState.NotLoggedIn
-        else UserProfileState.LoggedIn(nickName)
+    companion object {
+        private const val NO_USER_MESSAGE = "계정을 찾을 수 없습니다."
     }
 }
 
