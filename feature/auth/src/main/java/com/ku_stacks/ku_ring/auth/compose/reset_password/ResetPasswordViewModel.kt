@@ -47,6 +47,11 @@ class ResetPasswordViewModel @Inject constructor(
         }
     }
 
+    fun initVerifiedStates() {
+        emailVerifiedState = VerifiedState.Initial
+        codeVerifiedState = VerifiedState.Initial
+    }
+
     fun sendVerificationCode() = viewModelScope.launch {
         codeVerifiedState = VerifiedState.Initial
 

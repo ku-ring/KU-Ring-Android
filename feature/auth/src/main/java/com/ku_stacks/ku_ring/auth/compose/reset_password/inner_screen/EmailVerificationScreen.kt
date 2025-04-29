@@ -76,7 +76,7 @@ internal fun EmailVerificationScreen(
 
         onDispose {
             with(viewModel) {
-                updateEmail("")
+                initVerifiedStates()
                 updateCode("")
             }
         }
@@ -114,7 +114,7 @@ internal fun EmailVerificationScreen(
     val coroutineScope = rememberCoroutineScope()
     val timer = remember { KuringTimer(coroutineScope) }
 
-    val codeInputFieldEnable by remember {
+    val codeInputFieldEnable by remember(emailVerifiedState) {
         derivedStateOf { emailVerifiedState is VerifiedState.Success }
     }
 
@@ -134,7 +134,7 @@ internal fun EmailVerificationScreen(
             text = email,
             onTextChange = onEmailChange,
             onSendButtonClick = onSendCodeClick,
-            verifiedState = VerifiedState.Initial,
+            verifiedState = emailVerifiedState,
             modifier = Modifier.padding(top = 45.dp)
         )
 
