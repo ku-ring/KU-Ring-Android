@@ -3,6 +3,8 @@ package com.ku_stacks.ku_ring.remote.notice.response
 import com.google.gson.annotations.SerializedName
 
 data class NoticeResponse(
+    @SerializedName(value = "id")
+    val id: Int,
     @SerializedName(value = "articleId")
     val articleId: String,
     @SerializedName(value = "postedDate")

@@ -5,6 +5,7 @@ import com.ku_stacks.ku_ring.local.entity.NoticeEntity
 
 fun Notice.toEntity(): NoticeEntity = NoticeEntity(
     articleId = articleId,
+    id = id,
     category = category,
     department = department,
     subject = subject,

@@ -16,6 +16,7 @@ object LocalTestUtil {
 
     fun fakeNoticeEntity() = NoticeEntity(
         articleId = "5b4a11b",
+        id = 1234,
         category = "bachelor",
         department = "",
         subject = "2023학년도 전과 선발자 안내",
@@ -30,6 +31,7 @@ object LocalTestUtil {
 
     fun fakeDepartmentNoticeEntity() = NoticeEntity(
         articleId = "182677",
+        id = 1234,
         category = "department",
         department = "cse",
         subject = "2023학년도 진로총조사 설문 요청",

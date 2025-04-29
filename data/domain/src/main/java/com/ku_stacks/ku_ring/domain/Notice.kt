@@ -8,6 +8,7 @@ data class Notice(
     val department: String = "",
     val url: String,
     val articleId: String,
+    val id: Int,
     var isNew: Boolean,
     var isRead: Boolean,
     var isSubscribing: Boolean,

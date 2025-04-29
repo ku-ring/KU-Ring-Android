@@ -46,6 +46,9 @@ interface NoticeDao {
     @Query("SELECT * FROM NoticeEntity WHERE isSaved = :isSaved ORDER BY isImportant")
     fun getSavedNoticeList(isSaved: Boolean): List<NoticeEntity>
 
+    @Query("SELECT id FROM NoticeEntity WHERE articleId = :articleId AND category = :category")
+    suspend fun getNoticeId(articleId: String, category: String): Int?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateNotice(notice: NoticeEntity)
 
@@ -57,6 +60,9 @@ interface NoticeDao {
 
     @Query("UPDATE NoticeEntity SET isReadOnStorage = :isSaved WHERE articleId = :articleId AND category = :category")
     suspend fun updateNoticeAsReadOnStorage(articleId: String, category: String, isSaved: Boolean)
+
+    @Query("UPDATE NoticeEntity SET id = :id WHERE articleId = :articleId AND category = :category")
+    suspend fun updateNoticeId(articleId: String, category: String, id: Int)
 
     @Query("UPDATE NoticeEntity SET isSaved = 0")
     suspend fun clearSavedNotices()
@@ -77,6 +83,12 @@ interface NoticeDao {
                 "ORDER BY isImportant, postedDate DESC, articleId DESC"
     )
     fun getDepartmentNotices(shortName: String): PagingSource<Int, NoticeEntity>
+
+    @Query("SELECT id FROM NoticeEntity WHERE articleId = :articleId AND department LIKE :shortName")
+    suspend fun getDepartmentNoticeId(articleId: String, shortName: String): Int?
+
+    @Query("UPDATE NoticeEntity SET id = :id WHERE articleId = :articleId AND department LIKE :shortName")
+    suspend fun updateDepartmentNoticeId(articleId: String, shortName: String, id: Int)
 
     @Query("DELETE FROM NoticeEntity WHERE department LIKE :shortName")
     suspend fun clearDepartment(shortName: String)
