@@ -1,6 +1,7 @@
 package com.ku_stacks.ku_ring.splash
 
 import com.ku_stacks.ku_ring.department.repository.DepartmentRepository
+import com.ku_stacks.ku_ring.domain.user.repository.UserRepository
 import com.ku_stacks.ku_ring.space.repository.KuringSpaceRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -21,13 +22,15 @@ class SplashViewModelTest {
         Mockito.mock(KuringSpaceRepository::class.java)
     private val departmentRepository: DepartmentRepository =
         Mockito.mock(DepartmentRepository::class.java)
+    private val userRepository: UserRepository =
+        Mockito.mock(UserRepository::class.java)
     private lateinit var viewModel: SplashViewModel
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     fun init() {
         Dispatchers.setMain(dispatcher)
-        viewModel = SplashViewModel(kuringSpaceRepository, departmentRepository)
+        viewModel = SplashViewModel(kuringSpaceRepository, departmentRepository, userRepository)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
