@@ -3,6 +3,7 @@ package com.ku_stacks.ku_ring.splash
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ku_stacks.ku_ring.department.repository.DepartmentRepository
+import com.ku_stacks.ku_ring.domain.user.repository.UserRepository
 import com.ku_stacks.ku_ring.space.repository.KuringSpaceRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,6 +17,7 @@ import javax.inject.Inject
 class SplashViewModel @Inject constructor(
     private val kuringSpaceRepository: KuringSpaceRepository,
     private val departmentRepository: DepartmentRepository,
+    private val userRepository: UserRepository,
 ) : ViewModel() {
 
     private val _splashScreenState = MutableStateFlow(SplashScreenState.INITIAL)
@@ -47,6 +49,10 @@ class SplashViewModel @Inject constructor(
         } catch (e: Exception) {
             "0.0.0"
         }
+    }
+
+    fun getUserData() = viewModelScope.launch {
+        userRepository.getUserData()
     }
 
     fun dismissUpdateNotification() {
