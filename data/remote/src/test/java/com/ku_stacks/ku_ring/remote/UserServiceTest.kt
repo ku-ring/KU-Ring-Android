@@ -48,11 +48,10 @@ class UserServiceTest : ApiAbstract<UserService>() {
         enqueueResponse("/UserDataResponse.json")
 
         // when
-        val token = "mockToken"
-
-        val response = service.getUserData(token)
+        val response = service.getUserData()
         mockWebServer.takeRequest()
 
+        // then
         assertEquals("test@konkuk.ac.kr", response.data.email)
         assertEquals("test1234", response.data.nickname)
     }

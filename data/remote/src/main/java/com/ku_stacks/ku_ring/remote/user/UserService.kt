@@ -28,9 +28,7 @@ interface UserService {
     suspend fun getKuringBotQueryCount(@Header("User-Token") token: String): KuringBotQueryCountResponse
 
     @GET("v2/users/user-me")
-    suspend fun getUserData(
-        @Header("Authorization") accessToken: String,
-    ): UserDataResponse
+    suspend fun getUserData(): UserDataResponse
 
     @POST("v2/users/signup")
     suspend fun signUp(
@@ -45,10 +43,7 @@ interface UserService {
     ): SignInResponse
 
     @POST("v2/users/logout")
-    suspend fun logout(
-        @Header("User-Token") token: String,
-        @Header("Authorization") accessToken: String,
-    ): DefaultResponse
+    suspend fun logout(): DefaultResponse
 
     @PATCH("v2/users/password")
     suspend fun patchPassword(
@@ -56,7 +51,5 @@ interface UserService {
     ): DefaultResponse
 
     @DELETE("v2/users/withdraw")
-    suspend fun withdraw(
-        @Header("Authorization") accessToken: String,
-    ): DefaultResponse
+    suspend fun withdraw(): DefaultResponse
 }

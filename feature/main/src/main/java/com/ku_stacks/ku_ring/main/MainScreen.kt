@@ -10,13 +10,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -162,6 +162,13 @@ fun NavGraphBuilder.mainScreenNavGraph(
         val viewModel = hiltViewModel<SettingViewModel>()
         val settingsUiState by viewModel.settingUiState.collectAsStateWithLifecycle()
 
+        LifecycleResumeEffect(Unit) {
+            viewModel.getUserData()
+            onPauseOrDispose {
+                // No resources to clean up
+            }
+        }
+
         SettingScreen(
             settingUiState = settingsUiState,
             onNavigateToSignIn = { navigator.navigateToAuth(activity) },
@@ -183,12 +190,11 @@ fun NavGraphBuilder.mainScreenNavGraph(
             onNavigateToKuringInstagram = { activity.navigateToKuringInstagram() },
             onNavigateToFeedback = { navigator.navigateToFeedback(activity) },
             onLogoutClick = viewModel::logout,
-            onNavigateToSignOut = { /*TODO: 탈퇴 화면 이동 로직*/ },
+            onNavigateToSignOut = { navigator.navigateToSignOut(activity) },
             modifier =
             Modifier
-                .background(KuringTheme.colors.background)
-                .fillMaxWidth()
-                .wrapContentHeight(),
+                .fillMaxSize()
+                .background(KuringTheme.colors.background),
         )
     }
 }

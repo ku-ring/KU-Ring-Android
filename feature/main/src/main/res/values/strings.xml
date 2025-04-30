@@ -81,6 +81,9 @@
     <string name="setting_feedback_send_feedback">피드백 보내기</string>
 
     <string name="setting_logout">로그아웃하기</string>
+    <string name="setting_logout_dialog_title">정말 로그아웃 하시겠어요?</string>
+    <string name="setting_logout_dialog_confirm">로그아웃</string>
+    <string name="setting_logout_dialog_dismiss">취소</string>
     <string name="setting_sign_out">탈퇴하기</string>
 
     <string name="open_source_license">사용된 오픈소스</string>

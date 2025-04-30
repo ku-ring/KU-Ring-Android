@@ -57,7 +57,7 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getUserData(): Result<User> = runCatching {
-        userClient.getUserData(pref.accessToken).toDomain()
+        userClient.getUserData().toDomain()
     }
 
     override suspend fun signUpUser(
@@ -86,22 +86,17 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun logoutUser(): Result<Unit> = runCatching {
-        userClient.logout(
-            token = pref.fcmToken,
-            accessToken = pref.accessToken,
-        ).run {
+        userClient.logout().run {
             if (isSuccess) pref.deleteAccessToken()
             else Timber.e(resultMsg)
         }
     }
 
     override suspend fun withdrawUser(): Result<Unit> = runCatching {
-        userClient.withdrawUser(
-            accessToken = pref.accessToken,
-        ).run {
-            if (isSuccess) pref.deleteAccessToken()
-            else Timber.e(resultMsg)
-        }
+        userClient.withdrawUser()
+    }.map { response ->
+        if (response.resultCode == 204) pref.deleteAccessToken()
+        else Timber.e(response.resultMsg)
     }
 
     override suspend fun patchPassword(email: String, password: String): Result<Unit> =

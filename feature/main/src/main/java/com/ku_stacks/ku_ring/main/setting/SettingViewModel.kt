@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ku_stacks.ku_ring.domain.user.repository.UserRepository
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
+import com.ku_stacks.ku_ring.util.getHttpExceptionMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -12,6 +13,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -42,27 +44,32 @@ class SettingViewModel @Inject constructor(
         initialValue = SettingUiState.Initial,
     )
 
-    init {
-        getUserData()
-    }
-
     fun setExtNotificationAllowed(value: Boolean) {
         pref.extNotificationAllowed = value
         _isExtNotificationAllowed.value = value
     }
 
     fun logout() = viewModelScope.launch {
-        //TODO: 로그아웃 API 연결
+        userRepository.logoutUser()
+            .onSuccess { _userProfileState.update { UserProfileState.NotLoggedIn } }
+            .onFailure(Timber::e)
     }
 
     fun getUserData() = viewModelScope.launch {
-        //TODO: 유저 정보 API 연결
-        updateUserProfileState()
-    }
+        userRepository.getUserData()
+            .onSuccess { response ->
+                _userProfileState.update { UserProfileState.LoggedIn(response.nickName) }
+            }
+            .onFailure { exception ->
+                val message = exception.getHttpExceptionMessage()
 
-    private fun updateUserProfileState(nickName: String? = null) = _userProfileState.update {
-        if (nickName == null) UserProfileState.NotLoggedIn
-        else UserProfileState.LoggedIn(nickName)
+                if (message != null) {
+                    // 쿠링 서버의 응답 형식에 맞게 파싱되었음을 의미
+                    _userProfileState.update { UserProfileState.NotLoggedIn }
+                } else {
+                    _userProfileState.update { UserProfileState.Error }
+                }
+            }
     }
 }
 

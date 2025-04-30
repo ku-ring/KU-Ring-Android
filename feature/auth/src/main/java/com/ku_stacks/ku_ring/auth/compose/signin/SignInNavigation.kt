@@ -13,7 +13,7 @@ internal fun NavGraphBuilder.signInNavGraph(
     composable<AuthDestination.SignIn> {
         SignInScreen(
             onNavigateUp = onNavigateUp,
-            onNavigateToMain = navController::navigateUp,
+            onNavigateToMain = onNavigateUp,
             onNavigateToSignUp = { navController.navigate(AuthDestination.SignUp) },
             onNavigateToFindPassword = { navController.navigate(AuthDestination.ResetPassword) },
         )
