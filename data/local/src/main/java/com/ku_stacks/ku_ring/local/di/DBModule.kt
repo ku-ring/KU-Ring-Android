@@ -126,8 +126,7 @@ object DBModule {
     @Provides
     fun provideKuRingDatabase(
         @ApplicationContext context: Context,
-    ): KuRingDatabase =
-        Room
+    ): KuRingDatabase = Room
             .databaseBuilder(
                 context,
                 KuRingDatabase::class.java,

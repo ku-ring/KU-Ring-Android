@@ -1,9 +1,9 @@
 [versions]
 # project-level dependency
-android-gradle = "8.9.1"
+android-gradle = "8.9.2"
 kotlin = '2.1.20'
-ksp = '2.1.20-1.0.32'
-hilt = '2.55'
+ksp = '2.1.20-2.0.0'
+hilt = '2.56.2'
 google-services = '4.4.2'
 firebase-gradle = '3.0.3'
 oss-licenses-version = '0.10.6'
@@ -16,12 +16,12 @@ versionCode = "20200"
 
 # app-level dependency
 # Kotlin
-kotlinx-coroutines = '1.10.1'
+kotlinx-coroutines = '1.10.2'
 kotlinx-serialization-json = "1.8.1"
 
 # Compose
 compose-compiler = '1.4.8'
-compose-bom = '2025.03.01'
+compose-bom = '2025.04.01'
 
 # Androidx
 androidx-lifecycle = '2.8.7'
@@ -29,12 +29,12 @@ androidx-appcompat = "1.7.0"
 androidx-constraintlayout = "2.2.1"
 androidx-constraintlayout-compose = "1.1.1"
 androidx-activity = '1.10.1'
-androidx-core = "1.15.0"
+androidx-core = "1.16.0"
 androidx-fragment = '1.8.6'
 androidx-paging = '3.3.6'
-androidx-room = '2.6.1'
+androidx-room = '2.7.1'
 androidx-viewpager2 = '1.1.0'
-androidx-work = '2.10.0'
+androidx-work = '2.10.1'
 androidx-navigation = "2.8.9"
 androidx-startup = '1.2.0'
 androidx-swiperefreshlayout = '1.2.0-beta01'
@@ -52,9 +52,9 @@ androidx-espresso = "3.6.1"
 coil = '2.7.0'
 okhttp = '4.12.0'
 retrofit = '2.11.0'
-firebase = '33.12.0'
+firebase = '33.13.0'
 crashlytics = "3.0.3"
-lottie = "6.6.4"
+lottie = "6.6.6"
 ktor = "3.1.2"
 javax-inject = "1"
 
