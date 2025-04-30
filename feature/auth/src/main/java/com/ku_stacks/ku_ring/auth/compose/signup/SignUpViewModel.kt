@@ -25,18 +25,32 @@ class SignUpViewModel @Inject constructor(
     val sideEffect = _sideEffect.receiveAsFlow()
 
     var email by mutableStateOf("")
+        private set
+    var code by mutableStateOf("")
+        private set
     var emailVerifiedState by mutableStateOf<VerifiedState>(VerifiedState.Initial)
         private set
     var codeVerifiedState by mutableStateOf<VerifiedState>(VerifiedState.Initial)
         private set
 
-    private fun initializeVerifiedState() {
+    fun updateEmail(email: String) {
+        this.email = email
+        if (emailVerifiedState is VerifiedState.Success) {
+            emailVerifiedState = VerifiedState.Initial
+        }
+    }
+
+    fun updateCode(code: String) {
+        this.code = code
+    }
+
+    fun initializeVerifiedState() {
         emailVerifiedState = VerifiedState.Initial
         codeVerifiedState = VerifiedState.Initial
     }
 
     fun sendVerificationCode() = viewModelScope.launch {
-        initializeVerifiedState()
+        codeVerifiedState = VerifiedState.Initial
 
         verificationRepository.sendVerificationCode(email)
             .onSuccess {
@@ -48,7 +62,7 @@ class SignUpViewModel @Inject constructor(
             }
     }
 
-    fun verifyVerificationCode(code: String) = viewModelScope.launch {
+    fun verifyVerificationCode() = viewModelScope.launch {
         verificationRepository.verifyCode(email = email, code = code)
             .onSuccess {
                 codeVerifiedState = VerifiedState.Success
@@ -64,6 +78,7 @@ class SignUpViewModel @Inject constructor(
         userRepository.signUpUser(email, password)
             .onSuccess {
                 _sideEffect.send(SignUpSideEffect.NavigateToComplete)
-            }.onFailure(Timber::e)
+            }
+            .onFailure(Timber::e)
     }
 }

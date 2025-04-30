@@ -18,7 +18,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -63,13 +62,6 @@ internal fun EmailVerificationScreen(
 
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
-    var code by rememberSaveable { mutableStateOf("") }
-
-    /*LaunchedEffect(viewModel.codeVerifiedState) {
-        if (viewModel.codeVerifiedState is VerifiedState.Success) {
-            onNavigateToPassword()
-        }
-    }*/
 
     DisposableEffect(viewModel.sideEffect, lifecycleOwner) {
         lifecycleOwner.lifecycleScope.launch {
@@ -81,7 +73,10 @@ internal fun EmailVerificationScreen(
                 }
         }
         onDispose {
-            // TODO: 이메일 인증 상태 초기화
+            with(viewModel) {
+                initializeVerifiedState()
+                updateCode("")
+            }
         }
     }
 
@@ -89,16 +84,15 @@ internal fun EmailVerificationScreen(
         email = viewModel.email,
         emailVerifiedState = viewModel.emailVerifiedState,
         codeVerifiedState = viewModel.codeVerifiedState,
-        onEmailChange = { viewModel.email = it },
-        code = code,
-        onCodeChange = { code = it },
+        onEmailChange = viewModel::updateEmail,
+        code = viewModel.code,
+        onCodeChange = viewModel::updateCode,
         onSendCodeClick = {
             viewModel.sendVerificationCode()
-            code = ""
         },
         onBackButtonClick = onNavigateUp,
         onKuMailClick = { context.navigateToExternalBrowser(KU_MAIL_URL) },
-        onProceedButtonClick = { viewModel.verifyVerificationCode(code) },
+        onProceedButtonClick = viewModel::verifyVerificationCode,
         modifier = modifier,
     )
 }
