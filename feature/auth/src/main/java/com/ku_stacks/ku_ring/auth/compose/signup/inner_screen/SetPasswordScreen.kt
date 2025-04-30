@@ -40,8 +40,8 @@ internal fun SetPasswordScreen(
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle)
             .collect { sideEffect ->
-                when (sideEffect) {
-                    SignUpSideEffect.NavigateToComplete -> onNavigateToSignUpComplete()
+                if (sideEffect is SignUpSideEffect.NavigateToComplete) {
+                    onNavigateToSignUpComplete()
                 }
             }
     }

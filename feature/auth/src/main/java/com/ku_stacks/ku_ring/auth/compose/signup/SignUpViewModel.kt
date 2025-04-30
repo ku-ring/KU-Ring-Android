@@ -52,6 +52,7 @@ class SignUpViewModel @Inject constructor(
         verificationRepository.verifyCode(email = email, code = code)
             .onSuccess {
                 codeVerifiedState = VerifiedState.Success
+                _sideEffect.send(SignUpSideEffect.NavigateToSetPassword)
             }
             .onFailure { exception ->
                 val message = exception.getHttpExceptionMessage()
