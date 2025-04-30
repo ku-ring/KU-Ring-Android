@@ -1,5 +1,6 @@
 package com.ku_stacks.ku_ring.auth.compose.signup.inner_screen
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -27,6 +28,8 @@ internal fun SignUpCompleteScreen(
     onNavigateToSignIn: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    BackHandler(onBack = onNavigateToSignIn)
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
