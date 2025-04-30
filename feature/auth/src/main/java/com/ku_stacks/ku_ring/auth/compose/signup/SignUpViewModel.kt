@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ku_stacks.ku_ring.auth.compose.state.VerifiedState
 import com.ku_stacks.ku_ring.domain.user.repository.UserRepository
 import com.ku_stacks.ku_ring.util.getHttpExceptionMessage
 import com.ku_stacks.ku_ring.verification.repository.VerificationRepository
@@ -64,10 +65,4 @@ class SignUpViewModel @Inject constructor(
                 _sideEffect.send(SignUpSideEffect.NavigateToComplete)
             }.onFailure(Timber::e)
     }
-}
-
-sealed class VerifiedState {
-    data object Initial : VerifiedState()
-    data object Success : VerifiedState()
-    data class Fail(val message: String?) : VerifiedState()
 }

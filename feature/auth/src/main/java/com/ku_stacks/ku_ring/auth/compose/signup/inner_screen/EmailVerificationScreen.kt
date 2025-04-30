@@ -32,10 +32,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ku_stacks.ku_ring.auth.compose.component.CodeInputField
 import com.ku_stacks.ku_ring.auth.compose.component.CodeTimer
 import com.ku_stacks.ku_ring.auth.compose.component.EmailInputGroup
-import com.ku_stacks.ku_ring.auth.compose.component.textfield.OutlinedTextFieldState
 import com.ku_stacks.ku_ring.auth.compose.component.topbar.AuthTopBar
 import com.ku_stacks.ku_ring.auth.compose.signup.SignUpViewModel
-import com.ku_stacks.ku_ring.auth.compose.signup.VerifiedState
+import com.ku_stacks.ku_ring.auth.compose.state.VerifiedState
 import com.ku_stacks.ku_ring.designsystem.components.KuringCallToAction
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
@@ -57,10 +56,6 @@ internal fun EmailVerificationScreen(
     viewModel: SignUpViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
-
-    val emailInputFieldState = rememberOutlinedTextFieldState(viewModel.emailVerifiedState)
-    val codeInputFieldState = rememberOutlinedTextFieldState(viewModel.codeVerifiedState)
-
     var code by rememberSaveable { mutableStateOf("") }
 
     LaunchedEffect(viewModel.codeVerifiedState) {
@@ -71,8 +66,8 @@ internal fun EmailVerificationScreen(
 
     EmailVerificationScreen(
         email = viewModel.email,
-        emailInputFieldState = emailInputFieldState,
-        codeInputFieldState = codeInputFieldState,
+        emailVerifiedState = viewModel.emailVerifiedState,
+        codeVerifiedState = viewModel.codeVerifiedState,
         onEmailChange = { viewModel.email = it },
         code = code,
         onCodeChange = { code = it },
@@ -91,8 +86,8 @@ internal fun EmailVerificationScreen(
 internal fun EmailVerificationScreen(
     email: String,
     code: String,
-    emailInputFieldState: OutlinedTextFieldState,
-    codeInputFieldState: OutlinedTextFieldState,
+    emailVerifiedState: VerifiedState,
+    codeVerifiedState: VerifiedState,
     onEmailChange: (String) -> Unit,
     onCodeChange: (String) -> Unit,
     onSendCodeClick: () -> Unit,
@@ -104,8 +99,8 @@ internal fun EmailVerificationScreen(
     val coroutineScope = rememberCoroutineScope()
     val timer = remember { KuringTimer(coroutineScope) }
 
-    val codeInputFieldEnable = remember(emailInputFieldState) {
-        emailInputFieldState is OutlinedTextFieldState.Correct
+    val codeInputFieldEnable = remember(emailVerifiedState) {
+        emailVerifiedState is VerifiedState.Success
     }
 
     Column(
@@ -123,7 +118,7 @@ internal fun EmailVerificationScreen(
             text = email,
             onTextChange = onEmailChange,
             onSendButtonClick = onSendCodeClick,
-            textFieldState = emailInputFieldState,
+            verifiedState = emailVerifiedState,
             modifier = Modifier
                 .padding(top = 45.dp)
         )
@@ -136,7 +131,7 @@ internal fun EmailVerificationScreen(
             CodeInputField(
                 text = code,
                 onTextChange = onCodeChange,
-                textFieldState = codeInputFieldState,
+                verifiedState = codeVerifiedState,
                 modifier = Modifier.padding(top = 8.dp),
                 timeSuffix = {
                     CodeTimer(
@@ -178,17 +173,6 @@ internal fun EmailVerificationScreen(
     }
 }
 
-@Composable
-private fun rememberOutlinedTextFieldState(
-    verifiedState: VerifiedState
-) = remember(verifiedState) {
-    when (verifiedState) {
-        is VerifiedState.Initial -> OutlinedTextFieldState.Empty
-        is VerifiedState.Success -> OutlinedTextFieldState.Correct("")
-        is VerifiedState.Fail -> OutlinedTextFieldState.Error(verifiedState.message ?: "")
-    }
-}
-
 @LightAndDarkPreview
 @Composable
 private fun EmailVerificationScreenPreview() {
@@ -199,8 +183,8 @@ private fun EmailVerificationScreenPreview() {
 
         EmailVerificationScreen(
             email = email,
-            emailInputFieldState = OutlinedTextFieldState.Empty,
-            codeInputFieldState = OutlinedTextFieldState.Empty,
+            emailVerifiedState = VerifiedState.Initial,
+            codeVerifiedState = VerifiedState.Initial,
             onEmailChange = { email = it },
             onSendCodeClick = { codeInputFieldEnable = !codeInputFieldEnable },
             onBackButtonClick = { },

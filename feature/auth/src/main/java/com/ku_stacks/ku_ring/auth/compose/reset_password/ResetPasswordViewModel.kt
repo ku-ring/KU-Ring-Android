@@ -5,6 +5,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ku_stacks.ku_ring.auth.compose.state.VerifiedState
+import com.ku_stacks.ku_ring.domain.user.repository.UserRepository
+import com.ku_stacks.ku_ring.util.getHttpExceptionMessage
+import com.ku_stacks.ku_ring.verification.repository.VerificationRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -13,49 +17,71 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class ResetPasswordViewModel @Inject constructor() : ViewModel() {
+class ResetPasswordViewModel @Inject constructor(
+    private val userRepository: UserRepository,
+    private val verificationRepository: VerificationRepository
+) : ViewModel() {
     private val _sideEffect = Channel<ResetPasswordSideEffect>()
     val sideEffect = _sideEffect.receiveAsFlow()
 
     var email by mutableStateOf("")
-    var codeInputFieldEnable by mutableStateOf(false)
+        private set
+    var code by mutableStateOf("")
+        private set
+    var emailVerifiedState by mutableStateOf<VerifiedState>(VerifiedState.Initial)
+        private set
+    var codeVerifiedState by mutableStateOf<VerifiedState>(VerifiedState.Initial)
         private set
 
     fun updateEmail(email: String) {
         this.email = email
-        codeInputFieldEnable = false
+        if (emailVerifiedState is VerifiedState.Success) {
+            emailVerifiedState = VerifiedState.Initial
+        }
+    }
+
+    fun updateCode(code: String) {
+        this.code = code
+        if (codeVerifiedState is VerifiedState.Success) {
+            codeVerifiedState = VerifiedState.Initial
+        }
+    }
+
+    fun initVerifiedStates() {
+        emailVerifiedState = VerifiedState.Initial
+        codeVerifiedState = VerifiedState.Initial
     }
 
     fun sendVerificationCode() = viewModelScope.launch {
-        runCatching {
-            // TODO: 이메일 확인 및 인증번호 전송 API 호출
-            if (!email.endsWith("@konkuk.ac.kr")) throw Exception()
-        }.onSuccess {
-            codeInputFieldEnable = true
-        }.onFailure {
-            // TODO: 텍스트필드에 오류 메시지 표시
-            Timber.e("current email: $email")
-        }
+        codeVerifiedState = VerifiedState.Initial
+
+        verificationRepository.sendVerificationCodeForPasswordReset(email)
+            .onSuccess {
+                emailVerifiedState = VerifiedState.Success
+            }
+            .onFailure { exception ->
+                val message = exception.getHttpExceptionMessage()
+                emailVerifiedState = VerifiedState.Fail(message)
+            }
     }
 
-    fun verifyCode(code: String) = viewModelScope.launch {
-        runCatching {
-            // TODO: 인증번호 확인 API 호출
-            if (code.length < 6 || code.length > 20) throw Exception()
-        }.onSuccess {
-            _sideEffect.send(ResetPasswordSideEffect.NavigateToResetPassword)
-        }.onFailure {
-            // TODO: 텍스트필드에 오류 메시지 표시
-            Timber.e("current code: $code")
-        }
+    fun verifyVerificationCode() = viewModelScope.launch {
+        verificationRepository.verifyCode(email = email, code = code)
+            .onSuccess {
+                codeVerifiedState = VerifiedState.Success
+                _sideEffect.send(ResetPasswordSideEffect.NavigateToResetPassword)
+            }
+            .onFailure { exception ->
+                val message = exception.getHttpExceptionMessage()
+                codeVerifiedState = VerifiedState.Fail(message)
+            }
     }
 
     fun resetPassword(password: String) = viewModelScope.launch {
-        runCatching {
-            // TODO: 비밀번호 재설정 API 호출
-            Timber.tag("ResetPasswordViewModel").d("current password: $password")
-        }.onSuccess {
-            _sideEffect.send(ResetPasswordSideEffect.NavigateToSignIn)
-        }.onFailure(Timber::e)
+        userRepository.patchPassword(email = email, password = password)
+            .onSuccess {
+                _sideEffect.send(ResetPasswordSideEffect.NavigateToSignIn)
+            }
+            .onFailure(Timber::e)
     }
 }

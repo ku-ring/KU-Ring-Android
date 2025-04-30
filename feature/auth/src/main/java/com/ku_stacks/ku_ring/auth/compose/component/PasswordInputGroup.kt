@@ -6,9 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Visibility
-import androidx.compose.material.icons.rounded.VisibilityOff
 import androidx.compose.material.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -18,7 +15,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -28,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import com.ku_stacks.ku_ring.auth.compose.component.textfield.OutlinedSupportingTextField
 import com.ku_stacks.ku_ring.auth.compose.component.textfield.OutlinedTextFieldState
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.feature.auth.R
 import com.ku_stacks.ku_ring.feature.auth.R.string.reset_password_placeholder_password
 import com.ku_stacks.ku_ring.feature.auth.R.string.reset_password_placeholder_password_check
 
@@ -92,7 +92,6 @@ private fun PasswordInputTextField(
     )
 }
 
-// TODO: 아이콘 리소스 변경
 @Composable
 private fun VisibilityControlButton(
     isVisible: Boolean,
@@ -100,9 +99,11 @@ private fun VisibilityControlButton(
     modifier: Modifier = Modifier,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
+    val iconRes = if (isVisible) R.drawable.ic_preview_close_v2
+    else R.drawable.ic_preview_open_v2
+
     Icon(
-        imageVector = if (isVisible) Icons.Rounded.VisibilityOff
-        else Icons.Rounded.Visibility,
+        imageVector = ImageVector.vectorResource(iconRes),
         contentDescription = null,
         modifier = modifier
             .clickable(

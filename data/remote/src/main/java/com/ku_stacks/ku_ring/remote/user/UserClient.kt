@@ -54,9 +54,8 @@ class UserClient @Inject constructor(
             accessToken = accessToken
         )
 
-    suspend fun patchPassword(token: String, request: AuthorizeUserRequest): DefaultResponse =
+    suspend fun patchPassword(request: AuthorizeUserRequest): DefaultResponse =
         userService.patchPassword(
-            token = token,
             request = request,
         )
 

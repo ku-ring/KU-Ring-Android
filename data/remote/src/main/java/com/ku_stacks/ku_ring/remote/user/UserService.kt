@@ -52,7 +52,6 @@ interface UserService {
 
     @PATCH("v2/users/password")
     suspend fun patchPassword(
-        @Header("User-Token") token: String,
         @Body request: AuthorizeUserRequest,
     ): DefaultResponse
 

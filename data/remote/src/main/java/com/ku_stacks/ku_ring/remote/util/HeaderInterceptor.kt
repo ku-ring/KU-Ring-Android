@@ -46,7 +46,7 @@ class HeaderInterceptor @Inject constructor(@ApplicationContext context: Context
 
     private fun Request.Builder.addAccessTokenHeader(): Request.Builder {
         val accessToken = preferences.accessToken
-        addHeader("Authorization", "Bearer $accessToken")
+        if (accessToken.isNotBlank()) addHeader("Authorization", "Bearer $accessToken")
         return this
     }
 }
