@@ -60,7 +60,7 @@ class ResetPasswordViewModel @Inject constructor(
                 emailVerifiedState = VerifiedState.Success
             }
             .onFailure { exception ->
-                val message = exception.getHttpExceptionMessage()
+                val message = exception.getHttpExceptionMessage()?.message
                 emailVerifiedState = VerifiedState.Fail(message)
             }
     }
@@ -72,7 +72,7 @@ class ResetPasswordViewModel @Inject constructor(
                 _sideEffect.send(ResetPasswordSideEffect.NavigateToResetPassword)
             }
             .onFailure { exception ->
-                val message = exception.getHttpExceptionMessage()
+                val message = exception.getHttpExceptionMessage()?.message
                 codeVerifiedState = VerifiedState.Fail(message)
             }
     }

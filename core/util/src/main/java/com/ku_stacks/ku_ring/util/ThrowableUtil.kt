@@ -5,13 +5,13 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import retrofit2.HttpException
 
-fun Throwable.getHttpExceptionMessage(): String? = when (this) {
+fun Throwable.getHttpExceptionMessage(): HttpExceptionMessage? = when (this) {
     is HttpException -> {
         val errorBody = response()?.errorBody()?.string()
 
         if (!errorBody.isNullOrBlank()) {
             runCatching {
-                Json.decodeFromString<ErrorMessage>(errorBody).resultMessage
+                Json.decodeFromString<HttpExceptionMessage>(errorBody)
             }.fold(
                 onSuccess = { it },
                 onFailure = { null }
@@ -22,9 +22,11 @@ fun Throwable.getHttpExceptionMessage(): String? = when (this) {
 }
 
 @Serializable
-private data class ErrorMessage(
+data class HttpExceptionMessage(
     @SerialName("resultMsg")
-    val resultMessage: String,
-    val resultCode: Int,
+    val message: String,
+    @SerialName("resultCode")
+    val code: Int,
+    @SerialName("isSuccess")
     val isSuccess: Boolean,
 )
