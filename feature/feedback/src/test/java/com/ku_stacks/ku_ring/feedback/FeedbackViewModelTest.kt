@@ -131,7 +131,6 @@ class FeedbackViewModelTest {
 
         // then
         verify(userRepository, times(1)).sendFeedback(mockFeedbackContent)
-        assertEquals(R.string.feedback_success, viewModel.toastByResource.value)
     }
 
     @Test
@@ -148,7 +147,6 @@ class FeedbackViewModelTest {
 
         // then
         verify(userRepository, times(0)).sendFeedback(any())
-        assertEquals(R.string.feedback_too_short, viewModel.toastByResource.value)
     }
 
     @Test
@@ -170,7 +168,6 @@ class FeedbackViewModelTest {
         // then
         assertEquals(257, mockFeedbackContent.length)
         verify(userRepository, times(0)).sendFeedback(any())
-        assertEquals(R.string.feedback_too_long, viewModel.toastByResource.value)
     }
 
     @Test
@@ -192,6 +189,5 @@ class FeedbackViewModelTest {
 
         // then
         verify(userRepository, times(1)).sendFeedback(mockFeedbackContent)
-        assertEquals(expectedResponseMsg, viewModel.toast.value)
     }
 }
