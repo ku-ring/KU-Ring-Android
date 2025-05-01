@@ -2,7 +2,6 @@ import com.ku_stacks.ku_ring.buildlogic.dsl.setNameSpace
 
 plugins {
     kuring("compose")
-    kuring("view")
     kuringPrimitive("test")
 }
 
@@ -22,7 +21,6 @@ dependencies {
     implementation(projects.data.user)
     implementation(projects.domain.user)
 
-    implementation(libs.androidx.constraintlayout)
     implementation(libs.semver)
 
     implementation(libs.bundles.compose.interop)
