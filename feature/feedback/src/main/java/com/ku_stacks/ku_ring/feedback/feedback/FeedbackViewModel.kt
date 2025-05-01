@@ -7,7 +7,6 @@ import com.ku_stacks.ku_ring.domain.user.repository.UserRepository
 import com.ku_stacks.ku_ring.feedback.R
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.thirdparty.firebase.analytics.EventAnalytics
-import com.ku_stacks.ku_ring.ui_util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -36,17 +35,14 @@ class FeedbackViewModel @Inject constructor(
         initialValue = FeedbackTextStatus.INITIAL
     )
 
-    private val _quit = SingleLiveEvent<Unit>()
-    val quit: LiveData<Unit>
-        get() = _quit
+    private val _quit = MutableSharedFlow<Unit>()
+    val quit = _quit.asSharedFlow()
 
-    private val _toast = SingleLiveEvent<String>()
-    val toast: LiveData<String>
-        get() = _toast
+    private val _toast = MutableSharedFlow<String>()
+    val toast = _toast.asSharedFlow()
 
-    private val _toastByResource = SingleLiveEvent<Int>()
-    val toastByResource: LiveData<Int>
-        get() = _toastByResource
+    private val _toastByResource = MutableSharedFlow<Int>()
+    val toastByResource = _toastByResource.asSharedFlow()
 
     fun sendFeedback() {
         analytics.click(
@@ -60,15 +56,15 @@ class FeedbackViewModel @Inject constructor(
                     "Fcm Token is null!",
                     className
                 )
-                _toastByResource.postValue(R.string.feedback_cannot_send)
+                _toastByResource.emit(R.string.feedback_cannot_send)
                 return@launch
             }
 
             if (textStatus.value == FeedbackTextStatus.TOO_SHORT) {
-                _toastByResource.value = R.string.feedback_too_short
+                _toastByResource.emit(R.string.feedback_too_short)
                 return@launch
             } else if (textStatus.value == FeedbackTextStatus.TOO_LONG) {
-                _toastByResource.value = R.string.feedback_too_long
+                _toastByResource.emit(R.string.feedback_too_long)
                 return@launch
             }
 
@@ -77,13 +73,13 @@ class FeedbackViewModel @Inject constructor(
             userRepository.sendFeedback(content).onSuccess {
                 val (isSuccess, resultMessage) = it
                 if (isSuccess) {
-                    _toastByResource.value = R.string.feedback_success
-                    _quit.call()
+                    _toastByResource.emit(R.string.feedback_success)
+                    _quit.emit(Unit)
                 } else {
-                    _toast.value = resultMessage
+                    _toast.emit(resultMessage)
                 }
             }.onFailure {
-                _toastByResource.postValue(R.string.feedback_cannot_send)
+                _toastByResource.emit(R.string.feedback_cannot_send)
             }
         }
     }
@@ -93,11 +89,13 @@ class FeedbackViewModel @Inject constructor(
     }
 
     fun closeFeedback() {
-        analytics.click(
-            "close feedback button",
-            "FeedbackActivity"
-        )
-        _quit.call()
+        viewModelScope.launch {
+            analytics.click(
+                "close feedback button",
+                "FeedbackActivity"
+            )
+            _quit.emit(Unit)
+        }
     }
 
     companion object {
