@@ -40,6 +40,7 @@ include(
     ":data:search",
     ":data:verification",
     ":domain:user",
+    ":domain:noticecomment",
     ":core:thirdparty",
     ":core:work",
     ":core:testUtil",
