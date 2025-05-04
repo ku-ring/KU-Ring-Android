@@ -26,6 +26,7 @@ include(
     ":data:domain:testUtils",
     ":data:notice",
     ":data:notice:test",
+    ":data:noticecomment",
     ":core:preferences",
     ":data:ai",
     ":data:user",
