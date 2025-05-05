@@ -3,6 +3,7 @@ import com.ku_stacks.ku_ring.buildlogic.dsl.setNameSpace
 
 plugins {
     kuring("feature")
+    kuringPrimitive("test")
 }
 
 android {
@@ -15,4 +16,7 @@ dependencies {
     implementation(libs.bundles.paging)
     implementation(libs.javax.inject)
     implementation(libs.kotlinx.coroutines.core)
+    testImplementation(libs.kotlinx.coroutines.test)
+
+    testImplementation(libs.androidx.paging.testing)
 }

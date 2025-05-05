@@ -116,6 +116,7 @@ desugarLibs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "de
 androidx-hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "androidx-hilt" }
 androidx-paging-common-ktx = { module = 'androidx.paging:paging-common-ktx', version.ref = 'androidx-paging' }
 androidx-paging-runtime-ktx = { module = 'androidx.paging:paging-runtime-ktx', version.ref = 'androidx-paging' }
+androidx-paging-testing = { module = 'androidx.paging:paging-testing', version.ref = 'androidx-paging' }
 androidx-room-ktx = { module = 'androidx.room:room-ktx', version.ref = 'androidx-room' }
 androidx-room-runtime = { module = 'androidx.room:room-runtime', version.ref = 'androidx-room' }
 androidx-room-compiler = { module = 'androidx.room:room-compiler', version.ref = 'androidx-room' }
