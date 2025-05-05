@@ -14,11 +14,11 @@ class NoticeCommentRepositoryImpl @Inject constructor(
         noticeId: Int,
         parentCommentId: Int?,
         content: String
-    ): Result<Boolean> = suspendRunCatching {
+    ): Result<Unit> = suspendRunCatching {
         noticeCommentClient.createComment(noticeId, parentCommentId, content).isSuccess
     }
 
-    override suspend fun deleteComment(noticeId: Int, commentId: Int): Result<Boolean> =
+    override suspend fun deleteComment(noticeId: Int, commentId: Int): Result<Unit> =
         suspendRunCatching {
             noticeCommentClient.deleteComment(noticeId, commentId).isSuccess
         }

@@ -7,12 +7,12 @@ interface NoticeCommentRepository {
         noticeId: Int,
         parentCommentId: Int?,
         content: String,
-    ): Result<Boolean>
+    ): Result<Unit>
 
     suspend fun deleteComment(
         noticeId: Int,
         commentId: Int,
-    ): Result<Boolean>
+    ): Result<Unit>
 
     suspend fun getComment(
         noticeId: Int,
