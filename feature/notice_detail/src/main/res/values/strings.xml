@@ -18,4 +18,9 @@
     <string name="comment_bottom_sheet_textfield_description">댓글 추가</string>
     <string name="comment_bottom_sheet_create_success">댓글이 추가되었어요.</string>
     <string name="comment_bottom_sheet_create_fail">댓글 추가에 실패했어요. 잠시 후 다시 시도해 주세요.</string>
+    <string name="comment_bottom_sheet_dialog_text">댓글을 삭제할까요?</string>
+    <string name="comment_bottom_sheet_dialog_cancel_text">취소</string>
+    <string name="comment_bottom_sheet_dialog_delete_text">삭제하기</string>
+    <string name="comment_bottom_sheet_delete_success">댓글이 삭제되었어요.</string>
+    <string name="comment_bottom_sheet_delete_fail">댓글 삭제에 실패했어요. 잠시 후 다시 시도해 주세요.</string>
 </resources>
