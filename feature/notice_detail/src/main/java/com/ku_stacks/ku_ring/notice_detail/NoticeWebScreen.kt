@@ -93,12 +93,6 @@ private fun NoticeWebScreen(
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val isBottomSheetVisible by rememberUpdatedState(newValue = bottomSheetState.isVisible || bottomSheetState.targetValue == SheetValue.Expanded)
 
-    LaunchedEffect(isBottomSheetVisible) {
-        if (isBottomSheetVisible) {
-            onCommentSheetOpen()
-        }
-    }
-
     Scaffold(
         topBar = {
             CenterTitleTopBar(
@@ -122,7 +116,10 @@ private fun NoticeWebScreen(
         },
         floatingActionButton = {
             NoticeWebScreenFab(
-                onClick = { coroutineScope.launch { bottomSheetState.show() } },
+                onClick = {
+                    onCommentSheetOpen()
+                    coroutineScope.launch { bottomSheetState.show() }
+                },
             )
         },
         modifier = modifier,

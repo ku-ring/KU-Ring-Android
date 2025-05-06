@@ -12,4 +12,5 @@
     <string name="see_comment">댓글 보기</string>
     <string name="comment_bottom_sheet_title">댓글</string>
     <string name="comment_bottom_sheet_error_loading">댓글 로드 중 에러가 발생했어요. 잠시 후 다시 시도해 주세요.</string>
+    <string name="comment_bottom_sheet_empty">등록된 댓글이 없어요.</string>
 </resources>

@@ -2,6 +2,7 @@ package com.ku_stacks.ku_ring.notice_detail.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -44,14 +45,21 @@ internal fun CommentsBottomSheet(
             ),
             modifier = Modifier.padding(vertical = 10.dp),
         )
-        LazyPagingCommentColumn(
-            comments = comments,
-            onReplyIconClick = { /* TODO: implement */ },
-            onDeleteIconClick = { /* TODO: implement */ },
-            modifier = Modifier
-                .background(KuringTheme.colors.background)
-                .weight(1f),
-        )
+
+        if (comments == null) {
+            Spacer(Modifier.weight(1f))
+            CommentErrorText()
+            Spacer(Modifier.weight(1f))
+        } else {
+            LazyPagingCommentColumn(
+                comments = comments,
+                onReplyIconClick = { /* TODO: implement */ },
+                onDeleteIconClick = { /* TODO: implement */ },
+                modifier = Modifier
+                    .background(KuringTheme.colors.background)
+                    .weight(1f),
+            )
+        }
     }
 }
 
@@ -64,6 +72,19 @@ private fun CommentsBottomSheetPreview() {
     KuringTheme {
         CommentsBottomSheet(
             comments = fakePagingData,
+            modifier = Modifier
+                .background(KuringTheme.colors.background)
+                .fillMaxSize(),
+        )
+    }
+}
+
+@LightAndDarkPreview
+@Composable
+private fun CommentsBottomSheetPreview_error() {
+    KuringTheme {
+        CommentsBottomSheet(
+            comments = null,
             modifier = Modifier
                 .background(KuringTheme.colors.background)
                 .fillMaxSize(),
