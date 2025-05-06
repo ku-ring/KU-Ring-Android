@@ -15,6 +15,7 @@ dependencies {
     implementation(projects.core.designsystem)
     implementation(projects.data.domain)
     implementation(projects.data.notice)
+    implementation(projects.domain.noticecomment)
 
     implementation(libs.bundles.compose.interop)
 }
