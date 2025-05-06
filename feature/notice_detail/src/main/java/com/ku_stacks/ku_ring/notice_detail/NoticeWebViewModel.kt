@@ -36,6 +36,12 @@ class NoticeWebViewModel @Inject constructor(
     private val _commentsPager = MutableStateFlow<Pager<Int, NoticeComment>?>(null)
     val commentsPager = _commentsPager.asStateFlow()
 
+    private val _replyCommentId = MutableStateFlow<Int?>(null)
+    /**
+     * Reply if not null, otherwise a common comment.
+     */
+    val replyCommentId = _replyCommentId.asStateFlow()
+
     init {
         viewModelScope.launch {
             noticeRepository.getSavedNotices().collect { savedNotices ->
@@ -81,16 +87,20 @@ class NoticeWebViewModel @Inject constructor(
     }
 
     fun createComment(
-        parentCommentId: Int?, comment: String,
+        comment: String,
         onSuccess: () -> Unit,
         onFail: () -> Unit,
     ) {
         webViewNotice?.id?.let { id ->
             viewModelScope.launch {
-                createNoticeCommentUseCase(id, parentCommentId, comment)
+                createNoticeCommentUseCase(id, replyCommentId.value, comment)
                     .onSuccess { onSuccess() }
                     .onFailure { onFail() }
             }
         }
+    }
+
+    fun setReplyCommentId(id: Int?) {
+        _replyCommentId.value = id
     }
 }
