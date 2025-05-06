@@ -1,17 +1,19 @@
 package com.ku_stacks.ku_ring.remote.noticecomment.request
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class NoticeCommentCreateRequest(
     /**
      * If null, create a common comment.
      * If not null, create a reply comment.
      */
-    @SerializedName("parentId")
+    @SerialName("parentId")
     val parentId: Int?,
     /**
      * Content of the comment.
      */
-    @SerializedName("content")
+    @SerialName("content")
     val content: String,
 )
