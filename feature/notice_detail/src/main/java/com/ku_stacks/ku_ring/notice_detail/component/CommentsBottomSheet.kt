@@ -28,6 +28,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 @Composable
 internal fun CommentsBottomSheet(
     comments: LazyPagingItems<NoticeComment>?,
+    onCreateComment: (Int?, String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -60,6 +61,14 @@ internal fun CommentsBottomSheet(
                     .weight(1f),
             )
         }
+
+        CommentTextField(
+            onCreateComment = {
+                onCreateComment(null, it)
+                comments?.retry()
+            },
+            modifier = Modifier.padding(vertical = 11.dp, horizontal = 20.dp),
+        )
     }
 }
 
@@ -72,6 +81,7 @@ private fun CommentsBottomSheetPreview() {
     KuringTheme {
         CommentsBottomSheet(
             comments = fakePagingData,
+            onCreateComment = { _, _ -> },
             modifier = Modifier
                 .background(KuringTheme.colors.background)
                 .fillMaxSize(),
@@ -85,6 +95,7 @@ private fun CommentsBottomSheetPreview_error() {
     KuringTheme {
         CommentsBottomSheet(
             comments = null,
+            onCreateComment = { _, _ -> },
             modifier = Modifier
                 .background(KuringTheme.colors.background)
                 .fillMaxSize(),
