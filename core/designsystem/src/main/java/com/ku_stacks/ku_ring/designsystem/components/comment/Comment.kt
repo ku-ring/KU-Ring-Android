@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -33,12 +34,19 @@ import com.ku_stacks.ku_ring.domain.PlainNoticeComment
 @Composable
 fun Comment(
     comment: NoticeComment,
+    isReplyComment: Boolean,
     onReplyIconClick: () -> Unit,
     onDeleteComment: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val background = if (isReplyComment) {
+        KuringTheme.colors.mainPrimarySelected
+    } else {
+        Color.Transparent
+    }
+
     Column(
-        modifier = modifier.background(KuringTheme.colors.background),
+        modifier = modifier.background(background),
     ) {
         Comment(
             comment = comment.comment,
@@ -180,6 +188,7 @@ private fun CommentPreview() {
                 replies = List(3) { previewComment },
                 hasNext = false,
             ),
+            isReplyComment = true,
             onReplyIconClick = {},
             onDeleteComment = {},
             modifier = Modifier

@@ -45,6 +45,7 @@ import com.ku_stacks.ku_ring.notice_detail.R
 @Composable
 internal fun CommentTextField(
     onCreateComment: (String) -> Unit,
+    isReply: Boolean,
     modifier: Modifier = Modifier,
 ) {
     var comment by remember { mutableStateOf("") }
@@ -57,6 +58,7 @@ internal fun CommentTextField(
         CommentTextField(
             comment = comment,
             onCommentUpdate = { comment = it },
+            isReply = isReply,
             modifier = Modifier.weight(1f),
         )
         CreateCommentButton(
@@ -74,6 +76,7 @@ internal fun CommentTextField(
 private fun CommentTextField(
     comment: String,
     onCommentUpdate: (String) -> Unit,
+    isReply: Boolean,
     modifier: Modifier = Modifier,
 ) {
     val shape = RoundedCornerShape(20.dp)
@@ -87,7 +90,11 @@ private fun CommentTextField(
         color = textColor,
     )
 
-    val placeholderText = stringResource(id = R.string.comment_bottom_sheet_textfield_placeholder)
+    val placeholderText = if (isReply) {
+        stringResource(R.string.comment_bottom_sheet_textfield_reply_placeholder)
+    } else {
+        stringResource(R.string.comment_bottom_sheet_textfield_placeholder)
+    }
 
     val interactionSource = remember { MutableInteractionSource() }
 
@@ -176,6 +183,7 @@ private fun SearchTextFieldPreview() {
     KuringTheme {
         CommentTextField(
             onCreateComment = {},
+            isReply = true,
             modifier = Modifier
                 .background(KuringTheme.colors.background)
                 .padding(16.dp)
