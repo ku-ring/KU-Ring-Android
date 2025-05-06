@@ -1,6 +1,7 @@
 package com.ku_stacks.ku_ring.notice_detail
 
 import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -61,6 +62,13 @@ fun NoticeWebScreen(
     val isSaved by viewModel.isSaved.collectAsStateWithLifecycle()
     val commentPager by viewModel.commentsPager.collectAsStateWithLifecycle()
 
+    val context = LocalContext.current
+    val onCreateCommentSuccessMessage = stringResource(R.string.comment_bottom_sheet_create_success)
+    val onCreateCommentFailMessage = stringResource(R.string.comment_bottom_sheet_create_fail)
+    val makeToast: (String) -> Unit = {
+        Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+    }
+
     NoticeWebScreen(
         webViewNotice = webViewNotice,
         isSaved = isSaved,
@@ -69,6 +77,14 @@ fun NoticeWebScreen(
         doAfterPageLoaded = viewModel::updateNoticeTobeRead,
         commentsPager = commentPager,
         onCommentSheetOpen = viewModel::onCommentBottomSheetOpen,
+        onCreateComment = { parentCommentId, comment ->
+            viewModel.createComment(
+                parentCommentId = parentCommentId,
+                comment = comment,
+                onSuccess = { makeToast(onCreateCommentSuccessMessage) },
+                onFail = { makeToast(onCreateCommentFailMessage) },
+            )
+        },
         modifier = modifier,
     )
 }
@@ -83,6 +99,7 @@ private fun NoticeWebScreen(
     doAfterPageLoaded: (WebViewNotice) -> Unit,
     commentsPager: Pager<Int, NoticeComment>?,
     onCommentSheetOpen: () -> Unit,
+    onCreateComment: (Int?, String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LaunchedEffect(webViewNotice) {
@@ -142,6 +159,7 @@ private fun NoticeWebScreen(
             ) {
                 CommentsBottomSheet(
                     comments = commentsPager?.flow?.collectAsLazyPagingItems(),
+                    onCreateComment = onCreateComment,
                     modifier = Modifier.fillMaxSize(),
                 )
             }
@@ -235,6 +253,7 @@ private fun NoticeWebScreenPreview() {
             doAfterPageLoaded = {},
             commentsPager = null,
             onCommentSheetOpen = {},
+            onCreateComment = { _, _ -> },
             modifier = Modifier
                 .background(KuringTheme.colors.background)
                 .fillMaxSize(),
