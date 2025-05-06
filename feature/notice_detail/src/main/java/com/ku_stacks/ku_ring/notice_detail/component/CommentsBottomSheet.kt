@@ -28,7 +28,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 @Composable
 internal fun CommentsBottomSheet(
     comments: LazyPagingItems<NoticeComment>?,
-    onCreateComment: (Int?, String) -> Unit,
+    replyCommentId: Int?,
+    onCreateComment: (String) -> Unit,
+    setReplyCommentId: (Int?) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -54,7 +56,8 @@ internal fun CommentsBottomSheet(
         } else {
             LazyPagingCommentColumn(
                 comments = comments,
-                onReplyIconClick = { /* TODO: implement */ },
+                replyCommentId = replyCommentId,
+                setReplyCommentId = setReplyCommentId,
                 onDeleteIconClick = { /* TODO: implement */ },
                 modifier = Modifier
                     .background(KuringTheme.colors.background)
@@ -64,9 +67,15 @@ internal fun CommentsBottomSheet(
 
         CommentTextField(
             onCreateComment = {
-                onCreateComment(null, it)
-                comments?.retry()
+                onCreateComment(it)
+                if (replyCommentId != null) {
+                    comments?.refresh()
+                } else {
+                    comments?.retry()
+                }
+                setReplyCommentId(null)
             },
+            isReply = (replyCommentId != null),
             modifier = Modifier.padding(vertical = 11.dp, horizontal = 20.dp),
         )
     }
@@ -81,7 +90,9 @@ private fun CommentsBottomSheetPreview() {
     KuringTheme {
         CommentsBottomSheet(
             comments = fakePagingData,
-            onCreateComment = { _, _ -> },
+            replyCommentId = fakePagingData[0]!!.comment.id,
+            onCreateComment = {},
+            setReplyCommentId = {},
             modifier = Modifier
                 .background(KuringTheme.colors.background)
                 .fillMaxSize(),
@@ -95,7 +106,9 @@ private fun CommentsBottomSheetPreview_error() {
     KuringTheme {
         CommentsBottomSheet(
             comments = null,
-            onCreateComment = { _, _ -> },
+            replyCommentId = null,
+            onCreateComment = {},
+            setReplyCommentId = {},
             modifier = Modifier
                 .background(KuringTheme.colors.background)
                 .fillMaxSize(),

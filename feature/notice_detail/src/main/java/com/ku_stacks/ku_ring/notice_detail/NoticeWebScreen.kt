@@ -61,6 +61,7 @@ fun NoticeWebScreen(
 ) {
     val isSaved by viewModel.isSaved.collectAsStateWithLifecycle()
     val commentPager by viewModel.commentsPager.collectAsStateWithLifecycle()
+    val replyCommentId by viewModel.replyCommentId.collectAsStateWithLifecycle()
 
     val context = LocalContext.current
     val onCreateCommentSuccessMessage = stringResource(R.string.comment_bottom_sheet_create_success)
@@ -77,14 +78,15 @@ fun NoticeWebScreen(
         doAfterPageLoaded = viewModel::updateNoticeTobeRead,
         commentsPager = commentPager,
         onCommentSheetOpen = viewModel::onCommentBottomSheetOpen,
-        onCreateComment = { parentCommentId, comment ->
+        onCreateComment = { comment ->
             viewModel.createComment(
-                parentCommentId = parentCommentId,
                 comment = comment,
                 onSuccess = { makeToast(onCreateCommentSuccessMessage) },
                 onFail = { makeToast(onCreateCommentFailMessage) },
             )
         },
+        setReplyCommentId = viewModel::setReplyCommentId,
+        replyCommentId = replyCommentId,
         modifier = modifier,
     )
 }
@@ -99,7 +101,9 @@ private fun NoticeWebScreen(
     doAfterPageLoaded: (WebViewNotice) -> Unit,
     commentsPager: Pager<Int, NoticeComment>?,
     onCommentSheetOpen: () -> Unit,
-    onCreateComment: (Int?, String) -> Unit,
+    onCreateComment: (String) -> Unit,
+    setReplyCommentId: (Int?) -> Unit,
+    replyCommentId: Int?,
     modifier: Modifier = Modifier,
 ) {
     LaunchedEffect(webViewNotice) {
@@ -153,13 +157,20 @@ private fun NoticeWebScreen(
 
         if (isBottomSheetVisible) {
             ModalBottomSheet(
-                onDismissRequest = { coroutineScope.launch { bottomSheetState.hide() } },
+                onDismissRequest = {
+                    coroutineScope.launch {
+                        bottomSheetState.hide()
+                        setReplyCommentId(null)
+                    }
+                },
                 sheetState = bottomSheetState,
                 containerColor = KuringTheme.colors.background,
             ) {
                 CommentsBottomSheet(
                     comments = commentsPager?.flow?.collectAsLazyPagingItems(),
+                    replyCommentId = replyCommentId,
                     onCreateComment = onCreateComment,
+                    setReplyCommentId = setReplyCommentId,
                     modifier = Modifier.fillMaxSize(),
                 )
             }
@@ -253,7 +264,9 @@ private fun NoticeWebScreenPreview() {
             doAfterPageLoaded = {},
             commentsPager = null,
             onCommentSheetOpen = {},
-            onCreateComment = { _, _ -> },
+            onCreateComment = {},
+            setReplyCommentId = {},
+            replyCommentId = null,
             modifier = Modifier
                 .background(KuringTheme.colors.background)
                 .fillMaxSize(),

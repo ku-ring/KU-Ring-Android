@@ -39,7 +39,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 @Composable
 fun LazyPagingCommentColumn(
     comments: LazyPagingItems<NoticeComment>,
-    onReplyIconClick: () -> Unit,
+    replyCommentId: Int?,
+    setReplyCommentId: (Int?) -> Unit,
     onDeleteIconClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -64,7 +65,8 @@ fun LazyPagingCommentColumn(
         } else {
             commentItems(
                 comments = comments,
-                onReplyIconClick = onReplyIconClick,
+                replyCommentId = replyCommentId,
+                setReplyCommentId = setReplyCommentId,
                 onDeleteIconClick = onDeleteIconClick,
             )
 
@@ -96,7 +98,8 @@ internal fun CommentErrorText(modifier: Modifier = Modifier) {
 
 private fun LazyListScope.commentItems(
     comments: LazyPagingItems<NoticeComment>,
-    onReplyIconClick: () -> Unit,
+    replyCommentId: Int?,
+    setReplyCommentId: (Int?) -> Unit,
     onDeleteIconClick: (Int) -> Unit,
 ) {
     items(
@@ -108,7 +111,10 @@ private fun LazyListScope.commentItems(
             val borderColor = KuringTheme.colors.gray600
             Comment(
                 comment = comment,
-                onReplyIconClick = onReplyIconClick,
+                isReplyComment = (replyCommentId == comment.comment.id),
+                onReplyIconClick = {
+                    setReplyCommentId(if (replyCommentId == null) comment.comment.id else null)
+                },
                 onDeleteComment = onDeleteIconClick,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -134,7 +140,8 @@ private fun LazyPagingCommentColumnPreview() {
     KuringTheme {
         LazyPagingCommentColumn(
             comments = fakePagingData,
-            onReplyIconClick = {},
+            replyCommentId = fakePagingData[0]!!.comment.id,
+            setReplyCommentId = {},
             onDeleteIconClick = {},
             modifier = Modifier
                 .background(KuringTheme.colors.background)
