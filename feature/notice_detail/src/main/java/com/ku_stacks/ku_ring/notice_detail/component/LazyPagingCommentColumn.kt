@@ -67,13 +67,15 @@ fun LazyPagingCommentColumn(
                 onReplyIconClick = onReplyIconClick,
                 onDeleteIconClick = onDeleteIconClick,
             )
-        }
 
-        if (comments.loadState.append == LoadState.Loading) {
-            item {
-                PagingLoadingIndicator(
-                    modifier = Modifier.size(40.dp),
-                )
+            if (comments.loadState.append == LoadState.Loading) {
+                item {
+                    PagingLoadingIndicator(
+                        modifier = Modifier
+                            .padding(vertical = 10.dp)
+                            .size(40.dp),
+                    )
+                }
             }
         }
     }
