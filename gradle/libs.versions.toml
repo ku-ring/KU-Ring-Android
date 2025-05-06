@@ -180,6 +180,7 @@ play-services-auth = 'com.google.android.gms:play-services-auth:21.3.0'
 retrofit-bom = { module = 'com.squareup.retrofit2:retrofit-bom', version.ref = 'retrofit' }
 retrofit = { module = 'com.squareup.retrofit2:retrofit' }
 retrofit-converter-gson = { module = 'com.squareup.retrofit2:converter-gson' }
+retrofit-converter-kotlinx-serialization = { module = 'com.squareup.retrofit2:converter-kotlinx-serialization' }
 
 # Ktor
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
@@ -199,6 +200,7 @@ semver = "net.swiftzer.semver:semver:2.1.0"
 retrofit = [
     'retrofit',
     'retrofit-converter-gson',
+    'retrofit-converter-kotlinx-serialization',
 ]
 compose = [
     'compose-foundation',

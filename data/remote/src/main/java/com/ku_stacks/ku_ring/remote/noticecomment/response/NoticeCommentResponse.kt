@@ -12,7 +12,7 @@ data class NoticeCommentResponse(
     @Serializable
     data class NoticeCommentResponseData(
         @SerialName("comments") val comments: List<NoticeCommentWithReplyResponse>,
-        @SerialName("endCursor") val lastCommentId: String,
+        @SerialName("endCursor") val lastCommentId: String?,
         @SerialName("hasNext") val hasNext: Boolean,
     )
 
@@ -25,7 +25,7 @@ data class NoticeCommentResponse(
     @Serializable
     data class PlainNoticeCommentResponse(
         @SerialName("id") val commentId: Int,
-        @SerialName("parentId") val parentCommentId: Int,
+        @SerialName("parentId") val parentCommentId: Int?,
         @SerialName("userId") val authorId: Int,
         @SerialName("nickName") val authorName: String,
         @SerialName("noticeId") val noticeId: Int,
