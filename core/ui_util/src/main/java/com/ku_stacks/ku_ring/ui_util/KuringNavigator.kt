@@ -12,12 +12,20 @@ interface KuringNavigator {
     fun navigateToFeedback(activity: Activity)
     fun createMainIntent(context: Context): Intent
     fun navigateToMain(activity: Activity)
-    fun navigateToMain(activity: Activity, url: String, articleId: String, category: String, subject: String)
+    fun navigateToMain(
+        activity: Activity,
+        url: String,
+        articleId: String,
+        id: Int,
+        category: String,
+        subject: String
+    )
     fun navigateToSearch(activity: Activity)
     fun createNoticeWebIntent(
         context: Context,
         url: String?,
         articleId: String?,
+        id: Int?,
         category: String?,
         subject: String?,
     ): Intent

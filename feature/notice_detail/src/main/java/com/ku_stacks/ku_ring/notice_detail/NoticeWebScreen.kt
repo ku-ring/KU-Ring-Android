@@ -228,6 +228,7 @@ private fun NoticeWebScreenPreview() {
             webViewNotice = WebViewNotice(
                 url = "https://www.google.com",
                 articleId = "123",
+                id = 1234,
                 category = "학사",
                 subject = "쿠링 발전의 건에 대하여",
             ),

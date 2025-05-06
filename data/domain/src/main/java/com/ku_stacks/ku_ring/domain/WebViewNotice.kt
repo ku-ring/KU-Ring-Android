@@ -5,6 +5,7 @@ import java.io.Serializable
 data class WebViewNotice(
     val url: String,
     val articleId: String,
+    val id: Int,
     val category: String,
     val subject: String,
 ): Serializable {
