@@ -31,6 +31,7 @@ internal fun CommentsBottomSheet(
     replyCommentId: Int?,
     onCreateComment: (String) -> Unit,
     setReplyCommentId: (Int?) -> Unit,
+    onDeleteComment: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -58,7 +59,7 @@ internal fun CommentsBottomSheet(
                 comments = comments,
                 replyCommentId = replyCommentId,
                 setReplyCommentId = setReplyCommentId,
-                onDeleteIconClick = { /* TODO: implement */ },
+                onDeleteIconClick = onDeleteComment,
                 modifier = Modifier
                     .background(KuringTheme.colors.background)
                     .weight(1f),
@@ -93,6 +94,7 @@ private fun CommentsBottomSheetPreview() {
             replyCommentId = fakePagingData[0]!!.comment.id,
             onCreateComment = {},
             setReplyCommentId = {},
+            onDeleteComment = {},
             modifier = Modifier
                 .background(KuringTheme.colors.background)
                 .fillMaxSize(),
@@ -109,6 +111,7 @@ private fun CommentsBottomSheetPreview_error() {
             replyCommentId = null,
             onCreateComment = {},
             setReplyCommentId = {},
+            onDeleteComment = {},
             modifier = Modifier
                 .background(KuringTheme.colors.background)
                 .fillMaxSize(),
