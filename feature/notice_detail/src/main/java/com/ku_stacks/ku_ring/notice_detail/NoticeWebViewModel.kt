@@ -74,7 +74,7 @@ class NoticeWebViewModel @Inject constructor(
 
     fun onCommentBottomSheetOpen() {
         webViewNotice?.id?.let { id ->
-            if (commentsPager.value != null) {
+            if (commentsPager.value == null) {
                 _commentsPager.value = getNoticeCommentUseCase(id)
             }
         }
