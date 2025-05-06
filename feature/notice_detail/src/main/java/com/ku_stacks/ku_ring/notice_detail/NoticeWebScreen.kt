@@ -3,27 +3,53 @@ package com.ku_stacks.ku_ring.notice_detail
 import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
-import androidx.compose.material.Scaffold
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SheetValue
+import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ShareCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.Pager
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.ku_stacks.ku_ring.designsystem.components.KuringWebView
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.components.topbar.CenterTitleTopBar
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.domain.NoticeComment
 import com.ku_stacks.ku_ring.domain.WebViewNotice
+import com.ku_stacks.ku_ring.notice_detail.component.CommentsBottomSheet
 import com.ku_stacks.ku_ring.util.WordConverter
+import kotlinx.coroutines.launch
 
 @Composable
 fun NoticeWebScreen(
@@ -33,6 +59,7 @@ fun NoticeWebScreen(
     viewModel: NoticeWebViewModel = hiltViewModel(),
 ) {
     val isSaved by viewModel.isSaved.collectAsStateWithLifecycle()
+    val commentPager by viewModel.commentsPager.collectAsStateWithLifecycle()
 
     NoticeWebScreen(
         webViewNotice = webViewNotice,
@@ -40,10 +67,13 @@ fun NoticeWebScreen(
         onNavigateBack = onNavigateBack,
         onSaveButtonClick = viewModel::onSaveButtonClick,
         doAfterPageLoaded = viewModel::updateNoticeTobeRead,
+        commentsPager = commentPager,
+        onCommentSheetOpen = viewModel::onCommentBottomSheetOpen,
         modifier = modifier,
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun NoticeWebScreen(
     webViewNotice: WebViewNotice,
@@ -51,10 +81,22 @@ private fun NoticeWebScreen(
     onNavigateBack: () -> Unit,
     onSaveButtonClick: () -> Unit,
     doAfterPageLoaded: (WebViewNotice) -> Unit,
+    commentsPager: Pager<Int, NoticeComment>?,
+    onCommentSheetOpen: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LaunchedEffect(webViewNotice) {
         doAfterPageLoaded(webViewNotice)
+    }
+
+    val coroutineScope = rememberCoroutineScope()
+    val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val isBottomSheetVisible by rememberUpdatedState(newValue = bottomSheetState.isVisible || bottomSheetState.targetValue == SheetValue.Expanded)
+
+    LaunchedEffect(isBottomSheetVisible) {
+        if (isBottomSheetVisible) {
+            onCommentSheetOpen()
+        }
     }
 
     Scaffold(
@@ -78,6 +120,11 @@ private fun NoticeWebScreen(
                 }
             )
         },
+        floatingActionButton = {
+            NoticeWebScreenFab(
+                onClick = { coroutineScope.launch { bottomSheetState.show() } },
+            )
+        },
         modifier = modifier,
     ) {
         KuringWebView(
@@ -88,6 +135,47 @@ private fun NoticeWebScreen(
             customSettings = {
                 builtInZoomControls = true
             },
+        )
+
+        if (isBottomSheetVisible) {
+            ModalBottomSheet(
+                onDismissRequest = { coroutineScope.launch { bottomSheetState.hide() } },
+                sheetState = bottomSheetState,
+                containerColor = KuringTheme.colors.background,
+            ) {
+                CommentsBottomSheet(
+                    comments = commentsPager?.flow?.collectAsLazyPagingItems(),
+                    modifier = Modifier.fillMaxSize(),
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun NoticeWebScreenFab(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val description = stringResource(R.string.see_comment)
+    val fabSize = 72.dp
+
+    FloatingActionButton(
+        onClick = onClick,
+        shape = CircleShape,
+        modifier = modifier
+            .size(fabSize)
+            .clearAndSetSemantics {
+                contentDescription = description
+            },
+        containerColor = KuringTheme.colors.mainPrimary,
+        contentColor = Color.White, // White in both light and dark mode
+    ) {
+        Icon(
+            imageVector = ImageVector.vectorResource(id = R.drawable.ic_message_circle_v2),
+            contentDescription = null,
+            modifier = Modifier
+                .fillMaxSize(0.8f)
         )
     }
 }
@@ -147,6 +235,8 @@ private fun NoticeWebScreenPreview() {
             onNavigateBack = {},
             onSaveButtonClick = { isSaved = !isSaved },
             doAfterPageLoaded = {},
+            commentsPager = null,
+            onCommentSheetOpen = {},
             modifier = Modifier
                 .background(KuringTheme.colors.background)
                 .fillMaxSize(),
