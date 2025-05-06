@@ -14,7 +14,7 @@ class DeleteNoticeCommentUseCase @Inject constructor(
      *
      * @returns True if the comment is deleted successfully, false otherwise.
      */
-    suspend operator fun invoke(noticeId: Int, commentId: Int): Result<Boolean> {
+    suspend operator fun invoke(noticeId: Int, commentId: Int): Result<Unit> {
         return noticeCommentRepository.deleteComment(noticeId, commentId)
     }
 }

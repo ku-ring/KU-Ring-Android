@@ -15,12 +15,12 @@ class NoticeCommentRepositoryImpl @Inject constructor(
         parentCommentId: Int?,
         content: String
     ): Result<Unit> = suspendRunCatching {
-        noticeCommentClient.createComment(noticeId, parentCommentId, content).isSuccess
+        noticeCommentClient.createComment(noticeId, parentCommentId, content)
     }
 
     override suspend fun deleteComment(noticeId: Int, commentId: Int): Result<Unit> =
         suspendRunCatching {
-            noticeCommentClient.deleteComment(noticeId, commentId).isSuccess
+            noticeCommentClient.deleteComment(noticeId, commentId)
         }
 
     override suspend fun getComment(

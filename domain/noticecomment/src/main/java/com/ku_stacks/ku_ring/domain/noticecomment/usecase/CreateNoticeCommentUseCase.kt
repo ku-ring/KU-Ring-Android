@@ -19,7 +19,7 @@ class CreateNoticeCommentUseCase @Inject constructor(
         noticeId: Int,
         parentCommentId: Int?,
         content: String,
-    ): Result<Boolean> {
+    ): Result<Unit> {
         return noticeCommentRepository.createComment(noticeId, parentCommentId, content)
     }
 }
