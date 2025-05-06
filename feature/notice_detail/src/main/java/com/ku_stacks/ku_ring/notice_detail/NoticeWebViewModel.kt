@@ -79,4 +79,18 @@ class NoticeWebViewModel @Inject constructor(
             }
         }
     }
+
+    fun createComment(
+        parentCommentId: Int?, comment: String,
+        onSuccess: () -> Unit,
+        onFail: () -> Unit,
+    ) {
+        webViewNotice?.id?.let { id ->
+            viewModelScope.launch {
+                createNoticeCommentUseCase(id, parentCommentId, comment)
+                    .onSuccess { onSuccess() }
+                    .onFailure { onFail() }
+            }
+        }
+    }
 }
