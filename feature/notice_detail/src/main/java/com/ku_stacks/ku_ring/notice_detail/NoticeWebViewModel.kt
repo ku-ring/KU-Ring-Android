@@ -42,6 +42,9 @@ class NoticeWebViewModel @Inject constructor(
      */
     val replyCommentId = _replyCommentId.asStateFlow()
 
+    private val _deleteCommentId = MutableStateFlow<Int?>(null)
+    val deleteCommentId = _deleteCommentId.asStateFlow()
+
     init {
         viewModelScope.launch {
             noticeRepository.getSavedNotices().collect { savedNotices ->
@@ -102,5 +105,32 @@ class NoticeWebViewModel @Inject constructor(
 
     fun setReplyCommentId(id: Int?) {
         _replyCommentId.value = id
+    }
+
+    fun showDeleteCommentPopup(commentId: Int) {
+        setDeleteCommentId(commentId)
+    }
+
+    fun hideDeleteCommentPopup() {
+        setDeleteCommentId(null)
+    }
+
+    private fun setDeleteCommentId(commentId: Int?) {
+        _deleteCommentId.value = commentId
+    }
+
+    fun deleteComment(
+        onSuccess: () -> Unit,
+        onFail: () -> Unit,
+    ) {
+        val noticeId = webViewNotice?.id
+        val deleteCommentId = deleteCommentId.value
+        if (noticeId != null && deleteCommentId != null) {
+            viewModelScope.launch {
+                deleteNoticeCommentUseCase(noticeId, deleteCommentId)
+                    .onSuccess { onSuccess() }
+                    .onFailure { onFail() }
+            }
+        }
     }
 }
