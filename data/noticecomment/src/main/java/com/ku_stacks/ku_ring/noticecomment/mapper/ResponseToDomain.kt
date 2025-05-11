@@ -22,6 +22,7 @@ internal fun NoticeCommentResponse.PlainNoticeCommentResponse.toDomain() = Plain
     authorName = authorName,
     noticeId = noticeId,
     content = content,
+    isMyComment = isMyComment,
     postedDatetime = createdAt,
     updatedDatetime = updatedAt,
 )
