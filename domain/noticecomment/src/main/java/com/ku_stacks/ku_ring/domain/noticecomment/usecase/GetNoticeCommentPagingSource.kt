@@ -4,6 +4,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.ku_stacks.ku_ring.domain.NoticeComment
 import com.ku_stacks.ku_ring.domain.noticecomment.repository.NoticeCommentRepository
+import timber.log.Timber
 
 /**
  * Paging source which loads comments. This class should be instantiated per notice.
@@ -58,7 +59,9 @@ internal class GetNoticeCommentPagingSource(
 
     private fun assertPageCanBeLoaded(key: Int) {
         if (!canBeLoaded(key)) {
-            throw IllegalAccessException()
+            val message = "Page $key cannot be loaded."
+            Timber.e(message)
+            throw IllegalAccessException(message)
         }
     }
 
