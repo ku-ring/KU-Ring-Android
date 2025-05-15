@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ku_stacks.ku_ring.domain.user.repository.UserRepository
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
-import com.ku_stacks.ku_ring.util.getHttpExceptionMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -14,6 +13,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.net.UnknownHostException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -61,13 +61,10 @@ class SettingViewModel @Inject constructor(
                 _userProfileState.update { UserProfileState.LoggedIn(response.nickName) }
             }
             .onFailure { exception ->
-                val message = exception.getHttpExceptionMessage()
-
-                if (message != null) {
-                    // 쿠링 서버의 응답 형식에 맞게 파싱되었음을 의미
-                    _userProfileState.update { UserProfileState.NotLoggedIn }
-                } else {
+                if (exception is UnknownHostException) {
                     _userProfileState.update { UserProfileState.Error }
+                } else {
+                    _userProfileState.update { UserProfileState.NotLoggedIn }
                 }
             }
     }

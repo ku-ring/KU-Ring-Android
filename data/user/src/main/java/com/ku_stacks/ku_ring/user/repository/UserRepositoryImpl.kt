@@ -12,6 +12,7 @@ import com.ku_stacks.ku_ring.remote.user.request.AuthorizeUserRequest
 import com.ku_stacks.ku_ring.remote.user.request.FeedbackRequest
 import com.ku_stacks.ku_ring.user.mapper.toDomain
 import com.ku_stacks.ku_ring.user.mapper.toEntity
+import com.ku_stacks.ku_ring.util.getHttpExceptionMessage
 import com.ku_stacks.ku_ring.util.suspendRunCatching
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -58,6 +59,9 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun getUserData(): Result<User> = runCatching {
         userClient.getUserData().toDomain()
+    }.onFailure { exception ->
+        val code = exception.getHttpExceptionMessage()?.code
+        if (code in (400..404)) pref.deleteAccessToken()
     }
 
     override suspend fun signUpUser(

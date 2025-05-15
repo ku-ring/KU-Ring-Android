@@ -70,6 +70,7 @@ class SplashActivity : AppCompatActivity() {
         }
 
         enqueueReengagementNotificationWork()
+        checkUserValidity()
         updateDepartmentsFromRemote()
         loadMinimumAppVersion()
         collectScreenState()
@@ -89,6 +90,10 @@ class SplashActivity : AppCompatActivity() {
             ExistingWorkPolicy.REPLACE,
             notificationWorkRequest,
         )
+    }
+
+    private fun checkUserValidity() {
+        viewModel.getUserData()
     }
 
     private fun updateDepartmentsFromRemote() {
