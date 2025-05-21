@@ -30,6 +30,7 @@ data class NoticeCommentResponse(
         @SerialName("nickName") val authorName: String,
         @SerialName("noticeId") val noticeId: Int,
         @SerialName("content") val content: String,
+        @SerialName("isMine") val isMyComment: Boolean,
         @SerialName("createdAt") val createdAt: String,
         @SerialName("updatedAt") val updatedAt: String,
         // TODO: Field "destroyedAt" is not used now. Add when needed.

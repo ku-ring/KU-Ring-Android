@@ -36,6 +36,15 @@ class NoticeWebViewModel @Inject constructor(
     private val _commentsPager = MutableStateFlow<Pager<Int, NoticeComment>?>(null)
     val commentsPager = _commentsPager.asStateFlow()
 
+    private val _replyCommentId = MutableStateFlow<Int?>(null)
+    /**
+     * Reply if not null, otherwise a common comment.
+     */
+    val replyCommentId = _replyCommentId.asStateFlow()
+
+    private val _deleteCommentId = MutableStateFlow<Int?>(null)
+    val deleteCommentId = _deleteCommentId.asStateFlow()
+
     init {
         viewModelScope.launch {
             noticeRepository.getSavedNotices().collect { savedNotices ->
@@ -76,6 +85,51 @@ class NoticeWebViewModel @Inject constructor(
         webViewNotice?.id?.let { id ->
             if (commentsPager.value == null) {
                 _commentsPager.value = getNoticeCommentUseCase(id)
+            }
+        }
+    }
+
+    fun createComment(
+        comment: String,
+        onSuccess: () -> Unit,
+        onFail: () -> Unit,
+    ) {
+        webViewNotice?.id?.let { id ->
+            viewModelScope.launch {
+                createNoticeCommentUseCase(id, replyCommentId.value, comment)
+                    .onSuccess { onSuccess() }
+                    .onFailure { onFail() }
+            }
+        }
+    }
+
+    fun setReplyCommentId(id: Int?) {
+        _replyCommentId.value = id
+    }
+
+    fun showDeleteCommentPopup(commentId: Int) {
+        setDeleteCommentId(commentId)
+    }
+
+    fun hideDeleteCommentPopup() {
+        setDeleteCommentId(null)
+    }
+
+    private fun setDeleteCommentId(commentId: Int?) {
+        _deleteCommentId.value = commentId
+    }
+
+    fun deleteComment(
+        onSuccess: () -> Unit,
+        onFail: () -> Unit,
+    ) {
+        val noticeId = webViewNotice?.id
+        val deleteCommentId = deleteCommentId.value
+        if (noticeId != null && deleteCommentId != null) {
+            viewModelScope.launch {
+                deleteNoticeCommentUseCase(noticeId, deleteCommentId)
+                    .onSuccess { onSuccess() }
+                    .onFailure { onFail() }
             }
         }
     }

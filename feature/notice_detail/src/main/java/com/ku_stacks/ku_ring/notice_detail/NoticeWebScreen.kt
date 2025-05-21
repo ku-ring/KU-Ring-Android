@@ -1,6 +1,7 @@
 package com.ku_stacks.ku_ring.notice_detail
 
 import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -41,6 +42,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.Pager
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.ku_stacks.ku_ring.designsystem.components.KuringAlertDialog
 import com.ku_stacks.ku_ring.designsystem.components.KuringWebView
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.components.topbar.CenterTitleTopBar
@@ -60,6 +62,19 @@ fun NoticeWebScreen(
 ) {
     val isSaved by viewModel.isSaved.collectAsStateWithLifecycle()
     val commentPager by viewModel.commentsPager.collectAsStateWithLifecycle()
+    val replyCommentId by viewModel.replyCommentId.collectAsStateWithLifecycle()
+    val deleteCommentId by viewModel.deleteCommentId.collectAsStateWithLifecycle()
+
+    val context = LocalContext.current
+    val makeToast: (String) -> Unit = {
+        Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+    }
+
+    val onCreateCommentSuccessMessage = stringResource(R.string.comment_bottom_sheet_create_success)
+    val onCreateCommentFailMessage = stringResource(R.string.comment_bottom_sheet_create_fail)
+
+    val onDeleteCommentSuccessMessage = stringResource(R.string.comment_bottom_sheet_delete_success)
+    val onDeleteCommentFailMessage = stringResource(R.string.comment_bottom_sheet_delete_fail)
 
     NoticeWebScreen(
         webViewNotice = webViewNotice,
@@ -67,8 +82,26 @@ fun NoticeWebScreen(
         onNavigateBack = onNavigateBack,
         onSaveButtonClick = viewModel::onSaveButtonClick,
         doAfterPageLoaded = viewModel::updateNoticeTobeRead,
-        commentsPager = commentPager,
+        commentPager = commentPager,
         onCommentSheetOpen = viewModel::onCommentBottomSheetOpen,
+        onCreateComment = { comment ->
+            viewModel.createComment(
+                comment = comment,
+                onSuccess = { makeToast(onCreateCommentSuccessMessage) },
+                onFail = { makeToast(onCreateCommentFailMessage) },
+            )
+        },
+        setReplyCommentId = viewModel::setReplyCommentId,
+        replyCommentId = replyCommentId,
+        deleteCommentId = deleteCommentId,
+        deleteComment = {
+            viewModel.deleteComment(
+                onSuccess = { makeToast(onDeleteCommentSuccessMessage) },
+                onFail = { makeToast(onDeleteCommentFailMessage) }
+            )
+        },
+        onShowDeleteCommentPopup = viewModel::showDeleteCommentPopup,
+        onHideDeleteCommentPopup = viewModel::hideDeleteCommentPopup,
         modifier = modifier,
     )
 }
@@ -81,8 +114,15 @@ private fun NoticeWebScreen(
     onNavigateBack: () -> Unit,
     onSaveButtonClick: () -> Unit,
     doAfterPageLoaded: (WebViewNotice) -> Unit,
-    commentsPager: Pager<Int, NoticeComment>?,
+    commentPager: Pager<Int, NoticeComment>?,
     onCommentSheetOpen: () -> Unit,
+    onCreateComment: (String) -> Unit,
+    setReplyCommentId: (Int?) -> Unit,
+    replyCommentId: Int?,
+    deleteCommentId: Int?,
+    deleteComment: () -> Unit,
+    onShowDeleteCommentPopup: (Int) -> Unit,
+    onHideDeleteCommentPopup: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LaunchedEffect(webViewNotice) {
@@ -92,6 +132,7 @@ private fun NoticeWebScreen(
     val coroutineScope = rememberCoroutineScope()
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val isBottomSheetVisible by rememberUpdatedState(newValue = bottomSheetState.isVisible || bottomSheetState.targetValue == SheetValue.Expanded)
+    val commentPagingItems = commentPager?.flow?.collectAsLazyPagingItems()
 
     Scaffold(
         topBar = {
@@ -136,16 +177,40 @@ private fun NoticeWebScreen(
 
         if (isBottomSheetVisible) {
             ModalBottomSheet(
-                onDismissRequest = { coroutineScope.launch { bottomSheetState.hide() } },
+                onDismissRequest = {
+                    coroutineScope.launch {
+                        bottomSheetState.hide()
+                        setReplyCommentId(null)
+                    }
+                },
                 sheetState = bottomSheetState,
                 containerColor = KuringTheme.colors.background,
             ) {
                 CommentsBottomSheet(
-                    comments = commentsPager?.flow?.collectAsLazyPagingItems(),
+                    comments = commentPagingItems,
+                    replyCommentId = replyCommentId,
+                    onCreateComment = onCreateComment,
+                    setReplyCommentId = setReplyCommentId,
+                    onDeleteComment = onShowDeleteCommentPopup,
                     modifier = Modifier.fillMaxSize(),
                 )
             }
         }
+    }
+
+    if (deleteCommentId != null) {
+        KuringAlertDialog(
+            text = stringResource(R.string.comment_bottom_sheet_dialog_text),
+            onConfirm = {
+                deleteComment()
+                commentPagingItems?.refresh()
+                onHideDeleteCommentPopup()
+            },
+            onCancel = { onHideDeleteCommentPopup() },
+            confirmText = stringResource(R.string.comment_bottom_sheet_dialog_delete_text),
+            cancelText = stringResource(R.string.comment_bottom_sheet_dialog_cancel_text),
+            confirmTextColor = KuringTheme.colors.warning,
+        )
     }
 }
 
@@ -233,8 +298,15 @@ private fun NoticeWebScreenPreview() {
             onNavigateBack = {},
             onSaveButtonClick = { isSaved = !isSaved },
             doAfterPageLoaded = {},
-            commentsPager = null,
+            commentPager = null,
             onCommentSheetOpen = {},
+            onCreateComment = {},
+            setReplyCommentId = {},
+            replyCommentId = null,
+            deleteCommentId = null,
+            deleteComment = {},
+            onShowDeleteCommentPopup = {},
+            onHideDeleteCommentPopup = {},
             modifier = Modifier
                 .background(KuringTheme.colors.background)
                 .fillMaxSize(),
