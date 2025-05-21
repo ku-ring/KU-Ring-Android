@@ -48,10 +48,11 @@ class KuringNavigatorImpl @Inject constructor() : KuringNavigator {
         activity: Activity,
         url: String,
         articleId: String,
+        id: Int,
         category: String,
         subject: String,
     ) {
-        MainActivity.start(activity, url, articleId, category, subject)
+        MainActivity.start(activity, url, articleId, id, category, subject)
     }
 
     override fun navigateToSearch(activity: Activity) {
@@ -62,10 +63,11 @@ class KuringNavigatorImpl @Inject constructor() : KuringNavigator {
         context: Context,
         url: String?,
         articleId: String?,
+        id: Int?,
         category: String?,
         subject: String?,
     ): Intent {
-        return NoticeWebActivity.createIntent(context, url, articleId, category, subject)
+        return NoticeWebActivity.createIntent(context, url, articleId, id, category, subject)
     }
 
     override fun navigateToNoticeWeb(activity: Activity, notice: Notice) {

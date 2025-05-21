@@ -21,6 +21,7 @@ class NoticeCommentFactory {
         content = "Test comment $lastCommentId",
         postedDatetime = "test posted time",
         updatedDatetime = "test updated time",
+        isMyComment = (lastCommentId % 2 == 0),
     )
 
     companion object {

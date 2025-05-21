@@ -41,8 +41,8 @@ class NoticeWebActivity : AppCompatActivity() {
     companion object {
 
         fun start(activity: Activity, webViewNotice: WebViewNotice) {
-            val (url, articleId, category, subject) = webViewNotice
-            val intent = createIntent(activity, url, articleId, category, subject)
+            val (url, articleId, id, category, subject) = webViewNotice
+            val intent = createIntent(activity, url, articleId, id, category, subject)
             activity.apply {
                 startActivity(intent)
                 overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
@@ -53,17 +53,19 @@ class NoticeWebActivity : AppCompatActivity() {
             context: Context,
             url: String?,
             articleId: String?,
+            id: Int?,
             category: String?,
             subject: String?,
         ): Intent {
-            if (url == null || articleId == null || category == null) {
-                throw IllegalArgumentException("intent parameters shouldn't be null: $url, $articleId, $category")
+            if (url == null || articleId == null || category == null || id == null) {
+                throw IllegalArgumentException("intent parameters shouldn't be null: $url, $articleId, $id, $category")
             }
             return Intent(context, NoticeWebActivity::class.java).apply {
                 putExtra(
                     WebViewNotice.EXTRA_KEY, WebViewNotice(
                         url = url,
                         articleId = articleId,
+                        id = id,
                         category = category,
                         subject = subject.orEmpty(),
                     )

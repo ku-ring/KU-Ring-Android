@@ -12,10 +12,13 @@ import dagger.hilt.components.SingletonComponent
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.sse.SSE
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -46,6 +49,19 @@ object NetworkModule {
             .client(okHttpClient)
             .baseUrl(BuildConfig.API_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
+    private val kotlinxJson = Json { ignoreUnknownKeys = true }
+
+    @Provides
+    @Singleton
+    @Named("KotlinxSerialization")
+    fun provideKotlinxSerializationRetrofit(@Named("Default") okHttpClient: OkHttpClient): Retrofit {
+        return Retrofit.Builder()
+            .client(okHttpClient)
+            .baseUrl(BuildConfig.API_BASE_URL)
+            .addConverterFactory(kotlinxJson.asConverterFactory("application/json; charset=UTF8".toMediaType()))
             .build()
     }
 

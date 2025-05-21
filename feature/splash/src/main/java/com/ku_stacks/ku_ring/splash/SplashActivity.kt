@@ -192,6 +192,7 @@ class SplashActivity : AppCompatActivity() {
                 activity = this@SplashActivity,
                 url = fullUrl,
                 articleId = articleId,
+                id = id,
                 category = category,
                 subject = subject,
             )

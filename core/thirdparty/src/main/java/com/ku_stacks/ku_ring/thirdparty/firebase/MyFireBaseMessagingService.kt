@@ -75,6 +75,7 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
                 body = categoryKr,
                 url = fullUrl,
                 articleId = articleId,
+                id = id,
                 category = category,
                 subject = subject,
             )
@@ -94,10 +95,11 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
         body: String?,
         url: String?,
         articleId: String?,
+        id: Int?,
         category: String?,
         subject: String?,
     ) {
-        val intent = navigator.createNoticeWebIntent(this, url, articleId, category, subject)
+        val intent = navigator.createNoticeWebIntent(this, url, articleId, id, category, subject)
         KuringNotificationManager.showNotificationWithUrl(this, intent, title, body)
     }
 
