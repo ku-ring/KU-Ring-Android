@@ -97,6 +97,7 @@ fun Comment(
             commentId = comment.id,
             username = comment.authorName,
             onReplyIconClick = onReplyIconClick,
+            isDeletable = comment.isMyComment,
             onDeleteComment = onDeleteComment,
         )
         Text(
@@ -127,6 +128,7 @@ private fun CommentHeader(
     commentId: Int,
     username: String,
     onReplyIconClick: () -> Unit,
+    isDeletable: Boolean,
     onDeleteComment: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -157,13 +159,14 @@ private fun CommentHeader(
             modifier = Modifier.clickable { onReplyIconClick() },
             tint = KuringTheme.colors.textBody,
         )
-        // TODO: 자기 댓글에만 보여주기?
-        Icon(
-            imageVector = ImageVector.vectorResource(R.drawable.ic_trashcan_v2),
-            contentDescription = stringResource(R.string.comment_delete),
-            modifier = Modifier.clickable { onDeleteComment(commentId) },
-            tint = KuringTheme.colors.textBody,
-        )
+        if (isDeletable) {
+            Icon(
+                imageVector = ImageVector.vectorResource(R.drawable.ic_trashcan_v2),
+                contentDescription = stringResource(R.string.comment_delete),
+                modifier = Modifier.clickable { onDeleteComment(commentId) },
+                tint = KuringTheme.colors.textBody,
+            )
+        }
     }
 }
 
@@ -174,6 +177,7 @@ private val previewComment = PlainNoticeComment(
     authorName = "쿠링",
     noticeId = 0,
     content = "쿠링 댓글 내용".repeat(10),
+    isMyComment = false,
     postedDatetime = "2025.03.23 20:27",
     updatedDatetime = "2025.03.23 20:27",
 )
