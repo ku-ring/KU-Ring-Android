@@ -124,7 +124,7 @@ private fun LazyListScope.commentItems(
                             color = borderColor,
                             start = Offset(0f, size.height),
                             end = Offset(size.width, size.height),
-                            strokeWidth = 1.dp.toPx(),
+                            strokeWidth = 0.3.dp.toPx(),
                         )
                     },
             )
