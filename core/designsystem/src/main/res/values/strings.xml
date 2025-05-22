@@ -13,6 +13,7 @@
 
     <!--  components  -->
     <string name="notice_item_important_tag">중요</string>
+    <string name="notice_item_many_comments">99+</string>
     <string name="notice_item_delete_button">삭제</string>
     <string name="notice_refresh_error_message">공지 로드 중 에러가 발생했어요.\n잠시 후 다시 시도해 주세요.</string>
     <string name="webview_url_null">페이지 로드 중 에러가 발생했어요.\n잠시 후 다시 시도해 주세요.</string>
