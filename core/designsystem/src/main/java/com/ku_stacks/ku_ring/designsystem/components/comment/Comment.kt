@@ -159,7 +159,7 @@ private fun CommentHeader(
             Icon(
                 imageVector = ImageVector.vectorResource(R.drawable.ic_message_circle_v2),
                 contentDescription = stringResource(R.string.comment_reply_icon),
-                modifier = Modifier.clickable(onReplyIconClick),
+                modifier = Modifier.clickable(onClick = onReplyIconClick),
                 tint = KuringTheme.colors.textBody,
             )
         }
