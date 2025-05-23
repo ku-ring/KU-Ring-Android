@@ -10,4 +10,5 @@ data class SearchNoticeResponse(
     @SerializedName("baseUrl") val baseUrl: String,
     @SerializedName("category") val category: String,
     @SerializedName("important") val isImportant: Boolean,
+    @SerializedName("commentCount") val commentCount: Int,
 )
