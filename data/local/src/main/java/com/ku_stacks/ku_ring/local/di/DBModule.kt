@@ -122,6 +122,16 @@ object DBModule {
         }
     }
 
+    private val MIGRATION_9_10 = object : Migration(9, 10) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL(
+                """
+                ALTER TABLE NoticeEntity ADD COLUMN commentCount INTEGER NOT NULL DEFAULT 0
+            """.trimIndent()
+            )
+        }
+    }
+
     @Singleton
     @Provides
     fun provideKuRingDatabase(
@@ -140,6 +150,7 @@ object DBModule {
                 MIGRATION_6_7,
                 MIGRATION_7_8,
                 MIGRATION_8_9,
+            MIGRATION_9_10,
             ).build()
 
     @Singleton
