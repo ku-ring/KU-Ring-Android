@@ -96,6 +96,7 @@ fun Comment(
         CommentHeader(
             commentId = comment.id,
             username = comment.authorName,
+            isReply = (comment.parentCommentId != null),
             onReplyIconClick = onReplyIconClick,
             isDeletable = comment.isMyComment,
             onDeleteComment = onDeleteComment,
@@ -127,6 +128,7 @@ fun Comment(
 private fun CommentHeader(
     commentId: Int,
     username: String,
+    isReply: Boolean,
     onReplyIconClick: () -> Unit,
     isDeletable: Boolean,
     onDeleteComment: (Int) -> Unit,
@@ -153,12 +155,14 @@ private fun CommentHeader(
             )
         )
         Spacer(modifier = Modifier.weight(1f))
-        Icon(
-            imageVector = ImageVector.vectorResource(R.drawable.ic_message_circle_v2),
-            contentDescription = stringResource(R.string.comment_reply_icon),
-            modifier = Modifier.clickable { onReplyIconClick() },
-            tint = KuringTheme.colors.textBody,
-        )
+        if (!isReply) {
+            Icon(
+                imageVector = ImageVector.vectorResource(R.drawable.ic_message_circle_v2),
+                contentDescription = stringResource(R.string.comment_reply_icon),
+                modifier = Modifier.clickable(onReplyIconClick),
+                tint = KuringTheme.colors.textBody,
+            )
+        }
         if (isDeletable) {
             Icon(
                 imageVector = ImageVector.vectorResource(R.drawable.ic_trashcan_v2),
