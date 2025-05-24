@@ -51,12 +51,23 @@ class CategoryNoticeMediator(
         val entities = noticeResponses.toEntities(getAppStartedDate())
         noticeDao.insertNotices(entities)
         updateNoticesId(entities)
+        updateNoticesCommentCount(entities)
     }
 
     private suspend fun updateNoticesId(entities: List<NoticeEntity>) {
         entities.forEach { entity ->
             if (noticeDao.getNoticeId(entity.articleId, entity.category) == 0) {
                 noticeDao.updateNoticeId(entity.articleId, entity.category, entity.id)
+            }
+        }
+    }
+
+    private suspend fun updateNoticesCommentCount(entities: List<NoticeEntity>) {
+        entities.forEach { entity ->
+            if (noticeDao.getNoticeId(entity.articleId, entity.category) != null) {
+                noticeDao.updateNoticeCommentCount(
+                    entity.articleId, entity.category, entity.commentCount
+                )
             }
         }
     }

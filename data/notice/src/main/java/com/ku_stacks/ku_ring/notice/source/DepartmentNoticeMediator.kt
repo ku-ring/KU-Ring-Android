@@ -51,6 +51,7 @@ class DepartmentNoticeMediator(
             val entities = noticeResponse.data.toEntityList(shortName, startDate)
             insertNotices(entities, page)
             updateNoticesId(entities)
+            updateNoticesCommentCount(entities)
 
             val isPageEnd = noticeResponse.data.isEmpty()
             MediatorResult.Success(endOfPaginationReached = isPageEnd)
@@ -85,6 +86,17 @@ class DepartmentNoticeMediator(
             if (noticeDao.getDepartmentNoticeId(entity.articleId, entity.department) == 0) {
                 Timber.d("Update notice id ${entity.articleId}")
                 noticeDao.updateDepartmentNoticeId(entity.articleId, entity.department, entity.id)
+            }
+        }
+    }
+
+    private suspend fun updateNoticesCommentCount(entities: List<NoticeEntity>) {
+        entities.forEach { entity ->
+            val noticeId = noticeDao.getDepartmentNoticeId(entity.articleId, entity.department)
+            if (noticeId != null) {
+                noticeDao.updateDepartmentNoticeCommentCount(
+                    entity.articleId, entity.department, entity.commentCount
+                )
             }
         }
     }
