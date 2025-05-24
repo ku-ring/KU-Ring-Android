@@ -3,7 +3,6 @@ package com.ku_stacks.ku_ring.main.search.compose
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -47,6 +46,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.components.SearchTextField
@@ -76,6 +76,11 @@ fun SearchScreen(
     val staffList by viewModel.staffSearchResult.collectAsStateWithLifecycle(initialValue = emptyList())
     val keywordHistories by viewModel.searchHistories.collectAsStateWithLifecycle(initialValue = emptyList())
 
+    LifecycleResumeEffect(Unit) {
+        viewModel.onSearch(searchState)
+        onPauseOrDispose { /*no resource to be released*/ }
+    }
+
     SearchScreen(
         onNavigationClick = onNavigationClick,
         onSearch = viewModel::onSearch,
@@ -90,7 +95,6 @@ fun SearchScreen(
     )
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun SearchScreen(
     onNavigationClick: () -> Unit,
@@ -299,7 +303,6 @@ private fun SearchResultTitle(
     )
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun SearchTabRow(
     pagerState: PagerState,
@@ -347,7 +350,6 @@ private fun SearchTabRow(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun SearchResultHorizontalPager(
     searchState: SearchState,
