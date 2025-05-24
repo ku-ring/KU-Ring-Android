@@ -82,8 +82,7 @@ fun NoticeItem(
         }
 
         NoticeItemCommentCount(
-            // FIXME: Dto와 Entity에 commentCount 추가한 후 수정
-            commentCount = 100,
+            commentCount = notice.commentCount,
             isRead = notice.isRead,
             modifier = Modifier
                 .align(Alignment.BottomEnd)
@@ -242,6 +241,7 @@ private val notice = Notice(
     isReadOnStorage = false,
     isImportant = false,
     tag = listOf("지급"),
+    commentCount = 0
 )
 
 @LightAndDarkPreview
