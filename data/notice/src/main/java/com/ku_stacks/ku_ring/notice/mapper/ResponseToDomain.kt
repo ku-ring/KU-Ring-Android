@@ -29,6 +29,7 @@ fun NoticeListResponse.toNoticeList(type: String): List<Notice> {
                 isReadOnStorage = false,
                 isImportant = it.isImportant,
                 tag = emptyList(),
+                commentCount = it.commentCount
             )
         }
     } else {
@@ -47,6 +48,7 @@ fun NoticeListResponse.toNoticeList(type: String): List<Notice> {
                 isReadOnStorage = false,
                 isImportant = it.isImportant,
                 tag = emptyList(),
+                commentCount = it.commentCount,
             )
         }
     }
@@ -67,7 +69,8 @@ fun SearchNoticeListResponse.toNoticeList(): List<Notice> {
             isSaved = false,
             isReadOnStorage = false,
             isImportant = it.isImportant,
-            tag = emptyList()
+            tag = emptyList(),
+            commentCount = it.commentCount,
         )
     } ?: emptyList()
 }

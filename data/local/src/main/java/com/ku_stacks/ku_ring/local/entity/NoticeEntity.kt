@@ -19,4 +19,5 @@ data class NoticeEntity(
     @ColumnInfo(name = "isSaved") val isSaved: Boolean,
     @ColumnInfo(name = "isReadOnStorage") val isReadOnStorage: Boolean,
     @ColumnInfo(name = "isImportant") val isImportant: Boolean,
+    @ColumnInfo(name = "commentCount") val commentCount: Int = 0,
 )

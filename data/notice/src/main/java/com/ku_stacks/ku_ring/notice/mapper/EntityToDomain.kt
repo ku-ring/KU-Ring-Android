@@ -21,5 +21,6 @@ fun NoticeEntity.toNotice(): Notice {
         isReadOnStorage = isReadOnStorage,
         isImportant = isImportant,
         tag = emptyList(),
+        commentCount = commentCount,
     )
 }

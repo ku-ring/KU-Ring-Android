@@ -19,6 +19,7 @@ fun NoticeResponse.toNoticeEntity(startDate: String) = NoticeEntity(
     isSaved = false,
     isReadOnStorage = false,
     isImportant = isImportant,
+    commentCount = commentCount,
 )
 
 
@@ -43,5 +44,6 @@ fun DepartmentNoticeResponse.toNoticeEntity(shortName: String, startDate: String
         isSaved = false,
         isReadOnStorage = false,
         isImportant = important,
+        commentCount = commentCount!!,
     )
 }

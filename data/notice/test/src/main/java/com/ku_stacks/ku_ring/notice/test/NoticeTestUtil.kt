@@ -25,6 +25,7 @@ object NoticeTestUtil {
         isSaved = false,
         isReadOnStorage = false,
         isImportant = false,
+        commentCount = 0,
     )
 
     fun fakeNotice() = Notice(
@@ -42,6 +43,7 @@ object NoticeTestUtil {
         isImportant = false,
         isSubscribing = false,
         tag = emptyList(),
+        commentCount = 0,
     )
 
     fun fakeSubscribeListResponse() = SubscribeListResponse(
@@ -77,6 +79,7 @@ object NoticeTestUtil {
         subject = "2023학년도 전과 선발자 안내",
         postedDate = "20230208",
         url = "http://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do?forum=notice&sort=6&id=5b4f972&cat=0000300001",
+        commentCount = 0,
     )
 
     fun fakeEmptyNoticeListResponse() = NoticeListResponse(
@@ -97,6 +100,7 @@ object NoticeTestUtil {
                 postedDate = "20230208",
                 url = "http://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do?forum=notice&sort=6&id=5b4f972&cat=0000300001",
                 important = false,
+                commentCount = 0,
             )
         }
     )

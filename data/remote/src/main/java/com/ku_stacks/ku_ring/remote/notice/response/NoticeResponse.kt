@@ -17,4 +17,6 @@ data class NoticeResponse(
     val category: String,
     @SerializedName("important")
     val isImportant: Boolean,
+    @SerializedName("commentCount")
+    val commentCount: Int,
 )

@@ -8,4 +8,5 @@ data class DepartmentNoticeResponse(
     val url: String?,
     val category: String?,
     val important: Boolean,
+    val commentCount: Int?,
 )
