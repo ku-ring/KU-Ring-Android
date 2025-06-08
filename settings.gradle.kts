@@ -59,3 +59,4 @@ include(
     ":feature:kuringbot",
     ":feature:edit_departments"
 )
+include(":domain:report")
