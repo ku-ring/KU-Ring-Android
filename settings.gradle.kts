@@ -37,6 +37,7 @@ include(
     ":data:local",
     ":data:local:test",
     ":data:remote",
+    ":data:report",
     ":data:space",
     ":data:search",
     ":data:verification",
