@@ -45,6 +45,7 @@ fun LazyPagingCommentColumn(
     comments: LazyPagingItems<NoticeComment>,
     replyCommentId: Int?,
     setReplyCommentId: (Int?) -> Unit,
+    onReportComment: (Int) -> Unit,
     onDeleteIconClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -76,7 +77,7 @@ fun LazyPagingCommentColumn(
                 dropdownCommentId = dropdownCommentId,
                 onDropdownShow = { dropdownCommentId = it },
                 onDismissDropdown = { dropdownCommentId = null },
-                onReport = { /* TODO: implement */ },
+                onReport = onReportComment,
             )
 
             if (comments.loadState.append == LoadState.Loading) {
@@ -162,6 +163,7 @@ private fun LazyPagingCommentColumnPreview() {
             comments = fakePagingData,
             replyCommentId = fakePagingData[0]!!.comment.id,
             setReplyCommentId = {},
+            onReportComment = {},
             onDeleteIconClick = {},
             modifier = Modifier
                 .background(KuringTheme.colors.background)

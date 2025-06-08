@@ -28,14 +28,17 @@ internal fun NoticeDetailScreen(
         enterTransition = {
             slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Left)
         },
-        exitTransition = {
+        popExitTransition = {
             slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Left)
-        }
+        },
     ) {
         composable<NoticeDetailRoute.NoticeWeb> {
             NoticeWebScreen(
                 webViewNotice = webViewNotice,
                 onNavigateBack = onClose,
+                onReportComment = { commentId ->
+                    navController.navigate(NoticeDetailRoute.ReportComment(commentId))
+                },
                 modifier = Modifier
                     .background(KuringTheme.colors.background)
                     .fillMaxSize(),

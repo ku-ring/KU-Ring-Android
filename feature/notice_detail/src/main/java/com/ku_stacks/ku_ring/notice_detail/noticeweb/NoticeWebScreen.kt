@@ -58,6 +58,7 @@ import kotlinx.coroutines.launch
 fun NoticeWebScreen(
     webViewNotice: WebViewNotice,
     onNavigateBack: () -> Unit,
+    onReportComment: (Int) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: NoticeWebViewModel = hiltViewModel(),
 ) {
@@ -94,6 +95,7 @@ fun NoticeWebScreen(
         },
         setReplyCommentId = viewModel::setReplyCommentId,
         replyCommentId = replyCommentId,
+        onReportComment = onReportComment,
         deleteCommentId = deleteCommentId,
         deleteComment = {
             viewModel.deleteComment(
@@ -120,6 +122,7 @@ private fun NoticeWebScreen(
     onCreateComment: (String) -> Unit,
     setReplyCommentId: (Int?) -> Unit,
     replyCommentId: Int?,
+    onReportComment: (Int) -> Unit,
     deleteCommentId: Int?,
     deleteComment: () -> Unit,
     onShowDeleteCommentPopup: (Int) -> Unit,
@@ -192,6 +195,7 @@ private fun NoticeWebScreen(
                     replyCommentId = replyCommentId,
                     onCreateComment = onCreateComment,
                     setReplyCommentId = setReplyCommentId,
+                    onReportComment = onReportComment,
                     onDeleteComment = onShowDeleteCommentPopup,
                     modifier = Modifier.fillMaxSize(),
                 )
@@ -304,6 +308,7 @@ private fun NoticeWebScreenPreview() {
             onCreateComment = {},
             setReplyCommentId = {},
             replyCommentId = null,
+            onReportComment = {},
             deleteCommentId = null,
             deleteComment = {},
             onShowDeleteCommentPopup = {},
