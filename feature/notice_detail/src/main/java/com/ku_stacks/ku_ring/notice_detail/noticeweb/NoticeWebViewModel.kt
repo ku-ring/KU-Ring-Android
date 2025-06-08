@@ -1,8 +1,9 @@
-package com.ku_stacks.ku_ring.notice_detail
+package com.ku_stacks.ku_ring.notice_detail.noticeweb
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import androidx.paging.Pager
 import com.ku_stacks.ku_ring.domain.NoticeComment
 import com.ku_stacks.ku_ring.domain.WebViewNotice
@@ -10,6 +11,7 @@ import com.ku_stacks.ku_ring.domain.noticecomment.usecase.CreateNoticeCommentUse
 import com.ku_stacks.ku_ring.domain.noticecomment.usecase.DeleteNoticeCommentUseCase
 import com.ku_stacks.ku_ring.domain.noticecomment.usecase.GetNoticeCommentUseCase
 import com.ku_stacks.ku_ring.notice.repository.NoticeRepository
+import com.ku_stacks.ku_ring.notice_detail.NoticeDetailRoute
 import com.ku_stacks.ku_ring.util.suspendRunCatching
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,7 +29,9 @@ class NoticeWebViewModel @Inject constructor(
     private val getNoticeCommentUseCase: GetNoticeCommentUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
-    private val webViewNotice: WebViewNotice? by lazy { savedStateHandle[WebViewNotice.EXTRA_KEY] }
+    private val webViewNotice: WebViewNotice by lazy {
+        savedStateHandle.toRoute<NoticeDetailRoute.NoticeWeb>().to()
+    }
 
     private val _isSaved = MutableStateFlow(false)
     val isSaved: StateFlow<Boolean>
