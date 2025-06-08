@@ -96,13 +96,13 @@ class NoticeWebViewModel @Inject constructor(
     fun createComment(
         comment: String,
         onSuccess: () -> Unit,
-        onFail: () -> Unit,
+        onFail: (String?) -> Unit,
     ) {
         webViewNotice?.id?.let { id ->
             viewModelScope.launch {
                 createNoticeCommentUseCase(id, replyCommentId.value, comment)
                     .onSuccess { onSuccess() }
-                    .onFailure { onFail() }
+                    .onFailure { onFail(it.message) }
             }
         }
     }

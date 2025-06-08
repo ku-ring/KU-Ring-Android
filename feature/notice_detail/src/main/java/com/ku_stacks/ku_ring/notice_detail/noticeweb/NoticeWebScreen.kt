@@ -90,7 +90,7 @@ fun NoticeWebScreen(
             viewModel.createComment(
                 comment = comment,
                 onSuccess = { makeToast(onCreateCommentSuccessMessage) },
-                onFail = { makeToast(onCreateCommentFailMessage) },
+                onFail = { message -> makeToast(message ?: onCreateCommentFailMessage) },
             )
         },
         setReplyCommentId = viewModel::setReplyCommentId,
