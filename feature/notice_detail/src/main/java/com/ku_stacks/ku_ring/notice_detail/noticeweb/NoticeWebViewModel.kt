@@ -125,7 +125,7 @@ class NoticeWebViewModel @Inject constructor(
 
     fun deleteComment(
         onSuccess: () -> Unit,
-        onFail: () -> Unit,
+        onFailure: () -> Unit,
     ) {
         val noticeId = webViewNotice?.id
         val deleteCommentId = deleteCommentId.value
@@ -133,7 +133,7 @@ class NoticeWebViewModel @Inject constructor(
             viewModelScope.launch {
                 deleteNoticeCommentUseCase(noticeId, deleteCommentId)
                     .onSuccess { onSuccess() }
-                    .onFailure { onFail() }
+                    .onFailure { onFailure() }
             }
         }
     }

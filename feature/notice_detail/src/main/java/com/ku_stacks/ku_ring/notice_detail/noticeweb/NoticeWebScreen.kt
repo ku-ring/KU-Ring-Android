@@ -100,7 +100,7 @@ fun NoticeWebScreen(
         deleteComment = {
             viewModel.deleteComment(
                 onSuccess = { makeToast(onDeleteCommentSuccessMessage) },
-                onFail = { makeToast(onDeleteCommentFailMessage) }
+                onFailure = { makeToast(onDeleteCommentFailMessage) }
             )
         },
         onShowDeleteCommentPopup = viewModel::showDeleteCommentPopup,
