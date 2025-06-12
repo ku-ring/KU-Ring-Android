@@ -90,7 +90,7 @@ fun NoticeWebScreen(
             viewModel.createComment(
                 comment = comment,
                 onSuccess = { makeToast(onCreateCommentSuccessMessage) },
-                onFail = { makeToast(onCreateCommentFailMessage) },
+                onFailure = { message -> makeToast(message ?: onCreateCommentFailMessage) },
             )
         },
         setReplyCommentId = viewModel::setReplyCommentId,
@@ -100,7 +100,7 @@ fun NoticeWebScreen(
         deleteComment = {
             viewModel.deleteComment(
                 onSuccess = { makeToast(onDeleteCommentSuccessMessage) },
-                onFail = { makeToast(onDeleteCommentFailMessage) }
+                onFailure = { makeToast(onDeleteCommentFailMessage) }
             )
         },
         onShowDeleteCommentPopup = viewModel::showDeleteCommentPopup,

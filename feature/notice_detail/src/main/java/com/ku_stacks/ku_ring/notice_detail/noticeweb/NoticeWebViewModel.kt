@@ -96,13 +96,13 @@ class NoticeWebViewModel @Inject constructor(
     fun createComment(
         comment: String,
         onSuccess: () -> Unit,
-        onFail: () -> Unit,
+        onFailure: (String?) -> Unit,
     ) {
         webViewNotice?.id?.let { id ->
             viewModelScope.launch {
                 createNoticeCommentUseCase(id, replyCommentId.value, comment)
                     .onSuccess { onSuccess() }
-                    .onFailure { onFail() }
+                    .onFailure { onFailure(it.message) }
             }
         }
     }
@@ -125,7 +125,7 @@ class NoticeWebViewModel @Inject constructor(
 
     fun deleteComment(
         onSuccess: () -> Unit,
-        onFail: () -> Unit,
+        onFailure: () -> Unit,
     ) {
         val noticeId = webViewNotice?.id
         val deleteCommentId = deleteCommentId.value
@@ -133,7 +133,7 @@ class NoticeWebViewModel @Inject constructor(
             viewModelScope.launch {
                 deleteNoticeCommentUseCase(noticeId, deleteCommentId)
                     .onSuccess { onSuccess() }
-                    .onFailure { onFail() }
+                    .onFailure { onFailure() }
             }
         }
     }
