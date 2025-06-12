@@ -16,6 +16,7 @@ dependencies {
     implementation(projects.data.domain)
     implementation(projects.data.notice)
     implementation(projects.domain.noticecomment)
+    implementation(projects.domain.report)
 
     implementation(libs.bundles.compose.interop)
 }

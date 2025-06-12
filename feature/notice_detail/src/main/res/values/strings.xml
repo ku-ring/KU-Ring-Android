@@ -23,4 +23,11 @@
     <string name="comment_bottom_sheet_dialog_delete_text">삭제하기</string>
     <string name="comment_bottom_sheet_delete_success">댓글이 삭제되었어요.</string>
     <string name="comment_bottom_sheet_delete_fail">댓글 삭제에 실패했어요. 잠시 후 다시 시도해 주세요.</string>
+
+    <!--  Comment report resources  -->
+    <string name="comment_report_title">댓글 신고하기</string>
+    <string name="comment_report_placeholder">신고 사유를 입력해 주세요.</string>
+    <string name="comment_report_too_short">신고 사유를 입력해 주세요.</string>
+    <string name="comment_report_cta">댓글 신고</string>
+    <string name="comment_report_toast_success">댓글 신고에 성공했습니다.</string>"
 </resources>

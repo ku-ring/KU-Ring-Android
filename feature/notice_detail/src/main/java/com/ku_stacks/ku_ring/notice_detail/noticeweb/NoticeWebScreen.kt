@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.notice_detail
+package com.ku_stacks.ku_ring.notice_detail.noticeweb
 
 import android.content.Context
 import android.widget.Toast
@@ -49,6 +49,7 @@ import com.ku_stacks.ku_ring.designsystem.components.topbar.CenterTitleTopBar
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.NoticeComment
 import com.ku_stacks.ku_ring.domain.WebViewNotice
+import com.ku_stacks.ku_ring.notice_detail.R
 import com.ku_stacks.ku_ring.notice_detail.component.CommentsBottomSheet
 import com.ku_stacks.ku_ring.util.WordConverter
 import kotlinx.coroutines.launch
@@ -57,6 +58,7 @@ import kotlinx.coroutines.launch
 fun NoticeWebScreen(
     webViewNotice: WebViewNotice,
     onNavigateBack: () -> Unit,
+    onReportComment: (Int) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: NoticeWebViewModel = hiltViewModel(),
 ) {
@@ -88,16 +90,17 @@ fun NoticeWebScreen(
             viewModel.createComment(
                 comment = comment,
                 onSuccess = { makeToast(onCreateCommentSuccessMessage) },
-                onFail = { makeToast(onCreateCommentFailMessage) },
+                onFailure = { message -> makeToast(message ?: onCreateCommentFailMessage) },
             )
         },
         setReplyCommentId = viewModel::setReplyCommentId,
         replyCommentId = replyCommentId,
+        onReportComment = onReportComment,
         deleteCommentId = deleteCommentId,
         deleteComment = {
             viewModel.deleteComment(
                 onSuccess = { makeToast(onDeleteCommentSuccessMessage) },
-                onFail = { makeToast(onDeleteCommentFailMessage) }
+                onFailure = { makeToast(onDeleteCommentFailMessage) }
             )
         },
         onShowDeleteCommentPopup = viewModel::showDeleteCommentPopup,
@@ -119,6 +122,7 @@ private fun NoticeWebScreen(
     onCreateComment: (String) -> Unit,
     setReplyCommentId: (Int?) -> Unit,
     replyCommentId: Int?,
+    onReportComment: (Int) -> Unit,
     deleteCommentId: Int?,
     deleteComment: () -> Unit,
     onShowDeleteCommentPopup: (Int) -> Unit,
@@ -191,6 +195,7 @@ private fun NoticeWebScreen(
                     replyCommentId = replyCommentId,
                     onCreateComment = onCreateComment,
                     setReplyCommentId = setReplyCommentId,
+                    onReportComment = onReportComment,
                     onDeleteComment = onShowDeleteCommentPopup,
                     modifier = Modifier.fillMaxSize(),
                 )
@@ -303,6 +308,7 @@ private fun NoticeWebScreenPreview() {
             onCreateComment = {},
             setReplyCommentId = {},
             replyCommentId = null,
+            onReportComment = {},
             deleteCommentId = null,
             deleteComment = {},
             onShowDeleteCommentPopup = {},

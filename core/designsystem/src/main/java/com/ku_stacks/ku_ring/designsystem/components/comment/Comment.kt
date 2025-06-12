@@ -207,11 +207,11 @@ private fun CommentHeader(
                 tint = KuringTheme.colors.textBody,
             )
             CommentDropdownMenu(
-                isDropdownVisible = isDropdownVisible, // TODO
-                onDismissDropdown = onDismissDropdown,// TODO
-                onReport = { onReport(commentId) }, // TODO
+                isDropdownVisible = isDropdownVisible,
+                onDismissDropdown = onDismissDropdown,
+                onReport = { onReport(commentId) },
                 isDeletable = isDeletable,
-                onDelete = { onDeleteComment(commentId) }, // TODO
+                onDelete = { onDeleteComment(commentId) },
             )
         }
     }
