@@ -30,7 +30,7 @@ class NoticeWebViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val webViewNotice: WebViewNotice by lazy {
-        savedStateHandle.toRoute<NoticeDetailRoute.NoticeWeb>().to()
+        savedStateHandle.toRoute<NoticeDetailRoute.NoticeWeb>().toWebViewNotice()
     }
 
     private val _isSaved = MutableStateFlow(false)

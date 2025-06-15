@@ -43,6 +43,7 @@ include(
     ":data:verification",
     ":domain:user",
     ":domain:noticecomment",
+    ":domain:report",
     ":core:thirdparty",
     ":core:work",
     ":core:testUtil",
@@ -59,4 +60,3 @@ include(
     ":feature:kuringbot",
     ":feature:edit_departments"
 )
-include(":domain:report")

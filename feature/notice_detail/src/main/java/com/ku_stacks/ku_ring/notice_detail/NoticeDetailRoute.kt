@@ -26,7 +26,7 @@ sealed interface NoticeDetailRoute : KuringRoute {
             )
         }
 
-        fun to(): WebViewNotice = WebViewNotice(
+        fun toWebViewNotice(): WebViewNotice = WebViewNotice(
             url = url,
             articleId = articleId,
             id = id,
