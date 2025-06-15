@@ -52,7 +52,7 @@ class NoticeWebViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             noticeRepository.getSavedNotices().collect { savedNotices ->
-                _isSaved.value = savedNotices.any { it.articleId == webViewNotice?.articleId }
+                _isSaved.value = savedNotices.any { it.articleId == webViewNotice.articleId }
             }
         }
     }
@@ -75,18 +75,17 @@ class NoticeWebViewModel @Inject constructor(
     }
 
     fun onSaveButtonClick() {
-        if (webViewNotice == null) return
         viewModelScope.launch {
             noticeRepository.updateSavedStatus(
-                webViewNotice?.articleId.orEmpty(),
-                webViewNotice?.category.orEmpty(),
+                webViewNotice.articleId,
+                webViewNotice.category,
                 !isSaved.value
             )
         }
     }
 
     fun onCommentBottomSheetOpen() {
-        webViewNotice?.id?.let { id ->
+        webViewNotice.id.let { id ->
             if (commentsPager.value == null) {
                 _commentsPager.value = getNoticeCommentUseCase(id)
             }
@@ -98,7 +97,7 @@ class NoticeWebViewModel @Inject constructor(
         onSuccess: () -> Unit,
         onFailure: (String?) -> Unit,
     ) {
-        webViewNotice?.id?.let { id ->
+        webViewNotice.id.let { id ->
             viewModelScope.launch {
                 createNoticeCommentUseCase(id, replyCommentId.value, comment)
                     .onSuccess { onSuccess() }
@@ -127,9 +126,9 @@ class NoticeWebViewModel @Inject constructor(
         onSuccess: () -> Unit,
         onFailure: () -> Unit,
     ) {
-        val noticeId = webViewNotice?.id
+        val noticeId = webViewNotice.id
         val deleteCommentId = deleteCommentId.value
-        if (noticeId != null && deleteCommentId != null) {
+        if (deleteCommentId != null) {
             viewModelScope.launch {
                 deleteNoticeCommentUseCase(noticeId, deleteCommentId)
                     .onSuccess { onSuccess() }

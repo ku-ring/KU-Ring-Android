@@ -29,5 +29,5 @@
     <string name="comment_report_placeholder">신고 사유를 입력해 주세요.</string>
     <string name="comment_report_too_short">신고 사유를 입력해 주세요.</string>
     <string name="comment_report_cta">댓글 신고</string>
-    <string name="comment_report_toast_success">댓글 신고에 성공했습니다.</string>"
+    <string name="comment_report_toast_success">댓글 신고에 성공했습니다.</string>
 </resources>
