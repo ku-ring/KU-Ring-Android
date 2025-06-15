@@ -1,8 +1,9 @@
-package com.ku_stacks.ku_ring.notice_detail
+package com.ku_stacks.ku_ring.notice_detail.noticeweb
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import androidx.paging.Pager
 import com.ku_stacks.ku_ring.domain.NoticeComment
 import com.ku_stacks.ku_ring.domain.WebViewNotice
@@ -10,6 +11,7 @@ import com.ku_stacks.ku_ring.domain.noticecomment.usecase.CreateNoticeCommentUse
 import com.ku_stacks.ku_ring.domain.noticecomment.usecase.DeleteNoticeCommentUseCase
 import com.ku_stacks.ku_ring.domain.noticecomment.usecase.GetNoticeCommentUseCase
 import com.ku_stacks.ku_ring.notice.repository.NoticeRepository
+import com.ku_stacks.ku_ring.notice_detail.NoticeDetailRoute
 import com.ku_stacks.ku_ring.util.suspendRunCatching
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,7 +29,9 @@ class NoticeWebViewModel @Inject constructor(
     private val getNoticeCommentUseCase: GetNoticeCommentUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
-    private val webViewNotice: WebViewNotice? by lazy { savedStateHandle[WebViewNotice.EXTRA_KEY] }
+    private val webViewNotice: WebViewNotice by lazy {
+        savedStateHandle.toRoute<NoticeDetailRoute.NoticeWeb>().toWebViewNotice()
+    }
 
     private val _isSaved = MutableStateFlow(false)
     val isSaved: StateFlow<Boolean>
@@ -48,7 +52,7 @@ class NoticeWebViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             noticeRepository.getSavedNotices().collect { savedNotices ->
-                _isSaved.value = savedNotices.any { it.articleId == webViewNotice?.articleId }
+                _isSaved.value = savedNotices.any { it.articleId == webViewNotice.articleId }
             }
         }
     }
@@ -71,18 +75,17 @@ class NoticeWebViewModel @Inject constructor(
     }
 
     fun onSaveButtonClick() {
-        if (webViewNotice == null) return
         viewModelScope.launch {
             noticeRepository.updateSavedStatus(
-                webViewNotice?.articleId.orEmpty(),
-                webViewNotice?.category.orEmpty(),
+                webViewNotice.articleId,
+                webViewNotice.category,
                 !isSaved.value
             )
         }
     }
 
     fun onCommentBottomSheetOpen() {
-        webViewNotice?.id?.let { id ->
+        webViewNotice.id.let { id ->
             if (commentsPager.value == null) {
                 _commentsPager.value = getNoticeCommentUseCase(id)
             }
@@ -92,13 +95,13 @@ class NoticeWebViewModel @Inject constructor(
     fun createComment(
         comment: String,
         onSuccess: () -> Unit,
-        onFail: () -> Unit,
+        onFailure: (String?) -> Unit,
     ) {
-        webViewNotice?.id?.let { id ->
+        webViewNotice.id.let { id ->
             viewModelScope.launch {
                 createNoticeCommentUseCase(id, replyCommentId.value, comment)
                     .onSuccess { onSuccess() }
-                    .onFailure { onFail() }
+                    .onFailure { onFailure(it.message) }
             }
         }
     }
@@ -121,15 +124,15 @@ class NoticeWebViewModel @Inject constructor(
 
     fun deleteComment(
         onSuccess: () -> Unit,
-        onFail: () -> Unit,
+        onFailure: () -> Unit,
     ) {
-        val noticeId = webViewNotice?.id
+        val noticeId = webViewNotice.id
         val deleteCommentId = deleteCommentId.value
-        if (noticeId != null && deleteCommentId != null) {
+        if (deleteCommentId != null) {
             viewModelScope.launch {
                 deleteNoticeCommentUseCase(noticeId, deleteCommentId)
                     .onSuccess { onSuccess() }
-                    .onFailure { onFail() }
+                    .onFailure { onFailure() }
             }
         }
     }

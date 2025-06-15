@@ -8,6 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.rememberNavController
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.WebViewNotice
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,9 +25,11 @@ class NoticeWebActivity : AppCompatActivity() {
 
         setContent {
             KuringTheme {
-                NoticeWebScreen(
+                val navController = rememberNavController()
+                NoticeDetailScreen(
+                    navController = navController,
                     webViewNotice = webViewNotice,
-                    onNavigateBack = ::finish,
+                    onClose = ::finish,
                     modifier = Modifier.fillMaxSize(),
                 )
             }

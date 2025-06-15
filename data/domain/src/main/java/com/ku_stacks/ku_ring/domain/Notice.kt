@@ -9,6 +9,7 @@ data class Notice(
     val url: String,
     val articleId: String,
     val id: Int,
+    val commentCount: Int,
     var isNew: Boolean,
     var isRead: Boolean,
     var isSubscribing: Boolean,

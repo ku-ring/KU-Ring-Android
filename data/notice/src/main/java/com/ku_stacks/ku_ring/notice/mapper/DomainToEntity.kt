@@ -16,4 +16,5 @@ fun Notice.toEntity(): NoticeEntity = NoticeEntity(
     isSaved = isSaved,
     isReadOnStorage = isReadOnStorage,
     isImportant = isImportant,
+    commentCount = commentCount,
 )

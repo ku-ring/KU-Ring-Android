@@ -81,6 +81,7 @@ dependencies {
     implementation(projects.core.thirdparty)
     implementation(projects.data.domain)
     implementation(projects.data.noticecomment)
+    implementation(projects.data.report)
     implementation(projects.feature.editDepartments)
     implementation(projects.feature.editSubscription)
     implementation(projects.feature.feedback)

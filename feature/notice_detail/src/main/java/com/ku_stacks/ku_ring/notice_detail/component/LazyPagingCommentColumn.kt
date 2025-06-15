@@ -9,6 +9,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -41,9 +45,11 @@ fun LazyPagingCommentColumn(
     comments: LazyPagingItems<NoticeComment>,
     replyCommentId: Int?,
     setReplyCommentId: (Int?) -> Unit,
+    onReportComment: (Int) -> Unit,
     onDeleteIconClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    var dropdownCommentId by remember { mutableStateOf<Int?>(null) }
     LazyColumn(
         modifier = modifier
             .background(KuringTheme.colors.background)
@@ -68,6 +74,10 @@ fun LazyPagingCommentColumn(
                 replyCommentId = replyCommentId,
                 setReplyCommentId = setReplyCommentId,
                 onDeleteIconClick = onDeleteIconClick,
+                dropdownCommentId = dropdownCommentId,
+                onDropdownShow = { dropdownCommentId = it },
+                onDismissDropdown = { dropdownCommentId = null },
+                onReport = onReportComment,
             )
 
             if (comments.loadState.append == LoadState.Loading) {
@@ -101,6 +111,10 @@ private fun LazyListScope.commentItems(
     replyCommentId: Int?,
     setReplyCommentId: (Int?) -> Unit,
     onDeleteIconClick: (Int) -> Unit,
+    dropdownCommentId: Int?,
+    onDropdownShow: (Int) -> Unit,
+    onDismissDropdown: () -> Unit,
+    onReport: (Int) -> Unit,
 ) {
     items(
         count = comments.itemCount,
@@ -115,7 +129,14 @@ private fun LazyListScope.commentItems(
                 onReplyIconClick = {
                     setReplyCommentId(if (replyCommentId == null) comment.comment.id else null)
                 },
-                onDeleteComment = onDeleteIconClick,
+                onDeleteComment = {
+                    onDeleteIconClick(comment.comment.id)
+                    onDismissDropdown()
+                },
+                dropdownCommentId = dropdownCommentId,
+                onDropdownShow = onDropdownShow,
+                onDismissDropdown = onDismissDropdown,
+                onReport = onReport,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 1.dp)
@@ -124,7 +145,7 @@ private fun LazyListScope.commentItems(
                             color = borderColor,
                             start = Offset(0f, size.height),
                             end = Offset(size.width, size.height),
-                            strokeWidth = 1.dp.toPx(),
+                            strokeWidth = 0.3.dp.toPx(),
                         )
                     },
             )
@@ -142,6 +163,7 @@ private fun LazyPagingCommentColumnPreview() {
             comments = fakePagingData,
             replyCommentId = fakePagingData[0]!!.comment.id,
             setReplyCommentId = {},
+            onReportComment = {},
             onDeleteIconClick = {},
             modifier = Modifier
                 .background(KuringTheme.colors.background)

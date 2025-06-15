@@ -64,6 +64,9 @@ interface NoticeDao {
     @Query("UPDATE NoticeEntity SET id = :id WHERE articleId = :articleId AND category = :category")
     suspend fun updateNoticeId(articleId: String, category: String, id: Int)
 
+    @Query("UPDATE NoticeEntity SET commentCount = :commentCount WHERE articleId = :articleId AND category = :category AND commentCount != :commentCount")
+    suspend fun updateNoticeCommentCount(articleId: String, category: String, commentCount: Int)
+
     @Query("UPDATE NoticeEntity SET isSaved = 0")
     suspend fun clearSavedNotices()
 
@@ -89,6 +92,13 @@ interface NoticeDao {
 
     @Query("UPDATE NoticeEntity SET id = :id WHERE articleId = :articleId AND department LIKE :shortName")
     suspend fun updateDepartmentNoticeId(articleId: String, shortName: String, id: Int)
+
+    @Query("UPDATE NoticeEntity SET commentCount = :commentCount WHERE articleId = :articleId AND department LIKE :shortName AND commentCount != :commentCount")
+    suspend fun updateDepartmentNoticeCommentCount(
+        articleId: String,
+        shortName: String,
+        commentCount: Int
+    )
 
     @Query("DELETE FROM NoticeEntity WHERE department LIKE :shortName")
     suspend fun clearDepartment(shortName: String)

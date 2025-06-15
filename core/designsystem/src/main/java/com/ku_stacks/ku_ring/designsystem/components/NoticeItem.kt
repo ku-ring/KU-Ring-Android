@@ -8,9 +8,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -18,8 +21,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -49,29 +54,40 @@ fun NoticeItem(
 ) {
     val background =
         if (notice.isImportant) KuringTheme.colors.mainPrimarySelected else KuringTheme.colors.background
-    Row(
-        modifier = modifier
-            .clickable { onClick(notice) }
-            .fillMaxWidth()
-            .background(background)
-            .padding(horizontal = 20.dp),
-        verticalAlignment = contentVerticalAlignment,
-    ) {
-        NoticeItemContent(
-            notice = notice,
+
+    Box(modifier = modifier) {
+        Row(
             modifier = Modifier
-                .padding(vertical = 12.dp)
-                .weight(1f),
-        )
-        if (content != null) {
-            content()
-        } else if (notice.isSaved) {
-            NoticeItemBookmarkIcon(
+                .clickable { onClick(notice) }
+                .fillMaxWidth()
+                .background(background)
+                .padding(horizontal = 20.dp),
+            verticalAlignment = contentVerticalAlignment,
+        ) {
+            NoticeItemContent(
+                notice = notice,
                 modifier = Modifier
-                    .height(IntrinsicSize.Min)
-                    .align(Alignment.Top),
+                    .padding(vertical = 12.dp)
+                    .weight(1f),
             )
+            if (content != null) {
+                content()
+            } else if (notice.isSaved) {
+                NoticeItemBookmarkIcon(
+                    modifier = Modifier
+                        .height(IntrinsicSize.Min)
+                        .align(Alignment.Top),
+                )
+            }
         }
+
+        NoticeItemCommentCount(
+            commentCount = notice.commentCount,
+            isRead = notice.isRead,
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(end = 20.dp, bottom = 12.dp)
+        )
     }
 }
 
@@ -164,6 +180,41 @@ private fun NoticeItemDate(
 }
 
 @Composable
+private fun NoticeItemCommentCount(
+    commentCount: Int,
+    isRead: Boolean,
+    modifier: Modifier = Modifier,
+) {
+    val commentCountText =
+        if (commentCount < 100) commentCount.toString()
+        else stringResource(R.string.notice_item_many_comments)
+    val color = if (isRead) KuringTheme.colors.textCaption1 else KuringTheme.colors.textBody
+
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Icon(
+            imageVector = ImageVector.vectorResource(R.drawable.ic_message_circle_v2),
+            contentDescription = null,
+            tint = color,
+            modifier = Modifier.size(14.dp),
+        )
+        Spacer(Modifier.width(2.dp))
+        Text(
+            text = commentCountText,
+            style = TextStyle(
+                fontFamily = Pretendard,
+                fontSize = 14.sp,
+                lineHeight = 22.82.sp,
+                fontWeight = FontWeight(500),
+                color = color,
+            ),
+        )
+    }
+}
+
+@Composable
 private fun NoticeItemBookmarkIcon(
     modifier: Modifier = Modifier,
 ) {
@@ -190,6 +241,7 @@ private val notice = Notice(
     isReadOnStorage = false,
     isImportant = false,
     tag = listOf("지급"),
+    commentCount = 0
 )
 
 @LightAndDarkPreview

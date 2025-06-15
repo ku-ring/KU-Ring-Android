@@ -20,7 +20,7 @@ import com.ku_stacks.ku_ring.local.entity.SearchHistoryEntity
         KuringBotMessageEntity::class,
         CategoryOrderEntity::class,
     ],
-    version = 9,
+    version = 10,
     exportSchema = false
 )
 abstract class KuRingDatabase : RoomDatabase() {
