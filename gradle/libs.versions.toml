@@ -50,7 +50,7 @@ androidx-espresso = "3.6.1"
 
 # Third Party
 coil = '2.7.0'
-okhttp = '4.12.0'
+okhttp = '5.1.0'
 retrofit = '3.0.0'
 firebase = '33.16.0'
 crashlytics = "3.0.4"
