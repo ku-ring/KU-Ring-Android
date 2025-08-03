@@ -9,10 +9,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.kuringbot.compose.KuringBotScreen
+import com.ku_stacks.ku_ring.ui_util.KuringNavigator
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class KuringBotActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var navigator: KuringNavigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,6 +26,7 @@ class KuringBotActivity : AppCompatActivity() {
             KuringTheme {
                 KuringBotScreen(
                     onBackButtonClick = ::finish,
+                    onMoveToLogin = { navigator.navigateToAuth(this) },
                     modifier = Modifier.fillMaxSize(),
                 )
             }
