@@ -50,7 +50,6 @@ internal fun ApplyKuringTheme(
         LocalKuringColors provides rememberedKuringColors,
         LocalKuringTypography provides typography,
     ) {
-        // TODO: MaterialTheme.kt 보고 ProvideTextStyle() 추가하기
         content()
     }
 }
