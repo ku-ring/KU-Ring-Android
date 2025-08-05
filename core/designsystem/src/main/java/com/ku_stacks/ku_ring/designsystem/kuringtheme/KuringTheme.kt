@@ -8,6 +8,10 @@ import androidx.compose.runtime.remember
 object KuringTheme {
     val colors: KuringColors
         @Composable get() = LocalKuringColors.current
+
+    val typography: KuringTypography
+        @Composable
+        get() = LocalKuringTypography.current
 }
 
 /**
@@ -31,16 +35,21 @@ fun KuringTheme(
  * 쿠링 테마이다. 현재 색깔 테마가 선언되어 있다.
  *
  * @param colors 쿠링 색깔 테마
+ * @param typography 쿠링 폰트 테마
  */
 @Composable
 internal fun ApplyKuringTheme(
     colors: KuringColors = KuringTheme.colors,
+    typography: KuringTypography = KuringTheme.typography,
     content: @Composable () -> Unit,
 ) {
     val rememberedKuringColors = remember {
         colors.copy()
     }.apply { updateColorsFrom(colors) }
-    CompositionLocalProvider(LocalKuringColors provides rememberedKuringColors) {
+    CompositionLocalProvider(
+        LocalKuringColors provides rememberedKuringColors,
+        LocalKuringTypography provides typography,
+    ) {
         // TODO: MaterialTheme.kt 보고 ProvideTextStyle() 추가하기
         content()
     }
