@@ -20,7 +20,7 @@ class KuringTypography(
     val body2: TextStyle = KuringTypographyTokens.Body2,
     val caption1: TextStyle = KuringTypographyTokens.Caption1,
     val caption1_1: TextStyle = KuringTypographyTokens.Caption1_1,
-    val caption2: TextStyle = KuringTypographyTokens.Caption1,
+    val caption2: TextStyle = KuringTypographyTokens.Caption2,
     val tag: TextStyle = KuringTypographyTokens.Tag,
     val tag2: TextStyle = KuringTypographyTokens.Tag,
     val inputField: TextStyle = KuringTypographyTokens.InputField,
