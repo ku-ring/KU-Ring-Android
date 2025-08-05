@@ -1,8 +1,14 @@
 package com.ku_stacks.ku_ring.designsystem.kuringtheme
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.KuringTypographyTokens
 
 /**
@@ -108,3 +114,66 @@ class KuringTypography(
 }
 
 internal val LocalKuringTypography = staticCompositionLocalOf { KuringTypography() }
+
+@Preview(showBackground = true)
+@Composable
+private fun KuringTypographyPreview() {
+    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        Text(
+            "KuringTheme NoticeTitle",
+            style = KuringTypography().noticeTitle,
+        )
+        Text(
+            "KuringTheme Title1",
+            style = KuringTypography().title1,
+        )
+        Text(
+            "KuringTheme Title2",
+            style = KuringTypography().title2,
+        )
+        Text(
+            "KuringTheme ViewTitle",
+            style = KuringTypography().viewTitle,
+        )
+        Text(
+            "KuringTheme TitleSB",
+            style = KuringTypography().titleSB,
+        )
+        Text(
+            "KuringTheme Body1",
+            style = KuringTypography().body1,
+        )
+        Text(
+            "KuringTheme Body2",
+            style = KuringTypography().body2,
+        )
+        Text(
+            "KuringTheme Caption1",
+            style = KuringTypography().caption1,
+        )
+        Text(
+            "KuringTheme Caption1_1",
+            style = KuringTypography().caption1_1,
+        )
+        Text(
+            "KuringTheme Caption2",
+            style = KuringTypography().caption2,
+        )
+        Text(
+            "KuringTheme Tag1",
+            style = KuringTypography().caption1,
+        )
+        Text(
+            "KuringTheme Tag2",
+            style = KuringTypography().caption1,
+        )
+        Text(
+            "KuringTheme InputField",
+            style = KuringTypography().inputField,
+        )
+        Text(
+            "KuringTheme BottomNavigationDefault",
+            style = KuringTypography().bottomNavigationDefault,
+        )
+    }
+}
