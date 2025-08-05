@@ -28,7 +28,7 @@ class KuringTypography(
     val caption1_1: TextStyle = KuringTypographyTokens.Caption1_1,
     val caption2: TextStyle = KuringTypographyTokens.Caption2,
     val tag: TextStyle = KuringTypographyTokens.Tag,
-    val tag2: TextStyle = KuringTypographyTokens.Tag,
+    val tag2: TextStyle = KuringTypographyTokens.Tag2,
     val inputField: TextStyle = KuringTypographyTokens.InputField,
     val bottomNavigationDefault: TextStyle = KuringTypographyTokens.BottomNavigationDefault,
 ) {
@@ -160,12 +160,12 @@ private fun KuringTypographyPreview() {
             style = KuringTypography().caption2,
         )
         Text(
-            "KuringTheme Tag1",
-            style = KuringTypography().caption1,
+            "KuringTheme Tag",
+            style = KuringTypography().tag,
         )
         Text(
             "KuringTheme Tag2",
-            style = KuringTypography().caption1,
+            style = KuringTypography().tag2,
         )
         Text(
             "KuringTheme InputField",

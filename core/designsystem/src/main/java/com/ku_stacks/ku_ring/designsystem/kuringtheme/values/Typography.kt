@@ -97,6 +97,12 @@ internal object KuringTypographyTokens {
             fontWeight = FontWeight.SemiBold,
             lineHeight = 1.5.em,
         )
+    val Tag2 =
+        KuringDefaultTextStyle.copy(
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Medium,
+            lineHeight = 1.5.em,
+        )
     val InputField =
         KuringDefaultTextStyle.copy(
             fontSize = 16.sp,
