@@ -66,7 +66,6 @@ internal object KuringTypographyTokens {
             fontWeight = FontWeight.Medium,
             lineHeight = 1.63.em,
         )
-    // Body2-Regular, Body2-SemiBold는  KuringTheme.typography.Body2.copy(fontWeight = FontWeight.Regular)처럼 사용
     val Body2 =
         KuringDefaultTextStyle.copy(
             fontSize = 16.sp,
