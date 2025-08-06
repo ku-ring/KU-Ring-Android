@@ -32,7 +32,7 @@ fun KuringTheme(
 }
 
 /**
- * 쿠링 테마이다. 현재 색깔 테마가 선언되어 있다.
+ * 쿠링 테마이다. 현재 색깔 테마와 폰트 테마가 선언되어 있다.
  *
  * @param colors 쿠링 색깔 테마
  * @param typography 쿠링 폰트 테마
