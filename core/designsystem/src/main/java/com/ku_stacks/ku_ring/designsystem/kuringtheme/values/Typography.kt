@@ -73,6 +73,18 @@ internal object KuringTypographyTokens {
             fontWeight = FontWeight.Medium,
             lineHeight = 1.5.em,
         )
+    val Body2R =
+        KuringDefaultTextStyle.copy(
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Normal,
+            lineHeight = 1.5.em,
+        )
+    val Body2SB =
+        KuringDefaultTextStyle.copy(
+            fontSize = 16.sp,
+            fontWeight = FontWeight.SemiBold,
+            lineHeight = 1.5.em,
+        )
     val Caption1 =
         KuringDefaultTextStyle.copy(
             fontSize = 14.sp,

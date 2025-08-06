@@ -24,6 +24,8 @@ class KuringTypography(
     val titleSB: TextStyle = KuringTypographyTokens.TitleSB,
     val body1: TextStyle = KuringTypographyTokens.Body1,
     val body2: TextStyle = KuringTypographyTokens.Body2,
+    val body2R: TextStyle = KuringTypographyTokens.Body2R,
+    val body2SB: TextStyle = KuringTypographyTokens.Body2SB,
     val caption1: TextStyle = KuringTypographyTokens.Caption1,
     val caption1_1: TextStyle = KuringTypographyTokens.Caption1_1,
     val caption2: TextStyle = KuringTypographyTokens.Caption2,
@@ -40,6 +42,8 @@ class KuringTypography(
         titleSB: TextStyle = this.titleSB,
         body1: TextStyle = this.body1,
         body2: TextStyle = this.body2,
+        body2R: TextStyle = this.body2R,
+        body2SB: TextStyle = this.body2SB,
         caption1: TextStyle = this.caption1,
         caption1_1: TextStyle = this.caption1_1,
         caption2: TextStyle = this.caption2,
@@ -55,6 +59,8 @@ class KuringTypography(
         titleSB = titleSB,
         body1 = body1,
         body2 = body2,
+        body2R = body2R,
+        body2SB = body2SB,
         caption1 = caption1,
         caption1_1 = caption1_1,
         caption2 = caption2,
@@ -75,6 +81,8 @@ class KuringTypography(
         if (titleSB != other.titleSB) return false
         if (body1 != other.body1) return false
         if (body2 != other.body2) return false
+        if (body2R != other.body2R) return false
+        if (body2SB != other.body2SB) return false
         if (caption1 != other.caption1) return false
         if (caption1_1 != other.caption1_1) return false
         if (caption2 != other.caption2) return false
@@ -93,6 +101,8 @@ class KuringTypography(
         result = 31 * result + titleSB.hashCode()
         result = 31 * result + body1.hashCode()
         result = 31 * result + body2.hashCode()
+        result = 31 * result + body2R.hashCode()
+        result = 31 * result + body2SB.hashCode()
         result = 31 * result + caption1.hashCode()
         result = 31 * result + caption1_1.hashCode()
         result = 31 * result + caption2.hashCode()
@@ -106,7 +116,7 @@ class KuringTypography(
     override fun toString(): String {
         return "KuringTypography(noticeTitle=$noticeTitle, " +
                 "title1=$title1, title2=$title2, viewTitle=$viewTitle, titleSB=$titleSB, " +
-                "body1=$body1, body2=$body2, " +
+                "body1=$body1, body2=$body2, body2R=$body2R, body2SB=$body2SB, " +
                 "caption1=$caption1, caption1_1=$caption1_1, caption2=$caption2, " +
                 "tag=$tag, tag2=$tag2, inputField=$inputField, " +
                 "bottomNavigationDefault=$bottomNavigationDefault)"
@@ -146,6 +156,14 @@ private fun KuringTypographyPreview() {
         Text(
             "KuringTheme Body2",
             style = KuringTypography().body2,
+        )
+        Text(
+            "KuringTheme Body2R",
+            style = KuringTypography().body2R,
+        )
+        Text(
+            "KuringTheme Body2SB",
+            style = KuringTypography().body2SB,
         )
         Text(
             "KuringTheme Caption1",
