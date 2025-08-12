@@ -5,6 +5,8 @@ data class KuringBotUIState(
     val messages: List<KuringBotUIMessage>,
     val isSendQuestionDialogVisible: Boolean,
     val isReceivingResponse: Boolean,
+    val shouldShowLoginPopup: Boolean,
+    val isLoginPopupVisible: Boolean,
 ) {
     companion object {
         val Empty = KuringBotUIState(
@@ -12,6 +14,8 @@ data class KuringBotUIState(
             messages = emptyList(),
             isSendQuestionDialogVisible = false,
             isReceivingResponse = false,
+            shouldShowLoginPopup = false,
+            isLoginPopupVisible = false,
         )
     }
 }

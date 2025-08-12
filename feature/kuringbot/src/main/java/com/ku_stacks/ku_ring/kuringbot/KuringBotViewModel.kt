@@ -21,7 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class KuringBotViewModel @Inject constructor(
     private val kuringBotRepository: KuringBotRepository,
-    preferences: PreferenceUtil,
+    private val preferences: PreferenceUtil,
 ) : ViewModel() {
     private val token = preferences.fcmToken
 
@@ -33,6 +33,14 @@ class KuringBotViewModel @Inject constructor(
 
     init {
         loadStoredMessages()
+    }
+
+    fun refreshLoginState() {
+        if (preferences.accessToken.isEmpty()) {
+            _uiState.update { it.copy(shouldShowLoginPopup = true, isLoginPopupVisible = true) }
+        } else {
+            _uiState.update { it.copy(shouldShowLoginPopup = false, isLoginPopupVisible = false) }
+        }
     }
 
     private fun loadStoredMessages() = viewModelScope.launch(Dispatchers.IO) {
@@ -154,6 +162,10 @@ class KuringBotViewModel @Inject constructor(
 
     fun setSendQuestionDialogVisibility(value: Boolean) {
         _uiState.update { it.copy(isSendQuestionDialogVisible = value) }
+    }
+
+    fun dismissLoginPopup() {
+        _uiState.update { it.copy(isLoginPopupVisible = false) }
     }
 
     override fun onCleared() {

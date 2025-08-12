@@ -2,7 +2,15 @@ package com.ku_stacks.ku_ring.kuringbot.compose
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -10,8 +18,12 @@ import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,6 +38,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.components.topbar.CenterTitleTopBar
@@ -35,7 +48,14 @@ import com.ku_stacks.ku_ring.kuringbot.KuringBotUIMessage
 import com.ku_stacks.ku_ring.kuringbot.KuringBotUIState
 import com.ku_stacks.ku_ring.kuringbot.KuringBotViewModel
 import com.ku_stacks.ku_ring.kuringbot.R
-import com.ku_stacks.ku_ring.kuringbot.compose.components.*
+import com.ku_stacks.ku_ring.kuringbot.compose.components.KuringBotInfoDialog
+import com.ku_stacks.ku_ring.kuringbot.compose.components.KuringBotLoginPopup
+import com.ku_stacks.ku_ring.kuringbot.compose.components.KuringBotTextField
+import com.ku_stacks.ku_ring.kuringbot.compose.components.LoadingMessage
+import com.ku_stacks.ku_ring.kuringbot.compose.components.QuestionMessage
+import com.ku_stacks.ku_ring.kuringbot.compose.components.QuestionsRemainingMessage
+import com.ku_stacks.ku_ring.kuringbot.compose.components.ResponseMessage
+import com.ku_stacks.ku_ring.kuringbot.compose.components.SendQuestionDialog
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.Month
@@ -43,10 +63,16 @@ import java.time.Month
 @Composable
 internal fun KuringBotScreen(
     onBackButtonClick: () -> Unit,
+    onMoveToLogin: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: KuringBotViewModel = hiltViewModel(),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LifecycleResumeEffect(Unit) {
+        viewModel.refreshLoginState()
+        onPauseOrDispose {}
+    }
 
     KuringBotScreen(
         uiState = state,
@@ -59,6 +85,8 @@ internal fun KuringBotScreen(
             viewModel.sendQuestion()
         },
         onHideQuestionDialog = { viewModel.setSendQuestionDialogVisibility(false) },
+        onLoginPopupDismiss = viewModel::dismissLoginPopup,
+        onMoveToLogin = onMoveToLogin,
         modifier = modifier,
     )
 }
@@ -72,6 +100,8 @@ private fun KuringBotScreen(
     onStopIconClick: () -> Unit,
     onSendQuestion: () -> Unit,
     onHideQuestionDialog: () -> Unit,
+    onLoginPopupDismiss: () -> Unit,
+    onMoveToLogin: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var isInfoDialogVisible by rememberSaveable { mutableStateOf(false) }
@@ -92,6 +122,8 @@ private fun KuringBotScreen(
                 onQuestionValueChange = onQuestionValueChange,
                 onSendIconClick = onSendIconClick,
                 onStopIconClick = onStopIconClick,
+                onLoginPopupDismiss = onLoginPopupDismiss,
+                onMoveToLogin = onMoveToLogin,
             )
 
             KuringBotInfoDialog(
@@ -116,16 +148,33 @@ private fun KuringBotScreenContents(
     onQuestionValueChange: (String) -> Unit,
     onSendIconClick: () -> Unit,
     onStopIconClick: () -> Unit,
+    onLoginPopupDismiss: () -> Unit,
+    onMoveToLogin: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        if (uiState.messages.isEmpty()) {
-            NoMessageIndicator(modifier = Modifier.weight(1f))
-        } else {
-            KuringBotMessages(uiState.messages, modifier = Modifier.weight(1f))
+        Box(modifier = Modifier.weight(1f)) {
+            if (uiState.messages.isEmpty()) {
+                NoMessageIndicator(modifier = Modifier.align(Alignment.Center))
+            } else {
+                KuringBotMessages(
+                    messages = uiState.messages,
+                    modifier = Modifier.align(Alignment.TopCenter),
+                )
+            }
+
+            if (uiState.isLoginPopupVisible) {
+                KuringBotLoginPopup(
+                    onDismiss = onLoginPopupDismiss,
+                    onLogin = onMoveToLogin,
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(start = 20.dp, end = 20.dp, bottom = 17.dp),
+                )
+            }
         }
 
         KuringBotQuestionInput(
@@ -346,6 +395,8 @@ private fun KuringBotScreenPreview() {
                 messages = previewMessages,
                 isSendQuestionDialogVisible = false,
                 isReceivingResponse = false,
+                shouldShowLoginPopup = true,
+                isLoginPopupVisible = true,
             ),
             onBackButtonClick = {},
             onQuestionValueChange = { question = it },
@@ -353,6 +404,8 @@ private fun KuringBotScreenPreview() {
             onStopIconClick = {},
             onSendQuestion = {},
             onHideQuestionDialog = {},
+            onLoginPopupDismiss = {},
+            onMoveToLogin = {},
             modifier = Modifier.fillMaxSize(),
         )
     }
@@ -404,6 +457,8 @@ private fun KuringBotScreenPreview_Empty() {
                 messages = emptyList(),
                 isSendQuestionDialogVisible = false,
                 isReceivingResponse = false,
+                shouldShowLoginPopup = true,
+                isLoginPopupVisible = true,
             ),
             onBackButtonClick = {},
             onQuestionValueChange = { question = it },
@@ -411,6 +466,8 @@ private fun KuringBotScreenPreview_Empty() {
             onStopIconClick = {},
             onSendQuestion = {},
             onHideQuestionDialog = {},
+            onLoginPopupDismiss = {},
+            onMoveToLogin = {},
             modifier = Modifier.fillMaxSize(),
         )
     }

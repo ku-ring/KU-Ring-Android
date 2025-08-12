@@ -16,4 +16,8 @@
     <string name="kuringbot_send_dialog_cancel">취소하기</string>
 
     <string name="kuringbot_disclaimer">쿠링봇은 실수를 할 수 있습니다. 중요한 정보를 확인하세요.</string>
+
+    <string name="kuringbot_login_popup_title">쿠링봇은 로그인 시 더 많은 답변을 제공해요.</string>
+    <string name="kuringbot_login_popup_cta">로그인하기 ></string>
+    <string name="kuringbot_login_popup_close">로그인 팝업 닫기</string>
 </resources>
