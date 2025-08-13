@@ -3,14 +3,18 @@ package com.ku_stacks.ku_ring.designsystem.kuringtheme
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.remember
 
 object KuringTheme {
     val colors: KuringColors
-        @Composable get() = LocalKuringColors.current
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalKuringColors.current
 
     val typography: KuringTypography
         @Composable
+        @ReadOnlyComposable
         get() = LocalKuringTypography.current
 }
 
