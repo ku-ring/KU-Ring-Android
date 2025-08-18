@@ -23,18 +23,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.components.indicator.PagingLoadingIndicator
 import com.ku_stacks.ku_ring.designsystem.components.topbar.NavigateUpTopBar
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 import com.ku_stacks.ku_ring.domain.LibraryRoom
 import com.ku_stacks.ku_ring.feature.library.R
 import com.ku_stacks.ku_ring.library.LibrarySeatViewModel
@@ -111,11 +107,7 @@ private fun LibrarySeatScreen(
                 ) {
                     Text(
                         stringResource(R.string.library_seats_title),
-                        style = TextStyle(
-                            fontSize = 24.sp,
-                            lineHeight = 36.sp,
-                            fontFamily = Pretendard,
-                            fontWeight = FontWeight(700),
+                        style = KuringTheme.typography.title1.copy(
                             color = KuringTheme.colors.textTitle,
                         ),
                         modifier = Modifier.padding(top = 18.dp)
@@ -123,11 +115,8 @@ private fun LibrarySeatScreen(
 
                     Text(
                         text = stringResource(R.string.library_seats_description),
-                        style = TextStyle.Default.copy(
+                        style = KuringTheme.typography.body1.copy(
                             color = KuringTheme.colors.textCaption1,
-                            fontSize = 15.sp,
-                            fontWeight = FontWeight.Medium,
-                            lineHeight = (15 * 1.63f).sp,
                         ),
                         modifier = Modifier.padding(top = 8.dp)
                     )
@@ -172,14 +161,13 @@ private fun LoadingErrorText(modifier: Modifier = Modifier) {
     Box(modifier = modifier) {
         Text(
             text = stringResource(id = R.string.library_seats_load_fail),
-            fontFamily = Pretendard,
-            fontWeight = FontWeight.Normal,
-            fontSize = 14.sp,
-            color = KuringTheme.colors.textCaption1,
+            style = KuringTheme.typography.caption1.copy(
+                color = KuringTheme.colors.textCaption1,
+                textAlign = TextAlign.Center,
+            ),
             modifier = Modifier
                 .align(Alignment.Center)
                 .padding(top = 30.dp),
-            textAlign = TextAlign.Center,
         )
     }
 }

@@ -11,13 +11,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 import com.ku_stacks.ku_ring.feature.library.R
 
 @Composable
@@ -49,35 +46,24 @@ internal fun SeatStatusGroup(
             ) {
                 Text(
                     text = availableSeat.toString(),
-                    style = TextStyle.Default.copy(
-                        fontFamily = Pretendard,
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        lineHeight = (24 * 1.5).sp,
+                    style = KuringTheme.typography.titleSB.copy(
+                        color = KuringTheme.colors.mainPrimary
                     ),
-                    color = KuringTheme.colors.mainPrimary
                 )
                 Text(
                     text = stringResource(R.string.library_seats_available_ratio, occupiedSeat, totalSeat),
-                    style = TextStyle.Default.copy(
-                        fontFamily = Pretendard,
-                        fontSize = 13.sp,
-                        fontWeight = FontWeight.Light,
-                        lineHeight = (14 * 1.5f).sp,
+                    style = KuringTheme.typography.caption2.copy(
+                        color = KuringTheme.colors.textCaption1
                     ),
-                    color = KuringTheme.colors.textCaption1
                 )
             }
         }
 
         Text(
             text = roomName,
-            style = TextStyle.Default.copy(
-                color = KuringTheme.colors.textBody,
-                fontSize = 16.sp,
+            style = KuringTheme.typography.body2.copy(
                 fontWeight = FontWeight.Normal,
-                fontFamily = Pretendard,
-                lineHeight = (16 * 1.5f).sp,
+                color = KuringTheme.colors.textBody,
             ),
             modifier = Modifier.padding(top = 12.dp)
         )
