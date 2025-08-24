@@ -8,10 +8,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -38,7 +38,10 @@ internal fun MainScreenNavigationBar(
     onNavigationItemClick: (MainScreenRoute) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Row(modifier = modifier.background(KuringTheme.colors.background)) {
+    NavigationBar(
+        modifier = modifier,
+        containerColor = KuringTheme.colors.background,
+    ) {
         MainScreenRoute.entries.forEach { route ->
             val navigationItem = MainScreenNavigationBarItem.get(route)
             val label = stringResource(id = navigationItem.labelId)
@@ -46,7 +49,8 @@ internal fun MainScreenNavigationBar(
             MainScreenNavigationItem(
                 item = navigationItem,
                 isSelected = route == currentRoute,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier
+                    .weight(1f)
                     .clickable(
                         role = Role.Button,
                         onClickLabel = stringResource(
@@ -58,7 +62,8 @@ internal fun MainScreenNavigationBar(
                                 onNavigationItemClick(route)
                             }
                         },
-                    ).padding(vertical = 11.dp),
+                    )
+                    .padding(vertical = 11.dp),
             )
         }
     }
@@ -152,7 +157,9 @@ private fun MainScreenNavigationBarPreview() {
         MainScreenNavigationBar(
             currentRoute = selectedDestination,
             onNavigationItemClick = { selectedDestination = it },
-            modifier = Modifier.background(KuringTheme.colors.background).fillMaxWidth(),
+            modifier = Modifier
+                .background(KuringTheme.colors.background)
+                .fillMaxWidth(),
         )
     }
 }

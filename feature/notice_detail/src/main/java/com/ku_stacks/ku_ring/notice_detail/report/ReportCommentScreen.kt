@@ -118,7 +118,8 @@ private fun ReportCommentScreen(
                 action = "",
             )
         },
-        modifier = modifier.background(KuringTheme.colors.background)
+        containerColor = KuringTheme.colors.background,
+        modifier = modifier,
     ) {
         Column(
             modifier = Modifier

@@ -1,18 +1,17 @@
 package com.ku_stacks.ku_ring.designsystem.components.topbar
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.LocalContentColor
 import androidx.compose.material.Text
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -91,6 +90,7 @@ fun CenterTitleTopBar(
  * @param onActionClick 액션 텍스트를 클릭할 때 실행할 콜백.
  * @param actionClickLabel 액션 클릭 콜백을 설명하는 텍스트. 콜백이 null이 아니라면 접근성을 위해 제공하는 것이 좋다.
  */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CenterTitleTopBar(
     title: String,
@@ -107,35 +107,41 @@ fun CenterTitleTopBar(
 ) {
     val backgroundColor = KuringTheme.colors.background
     val contentPadding = PaddingValues(horizontal = 20.dp, vertical = 18.dp)
-    Box(
-        modifier = modifier
-            .background(backgroundColor)
-            .fillMaxWidth(),
-    ) {
-        Navigation(
-            navigationIcon = navigation,
-            navigationContentColor = navigationContentColor,
-            onNavigationClick = onNavigationClick,
-            navigationClickLabel = navigationClickLabel,
-            contentPadding = contentPadding,
-            modifier = Modifier
-                .align(Alignment.CenterStart)
-                .clip(RoundedCornerShape(50)),
-        )
-        TopBarTitle(
-            title = title,
-            modifier = Modifier.align(Alignment.Center),
-        )
-        Action(
-            action = action,
-            onActionClick = onActionClick,
-            actionClickLabel = actionClickLabel,
-            contentPadding = contentPadding,
-            modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .clip(RoundedCornerShape(50)),
-        )
-    }
+    CenterAlignedTopAppBar(
+        title = {
+            TopBarTitle(
+                title = title,
+            )
+        },
+        navigationIcon = {
+            navigation?.let {
+                Navigation(
+                    navigationIcon = navigation,
+                    navigationContentColor = navigationContentColor,
+                    onNavigationClick = onNavigationClick,
+                    navigationClickLabel = navigationClickLabel,
+                    contentPadding = contentPadding,
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(50)),
+                )
+            }
+        },
+        actions = {
+            Action(
+                action = action,
+                onActionClick = onActionClick,
+                actionClickLabel = actionClickLabel,
+                contentPadding = contentPadding,
+                modifier = Modifier
+                    .clip(RoundedCornerShape(50)),
+            )
+        },
+        modifier = modifier,
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = backgroundColor,
+            navigationIconContentColor = navigationContentColor,
+        ),
+    )
 }
 
 @Composable

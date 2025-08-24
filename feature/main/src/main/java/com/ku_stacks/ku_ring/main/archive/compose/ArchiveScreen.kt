@@ -1,9 +1,10 @@
 package com.ku_stacks.ku_ring.main.archive.compose
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -92,36 +93,43 @@ private fun ArchiveScreen(
     onDismissDeleteAlertDialog: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column(
-        modifier = modifier
-            .background(KuringTheme.colors.background)
-            .fillMaxSize(),
-    ) {
-        ArchiveScreenTopBar(
-            isSelectModeEnabled = isSelectModeEnabled,
-            onSelectModeEnabled = onSelectModeEnabled,
-            onSelectModeDisabled = onSelectModeDisabled,
-            onSelectAllNotices = onSelectAllNotices,
-            modifier = Modifier.fillMaxWidth(),
-        )
-        ArchivedNotices(
-            notices = notices,
-            onNoticeClick = onNoticeClick,
-            isSelectModeEnabled = isSelectModeEnabled,
-            selectedNoticeIds = selectedNoticeIds,
-            toggleNoticeSelection = toggleNoticeSelection,
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f),
-        )
-        if (isSelectModeEnabled) {
-            KuringCallToAction(
-                text = stringResource(id = R.string.cta_text),
-                onClick = onShowDeleteAlertDialog,
-                enabled = selectedNoticeIds.isNotEmpty(),
-                blur = true,
+    Scaffold(
+        topBar = {
+            ArchiveScreenTopBar(
+                isSelectModeEnabled = isSelectModeEnabled,
+                onSelectModeEnabled = onSelectModeEnabled,
+                onSelectModeDisabled = onSelectModeDisabled,
+                onSelectAllNotices = onSelectAllNotices,
                 modifier = Modifier.fillMaxWidth(),
             )
+        },
+        containerColor = KuringTheme.colors.background,
+        modifier = modifier.fillMaxSize(),
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(it)
+                .fillMaxSize(),
+        ) {
+            ArchivedNotices(
+                notices = notices,
+                onNoticeClick = onNoticeClick,
+                isSelectModeEnabled = isSelectModeEnabled,
+                selectedNoticeIds = selectedNoticeIds,
+                toggleNoticeSelection = toggleNoticeSelection,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+            )
+            if (isSelectModeEnabled) {
+                KuringCallToAction(
+                    text = stringResource(id = R.string.cta_text),
+                    onClick = onShowDeleteAlertDialog,
+                    enabled = selectedNoticeIds.isNotEmpty(),
+                    blur = true,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
         }
     }
 

@@ -2,7 +2,10 @@ package com.ku_stacks.ku_ring.auth.compose
 
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -17,6 +20,7 @@ import com.ku_stacks.ku_ring.auth.compose.reset_password.resetPasswordNavGraph
 import com.ku_stacks.ku_ring.auth.compose.signin.signInNavGraph
 import com.ku_stacks.ku_ring.auth.compose.signout.signOutNavGraph
 import com.ku_stacks.ku_ring.auth.compose.signup.signUpNavGraph
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 
 @Composable
 internal fun AuthScreen(
@@ -27,36 +31,42 @@ internal fun AuthScreen(
 ) {
     val navigationSpec = tween<IntOffset>(durationMillis = 200)
 
-    NavHost(
-        navController = navController,
-        startDestination = startDestination,
-        enterTransition = {
-            slideIntoContainer(
-                towards = animationDirection(initialState, targetState),
-                animationSpec = navigationSpec,
-            )
-        },
-        exitTransition = {
-            slideOutOfContainer(
-                towards = animationDirection(initialState, targetState),
-                animationSpec = navigationSpec,
-            )
-        },
-        modifier = modifier.fillMaxSize()
-    ) {
-        signInNavGraph(
+    Scaffold(
+        containerColor = KuringTheme.colors.background,
+        modifier = modifier.fillMaxSize(),
+        contentWindowInsets = WindowInsets(0),
+    ) { paddingValues ->
+        NavHost(
             navController = navController,
-            onNavigateUp = onNavigateUp,
-        )
+            startDestination = startDestination,
+            enterTransition = {
+                slideIntoContainer(
+                    towards = animationDirection(initialState, targetState),
+                    animationSpec = navigationSpec,
+                )
+            },
+            exitTransition = {
+                slideOutOfContainer(
+                    towards = animationDirection(initialState, targetState),
+                    animationSpec = navigationSpec,
+                )
+            },
+            modifier = Modifier.padding(paddingValues),
+        ) {
+            signInNavGraph(
+                navController = navController,
+                onNavigateUp = onNavigateUp,
+            )
 
-        signUpNavGraph(navController = navController)
+            signUpNavGraph(navController = navController)
 
-        resetPasswordNavGraph(navController = navController)
+            resetPasswordNavGraph(navController = navController)
 
-        signOutNavGraph(
-            onNavigateUp = onNavigateUp,
-            navController = navController
-        )
+            signOutNavGraph(
+                onNavigateUp = onNavigateUp,
+                navController = navController
+            )
+        }
     }
 }
 

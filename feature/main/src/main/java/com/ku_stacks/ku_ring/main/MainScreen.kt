@@ -7,14 +7,18 @@ import android.net.Uri
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.exclude
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Scaffold
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -58,6 +62,8 @@ fun MainScreen(
                     modifier = Modifier.fillMaxWidth(),
                 )
             },
+            contentWindowInsets = ScaffoldDefaults.contentWindowInsets.exclude(WindowInsets(top = Int.MAX_VALUE.dp)),
+            containerColor = KuringTheme.colors.background,
             modifier = modifier,
         ) {
             NavHost(
@@ -140,16 +146,14 @@ fun NavGraphBuilder.mainScreenNavGraph(
             onBackDoubleTap = {
                 activity.finish()
             },
-            modifier =
-            Modifier
+            modifier = Modifier
                 .background(KuringTheme.colors.background)
                 .fillMaxSize(),
         )
     }
     composable<MainScreenRoute.Archive> {
         ArchiveScreen(
-            modifier =
-            Modifier
+            modifier = Modifier
                 .background(KuringTheme.colors.background)
                 .fillMaxSize(),
         )
@@ -192,9 +196,9 @@ fun NavGraphBuilder.mainScreenNavGraph(
             onLogoutClick = viewModel::logout,
             onNavigateToSignOut = { navigator.navigateToSignOut(activity) },
             modifier =
-            Modifier
-                .fillMaxSize()
-                .background(KuringTheme.colors.background),
+                Modifier
+                    .fillMaxSize()
+                    .background(KuringTheme.colors.background),
         )
     }
 }

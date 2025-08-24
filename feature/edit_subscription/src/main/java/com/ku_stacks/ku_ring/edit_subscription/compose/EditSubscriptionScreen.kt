@@ -3,7 +3,16 @@ package com.ku_stacks.ku_ring.edit_subscription.compose
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -18,6 +27,7 @@ import androidx.compose.material.TabRow
 import androidx.compose.material.TabRowDefaults
 import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material.Text
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -91,35 +101,40 @@ private fun EditSubscriptionScreen(
     onSubscriptionComplete: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column(
-        modifier = modifier.background(KuringTheme.colors.background)
-    ) {
-        CenterTitleTopBar(
-            title = stringResource(id = R.string.app_bar_title),
-            action = stringResource(id = R.string.app_bar_action),
-            onActionClick = onSubscriptionComplete,
-            actionClickLabel = stringResource(id = R.string.department_subscription_complete),
-            navigation = {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_back_v2),
-                    contentDescription = stringResource(id = R.string.app_bar_navigation),
-                    tint = KuringTheme.colors.gray600,
-                )
-            },
-            onNavigationClick = onNavigateToBack,
-        )
-        SubscriptionTitle(modifier = Modifier.padding(start = 32.dp, top = 30.dp))
-        SubscriptionTabs(
-            categories = categories,
-            departments = departments,
-            onCategoryClick = onCategoryClick,
-            onDepartmentClick = onDepartmentClick,
-            onAddDepartmentButtonClick = onAddDepartmentButtonClick,
-            onSubscriptionComplete = onSubscriptionComplete,
-            modifier = Modifier
-                .padding(top = 68.dp)
-                .weight(1f),
-        )
+    Scaffold(
+        topBar = {
+            CenterTitleTopBar(
+                title = stringResource(id = R.string.app_bar_title),
+                action = stringResource(id = R.string.app_bar_action),
+                onActionClick = onSubscriptionComplete,
+                actionClickLabel = stringResource(id = R.string.department_subscription_complete),
+                navigation = {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_back_v2),
+                        contentDescription = stringResource(id = R.string.app_bar_navigation),
+                        tint = KuringTheme.colors.gray600,
+                    )
+                },
+                onNavigationClick = onNavigateToBack,
+            )
+        },
+        containerColor = KuringTheme.colors.background,
+        modifier = modifier,
+    ) { paddingValues ->
+        Column(modifier = Modifier.padding(paddingValues)) {
+            SubscriptionTitle(modifier = Modifier.padding(start = 32.dp, top = 30.dp))
+            SubscriptionTabs(
+                categories = categories,
+                departments = departments,
+                onCategoryClick = onCategoryClick,
+                onDepartmentClick = onDepartmentClick,
+                onAddDepartmentButtonClick = onAddDepartmentButtonClick,
+                onSubscriptionComplete = onSubscriptionComplete,
+                modifier = Modifier
+                    .padding(top = 68.dp)
+                    .weight(1f),
+            )
+        }
     }
 }
 

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -67,6 +68,7 @@ private fun SetPasswordScreen(
         modifier = modifier
             .fillMaxSize()
             .background(color = KuringTheme.colors.background)
+            .navigationBarsPadding(),
     ) {
         AuthTopBar(
             headingText = stringResource(sign_up_password_top_bar_heading),
