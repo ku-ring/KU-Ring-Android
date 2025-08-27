@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -85,8 +84,7 @@ private fun ResetPasswordScreen(
             onClick = onProceedButtonClick,
             enabled = passwordInputState.passwordAllCorrect,
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 20.dp)
+                .fillMaxWidth(),
         )
     }
 }
