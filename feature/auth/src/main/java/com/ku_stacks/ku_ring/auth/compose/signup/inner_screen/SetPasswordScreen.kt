@@ -67,8 +67,7 @@ private fun SetPasswordScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(color = KuringTheme.colors.background)
-            .navigationBarsPadding(),
+            .background(color = KuringTheme.colors.background),
     ) {
         AuthTopBar(
             headingText = stringResource(sign_up_password_top_bar_heading),

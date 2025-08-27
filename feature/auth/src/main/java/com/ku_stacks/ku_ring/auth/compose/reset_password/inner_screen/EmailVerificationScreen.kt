@@ -121,8 +121,7 @@ internal fun EmailVerificationScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(color = KuringTheme.colors.background)
-            .imePadding(),
+            .background(color = KuringTheme.colors.background),
     ) {
         AuthTopBar(
             headingText = stringResource(reset_password_verification_top_bar_heading),

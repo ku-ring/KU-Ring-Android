@@ -65,8 +65,7 @@ private fun ResetPasswordScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(color = KuringTheme.colors.background)
-            .imePadding()
+            .background(color = KuringTheme.colors.background),
     ) {
         AuthTopBar(
             headingText = stringResource(reset_password_top_bar_heading),

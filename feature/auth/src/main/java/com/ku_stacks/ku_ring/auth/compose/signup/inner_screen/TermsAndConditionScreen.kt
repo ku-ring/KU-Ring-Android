@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -81,8 +80,7 @@ private fun TermsScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(KuringTheme.colors.background)
-            .navigationBarsPadding(),
+            .background(KuringTheme.colors.background),
     ) {
         AuthTopBar(
             headingText = stringResource(sign_up_terms_top_bar_heading),

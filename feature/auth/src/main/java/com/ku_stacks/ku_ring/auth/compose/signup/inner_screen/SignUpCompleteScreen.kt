@@ -41,8 +41,7 @@ internal fun SignUpCompleteScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .fillMaxSize()
-            .background(KuringTheme.colors.background)
-            .navigationBarsPadding(),
+            .background(KuringTheme.colors.background),
     ) {
         Text(
             text = stringResource(sign_up_complete_heading),

@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
@@ -78,8 +77,7 @@ internal fun SignOutGuideScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(KuringTheme.colors.background)
-            .systemBarsPadding()
+            .background(KuringTheme.colors.background),
     ) {
         AuthTopBar(
             headingText = stringResource(sign_out_top_bar_heading),
