@@ -2,9 +2,9 @@ package com.ku_stacks.ku_ring.auth.compose
 
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -33,9 +33,7 @@ internal fun AuthScreen(
 
     Scaffold(
         containerColor = KuringTheme.colors.background,
-        modifier = modifier
-            .systemBarsPadding()
-            .fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
     ) { paddingValues ->
         NavHost(
             navController = navController,
@@ -52,7 +50,9 @@ internal fun AuthScreen(
                     animationSpec = navigationSpec,
                 )
             },
-            modifier = Modifier.padding(paddingValues),
+            modifier = Modifier
+                .padding(paddingValues)
+                .consumeWindowInsets(paddingValues),
         ) {
             signInNavGraph(
                 navController = navController,

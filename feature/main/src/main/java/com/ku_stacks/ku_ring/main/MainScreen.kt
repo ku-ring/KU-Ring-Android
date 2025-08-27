@@ -9,6 +9,7 @@ import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.only
@@ -71,6 +72,7 @@ fun MainScreen(
                 startDestination = MainScreenRoute.Notice,
                 modifier = Modifier
                     .padding(it)
+                    .consumeWindowInsets(it)
                     .fillMaxSize(),
                 enterTransition = {
                     val initialRoute = MainScreenRoute.of(initialState)
