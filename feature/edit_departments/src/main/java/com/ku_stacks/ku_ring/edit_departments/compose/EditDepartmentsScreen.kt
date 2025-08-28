@@ -2,11 +2,17 @@ package com.ku_stacks.ku_ring.edit_departments.compose
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -21,7 +27,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.ku_stacks.ku_ring.designsystem.components.*
+import com.ku_stacks.ku_ring.designsystem.components.DarkPreview
+import com.ku_stacks.ku_ring.designsystem.components.DepartmentWithAddIcon
+import com.ku_stacks.ku_ring.designsystem.components.DepartmentWithCheckIcon
+import com.ku_stacks.ku_ring.designsystem.components.DepartmentWithDeleteIcon
+import com.ku_stacks.ku_ring.designsystem.components.LargeTopAppBar
+import com.ku_stacks.ku_ring.designsystem.components.LightPreview
+import com.ku_stacks.ku_ring.designsystem.components.SearchTextField
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 import com.ku_stacks.ku_ring.domain.Department
@@ -72,24 +84,30 @@ private fun EditDepartmentsScreen(
     val isDeleteAllButtonEnabled =
         (departmentsUiModel as? DepartmentsUiModel.SelectedDepartments)?.departments?.isNotEmpty()
             ?: false
-    Column(
+    Scaffold(
+        topBar = {
+            EditDepartmentsTitle(
+                onClose = onClose,
+                isDeleteAllButtonVisible = isDeleteAllButtonVisible,
+                isDeleteAllButtonEnabled = isDeleteAllButtonEnabled,
+                onDeleteAllButtonClick = onDeleteAllButtonClick,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 20.dp),
+            )
+        },
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(20.dp),
-    ) {
-        EditDepartmentsTitle(
-            onClose = onClose,
-            isDeleteAllButtonVisible = isDeleteAllButtonVisible,
-            isDeleteAllButtonEnabled = isDeleteAllButtonEnabled,
-            onDeleteAllButtonClick = onDeleteAllButtonClick,
-            modifier = Modifier.fillMaxWidth(),
-        )
+        containerColor = KuringTheme.colors.background,
+    ) { paddingValues ->
         EditDepartmentsContents(
             query = query,
             onQueryUpdate = onQueryUpdate,
             departmentsUiModel = departmentsUiModel,
             onAddDepartment = onAddDepartment,
             onDeleteDepartment = onDeleteDepartment,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .padding(paddingValues)
+                .fillMaxWidth(),
         )
     }
 }

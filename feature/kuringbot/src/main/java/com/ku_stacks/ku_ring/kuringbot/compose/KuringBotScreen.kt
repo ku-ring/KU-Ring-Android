@@ -16,8 +16,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.Icon
-import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -114,7 +114,7 @@ private fun KuringBotScreen(
             )
         },
         modifier = modifier.fillMaxSize(),
-        backgroundColor = KuringTheme.colors.background,
+        containerColor = KuringTheme.colors.background,
     ) { contentPadding ->
         Box(modifier = Modifier.padding(contentPadding)) {
             KuringBotScreenContents(

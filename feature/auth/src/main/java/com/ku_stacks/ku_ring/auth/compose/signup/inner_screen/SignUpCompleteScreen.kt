@@ -80,8 +80,7 @@ internal fun SignUpCompleteScreen(
             onClick = onNavigateToSignIn,
             text = stringResource(sign_up_complete_button_proceed),
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 10.dp),
+                .fillMaxWidth(),
         )
     }
 }

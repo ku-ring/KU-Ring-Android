@@ -26,6 +26,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
 import androidx.compose.material.Text
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -110,83 +111,91 @@ private fun SearchScreen(
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.background(KuringTheme.colors.background)
-    ) {
-        CenterTitleTopBar(
-            title = stringResource(id = R.string.search),
-            navigation = {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_back_v2),
-                    contentDescription = null,
-                    tint = KuringTheme.colors.gray600,
-                )
-            },
-            onNavigationClick = { onNavigationClick() },
-            action = ""
-        )
-
-        SearchTextField(
-            query = searchState.query,
-            onQueryUpdate = { searchState.query = it },
-            placeholderText = stringResource(id = R.string.search_enter_keyword),
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Search
-            ),
-            keyboardActions = KeyboardActions(
-                onSearch = {
-                    keyboardController?.hide()
-                    onSearch(searchState)
-                }
-            ),
+    Scaffold(
+        topBar = {
+            CenterTitleTopBar(
+                title = stringResource(id = R.string.search),
+                navigation = {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_back_v2),
+                        contentDescription = null,
+                        tint = KuringTheme.colors.gray600,
+                    )
+                },
+                onNavigationClick = { onNavigationClick() },
+                action = ""
+            )
+        },
+        modifier = modifier,
+        containerColor = KuringTheme.colors.background,
+    ) { paddingValues ->
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 20.dp, end = 20.dp, top = 20.dp, bottom = 0.dp)
-        )
-
-        AnimatedVisibility(
-            visible = keywordHistories.isNotEmpty(),
-            exit = fadeOut() + slideOutVertically(),
+                .padding(paddingValues)
+                .fillMaxSize(),
         ) {
-            KeywordHistorySection(
-                keywordHistories = keywordHistories,
-                onClickSearchHistory = {
-                    searchState.query = it
-                    onSearch(searchState)
-                },
-                onClickClearSearchHistory = {
-                    onClickClearSearchHistory()
-                },
-                modifier = Modifier.padding(top = 12.dp)
+            SearchTextField(
+                query = searchState.query,
+                onQueryUpdate = { searchState.query = it },
+                placeholderText = stringResource(id = R.string.search_enter_keyword),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Search
+                ),
+                keyboardActions = KeyboardActions(
+                    onSearch = {
+                        keyboardController?.hide()
+                        onSearch(searchState)
+                    }
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 20.dp, end = 20.dp, top = 20.dp, bottom = 0.dp)
+            )
+
+            AnimatedVisibility(
+                visible = keywordHistories.isNotEmpty(),
+                exit = fadeOut() + slideOutVertically(),
+            ) {
+                KeywordHistorySection(
+                    keywordHistories = keywordHistories,
+                    onClickSearchHistory = {
+                        searchState.query = it
+                        onSearch(searchState)
+                    },
+                    onClickClearSearchHistory = {
+                        onClickClearSearchHistory()
+                    },
+                    modifier = Modifier.padding(top = 12.dp)
+                )
+            }
+
+            SearchResultTitle()
+
+            val pagerState = rememberPagerState(pageCount = { tabPages.size })
+
+            LaunchedEffect(pagerState) {
+                snapshotFlow { pagerState.currentPage }.distinctUntilChanged()
+                    .collect { pageIndex ->
+                        searchState.tab = SearchTabInfo.values()[pageIndex]
+                    }
+            }
+
+            SearchTabRow(
+                pagerState = pagerState,
+                tabPages = tabPages,
+            )
+
+            SearchResultHorizontalPager(
+                searchState = searchState,
+                pagerState = pagerState,
+                tabPages = tabPages,
+                noticeList = noticeList,
+                staffList = staffList,
+                onClickNotice = onClickNotice,
             )
         }
-
-        SearchResultTitle()
-
-        val pagerState = rememberPagerState(pageCount = { tabPages.size })
-
-        LaunchedEffect(pagerState) {
-            snapshotFlow { pagerState.currentPage }.distinctUntilChanged()
-                .collect { pageIndex ->
-                    searchState.tab = SearchTabInfo.values()[pageIndex]
-                }
-        }
-
-        SearchTabRow(
-            pagerState = pagerState,
-            tabPages = tabPages,
-        )
-
-        SearchResultHorizontalPager(
-            searchState = searchState,
-            pagerState = pagerState,
-            tabPages = tabPages,
-            noticeList = noticeList,
-            staffList = staffList,
-            onClickNotice = onClickNotice,
-        )
     }
 }
 

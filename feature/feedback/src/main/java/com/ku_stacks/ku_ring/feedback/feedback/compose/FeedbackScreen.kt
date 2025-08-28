@@ -17,10 +17,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
-import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -96,12 +96,13 @@ private fun FeedbackScreen(
                 action = "",
             )
         },
-        modifier = modifier.background(KuringTheme.colors.background)
+        containerColor = KuringTheme.colors.background,
+        modifier = modifier,
     ) {
         Column(
             modifier = Modifier
-                .fillMaxSize()
                 .padding(it)
+                .fillMaxSize()
                 .background(KuringTheme.colors.background)
                 .verticalScroll(scrollState),
             horizontalAlignment = Alignment.CenterHorizontally,

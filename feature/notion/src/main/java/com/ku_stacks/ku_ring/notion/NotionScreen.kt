@@ -3,7 +3,7 @@ package com.ku_stacks.ku_ring.notion
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Scaffold
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.ku_stacks.ku_ring.designsystem.components.KuringWebView
@@ -21,6 +21,7 @@ fun NotionScreen(
             KuringIconTopBar(modifier = Modifier.fillMaxWidth())
         },
         modifier = modifier,
+        containerColor = KuringTheme.colors.background,
     ) {
         val innerModifier = Modifier
             .padding(it)

@@ -182,8 +182,7 @@ internal fun EmailVerificationScreen(
             onClick = onProceedButtonClick,
             enabled = codeInputFieldEnable && code.isNotBlank() && !timer.isTimeUp,
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 20.dp)
+                .fillMaxWidth(),
         )
     }
 }

@@ -1,18 +1,18 @@
 package com.ku_stacks.ku_ring.designsystem.components
 
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -32,6 +32,7 @@ import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
  * @param onNavigationIconClick Navigation 아이콘을 클릭했을 때 실행할 콜백
  * @param iconDescription Navigation 아이콘을 설명하는 문자열. 접근성 서비스에 제공되는 값이다.
  */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LargeTopAppBar(
     title: String,
@@ -41,28 +42,29 @@ fun LargeTopAppBar(
     iconDescription: String? = null,
     action: @Composable () -> Unit = {},
 ) {
-    Column(
-        modifier = modifier
-            .background(KuringTheme.colors.background)
-            .padding(start = 14.dp, top = 14.dp, end = 14.dp),
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            IconButton(onClick = onNavigationIconClick) {
+    LargeTopAppBar(
+        title = {
+            LargeTopAppBarTitle(title = title)
+        },
+        navigationIcon = {
+            IconButton(
+                onClick = onNavigationIconClick,
+                modifier = Modifier.padding(start = 14.dp, top = 14.dp)
+            ) {
                 Icon(
                     painter = painterResource(id = navigationIconId),
                     contentDescription = iconDescription,
                     tint = KuringTheme.colors.textBody,
                 )
             }
-            Spacer(modifier = Modifier.weight(1f))
+        },
+        actions = {
             action()
-        }
-
-        LargeTopAppBarTitle(title = title)
-    }
+            Spacer(modifier = Modifier.width(14.dp))
+        },
+        colors = TopAppBarDefaults.largeTopAppBarColors(containerColor = KuringTheme.colors.background),
+        modifier = modifier,
+    )
 }
 
 @Composable

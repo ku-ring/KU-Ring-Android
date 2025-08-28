@@ -77,7 +77,7 @@ internal fun SignOutGuideScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(KuringTheme.colors.background)
+            .background(KuringTheme.colors.background),
     ) {
         AuthTopBar(
             headingText = stringResource(sign_out_top_bar_heading),

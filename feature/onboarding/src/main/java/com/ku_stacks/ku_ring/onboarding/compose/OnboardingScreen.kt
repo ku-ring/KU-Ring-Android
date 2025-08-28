@@ -2,8 +2,9 @@ package com.ku_stacks.ku_ring.onboarding.compose
 
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.IntOffset
@@ -31,32 +32,35 @@ internal fun OnboardingScreen(
         durationMillis = 200,
     )
 
-    val background = KuringTheme.colors.background
-    NavHost(
-        navController = navController,
-        startDestination = OnboardingScreenDestinations.FEATURE_TABS,
-        modifier = modifier,
-        enterTransition = {
-            slideIntoContainer(
-                towards = animationDirection(initialState, targetState),
-                animationSpec = navigationSpec,
-            )
-        },
-        exitTransition = {
-            slideOutOfContainer(
-                towards = animationDirection(initialState, targetState),
-                animationSpec = navigationSpec,
+    Scaffold(
+        containerColor = KuringTheme.colors.background,
+    ) { paddingValues ->
+        NavHost(
+            navController = navController,
+            startDestination = OnboardingScreenDestinations.FEATURE_TABS,
+            modifier = modifier,
+            enterTransition = {
+                slideIntoContainer(
+                    towards = animationDirection(initialState, targetState),
+                    animationSpec = navigationSpec,
+                )
+            },
+            exitTransition = {
+                slideOutOfContainer(
+                    towards = animationDirection(initialState, targetState),
+                    animationSpec = navigationSpec,
+                )
+            }
+        ) {
+            onboardingNavGraph(
+                navHostController = navController,
+                onNavigateToMain = onNavigateToMain,
+                viewModel = viewModel,
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .fillMaxSize()
             )
         }
-    ) {
-        onboardingNavGraph(
-            navHostController = navController,
-            onNavigateToMain = onNavigateToMain,
-            viewModel = viewModel,
-            modifier = Modifier
-                .background(background)
-                .fillMaxSize()
-        )
     }
 }
 

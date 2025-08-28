@@ -7,10 +7,15 @@ import android.net.Uri
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Scaffold
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -58,6 +63,8 @@ fun MainScreen(
                     modifier = Modifier.fillMaxWidth(),
                 )
             },
+            contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Start + WindowInsetsSides.End + WindowInsetsSides.Bottom),
+            containerColor = KuringTheme.colors.background,
             modifier = modifier,
         ) {
             NavHost(
@@ -65,6 +72,7 @@ fun MainScreen(
                 startDestination = MainScreenRoute.Notice,
                 modifier = Modifier
                     .padding(it)
+                    .consumeWindowInsets(it)
                     .fillMaxSize(),
                 enterTransition = {
                     val initialRoute = MainScreenRoute.of(initialState)
@@ -140,16 +148,14 @@ fun NavGraphBuilder.mainScreenNavGraph(
             onBackDoubleTap = {
                 activity.finish()
             },
-            modifier =
-            Modifier
+            modifier = Modifier
                 .background(KuringTheme.colors.background)
                 .fillMaxSize(),
         )
     }
     composable<MainScreenRoute.Archive> {
         ArchiveScreen(
-            modifier =
-            Modifier
+            modifier = Modifier
                 .background(KuringTheme.colors.background)
                 .fillMaxSize(),
         )
@@ -192,9 +198,9 @@ fun NavGraphBuilder.mainScreenNavGraph(
             onLogoutClick = viewModel::logout,
             onNavigateToSignOut = { navigator.navigateToSignOut(activity) },
             modifier =
-            Modifier
-                .fillMaxSize()
-                .background(KuringTheme.colors.background),
+                Modifier
+                    .fillMaxSize()
+                    .background(KuringTheme.colors.background),
         )
     }
 }

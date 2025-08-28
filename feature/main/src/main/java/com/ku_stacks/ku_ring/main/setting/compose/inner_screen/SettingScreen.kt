@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -72,17 +73,24 @@ internal fun SettingScreen(
 
     var isLogoutDialogVisible by rememberSaveable { mutableStateOf(false) }
 
-    Column(modifier = modifier) {
-        CenterTitleTopBar(
-            title = stringResource(id = R.string.setting_screen_top_app_bar_title),
-            action = {},
-            modifier = Modifier.padding(vertical = 16.dp),
-        )
-
+    Scaffold(
+        topBar = {
+            CenterTitleTopBar(
+                title = stringResource(id = R.string.setting_screen_top_app_bar_title),
+                action = {},
+            )
+        },
+        modifier = modifier,
+        containerColor = KuringTheme.colors.background,
+    ) {
         when (settingUiState) {
             is SettingUiState.Success -> {
                 with(settingUiState) {
-                    Column(modifier = Modifier.verticalScroll(scrollState)) {
+                    Column(
+                        modifier = Modifier
+                            .padding(it)
+                            .verticalScroll(scrollState),
+                    ) {
                         ProfileGroup(
                             userProfileState = userProfileState,
                             onNavigateToSignIn = onNavigateToSignIn,
@@ -128,7 +136,6 @@ internal fun SettingScreen(
             }
         }
     }
-
     if (isLogoutDialogVisible) {
         LogoutDialog(
             onDismiss = { isLogoutDialogVisible = false },

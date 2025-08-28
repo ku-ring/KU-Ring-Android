@@ -5,13 +5,12 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.ui.Modifier
 import com.ku_stacks.ku_ring.auth.compose.AuthDestination
 import com.ku_stacks.ku_ring.auth.compose.AuthScreen
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.feature.auth.R
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,7 +19,6 @@ class AuthActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
             val startDestination = if (intent.getStringExtra(INTENT_KEY) == INTENT_SIGN_OUT) {
                 AuthDestination.SignOut
@@ -28,13 +26,13 @@ class AuthActivity : AppCompatActivity() {
                 AuthDestination.SignIn
             }
 
-            AuthScreen(
-                onNavigateUp = ::finish,
-                startDestination = startDestination,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .navigationBarsPadding()
-            )
+            KuringTheme {
+                AuthScreen(
+                    onNavigateUp = ::finish,
+                    startDestination = startDestination,
+                    modifier = Modifier.fillMaxSize(),
+                )
+            }
         }
     }
 

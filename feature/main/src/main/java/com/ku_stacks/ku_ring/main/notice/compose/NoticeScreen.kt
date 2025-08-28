@@ -61,6 +61,7 @@ internal fun NoticeScreen(
                 }
             },
             modifier = modifier,
+            containerColor = KuringTheme.colors.background,
         ) { contentPadding ->
             NoticeTabScreens(
                 onNoticeClick = onNoticeClick,
