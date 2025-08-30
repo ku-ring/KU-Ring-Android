@@ -1,6 +1,6 @@
 [versions]
 # project-level dependency
-android-gradle = "8.11.1"
+android-gradle = "8.12.1"
 kotlin = '2.1.21'
 ksp = '2.1.21-2.0.2'
 hilt = '2.57'
@@ -55,7 +55,7 @@ retrofit = '3.0.0'
 firebase = '34.0.0'
 crashlytics = "3.0.5"
 lottie = "6.6.7"
-ktor = "3.2.2"
+ktor = "3.2.3"
 javax-inject = "1"
 
 [libraries]
