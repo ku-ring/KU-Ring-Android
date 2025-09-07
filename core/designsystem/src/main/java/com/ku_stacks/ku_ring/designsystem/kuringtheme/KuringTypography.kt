@@ -33,6 +33,7 @@ class KuringTypography(
     val tag2: TextStyle = KuringTypographyTokens.Tag2,
     val inputField: TextStyle = KuringTypographyTokens.InputField,
     val bottomNavigationDefault: TextStyle = KuringTypographyTokens.BottomNavigationDefault,
+    val date: TextStyle = KuringTypographyTokens.Date,
 ) {
     fun copy(
         noticeTitle: TextStyle = this.noticeTitle,
@@ -51,6 +52,7 @@ class KuringTypography(
         tag2: TextStyle = this.tag2,
         inputField: TextStyle = this.inputField,
         bottomNavigationDefault: TextStyle = this.bottomNavigationDefault,
+        date: TextStyle = this.date,
     ): KuringTypography = KuringTypography(
         noticeTitle = noticeTitle,
         title1 = title1,
@@ -68,6 +70,7 @@ class KuringTypography(
         tag2 = tag2,
         inputField = inputField,
         bottomNavigationDefault = bottomNavigationDefault,
+        date = date,
     )
 
     override fun equals(other: Any?): Boolean {
@@ -90,6 +93,7 @@ class KuringTypography(
         if (tag2 != other.tag2) return false
         if (inputField != other.inputField) return false
         if (bottomNavigationDefault != other.bottomNavigationDefault) return false
+        if (date != other.date) return false
         return true
     }
 
@@ -110,6 +114,7 @@ class KuringTypography(
         result = 31 * result + tag2.hashCode()
         result = 31 * result + inputField.hashCode()
         result = 31 * result + bottomNavigationDefault.hashCode()
+        result = 31 * result + date.hashCode()
         return result
     }
 
@@ -119,7 +124,8 @@ class KuringTypography(
                 "body1=$body1, body2=$body2, body2R=$body2R, body2SB=$body2SB, " +
                 "caption1=$caption1, caption1_1=$caption1_1, caption2=$caption2, " +
                 "tag=$tag, tag2=$tag2, inputField=$inputField, " +
-                "bottomNavigationDefault=$bottomNavigationDefault)"
+                "bottomNavigationDefault=$bottomNavigationDefault)" +
+                "date=$date"
     }
 }
 
@@ -192,6 +198,10 @@ private fun KuringTypographyPreview() {
         Text(
             "KuringTheme BottomNavigationDefault",
             style = KuringTypography().bottomNavigationDefault,
+        )
+        Text(
+            "KuringTheme Date",
+            style = KuringTypography().date,
         )
     }
 }

@@ -126,6 +126,14 @@ internal object KuringTypographyTokens {
             fontWeight = FontWeight.Medium,
             lineHeight = 1.63.em,
         )
+
+    val Date =
+        KuringDefaultTextStyle.copy(
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Medium,
+            lineHeight = 1.5.em,
+        )
+
 }
 
 internal val KuringDefaultTextStyle =
