@@ -18,6 +18,8 @@ versionCode = "20303"
 # Kotlin
 kotlinx-coroutines = '1.10.2'
 kotlinx-serialization-json = "1.9.0"
+kotlinx-datetime = "0.7.1"
+kotlinx-immutable = "0.4.0"
 
 # Compose
 compose-compiler = '1.4.8'
@@ -75,6 +77,8 @@ kotlinx-coroutines-reactive = { module = 'org.jetbrains.kotlinx:kotlinx-coroutin
 # Test는 bundle로 묶지 말기 (필요한 모듈에서만 별도로 선언)
 kotlinx-coroutines-test = { module = 'org.jetbrains.kotlinx:kotlinx-coroutines-test', version.ref = 'kotlinx-coroutines' }
 kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
+kotlinx-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinx-immutable" }
 
 # Android
 android-material = { module = 'com.google.android.material:material', version.ref = 'android-material' }
