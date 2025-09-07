@@ -16,4 +16,6 @@ dependencies {
     implementation(projects.data.domain)
 
     implementation(libs.bundles.compose.interop)
+    implementation(libs.kotlinx.datetime)
+    implementation(libs.kotlinx.immutable)
 }
