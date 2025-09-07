@@ -1,8 +1,52 @@
 package com.ku_stacks.ku_ring.designsystem.kuringtheme
 
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.runtime.structuralEqualityPolicy
 import androidx.compose.ui.graphics.Color
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.*
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.BackgroundDark
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.BackgroundLight
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.BorderlineDark
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.BorderlineLight
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.DegreeDark
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.DegreeLight
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.EtcDark
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.EtcLight
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.EventDark
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.EventLight
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Gray100Dark
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Gray100Light
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Gray200Dark
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Gray200Light
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Gray300Dark
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Gray300Light
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Gray400Dark
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Gray400Light
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Gray600Dark
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Gray600Light
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.KuringLogoTextDark
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.KuringLogoTextLight
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.MainPrimaryDark
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.MainPrimaryLight
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.MainPrimarySelectedDark
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.MainPrimarySelectedLight
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.RegistrationDark
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.RegistrationLight
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.TextBodyDark
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.TextBodyLight
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.TextCaption1Dark
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.TextCaption1Light
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.TextCaption2Dark
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.TextCaption2Light
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.TextCaption3Dark
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.TextCaption3Light
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.TextTitleDark
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.TextTitleLight
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.WarningDark
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.WarningLight
 
 /**
  * 쿠링 앱에서 사용하는 색깔 테마이다.
@@ -26,6 +70,10 @@ class KuringColors internal constructor(
     gray600: Color,
     mainPrimary: Color,
     mainPrimarySelected: Color,
+    etc: Color,
+    degree: Color,
+    registration: Color,
+    event: Color,
     isLight: Boolean,
 ) {
     var background by mutableStateOf(background, structuralEqualityPolicy())
@@ -60,6 +108,14 @@ class KuringColors internal constructor(
         internal set
     var mainPrimarySelected by mutableStateOf(mainPrimarySelected, structuralEqualityPolicy())
         internal set
+    var etc by mutableStateOf(etc, structuralEqualityPolicy())
+        internal set
+    var degree by mutableStateOf(degree, structuralEqualityPolicy())
+        internal set
+    var registration by mutableStateOf(registration, structuralEqualityPolicy())
+        internal set
+    var event by mutableStateOf(event, structuralEqualityPolicy())
+        internal set
     var isLight by mutableStateOf(isLight, structuralEqualityPolicy())
         internal set
 
@@ -80,6 +136,10 @@ class KuringColors internal constructor(
         gray600: Color = this.gray600,
         mainPrimary: Color = this.mainPrimary,
         mainPrimarySelected: Color = this.mainPrimarySelected,
+        etc: Color = this.etc,
+        degree: Color = this.degree,
+        registration: Color = this.registration,
+        event: Color = this.event,
         isLight: Boolean = this.isLight,
     ): KuringColors = KuringColors(
         background,
@@ -98,6 +158,10 @@ class KuringColors internal constructor(
         gray600,
         mainPrimary,
         mainPrimarySelected,
+        etc,
+        degree,
+        registration,
+        event,
         isLight,
     )
 
@@ -119,6 +183,10 @@ class KuringColors internal constructor(
                 "gray600=$gray600, " +
                 "mainPrimary=$mainPrimary, " +
                 "mainPrimarySelected=$mainPrimarySelected, " +
+                "etc=$etc, " +
+                "degree=$degree, " +
+                "registration=$registration, " +
+                "event=$event, " +
                 "isLight=$isLight, " +
                 ")"
     }
@@ -141,6 +209,10 @@ fun kuringLightColors() = KuringColors(
     gray600 = Gray600Light,
     mainPrimary = MainPrimaryLight,
     mainPrimarySelected = MainPrimarySelectedLight,
+    etc = EtcLight,
+    degree = DegreeLight,
+    registration = RegistrationLight,
+    event = EventLight,
     isLight = true,
 )
 
@@ -161,6 +233,10 @@ fun kuringDarkColors() = KuringColors(
     gray600 = Gray600Dark,
     mainPrimary = MainPrimaryDark,
     mainPrimarySelected = MainPrimarySelectedDark,
+    etc = EtcDark,
+    degree = DegreeDark,
+    registration = RegistrationDark,
+    event = EventDark,
     isLight = false,
 )
 
@@ -180,6 +256,10 @@ internal fun KuringColors.updateColorsFrom(other: KuringColors) {
     gray600 = other.gray600
     mainPrimary = other.mainPrimary
     mainPrimarySelected = other.mainPrimarySelected
+    etc = other.etc
+    degree = other.degree
+    registration = other.registration
+    event = other.event
 }
 
 val KuringColors.mainBackground: Color
