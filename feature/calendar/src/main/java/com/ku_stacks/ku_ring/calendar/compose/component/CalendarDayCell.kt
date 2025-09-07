@@ -2,13 +2,8 @@ package com.ku_stacks.ku_ring.calendar.compose.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
@@ -19,43 +14,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.ku_stacks.ku_ring.calendar.model.CalendarDefaults
 import com.ku_stacks.ku_ring.calendar.model.DayModel
-import com.ku_stacks.ku_ring.calendar.model.MonthModel
-import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.util.now
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.YearMonth
 
 @Composable
-internal fun MonthGridSection(
-    month: MonthModel,
-    selectedDate: LocalDate,
-    onDateClick: (LocalDate) -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        month.calendarMonth.forEach { week ->
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-            ) {
-                week.forEach { day ->
-                    DayCell(
-                        dayModel = day,
-                        isSelected = day.date == selectedDate,
-                        onClick = { onDateClick(day.date) },
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun RowScope.DayCell(
+internal fun CalendarDayCell(
     dayModel: DayModel,
     onClick: () -> Unit,
     isSelected: Boolean,
@@ -82,7 +44,6 @@ private fun RowScope.DayCell(
 
     Box(
         modifier = modifier
-            .weight(1f)
             .aspectRatio(1f)
             .clickable(onClick = onClick),
         contentAlignment = Alignment.Center
@@ -103,19 +64,5 @@ private fun RowScope.DayCell(
                 textAlign = TextAlign.Center
             )
         }
-    }
-}
-
-@LightAndDarkPreview
-@Composable
-private fun CalendarSectionPreview() {
-    val monthModel = MonthModel(YearMonth.now())
-    KuringTheme {
-        MonthGridSection(
-            month = monthModel,
-            selectedDate = LocalDate.now(),
-            onDateClick = {},
-            modifier = Modifier.background(KuringTheme.colors.background)
-        )
     }
 }
