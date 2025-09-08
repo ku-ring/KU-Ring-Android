@@ -46,7 +46,7 @@ androidx-test = "1.6.2"
 desugarJdk = "2.1.5"
 
 # Test
-androidx-espresso = "3.6.1"
+androidx-espresso = "3.7.0"
 
 # Third Party
 coil = '2.7.0'
