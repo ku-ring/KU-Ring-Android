@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.calendar.model
+package com.ku_stacks.ku_ring.calendar.compose.component.calendar
 
 import androidx.compose.ui.graphics.Color
 

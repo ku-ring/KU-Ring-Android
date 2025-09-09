@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.calendar.compose.component
+package com.ku_stacks.ku_ring.calendar.compose.component.calendar
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.clickable
@@ -14,8 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import com.ku_stacks.ku_ring.calendar.compose.component.NavigateDirection.NEXT
-import com.ku_stacks.ku_ring.calendar.compose.component.NavigateDirection.PREVIOUS
+import com.ku_stacks.ku_ring.calendar.compose.component.calendar.NavigateDirection.NEXT
+import com.ku_stacks.ku_ring.calendar.compose.component.calendar.NavigateDirection.PREVIOUS
 import com.ku_stacks.ku_ring.designsystem.R.drawable.ic_chevron_date_left
 import com.ku_stacks.ku_ring.designsystem.R.drawable.ic_chevron_date_right
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview

@@ -21,11 +21,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.ku_stacks.ku_ring.calendar.compose.component.AcademicCalendarTopBar
 import com.ku_stacks.ku_ring.calendar.compose.component.AcademicScheduleItem
-import com.ku_stacks.ku_ring.calendar.compose.component.CalendarHeader
-import com.ku_stacks.ku_ring.calendar.compose.component.CalendarMonthSection
-import com.ku_stacks.ku_ring.calendar.compose.component.CalendarWeekdaysHeader
-import com.ku_stacks.ku_ring.calendar.state.MonthCalendarState
-import com.ku_stacks.ku_ring.calendar.state.rememberMonthCalendarState
+import com.ku_stacks.ku_ring.calendar.compose.component.calendar.CalendarHeader
+import com.ku_stacks.ku_ring.calendar.compose.component.calendar.CalendarMonthSection
+import com.ku_stacks.ku_ring.calendar.compose.component.calendar.CalendarWeekdaysHeader
+import com.ku_stacks.ku_ring.calendar.compose.component.calendar.MonthCalendarState
+import com.ku_stacks.ku_ring.calendar.compose.component.calendar.rememberMonthCalendarState
 import com.ku_stacks.ku_ring.calendar.type.ScheduleType
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme

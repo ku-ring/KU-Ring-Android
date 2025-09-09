@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.calendar.compose.component
+package com.ku_stacks.ku_ring.calendar.compose.component.calendar
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -12,7 +12,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.ku_stacks.ku_ring.calendar.model.CalendarDefaults
 import com.ku_stacks.ku_ring.calendar.model.DayModel
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 
