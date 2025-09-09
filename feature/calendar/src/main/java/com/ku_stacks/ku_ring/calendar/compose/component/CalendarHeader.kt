@@ -1,22 +1,23 @@
 package com.ku_stacks.ku_ring.calendar.compose.component
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ChevronLeft
-import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.ku_stacks.ku_ring.calendar.compose.component.NavigateDirection.NEXT
 import com.ku_stacks.ku_ring.calendar.compose.component.NavigateDirection.PREVIOUS
+import com.ku_stacks.ku_ring.designsystem.R.drawable.ic_chevron_date_left
+import com.ku_stacks.ku_ring.designsystem.R.drawable.ic_chevron_date_right
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 
@@ -28,27 +29,27 @@ internal fun CalendarHeader(
 ) {
     Row(
         modifier = modifier
-            .padding(horizontal = 35.dp, vertical = 8.dp),
+            .padding(top = 8.dp, bottom = 8.dp, start = 34.dp, end = 28.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
             text = text,
-            style = KuringTheme.typography.body2SB,
+            style = KuringTheme.typography.viewTitle,
             color = KuringTheme.colors.textTitle,
         )
         Spacer(modifier = Modifier.weight(1f))
 
         // TODO: 좌측 방향 chevron 아이콘 추가 및 적용
         NavigateIcon(
-            imageVector = Icons.Default.ChevronLeft,
+            iconRes = ic_chevron_date_left,
             onClick = { onChevronClick(PREVIOUS.value) },
         )
 
-        Spacer(modifier = Modifier.width(16.dp))
+        Spacer(modifier = Modifier.width(24.dp))
 
         // TODO: 우측 방향 chevron 아이콘 추가 및 적용
         NavigateIcon(
-            imageVector = Icons.Default.ChevronRight,
+            iconRes = ic_chevron_date_right,
             onClick = { onChevronClick(NEXT.value) },
         )
     }
@@ -56,12 +57,12 @@ internal fun CalendarHeader(
 
 @Composable
 private fun NavigateIcon(
-    imageVector: ImageVector,
+    @DrawableRes iconRes: Int,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Icon(
-        imageVector = imageVector,
+        imageVector = ImageVector.vectorResource(iconRes),
         contentDescription = null,
         tint = KuringTheme.colors.mainPrimary,
         modifier = modifier.clickable(onClick = onClick)
