@@ -8,10 +8,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.ku_stacks.ku_ring.calendar.mockEvents
 import com.ku_stacks.ku_ring.calendar.model.MonthModel
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.domain.AcademicEvent
 import com.ku_stacks.ku_ring.util.now
+import kotlinx.collections.immutable.ImmutableMap
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.YearMonth
 
@@ -19,6 +23,7 @@ import kotlinx.datetime.YearMonth
 internal fun CalendarMonthSection(
     month: MonthModel,
     selectedDate: LocalDate,
+    monthEvents: ImmutableMap<String, List<AcademicEvent>>,
     onDateClick: (LocalDate) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -32,9 +37,12 @@ internal fun CalendarMonthSection(
                     .fillMaxWidth(),
             ) {
                 week.forEach { day ->
+                    val key = day.date.toString()
+                    val events = monthEvents[key] ?: emptyList()
                     CalendarDayCell(
                         dayModel = day,
                         isSelected = day.date == selectedDate,
+                        events = events.toImmutableList(),
                         onClick = { onDateClick(day.date) },
                         modifier = Modifier.weight(1f)
                     )
@@ -53,6 +61,7 @@ private fun CalendarMonthSectionPreview() {
             month = monthModel,
             selectedDate = LocalDate.now(),
             onDateClick = {},
+            monthEvents = mockEvents,
             modifier = Modifier.background(KuringTheme.colors.background)
         )
     }

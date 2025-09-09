@@ -11,9 +11,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.YearMonth
+import kotlinx.datetime.atTime
+import kotlinx.datetime.plus
 import javax.inject.Inject
 
 @HiltViewModel
@@ -51,7 +54,10 @@ class AcademicCalendarViewModel @Inject constructor() : ViewModel() {
 internal val mockEvents = buildList {
     repeat(10) { index ->
         val start = LocalDateTime.now()
-        val end = LocalDateTime.now()
+        val end = LocalDateTime
+            .now().date
+            .plus(DatePeriod(days = 1))
+            .atTime(0, 0)
 
         add(
             AcademicEvent(

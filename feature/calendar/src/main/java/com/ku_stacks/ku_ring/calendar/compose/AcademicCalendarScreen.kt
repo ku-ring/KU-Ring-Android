@@ -15,6 +15,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,6 +42,8 @@ import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.AcademicEvent
 import com.ku_stacks.ku_ring.util.now
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.ImmutableMap
+import kotlinx.collections.immutable.persistentMapOf
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
@@ -78,6 +81,12 @@ private fun AcademicCalendarScreen(
     modifier: Modifier = Modifier,
 ) {
     val coroutineScope = rememberCoroutineScope()
+    val monthEvents = remember {
+        derivedStateOf {
+            val loadState = uiState.eventLoadState as? AcademicEventLoadState.Success
+            loadState?.eventMap ?: persistentMapOf()
+        }
+    }
 
     Column(
         modifier = modifier
@@ -109,6 +118,7 @@ private fun AcademicCalendarScreen(
         CalendarPager(
             calendarState = calendarState,
             selectedDate = uiState.selectedDate,
+            monthEvents = monthEvents.value,
             onDateClick = onDateClick,
         )
 
@@ -128,6 +138,7 @@ private fun AcademicCalendarScreen(
 private fun CalendarPager(
     selectedDate: LocalDate,
     calendarState: MonthCalendarState,
+    monthEvents: ImmutableMap<String, List<AcademicEvent>>,
     onDateClick: (LocalDate) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -139,6 +150,7 @@ private fun CalendarPager(
     ) { page ->
         CalendarMonthSection(
             month = calendarState.currentMonthModel,
+            monthEvents = monthEvents,
             selectedDate = selectedDate,
             onDateClick = onDateClick,
         )
