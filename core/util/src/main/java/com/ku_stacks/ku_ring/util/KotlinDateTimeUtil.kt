@@ -2,6 +2,7 @@ package com.ku_stacks.ku_ring.util
 
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.YearMonth
 import kotlinx.datetime.toLocalDateTime
@@ -11,10 +12,15 @@ import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 
 @OptIn(ExperimentalTime::class)
+fun LocalDateTime.Companion.now(): LocalDateTime {
+    val currentTime: Instant = Clock.System.now()
+    val now: LocalDateTime = currentTime.toLocalDateTime(TimeZone.currentSystemDefault())
+    return now
+}
+
 fun LocalDate.Companion.now(): LocalDate {
-    val now: Instant = Clock.System.now()
-    val today: LocalDate = now.toLocalDateTime(TimeZone.currentSystemDefault()).date
-    return today
+    val now = LocalDateTime.now()
+    return now.date
 }
 
 fun DayOfWeek.koreanDayOfWeek(long: Boolean = false): String {

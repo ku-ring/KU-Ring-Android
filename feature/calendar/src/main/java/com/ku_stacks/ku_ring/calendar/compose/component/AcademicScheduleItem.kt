@@ -22,14 +22,20 @@ import com.ku_stacks.ku_ring.calendar.type.ScheduleType
 import com.ku_stacks.ku_ring.calendar.type.color
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.domain.AcademicEvent
+import com.ku_stacks.ku_ring.util.koreanDayOfWeek
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.number
 
 @Composable
 internal fun AcademicScheduleItem(
-    title: String,
-    period: String,
-    scheduleType: ScheduleType,
+    event: AcademicEvent,
     modifier: Modifier = Modifier,
 ) {
+    val scheduleType = ScheduleType.valueOf(event.category)
+    val startTime = event.startTime.formatToLocalDateTime()
+    val endTime = event.endTime.formatToLocalDateTime()
+
     Column {
         Row(
             modifier = modifier
@@ -40,17 +46,17 @@ internal fun AcademicScheduleItem(
             Spacer(modifier = Modifier.width(8.dp))
             Column {
                 Text(
-                    text = title,
+                    text = event.summary,
                     style = KuringTheme.typography.body1,
                     color = KuringTheme.colors.textTitle,
                     maxLines = 1,
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = period,
+                    text = "$startTime - $endTime",
                     style = KuringTheme.typography.tag2,
                     color = KuringTheme.colors.textCaption1,
-                    maxLines = 1
+                    maxLines = 1,
                 )
             }
         }
@@ -77,6 +83,18 @@ private fun ScheduleColorIndicator(
     )
 }
 
+private fun String.formatToLocalDateTime(): String = runCatching {
+    val dateTime = LocalDateTime.parse(this)
+    val month = dateTime.month.number
+    val date = dateTime.day.toString().padStart(2, '0')
+    val hour = dateTime.hour.toString().padStart(2, '0')
+    val minute = dateTime.minute.toString().padStart(2, '0')
+    val koreanDayOfWeek = dateTime.dayOfWeek.koreanDayOfWeek()
+    val amPm = if (dateTime.hour >= 12) "오후" else "오전"
+
+    "$month .$date ($koreanDayOfWeek) $amPm ${hour.toInt() % 12}:$minute"
+}.getOrDefault("")
+
 @LightAndDarkPreview
 @Composable
 private fun AcademicScheduleItemPreview() {
@@ -87,9 +105,13 @@ private fun AcademicScheduleItemPreview() {
                 .padding(20.dp)
         ) {
             AcademicScheduleItem(
-                title = "수강바구니 1차",
-                period = "8. 04 (월) 오전 9:30 - 8. 05 (화) 오후 5:00",
-                scheduleType = ScheduleType.DEGREE,
+                event = AcademicEvent(
+                    id = 1L,
+                    summary = "수강바구니 1차",
+                    category = ScheduleType.EVENT.name,
+                    startTime = "2025-08-04T09:30:00",
+                    endTime = "2025-08-05T17:00:00",
+                )
             )
         }
     }
