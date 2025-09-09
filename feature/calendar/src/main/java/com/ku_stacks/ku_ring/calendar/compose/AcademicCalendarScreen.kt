@@ -14,11 +14,20 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.ku_stacks.ku_ring.calendar.AcademicCalendarUiState
+import com.ku_stacks.ku_ring.calendar.AcademicCalendarViewModel
+import com.ku_stacks.ku_ring.calendar.AcademicEventLoadState
 import com.ku_stacks.ku_ring.calendar.compose.component.AcademicCalendarTopBar
 import com.ku_stacks.ku_ring.calendar.compose.component.AcademicScheduleItem
 import com.ku_stacks.ku_ring.calendar.compose.component.calendar.CalendarHeader
@@ -26,34 +35,47 @@ import com.ku_stacks.ku_ring.calendar.compose.component.calendar.CalendarMonthSe
 import com.ku_stacks.ku_ring.calendar.compose.component.calendar.CalendarWeekdaysHeader
 import com.ku_stacks.ku_ring.calendar.compose.component.calendar.MonthCalendarState
 import com.ku_stacks.ku_ring.calendar.compose.component.calendar.rememberMonthCalendarState
-import com.ku_stacks.ku_ring.calendar.type.ScheduleType
+import com.ku_stacks.ku_ring.calendar.mockEvents
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.domain.AcademicEvent
 import com.ku_stacks.ku_ring.util.now
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 
 @Composable
 internal fun AcademicCalendarRoute(
     modifier: Modifier = Modifier,
+    viewModel: AcademicCalendarViewModel = hiltViewModel()
 ) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val calendarState = rememberMonthCalendarState()
-    val selectedDate = rememberSaveable { mutableStateOf(LocalDate.now()) }
+
+    LaunchedEffect(calendarState.currentPage) {
+        snapshotFlow { calendarState.currentPage }
+            .distinctUntilChanged()
+            .collect { page ->
+                val yearMonth = calendarState.getYearMonth(page)
+                viewModel.fetchAcademicEvents(yearMonth)
+            }
+    }
 
     AcademicCalendarScreen(
-        selectedDate = selectedDate.value,
+        uiState = uiState,
         calendarState = calendarState,
-        onDateClick = { date -> selectedDate.value = date },
+        onDateClick = viewModel::updateSelectedDate,
         modifier = modifier,
     )
 }
 
 @Composable
 private fun AcademicCalendarScreen(
-    selectedDate: LocalDate,
+    uiState: AcademicCalendarUiState,
     calendarState: MonthCalendarState,
+    onDateClick: (LocalDate) -> Unit,
     modifier: Modifier = Modifier,
-    onDateClick: (LocalDate) -> Unit = {},
 ) {
     val coroutineScope = rememberCoroutineScope()
 
@@ -86,7 +108,7 @@ private fun AcademicCalendarScreen(
 
         CalendarPager(
             calendarState = calendarState,
-            selectedDate = selectedDate,
+            selectedDate = uiState.selectedDate,
             onDateClick = onDateClick,
         )
 
@@ -96,7 +118,7 @@ private fun AcademicCalendarScreen(
         )
 
         AcademicScheduleColumn(
-            academicSchedules = mockAcademicSchedules,
+            academicEvents = uiState.eventsOnSelectedDate,
             modifier = Modifier.weight(1f)
         )
     }
@@ -125,7 +147,7 @@ private fun CalendarPager(
 
 @Composable
 private fun AcademicScheduleColumn(
-    academicSchedules: List<Triple<String, String, ScheduleType>>, // TODO: 도메인 모델로 교체
+    academicEvents: ImmutableList<AcademicEvent>,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
@@ -133,32 +155,29 @@ private fun AcademicScheduleColumn(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         modifier = modifier,
     ) {
-        items(academicSchedules) { (schedule, period, type) ->
+        items(
+            items = academicEvents,
+            key = { it.id },
+        ) { event ->
             AcademicScheduleItem(
-                title = schedule,
-                period = period,
-                scheduleType = type,
+                event = event,
             )
         }
-    }
-}
-
-private val mockAcademicSchedules = buildList {
-    repeat(10) { index ->
-        add(
-            Triple(
-                "수강바구니 ${index}차",
-                "8. 04 (월) 오전 9:30 - 8. 05 (화) 오후 5:00",
-                ScheduleType.entries[index % ScheduleType.entries.size]
-            )
-        )
     }
 }
 
 @LightAndDarkPreview
 @Composable
 private fun AcademicCalendarScreenPreview() {
+    var selectedDate by remember { mutableStateOf(LocalDate.now()) }
     KuringTheme {
-        AcademicCalendarRoute()
+        AcademicCalendarScreen(
+            uiState = AcademicCalendarUiState(
+                selectedDate = selectedDate,
+                eventLoadState = AcademicEventLoadState.Success(mockEvents),
+            ),
+            calendarState = rememberMonthCalendarState(),
+            onDateClick = { date -> selectedDate = date }
+        )
     }
 }
