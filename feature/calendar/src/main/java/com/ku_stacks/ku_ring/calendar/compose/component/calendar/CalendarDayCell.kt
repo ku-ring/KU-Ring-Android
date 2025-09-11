@@ -1,5 +1,6 @@
 package com.ku_stacks.ku_ring.calendar.compose.component.calendar
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -32,12 +33,15 @@ internal fun CalendarDayCell(
 ) {
     val calendarColor = CalendarDefaults.calendarColor()
     val backgroundColor = with(calendarColor) {
-        when {
-            dayModel.isOutDate -> outDateContainerColor
-            isSelected -> selectedMarkerColor
-            dayModel.isToday -> todayContainerColor
-            else -> containerColor
-        }
+        animateColorAsState(
+            targetValue = when {
+                dayModel.isOutDate -> outDateContainerColor
+                isSelected -> selectedMarkerColor
+                dayModel.isToday -> todayContainerColor
+                else -> containerColor
+            },
+            label = "CalendarDayCell backgroundColor"
+        )
     }
 
     val textColor = with(calendarColor) {
@@ -59,7 +63,7 @@ internal fun CalendarDayCell(
             modifier = Modifier
                 .size(22.dp)
                 .background(
-                    color = backgroundColor,
+                    color = backgroundColor.value,
                     shape = CircleShape,
                 ),
             contentAlignment = Alignment.Center
