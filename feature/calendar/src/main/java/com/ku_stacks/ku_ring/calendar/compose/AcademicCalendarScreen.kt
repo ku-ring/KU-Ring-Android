@@ -15,7 +15,6 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -49,7 +48,7 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 
 @Composable
-internal fun AcademicCalendarRoute(
+fun AcademicCalendarScreen(
     modifier: Modifier = Modifier,
     viewModel: AcademicCalendarViewModel = hiltViewModel()
 ) {
@@ -81,11 +80,9 @@ private fun AcademicCalendarScreen(
     modifier: Modifier = Modifier,
 ) {
     val coroutineScope = rememberCoroutineScope()
-    val monthEvents = remember {
-        derivedStateOf {
-            val loadState = uiState.eventLoadState as? AcademicEventLoadState.Success
-            loadState?.eventMap ?: persistentMapOf()
-        }
+    val monthEvents = run {
+        val loadState = uiState.eventLoadState as? AcademicEventLoadState.Success
+        loadState?.eventMap ?: persistentMapOf()
     }
 
     Column(
@@ -118,7 +115,7 @@ private fun AcademicCalendarScreen(
         CalendarPager(
             calendarState = calendarState,
             selectedDate = uiState.selectedDate,
-            monthEvents = monthEvents.value,
+            monthEvents = monthEvents,
             onDateClick = onDateClick,
         )
 
