@@ -2,6 +2,7 @@ package com.ku_stacks.ku_ring.calendar.compose.component.calendar
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
@@ -25,11 +26,13 @@ import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 internal fun CalendarHeader(
     text: String,
     onChevronClick: (Int) -> Unit,
+    contentPadding: PaddingValues,
     modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier
-            .padding(top = 8.dp, bottom = 8.dp, start = 34.dp, end = 28.dp),
+            .padding(contentPadding)
+            .padding(top = 8.dp, bottom = 8.dp, start = 14.dp, end = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
@@ -80,6 +83,7 @@ private fun CalendarHeaderPreview() {
         CalendarHeader(
             text = "8월 2025",
             onChevronClick = {},
+            contentPadding = PaddingValues(horizontal = 20.dp),
         )
     }
 }

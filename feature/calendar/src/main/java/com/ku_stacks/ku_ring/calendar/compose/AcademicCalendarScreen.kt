@@ -5,10 +5,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
@@ -28,7 +28,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ku_stacks.ku_ring.calendar.AcademicCalendarUiState
 import com.ku_stacks.ku_ring.calendar.AcademicCalendarViewModel
 import com.ku_stacks.ku_ring.calendar.AcademicEventLoadState
-import com.ku_stacks.ku_ring.calendar.compose.component.AcademicCalendarTopBar
 import com.ku_stacks.ku_ring.calendar.compose.component.AcademicScheduleItem
 import com.ku_stacks.ku_ring.calendar.compose.component.calendar.CalendarHeader
 import com.ku_stacks.ku_ring.calendar.compose.component.calendar.CalendarMonthSection
@@ -90,12 +89,11 @@ private fun AcademicCalendarScreen(
             .fillMaxSize()
             .background(color = KuringTheme.colors.background),
     ) {
-        AcademicCalendarTopBar()
-
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(24.dp))
 
         CalendarHeader(
             text = calendarState.currentMonthModel.toString(),
+            contentPadding = PaddingValues(horizontal = 20.dp),
             onChevronClick = { pageChange ->
                 val currentPage = calendarState.currentPage
                 coroutineScope.launch {
@@ -143,7 +141,7 @@ private fun CalendarPager(
         state = calendarState,
         contentPadding = PaddingValues(horizontal = 20.dp),
         pageSpacing = 74.dp,
-        modifier = modifier.wrapContentSize(),
+        modifier = modifier.aspectRatio(1.2f),
     ) { page ->
         CalendarMonthSection(
             month = calendarState.currentMonthModel,

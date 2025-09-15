@@ -1,6 +1,7 @@
 package com.ku_stacks.ku_ring.calendar.compose.component.calendar
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.heightIn
@@ -29,6 +30,7 @@ fun CalendarWeekdaysHeader(
             .heightIn(min = 18.dp)
             .padding(contentPadding),
         verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         DayOfWeek.entries.forEach { day ->
             val koreanDayOfWeek = day.koreanDayOfWeek()
