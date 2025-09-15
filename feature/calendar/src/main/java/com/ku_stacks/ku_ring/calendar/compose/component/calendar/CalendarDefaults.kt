@@ -14,7 +14,7 @@ internal object CalendarDefaults {
             selectedMarkerColor = mainPrimarySelected,
             selectedContentColor = mainPrimary,
             outDateContainerColor = background,
-            outDateContentColor = background,
+            outDateContentColor = textCaption2,
             todayContainerColor = background,
             todayContentColor = mainPrimary,
             headerContentColor = gray300,
