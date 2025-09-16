@@ -124,7 +124,7 @@ class KuringTypography(
                 "body1=$body1, body2=$body2, body2R=$body2R, body2SB=$body2SB, " +
                 "caption1=$caption1, caption1_1=$caption1_1, caption2=$caption2, " +
                 "tag=$tag, tag2=$tag2, inputField=$inputField, " +
-                "bottomNavigationDefault=$bottomNavigationDefault)" +
+                "bottomNavigationDefault=$bottomNavigationDefault" +
                 "date=$date"
     }
 }
