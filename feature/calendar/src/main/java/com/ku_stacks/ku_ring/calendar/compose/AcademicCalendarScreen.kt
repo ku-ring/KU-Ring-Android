@@ -144,7 +144,7 @@ private fun CalendarPager(
         modifier = modifier.aspectRatio(1.2f),
     ) { page ->
         CalendarMonthSection(
-            month = calendarState.currentMonthModel,
+            month = calendarState.getMonthModel(page),
             monthEvents = monthEvents,
             selectedDate = selectedDate,
             onDateClick = onDateClick,
