@@ -93,7 +93,7 @@ private fun EventIndicators(
 
     Row(modifier = modifier) {
         indicatedEvents.forEachIndexed { index, event ->
-            val color = ScheduleType.valueOf(event.category).color()
+            val color = ScheduleType.from(event.category).color()
             val shape =
                 when (index) {
                     0 -> RoundedCornerShape(
