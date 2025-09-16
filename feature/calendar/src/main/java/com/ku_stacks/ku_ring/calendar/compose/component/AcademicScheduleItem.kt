@@ -91,12 +91,14 @@ private fun String.formatToLocalDateTime(): String = runCatching {
     val dateTime = LocalDateTime.parse(this)
     val month = dateTime.month.number
     val date = dateTime.day.toString().padStart(2, '0')
-    val hour = dateTime.hour.toString().padStart(2, '0')
     val minute = dateTime.minute.toString().padStart(2, '0')
     val koreanDayOfWeek = dateTime.dayOfWeek.koreanDayOfWeek()
     val amPm = if (dateTime.hour >= 12) "오후" else "오전"
 
-    "$month .$date ($koreanDayOfWeek) $amPm ${hour.toInt() % 12}:$minute"
+    val hour12 = if (dateTime.hour % 12 == 0) 12 else dateTime.hour % 12
+    val hour = hour12.toString().padStart(2, '0')
+
+    "$month .$date ($koreanDayOfWeek) $amPm $hour:$minute"
 }.getOrDefault("")
 
 @LightAndDarkPreview
@@ -114,7 +116,7 @@ private fun AcademicScheduleItemPreview() {
                     summary = "수강바구니 1차",
                     category = ScheduleType.EVENT.name,
                     startTime = "2025-08-04T09:30:00",
-                    endTime = "2025-08-05T17:00:00",
+                    endTime = "2025-08-05T13:00:00",
                 )
             )
         }
