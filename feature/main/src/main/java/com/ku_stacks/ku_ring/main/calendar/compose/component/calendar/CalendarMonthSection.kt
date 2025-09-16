@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.calendar.compose.component.calendar
+package com.ku_stacks.ku_ring.main.calendar.compose.component.calendar
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -9,11 +9,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.ku_stacks.ku_ring.calendar.mockEvents
-import com.ku_stacks.ku_ring.calendar.model.MonthModel
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.AcademicEvent
+import com.ku_stacks.ku_ring.main.calendar.mockEvents
+import com.ku_stacks.ku_ring.main.calendar.model.MonthModel
 import com.ku_stacks.ku_ring.util.now
 import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.collections.immutable.toImmutableList

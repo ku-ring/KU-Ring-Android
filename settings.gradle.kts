@@ -59,5 +59,4 @@ include(
     ":core:designsystem",
     ":feature:kuringbot",
     ":feature:edit_departments",
-    ":feature:calendar",
 )

@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.calendar.compose.component.calendar
+package com.ku_stacks.ku_ring.main.calendar.compose.component.calendar
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
@@ -17,14 +17,12 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import com.ku_stacks.ku_ring.calendar.R.string.calendar_btn_navigate_next
-import com.ku_stacks.ku_ring.calendar.R.string.calendar_btn_navigate_previous
-import com.ku_stacks.ku_ring.calendar.compose.component.calendar.NavigateDirection.NEXT
-import com.ku_stacks.ku_ring.calendar.compose.component.calendar.NavigateDirection.PREVIOUS
 import com.ku_stacks.ku_ring.designsystem.R.drawable.ic_chevron_date_left
 import com.ku_stacks.ku_ring.designsystem.R.drawable.ic_chevron_date_right
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.main.R.string.calendar_btn_navigate_next
+import com.ku_stacks.ku_ring.main.R.string.calendar_btn_navigate_previous
 
 @Composable
 internal fun CalendarHeader(
@@ -49,7 +47,7 @@ internal fun CalendarHeader(
         NavigateIcon(
             iconRes = ic_chevron_date_left,
             contentDescription = calendar_btn_navigate_previous,
-            onClick = { onChevronClick(PREVIOUS) },
+            onClick = { onChevronClick(NavigateDirection.PREVIOUS) },
         )
 
         Spacer(modifier = Modifier.width(24.dp))
@@ -57,7 +55,7 @@ internal fun CalendarHeader(
         NavigateIcon(
             iconRes = ic_chevron_date_right,
             contentDescription = calendar_btn_navigate_next,
-            onClick = { onChevronClick(NEXT) },
+            onClick = { onChevronClick(NavigateDirection.NEXT) },
         )
     }
 }

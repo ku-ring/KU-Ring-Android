@@ -115,4 +115,9 @@
     <!--  campus map  -->
     <string name="campus_map_title">캠퍼스맵</string>
     <string name="campus_on_construction">서비스 준비 중이에요</string>
+
+    <!-- academic calendar-->
+    <string name="academic_calendar_top_bar_title">학사 일정</string>
+    <string name="calendar_btn_navigate_previous">이전 달로 이동</string>
+    <string name="calendar_btn_navigate_next">다음 달로 이동</string>
 </resources>

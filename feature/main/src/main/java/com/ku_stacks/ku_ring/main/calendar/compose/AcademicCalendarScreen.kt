@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.calendar.compose
+package com.ku_stacks.ku_ring.main.calendar.compose
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -25,19 +25,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.ku_stacks.ku_ring.calendar.AcademicCalendarUiState
-import com.ku_stacks.ku_ring.calendar.AcademicCalendarViewModel
-import com.ku_stacks.ku_ring.calendar.AcademicEventLoadState
-import com.ku_stacks.ku_ring.calendar.compose.component.AcademicScheduleItem
-import com.ku_stacks.ku_ring.calendar.compose.component.calendar.CalendarHeader
-import com.ku_stacks.ku_ring.calendar.compose.component.calendar.CalendarMonthSection
-import com.ku_stacks.ku_ring.calendar.compose.component.calendar.CalendarWeekdaysHeader
-import com.ku_stacks.ku_ring.calendar.compose.component.calendar.MonthCalendarState
-import com.ku_stacks.ku_ring.calendar.compose.component.calendar.rememberMonthCalendarState
-import com.ku_stacks.ku_ring.calendar.mockEvents
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.AcademicEvent
+import com.ku_stacks.ku_ring.main.calendar.AcademicCalendarUiState
+import com.ku_stacks.ku_ring.main.calendar.AcademicCalendarViewModel
+import com.ku_stacks.ku_ring.main.calendar.AcademicEventLoadState
+import com.ku_stacks.ku_ring.main.calendar.compose.component.AcademicScheduleItem
+import com.ku_stacks.ku_ring.main.calendar.compose.component.calendar.CalendarHeader
+import com.ku_stacks.ku_ring.main.calendar.compose.component.calendar.CalendarMonthSection
+import com.ku_stacks.ku_ring.main.calendar.compose.component.calendar.CalendarWeekdaysHeader
+import com.ku_stacks.ku_ring.main.calendar.compose.component.calendar.MonthCalendarState
+import com.ku_stacks.ku_ring.main.calendar.compose.component.calendar.rememberMonthCalendarState
+import com.ku_stacks.ku_ring.main.calendar.mockEvents
 import com.ku_stacks.ku_ring.util.now
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.ImmutableMap

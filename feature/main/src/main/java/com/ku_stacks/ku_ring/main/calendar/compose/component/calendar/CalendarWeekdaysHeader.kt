@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.calendar.compose.component.calendar
+package com.ku_stacks.ku_ring.main.calendar.compose.component.calendar
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

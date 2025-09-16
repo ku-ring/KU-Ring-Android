@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.calendar.compose.component.calendar
+package com.ku_stacks.ku_ring.main.calendar.compose.component.calendar
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
@@ -16,11 +16,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.ku_stacks.ku_ring.calendar.model.DayModel
-import com.ku_stacks.ku_ring.calendar.type.ScheduleType
-import com.ku_stacks.ku_ring.calendar.type.color
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.AcademicEvent
+import com.ku_stacks.ku_ring.main.calendar.model.DayModel
+import com.ku_stacks.ku_ring.main.calendar.type.ScheduleType
+import com.ku_stacks.ku_ring.main.calendar.type.color
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable
@@ -93,7 +93,7 @@ private fun EventIndicators(
 
     Row(modifier = modifier) {
         indicatedEvents.forEachIndexed { index, event ->
-            val color = ScheduleType.from(event.category).color()
+            val color = ScheduleType.Companion.from(event.category).color()
             val shape =
                 when (index) {
                     0 -> RoundedCornerShape(

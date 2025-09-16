@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.calendar.model
+package com.ku_stacks.ku_ring.main.calendar.model
 
 import androidx.compose.runtime.Immutable
 import com.ku_stacks.ku_ring.util.now

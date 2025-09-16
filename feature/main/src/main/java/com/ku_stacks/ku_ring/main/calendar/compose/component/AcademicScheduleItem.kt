@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.calendar.compose.component
+package com.ku_stacks.ku_ring.main.calendar.compose.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -20,11 +20,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.ku_stacks.ku_ring.calendar.type.ScheduleType
-import com.ku_stacks.ku_ring.calendar.type.color
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.AcademicEvent
+import com.ku_stacks.ku_ring.main.calendar.type.ScheduleType
+import com.ku_stacks.ku_ring.main.calendar.type.color
 import com.ku_stacks.ku_ring.util.koreanDayOfWeek
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.number
@@ -34,7 +34,7 @@ internal fun AcademicScheduleItem(
     event: AcademicEvent,
     modifier: Modifier = Modifier,
 ) {
-    val scheduleType = ScheduleType.from(event.category)
+    val scheduleType = ScheduleType.Companion.from(event.category)
     val startTime = event.startTime.formatToLocalDateTime()
     val endTime = event.endTime.formatToLocalDateTime()
 

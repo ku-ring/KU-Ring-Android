@@ -1,9 +1,9 @@
-package com.ku_stacks.ku_ring.calendar
+package com.ku_stacks.ku_ring.main.calendar
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ku_stacks.ku_ring.calendar.type.ScheduleType
 import com.ku_stacks.ku_ring.domain.AcademicEvent
+import com.ku_stacks.ku_ring.main.calendar.type.ScheduleType
 import com.ku_stacks.ku_ring.util.now
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableMap

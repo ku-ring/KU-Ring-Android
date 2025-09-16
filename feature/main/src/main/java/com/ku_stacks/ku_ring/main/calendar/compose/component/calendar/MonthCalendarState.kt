@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.calendar.compose.component.calendar
+package com.ku_stacks.ku_ring.main.calendar.compose.component.calendar
 
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.runtime.Composable
@@ -7,7 +7,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
-import com.ku_stacks.ku_ring.calendar.model.MonthModel
+import com.ku_stacks.ku_ring.main.calendar.model.MonthModel
 import com.ku_stacks.ku_ring.util.now
 import kotlinx.datetime.YearMonth
 import kotlinx.datetime.number

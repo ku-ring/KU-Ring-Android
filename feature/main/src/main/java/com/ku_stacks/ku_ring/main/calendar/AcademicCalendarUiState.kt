@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.calendar
+package com.ku_stacks.ku_ring.main.calendar
 
 import androidx.compose.runtime.Immutable
 import com.ku_stacks.ku_ring.domain.AcademicEvent
