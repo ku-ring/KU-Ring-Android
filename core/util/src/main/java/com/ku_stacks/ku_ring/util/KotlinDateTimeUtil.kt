@@ -24,10 +24,17 @@ fun LocalDate.Companion.now(): LocalDate {
 }
 
 fun DayOfWeek.koreanDayOfWeek(long: Boolean = false): String {
-    val shortVersion = listOf("일", "월", "화", "수", "목", "금", "토")
-    val text = StringBuilder(shortVersion[this.ordinal])
-    if (long) text.append("요일")
-    return text.toString()
+    var text: String = when(this) {
+        DayOfWeek.MONDAY -> "월"
+        DayOfWeek.TUESDAY -> "화"
+        DayOfWeek.WEDNESDAY -> "수"
+        DayOfWeek.THURSDAY -> "목"
+        DayOfWeek.FRIDAY -> "금"
+        DayOfWeek.SATURDAY -> "토"
+        DayOfWeek.SUNDAY -> "일"
+    }
+    if (long) text += "요일"
+    return text
 }
 
 fun YearMonth.Companion.now(): YearMonth {

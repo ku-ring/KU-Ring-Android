@@ -23,6 +23,10 @@ fun CalendarWeekdaysHeader(
     contentPadding: PaddingValues = PaddingValues(),
 ) {
     val calendarColor = CalendarDefaults.calendarColor()
+    val dayOfWeekEntries = buildList {
+        add(DayOfWeek.SUNDAY)
+        addAll(DayOfWeek.entries.subList(0,6))
+    }
 
     Row(
         modifier = modifier
@@ -32,7 +36,7 @@ fun CalendarWeekdaysHeader(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        DayOfWeek.entries.forEach { day ->
+        dayOfWeekEntries.forEach { day ->
             val koreanDayOfWeek = day.koreanDayOfWeek()
             Text(
                 modifier = Modifier.weight(1f),
