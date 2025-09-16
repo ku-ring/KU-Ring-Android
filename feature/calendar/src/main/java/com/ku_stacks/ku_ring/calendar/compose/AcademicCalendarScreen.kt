@@ -97,7 +97,7 @@ private fun AcademicCalendarScreen(
             onChevronClick = { pageChange ->
                 val currentPage = calendarState.currentPage
                 coroutineScope.launch {
-                    calendarState.animateScrollToPage(currentPage + pageChange)
+                    calendarState.animateScrollToPage(currentPage + pageChange.value)
                 }
             },
         )

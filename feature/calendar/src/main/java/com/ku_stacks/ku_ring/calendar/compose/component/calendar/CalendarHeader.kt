@@ -1,6 +1,7 @@
 package com.ku_stacks.ku_ring.calendar.compose.component.calendar
 
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -13,8 +14,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import com.ku_stacks.ku_ring.calendar.R.string.calendar_btn_navigate_next
+import com.ku_stacks.ku_ring.calendar.R.string.calendar_btn_navigate_previous
 import com.ku_stacks.ku_ring.calendar.compose.component.calendar.NavigateDirection.NEXT
 import com.ku_stacks.ku_ring.calendar.compose.component.calendar.NavigateDirection.PREVIOUS
 import com.ku_stacks.ku_ring.designsystem.R.drawable.ic_chevron_date_left
@@ -25,7 +29,7 @@ import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 @Composable
 internal fun CalendarHeader(
     text: String,
-    onChevronClick: (Int) -> Unit,
+    onChevronClick: (NavigateDirection) -> Unit,
     contentPadding: PaddingValues,
     modifier: Modifier = Modifier,
 ) {
@@ -42,18 +46,18 @@ internal fun CalendarHeader(
         )
         Spacer(modifier = Modifier.weight(1f))
 
-        // TODO: 좌측 방향 chevron 아이콘 추가 및 적용
         NavigateIcon(
             iconRes = ic_chevron_date_left,
-            onClick = { onChevronClick(PREVIOUS.value) },
+            contentDescription = calendar_btn_navigate_previous,
+            onClick = { onChevronClick(PREVIOUS) },
         )
 
         Spacer(modifier = Modifier.width(24.dp))
 
-        // TODO: 우측 방향 chevron 아이콘 추가 및 적용
         NavigateIcon(
             iconRes = ic_chevron_date_right,
-            onClick = { onChevronClick(NEXT.value) },
+            contentDescription = calendar_btn_navigate_next,
+            onClick = { onChevronClick(NEXT) },
         )
     }
 }
@@ -61,18 +65,19 @@ internal fun CalendarHeader(
 @Composable
 private fun NavigateIcon(
     @DrawableRes iconRes: Int,
+    @StringRes contentDescription: Int,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Icon(
         imageVector = ImageVector.vectorResource(iconRes),
-        contentDescription = null,
+        contentDescription = stringResource(id = contentDescription),
         tint = KuringTheme.colors.mainPrimary,
         modifier = modifier.clickable(onClick = onClick)
     )
 }
 
-private enum class NavigateDirection(val value: Int) {
+internal enum class NavigateDirection(val value: Int) {
     PREVIOUS(-1), NEXT(1)
 }
 
