@@ -1,12 +1,11 @@
 package com.ku_stacks.ku_ring.main.calendar.compose.component.calendar
 
 import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.saveable.Saver
-import androidx.compose.runtime.saveable.listSaver
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.remember
 import com.ku_stacks.ku_ring.main.calendar.model.MonthModel
 import com.ku_stacks.ku_ring.util.now
 import kotlinx.datetime.YearMonth
@@ -15,14 +14,14 @@ import kotlinx.datetime.number
 /**
  * MonthCalendarState를 remember하는 함수.
  *
- * [MonthCalendarState]는 [PagerState]를 상속받고 있기 때문에, Pagers API와 호환이 가능합니다.
+ * 이 함수는 내부적으로 PagerState를 소유하여 Pagers API와 호환이 가능합니다.
  *
  * ```
  * @Composable
  * fun MonthCalendar() {
  *      val calendarState = rememberMonthCalendarState()
  *      HorizontalPager(
- *          state = calendarState,
+ *          state = calendarState.pagerState,
  *      ) { page ->
  *          // contents
  *      }
@@ -41,38 +40,33 @@ internal fun rememberMonthCalendarState(
     currentYearMonth: YearMonth = YearMonth.now(),
     startYear: Int = currentYearMonth.year - CalendarDefaults.YEAR_RANGE,
     endYear: Int = currentYearMonth.year + CalendarDefaults.YEAR_RANGE,
-): MonthCalendarState = rememberSaveable(
-    inputs = arrayOf<Any>(
-        startYear,
-        endYear,
-        currentYearMonth,
-    ),
-    saver = MonthCalendarState.Saver
-) {
-    MonthCalendarState(
-        startYear = startYear,
-        endYear = endYear,
-        currentYearMonth = currentYearMonth,
-        pageCount = calculatePageCount(startYear, endYear),
+): MonthCalendarState {
+    val pagerState = rememberPagerState(
+        initialPage = calculateCurrentPage(
+            currentYear = currentYearMonth.year,
+            currentMonth = currentYearMonth.month.number,
+            startYear = startYear
+        ),
+        pageCount = { calculatePageCount(startYear, endYear) },
     )
+    return remember {
+        MonthCalendarState(
+            pagerState = pagerState,
+            startYear = startYear,
+            endYear = endYear,
+        )
+    }
 }
 
 @Stable
 internal class MonthCalendarState(
-    currentYearMonth: YearMonth,
+    val pagerState: PagerState,
     val startYear: Int,
     val endYear: Int,
-    override val pageCount: Int,
-) : PagerState(
-    currentPage = calculateCurrentPage(
-        currentYear = currentYearMonth.year,
-        currentMonth = currentYearMonth.month.number,
-        startYear = startYear
-    )
 ) {
-    private var _currentYearMonth = derivedStateOf { getYearMonth(currentPage) }
+    private var _currentYearMonth = derivedStateOf { getYearMonth(pagerState.currentPage) }
     val currentYearMonth get() = _currentYearMonth.value
-    private var _currentMonthModel = derivedStateOf { getMonthModel(currentPage) }
+    private var _currentMonthModel = derivedStateOf { getMonthModel(pagerState.currentPage) }
     val currentMonthModel get() = _currentMonthModel.value
 
     /**
@@ -98,27 +92,6 @@ internal class MonthCalendarState(
         startYear + page / 12,
         page % 12 + 1,
     )
-
-    companion object {
-        val Saver: Saver<MonthCalendarState, *> = listSaver(
-            save = {
-                listOf(
-                    it.startYear,
-                    it.endYear,
-                    it.currentYearMonth,
-                    it.pageCount,
-                )
-            },
-            restore = {
-                MonthCalendarState(
-                    startYear = it[0] as Int,
-                    endYear = it[1] as Int,
-                    currentYearMonth = (it[2] as YearMonth),
-                    pageCount = it[3] as Int,
-                )
-            },
-        )
-    }
 }
 
 private fun calculatePageCount(

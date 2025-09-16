@@ -54,8 +54,8 @@ fun AcademicCalendarScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val calendarState = rememberMonthCalendarState()
 
-    LaunchedEffect(calendarState.currentPage) {
-        snapshotFlow { calendarState.currentPage }
+    LaunchedEffect(calendarState.pagerState.currentPage) {
+        snapshotFlow { calendarState.pagerState.currentPage }
             .distinctUntilChanged()
             .collect { page ->
                 val yearMonth = calendarState.getYearMonth(page)
@@ -95,9 +95,9 @@ private fun AcademicCalendarScreen(
             text = calendarState.currentMonthModel.toString(),
             contentPadding = PaddingValues(horizontal = 20.dp),
             onChevronClick = { pageChange ->
-                val currentPage = calendarState.currentPage
+                val currentPage = calendarState.pagerState.currentPage
                 coroutineScope.launch {
-                    calendarState.animateScrollToPage(currentPage + pageChange.value)
+                    calendarState.pagerState.animateScrollToPage(currentPage + pageChange.value)
                 }
             },
         )
@@ -138,7 +138,7 @@ private fun CalendarPager(
     modifier: Modifier = Modifier,
 ) {
     HorizontalPager(
-        state = calendarState,
+        state = calendarState.pagerState,
         contentPadding = PaddingValues(horizontal = 20.dp),
         pageSpacing = 74.dp,
         modifier = modifier.aspectRatio(1.2f),
