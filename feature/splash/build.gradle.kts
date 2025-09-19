@@ -20,6 +20,7 @@ dependencies {
     implementation(projects.data.department)
     implementation(projects.data.user)
     implementation(projects.domain.user)
+    implementation(projects.data.domain)
 
     implementation(libs.semver)
 
