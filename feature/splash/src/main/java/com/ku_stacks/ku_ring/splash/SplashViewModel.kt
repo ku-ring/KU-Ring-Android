@@ -44,11 +44,9 @@ class SplashViewModel @Inject constructor(
     }
 
     private suspend fun getMinimumVersion(): String {
-        return try {
+        return runCatching {
             kuringSpaceRepository.getMinimumAppVersion()
-        } catch (e: Exception) {
-            "0.0.0"
-        }
+        }.getOrDefault("0.0.0")
     }
 
     fun getUserData() = viewModelScope.launch {
