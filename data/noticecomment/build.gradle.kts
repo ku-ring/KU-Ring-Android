@@ -4,16 +4,10 @@ plugins {
     kuring("feature")
     kuringPrimitive("retrofit")
     kuringPrimitive("okhttp")
-    kuringPrimitive("test")
 }
 
 android {
     setNameSpace("noticecomment")
-    testOptions {
-        unitTests {
-            isIncludeAndroidResources = true
-        }
-    }
 }
 
 dependencies {
@@ -23,5 +17,4 @@ dependencies {
     implementation(projects.domain.noticecomment)
 
     implementation(libs.bundles.paging)
-    testImplementation(libs.kotlinx.coroutines.test)
 }

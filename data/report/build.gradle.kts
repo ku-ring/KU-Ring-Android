@@ -2,17 +2,11 @@ import com.ku_stacks.ku_ring.buildlogic.dsl.setNameSpace
 
 plugins {
     kuring("feature")
-    kuringPrimitive("test")
     kuringPrimitive("retrofit")
 }
 
 android {
     setNameSpace("report")
-    testOptions {
-        unitTests {
-            isIncludeAndroidResources = true
-        }
-    }
 }
 
 dependencies {
@@ -21,6 +15,4 @@ dependencies {
     implementation(projects.data.local)
     implementation(projects.data.remote)
     implementation(projects.domain.report)
-
-    testImplementation(libs.kotlinx.coroutines.test)
 }
