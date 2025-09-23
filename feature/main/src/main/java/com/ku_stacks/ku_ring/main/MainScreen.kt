@@ -29,7 +29,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.main.archive.compose.ArchiveScreen
+import com.ku_stacks.ku_ring.main.calendar.compose.AcademicCalendarScreen
 import com.ku_stacks.ku_ring.main.campusmap.CampusMapScreen
 import com.ku_stacks.ku_ring.main.notice.compose.NoticeScreen
 import com.ku_stacks.ku_ring.main.setting.SettingViewModel
@@ -107,7 +107,7 @@ fun MainScreen(
 private fun MainScreenRoute.screenOrder() =
     when (this) {
         is MainScreenRoute.Notice -> 0
-        is MainScreenRoute.Archive -> 1
+        is MainScreenRoute.Calendar -> 1
         is MainScreenRoute.CampusMap -> 2
         is MainScreenRoute.Settings -> 3
     }
@@ -153,8 +153,8 @@ fun NavGraphBuilder.mainScreenNavGraph(
                 .fillMaxSize(),
         )
     }
-    composable<MainScreenRoute.Archive> {
-        ArchiveScreen(
+    composable<MainScreenRoute.Calendar> {
+        AcademicCalendarScreen(
             modifier = Modifier
                 .background(KuringTheme.colors.background)
                 .fillMaxSize(),
