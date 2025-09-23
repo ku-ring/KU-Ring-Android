@@ -95,7 +95,7 @@ private fun String.formatToLocalDateTime(): String = runCatching {
     val koreanDayOfWeek = dateTime.dayOfWeek.koreanDayOfWeek()
     val amPm = if (dateTime.hour >= 12) "오후" else "오전"
 
-    val hour12 = if (dateTime.hour % 12 == 0) 12 else dateTime.hour % 12
+    val hour12 = with(dateTime.hour % 12) { if (this == 0) 12 else this}
     val hour = hour12.toString().padStart(2, '0')
 
     "$month .$date ($koreanDayOfWeek) $amPm $hour:$minute"
