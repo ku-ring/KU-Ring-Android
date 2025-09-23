@@ -20,6 +20,7 @@ interface KuringNavigator {
         category: String,
         subject: String
     )
+    fun navigateToArchive(activity: Activity)
     fun navigateToSearch(activity: Activity)
     fun createNoticeWebIntent(
         context: Context,
