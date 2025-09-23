@@ -34,7 +34,7 @@ internal fun AcademicScheduleItem(
     event: AcademicEvent,
     modifier: Modifier = Modifier,
 ) {
-    val scheduleType = ScheduleType.Companion.from(event.category)
+    val scheduleType = ScheduleType.from(event.category)
     val startTime = event.startTime.formatToLocalDateTime()
     val endTime = event.endTime.formatToLocalDateTime()
 
