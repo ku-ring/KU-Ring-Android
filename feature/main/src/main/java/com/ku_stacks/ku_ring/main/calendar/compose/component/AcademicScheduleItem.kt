@@ -16,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
@@ -35,8 +36,8 @@ internal fun AcademicScheduleItem(
     modifier: Modifier = Modifier,
 ) {
     val scheduleType = ScheduleType.from(event.category)
-    val startTime = event.startTime.formatToLocalDateTime()
-    val endTime = event.endTime.formatToLocalDateTime()
+    val startTime = remember { event.startTime.formatToLocalDateTime() }
+    val endTime = remember { event.endTime.formatToLocalDateTime() }
 
     Column {
         Row(
@@ -95,7 +96,7 @@ private fun String.formatToLocalDateTime(): String = runCatching {
     val koreanDayOfWeek = dateTime.dayOfWeek.koreanDayOfWeek()
     val amPm = if (dateTime.hour >= 12) "오후" else "오전"
 
-    val hour12 = with(dateTime.hour % 12) { if (this == 0) 12 else this}
+    val hour12 = with(dateTime.hour % 12) { if (this == 0) 12 else this }
     val hour = hour12.toString().padStart(2, '0')
 
     "$month .$date ($koreanDayOfWeek) $amPm $hour:$minute"
