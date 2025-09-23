@@ -130,6 +130,9 @@ fun NavGraphBuilder.mainScreenNavGraph(
             onSearchIconClick = {
                 navigator.navigateToSearch(activity)
             },
+            onArchiveIconClick = {
+                navigator.navigateToArchive(activity)
+            },
             onNotificationIconClick = {
                 navigator.navigateToEditSubscription(activity)
             },

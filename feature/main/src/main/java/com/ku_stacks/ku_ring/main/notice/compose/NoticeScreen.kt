@@ -24,6 +24,7 @@ import com.ku_stacks.ku_ring.thirdparty.di.LocalNavigator
 @Composable
 internal fun NoticeScreen(
     onSearchIconClick: () -> Unit,
+    onArchiveIconClick: () -> Unit,
     onNotificationIconClick: () -> Unit,
     onNoticeClick: (Notice) -> Unit,
     onNavigateToEditDepartment: () -> Unit,
@@ -47,6 +48,7 @@ internal fun NoticeScreen(
             topBar = {
                 NoticeScreenHeader(
                     onSearchIconClick = onSearchIconClick,
+                    onArchiveIconClick = onArchiveIconClick,
                     onNotificationIconClick = onNotificationIconClick,
                     modifier = Modifier.fillMaxWidth(),
                 )
@@ -81,6 +83,7 @@ private fun NoticeScreenPreview() {
     KuringTheme {
         NoticeScreen(
             onSearchIconClick = {},
+            onArchiveIconClick = {},
             onNotificationIconClick = {},
             onNoticeClick = {},
             onNavigateToEditDepartment = {},
