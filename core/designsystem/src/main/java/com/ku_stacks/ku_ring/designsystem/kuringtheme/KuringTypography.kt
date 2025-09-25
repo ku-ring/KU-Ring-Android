@@ -22,6 +22,7 @@ class KuringTypography(
     val title2: TextStyle = KuringTypographyTokens.Title2,
     val viewTitle: TextStyle = KuringTypographyTokens.ViewTitle,
     val titleSB: TextStyle = KuringTypographyTokens.TitleSB,
+    val title2M: TextStyle = KuringTypographyTokens.Title2M,
     val body1: TextStyle = KuringTypographyTokens.Body1,
     val body2: TextStyle = KuringTypographyTokens.Body2,
     val body2R: TextStyle = KuringTypographyTokens.Body2R,
@@ -41,6 +42,7 @@ class KuringTypography(
         title2: TextStyle = this.title2,
         viewTitle: TextStyle = this.viewTitle,
         titleSB: TextStyle = this.titleSB,
+        title2M: TextStyle = this.title2M,
         body1: TextStyle = this.body1,
         body2: TextStyle = this.body2,
         body2R: TextStyle = this.body2R,
@@ -59,6 +61,7 @@ class KuringTypography(
         title2 = title2,
         viewTitle = viewTitle,
         titleSB = titleSB,
+        title2M = title2M,
         body1 = body1,
         body2 = body2,
         body2R = body2R,
@@ -82,6 +85,7 @@ class KuringTypography(
         if (title2 != other.title2) return false
         if (viewTitle != other.viewTitle) return false
         if (titleSB != other.titleSB) return false
+        if (title2M != other.title2M) return false
         if (body1 != other.body1) return false
         if (body2 != other.body2) return false
         if (body2R != other.body2R) return false
@@ -103,6 +107,7 @@ class KuringTypography(
         result = 31 * result + title2.hashCode()
         result = 31 * result + viewTitle.hashCode()
         result = 31 * result + titleSB.hashCode()
+        result = 31 * result + title2M.hashCode()
         result = 31 * result + body1.hashCode()
         result = 31 * result + body2.hashCode()
         result = 31 * result + body2R.hashCode()
@@ -120,7 +125,8 @@ class KuringTypography(
 
     override fun toString(): String {
         return "KuringTypography(noticeTitle=$noticeTitle, " +
-                "title1=$title1, title2=$title2, viewTitle=$viewTitle, titleSB=$titleSB, " +
+                "title1=$title1, title2=$title2, viewTitle=$viewTitle, " +
+                "titleSB=$titleSB, title2M=$title2M, " +
                 "body1=$body1, body2=$body2, body2R=$body2R, body2SB=$body2SB, " +
                 "caption1=$caption1, caption1_1=$caption1_1, caption2=$caption2, " +
                 "tag=$tag, tag2=$tag2, inputField=$inputField, " +
@@ -154,6 +160,10 @@ private fun KuringTypographyPreview() {
         Text(
             "KuringTheme TitleSB",
             style = KuringTypography().titleSB,
+        )
+        Text(
+            "KuringTheme Title2M",
+            style = KuringTypography().title2M,
         )
         Text(
             "KuringTheme Body1",

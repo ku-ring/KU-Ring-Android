@@ -47,6 +47,13 @@ internal object KuringTypographyTokens {
             lineHeight = 1.5.em,
             letterSpacing = (-0.41).sp,
         )
+    val Title2M =
+        KuringDefaultTextStyle.copy(
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Medium,
+            lineHeight = 1.5.em,
+            letterSpacing = (-0.41).sp,
+        )
     val ViewTitle =
         KuringDefaultTextStyle.copy(
             fontSize = 18.sp,
