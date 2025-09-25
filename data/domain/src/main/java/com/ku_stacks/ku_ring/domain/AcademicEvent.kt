@@ -17,7 +17,7 @@ data class AcademicEvent(
     val period: String
         get() = runCatching {
             val formattedStart = formatLocalDateTime(startDateTime)
-            val formattedEnd = formatLocalDateTime(startDateTime)
+            val formattedEnd = formatLocalDateTime(endDateTime)
             "$formattedStart - $formattedEnd"
         }.getOrElse {
             "$startDateTime - $endDateTime"
