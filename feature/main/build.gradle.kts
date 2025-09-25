@@ -1,3 +1,4 @@
+import com.ku_stacks.ku_ring.buildlogic.dsl.implementation
 import com.ku_stacks.ku_ring.buildlogic.dsl.setNameSpace
 
 plugins {
@@ -26,6 +27,8 @@ dependencies {
     implementation(projects.domain.user)
 
     implementation(libs.bundles.compose.interop)
+    implementation(libs.kotlinx.datetime)
+    implementation(libs.kotlinx.immutable)
     implementation(platform(libs.firebase.bom))
     implementation(libs.bundles.firebase)
     implementation(libs.play.services.auth)

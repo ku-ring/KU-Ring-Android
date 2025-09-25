@@ -14,4 +14,5 @@ android {
 dependencies {
     implementation(projects.core.uiUtil)
     testImplementation(libs.kotlinx.coroutines.test)
+    implementation(libs.kotlinx.datetime)
 }

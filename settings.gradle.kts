@@ -58,5 +58,5 @@ include(
     ":feature:main",
     ":core:designsystem",
     ":feature:kuringbot",
-    ":feature:edit_departments"
+    ":feature:edit_departments",
 )
