@@ -21,7 +21,7 @@ internal fun NoticeTabScreens(
     onNavigateToAcademicEvent: () -> Unit,
     onNavigateToLibrarySeat: () -> Unit,
     modifier: Modifier = Modifier,
-    pagerState: PagerState = rememberPagerState { NoticeScreenTabItem.values().size },
+    pagerState: PagerState = rememberPagerState { NoticeScreenTabItem.entries.size },
 ) {
     Column(modifier = modifier) {
         NoticeScreenTabRow(pagerState = pagerState)
