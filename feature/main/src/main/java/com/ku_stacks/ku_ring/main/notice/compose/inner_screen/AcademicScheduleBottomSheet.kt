@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -132,12 +133,14 @@ private fun AcademicEventBottomSheetContent(
                     style = KuringTheme.typography.body1,
                     color = KuringTheme.colors.textTitle,
                     maxLines = 1,
+                    modifier = Modifier.heightIn(min = 24.dp),
                 )
                 Text(
                     text = academicEvent.period,
                     style = KuringTheme.typography.tag2,
                     color = KuringTheme.colors.textCaption1,
                     maxLines = 1,
+                    modifier = Modifier.heightIn(min = 18.dp),
                 )
             }
         }
