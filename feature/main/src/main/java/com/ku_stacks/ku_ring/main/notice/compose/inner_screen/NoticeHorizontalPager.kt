@@ -14,6 +14,7 @@ internal fun NoticeHorizontalPager(
     pagerState: PagerState,
     onNoticeClick: (Notice) -> Unit,
     onNavigateToEditDepartment: () -> Unit,
+    onNavigateToAcademicEvent: () -> Unit,
     onNavigateToLibrarySeat: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -27,6 +28,7 @@ internal fun NoticeHorizontalPager(
                     viewModel = hiltViewModel(),
                     onNoticeClick = onNoticeClick,
                     onNavigateToEditDepartment = onNavigateToEditDepartment,
+                    onNavigateToAcademicEvent = onNavigateToAcademicEvent,
                     modifier = Modifier.fillMaxSize(),
                 )
             }

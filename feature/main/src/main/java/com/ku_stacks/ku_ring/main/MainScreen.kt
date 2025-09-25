@@ -96,6 +96,7 @@ fun MainScreen(
                 },
             ) {
                 mainScreenNavGraph(
+                    navController = navController,
                     navigator = navigator,
                     activity = activity,
                 )
@@ -122,6 +123,7 @@ private fun slideDirection(
 }
 
 fun NavGraphBuilder.mainScreenNavGraph(
+    navController: NavHostController,
     navigator: KuringNavigator,
     activity: Activity,
 ) {
@@ -141,6 +143,9 @@ fun NavGraphBuilder.mainScreenNavGraph(
             },
             onNavigateToEditDepartment = {
                 navigator.navigateToEditSubscribedDepartment(activity)
+            },
+            onNavigateToAcademicEvent = {
+                navController.navigate(MainScreenRoute.Calendar)
             },
             onNavigateToLibrarySeat = {
                 navigator.navigateToLibrarySeat(activity)

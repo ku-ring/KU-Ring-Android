@@ -28,6 +28,7 @@ internal fun NoticeScreen(
     onNotificationIconClick: () -> Unit,
     onNoticeClick: (Notice) -> Unit,
     onNavigateToEditDepartment: () -> Unit,
+    onNavigateToAcademicEvent: () -> Unit,
     onNavigateToLibrarySeat: () -> Unit,
     onBackSingleTap: () -> Unit,
     onBackDoubleTap: () -> Unit,
@@ -68,6 +69,7 @@ internal fun NoticeScreen(
             NoticeTabScreens(
                 onNoticeClick = onNoticeClick,
                 onNavigateToEditDepartment = onNavigateToEditDepartment,
+                onNavigateToAcademicEvent = onNavigateToAcademicEvent,
                 onNavigateToLibrarySeat = onNavigateToLibrarySeat,
                 modifier = Modifier
                     .padding(contentPadding)
@@ -87,6 +89,7 @@ private fun NoticeScreenPreview() {
             onNotificationIconClick = {},
             onNoticeClick = {},
             onNavigateToEditDepartment = {},
+            onNavigateToAcademicEvent = {},
             onNavigateToLibrarySeat = {},
             onBackSingleTap = {},
             onBackDoubleTap = {},
