@@ -39,7 +39,7 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override fun getBlackUserList(): Flow<List<String>> {
-        return dao.getBlackList().map { it.map { it.userId } }
+        return dao.getBlackList().map { it.map { user -> user.userId } }
     }
 
     override suspend fun sendFeedback(feedback: String): Result<Pair<Boolean, String>> {

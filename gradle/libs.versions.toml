@@ -1,12 +1,12 @@
 [versions]
 # project-level dependency
-android-gradle = "8.12.1"
-kotlin = '2.1.21'
-ksp = '2.1.21-2.0.2'
-hilt = '2.57'
+android-gradle = "8.13.0"
+kotlin = '2.2.20'
+ksp = '2.2.20-2.0.3'
+hilt = '2.57.1'
 google-services = '4.4.3'
-firebase-gradle = '3.0.5'
-oss-licenses-version = '0.10.6'
+firebase-gradle = '3.0.6'
+oss-licenses-version = '0.10.9'
 compileSdk = "35"
 targetSdk = "35"
 minSdk = "24"
@@ -21,41 +21,41 @@ kotlinx-serialization-json = "1.9.0"
 
 # Compose
 compose-compiler = '1.4.8'
-compose-bom = '2025.07.00'
+compose-bom = '2025.09.00'
 
 # Androidx
-androidx-lifecycle = '2.9.2'
+androidx-lifecycle = '2.9.4'
 androidx-appcompat = "1.7.1"
 androidx-constraintlayout = "2.2.1"
 androidx-constraintlayout-compose = "1.1.1"
 androidx-activity = '1.10.1'
-androidx-core = "1.16.0"
-androidx-fragment = '1.8.8'
+androidx-core = "1.16.0" # 1.17.0은 targetSdk 36 필요
+androidx-fragment = '1.8.9'
 androidx-paging = '3.3.6'
-androidx-room = '2.7.2'
+androidx-room = '2.8.0'
 androidx-viewpager2 = '1.1.0'
-androidx-work = '2.10.2'
-androidx-navigation = "2.9.2"
+androidx-work = '2.10.4'
+androidx-navigation = "2.9.4"
 androidx-startup = '1.2.0'
 androidx-swiperefreshlayout = '1.2.0-beta01'
-android-material = '1.12.0'
-androidx-hilt = "1.2.0"
-androidx-test-core = "1.6.1"
-androidx-test-rules = "1.6.1"
-androidx-test = "1.6.2"
+android-material = '1.13.0'
+androidx-hilt = "1.3.0"
+androidx-test-core = "1.7.0"
+androidx-test-rules = "1.7.0"
+androidx-test = "1.7.0"
 desugarJdk = "2.1.5"
 
 # Test
-androidx-espresso = "3.6.1"
+androidx-espresso = "3.7.0"
 
 # Third Party
 coil = '2.7.0'
 okhttp = '5.1.0'
 retrofit = '3.0.0'
-firebase = '34.0.0'
-crashlytics = "3.0.5"
-lottie = "6.6.7"
-ktor = "3.2.3"
+firebase = '34.3.0'
+crashlytics = "3.0.6"
+lottie = "6.6.9"
+ktor = "3.3.0"
 javax-inject = "1"
 
 [libraries]
