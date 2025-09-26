@@ -3,7 +3,7 @@
 android-gradle = "8.13.0"
 kotlin = '2.2.20'
 ksp = '2.2.20-2.0.3'
-hilt = '2.57.1'
+hilt = '2.57.2'
 google-services = '4.4.3'
 firebase-gradle = '3.0.6'
 oss-licenses-version = '0.10.9'
