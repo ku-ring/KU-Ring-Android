@@ -33,7 +33,7 @@ data class AcademicEvent(
         val hour12 = with(dateTime.hour % 12) { if (this == 0) 12 else this }
         val hour = hour12.toString().padStart(2, '0')
 
-        "$month .$date ($koreanDayOfWeek) $amPm $hour:$minute"
+        "$month. $date ($koreanDayOfWeek) $amPm $hour:$minute"
     }.getOrDefault("")
 
     private fun getKoreanDayOfWeek(dayOfWeek: DayOfWeek): String =
