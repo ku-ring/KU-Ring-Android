@@ -7,7 +7,7 @@ class AcademicEventClient @Inject constructor(
     private val academicEventService: AcademicEventService
 ) {
     suspend fun fetchAcademicEvents(
-        startDate: String,
-        endDate: String
+        startDate: String?,
+        endDate: String?,
     ): AcademicEventListResponse = academicEventService.fetchAcademicEvents(startDate, endDate)
 }
