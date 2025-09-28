@@ -23,8 +23,8 @@ internal fun SubscribeGroup(
     onNavigateToEditSubscription: () -> Unit,
     isExtNotificationEnabled: Boolean,
     onExtNotificationEnabledToggle: (Boolean) -> Unit,
-    isAcademicNotificationEnabled: Boolean,
-    onAcademicNotificationEnabledToggle: (Boolean) -> Unit,
+    isAcademicEventNotificationEnabled: Boolean,
+    onAcademicEventNotificationEnabledToggle: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
@@ -46,8 +46,8 @@ internal fun SubscribeGroup(
             SettingSwitch(
                 iconId = R.drawable.ic_bell_v2,
                 titleId = R.string.setting_subscribe_academic_events,
-                checked = isAcademicNotificationEnabled,
-                onCheckedChange = onAcademicNotificationEnabledToggle,
+                checked = isAcademicEventNotificationEnabled,
+                onCheckedChange = onAcademicEventNotificationEnabledToggle,
                 descriptionId = R.string.setting_subscribe_academic_events_caption,
             )
         }
@@ -66,8 +66,8 @@ private fun SubscribeGroupPreview() {
             onExtNotificationEnabledToggle = {
                 isExtNotificationEnabled = !isExtNotificationEnabled
             },
-            isAcademicNotificationEnabled = isAcademicNotificationEnabled,
-            onAcademicNotificationEnabledToggle = {
+            isAcademicEventNotificationEnabled = isAcademicNotificationEnabled,
+            onAcademicEventNotificationEnabledToggle = {
                 isAcademicNotificationEnabled = !isAcademicNotificationEnabled
             },
             modifier = Modifier

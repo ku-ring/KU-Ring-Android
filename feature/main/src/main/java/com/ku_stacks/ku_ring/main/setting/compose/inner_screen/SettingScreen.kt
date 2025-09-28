@@ -101,8 +101,8 @@ internal fun SettingScreen(
                             onNavigateToEditSubscription = onNavigateToEditSubscription,
                             isExtNotificationEnabled = isExtNotificationEnabled,
                             onExtNotificationEnabledToggle = onExtNotificationEnabledToggle,
-                            isAcademicNotificationEnabled = isAcademicEventNotificationEnabled,
-                            onAcademicNotificationEnabledToggle = onAcademicEventNotificationEnabledToggle,
+                            isAcademicEventNotificationEnabled = isAcademicEventNotificationEnabled,
+                            onAcademicEventNotificationEnabledToggle = onAcademicEventNotificationEnabledToggle,
                         )
                         SettingScreenDivider()
                         InformationGroup(
