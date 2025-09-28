@@ -180,6 +180,12 @@ fun NavGraphBuilder.mainScreenNavGraph(
             onNavigateToSignIn = { navigator.navigateToAuth(activity) },
             onNavigateToEditSubscription = { navigator.navigateToEditSubscription(activity) },
             onExtNotificationEnabledToggle = viewModel::setExtNotificationAllowed,
+            onAcademicEventNotificationEnabledToggle = { value ->
+                viewModel.setAcademicEventNotificationAllowed(
+                    value = value,
+                    onFail = { activity.showToast(R.string.setting_subscribe_academic_events_fail) },
+                )
+            },
             onNavigateToUpdateLog = {
                 activity.startWebView(navigator, R.string.notion_new_contents_url)
             },

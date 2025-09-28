@@ -57,6 +57,7 @@ internal fun SettingScreen(
     onNavigateToSignIn: () -> Unit,
     onNavigateToEditSubscription: () -> Unit,
     onExtNotificationEnabledToggle: (Boolean) -> Unit,
+    onAcademicEventNotificationEnabledToggle: (Boolean) -> Unit,
     onNavigateToUpdateLog: () -> Unit,
     onNavigateToKuringTeam: () -> Unit,
     onNavigateToPrivacyPolicy: () -> Unit,
@@ -100,6 +101,8 @@ internal fun SettingScreen(
                             onNavigateToEditSubscription = onNavigateToEditSubscription,
                             isExtNotificationEnabled = isExtNotificationEnabled,
                             onExtNotificationEnabledToggle = onExtNotificationEnabledToggle,
+                            isAcademicNotificationEnabled = isAcademicEventNotificationEnabled,
+                            onAcademicNotificationEnabledToggle = onAcademicEventNotificationEnabledToggle,
                         )
                         SettingScreenDivider()
                         InformationGroup(
@@ -227,6 +230,7 @@ private fun SettingScreenPreview() {
             onNavigateToSignIn = {},
             onNavigateToEditSubscription = {},
             onExtNotificationEnabledToggle = {},
+            onAcademicEventNotificationEnabledToggle = {},
             onNavigateToUpdateLog = {},
             onNavigateToKuringTeam = {},
             onNavigateToPrivacyPolicy = {},
