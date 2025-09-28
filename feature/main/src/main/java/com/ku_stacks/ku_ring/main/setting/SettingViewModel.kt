@@ -55,7 +55,7 @@ class SettingViewModel @Inject constructor(
 
     fun setAcademicEventNotificationAllowed(value: Boolean, onFail: () -> Unit) {
         viewModelScope.launch {
-            if (userRepository.setAcademicEventNotification(value).isSuccess) {
+            if (userRepository.setAcademicEventNotification(value).getOrNull() == true) {
                 pref.academicEventNotificationAllowed = value
                 _isAcademicEventNotificationAllowed.value = value
             } else {
