@@ -220,8 +220,9 @@ private fun SettingScreenPreview() {
     KuringTheme {
         SettingScreen(
             settingUiState = SettingUiState.Success(
-                isExtNotificationEnabled = true,
                 userProfileState = UserProfileState.LoggedIn("홍길동"),
+                isExtNotificationEnabled = true,
+                isAcademicEventNotificationEnabled = true,
             ),
             onNavigateToSignIn = {},
             onNavigateToEditSubscription = {},

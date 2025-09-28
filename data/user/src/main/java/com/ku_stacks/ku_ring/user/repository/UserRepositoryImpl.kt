@@ -8,6 +8,7 @@ import com.ku_stacks.ku_ring.local.room.BlackUserDao
 import com.ku_stacks.ku_ring.local.room.CategoryOrderDao
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.remote.user.UserClient
+import com.ku_stacks.ku_ring.remote.user.request.AcademicEventNotificationRequest
 import com.ku_stacks.ku_ring.remote.user.request.AuthorizeUserRequest
 import com.ku_stacks.ku_ring.remote.user.request.FeedbackRequest
 import com.ku_stacks.ku_ring.user.mapper.toDomain
@@ -55,6 +56,15 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun registerUser(token: String) {
         userClient.registerUser(token)
+    }
+
+    override suspend fun setAcademicEventNotification(enabled: Boolean): Result<Boolean> {
+        return suspendRunCatching {
+            userClient.setAcademicEventNotification(
+                token = pref.fcmToken,
+                request = AcademicEventNotificationRequest(enabled),
+            ).isSuccess
+        }
     }
 
     override suspend fun getUserData(): Result<User> = runCatching {
