@@ -11,7 +11,7 @@ sealed interface MainScreenRoute : KuringRoute {
     data object Notice : MainScreenRoute
 
     @Serializable
-    data object Archive : MainScreenRoute
+    data object Calendar : MainScreenRoute
 
     @Serializable
     data object CampusMap : MainScreenRoute
@@ -20,7 +20,7 @@ sealed interface MainScreenRoute : KuringRoute {
     data object Settings : MainScreenRoute
 
     companion object {
-        val entries = listOf(Notice, Archive, CampusMap, Settings)
+        val entries = listOf(Notice, Calendar, CampusMap, Settings)
 
         fun of(entry: NavBackStackEntry): MainScreenRoute =
             entry.destination.route.orEmpty().let { route ->

@@ -64,8 +64,8 @@ internal val mockEvents = buildList {
                 id = index.toLong(),
                 summary = "수강바구니 ${index}차",
                 category = ScheduleType.EVENT.name,
-                startTime = start.toString(),
-                endTime = start.toString(),
+                startDateTime = start,
+                endDateTime = start,
             )
         )
 
@@ -74,9 +74,9 @@ internal val mockEvents = buildList {
                 id = index.toLong() + 10,
                 summary = "수강바구니 ${index.toLong() + 10}차",
                 category = ScheduleType.ETC.name,
-                startTime = end.toString(),
-                endTime = end.toString(),
+                startDateTime = end,
+                endDateTime = end,
             )
         )
     }
-}.groupBy { LocalDateTime.parse(it.startTime).date.toString() }.toImmutableMap()
+}.groupBy { LocalDateTime.parse(it.startDateTime.toString()).date.toString() }.toImmutableMap()

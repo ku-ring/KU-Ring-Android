@@ -123,10 +123,10 @@ data class MainScreenNavigationBarItem(
                     labelId = R.string.navigator_notice_screen,
                 )
 
-                MainScreenRoute.Archive -> MainScreenNavigationBarItem(
-                    selectedIconId = R.drawable.ic_archive_fill_v2,
-                    unselectedIconId = R.drawable.ic_archive_v2,
-                    labelId = R.string.navigator_archive_screen,
+                MainScreenRoute.Calendar -> MainScreenNavigationBarItem(
+                    selectedIconId = R.drawable.ic_calendar_fill_v2,
+                    unselectedIconId = R.drawable.ic_calendar_v2,
+                    labelId = R.string.navigator_academic_calendar_screen,
                 )
 
                 MainScreenRoute.CampusMap -> MainScreenNavigationBarItem(

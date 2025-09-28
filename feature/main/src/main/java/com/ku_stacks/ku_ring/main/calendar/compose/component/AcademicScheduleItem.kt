@@ -16,7 +16,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
@@ -26,9 +25,7 @@ import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.AcademicEvent
 import com.ku_stacks.ku_ring.main.calendar.type.ScheduleType
 import com.ku_stacks.ku_ring.main.calendar.type.color
-import com.ku_stacks.ku_ring.util.koreanDayOfWeek
 import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.number
 
 @Composable
 internal fun AcademicScheduleItem(
@@ -36,8 +33,6 @@ internal fun AcademicScheduleItem(
     modifier: Modifier = Modifier,
 ) {
     val scheduleType = ScheduleType.from(event.category)
-    val startTime = remember(event) { event.startTime.formatToLocalDateTime() }
-    val endTime = remember(event) { event.endTime.formatToLocalDateTime() }
 
     Column {
         Row(
@@ -58,7 +53,7 @@ internal fun AcademicScheduleItem(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "$startTime - $endTime",
+                    text = event.period,
                     style = KuringTheme.typography.tag2,
                     color = KuringTheme.colors.textCaption1,
                     maxLines = 1,
@@ -88,20 +83,6 @@ private fun ScheduleColorIndicator(
     )
 }
 
-private fun String.formatToLocalDateTime(): String = runCatching {
-    val dateTime = LocalDateTime.parse(this)
-    val month = dateTime.month.number
-    val date = dateTime.day.toString().padStart(2, '0')
-    val minute = dateTime.minute.toString().padStart(2, '0')
-    val koreanDayOfWeek = dateTime.dayOfWeek.koreanDayOfWeek()
-    val amPm = if (dateTime.hour >= 12) "오후" else "오전"
-
-    val hour12 = with(dateTime.hour % 12) { if (this == 0) 12 else this }
-    val hour = hour12.toString().padStart(2, '0')
-
-    "$month .$date ($koreanDayOfWeek) $amPm $hour:$minute"
-}.getOrDefault("")
-
 @LightAndDarkPreview
 @Composable
 private fun AcademicScheduleItemPreview() {
@@ -116,8 +97,12 @@ private fun AcademicScheduleItemPreview() {
                     id = 1L,
                     summary = "수강바구니 1차",
                     category = ScheduleType.EVENT.name,
-                    startTime = "2025-08-04T09:30:00",
-                    endTime = "2025-08-05T13:00:00",
+                    startDateTime = LocalDateTime(
+                        2025, 8, 4, 9, 30
+                    ),
+                    endDateTime = LocalDateTime(
+                        2025, 8, 5, 13, 0
+                    ),
                 )
             )
         }

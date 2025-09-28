@@ -16,6 +16,7 @@ import com.ku_stacks.ku_ring.main.R
 @Composable
 internal fun NoticeScreenHeader(
     onSearchIconClick: () -> Unit,
+    onArchiveIconClick: () -> Unit,
     onNotificationIconClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -25,6 +26,13 @@ internal fun NoticeScreenHeader(
             contentDescription = stringResource(id = R.string.notice_screen_header_search),
             onClick = onSearchIconClick,
         )
+
+        NoticeScreenHeaderIcon(
+            resourceId = R.drawable.ic_archive_v2,
+            contentDescription = stringResource(id = R.string.notice_screen_header_storage),
+            onClick = onArchiveIconClick,
+        )
+
         NoticeScreenHeaderIcon(
             resourceId = R.drawable.ic_bell_v2,
             contentDescription = stringResource(id = R.string.notice_screen_header_notification),
@@ -58,6 +66,7 @@ private fun NoticeScreenHeaderPreview() {
     KuringTheme {
         NoticeScreenHeader(
             onSearchIconClick = {},
+            onArchiveIconClick = {},
             onNotificationIconClick = {},
             modifier = Modifier.fillMaxWidth(),
         )
