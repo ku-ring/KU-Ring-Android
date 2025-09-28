@@ -1,5 +1,6 @@
 package com.ku_stacks.ku_ring.local.test
 
+import com.ku_stacks.ku_ring.local.entity.AcademicEventEntity
 import com.ku_stacks.ku_ring.local.entity.DepartmentEntity
 import com.ku_stacks.ku_ring.local.entity.KuringBotMessageEntity
 import com.ku_stacks.ku_ring.local.entity.NoticeEntity
@@ -63,5 +64,15 @@ object LocalTestUtil {
         message = message,
         postedEpochSeconds = postedEpochSeconds,
         isQuery = isQuery,
+    )
+
+    fun fakeAcademicEventEntity() = AcademicEventEntity(
+        id = 2417,
+        eventUid = "EC66FB8098",
+        summary = "등록금의 6분의 5해당액 반환",
+        description = null,
+        category = "ETC",
+        startTime = "2025-03-04T00:00:00",
+        endTime = "2025-04-03T00:00:00",
     )
 }
