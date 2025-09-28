@@ -1,0 +1,33 @@
+{
+  "code": 200,
+  "message": "학사일정 조회에 성공했습니다.",
+  "data": [
+    {
+      "id": 2417,
+      "eventUid": "EC66FB8098",
+      "summary": "등록금의 6분의 5해당액 반환",
+      "description": null,
+      "category": "ETC",
+      "startTime": "2025-03-04T00:00:00",
+      "endTime": "2025-04-03T00:00:00"
+    },
+    {
+      "id": 2429,
+      "eventUid": "41C75146F2",
+      "summary": "제적생변동상황 통계작업(휴복학처리불가)",
+      "description": null,
+      "category": "ETC",
+      "startTime": "2025-03-31T00:00:00",
+      "endTime": "2025-04-12T00:00:00"
+    },
+    {
+      "id": 2430,
+      "eventUid": "F5910C8205",
+      "summary": "4학년 교육실습",
+      "description": null,
+      "category": "ETC",
+      "startTime": "2025-04-01T00:00:00",
+      "endTime": "2025-05-01T00:00:00"
+    }
+  ]
+}
