@@ -2,9 +2,9 @@ package com.ku_stacks.ku_ring.preferences
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.core.content.edit
 import com.ku_stacks.ku_ring.util.WordConverter
 import dagger.hilt.android.qualifiers.ApplicationContext
-import androidx.core.content.edit
 
 class PreferenceUtil(@ApplicationContext context: Context) {
 
@@ -34,6 +34,10 @@ class PreferenceUtil(@ApplicationContext context: Context) {
     var extNotificationAllowed: Boolean
         get() = prefs.getBoolean(DEFAULT_NOTIFICATION, true)
         set(value) = prefs.edit().putBoolean(DEFAULT_NOTIFICATION, value).apply()
+
+    var academicEventNotificationAllowed: Boolean
+        get() = prefs.getBoolean(ACADEMIC_EVENT_NOTIFICATION, true)
+        set(value) = prefs.edit { putBoolean(ACADEMIC_EVENT_NOTIFICATION, value) }
 
     var campusUserId: String
         get() = prefs.getString(CAMPUS_USER_ID, null) ?: ""
@@ -66,6 +70,7 @@ class PreferenceUtil(@ApplicationContext context: Context) {
         const val FCM_TOKEN = "FCM_TOKEN"
         const val SUBSCRIPTION = "SUBSCRIPTION"
         const val DEFAULT_NOTIFICATION = "DEFAULT_NOTIFICATION"
+        const val ACADEMIC_EVENT_NOTIFICATION = "ACADEMIC_EVENT_NOTIFICATION"
         const val CAMPUS_USER_ID = "CAMPUS_USER_ID"
         const val SURVEY_2024_COMPLETE = "SURVEY_2024_COMPLETE"
     }
