@@ -22,4 +22,7 @@ dependencies {
     implementation(projects.data.domain)
     implementation(projects.data.local)
     implementation(projects.data.remote)
+
+    implementation(libs.kotlinx.datetime)
+    testImplementation(libs.kotlinx.coroutines.test)
 }
