@@ -1,5 +1,6 @@
 package com.ku_stacks.ku_ring.remote.user
 
+import com.ku_stacks.ku_ring.remote.user.request.AcademicEventNotificationRequest
 import com.ku_stacks.ku_ring.remote.user.request.AuthorizeUserRequest
 import com.ku_stacks.ku_ring.remote.user.request.FeedbackRequest
 import com.ku_stacks.ku_ring.remote.user.request.RegisterUserRequest
@@ -15,6 +16,12 @@ import retrofit2.http.PATCH
 import retrofit2.http.POST
 
 interface UserService {
+    @PATCH("v2/users/notifications/academic-events")
+    suspend fun patchAcademicEventNotification(
+        @Header("User-Token") token: String,
+        @Body request: AcademicEventNotificationRequest,
+    ): DefaultResponse
+
     @POST("v2/users/feedbacks")
     suspend fun sendFeedback(
         @Header("User-Token") token: String,
