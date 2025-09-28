@@ -28,6 +28,7 @@ include(
     ":data:notice:test",
     ":data:noticecomment",
     ":core:preferences",
+    ":data:academicevent",
     ":data:ai",
     ":data:user",
     ":data:staff",
