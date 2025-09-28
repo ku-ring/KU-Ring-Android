@@ -2,6 +2,7 @@ package com.ku_stacks.ku_ring.local.room
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.ku_stacks.ku_ring.local.entity.AcademicEventEntity
 import com.ku_stacks.ku_ring.local.entity.BlackUserEntity
 import com.ku_stacks.ku_ring.local.entity.CategoryOrderEntity
 import com.ku_stacks.ku_ring.local.entity.DepartmentEntity
@@ -19,6 +20,7 @@ import com.ku_stacks.ku_ring.local.entity.SearchHistoryEntity
         SearchHistoryEntity::class,
         KuringBotMessageEntity::class,
         CategoryOrderEntity::class,
+        AcademicEventEntity::class,
     ],
     version = 10,
     exportSchema = false
@@ -31,4 +33,5 @@ abstract class KuRingDatabase : RoomDatabase() {
     abstract fun searchHistoryDao(): SearchHistoryDao
     abstract fun kuringBotMessageDao(): KuringBotMessageDao
     abstract fun categoryOrderDao(): CategoryOrderDao
+    abstract fun academicEventDao(): AcademicEventDao
 }

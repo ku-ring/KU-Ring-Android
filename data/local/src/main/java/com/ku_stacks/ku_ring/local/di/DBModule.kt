@@ -40,10 +40,10 @@ object DBModule {
             override fun migrate(db: SupportSQLiteDatabase) {
                 db.execSQL(
                     "CREATE TABLE IF NOT EXISTS departments (" +
-                        "name TEXT PRIMARY KEY NOT NULL, " +
-                        "shortName TEXT NOT NULL DEFAULT '', " +
-                        "koreanName TEXT NOT NULL DEFAULT '', " +
-                        "isSubscribed INTEGER NOT NULL DEFAULT 0)",
+                            "name TEXT PRIMARY KEY NOT NULL, " +
+                            "shortName TEXT NOT NULL DEFAULT '', " +
+                            "koreanName TEXT NOT NULL DEFAULT '', " +
+                            "isSubscribed INTEGER NOT NULL DEFAULT 0)",
                 )
             }
         }
@@ -62,8 +62,8 @@ object DBModule {
                 db.execSQL("ALTER TABLE departments ADD COLUMN isMainDepartment INT NOT NULL DEFAULT 0")
                 db.execSQL(
                     "CREATE TABLE IF NOT EXISTS `SearchHistoryEntity` " +
-                        "(`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
-                        "`keyword` TEXT NOT NULL)",
+                            "(`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                            "`keyword` TEXT NOT NULL)",
                 )
             }
         }
@@ -132,26 +132,45 @@ object DBModule {
         }
     }
 
+    private val MIGRATION_10_11 = object : Migration(10, 11) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL(
+                """
+                CREATE TABLE IF NOT EXISTS AcademicEventEntity(
+                    id INTEGER NOT NULL,
+                    eventUid TEXT PRIMARY KEY NOT NULL,
+                    summary TEXT NOT NULL,
+                    description TEXT,
+                    category TEXT NOT NULL,
+                    startTime TEXT NOT NULL,
+                    endTime TEXT NOT NULL
+                )
+            """.trimIndent()
+            )
+        }
+    }
+
     @Singleton
     @Provides
     fun provideKuRingDatabase(
         @ApplicationContext context: Context,
     ): KuRingDatabase = Room
-            .databaseBuilder(
-                context,
-                KuRingDatabase::class.java,
-                "ku-ring-db",
-            ).addMigrations(
-                MIGRATION_1_2,
-                MIGRATION_2_3,
-                MIGRATION_3_4,
-                MIGRATION_4_5,
-                MIGRATION_5_6,
-                MIGRATION_6_7,
-                MIGRATION_7_8,
-                MIGRATION_8_9,
-                MIGRATION_9_10,
-            ).build()
+        .databaseBuilder(
+            context,
+            KuRingDatabase::class.java,
+            "ku-ring-db",
+        ).addMigrations(
+            MIGRATION_1_2,
+            MIGRATION_2_3,
+            MIGRATION_3_4,
+            MIGRATION_4_5,
+            MIGRATION_5_6,
+            MIGRATION_6_7,
+            MIGRATION_7_8,
+            MIGRATION_8_9,
+            MIGRATION_9_10,
+            MIGRATION_10_11,
+        ).build()
 
     @Singleton
     @Provides
@@ -180,4 +199,8 @@ object DBModule {
     @Singleton
     @Provides
     fun provideCategoryOrderDao(database: KuRingDatabase) = database.categoryOrderDao()
+
+    @Singleton
+    @Provides
+    fun provideAcademicEventDao(database: KuRingDatabase) = database.academicEventDao()
 }
