@@ -63,9 +63,8 @@
     <string name="setting_subscribe_notifications">공지 구독하기</string>
     <string name="setting_subscribe_others">기타 알림 받기</string>
     <string name="setting_subscribe_others_caption">주요 공지사항, 앱 내 주요 사항</string>
-    <!--  TODO: 디자인팀에 정확한 문구 문의 중  -->
-    <string name="setting_subscribe_academic_events">학과 알림 받기</string>
-    <string name="setting_subscribe_academic_events_caption">학과 일정 안내</string>
+    <string name="setting_subscribe_academic_events">학사일정 알림 받기</string>
+    <string name="setting_subscribe_academic_events_caption">당일 학사일정 시작과 종료 알림</string>
     <string name="setting_subscribe_academic_events_fail">잠시 후 다시 시도해 주세요.</string>
 
     <string name="setting_information_title">정보</string>
