@@ -22,7 +22,7 @@ import com.ku_stacks.ku_ring.local.entity.SearchHistoryEntity
         CategoryOrderEntity::class,
         AcademicEventEntity::class,
     ],
-    version = 10,
+    version = 11,
     exportSchema = false
 )
 abstract class KuRingDatabase : RoomDatabase() {
