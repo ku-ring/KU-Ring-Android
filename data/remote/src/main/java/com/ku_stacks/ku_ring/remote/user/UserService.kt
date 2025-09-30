@@ -18,7 +18,6 @@ import retrofit2.http.POST
 interface UserService {
     @PATCH("v2/users/notifications/academic-events")
     suspend fun patchAcademicEventNotification(
-        @Header("User-Token") token: String,
         @Body request: AcademicEventNotificationRequest,
     ): DefaultResponse
 

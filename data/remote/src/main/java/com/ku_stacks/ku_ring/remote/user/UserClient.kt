@@ -14,14 +14,8 @@ class UserClient @Inject constructor(
     private val userService: UserService
 ) {
     suspend fun setAcademicEventNotification(
-        token: String,
         request: AcademicEventNotificationRequest,
-    ): DefaultResponse {
-        return userService.patchAcademicEventNotification(
-            token = token,
-            request = request
-        )
-    }
+    ): DefaultResponse = userService.patchAcademicEventNotification(request)
 
     suspend fun sendFeedback(
         token: String,

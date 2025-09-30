@@ -61,7 +61,6 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun setAcademicEventNotification(enabled: Boolean): Result<Boolean> {
         return suspendRunCatching {
             userClient.setAcademicEventNotification(
-                token = pref.fcmToken,
                 request = AcademicEventNotificationRequest(enabled),
             ).isSuccess
         }
