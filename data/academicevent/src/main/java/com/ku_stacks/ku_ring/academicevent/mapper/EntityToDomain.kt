@@ -7,6 +7,7 @@ import kotlinx.datetime.LocalDateTime
 internal fun AcademicEventEntity.toDomain() = AcademicEvent(
     id = id,
     summary = summary,
+    description = description,
     category = category,
     startDateTime = LocalDateTime.parse(startTime),
     endDateTime = LocalDateTime.parse(endTime),
