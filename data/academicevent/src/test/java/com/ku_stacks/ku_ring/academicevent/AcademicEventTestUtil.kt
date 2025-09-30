@@ -18,7 +18,6 @@ object AcademicEventTestUtil {
                 endTime = "2025-04-03T00:00:00"
             ),
             AcademicEventResponse(
-
                 id = 2429,
                 eventUid = "41C75146F2",
                 summary = "제적생변동상황 통계작업(휴복학처리불가)",
