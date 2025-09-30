@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.academicevent.repository
+package com.ku_stacks.ku_ring.domain.academicevent.repository
 
 import com.ku_stacks.ku_ring.domain.AcademicEvent
 

@@ -1,7 +1,7 @@
 package com.ku_stacks.ku_ring.academicevent.di
 
-import com.ku_stacks.ku_ring.academicevent.repository.AcademicEventRepository
 import com.ku_stacks.ku_ring.academicevent.repository.AcademicEventRepositoryImpl
+import com.ku_stacks.ku_ring.domain.academicevent.repository.AcademicEventRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

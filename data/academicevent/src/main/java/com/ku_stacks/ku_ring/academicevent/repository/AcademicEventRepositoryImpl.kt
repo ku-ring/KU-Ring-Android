@@ -3,6 +3,7 @@ package com.ku_stacks.ku_ring.academicevent.repository
 import com.ku_stacks.ku_ring.academicevent.mapper.toDomain
 import com.ku_stacks.ku_ring.academicevent.mapper.toEntity
 import com.ku_stacks.ku_ring.domain.AcademicEvent
+import com.ku_stacks.ku_ring.domain.academicevent.repository.AcademicEventRepository
 import com.ku_stacks.ku_ring.local.entity.AcademicEventEntity
 import com.ku_stacks.ku_ring.local.room.AcademicEventDao
 import com.ku_stacks.ku_ring.remote.academicevent.AcademicEventClient

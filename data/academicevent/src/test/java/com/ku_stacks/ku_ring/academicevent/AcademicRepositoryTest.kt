@@ -5,8 +5,8 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.ku_stacks.ku_ring.academicevent.mapper.toDomain
 import com.ku_stacks.ku_ring.academicevent.mapper.toEntity
-import com.ku_stacks.ku_ring.academicevent.repository.AcademicEventRepository
 import com.ku_stacks.ku_ring.academicevent.repository.AcademicEventRepositoryImpl
+import com.ku_stacks.ku_ring.domain.academicevent.repository.AcademicEventRepository
 import com.ku_stacks.ku_ring.local.room.AcademicEventDao
 import com.ku_stacks.ku_ring.local.room.KuRingDatabase
 import com.ku_stacks.ku_ring.remote.academicevent.AcademicEventClient

@@ -23,6 +23,8 @@ dependencies {
     implementation(projects.data.local)
     implementation(projects.data.remote)
 
+    implementation(projects.domain.academicevent)
+
     implementation(libs.kotlinx.datetime)
     testImplementation(libs.kotlinx.coroutines.test)
 }
