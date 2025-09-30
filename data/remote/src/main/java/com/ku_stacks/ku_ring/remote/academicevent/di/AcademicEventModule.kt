@@ -15,7 +15,7 @@ import javax.inject.Singleton
 object AcademicEventModule {
     @Provides
     @Singleton
-    fun provideAcademicEventService(@Named("Default") retrofit: Retrofit): AcademicEventService {
+    fun provideAcademicEventService(@Named("KotlinxSerialization") retrofit: Retrofit): AcademicEventService {
         return retrofit.create()
     }
 }
