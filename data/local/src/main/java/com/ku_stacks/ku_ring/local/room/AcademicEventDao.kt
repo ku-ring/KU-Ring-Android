@@ -11,6 +11,9 @@ interface AcademicEventDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAcademicEvents(events: List<AcademicEventEntity>)
 
-    @Query("SELECT * FROM AcademicEventEntity WHERE startTime >= :startDate AND endTime <= :endDate")
+    @Query(
+        "SELECT * FROM AcademicEventEntity " +
+                "WHERE NOT (startTime > :endDate or endTime < :startDate)  ORDER BY startTime ASC"
+    )
     suspend fun getAcademicEvents(startDate: String, endDate: String): List<AcademicEventEntity>
 }
