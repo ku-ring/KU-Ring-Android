@@ -21,7 +21,7 @@ class AcademicEventRepositoryImpl @Inject constructor(
         endDate: String?,
     ) {
         val response = academicEventClient.fetchAcademicEvents(startDate, endDate)
-        val eventEntities = response.data.map { it.toEntity() }
+        val eventEntities = response.data.toEntity()
         insertAcademicEventsIntoDB(eventEntities)
     }
 
