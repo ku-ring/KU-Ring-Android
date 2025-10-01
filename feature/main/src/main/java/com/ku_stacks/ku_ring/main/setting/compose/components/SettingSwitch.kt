@@ -8,10 +8,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.components.KuringSwitch
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 
@@ -36,11 +34,7 @@ internal fun SettingSwitch(
     )
     Text(
         text = stringResource(descriptionId),
-        style = KuringTheme.typography.tag.copy(
-            color = KuringTheme.colors.textCaption1,
-            letterSpacing = 0.15.sp,
-            fontWeight = FontWeight.Normal,
-        ),
+        style = KuringTheme.typography.tag2,
         modifier = Modifier
             .padding(start = 56.dp)
             .offset { IntOffset(0, -(10.dp.roundToPx())) },
