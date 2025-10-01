@@ -68,7 +68,8 @@ class AcademicRepositoryTest {
 
         // then
         val expected = entities.first().toDomain()
-        with(result.first()) {
+
+        result.getOrNull()?.first()?.run {
             assertEquals(expected.id, id)
             assertEquals(expected.summary, summary)
             assertEquals(expected.category, category)

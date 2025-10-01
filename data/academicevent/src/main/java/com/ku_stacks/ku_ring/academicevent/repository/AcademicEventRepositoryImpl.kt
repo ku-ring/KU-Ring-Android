@@ -7,6 +7,7 @@ import com.ku_stacks.ku_ring.domain.academicevent.repository.AcademicEventReposi
 import com.ku_stacks.ku_ring.local.entity.AcademicEventEntity
 import com.ku_stacks.ku_ring.local.room.AcademicEventDao
 import com.ku_stacks.ku_ring.remote.academicevent.AcademicEventClient
+import com.ku_stacks.ku_ring.util.suspendRunCatching
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -20,7 +21,7 @@ class AcademicEventRepositoryImpl @Inject constructor(
     override suspend fun fetchAcademicEventsFromRemote(
         startDate: String?,
         endDate: String?,
-    ) {
+    ): Result<Unit> = suspendRunCatching {
         val response = academicEventClient.fetchAcademicEvents(startDate, endDate)
         val eventEntities = response.data.toEntity()
         insertAcademicEventsIntoDB(eventEntities)
@@ -34,9 +35,9 @@ class AcademicEventRepositoryImpl @Inject constructor(
     override suspend fun getAcademicEvents(
         startDate: String,
         endDate: String,
-    ): List<AcademicEvent> {
+    ): Result<List<AcademicEvent>> = suspendRunCatching {
         val entities = getAcademicEventsFromDB(startDate, endDate)
-        return entities.map { it.toDomain() }
+        entities.map { it.toDomain() }
     }
 
     private suspend fun getAcademicEventsFromDB(

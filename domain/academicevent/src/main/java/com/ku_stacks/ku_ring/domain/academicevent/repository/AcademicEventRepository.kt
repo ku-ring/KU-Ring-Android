@@ -6,10 +6,10 @@ interface AcademicEventRepository {
     suspend fun fetchAcademicEventsFromRemote(
         startDate: String? = null,
         endDate: String? = null,
-    )
+    ): Result<Unit>
 
     suspend fun getAcademicEvents(
         startDate: String,
         endDate: String,
-    ): List<AcademicEvent>
+    ): Result<List<AcademicEvent>>
 }
