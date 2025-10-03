@@ -48,6 +48,7 @@ import com.ku_stacks.ku_ring.designsystem.components.KuringCallToAction
 import com.ku_stacks.ku_ring.designsystem.components.LazyPagingNoticeItemColumn
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
+import com.ku_stacks.ku_ring.domain.AcademicEvent
 import com.ku_stacks.ku_ring.domain.Department
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.main.R
@@ -55,6 +56,8 @@ import com.ku_stacks.ku_ring.main.notice.DepartmentNoticeScreenState
 import com.ku_stacks.ku_ring.main.notice.DepartmentNoticeViewModel
 import com.ku_stacks.ku_ring.main.notice.compose.LocalKuringBotFabState
 import com.ku_stacks.ku_ring.main.notice.compose.components.DepartmentHeader
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -84,6 +87,18 @@ internal fun DepartmentNoticeScreen(
 
     val departmentNoticeScreenState by viewModel.departmentNoticeScreenState.collectAsStateWithLifecycle()
 
+    val academicEvents by viewModel.academicEvents.collectAsStateWithLifecycle()
+    var isAcademicEventSheetVisible by remember { mutableStateOf(false) }
+    LaunchedEffect(Unit) {
+        viewModel.fetchAcademicEvents()
+        if (viewModel.shouldShowAcademicEventSheet()) {
+            isAcademicEventSheetVisible = true
+            viewModel.markAcademicEventSheetAsShown()
+        } else {
+            isAcademicEventSheetVisible = false
+        }
+    }
+
     when (departmentNoticeScreenState) {
         DepartmentNoticeScreenState.InitialLoading -> {
             Box(modifier = modifier.background(KuringTheme.colors.background)) {
@@ -108,6 +123,8 @@ internal fun DepartmentNoticeScreen(
                 onNoticeClick = onNoticeClick,
                 isRefreshing = isRefreshing,
                 refreshState = refreshState,
+                academicEvents = academicEvents.toImmutableList(),
+                isAcademicEventSheetVisible = isAcademicEventSheetVisible,
                 modifier = modifier,
             )
         }
@@ -170,6 +187,8 @@ private fun DepartmentNoticeScreen(
     onNoticeClick: (Notice) -> Unit,
     isRefreshing: Boolean,
     refreshState: PullRefreshState,
+    academicEvents: ImmutableList<AcademicEvent>,
+    isAcademicEventSheetVisible: Boolean,
     modifier: Modifier = Modifier,
     scope: CoroutineScope = rememberCoroutineScope(),
 ) {
@@ -189,10 +208,10 @@ private fun DepartmentNoticeScreen(
         }
     }
 
-    // TODO: 학사일정 목록와 표시 여부를
     AcademicEventBottomSheet(
+        academicEvents = academicEvents,
         onNavigateToAcademicEvent = onNavigateToAcademicEvent,
-        isVisible = true,
+        isVisible = isAcademicEventSheetVisible,
     )
 
     ModalBottomSheetLayout(

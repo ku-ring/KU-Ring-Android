@@ -2,9 +2,9 @@ package com.ku_stacks.ku_ring.preferences
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.core.content.edit
 import com.ku_stacks.ku_ring.util.WordConverter
 import dagger.hilt.android.qualifiers.ApplicationContext
-import androidx.core.content.edit
 
 class PreferenceUtil(@ApplicationContext context: Context) {
 
@@ -43,6 +43,10 @@ class PreferenceUtil(@ApplicationContext context: Context) {
         get() = prefs.getBoolean(SURVEY_2024_COMPLETE, false)
         set(value) = prefs.edit().putBoolean(SURVEY_2024_COMPLETE, value).apply()
 
+    var lastDateAcademicEventShown: String
+        get() = prefs.getString(LAST_DATE_ACADEMIC_EVENT_SHEET_SHOWN, null) ?: ""
+        set(value) = prefs.edit { putString(LAST_DATE_ACADEMIC_EVENT_SHEET_SHOWN, value).apply() }
+
     fun deleteStartDate() {
         prefs.edit().remove(START_DATE).apply()
     }
@@ -68,5 +72,6 @@ class PreferenceUtil(@ApplicationContext context: Context) {
         const val DEFAULT_NOTIFICATION = "DEFAULT_NOTIFICATION"
         const val CAMPUS_USER_ID = "CAMPUS_USER_ID"
         const val SURVEY_2024_COMPLETE = "SURVEY_2024_COMPLETE"
+        const val LAST_DATE_ACADEMIC_EVENT_SHEET_SHOWN = "LAST_DATE_ACADEMIC_EVENT_SHEET_SHOWN"
     }
 }

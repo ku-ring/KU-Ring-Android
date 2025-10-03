@@ -13,9 +13,9 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Text
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -38,25 +38,10 @@ import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDateTime
 
-// TODO: api 연결 후 삭제
-private val mockAcademicEvents = buildList {
-    repeat(5) { index ->
-        add(
-            AcademicEvent(
-                id = index.toLong(),
-                summary = "수강바구니 ${index}차",
-                category = ScheduleType.EVENT.name,
-                startDateTime = LocalDateTime.now(),
-                endDateTime = LocalDateTime.now(),
-            )
-        )
-    }
-}.toImmutableList()
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun AcademicEventBottomSheet(
-    academicEvents: ImmutableList<AcademicEvent> = mockAcademicEvents,
+    academicEvents: ImmutableList<AcademicEvent>,
     isVisible: Boolean,
     onNavigateToAcademicEvent: () -> Unit,
     modifier: Modifier = Modifier,
