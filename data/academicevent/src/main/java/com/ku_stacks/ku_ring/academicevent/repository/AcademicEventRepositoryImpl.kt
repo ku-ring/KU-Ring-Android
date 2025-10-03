@@ -7,6 +7,7 @@ import com.ku_stacks.ku_ring.domain.academicevent.repository.AcademicEventReposi
 import com.ku_stacks.ku_ring.local.entity.AcademicEventEntity
 import com.ku_stacks.ku_ring.local.room.AcademicEventDao
 import com.ku_stacks.ku_ring.remote.academicevent.AcademicEventClient
+import com.ku_stacks.ku_ring.util.IODispatcher
 import com.ku_stacks.ku_ring.util.suspendRunCatching
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -16,7 +17,7 @@ import javax.inject.Inject
 class AcademicEventRepositoryImpl @Inject constructor(
     private val academicEventDao: AcademicEventDao,
     private val academicEventClient: AcademicEventClient,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
+    @IODispatcher private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : AcademicEventRepository {
     override suspend fun fetchAcademicEventsFromRemote(
         startDate: String?,
