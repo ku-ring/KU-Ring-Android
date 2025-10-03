@@ -8,6 +8,7 @@ data class AcademicEvent(
     val id: Long,
     val summary: String,
     val category: String,
+    val description: String? = null,
     val startDateTime: LocalDateTime,
     val endDateTime: LocalDateTime,
 ) {
