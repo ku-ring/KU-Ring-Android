@@ -13,7 +13,8 @@ interface AcademicEventDao {
 
     @Query(
         "SELECT * FROM AcademicEventEntity " +
-                "WHERE NOT (startTime > :endDate or endTime < :startDate)  ORDER BY startTime ASC"
+                "WHERE NOT (startTime > :endDate or endTime < :startDate) " +
+                "ORDER BY startTime ASC, endTime ASC"
     )
     suspend fun getAcademicEvents(startDate: String, endDate: String): List<AcademicEventEntity>
 }
