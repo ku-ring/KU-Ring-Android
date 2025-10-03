@@ -3,6 +3,7 @@ package com.ku_stacks.ku_ring.main.calendar
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ku_stacks.ku_ring.domain.AcademicEvent
+import com.ku_stacks.ku_ring.domain.academicevent.usecase.GetAcademicEventsUseCase
 import com.ku_stacks.ku_ring.main.calendar.type.ScheduleType
 import com.ku_stacks.ku_ring.util.now
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,20 +18,23 @@ import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.YearMonth
 import kotlinx.datetime.atTime
 import kotlinx.datetime.plus
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class AcademicCalendarViewModel @Inject constructor() : ViewModel() {
+class AcademicCalendarViewModel @Inject constructor(
+    private val getAcademicEventsUseCase: GetAcademicEventsUseCase
+) : ViewModel() {
     private val _uiState = MutableStateFlow(AcademicCalendarUiState.Empty)
     internal val uiState = _uiState.asStateFlow()
 
-    /*
-     * TODO: API 요청 로직 연결
-     * yearMonth의 firstDay, lastDay를 사용해 API 요청
-     * 요청 결과는 LocalDate의 문자열 키로 매핑 (파일 하단의 mockEvents 참고)
-     */
     internal fun fetchAcademicEvents(yearMonth: YearMonth) = viewModelScope.launch {
-        updateEventLoadState(AcademicEventLoadState.Success(mockEvents))
+        getAcademicEventsUseCase(yearMonth.firstDay, yearMonth.lastDay)
+            .onSuccess {
+                val eventMap = it.toImmutableMap()
+                updateEventLoadState(AcademicEventLoadState.Success(eventMap))
+            }
+            .onFailure(Timber::e)
     }
 
     internal fun updateSelectedDate(date: LocalDate) {
