@@ -1,5 +1,7 @@
 package com.ku_stacks.ku_ring.main.archive.compose
 
+import androidx.activity.compose.LocalActivity
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,9 +14,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ku_stacks.ku_ring.designsystem.components.KuringCallToAction
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
@@ -27,7 +28,6 @@ import com.ku_stacks.ku_ring.main.archive.compose.components.ArchivedNotices
 import com.ku_stacks.ku_ring.main.archive.compose.components.DeleteArchivedNoticesAlertDialog
 import com.ku_stacks.ku_ring.thirdparty.di.LocalNavigator
 import com.ku_stacks.ku_ring.ui_util.preview_data.previewNotices
-import com.ku_stacks.ku_ring.util.findActivity
 
 @Composable
 fun ArchiveScreen(
@@ -40,7 +40,7 @@ fun ArchiveScreen(
     val isAllNoticesSelected by viewModel.isAllNoticesSelected.collectAsStateWithLifecycle()
     var isDeleteDialogVisible by rememberSaveable { mutableStateOf(false) }
     val navigator = LocalNavigator.current
-    val context = LocalContext.current.findActivity()
+    val context = LocalActivity.current
 
     ArchiveScreen(
         isSelectModeEnabled = isSelectModeEnabled,

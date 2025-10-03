@@ -3,7 +3,7 @@ package com.ku_stacks.ku_ring.main
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
+import androidx.activity.compose.LocalActivity
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.foundation.background
@@ -19,8 +19,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
@@ -39,7 +37,8 @@ import com.ku_stacks.ku_ring.thirdparty.compose.KuringCompositionLocalProvider
 import com.ku_stacks.ku_ring.thirdparty.di.LocalNavigator
 import com.ku_stacks.ku_ring.ui_util.KuringNavigator
 import com.ku_stacks.ku_ring.ui_util.showToast
-import com.ku_stacks.ku_ring.util.findActivity
+import androidx.core.net.toUri
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 
 @Composable
 fun MainScreen(
@@ -52,8 +51,7 @@ fun MainScreen(
 
     KuringCompositionLocalProvider {
         val navigator = LocalNavigator.current
-        val activity =
-            LocalContext.current.findActivity() ?: return@KuringCompositionLocalProvider
+        val activity = LocalActivity.current ?: return@KuringCompositionLocalProvider
 
         Scaffold(
             bottomBar = {
@@ -236,8 +234,8 @@ private fun Activity.getInstagramIntent(): Intent {
     val webScheme = getString(R.string.instagram_web_scheme)
     return try {
         packageManager.getPackageInfo(packageName, 0)
-        Intent(Intent.ACTION_VIEW, Uri.parse(appScheme))
-    } catch (e: PackageManager.NameNotFoundException) {
-        Intent(Intent.ACTION_VIEW, Uri.parse(webScheme))
+        Intent(Intent.ACTION_VIEW, appScheme.toUri())
+    } catch (_: PackageManager.NameNotFoundException) {
+        Intent(Intent.ACTION_VIEW, webScheme.toUri())
     }
 }
