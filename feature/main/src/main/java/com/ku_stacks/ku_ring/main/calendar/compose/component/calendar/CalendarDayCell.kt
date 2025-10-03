@@ -90,28 +90,27 @@ private fun EventIndicators(
 ) {
     val maxIndicatorCount = 6
     val indicatedEvents = events.take(maxIndicatorCount)
-
     Row(modifier = modifier) {
         indicatedEvents.forEachIndexed { index, event ->
             val color = ScheduleType.Companion.from(event.category).color()
-            val shape =
-                when (index) {
-                    0 -> RoundedCornerShape(
-                        topStart = 5.dp,
-                        bottomStart = 5.dp,
-                    )
+            val shape = when {
+                events.size == 1 -> CircleShape
 
-                    indicatedEvents.lastIndex -> RoundedCornerShape(
-                        topEnd = 5.dp,
-                        bottomEnd = 5.dp,
-                    )
+                index == 0 -> RoundedCornerShape(
+                    topStart = 5.dp,
+                    bottomStart = 5.dp,
+                )
 
-                    else -> RectangleShape
-                }
+                index == indicatedEvents.lastIndex -> RoundedCornerShape(
+                    topEnd = 5.dp,
+                    bottomEnd = 5.dp,
+                )
 
+                else -> RectangleShape
+            }
 
             Box(
-                modifier = Modifier
+                modifier = modifier
                     .size(5.dp)
                     .background(
                         color = color,
