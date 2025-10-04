@@ -95,6 +95,7 @@ class DepartmentNoticeViewModel @Inject constructor(
 
     init {
         collectSubscribedDepartments()
+        checkAndShowAcademicEventSheet()
     }
 
     private fun collectSubscribedDepartments() {
@@ -113,7 +114,7 @@ class DepartmentNoticeViewModel @Inject constructor(
         }
     }
 
-    fun checkAndShowAcademicEventSheet() = viewModelScope.launch {
+    private fun checkAndShowAcademicEventSheet() = viewModelScope.launch {
         academicEvents
             .filter { it.isNotEmpty() }
             .take(1)

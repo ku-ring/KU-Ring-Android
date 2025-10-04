@@ -87,9 +87,6 @@ internal fun DepartmentNoticeScreen(
 
     val academicEvents by viewModel.academicEvents.collectAsStateWithLifecycle()
     val isAcademicEventSheetVisible by viewModel.isAcademicEventSheetVisible.collectAsStateWithLifecycle()
-    LaunchedEffect(Unit) {
-        viewModel.checkAndShowAcademicEventSheet()
-    }
 
     AcademicEventBottomSheet(
         academicEvents = academicEvents.toImmutableList(),
