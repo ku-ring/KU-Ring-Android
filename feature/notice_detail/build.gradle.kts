@@ -1,3 +1,4 @@
+import com.ku_stacks.ku_ring.buildlogic.dsl.implementation
 import com.ku_stacks.ku_ring.buildlogic.dsl.setNameSpace
 
 plugins {
@@ -17,6 +18,7 @@ dependencies {
     implementation(projects.data.notice)
     implementation(projects.domain.noticecomment)
     implementation(projects.domain.report)
+    implementation(projects.domain.navigation)
 
     implementation(libs.bundles.compose.interop)
 }

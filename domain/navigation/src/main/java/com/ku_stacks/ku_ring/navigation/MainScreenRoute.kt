@@ -1,7 +1,6 @@
-package com.ku_stacks.ku_ring.main
+package com.ku_stacks.ku_ring.navigation
 
 import androidx.navigation.NavBackStackEntry
-import com.ku_stacks.ku_ring.ui_util.KuringRoute
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -23,9 +22,8 @@ sealed interface MainScreenRoute : KuringRoute {
         val entries = listOf(Notice, Calendar, CampusMap, Settings)
 
         fun of(entry: NavBackStackEntry): MainScreenRoute =
-            entry.destination.route.orEmpty().let { route ->
-                return entries.firstOrNull { it.route == route }
-                    ?: throw IllegalArgumentException("Unknown route: $route")
-            }
+            of(entry.destination.route.orEmpty()) ?: Notice
+
+        fun of(route: String): MainScreenRoute? = entries.firstOrNull { it.route == route }
     }
 }

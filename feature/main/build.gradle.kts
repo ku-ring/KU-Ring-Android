@@ -25,6 +25,7 @@ dependencies {
     implementation(projects.data.staff)
     implementation(projects.data.search)
     implementation(projects.domain.user)
+    implementation(projects.domain.navigation)
 
     implementation(libs.bundles.compose.interop)
     implementation(libs.kotlinx.datetime)
