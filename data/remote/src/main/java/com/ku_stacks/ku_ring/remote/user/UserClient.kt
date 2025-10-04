@@ -1,5 +1,6 @@
 package com.ku_stacks.ku_ring.remote.user
 
+import com.ku_stacks.ku_ring.remote.user.request.AcademicEventNotificationRequest
 import com.ku_stacks.ku_ring.remote.user.request.AuthorizeUserRequest
 import com.ku_stacks.ku_ring.remote.user.request.FeedbackRequest
 import com.ku_stacks.ku_ring.remote.user.request.RegisterUserRequest
@@ -12,6 +13,10 @@ import javax.inject.Inject
 class UserClient @Inject constructor(
     private val userService: UserService
 ) {
+    suspend fun setAcademicEventNotification(
+        request: AcademicEventNotificationRequest,
+    ): DefaultResponse = userService.patchAcademicEventNotification(request)
+
     suspend fun sendFeedback(
         token: String,
         feedbackRequest: FeedbackRequest,

@@ -57,6 +57,7 @@ internal fun SettingScreen(
     onNavigateToSignIn: () -> Unit,
     onNavigateToEditSubscription: () -> Unit,
     onExtNotificationEnabledToggle: (Boolean) -> Unit,
+    onAcademicEventNotificationEnabledToggle: (Boolean) -> Unit,
     onNavigateToUpdateLog: () -> Unit,
     onNavigateToKuringTeam: () -> Unit,
     onNavigateToPrivacyPolicy: () -> Unit,
@@ -100,6 +101,8 @@ internal fun SettingScreen(
                             onNavigateToEditSubscription = onNavigateToEditSubscription,
                             isExtNotificationEnabled = isExtNotificationEnabled,
                             onExtNotificationEnabledToggle = onExtNotificationEnabledToggle,
+                            isAcademicEventNotificationEnabled = isAcademicEventNotificationEnabled,
+                            onAcademicEventNotificationEnabledToggle = onAcademicEventNotificationEnabledToggle,
                         )
                         SettingScreenDivider()
                         InformationGroup(
@@ -220,12 +223,14 @@ private fun SettingScreenPreview() {
     KuringTheme {
         SettingScreen(
             settingUiState = SettingUiState.Success(
-                isExtNotificationEnabled = true,
                 userProfileState = UserProfileState.LoggedIn("홍길동"),
+                isExtNotificationEnabled = true,
+                isAcademicEventNotificationEnabled = true,
             ),
             onNavigateToSignIn = {},
             onNavigateToEditSubscription = {},
             onExtNotificationEnabledToggle = {},
+            onAcademicEventNotificationEnabledToggle = {},
             onNavigateToUpdateLog = {},
             onNavigateToKuringTeam = {},
             onNavigateToPrivacyPolicy = {},

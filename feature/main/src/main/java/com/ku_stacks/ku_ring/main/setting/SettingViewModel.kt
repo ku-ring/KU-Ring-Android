@@ -22,20 +22,24 @@ class SettingViewModel @Inject constructor(
     private val userRepository: UserRepository,
 ) : ViewModel() {
     private val _isExtNotificationAllowed = MutableStateFlow(pref.extNotificationAllowed)
+    private val _isAcademicEventNotificationAllowed =
+        MutableStateFlow(pref.academicEventNotificationAllowed)
     private val _userProfileState: MutableStateFlow<UserProfileState> =
         MutableStateFlow(UserProfileState.InitialLoading)
 
     val settingUiState: StateFlow<SettingUiState> = combine(
         _isExtNotificationAllowed,
+        _isAcademicEventNotificationAllowed,
         _userProfileState,
-    ) { isExtNotificationAllowed, userProfileState ->
+    ) { isExtNotificationAllowed, isAcademicEventNotificationAllowed, userProfileState ->
         when (userProfileState) {
             is UserProfileState.InitialLoading -> SettingUiState.Initial
             is UserProfileState.Error -> SettingUiState.Error
             is UserProfileState.NotLoggedIn,
             is UserProfileState.LoggedIn -> SettingUiState.Success(
-                isExtNotificationEnabled = isExtNotificationAllowed,
                 userProfileState = userProfileState,
+                isExtNotificationEnabled = isExtNotificationAllowed,
+                isAcademicEventNotificationEnabled = isAcademicEventNotificationAllowed,
             )
         }
     }.stateIn(
@@ -47,6 +51,17 @@ class SettingViewModel @Inject constructor(
     fun setExtNotificationAllowed(value: Boolean) {
         pref.extNotificationAllowed = value
         _isExtNotificationAllowed.value = value
+    }
+
+    fun setAcademicEventNotificationAllowed(value: Boolean, onFail: () -> Unit) {
+        viewModelScope.launch {
+            if (userRepository.setAcademicEventNotification(value).getOrNull() == true) {
+                pref.academicEventNotificationAllowed = value
+                _isAcademicEventNotificationAllowed.value = value
+            } else {
+                onFail()
+            }
+        }
     }
 
     fun logout() = viewModelScope.launch {
@@ -76,6 +91,7 @@ sealed class SettingUiState {
     data class Success(
         val userProfileState: UserProfileState,
         val isExtNotificationEnabled: Boolean,
+        val isAcademicEventNotificationEnabled: Boolean,
     ) : SettingUiState()
 }
 
