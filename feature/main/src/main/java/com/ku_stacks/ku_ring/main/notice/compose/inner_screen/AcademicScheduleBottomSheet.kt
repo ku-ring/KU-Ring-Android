@@ -1,6 +1,7 @@
 package com.ku_stacks.ku_ring.main.notice.compose.inner_screen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -22,7 +23,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.ku_stacks.ku_ring.designsystem.components.KuringCallToAction
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
@@ -118,27 +121,27 @@ private fun AcademicEventBottomSheetContent(
                     )
                     .padding(16.dp),
             ) {
-                Text(
+                CenterStartAlignedText(
                     text = academicEvent.summary,
-                    style = KuringTheme.typography.body1,
+                    style = KuringTheme.typography.body2SB,
                     color = KuringTheme.colors.textTitle,
-                    maxLines = 1,
                     modifier = Modifier.heightIn(min = 24.dp),
                 )
-                Text(
+                Spacer(modifier = Modifier.height(4.dp))
+                CenterStartAlignedText(
                     text = academicEvent.period,
                     style = KuringTheme.typography.tag2,
                     color = KuringTheme.colors.textCaption1,
-                    maxLines = 1,
                     modifier = Modifier.heightIn(min = 18.dp),
                 )
             }
         }
 
         if (isIndicatorVisible) {
-            Spacer(modifier = Modifier.height(8.dp))
             HorizontalSlidingIndicator(
                 pagerState = pagerState,
+                inactiveBackground = KuringTheme.colors.mainPrimarySelected,
+                modifier = Modifier.padding(top = 20.dp, bottom = 4.dp)
             )
         }
 
@@ -147,6 +150,26 @@ private fun AcademicEventBottomSheetContent(
             text = stringResource(academic_event_bottom_sheet_cta),
             modifier = Modifier.fillMaxWidth(),
             blur = false,
+        )
+    }
+}
+
+@Composable
+private fun CenterStartAlignedText(
+    text: String,
+    style: TextStyle,
+    color: Color,
+    modifier: Modifier = Modifier,
+) {
+    Box(
+        contentAlignment = Alignment.CenterStart,
+        modifier = modifier
+    ) {
+        Text(
+            text = text,
+            style = style,
+            color = color,
+            maxLines = 1,
         )
     }
 }
