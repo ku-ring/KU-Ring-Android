@@ -18,6 +18,7 @@ dependencies {
     implementation(projects.data.domain)
     implementation(projects.data.department)
     implementation(projects.data.notice)
+    implementation(projects.domain.navigation)
 
     implementation(libs.bundles.compose.interop)
     implementation(platform(libs.firebase.bom))

@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.ui_util
+package com.ku_stacks.ku_ring.navigation
 
 import android.app.Activity
 import android.content.Context
@@ -10,7 +10,7 @@ interface KuringNavigator {
     fun navigateToEditSubscription(activity: Activity)
     fun navigateToEditSubscribedDepartment(activity: Activity)
     fun navigateToFeedback(activity: Activity)
-    fun createMainIntent(context: Context): Intent
+    fun createMainIntent(context: Context, route: String = ""): Intent
     fun navigateToMain(activity: Activity)
     fun navigateToMain(
         activity: Activity,
@@ -20,6 +20,7 @@ interface KuringNavigator {
         category: String,
         subject: String
     )
+
     fun navigateToArchive(activity: Activity)
     fun navigateToSearch(activity: Activity)
     fun createNoticeWebIntent(
@@ -30,6 +31,7 @@ interface KuringNavigator {
         category: String?,
         subject: String?,
     ): Intent
+
     fun navigateToNoticeWeb(activity: Activity, notice: Notice)
     fun navigateToNoticeWeb(activity: Activity, webViewNotice: WebViewNotice)
     fun navigateToNotionView(activity: Activity, notionUrl: String)

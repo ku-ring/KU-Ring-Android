@@ -17,11 +17,11 @@ import com.ku_stacks.ku_ring.library.LibrarySeatActivity
 import com.ku_stacks.ku_ring.main.MainActivity
 import com.ku_stacks.ku_ring.main.archive.ArchiveActivity
 import com.ku_stacks.ku_ring.main.search.SearchActivity
+import com.ku_stacks.ku_ring.navigation.KuringNavigator
 import com.ku_stacks.ku_ring.notice_detail.NoticeWebActivity
 import com.ku_stacks.ku_ring.notion.NotionViewActivity
 import com.ku_stacks.ku_ring.onboarding.OnboardingActivity
 import com.ku_stacks.ku_ring.splash.SplashActivity
-import com.ku_stacks.ku_ring.ui_util.KuringNavigator
 import javax.inject.Inject
 
 class KuringNavigatorImpl @Inject constructor() : KuringNavigator {

@@ -15,6 +15,7 @@ dependencies {
     implementation(projects.core.designsystem)
     implementation(projects.data.domain)
     implementation(projects.data.department)
+    implementation(projects.domain.navigation)
 
     implementation(libs.bundles.compose.interop)
 }

@@ -17,6 +17,7 @@ dependencies {
     implementation(projects.core.util)
     implementation(projects.data.domain)
     implementation(projects.data.ai)
+    implementation(projects.domain.navigation)
     testImplementation(projects.core.testUtil)
 
     implementation(libs.bundles.compose.interop)
