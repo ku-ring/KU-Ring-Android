@@ -56,7 +56,6 @@ class DepartmentNoticeViewModel @Inject constructor(
             .catch { t ->
                 Timber.e(t)
             }
-            .filter { it.isNotEmpty() }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000),
