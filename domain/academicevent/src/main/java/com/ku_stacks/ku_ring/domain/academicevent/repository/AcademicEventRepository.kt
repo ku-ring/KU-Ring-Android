@@ -1,6 +1,7 @@
 package com.ku_stacks.ku_ring.domain.academicevent.repository
 
 import com.ku_stacks.ku_ring.domain.AcademicEvent
+import kotlinx.coroutines.flow.Flow
 
 interface AcademicEventRepository {
     /**
@@ -22,4 +23,15 @@ interface AcademicEventRepository {
         startDate: String,
         endDate: String,
     ): Result<List<AcademicEvent>>
+
+    /**
+     * gets flow of academic events from the local database
+     * that have a date range which intersects with the given range
+     * @param startDate start date of the academic events (format: yyyy-MM-dd, no limit if null)
+     * @param endDate end date of the academic events (format: yyyy-MM-dd, no limit if null)
+     */
+    fun getAcademicEventsAsFlow(
+        startDate: String,
+        endDate: String,
+    ): Flow<List<AcademicEvent>>
 }

@@ -11,6 +11,8 @@ import com.ku_stacks.ku_ring.util.IODispatcher
 import com.ku_stacks.ku_ring.util.suspendRunCatching
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -46,5 +48,14 @@ class AcademicEventRepositoryImpl @Inject constructor(
         endDate: String,
     ): List<AcademicEventEntity> = withContext(ioDispatcher) {
         academicEventDao.getAcademicEvents(startDate, endDate)
+    }
+
+    override fun getAcademicEventsAsFlow(
+        startDate: String,
+        endDate: String
+    ): Flow<List<AcademicEvent>> = flow {
+        academicEventDao.getAcademicEventsAsFlow(startDate, endDate).collect { entities ->
+            emit(entities.map { it.toDomain() })
+        }
     }
 }
