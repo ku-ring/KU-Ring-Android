@@ -17,10 +17,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.datetime.DateTimeUnit
@@ -41,8 +44,27 @@ class DepartmentNoticeViewModel @Inject constructor(
     private val _subscribedDepartments = MutableStateFlow(emptyList<Department>())
     val subscribedDepartments: StateFlow<List<Department>>
         get() = _subscribedDepartments
-    private val _academicEvents = MutableStateFlow<List<AcademicEvent>>(emptyList())
-    val academicEvents: StateFlow<List<AcademicEvent>> = _academicEvents.asStateFlow()
+
+    val academicEvents: StateFlow<List<AcademicEvent>> = run {
+        val (startDate, endDate) = with(LocalDate.now()) {
+            val dayOfWeek = this.dayOfWeek.ordinal
+            val startDate = this.minus(dayOfWeek, DateTimeUnit.DAY)
+            val endDate = startDate.plus(6, DateTimeUnit.DAY)
+            startDate to endDate
+        }
+        getDistinctAcademicEventUseCase(startDate, endDate)
+            .catch { t ->
+                Timber.e(t)
+            }
+            .filter { it.isNotEmpty() }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5_000),
+                initialValue = emptyList()
+            )
+    }
+    private val _isAcademicEventSheetVisible = MutableStateFlow(false)
+    val isAcademicEventSheetVisible = _isAcademicEventSheetVisible.asStateFlow()
 
     private val isInitialLoading = MutableStateFlow(true)
 
@@ -91,29 +113,19 @@ class DepartmentNoticeViewModel @Inject constructor(
         }
     }
 
-    suspend fun fetchAcademicEvents() {
-        val (startDate, endDate) = with(LocalDate.now()) {
-            val dayOfWeek = this.dayOfWeek.ordinal
-            val startDate = this.minus(dayOfWeek, DateTimeUnit.DAY)
-            val endDate = startDate.plus(6, DateTimeUnit.DAY)
-            startDate to endDate
-        }
-        val events = getDistinctAcademicEventUseCase(startDate, endDate)
-            .getOrElse { t ->
-                Timber.e(t)
-                emptyList()
+    fun checkAndShowAcademicEventSheet() = viewModelScope.launch {
+        academicEvents
+            .filter { it.isNotEmpty() }
+            .take(1)
+            .collect {
+                _isAcademicEventSheetVisible.update {
+                    preferenceUtil.lastDateAcademicEventShown != LocalDate.now().toString()
+                }
             }
-        _academicEvents.update { events }
-    }
-
-    fun shouldShowAcademicEventSheet(): Boolean {
-        val isEventAvailable = academicEvents.value.isNotEmpty()
-        val isEventSheetNotShown =
-            preferenceUtil.lastDateAcademicEventShown != LocalDate.now().toString()
-        return isEventAvailable && isEventSheetNotShown
     }
 
     fun markAcademicEventSheetAsShown() {
+        _isAcademicEventSheetVisible.update { false }
         preferenceUtil.lastDateAcademicEventShown = LocalDate.now().toString()
     }
 }

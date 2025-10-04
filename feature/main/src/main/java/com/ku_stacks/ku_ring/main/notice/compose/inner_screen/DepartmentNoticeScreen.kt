@@ -86,21 +86,16 @@ internal fun DepartmentNoticeScreen(
     val departmentNoticeScreenState by viewModel.departmentNoticeScreenState.collectAsStateWithLifecycle()
 
     val academicEvents by viewModel.academicEvents.collectAsStateWithLifecycle()
-    var isAcademicEventSheetVisible by remember { mutableStateOf(false) }
+    val isAcademicEventSheetVisible by viewModel.isAcademicEventSheetVisible.collectAsStateWithLifecycle()
     LaunchedEffect(Unit) {
-        viewModel.fetchAcademicEvents()
-        if (viewModel.shouldShowAcademicEventSheet()) {
-            isAcademicEventSheetVisible = true
-            viewModel.markAcademicEventSheetAsShown()
-        } else {
-            isAcademicEventSheetVisible = false
-        }
+        viewModel.checkAndShowAcademicEventSheet()
     }
 
     AcademicEventBottomSheet(
         academicEvents = academicEvents.toImmutableList(),
-        onNavigateToAcademicEvent = onNavigateToAcademicEvent,
         isVisible = isAcademicEventSheetVisible,
+        onNavigateToAcademicEvent = onNavigateToAcademicEvent,
+        onDismissRequest = viewModel::markAcademicEventSheetAsShown,
     )
 
     when (departmentNoticeScreenState) {
@@ -205,12 +200,6 @@ private fun DepartmentNoticeScreen(
             kuringBotFabState.hide()
         }
     }
-
-    /*AcademicEventBottomSheet(
-        academicEvents = academicEvents,
-        onNavigateToAcademicEvent = onNavigateToAcademicEvent,
-        isVisible = isAcademicEventSheetVisible,
-    )*/
 
     ModalBottomSheetLayout(
         sheetContent = {

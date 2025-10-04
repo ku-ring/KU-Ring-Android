@@ -43,6 +43,7 @@ import kotlinx.datetime.LocalDateTime
 internal fun AcademicEventBottomSheet(
     academicEvents: ImmutableList<AcademicEvent>,
     isVisible: Boolean,
+    onDismissRequest: () -> Unit,
     onNavigateToAcademicEvent: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -55,7 +56,10 @@ internal fun AcademicEventBottomSheet(
 
     if (sheetState.isVisible) {
         ModalBottomSheet(
-            onDismissRequest = { scope.launch { sheetState.hide() } },
+            onDismissRequest = {
+                onDismissRequest()
+                scope.launch { sheetState.hide() }
+            },
             sheetState = sheetState,
             shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
             dragHandle = null,
@@ -65,6 +69,7 @@ internal fun AcademicEventBottomSheet(
                 academicEvents = academicEvents,
                 onNavigateToAcademicEvent = {
                     onNavigateToAcademicEvent()
+                    onDismissRequest()
                     scope.launch { sheetState.hide() }
                 },
             )
