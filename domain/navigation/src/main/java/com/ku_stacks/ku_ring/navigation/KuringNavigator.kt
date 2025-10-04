@@ -10,7 +10,7 @@ interface KuringNavigator {
     fun navigateToEditSubscription(activity: Activity)
     fun navigateToEditSubscribedDepartment(activity: Activity)
     fun navigateToFeedback(activity: Activity)
-    fun createMainIntent(context: Context, route: String = ""): Intent
+    fun createMainIntent(context: Context): Intent
     fun navigateToMain(activity: Activity)
     fun navigateToMain(
         activity: Activity,
