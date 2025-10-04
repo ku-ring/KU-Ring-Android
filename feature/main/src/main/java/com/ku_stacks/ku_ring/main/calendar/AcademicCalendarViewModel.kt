@@ -34,7 +34,12 @@ class AcademicCalendarViewModel @Inject constructor(
                 val eventMap = it.toImmutableMap()
                 updateEventLoadState(AcademicEventLoadState.Success(eventMap))
             }
-            .onFailure(Timber::e)
+            .onFailure { t ->
+                Timber.e(t)
+                updateEventLoadState(
+                    AcademicEventLoadState.Error(t.message.toString())
+                )
+            }
     }
 
     internal fun updateSelectedDate(date: LocalDate) {
