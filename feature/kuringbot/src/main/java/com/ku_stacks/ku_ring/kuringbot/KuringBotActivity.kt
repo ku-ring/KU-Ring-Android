@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.kuringbot.compose.KuringBotScreen
-import com.ku_stacks.ku_ring.ui_util.KuringNavigator
+import com.ku_stacks.ku_ring.navigation.KuringNavigator
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

@@ -19,8 +19,9 @@ dependencies {
     implementation(projects.data.space)
     implementation(projects.data.department)
     implementation(projects.data.user)
-    implementation(projects.domain.user)
     implementation(projects.data.domain)
+    implementation(projects.domain.user)
+    implementation(projects.domain.navigation)
 
     implementation(libs.semver)
 

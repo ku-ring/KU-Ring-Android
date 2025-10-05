@@ -11,6 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.WebViewNotice
+import com.ku_stacks.ku_ring.navigation.NoticeDetailRoute
 import com.ku_stacks.ku_ring.notice_detail.noticeweb.NoticeWebScreen
 import com.ku_stacks.ku_ring.notice_detail.report.ReportCommentScreen
 

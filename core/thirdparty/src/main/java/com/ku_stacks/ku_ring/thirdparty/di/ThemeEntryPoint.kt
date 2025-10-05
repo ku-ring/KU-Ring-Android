@@ -1,9 +1,9 @@
 package com.ku_stacks.ku_ring.thirdparty.di
 
 import androidx.compose.runtime.staticCompositionLocalOf
+import com.ku_stacks.ku_ring.navigation.KuringNavigator
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.thirdparty.firebase.analytics.EventAnalytics
-import com.ku_stacks.ku_ring.ui_util.KuringNavigator
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent

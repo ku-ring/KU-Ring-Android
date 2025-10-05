@@ -1,7 +1,6 @@
-package com.ku_stacks.ku_ring.notice_detail
+package com.ku_stacks.ku_ring.navigation
 
 import com.ku_stacks.ku_ring.domain.WebViewNotice
-import com.ku_stacks.ku_ring.ui_util.KuringRoute
 import kotlinx.serialization.Serializable
 
 @Serializable

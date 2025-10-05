@@ -46,6 +46,7 @@ include(
     ":domain:noticecomment",
     ":domain:report",
     ":domain:academicevent",
+    ":domain:navigation",
     ":core:thirdparty",
     ":core:work",
     ":core:testUtil",

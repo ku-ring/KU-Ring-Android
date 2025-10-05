@@ -12,6 +12,7 @@ dependencies {
     implementation(projects.core.util)
     implementation(projects.core.uiUtil)
     implementation(projects.domain.user)
+    implementation(projects.domain.navigation)
 
     // WorkManager
     api(libs.bundles.androidx.work)
