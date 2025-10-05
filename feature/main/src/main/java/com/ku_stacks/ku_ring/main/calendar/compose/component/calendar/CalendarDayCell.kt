@@ -92,7 +92,7 @@ private fun EventIndicators(
     val indicatedEvents = events.take(maxIndicatorCount)
     Row(modifier = modifier) {
         indicatedEvents.forEachIndexed { index, event ->
-            val color = ScheduleType.Companion.from(event.category).color()
+            val color = ScheduleType.from(event.category).color()
             val shape = when {
                 events.size == 1 -> CircleShape
 
@@ -110,7 +110,7 @@ private fun EventIndicators(
             }
 
             Box(
-                modifier = modifier
+                modifier = Modifier
                     .size(5.dp)
                     .background(
                         color = color,
