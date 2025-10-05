@@ -29,6 +29,7 @@ class AcademicCalendarViewModel @Inject constructor(
     internal val uiState = _uiState.asStateFlow()
 
     internal fun fetchAcademicEvents(yearMonth: YearMonth) = viewModelScope.launch {
+        updateEventLoadState(AcademicEventLoadState.Loading)
         getAcademicEventsUseCase(yearMonth.firstDay, yearMonth.lastDay)
             .onSuccess {
                 val eventMap = it.toImmutableMap()
