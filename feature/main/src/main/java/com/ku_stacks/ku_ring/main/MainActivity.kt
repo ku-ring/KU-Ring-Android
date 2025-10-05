@@ -10,14 +10,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import androidx.core.content.IntentCompat
-import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.WebViewNotice
 import com.ku_stacks.ku_ring.navigation.KuringNavigator
 import com.ku_stacks.ku_ring.navigation.MainScreenRoute
+import com.ku_stacks.ku_ring.util.KuringNotificationManager
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -25,6 +25,8 @@ class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var navigator: KuringNavigator
+
+    lateinit var navController: NavHostController
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
@@ -36,6 +38,10 @@ class MainActivity : AppCompatActivity() {
         )
         notice?.let { webViewNotice ->
             navToNoticeActivity(webViewNotice)
+        }
+
+        intent.parseMainScreenRoute()?.let { route ->
+            navController.navigate(route)
         }
     }
 
@@ -52,13 +58,15 @@ class MainActivity : AppCompatActivity() {
         }
 
         setContent {
+            navController = rememberNavController()
+            val startDestination = intent.parseMainScreenRoute() ?: MainScreenRoute.Notice
             KuringTheme {
-                val navController = rememberNavController()
                 MainScreen(
                     navController = navController,
                     modifier = Modifier
                         .fillMaxSize()
                         .background(KuringTheme.colors.background),
+                    startDestination = startDestination,
                 )
             }
         }
@@ -68,8 +76,22 @@ class MainActivity : AppCompatActivity() {
         navigator.navigateToNoticeWeb(this, webViewNotice)
     }
 
+    private fun Intent.parseMainScreenRoute(): MainScreenRoute? =
+        getStringExtra(INTENT_KEY_ROUTE)?.let { route ->
+            try {
+                MainScreenRoute.of(route)
+            } catch (e: IllegalArgumentException) {
+                null
+            }
+        }
+
     companion object {
-        fun createIntent(context: Context) = Intent(context, MainActivity::class.java)
+        fun createIntent(context: Context, route: MainScreenRoute? = null) =
+            Intent(context, MainActivity::class.java).apply {
+                route?.let {
+                    putExtra(INTENT_KEY_ROUTE, route.route)
+                }
+            }
 
         fun start(
             activity: Activity,
@@ -92,5 +114,7 @@ class MainActivity : AppCompatActivity() {
             val intent = createIntent(activity)
             activity.startActivity(intent)
         }
+
+        private const val INTENT_KEY_ROUTE = "MAIN_SCREEN_ROUTE"
     }
 }

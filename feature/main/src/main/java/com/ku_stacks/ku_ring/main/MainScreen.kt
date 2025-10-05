@@ -45,6 +45,7 @@ import com.ku_stacks.ku_ring.ui_util.showToast
 fun MainScreen(
     navController: NavHostController,
     modifier: Modifier = Modifier,
+    startDestination: MainScreenRoute = MainScreenRoute.Notice,
 ) {
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry?.let { MainScreenRoute.of(it) }
@@ -68,7 +69,7 @@ fun MainScreen(
         ) {
             NavHost(
                 navController = navController,
-                startDestination = MainScreenRoute.Notice,
+                startDestination = startDestination,
                 modifier = Modifier
                     .padding(it)
                     .consumeWindowInsets(it)
