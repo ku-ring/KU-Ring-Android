@@ -21,9 +21,9 @@ sealed interface MainScreenRoute : KuringRoute {
     companion object {
         val entries = listOf(Notice, Calendar, CampusMap, Settings)
 
-        fun of(entry: NavBackStackEntry): MainScreenRoute =
-            of(entry.destination.route.orEmpty()) ?: Notice
+        fun of(entry: NavBackStackEntry): MainScreenRoute = of(entry.destination.route.orEmpty())
 
-        fun of(route: String): MainScreenRoute? = entries.firstOrNull { it.route == route }
+        fun of(route: String): MainScreenRoute = entries.firstOrNull { it.route == route }
+            ?: throw IllegalArgumentException("Unknown route: $route")
     }
 }
