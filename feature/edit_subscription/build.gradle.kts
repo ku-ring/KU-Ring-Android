@@ -1,5 +1,3 @@
-import com.ku_stacks.ku_ring.buildlogic.dsl.implementation
-
 plugins {
     kuring("view")
     kuring("compose")
