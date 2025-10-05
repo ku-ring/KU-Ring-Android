@@ -1,7 +1,6 @@
 package com.ku_stacks.ku_ring.main.notice.compose.inner_screen
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -23,9 +22,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.dp
 import com.ku_stacks.ku_ring.designsystem.components.KuringCallToAction
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
@@ -87,6 +85,10 @@ private fun AcademicEventBottomSheetContent(
     modifier: Modifier = Modifier,
 ) {
     val isIndicatorVisible = academicEvents.size > 1
+    val lineHeightStyle = LineHeightStyle(
+        alignment = LineHeightStyle.Alignment.Center,
+        trim = LineHeightStyle.Trim.None
+    )
 
     Column(
         modifier = modifier
@@ -98,7 +100,7 @@ private fun AcademicEventBottomSheetContent(
 
         Text(
             text = stringResource(academic_event_bottom_sheet_title),
-            style = KuringTheme.typography.title2M,
+            style = KuringTheme.typography.title2M.copy(lineHeightStyle = lineHeightStyle),
             color = KuringTheme.colors.textTitle,
         )
 
@@ -121,16 +123,16 @@ private fun AcademicEventBottomSheetContent(
                     )
                     .padding(16.dp),
             ) {
-                CenterStartAlignedText(
+                Text(
                     text = academicEvent.summary,
-                    style = KuringTheme.typography.body2SB,
+                    style = KuringTheme.typography.body2SB.copy(lineHeightStyle = lineHeightStyle),
                     color = KuringTheme.colors.textTitle,
                     modifier = Modifier.heightIn(min = 24.dp),
                 )
                 Spacer(modifier = Modifier.height(4.dp))
-                CenterStartAlignedText(
+                Text(
                     text = academicEvent.period,
-                    style = KuringTheme.typography.tag2,
+                    style = KuringTheme.typography.tag2.copy(lineHeightStyle = lineHeightStyle),
                     color = KuringTheme.colors.textCaption1,
                     modifier = Modifier.heightIn(min = 18.dp),
                 )
@@ -150,26 +152,6 @@ private fun AcademicEventBottomSheetContent(
             text = stringResource(academic_event_bottom_sheet_cta),
             modifier = Modifier.fillMaxWidth(),
             blur = false,
-        )
-    }
-}
-
-@Composable
-private fun CenterStartAlignedText(
-    text: String,
-    style: TextStyle,
-    color: Color,
-    modifier: Modifier = Modifier,
-) {
-    Box(
-        contentAlignment = Alignment.CenterStart,
-        modifier = modifier
-    ) {
-        Text(
-            text = text,
-            style = style,
-            color = color,
-            maxLines = 1,
         )
     }
 }
