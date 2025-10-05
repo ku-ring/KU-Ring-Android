@@ -6,6 +6,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.ku_stacks.ku_ring.local.room.PushDao
 import com.ku_stacks.ku_ring.navigation.KuringNavigator
+import com.ku_stacks.ku_ring.navigation.MainScreenRoute
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.util.DateUtil
 import com.ku_stacks.ku_ring.util.KuringNotificationManager
@@ -87,6 +88,9 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
             if (pref.extNotificationAllowed) {
                 showCustomNotification(type = type, title = title, body = body)
             }
+        } else if (fcmUtil.isAcademicEventNotification(remoteMessage.data)) {
+            // TODO: get title and body from message
+            showAcademicEventNotification("", "")
         }
     }
 
@@ -106,5 +110,10 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
     private fun showCustomNotification(type: String, title: String, body: String) {
         val intent = navigator.createMainIntent(this)
         KuringNotificationManager.showCustomNotification(this, intent, type, title, body)
+    }
+
+    private fun showAcademicEventNotification(title: String, body: String) {
+        val intent = navigator.createMainIntent(this, MainScreenRoute.Calendar)
+        KuringNotificationManager.showAcademicEventNotification(this, intent, title, body)
     }
 }
