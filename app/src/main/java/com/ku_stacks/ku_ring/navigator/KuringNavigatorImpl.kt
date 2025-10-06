@@ -18,6 +18,7 @@ import com.ku_stacks.ku_ring.main.MainActivity
 import com.ku_stacks.ku_ring.main.archive.ArchiveActivity
 import com.ku_stacks.ku_ring.main.search.SearchActivity
 import com.ku_stacks.ku_ring.navigation.KuringNavigator
+import com.ku_stacks.ku_ring.navigation.MainScreenRoute
 import com.ku_stacks.ku_ring.notice_detail.NoticeWebActivity
 import com.ku_stacks.ku_ring.notion.NotionViewActivity
 import com.ku_stacks.ku_ring.onboarding.OnboardingActivity
@@ -37,8 +38,8 @@ class KuringNavigatorImpl @Inject constructor() : KuringNavigator {
         FeedbackActivity.start(activity)
     }
 
-    override fun createMainIntent(context: Context): Intent {
-        return MainActivity.createIntent(context)
+    override fun createMainIntent(context: Context, route: MainScreenRoute): Intent {
+        return MainActivity.createIntent(context, route)
     }
 
     override fun navigateToMain(activity: Activity) {
