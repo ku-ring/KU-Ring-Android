@@ -38,6 +38,11 @@ class FcmUtil @Inject constructor(
         return type != null && title != null && body != null && customTypeSet.contains(type)
     }
 
+    fun isAcademicEventNotification(data: Map<String, String?>): Boolean {
+        // TODO: implement academic event verification code
+        return false
+    }
+
     fun insertNotificationIntoDatabase(
         articleId: String,
         id: Int,
