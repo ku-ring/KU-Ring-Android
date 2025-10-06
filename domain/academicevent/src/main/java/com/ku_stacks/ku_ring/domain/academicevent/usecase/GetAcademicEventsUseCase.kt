@@ -17,24 +17,6 @@ class GetAcademicEventsUseCase @Inject constructor(
         .getAcademicEvents(startDate.toString(), endDate.toString())
         .mapByDate(startDate, endDate)
 
-    /*private fun Result<List<AcademicEvent>>.mapByDate(
-        startDate: LocalDate,
-        endDate: LocalDate,
-    ) = map { academicEvents ->
-        buildMap {
-            academicEvents.forEach { event ->
-                val startRange = event.startDateTime.date.coerceAtLeast(startDate)
-                val endRange = event.endDateTime.date.coerceAtMost(endDate)
-
-                // 특정 학사 일정의 기간 내 모든 날짜에 매핑되어야 한다.
-                for (date in startRange..endRange) {
-                    val key = date.toString()
-                    getOrPut(key) { mutableListOf() }.add(event)
-                }
-            }
-        }
-    }*/
-
     private fun Result<List<AcademicEvent>>.mapByDate(
         startDate: LocalDate,
         endDate: LocalDate,
