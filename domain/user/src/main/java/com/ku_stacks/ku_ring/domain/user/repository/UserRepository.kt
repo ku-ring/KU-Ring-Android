@@ -14,6 +14,14 @@ interface UserRepository {
     suspend fun sendFeedback(feedback: String): Result<Pair<Boolean, String>>
     suspend fun registerUser(token: String)
 
+    /**
+     * Sets whether academic event notification is enabled.
+     *
+     * @param enabled Whether academic event notification is enabled
+     * @return `true` if the request is successful, `false` otherwise
+     */
+    suspend fun setAcademicEventNotification(enabled: Boolean): Result<Boolean>
+
     suspend fun getUserData(): Result<User>
     suspend fun signUpUser(email: String, password: String): Result<Unit>
     suspend fun signInUser(email: String, password: String): Result<Unit>

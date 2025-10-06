@@ -11,6 +11,7 @@ android {
 
 dependencies {
     implementation(projects.data.local)
+    implementation(projects.domain.navigation)
     implementation(projects.core.util)
     implementation(projects.core.uiUtil)
     implementation(projects.core.preferences)

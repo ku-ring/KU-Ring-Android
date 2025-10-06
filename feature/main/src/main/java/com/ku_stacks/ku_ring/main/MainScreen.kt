@@ -19,6 +19,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.core.net.toUri
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
@@ -33,12 +35,11 @@ import com.ku_stacks.ku_ring.main.notice.compose.NoticeScreen
 import com.ku_stacks.ku_ring.main.setting.SettingViewModel
 import com.ku_stacks.ku_ring.main.setting.compose.OpenSourceActivity
 import com.ku_stacks.ku_ring.main.setting.compose.inner_screen.SettingScreen
+import com.ku_stacks.ku_ring.navigation.KuringNavigator
+import com.ku_stacks.ku_ring.navigation.MainScreenRoute
 import com.ku_stacks.ku_ring.thirdparty.compose.KuringCompositionLocalProvider
 import com.ku_stacks.ku_ring.thirdparty.di.LocalNavigator
-import com.ku_stacks.ku_ring.ui_util.KuringNavigator
 import com.ku_stacks.ku_ring.ui_util.showToast
-import androidx.core.net.toUri
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 
 @Composable
 fun MainScreen(
@@ -186,6 +187,12 @@ fun NavGraphBuilder.mainScreenNavGraph(
             onNavigateToSignIn = { navigator.navigateToAuth(activity) },
             onNavigateToEditSubscription = { navigator.navigateToEditSubscription(activity) },
             onExtNotificationEnabledToggle = viewModel::setExtNotificationAllowed,
+            onAcademicEventNotificationEnabledToggle = { value ->
+                viewModel.setAcademicEventNotificationAllowed(
+                    value = value,
+                    onFail = { activity.showToast(R.string.setting_subscribe_academic_events_fail) },
+                )
+            },
             onNavigateToUpdateLog = {
                 activity.startWebView(navigator, R.string.notion_new_contents_url)
             },

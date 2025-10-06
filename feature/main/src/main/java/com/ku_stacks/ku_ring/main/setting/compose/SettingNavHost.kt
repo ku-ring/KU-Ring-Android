@@ -6,7 +6,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.ui.platform.LocalContext
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -17,6 +18,7 @@ import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.setting.SettingViewModel
 import com.ku_stacks.ku_ring.main.setting.compose.inner_screen.SettingScreen
+import com.ku_stacks.ku_ring.ui_util.showToast
 
 // TODO: 향후 compose 완전 migration 시 사용
 @Composable
@@ -74,12 +76,19 @@ private fun NavGraphBuilder.settingNavGraph(
 ) {
     composable(SettingDestinations.SETTING_SCREEN) {
         val settingsUiState by viewModel.settingUiState.collectAsStateWithLifecycle()
+        val context = LocalContext.current
 
         SettingScreen(
             settingUiState = settingsUiState,
             onNavigateToSignIn = navigateToSignIn,
             onNavigateToEditSubscription = navigateToEditSubscription,
             onExtNotificationEnabledToggle = viewModel::setExtNotificationAllowed,
+            onAcademicEventNotificationEnabledToggle = { value ->
+                viewModel.setAcademicEventNotificationAllowed(
+                    value = value,
+                    onFail = { context.showToast(R.string.setting_subscribe_academic_events_fail) },
+                )
+            },
             onNavigateToUpdateLog = { startWebViewActivity(R.string.notion_new_contents_url) },
             onNavigateToKuringTeam = { startWebViewActivity(R.string.notion_kuring_team_url) },
             onNavigateToPrivacyPolicy = { startWebViewActivity(R.string.notion_privacy_policy_url) },

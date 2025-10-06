@@ -1,4 +1,3 @@
-import com.ku_stacks.ku_ring.buildlogic.dsl.implementation
 import com.ku_stacks.ku_ring.buildlogic.dsl.setNameSpace
 
 plugins {
@@ -26,6 +25,7 @@ dependencies {
     implementation(projects.data.search)
     implementation(projects.domain.user)
     implementation(projects.domain.academicevent)
+    implementation(projects.domain.navigation)
 
     implementation(libs.bundles.compose.interop)
     implementation(libs.kotlinx.datetime)

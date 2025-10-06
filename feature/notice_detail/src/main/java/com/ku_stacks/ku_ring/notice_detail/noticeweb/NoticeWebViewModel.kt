@@ -10,8 +10,8 @@ import com.ku_stacks.ku_ring.domain.WebViewNotice
 import com.ku_stacks.ku_ring.domain.noticecomment.usecase.CreateNoticeCommentUseCase
 import com.ku_stacks.ku_ring.domain.noticecomment.usecase.DeleteNoticeCommentUseCase
 import com.ku_stacks.ku_ring.domain.noticecomment.usecase.GetNoticeCommentUseCase
+import com.ku_stacks.ku_ring.navigation.NoticeDetailRoute
 import com.ku_stacks.ku_ring.notice.repository.NoticeRepository
-import com.ku_stacks.ku_ring.notice_detail.NoticeDetailRoute
 import com.ku_stacks.ku_ring.util.suspendRunCatching
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
