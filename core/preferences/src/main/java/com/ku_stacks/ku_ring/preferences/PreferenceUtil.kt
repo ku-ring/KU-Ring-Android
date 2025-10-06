@@ -49,7 +49,7 @@ class PreferenceUtil(@ApplicationContext context: Context) {
 
     var lastDateAcademicEventShown: String
         get() = prefs.getString(LAST_DATE_ACADEMIC_EVENT_SHEET_SHOWN, null) ?: ""
-        set(value) = prefs.edit { putString(LAST_DATE_ACADEMIC_EVENT_SHEET_SHOWN, value).apply() }
+        set(value) = prefs.edit { putString(LAST_DATE_ACADEMIC_EVENT_SHEET_SHOWN, value) }
 
     fun deleteStartDate() {
         prefs.edit { remove(START_DATE) }
