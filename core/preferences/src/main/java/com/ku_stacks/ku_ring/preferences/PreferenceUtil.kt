@@ -47,6 +47,10 @@ class PreferenceUtil(@ApplicationContext context: Context) {
         get() = prefs.getBoolean(SURVEY_2024_COMPLETE, false)
         set(value) = prefs.edit { putBoolean(SURVEY_2024_COMPLETE, value) }
 
+    var lastDateAcademicEventShown: String
+        get() = prefs.getString(LAST_DATE_ACADEMIC_EVENT_SHEET_SHOWN, null) ?: ""
+        set(value) = prefs.edit { putString(LAST_DATE_ACADEMIC_EVENT_SHEET_SHOWN, value) }
+
     fun deleteStartDate() {
         prefs.edit { remove(START_DATE) }
     }
@@ -73,5 +77,6 @@ class PreferenceUtil(@ApplicationContext context: Context) {
         const val ACADEMIC_EVENT_NOTIFICATION = "ACADEMIC_EVENT_NOTIFICATION"
         const val CAMPUS_USER_ID = "CAMPUS_USER_ID"
         const val SURVEY_2024_COMPLETE = "SURVEY_2024_COMPLETE"
+        const val LAST_DATE_ACADEMIC_EVENT_SHEET_SHOWN = "LAST_DATE_ACADEMIC_EVENT_SHEET_SHOWN"
     }
 }

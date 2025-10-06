@@ -13,9 +13,9 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Text
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -23,6 +23,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.dp
 import com.ku_stacks.ku_ring.designsystem.components.KuringCallToAction
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
@@ -38,26 +39,12 @@ import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDateTime
 
-// TODO: api 연결 후 삭제
-private val mockAcademicEvents = buildList {
-    repeat(5) { index ->
-        add(
-            AcademicEvent(
-                id = index.toLong(),
-                summary = "수강바구니 ${index}차",
-                category = ScheduleType.EVENT.name,
-                startDateTime = LocalDateTime.now(),
-                endDateTime = LocalDateTime.now(),
-            )
-        )
-    }
-}.toImmutableList()
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun AcademicEventBottomSheet(
-    academicEvents: ImmutableList<AcademicEvent> = mockAcademicEvents,
+    academicEvents: ImmutableList<AcademicEvent>,
     isVisible: Boolean,
+    onDismissRequest: () -> Unit,
     onNavigateToAcademicEvent: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -70,7 +57,10 @@ internal fun AcademicEventBottomSheet(
 
     if (sheetState.isVisible) {
         ModalBottomSheet(
-            onDismissRequest = { scope.launch { sheetState.hide() } },
+            onDismissRequest = {
+                onDismissRequest()
+                scope.launch { sheetState.hide() }
+            },
             sheetState = sheetState,
             shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
             dragHandle = null,
@@ -80,6 +70,7 @@ internal fun AcademicEventBottomSheet(
                 academicEvents = academicEvents,
                 onNavigateToAcademicEvent = {
                     onNavigateToAcademicEvent()
+                    onDismissRequest()
                     scope.launch { sheetState.hide() }
                 },
             )
@@ -94,6 +85,10 @@ private fun AcademicEventBottomSheetContent(
     modifier: Modifier = Modifier,
 ) {
     val isIndicatorVisible = academicEvents.size > 1
+    val lineHeightStyle = LineHeightStyle(
+        alignment = LineHeightStyle.Alignment.Center,
+        trim = LineHeightStyle.Trim.None
+    )
 
     Column(
         modifier = modifier
@@ -105,7 +100,7 @@ private fun AcademicEventBottomSheetContent(
 
         Text(
             text = stringResource(academic_event_bottom_sheet_title),
-            style = KuringTheme.typography.title2M,
+            style = KuringTheme.typography.title2M.copy(lineHeightStyle = lineHeightStyle),
             color = KuringTheme.colors.textTitle,
         )
 
@@ -130,25 +125,25 @@ private fun AcademicEventBottomSheetContent(
             ) {
                 Text(
                     text = academicEvent.summary,
-                    style = KuringTheme.typography.body1,
+                    style = KuringTheme.typography.body2SB.copy(lineHeightStyle = lineHeightStyle),
                     color = KuringTheme.colors.textTitle,
-                    maxLines = 1,
                     modifier = Modifier.heightIn(min = 24.dp),
                 )
+                Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = academicEvent.period,
-                    style = KuringTheme.typography.tag2,
+                    style = KuringTheme.typography.tag2.copy(lineHeightStyle = lineHeightStyle),
                     color = KuringTheme.colors.textCaption1,
-                    maxLines = 1,
                     modifier = Modifier.heightIn(min = 18.dp),
                 )
             }
         }
 
         if (isIndicatorVisible) {
-            Spacer(modifier = Modifier.height(8.dp))
             HorizontalSlidingIndicator(
                 pagerState = pagerState,
+                inactiveBackground = KuringTheme.colors.mainPrimarySelected,
+                modifier = Modifier.padding(top = 20.dp, bottom = 4.dp)
             )
         }
 

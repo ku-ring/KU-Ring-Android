@@ -55,6 +55,7 @@ import com.ku_stacks.ku_ring.main.notice.DepartmentNoticeScreenState
 import com.ku_stacks.ku_ring.main.notice.DepartmentNoticeViewModel
 import com.ku_stacks.ku_ring.main.notice.compose.LocalKuringBotFabState
 import com.ku_stacks.ku_ring.main.notice.compose.components.DepartmentHeader
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -84,6 +85,16 @@ internal fun DepartmentNoticeScreen(
 
     val departmentNoticeScreenState by viewModel.departmentNoticeScreenState.collectAsStateWithLifecycle()
 
+    val academicEvents by viewModel.academicEvents.collectAsStateWithLifecycle()
+    val isAcademicEventSheetVisible by viewModel.isAcademicEventSheetVisible.collectAsStateWithLifecycle()
+
+    AcademicEventBottomSheet(
+        academicEvents = academicEvents.toImmutableList(),
+        isVisible = isAcademicEventSheetVisible,
+        onNavigateToAcademicEvent = onNavigateToAcademicEvent,
+        onDismissRequest = viewModel::markAcademicEventSheetAsShown,
+    )
+
     when (departmentNoticeScreenState) {
         DepartmentNoticeScreenState.InitialLoading -> {
             Box(modifier = modifier.background(KuringTheme.colors.background)) {
@@ -103,7 +114,6 @@ internal fun DepartmentNoticeScreen(
                 selectedDepartments = selectedDepartments,
                 onSelectDepartment = viewModel::selectDepartment,
                 onNavigateToEditDepartment = onNavigateToEditDepartment,
-                onNavigateToAcademicEvent = onNavigateToAcademicEvent,
                 notices = notices,
                 onNoticeClick = onNoticeClick,
                 isRefreshing = isRefreshing,
@@ -165,7 +175,6 @@ private fun DepartmentNoticeScreen(
     selectedDepartments: List<Department>,
     onSelectDepartment: (Department) -> Unit,
     onNavigateToEditDepartment: () -> Unit,
-    onNavigateToAcademicEvent: () -> Unit,
     notices: LazyPagingItems<Notice>?,
     onNoticeClick: (Notice) -> Unit,
     isRefreshing: Boolean,
@@ -188,12 +197,6 @@ private fun DepartmentNoticeScreen(
             kuringBotFabState.hide()
         }
     }
-
-    // TODO: 학사일정 목록와 표시 여부를
-    AcademicEventBottomSheet(
-        onNavigateToAcademicEvent = onNavigateToAcademicEvent,
-        isVisible = true,
-    )
 
     ModalBottomSheetLayout(
         sheetContent = {

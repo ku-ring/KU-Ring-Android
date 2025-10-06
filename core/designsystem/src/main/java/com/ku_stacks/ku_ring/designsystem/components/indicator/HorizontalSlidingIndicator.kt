@@ -31,14 +31,13 @@ fun HorizontalSlidingIndicator(
     modifier: Modifier = Modifier,
     dotSize: Dp = 8.dp,
     spacing: Dp = 8.dp,
+    inactiveBackground: Color = KuringTheme.colors.gray200,
+    activeBackground:Color = KuringTheme.colors.mainPrimary,
 ) {
     // 두 indicator의 왼쪽 경계 간 거리
     val indicatorDistancePx = with(LocalDensity.current) {
         (dotSize + spacing).toPx()
     }
-
-    val inactiveBackground = KuringTheme.colors.gray200
-    val activeBackground = KuringTheme.colors.mainPrimary
     val dotShape = RoundedCornerShape(50)
 
     Box(

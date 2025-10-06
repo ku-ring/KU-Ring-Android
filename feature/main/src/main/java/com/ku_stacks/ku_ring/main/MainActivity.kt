@@ -10,14 +10,17 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import androidx.core.content.IntentCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.WebViewNotice
+import com.ku_stacks.ku_ring.domain.academicevent.repository.AcademicEventRepository
 import com.ku_stacks.ku_ring.navigation.KuringNavigator
 import com.ku_stacks.ku_ring.navigation.MainScreenRoute
 import com.ku_stacks.ku_ring.util.KuringNotificationManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -25,6 +28,9 @@ class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var navigator: KuringNavigator
+
+    @Inject
+    lateinit var academicEventRepository: AcademicEventRepository
 
     lateinit var navController: NavHostController
 
@@ -47,6 +53,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        fetchAcademicEvent()
 
         val notice = IntentCompat.getSerializableExtra(
             intent,
@@ -74,6 +81,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun navToNoticeActivity(webViewNotice: WebViewNotice) {
         navigator.navigateToNoticeWeb(this, webViewNotice)
+    }
+
+    private fun fetchAcademicEvent() {
+        lifecycleScope.launch {
+            academicEventRepository.fetchAcademicEventsFromRemote()
+        }
     }
 
     private fun Intent.parseMainScreenRoute(): MainScreenRoute? =

@@ -7,16 +7,19 @@ import com.ku_stacks.ku_ring.domain.academicevent.repository.AcademicEventReposi
 import com.ku_stacks.ku_ring.local.entity.AcademicEventEntity
 import com.ku_stacks.ku_ring.local.room.AcademicEventDao
 import com.ku_stacks.ku_ring.remote.academicevent.AcademicEventClient
+import com.ku_stacks.ku_ring.util.IODispatcher
 import com.ku_stacks.ku_ring.util.suspendRunCatching
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class AcademicEventRepositoryImpl @Inject constructor(
     private val academicEventDao: AcademicEventDao,
     private val academicEventClient: AcademicEventClient,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
+    @IODispatcher private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : AcademicEventRepository {
     override suspend fun fetchAcademicEventsFromRemote(
         startDate: String?,
@@ -46,4 +49,12 @@ class AcademicEventRepositoryImpl @Inject constructor(
     ): List<AcademicEventEntity> = withContext(ioDispatcher) {
         academicEventDao.getAcademicEvents(startDate, endDate)
     }
+
+    override fun getAcademicEventsAsFlow(
+        startDate: String,
+        endDate: String
+    ): Flow<List<AcademicEvent>> =
+        academicEventDao.getAcademicEventsAsFlow(startDate, endDate).map { eventEntities ->
+            eventEntities.map { entity -> entity.toDomain() }
+        }
 }
