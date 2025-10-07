@@ -15,7 +15,7 @@ android {
             buildConfigField("String", "API_BASE_URL", "\"https://ku-ring.com/api/\"")
         }
         debug {
-            buildConfigField("String", "API_BASE_URL", "\"https://kuring.herokuapp.com/api/\"")
+            buildConfigField("String", "API_BASE_URL", "\"http://dev.ku-ring.com/api/\"")
         }
     }
     testOptions {
