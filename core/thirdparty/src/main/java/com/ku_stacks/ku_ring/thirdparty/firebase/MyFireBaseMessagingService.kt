@@ -89,8 +89,9 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
                 showCustomNotification(type = type, title = title, body = body)
             }
         } else if (fcmUtil.isAcademicEventNotification(remoteMessage.data)) {
-            // TODO: get title and body from message
-            showAcademicEventNotification("", "")
+            val title = remoteMessage.data["title"]!!
+            val body = remoteMessage.data["body"]!!
+            showAcademicEventNotification(title, body)
         }
     }
 

@@ -39,8 +39,9 @@ class FcmUtil @Inject constructor(
     }
 
     fun isAcademicEventNotification(data: Map<String, String?>): Boolean {
-        // TODO: implement academic event verification code
-        return false
+        val title = data["title"]
+        val body = data["body"]
+        return title != null && body != null
     }
 
     fun insertNotificationIntoDatabase(
