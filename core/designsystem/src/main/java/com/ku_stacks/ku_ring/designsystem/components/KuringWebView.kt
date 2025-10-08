@@ -102,6 +102,7 @@ private fun createWebView(
         builtInZoomControls = false
         domStorageEnabled = true
         javaScriptEnabled = true
+        mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
         loadWithOverviewMode = true
         blockNetworkLoads = false
         setSupportZoom(false)
