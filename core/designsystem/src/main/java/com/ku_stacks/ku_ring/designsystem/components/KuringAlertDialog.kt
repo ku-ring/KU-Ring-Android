@@ -19,6 +19,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -175,16 +177,28 @@ private fun KuringAlertDialogButtons(
     modifier: Modifier = Modifier,
     confirmTextColor: Color = KuringTheme.colors.mainPrimary,
 ) {
-    Row(modifier = modifier.height(IntrinsicSize.Min)) {
+    val borderlineColor = KuringTheme.colors.borderline
+    Row(
+        modifier = modifier
+            .height(IntrinsicSize.Min)
+            .drawBehind {
+                drawLine(
+                    color = borderlineColor,
+                    start = Offset(0f, 0f),
+                    end = Offset(size.width, 0f),
+                    strokeWidth = 1.dp.toPx(),
+                )
+            },
+    ) {
         KuringAlertDialogButton(
             text = cancelText,
             onClick = onCancel,
             modifier = Modifier.weight(1f),
         )
         Divider(
-            color = Color(0x26000000),
+            color = KuringTheme.colors.borderline,
             modifier = Modifier
-                .padding(vertical = 16.dp)
+                .padding(bottom = 6.dp)
                 .fillMaxHeight()
                 .width(1.dp),
         )
