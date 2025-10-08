@@ -38,7 +38,7 @@ internal fun SubscribeGroup(
 
             SettingSwitch(
                 iconId = R.drawable.ic_bell_v2,
-                titleId = R.string.setting_subscribe_notifications,
+                titleId = R.string.setting_subscribe_others,
                 checked = isExtNotificationEnabled,
                 onCheckedChange = onExtNotificationEnabledToggle,
                 descriptionId = R.string.setting_subscribe_others_caption,
