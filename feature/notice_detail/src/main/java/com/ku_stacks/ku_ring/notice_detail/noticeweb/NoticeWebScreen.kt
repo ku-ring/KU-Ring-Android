@@ -39,6 +39,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ShareCompat
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.Pager
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -51,6 +52,7 @@ import com.ku_stacks.ku_ring.domain.NoticeComment
 import com.ku_stacks.ku_ring.domain.WebViewNotice
 import com.ku_stacks.ku_ring.notice_detail.R
 import com.ku_stacks.ku_ring.notice_detail.component.CommentsBottomSheet
+import com.ku_stacks.ku_ring.thirdparty.di.LocalNavigator
 import com.ku_stacks.ku_ring.util.WordConverter
 import kotlinx.coroutines.launch
 
@@ -105,6 +107,7 @@ fun NoticeWebScreen(
         },
         onShowDeleteCommentPopup = viewModel::showDeleteCommentPopup,
         onHideDeleteCommentPopup = viewModel::hideDeleteCommentPopup,
+        isUserLoggedIn = viewModel::isUserLoggedIn,
         modifier = modifier,
     )
 }
@@ -127,6 +130,7 @@ private fun NoticeWebScreen(
     deleteComment: () -> Unit,
     onShowDeleteCommentPopup: (Int) -> Unit,
     onHideDeleteCommentPopup: () -> Unit,
+    isUserLoggedIn: () -> Boolean,
     modifier: Modifier = Modifier,
 ) {
     LaunchedEffect(webViewNotice) {
@@ -137,6 +141,13 @@ private fun NoticeWebScreen(
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val isBottomSheetVisible by rememberUpdatedState(newValue = bottomSheetState.isVisible || bottomSheetState.targetValue == SheetValue.Expanded)
     val commentPagingItems = commentPager?.flow?.collectAsLazyPagingItems()
+
+    var isLoginDialogVisible by remember { mutableStateOf(false) }
+
+    LifecycleResumeEffect(Unit) {
+        isLoginDialogVisible = false
+        onPauseOrDispose { }
+    }
 
     Scaffold(
         topBar = {
@@ -162,8 +173,12 @@ private fun NoticeWebScreen(
         floatingActionButton = {
             NoticeWebScreenFab(
                 onClick = {
-                    onCommentSheetOpen()
-                    coroutineScope.launch { bottomSheetState.show() }
+                    if (isUserLoggedIn()) {
+                        onCommentSheetOpen()
+                        coroutineScope.launch { bottomSheetState.show() }
+                    } else {
+                        isLoginDialogVisible = true
+                    }
                 },
             )
         },
@@ -215,6 +230,20 @@ private fun NoticeWebScreen(
             confirmText = stringResource(R.string.comment_bottom_sheet_dialog_delete_text),
             cancelText = stringResource(R.string.comment_bottom_sheet_dialog_cancel_text),
             confirmTextColor = KuringTheme.colors.warning,
+        )
+    }
+
+    if (isLoginDialogVisible) {
+        val navigator = LocalNavigator.current
+        val context = LocalContext.current
+        KuringAlertDialog(
+            text = stringResource(R.string.comment_login_dialog_body),
+            onConfirm = {
+                navigator.navigateToAuth(context)
+            },
+            onCancel = { isLoginDialogVisible = false },
+            confirmText = stringResource(R.string.comment_login_dialog_do_login),
+            cancelText = stringResource(R.string.comment_login_dialog_cancel),
         )
     }
 }
@@ -313,6 +342,7 @@ private fun NoticeWebScreenPreview() {
             deleteComment = {},
             onShowDeleteCommentPopup = {},
             onHideDeleteCommentPopup = {},
+            isUserLoggedIn = { true },
             modifier = Modifier
                 .background(KuringTheme.colors.background)
                 .fillMaxSize(),

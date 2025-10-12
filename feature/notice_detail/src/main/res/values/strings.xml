@@ -24,6 +24,11 @@
     <string name="comment_bottom_sheet_delete_success">댓글이 삭제되었어요.</string>
     <string name="comment_bottom_sheet_delete_fail">댓글 삭제에 실패했어요. 잠시 후 다시 시도해 주세요.</string>
 
+    <!--  Comment dialog: User not logged in  -->
+    <string name="comment_login_dialog_body">로그인이 필요한 서비스에요.</string>
+    <string name="comment_login_dialog_cancel">취소</string>
+    <string name="comment_login_dialog_do_login">로그인하기</string>
+
     <!--  Comment report resources  -->
     <string name="comment_report_title">댓글 신고하기</string>
     <string name="comment_report_placeholder">신고 사유를 입력해 주세요.</string>

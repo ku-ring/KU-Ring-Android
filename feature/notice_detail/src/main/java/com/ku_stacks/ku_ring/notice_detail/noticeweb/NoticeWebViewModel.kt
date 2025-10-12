@@ -12,6 +12,7 @@ import com.ku_stacks.ku_ring.domain.noticecomment.usecase.DeleteNoticeCommentUse
 import com.ku_stacks.ku_ring.domain.noticecomment.usecase.GetNoticeCommentUseCase
 import com.ku_stacks.ku_ring.navigation.NoticeDetailRoute
 import com.ku_stacks.ku_ring.notice.repository.NoticeRepository
+import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.util.suspendRunCatching
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,6 +28,7 @@ class NoticeWebViewModel @Inject constructor(
     private val createNoticeCommentUseCase: CreateNoticeCommentUseCase,
     private val deleteNoticeCommentUseCase: DeleteNoticeCommentUseCase,
     private val getNoticeCommentUseCase: GetNoticeCommentUseCase,
+    private val preferenceUtil: PreferenceUtil,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val webViewNotice: WebViewNotice by lazy {
@@ -136,4 +138,6 @@ class NoticeWebViewModel @Inject constructor(
             }
         }
     }
+
+    fun isUserLoggedIn(): Boolean = preferenceUtil.accessToken.isNotEmpty()
 }
