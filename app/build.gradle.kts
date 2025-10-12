@@ -79,6 +79,7 @@ dependencies {
     implementation(projects.core.util)
     implementation(projects.core.uiUtil)
     implementation(projects.core.thirdparty)
+    implementation(projects.core.work)
     implementation(projects.data.domain)
     implementation(projects.data.noticecomment)
     implementation(projects.data.report)
