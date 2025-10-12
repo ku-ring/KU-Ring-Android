@@ -73,7 +73,7 @@ internal val mockEvents = buildList {
             AcademicEvent(
                 id = index.toLong(),
                 summary = "수강바구니 ${index}차",
-                category = ScheduleType.EVENT.name,
+                category = ScheduleType.ACADEMIC_OPERATION_EVENT.name,
                 startDateTime = start,
                 endDateTime = start,
             )

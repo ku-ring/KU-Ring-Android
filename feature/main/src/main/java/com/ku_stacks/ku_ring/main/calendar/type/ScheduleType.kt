@@ -6,13 +6,13 @@ import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 
 
 enum class ScheduleType {
-    DEGREE, REGISTRATION, EVENT, ETC;
+    ACADEMIC_DEGREE, REGISTRATION_COURSE_GRADE, ACADEMIC_OPERATION_EVENT, ETC;
 
     companion object {
         fun from(value: String): ScheduleType = when(value.uppercase()) {
-            "DEGREE" -> DEGREE
-            "REGISTRATION" -> REGISTRATION
-            "EVENT" -> EVENT
+            "ACADEMIC_DEGREE" -> ACADEMIC_DEGREE
+            "REGISTRATION_COURSE_GRADE" -> REGISTRATION_COURSE_GRADE
+            "ACADEMIC_OPERATION_EVENT" -> ACADEMIC_OPERATION_EVENT
             else -> ETC
         }
     }
@@ -20,8 +20,8 @@ enum class ScheduleType {
 
 @Composable
 fun ScheduleType.color(): Color = when(this) {
-    ScheduleType.DEGREE -> KuringTheme.colors.degree
-    ScheduleType.REGISTRATION -> KuringTheme.colors.registration
-    ScheduleType.EVENT -> KuringTheme.colors.event
+    ScheduleType.ACADEMIC_DEGREE -> KuringTheme.colors.degree
+    ScheduleType.REGISTRATION_COURSE_GRADE -> KuringTheme.colors.registration
+    ScheduleType.ACADEMIC_OPERATION_EVENT -> KuringTheme.colors.event
     ScheduleType.ETC -> KuringTheme.colors.etc
 }

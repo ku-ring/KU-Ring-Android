@@ -96,7 +96,7 @@ private fun AcademicScheduleItemPreview() {
                 event = AcademicEvent(
                     id = 1L,
                     summary = "수강바구니 1차",
-                    category = ScheduleType.EVENT.name,
+                    category = ScheduleType.ACADEMIC_OPERATION_EVENT.name,
                     startDateTime = LocalDateTime(
                         2025, 8, 4, 9, 30
                     ),
