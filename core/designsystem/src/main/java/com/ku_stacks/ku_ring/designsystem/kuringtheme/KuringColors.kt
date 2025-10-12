@@ -123,6 +123,7 @@ class KuringColors internal constructor(
     var event by mutableStateOf(event, structuralEqualityPolicy())
         internal set
     var white by mutableStateOf(white, structuralEqualityPolicy())
+        internal set
     var isLight by mutableStateOf(isLight, structuralEqualityPolicy())
         internal set
 
