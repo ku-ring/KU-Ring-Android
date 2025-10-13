@@ -102,6 +102,7 @@ private fun createWebView(
         builtInZoomControls = false
         domStorageEnabled = true
         javaScriptEnabled = true
+        // 페이지 프로토콜이 HTTPS일 때에도 HTTP 리소스를 가져올 수 있도록 허가
         mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
         loadWithOverviewMode = true
         blockNetworkLoads = false
