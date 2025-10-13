@@ -163,7 +163,7 @@ private fun SingleAcademicEventBottomSheetPreview() {
         AcademicEvent(
             id = 1,
             summary = "수강바구니 1차",
-            category = ScheduleType.EVENT.name,
+            category = ScheduleType.ACADEMIC_OPERATION_EVENT.name,
             startDateTime = LocalDateTime.now(),
             endDateTime = LocalDateTime.now(),
         )
@@ -190,7 +190,7 @@ private fun MultipleAcademicEventBottomSheetPreview() {
                 AcademicEvent(
                     id = index.toLong(),
                     summary = "수강바구니 ${index}차",
-                    category = ScheduleType.EVENT.name,
+                    category = ScheduleType.ACADEMIC_OPERATION_EVENT.name,
                     startDateTime = LocalDateTime.now(),
                     endDateTime = LocalDateTime.now(),
                 )

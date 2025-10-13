@@ -13,6 +13,7 @@ dependencies {
     implementation(projects.core.uiUtil)
     implementation(projects.domain.user)
     implementation(projects.domain.navigation)
+    implementation(projects.domain.academicevent)
 
     // WorkManager
     api(libs.bundles.androidx.work)

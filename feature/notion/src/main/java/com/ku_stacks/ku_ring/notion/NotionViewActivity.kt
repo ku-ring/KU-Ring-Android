@@ -4,12 +4,13 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.ui_util.TransitionType
+import com.ku_stacks.ku_ring.ui_util.setActivityTransition
 
 class NotionViewActivity : AppCompatActivity() {
 
@@ -20,18 +21,21 @@ class NotionViewActivity : AppCompatActivity() {
         val url = intent.getStringExtra(NOTION_URL)
         setContent {
             KuringTheme {
-                BackHandler {
-                    overridePendingTransition(
-                        R.anim.anim_slide_left_enter,
-                        R.anim.anim_slide_left_exit
-                    )
-                }
                 NotionScreen(
                     url = url,
                     modifier = Modifier.fillMaxSize(),
                 )
             }
         }
+    }
+
+    override fun finish() {
+        super.finish()
+        setActivityTransition(
+            TransitionType.CLOSE,
+            R.anim.anim_slide_left_enter,
+            R.anim.anim_slide_left_exit
+        )
     }
 
     companion object {
