@@ -2,6 +2,11 @@ package com.ku_stacks.ku_ring.main.archive.compose.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.ku_stacks.ku_ring.designsystem.components.KuringAlertDialog
@@ -17,12 +22,18 @@ internal fun DeleteArchivedNoticesAlertDialog(
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    var textId by rememberSaveable { mutableIntStateOf(R.string.alert_dialog_delete_notices) }
+    LaunchedEffect(isDeletePopupVisible, isDeleteAllNotices) {
+        if (isDeletePopupVisible) {
+            textId =
+                if (isDeleteAllNotices) R.string.alert_dialog_delete_all_notices else R.string.alert_dialog_delete_notices
+        }
+    }
+
     AnimatedVisibility(
         visible = isDeletePopupVisible,
         modifier = modifier,
     ) {
-        val textId =
-            if (isDeleteAllNotices) R.string.alert_dialog_delete_all_notices else R.string.alert_dialog_delete_notices
         KuringAlertDialog(
             text = stringResource(id = textId),
             onConfirm = onDelete,

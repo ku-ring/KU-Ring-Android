@@ -40,7 +40,7 @@ internal fun KuringBotLoginPopup(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(15.dp))
-            .background(KuringTheme.colors.gray200)
+            .background(KuringTheme.colors.gray300)
             .padding(17.dp),
         verticalArrangement = Arrangement.spacedBy(13.dp),
     ) {
@@ -52,7 +52,7 @@ internal fun KuringBotLoginPopup(
                     lineHeight = 21.sp,
                     fontFamily = Pretendard,
                     fontWeight = FontWeight(500),
-                    color = KuringTheme.colors.textTitle,
+                    color = KuringTheme.colors.white,
                 )
             )
             Spacer(modifier = Modifier.weight(1f))
@@ -63,13 +63,14 @@ internal fun KuringBotLoginPopup(
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.ic_x_v2),
                     contentDescription = stringResource(R.string.kuringbot_login_popup_close),
+                    tint = KuringTheme.colors.white,
                 )
             }
         }
         TextButton(
             onClick = onLogin,
             shape = RoundedCornerShape(100),
-            colors = ButtonDefaults.textButtonColors(KuringTheme.colors.mainPrimary),
+            colors = ButtonDefaults.textButtonColors(KuringTheme.colors.green10),
             modifier = Modifier.fillMaxWidth(),
         ) {
             Text(
@@ -79,7 +80,7 @@ internal fun KuringBotLoginPopup(
                     lineHeight = 24.sp,
                     fontFamily = Pretendard,
                     fontWeight = FontWeight(500),
-                    color = KuringTheme.colors.textTitle,
+                    color = KuringTheme.colors.mainPrimary,
                 ),
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(vertical = 3.dp),

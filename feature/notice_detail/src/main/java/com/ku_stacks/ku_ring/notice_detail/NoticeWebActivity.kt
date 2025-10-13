@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.WebViewNotice
+import com.ku_stacks.ku_ring.thirdparty.compose.KuringCompositionLocalProvider
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -24,14 +25,16 @@ class NoticeWebActivity : AppCompatActivity() {
             ?: throw IllegalStateException("WebViewNotice should not be null.")
 
         setContent {
-            KuringTheme {
-                val navController = rememberNavController()
-                NoticeDetailScreen(
-                    navController = navController,
-                    webViewNotice = webViewNotice,
-                    onClose = ::finish,
-                    modifier = Modifier.fillMaxSize(),
-                )
+            KuringCompositionLocalProvider {
+                KuringTheme {
+                    val navController = rememberNavController()
+                    NoticeDetailScreen(
+                        navController = navController,
+                        webViewNotice = webViewNotice,
+                        onClose = ::finish,
+                        modifier = Modifier.fillMaxSize(),
+                    )
+                }
             }
         }
     }

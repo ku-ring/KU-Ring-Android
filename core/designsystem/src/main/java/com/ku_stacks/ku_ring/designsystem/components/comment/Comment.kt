@@ -142,7 +142,7 @@ fun Comment(
             )
         )
         Text(
-            text = comment.postedDatetime,
+            text = comment.shownPostedDatetime,
             style = TextStyle(
                 fontSize = 10.sp,
                 lineHeight = 16.3.sp,

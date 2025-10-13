@@ -35,6 +35,7 @@ internal fun SettingSwitch(
     Text(
         text = stringResource(descriptionId),
         style = KuringTheme.typography.tag2,
+        color = KuringTheme.colors.gray300,
         modifier = Modifier
             .padding(start = 56.dp)
             .offset { IntOffset(0, -(10.dp.roundToPx())) },

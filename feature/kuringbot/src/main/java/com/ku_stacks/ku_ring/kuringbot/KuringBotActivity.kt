@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.ui.Modifier
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.kuringbot.compose.KuringBotScreen
@@ -27,7 +28,9 @@ class KuringBotActivity : AppCompatActivity() {
                 KuringBotScreen(
                     onBackButtonClick = ::finish,
                     onMoveToLogin = { navigator.navigateToAuth(this) },
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier
+                        .imePadding()
+                        .fillMaxSize(),
                 )
             }
         }

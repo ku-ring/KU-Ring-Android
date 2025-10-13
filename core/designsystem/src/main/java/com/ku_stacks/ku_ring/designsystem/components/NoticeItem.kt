@@ -42,7 +42,7 @@ import com.ku_stacks.ku_ring.domain.Notice
  * @param modifier 적용할 [Modifier]
  * @param onClick 공지를 클릭했을 때의 콜백
  * @param contentVerticalAlignment [content]의 수직 정렬 위치이다. 북마크 아이콘은 이 값과 상관없이 항상 [Alignment.Top]으로 정렬된다.
- * @param content 컴포넌트 오른쪽에 보여줄 slot이다. [content]가 주어지면 북마크 아이콘이 보이지 않는다.
+ * @param content 컴포넌트 제목 오른쪽에 보여줄 slot이다. [content]가 주어지면 북마크 아이콘이 보이지 않는다.
  */
 @Composable
 fun NoticeItem(
@@ -69,10 +69,9 @@ fun NoticeItem(
                 modifier = Modifier
                     .padding(vertical = 12.dp)
                     .weight(1f),
+                content = content,
             )
-            if (content != null) {
-                content()
-            } else if (notice.isSaved) {
+            if (content == null && notice.isSaved) {
                 NoticeItemBookmarkIcon(
                     modifier = Modifier
                         .height(IntrinsicSize.Min)
@@ -95,6 +94,7 @@ fun NoticeItem(
 private fun NoticeItemContent(
     notice: Notice,
     modifier: Modifier = Modifier,
+    content: @Composable (() -> Unit)? = null,
 ) {
     Box(modifier = modifier) {
         Column(
@@ -104,10 +104,14 @@ private fun NoticeItemContent(
             if (notice.isImportant) {
                 NoticeItemImportantTag()
             }
-            NoticeItemTitle(
-                title = notice.subject,
-                isRead = notice.isRead,
-            )
+            Row {
+                NoticeItemTitle(
+                    title = notice.subject,
+                    isRead = notice.isRead,
+                    modifier = Modifier.weight(1f),
+                )
+                content?.invoke()
+            }
             NoticeItemDate(
                 date = notice.postedDate,
                 isRead = notice.isRead,
