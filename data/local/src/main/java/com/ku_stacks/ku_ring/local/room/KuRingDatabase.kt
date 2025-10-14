@@ -8,6 +8,7 @@ import com.ku_stacks.ku_ring.local.entity.CategoryOrderEntity
 import com.ku_stacks.ku_ring.local.entity.DepartmentEntity
 import com.ku_stacks.ku_ring.local.entity.KuringBotMessageEntity
 import com.ku_stacks.ku_ring.local.entity.NoticeEntity
+import com.ku_stacks.ku_ring.local.entity.NoticePageEntity
 import com.ku_stacks.ku_ring.local.entity.PushEntity
 import com.ku_stacks.ku_ring.local.entity.SearchHistoryEntity
 
@@ -21,8 +22,9 @@ import com.ku_stacks.ku_ring.local.entity.SearchHistoryEntity
         KuringBotMessageEntity::class,
         CategoryOrderEntity::class,
         AcademicEventEntity::class,
+        NoticePageEntity::class
     ],
-    version = 11,
+    version = 12,
     exportSchema = false
 )
 abstract class KuRingDatabase : RoomDatabase() {
@@ -34,4 +36,5 @@ abstract class KuRingDatabase : RoomDatabase() {
     abstract fun kuringBotMessageDao(): KuringBotMessageDao
     abstract fun categoryOrderDao(): CategoryOrderDao
     abstract fun academicEventDao(): AcademicEventDao
+    abstract fun noticePageDao(): NoticePageDao
 }

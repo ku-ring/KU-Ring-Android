@@ -39,11 +39,14 @@ object DBModule {
         object : Migration(3, 4) {
             override fun migrate(db: SupportSQLiteDatabase) {
                 db.execSQL(
-                    "CREATE TABLE IF NOT EXISTS departments (" +
-                            "name TEXT PRIMARY KEY NOT NULL, " +
-                            "shortName TEXT NOT NULL DEFAULT '', " +
-                            "koreanName TEXT NOT NULL DEFAULT '', " +
-                            "isSubscribed INTEGER NOT NULL DEFAULT 0)",
+                    """
+                        CREATE TABLE IF NOT EXISTS departments (
+                           name TEXT PRIMARY KEY NOT NULL,
+                            "shortName TEXT NOT NULL DEFAULT '', 
+                            "koreanName TEXT NOT NULL DEFAULT '',
+                            "isSubscribed INTEGER NOT NULL DEFAULT 0
+                        )
+                    """.trimIndent()
                 )
             }
         }
@@ -61,9 +64,12 @@ object DBModule {
                 db.execSQL("ALTER TABLE NoticeEntity ADD COLUMN isImportant INT NOT NULL DEFAULT 0")
                 db.execSQL("ALTER TABLE departments ADD COLUMN isMainDepartment INT NOT NULL DEFAULT 0")
                 db.execSQL(
-                    "CREATE TABLE IF NOT EXISTS `SearchHistoryEntity` " +
-                            "(`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
-                            "`keyword` TEXT NOT NULL)",
+                    """
+                        CREATE TABLE IF NOT EXISTS `SearchHistoryEntity`
+                            "(`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                            "`keyword` TEXT NOT NULL
+                        )
+                    """.trimIndent()
                 )
             }
         }
@@ -150,6 +156,21 @@ object DBModule {
         }
     }
 
+    private val MIGRATION_11_12 = object : Migration(11, 12) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL(
+                """
+                CREATE TABLE IF NOT EXISTS NoticePageEntity(
+                    articleId TEXT PRIMARY KEY NOT NULL,
+                    department TEXT,
+                    nextPage INTEGER NOT NULL
+                    previousPage INTEGER NOT NULL
+                )
+            """.trimIndent()
+            )
+        }
+    }
+
     @Singleton
     @Provides
     fun provideKuRingDatabase(
@@ -170,6 +191,7 @@ object DBModule {
             MIGRATION_8_9,
             MIGRATION_9_10,
             MIGRATION_10_11,
+            MIGRATION_11_12,
         ).build()
 
     @Singleton
@@ -203,4 +225,8 @@ object DBModule {
     @Singleton
     @Provides
     fun provideAcademicEventDao(database: KuRingDatabase) = database.academicEventDao()
+
+    @Singleton
+    @Provides
+    fun provideNoticePageDao(database: KuRingDatabase) = database.noticePageDao()
 }
