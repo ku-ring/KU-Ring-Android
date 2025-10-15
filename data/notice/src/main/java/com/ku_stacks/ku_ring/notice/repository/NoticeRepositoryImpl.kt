@@ -132,6 +132,8 @@ class NoticeRepositoryImpl @Inject constructor(
                 shortName,
                 noticeClient,
                 noticeDao,
+                noticePageDao,
+                kuRingDatabase,
                 preferences,
             ),
             pagingSourceFactory = pagingSourceFactory
