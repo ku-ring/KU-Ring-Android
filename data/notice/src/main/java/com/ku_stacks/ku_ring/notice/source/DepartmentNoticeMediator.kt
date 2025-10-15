@@ -57,7 +57,7 @@ class DepartmentNoticeMediator(
             val startDate = getAppStartedDate()
             val entities = noticeResponse.data.toEntityList(shortName, startDate)
             kuRingDatabase.withTransaction {
-                insertNotices(entities, page)
+                insertNotices(entities)
                 updateNoticesId(entities)
                 updateNoticesCommentCount(entities)
                 insertNoticePages(entities, page)
@@ -80,10 +80,10 @@ class DepartmentNoticeMediator(
 
         val startDate = getAppStartedDate()
         val entities = importNoticesResponse.data.toEntityList(shortName, startDate)
-        insertNotices(entities, 0)
+        insertNotices(entities)
     }
 
-    private suspend fun insertNotices(noticeEntities: List<NoticeEntity>, page: Int) {
+    private suspend fun insertNotices(noticeEntities: List<NoticeEntity>) {
         noticeDao.insertDepartmentNotices(noticeEntities)
     }
 
