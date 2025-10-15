@@ -42,9 +42,9 @@ object DBModule {
                     """
                         CREATE TABLE IF NOT EXISTS departments (
                            name TEXT PRIMARY KEY NOT NULL,
-                            "shortName TEXT NOT NULL DEFAULT '', 
-                            "koreanName TEXT NOT NULL DEFAULT '',
-                            "isSubscribed INTEGER NOT NULL DEFAULT 0
+                           shortName TEXT NOT NULL DEFAULT '', 
+                           koreanName TEXT NOT NULL DEFAULT '',
+                           isSubscribed INTEGER NOT NULL DEFAULT 0
                         )
                     """.trimIndent()
                 )
@@ -65,9 +65,9 @@ object DBModule {
                 db.execSQL("ALTER TABLE departments ADD COLUMN isMainDepartment INT NOT NULL DEFAULT 0")
                 db.execSQL(
                     """
-                        CREATE TABLE IF NOT EXISTS `SearchHistoryEntity`
-                            "(`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-                            "`keyword` TEXT NOT NULL
+                        CREATE TABLE IF NOT EXISTS `SearchHistoryEntity`(
+                            `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                            `keyword` TEXT NOT NULL
                         )
                     """.trimIndent()
                 )
@@ -162,6 +162,7 @@ object DBModule {
                 """
                 CREATE TABLE IF NOT EXISTS NoticePageEntity(
                     articleId TEXT PRIMARY KEY NOT NULL,
+                    category TEXT NOT NULL,
                     department TEXT,
                     page INTEGER
                 )
