@@ -4,13 +4,18 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
+import androidx.room.withTransaction
 import com.ku_stacks.ku_ring.local.entity.NoticeEntity
+import com.ku_stacks.ku_ring.local.entity.NoticePageEntity
+import com.ku_stacks.ku_ring.local.room.KuRingDatabase
 import com.ku_stacks.ku_ring.local.room.NoticeDao
+import com.ku_stacks.ku_ring.local.room.NoticePageDao
 import com.ku_stacks.ku_ring.notice.mapper.toEntities
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.remote.notice.NoticeClient
 import com.ku_stacks.ku_ring.remote.notice.response.NoticeResponse
 import com.ku_stacks.ku_ring.util.DateUtil
+import com.ku_stacks.ku_ring.util.WordConverter
 import com.ku_stacks.ku_ring.util.suspendRunCatching
 
 @OptIn(ExperimentalPagingApi::class)
@@ -18,10 +23,10 @@ class CategoryNoticeMediator(
     private val categoryShortName: String,
     private val noticeClient: NoticeClient,
     private val noticeDao: NoticeDao,
+    private val noticePageDao: NoticePageDao,
+    private val kuRingDatabase: KuRingDatabase,
     private val preferences: PreferenceUtil,
 ) : RemoteMediator<Int, NoticeEntity>() {
-
-    private val pageNumberMap = hashMapOf<CategoryNoticePageKey, Int>()
 
     override suspend fun load(
         loadType: LoadType,
@@ -29,19 +34,28 @@ class CategoryNoticeMediator(
     ): MediatorResult {
         val page = when (loadType) {
             LoadType.REFRESH -> getRefreshKey(state) ?: 0
-            LoadType.PREPEND -> getPrependKey(state)
-            LoadType.APPEND -> getAppendKey(state)
+            LoadType.PREPEND -> getPrependKey()
+            LoadType.APPEND -> getAppendKey()
         }
 
         if (page == null || page < 0) {
             return MediatorResult.Success(endOfPaginationReached = page != null)
         }
 
-        return suspendRunCatching {
-            val noticeResponse = noticeClient.fetchNoticeList(categoryShortName, page, itemSize)
-            insertNotices(noticeResponse.noticeResponse)
+        if (loadType == LoadType.REFRESH) {
+            clearNoticePages()
+        }
 
-            MediatorResult.Success(endOfPaginationReached = noticeResponse.noticeResponse.isEmpty())
+        return suspendRunCatching {
+            val noticeResponse = noticeClient
+                .fetchNoticeList(categoryShortName, page, ITEM_SIZE)
+                .noticeResponse
+
+            kuRingDatabase.withTransaction {
+                insertNotices(noticeResponse)
+                insertNoticePages(noticeResponse, page)
+            }
+            MediatorResult.Success(endOfPaginationReached = noticeResponse.isEmpty())
         }.getOrElse {
             MediatorResult.Error(it)
         }
@@ -72,43 +86,47 @@ class CategoryNoticeMediator(
         }
     }
 
+    private suspend fun insertNoticePages(noticeResponses: List<NoticeResponse>, page: Int) {
+        val pageEntities = noticeResponses.map {
+            NoticePageEntity(
+                articleId = it.articleId,
+                category = it.category,
+                page = page,
+            )
+        }
+        noticePageDao.insertAll(pageEntities)
+    }
+
+    private suspend fun clearNoticePages() {
+        val category = WordConverter.convertShortNameToFullName(categoryShortName)
+        noticePageDao.clearByCategory(category)
+    }
+
     private fun getAppStartedDate(): String {
         return preferences.startDate?.takeIf { it.isNotEmpty() } ?: DateUtil.getToday().apply {
             preferences.startDate = this
         }
     }
 
-    private fun getRefreshKey(state: PagingState<Int, NoticeEntity>): Int? {
+    private suspend fun getRefreshKey(state: PagingState<Int, NoticeEntity>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             state.closestItemToPosition(anchorPosition)?.articleId?.let { articleId ->
-                pageNumberMap[CategoryNoticePageKey(articleId, categoryShortName)]
+                noticePageDao.getNoticePageById(articleId)?.page ?: 0
             }
         }
     }
 
-    private fun getPrependKey(state: PagingState<Int, NoticeEntity>): Int? {
-        val firstItem = state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
-        return firstItem?.let {
-            pageNumberMap[CategoryNoticePageKey(it.articleId, categoryShortName)]?.minus(1)
-        }
+    private suspend fun getPrependKey(): Int? {
+        val category = WordConverter.convertShortNameToFullName(categoryShortName)
+        return noticePageDao.getMinPageByCategory(category)?.minus(1)
     }
 
-    private fun getAppendKey(state: PagingState<Int, NoticeEntity>): Int? {
-        val lastItem = state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
-        return lastItem?.let {
-            // page number가 존재하지 않는 공지: 이전 실행에서 로드된 공지
-            // 따라서 page size를 통해 간접적으로 page key를 계산해야 한다.
-            (pageNumberMap[CategoryNoticePageKey(it.articleId, categoryShortName)]
-                ?: state.pages.size).plus(1)
-        }
+    private suspend fun getAppendKey(): Int? {
+        val category = WordConverter.convertShortNameToFullName(categoryShortName)
+        return noticePageDao.getMaxPageByCategory(category)?.plus(1)
     }
 
     companion object {
-        private const val itemSize = 20
+        private const val ITEM_SIZE = 20
     }
 }
-
-private data class CategoryNoticePageKey(
-    val articleId: String,
-    val categoryShortName: String,
-)

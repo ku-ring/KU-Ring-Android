@@ -1,8 +1,14 @@
 package com.ku_stacks.ku_ring.notice.repository
 
-import androidx.paging.*
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.map
 import com.ku_stacks.ku_ring.domain.Notice
+import com.ku_stacks.ku_ring.local.room.KuRingDatabase
 import com.ku_stacks.ku_ring.local.room.NoticeDao
+import com.ku_stacks.ku_ring.local.room.NoticePageDao
 import com.ku_stacks.ku_ring.notice.mapper.toNotice
 import com.ku_stacks.ku_ring.notice.mapper.toNoticeList
 import com.ku_stacks.ku_ring.notice.source.CategoryNoticeMediator
@@ -23,7 +29,9 @@ import javax.inject.Inject
 class NoticeRepositoryImpl @Inject constructor(
     private val noticeClient: NoticeClient,
     private val noticeDao: NoticeDao,
-    private val pref: PreferenceUtil,
+    private val noticePageDao: NoticePageDao,
+    private val preferences: PreferenceUtil,
+    private val kuRingDatabase: KuRingDatabase,
     @IODispatcher private val ioDispatcher: CoroutineDispatcher,
 ) : NoticeRepository {
 
@@ -33,12 +41,14 @@ class NoticeRepositoryImpl @Inject constructor(
             noticeDao.getNotices(WordConverter.convertShortNameToFullName(categoryShortName))
         }
         return Pager(
-            config = PagingConfig(pageSize = PAGE_SIZE, enablePlaceholders = true),
+            config = PagingConfig(pageSize = PAGE_SIZE),
             remoteMediator = CategoryNoticeMediator(
                 categoryShortName,
                 noticeClient,
                 noticeDao,
-                pref,
+                noticePageDao,
+                kuRingDatabase,
+                preferences,
             ),
             pagingSourceFactory = pagingSourceFactory,
         ).flow.map { noticeEntityPagingData -> noticeEntityPagingData.map { it.toNotice() } }
@@ -107,7 +117,7 @@ class NoticeRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deleteSharedPreference() { //for testing
-        pref.deleteStartDate()
+        preferences.deleteStartDate()
     }
 
     @OptIn(ExperimentalPagingApi::class)
@@ -122,7 +132,7 @@ class NoticeRepositoryImpl @Inject constructor(
                 shortName,
                 noticeClient,
                 noticeDao,
-                pref,
+                preferences,
             ),
             pagingSourceFactory = pagingSourceFactory
         ).flow.map { noticeEntityPagingData -> noticeEntityPagingData.map { it.toNotice() } }
@@ -144,7 +154,7 @@ class NoticeRepositoryImpl @Inject constructor(
             )
         }.onSuccess {
             if (it.isSuccess) {
-                pref.firstRunFlag = false
+                preferences.firstRunFlag = false
             }
         }
     }
