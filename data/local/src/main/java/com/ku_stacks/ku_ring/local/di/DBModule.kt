@@ -163,8 +163,7 @@ object DBModule {
                 CREATE TABLE IF NOT EXISTS NoticePageEntity(
                     articleId TEXT PRIMARY KEY NOT NULL,
                     department TEXT,
-                    nextPage INTEGER NOT NULL
-                    previousPage INTEGER NOT NULL
+                    page INTEGER
                 )
             """.trimIndent()
             )
