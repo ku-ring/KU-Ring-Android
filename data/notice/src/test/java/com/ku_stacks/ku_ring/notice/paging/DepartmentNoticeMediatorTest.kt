@@ -12,6 +12,7 @@ import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.ku_stacks.ku_ring.local.entity.NoticeEntity
 import com.ku_stacks.ku_ring.local.room.KuRingDatabase
 import com.ku_stacks.ku_ring.local.room.NoticeDao
+import com.ku_stacks.ku_ring.local.room.NoticePageDao
 import com.ku_stacks.ku_ring.notice.source.DepartmentNoticeMediator
 import com.ku_stacks.ku_ring.notice.test.NoticeTestUtil
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
@@ -33,6 +34,7 @@ class DepartmentNoticeMediatorTest {
 
     private val client: NoticeClient = Mockito.mock(NoticeClient::class.java)
     private val noticeDao: NoticeDao = Mockito.mock(NoticeDao::class.java)
+    private val noticePageDao: NoticePageDao = Mockito.mock(NoticePageDao::class.java)
     private lateinit var mediator: DepartmentNoticeMediator
     private lateinit var preferenceUtil: PreferenceUtil
     private lateinit var db: KuRingDatabase
@@ -52,7 +54,10 @@ class DepartmentNoticeMediatorTest {
             shortName = shortName,
             noticeClient = client,
             noticeDao = noticeDao,
+            noticePageDao = noticePageDao,
+            kuRingDatabase = db,
             preferences = preferenceUtil,
+
         )
     }
 
