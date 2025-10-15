@@ -1,12 +1,17 @@
 package com.ku_stacks.ku_ring.notice.paging
 
 import android.content.Context
-import androidx.paging.*
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.LoadType
+import androidx.paging.PagingConfig
+import androidx.paging.PagingState
+import androidx.paging.RemoteMediator
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.ku_stacks.ku_ring.local.entity.NoticeEntity
 import com.ku_stacks.ku_ring.local.room.KuRingDatabase
 import com.ku_stacks.ku_ring.local.room.NoticeDao
+import com.ku_stacks.ku_ring.local.room.NoticePageDao
 import com.ku_stacks.ku_ring.notice.source.CategoryNoticeMediator
 import com.ku_stacks.ku_ring.notice.test.NoticeTestUtil
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
@@ -25,6 +30,8 @@ class CategoryNoticeMediatorTest {
 
     private val noticeClient: NoticeClient = Mockito.mock(NoticeClient::class.java)
     private val noticeDao: NoticeDao = Mockito.mock(NoticeDao::class.java)
+    private val noticePageDao: NoticePageDao = Mockito.mock(NoticePageDao::class.java)
+    private val kuRingDatabase: KuRingDatabase = Mockito.mock(KuRingDatabase::class.java)
 
     private lateinit var mediator: CategoryNoticeMediator
     private lateinit var preferenceUtil: PreferenceUtil
@@ -42,6 +49,8 @@ class CategoryNoticeMediatorTest {
             categoryShortName,
             noticeClient,
             noticeDao,
+            noticePageDao,
+            kuRingDatabase,
             preferenceUtil,
         )
     }

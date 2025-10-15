@@ -1,7 +1,9 @@
 package com.ku_stacks.ku_ring.notice
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.ku_stacks.ku_ring.local.room.KuRingDatabase
 import com.ku_stacks.ku_ring.local.room.NoticeDao
+import com.ku_stacks.ku_ring.local.room.NoticePageDao
 import com.ku_stacks.ku_ring.notice.repository.NoticeRepository
 import com.ku_stacks.ku_ring.notice.repository.NoticeRepositoryImpl
 import com.ku_stacks.ku_ring.notice.test.NoticeTestUtil
@@ -26,7 +28,9 @@ class NoticeRepositoryTest {
 
     private lateinit var repository: NoticeRepository
     private val client: NoticeClient = Mockito.mock(NoticeClient::class.java)
-    private val dao: NoticeDao = Mockito.mock(NoticeDao::class.java)
+    private val kuRingDatabase: KuRingDatabase = Mockito.mock(KuRingDatabase::class.java)
+    private val noticeDao: NoticeDao = Mockito.mock(NoticeDao::class.java)
+    private val noticePageDao: NoticePageDao = Mockito.mock(NoticePageDao::class.java)
     private val pref: PreferenceUtil = Mockito.mock(PreferenceUtil::class.java)
 
     private val testDispatcher = StandardTestDispatcher()
@@ -39,8 +43,10 @@ class NoticeRepositoryTest {
         Dispatchers.setMain(testDispatcher)
         repository = NoticeRepositoryImpl(
             client,
-            dao,
+            noticeDao,
+            noticePageDao,
             pref,
+            kuRingDatabase,
             testDispatcher
         )
     }
@@ -54,7 +60,7 @@ class NoticeRepositoryTest {
     fun `updateNotice Test`() = runTest {
         // given
         val mockData = NoticeTestUtil.fakeNoticeEntity().copy(isRead = true)
-        dao.updateNoticeAsRead(
+        noticeDao.updateNoticeAsRead(
             mockData.articleId,
             mockData.category
         )
