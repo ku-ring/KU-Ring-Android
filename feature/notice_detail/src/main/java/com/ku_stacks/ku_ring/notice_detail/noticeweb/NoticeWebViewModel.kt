@@ -43,6 +43,7 @@ class NoticeWebViewModel @Inject constructor(
     val commentsPager = _commentsPager.asStateFlow()
 
     private val _replyCommentId = MutableStateFlow<Int?>(null)
+
     /**
      * Reply if not null, otherwise a common comment.
      */
@@ -99,6 +100,10 @@ class NoticeWebViewModel @Inject constructor(
         onSuccess: () -> Unit,
         onFailure: (String?) -> Unit,
     ) {
+        if (!isUserLoggedIn()) {
+            return
+        }
+
         webViewNotice.id.let { id ->
             viewModelScope.launch {
                 createNoticeCommentUseCase(id, replyCommentId.value, comment)
@@ -128,6 +133,10 @@ class NoticeWebViewModel @Inject constructor(
         onSuccess: () -> Unit,
         onFailure: () -> Unit,
     ) {
+        if (!isUserLoggedIn()) {
+            return
+        }
+
         val noticeId = webViewNotice.id
         val deleteCommentId = deleteCommentId.value
         if (deleteCommentId != null) {

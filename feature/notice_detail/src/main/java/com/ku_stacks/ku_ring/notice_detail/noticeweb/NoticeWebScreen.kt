@@ -208,6 +208,10 @@ private fun NoticeWebScreen(
                     setReplyCommentId = setReplyCommentId,
                     onReportComment = onReportComment,
                     onDeleteComment = onShowDeleteCommentPopup,
+                    isTextFieldEnabled = isUserLoggedIn(),
+                    onTextFieldClickedWhenDisabled = {
+                        isLoginDialogVisible = true
+                    },
                     modifier = Modifier.fillMaxSize(),
                 )
             }
