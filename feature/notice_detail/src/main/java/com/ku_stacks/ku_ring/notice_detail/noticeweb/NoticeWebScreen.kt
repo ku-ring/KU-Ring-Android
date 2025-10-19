@@ -173,12 +173,8 @@ private fun NoticeWebScreen(
         floatingActionButton = {
             NoticeWebScreenFab(
                 onClick = {
-                    if (isUserLoggedIn()) {
-                        onCommentSheetOpen()
-                        coroutineScope.launch { bottomSheetState.show() }
-                    } else {
-                        isLoginDialogVisible = true
-                    }
+                    onCommentSheetOpen()
+                    coroutineScope.launch { bottomSheetState.show() }
                 },
             )
         },
