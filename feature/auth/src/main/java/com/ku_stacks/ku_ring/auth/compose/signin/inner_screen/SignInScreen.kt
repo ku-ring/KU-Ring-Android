@@ -148,7 +148,10 @@ private fun SignInScreen(
                 imeAction = ImeAction.Done,
             ),
             keyboardActions = KeyboardActions(
-                onDone = { focusManager.clearFocus() }
+                onDone = {
+                    onSignInButtonClick()
+                    focusManager.clearFocus()
+                }
             ),
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier
