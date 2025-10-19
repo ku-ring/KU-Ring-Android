@@ -132,7 +132,7 @@ class DepartmentNoticeMediator(
     private suspend fun getRefreshKey(state: PagingState<Int, NoticeEntity>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             state.closestItemToPosition(anchorPosition)?.articleId?.let { articleId ->
-                noticePageDao.getNoticePageById(articleId)?.page ?: 0
+                noticePageDao.getNoticePage(articleId, DEP_CATEGORY, shortName)?.page ?: 0
             }
         }
     }
@@ -146,6 +146,7 @@ class DepartmentNoticeMediator(
     }
 
     companion object {
+        private const val DEP_CATEGORY = "department"
         const val itemSize = 20
     }
 }

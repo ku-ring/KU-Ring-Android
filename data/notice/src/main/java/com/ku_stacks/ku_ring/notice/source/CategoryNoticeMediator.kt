@@ -109,9 +109,10 @@ class CategoryNoticeMediator(
     }
 
     private suspend fun getRefreshKey(state: PagingState<Int, NoticeEntity>): Int? {
+        val category = WordConverter.convertShortNameToFullName(categoryShortName)
         return state.anchorPosition?.let { anchorPosition ->
             state.closestItemToPosition(anchorPosition)?.articleId?.let { articleId ->
-                noticePageDao.getNoticePageById(articleId)?.page ?: 0
+                noticePageDao.getNoticePage(articleId, category)?.page ?: 0
             }
         }
     }

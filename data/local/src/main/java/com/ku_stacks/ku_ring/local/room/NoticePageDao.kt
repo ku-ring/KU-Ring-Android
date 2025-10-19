@@ -10,8 +10,8 @@ interface NoticePageDao {
     @Upsert
     suspend fun insertAll(entities: List<NoticePageEntity>)
 
-    @Query("SELECT * FROM NoticePageEntity WHERE articleId = :articleId")
-    suspend fun getNoticePageById(articleId: String): NoticePageEntity?
+    @Query("SELECT * FROM NoticePageEntity WHERE articleId = :articleId and category = :category and department = :department")
+    suspend fun getNoticePage(articleId: String, category: String, department: String? = null): NoticePageEntity?
 
     @Query("SELECT MAX(page) FROM NoticePageEntity WHERE category = :category")
     suspend fun getMaxPageByCategory(category: String): Int?

@@ -161,10 +161,11 @@ object DBModule {
             db.execSQL(
                 """
                 CREATE TABLE IF NOT EXISTS NoticePageEntity(
-                    articleId TEXT PRIMARY KEY NOT NULL,
+                    articleId TEXT NOT NULL,
                     category TEXT NOT NULL,
                     department TEXT,
                     page INTEGER
+                    PRIMARY KEY(articleId, category)
                 )
             """.trimIndent()
             )
