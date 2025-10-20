@@ -145,10 +145,14 @@ private fun SignInScreen(
             onQueryUpdate = onPasswordTextFieldValueChange,
             placeholderText = stringResource(sign_in_text_field_placeholder_password),
             keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Password,
                 imeAction = ImeAction.Done,
             ),
             keyboardActions = KeyboardActions(
-                onDone = { focusManager.clearFocus() }
+                onDone = {
+                    onSignInButtonClick()
+                    focusManager.clearFocus()
+                }
             ),
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier

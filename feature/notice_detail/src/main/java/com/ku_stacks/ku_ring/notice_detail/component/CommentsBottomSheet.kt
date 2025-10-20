@@ -33,6 +33,8 @@ internal fun CommentsBottomSheet(
     setReplyCommentId: (Int?) -> Unit,
     onReportComment: (Int) -> Unit,
     onDeleteComment: (Int) -> Unit,
+    isTextFieldEnabled: Boolean,
+    onTextFieldClickedWhenDisabled: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -79,6 +81,8 @@ internal fun CommentsBottomSheet(
                 setReplyCommentId(null)
             },
             isReply = (replyCommentId != null),
+            enabled = isTextFieldEnabled,
+            onClickedWhenDisabled = onTextFieldClickedWhenDisabled,
             modifier = Modifier.padding(vertical = 11.dp, horizontal = 20.dp),
         )
     }
@@ -98,6 +102,8 @@ private fun CommentsBottomSheetPreview() {
             setReplyCommentId = {},
             onReportComment = {},
             onDeleteComment = {},
+            isTextFieldEnabled = true,
+            onTextFieldClickedWhenDisabled = {},
             modifier = Modifier
                 .background(KuringTheme.colors.background)
                 .fillMaxSize(),
@@ -116,6 +122,8 @@ private fun CommentsBottomSheetPreview_error() {
             setReplyCommentId = {},
             onReportComment = {},
             onDeleteComment = {},
+            isTextFieldEnabled = true,
+            onTextFieldClickedWhenDisabled = {},
             modifier = Modifier
                 .background(KuringTheme.colors.background)
                 .fillMaxSize(),

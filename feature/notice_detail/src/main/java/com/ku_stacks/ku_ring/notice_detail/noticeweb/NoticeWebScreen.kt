@@ -173,12 +173,8 @@ private fun NoticeWebScreen(
         floatingActionButton = {
             NoticeWebScreenFab(
                 onClick = {
-                    if (isUserLoggedIn()) {
-                        onCommentSheetOpen()
-                        coroutineScope.launch { bottomSheetState.show() }
-                    } else {
-                        isLoginDialogVisible = true
-                    }
+                    onCommentSheetOpen()
+                    coroutineScope.launch { bottomSheetState.show() }
                 },
             )
         },
@@ -212,6 +208,10 @@ private fun NoticeWebScreen(
                     setReplyCommentId = setReplyCommentId,
                     onReportComment = onReportComment,
                     onDeleteComment = onShowDeleteCommentPopup,
+                    isTextFieldEnabled = isUserLoggedIn(),
+                    onTextFieldClickedWhenDisabled = {
+                        isLoginDialogVisible = true
+                    },
                     modifier = Modifier.fillMaxSize(),
                 )
             }

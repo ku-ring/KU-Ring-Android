@@ -47,6 +47,8 @@ internal fun CommentTextField(
     onCreateComment: (String) -> Unit,
     isReply: Boolean,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    onClickedWhenDisabled: () -> Unit,
 ) {
     var comment by remember { mutableStateOf("") }
 
@@ -59,6 +61,8 @@ internal fun CommentTextField(
             comment = comment,
             onCommentUpdate = { comment = it },
             isReply = isReply,
+            enabled = enabled,
+            onClickedWhenDisabled = onClickedWhenDisabled,
             modifier = Modifier.weight(1f),
         )
         CreateCommentButton(
@@ -77,6 +81,8 @@ private fun CommentTextField(
     comment: String,
     onCommentUpdate: (String) -> Unit,
     isReply: Boolean,
+    enabled: Boolean,
+    onClickedWhenDisabled: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val shape = RoundedCornerShape(20.dp)
@@ -103,13 +109,18 @@ private fun CommentTextField(
         onValueChange = onCommentUpdate,
         modifier = modifier
             .clip(shape)
-            .border(width = 1.dp, color = KuringTheme.colors.gray200, shape = shape),
+            .border(width = 1.dp, color = KuringTheme.colors.gray200, shape = shape)
+            .clickable(interactionSource = null, indication = null) {
+                if (!enabled) {
+                    onClickedWhenDisabled()
+                }
+            },
         textStyle = textStyle,
         decorationBox = { innerTextField ->
             TextFieldDefaults.TextFieldDecorationBox(
                 value = comment,
                 innerTextField = innerTextField,
-                enabled = true,
+                enabled = enabled,
                 singleLine = false,
                 visualTransformation = VisualTransformation.None,
                 placeholder = {
@@ -128,6 +139,7 @@ private fun CommentTextField(
             )
         },
         singleLine = false,
+        enabled = enabled,
         interactionSource = interactionSource,
         maxLines = 5,
         cursorBrush = SolidColor(textColor),
@@ -184,6 +196,8 @@ private fun SearchTextFieldPreview() {
         CommentTextField(
             onCreateComment = {},
             isReply = true,
+            enabled = true,
+            onClickedWhenDisabled = {},
             modifier = Modifier
                 .background(KuringTheme.colors.background)
                 .padding(16.dp)
