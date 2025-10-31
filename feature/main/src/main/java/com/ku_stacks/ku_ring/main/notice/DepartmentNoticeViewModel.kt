@@ -10,6 +10,7 @@ import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.domain.academicevent.usecase.GetDistinctAcademicEventUseCase
 import com.ku_stacks.ku_ring.notice.repository.NoticeRepository
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
+import com.ku_stacks.ku_ring.util.getMondayAndSundayOfWeek
 import com.ku_stacks.ku_ring.util.now
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -119,7 +120,9 @@ class DepartmentNoticeViewModel @Inject constructor(
             .take(1)
             .collect {
                 _isAcademicEventSheetVisible.update {
-                    preferenceUtil.lastDateAcademicEventShown != LocalDate.now().toString()
+                    val (monday, sunday) = LocalDate.now().getMondayAndSundayOfWeek()
+                    val lastDateAcademicEventShown = preferenceUtil.lastDateAcademicEventShown
+                    lastDateAcademicEventShown !in monday.toString()..sunday.toString()
                 }
             }
     }
