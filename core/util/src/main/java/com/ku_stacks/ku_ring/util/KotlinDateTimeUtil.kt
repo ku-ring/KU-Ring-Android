@@ -8,6 +8,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.YearMonth
 import kotlinx.datetime.isoDayNumber
 import kotlinx.datetime.minus
+import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.datetime.yearMonth
 import kotlin.time.Clock
@@ -29,7 +30,7 @@ fun LocalDate.Companion.now(): LocalDate {
 fun LocalDate.getMondayAndSundayOfWeek(): Pair<LocalDate, LocalDate> {
     val dayOfWeek = dayOfWeek.isoDayNumber
     val monday = minus(dayOfWeek - 1, DateTimeUnit.DAY)
-    val sunday = minus(dayOfWeek - 1, DateTimeUnit.DAY)
+    val sunday = plus(6, DateTimeUnit.DAY)
     return monday to sunday
 }
 
