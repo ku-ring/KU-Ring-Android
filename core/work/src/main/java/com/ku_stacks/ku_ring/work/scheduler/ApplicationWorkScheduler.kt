@@ -17,7 +17,7 @@ class ApplicationWorkScheduler @Inject constructor(
 ) : WorkScheduler {
     private val workManager = WorkManager.getInstance(context)
 
-    override fun scheduleAll() {
+    override fun schedule() {
         enqueueAcademicEventWork()
         enqueueNoticeCacheClearWork()
     }

@@ -29,6 +29,6 @@ class KuRingApplication : Application(), Configuration.Provider {
     override fun onCreate() {
         super.onCreate()
         FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(!BuildConfig.DEBUG)
-        applicationWorkScheduler.scheduleAll()
+        applicationWorkScheduler.schedule()
     }
 }
