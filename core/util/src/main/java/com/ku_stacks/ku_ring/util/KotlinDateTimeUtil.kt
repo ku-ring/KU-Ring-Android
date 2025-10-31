@@ -30,7 +30,7 @@ fun LocalDate.Companion.now(): LocalDate {
 fun LocalDate.getMondayAndSundayOfWeek(): Pair<LocalDate, LocalDate> {
     val dayOfWeek = dayOfWeek.isoDayNumber
     val monday = minus(dayOfWeek - 1, DateTimeUnit.DAY)
-    val sunday = plus(6, DateTimeUnit.DAY)
+    val sunday = monday.plus(6, DateTimeUnit.DAY)
     return monday to sunday
 }
 
