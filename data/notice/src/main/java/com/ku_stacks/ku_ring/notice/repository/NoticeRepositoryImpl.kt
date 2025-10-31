@@ -107,7 +107,9 @@ class NoticeRepositoryImpl @Inject constructor(
     }
 
     override suspend fun clearAllNoticesApartFromSavedOrRead() {
-        noticeDao.clearAllNoticesApartFromSavedOrRead()
+        withContext(ioDispatcher) {
+            noticeDao.clearAllNoticesApartFromSavedOrRead()
+        }
     }
 
     override suspend fun deleteAllNoticeRecord() { // for testing
