@@ -7,8 +7,12 @@ import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
 import com.ku_stacks.ku_ring.domain.academicevent.repository.AcademicEventRepository
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
+import com.ku_stacks.ku_ring.util.now
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.minus
 import timber.log.Timber
 
 @HiltWorker
@@ -19,8 +23,8 @@ class AcademicEventWork @AssistedInject constructor(
     private val pref: PreferenceUtil,
 ) : CoroutineWorker(appContext, params) {
     override suspend fun doWork(): Result {
-        // lastDateAcademicEventShown이 비어있다면 null부터 null까지, 즉 모든 학사일정을 불러옵니다.
-        val lastDateAcademicEventShown = pref.lastDateAcademicEventShown.ifBlank { null }
+        val lastDateAcademicEventShown = pref.lastDateAcademicEventShown
+            .ifBlank { getFirstDayOfThreeYearsAgo().toString() }
         return academicEventRepository.fetchAcademicEventsFromRemote(
             startDate = lastDateAcademicEventShown,
         ).fold(
@@ -36,6 +40,11 @@ class AcademicEventWork @AssistedInject constructor(
 
     override suspend fun getForegroundInfo(): ForegroundInfo {
         return super.getForegroundInfo()
+    }
+
+    private fun getFirstDayOfThreeYearsAgo(): LocalDate {
+        val targetYear = LocalDate.now().minus(3, DateTimeUnit.DAY)
+        return LocalDate(targetYear.year, 1, 1)
     }
 
     companion object {

@@ -17,6 +17,8 @@ dependencies {
     implementation(projects.domain.navigation)
     implementation(projects.domain.academicevent)
 
+    implementation(libs.kotlinx.datetime)
+
     // WorkManager
     api(libs.bundles.androidx.work)
     androidTestImplementation(libs.androidx.work.testing)
