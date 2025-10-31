@@ -122,6 +122,9 @@ interface NoticeDao {
     @Query("DELETE FROM NoticeEntity WHERE department LIKE :shortName")
     suspend fun clearDepartment(shortName: String)
 
+    @Query("DELETE FROM NoticeEntity WHERE isRead = 0 AND isSaved = 0")
+    suspend fun clearAllNoticesApartFromSavedOrRead()
+
     //not using now
     @Query("DELETE FROM NoticeEntity")
     suspend fun deleteAllNoticeRecord()

@@ -17,7 +17,7 @@ class NoticeCacheClearWork @AssistedInject constructor(
 ) : CoroutineWorker(appContext, params) {
     override suspend fun doWork(): Result {
         return try {
-            noticeRepository.deleteAllNoticeRecord()
+            noticeRepository.clearAllNoticesApartFromSavedOrRead()
             Result.success()
         } catch (e: Exception) {
             Timber.e(e)
