@@ -96,10 +96,10 @@ private fun CommentTextField(
         color = textColor,
     )
 
-    val placeholderText = if (isReply) {
-        stringResource(R.string.comment_bottom_sheet_textfield_reply_placeholder)
-    } else {
-        stringResource(R.string.comment_bottom_sheet_textfield_placeholder)
+    val placeholderTextId = when {
+        !enabled -> R.string.comment_bottom_sheet_textfield_not_logged_in_placeholder
+        isReply -> R.string.comment_bottom_sheet_textfield_reply_placeholder
+        else -> R.string.comment_bottom_sheet_textfield_placeholder
     }
 
     val interactionSource = remember { MutableInteractionSource() }
@@ -125,7 +125,7 @@ private fun CommentTextField(
                 visualTransformation = VisualTransformation.None,
                 placeholder = {
                     Placeholder(
-                        placeholderText = placeholderText,
+                        placeholderText = stringResource(id = placeholderTextId),
                         style = textStyle.copy(color = KuringTheme.colors.textCaption3),
                     )
                 },
