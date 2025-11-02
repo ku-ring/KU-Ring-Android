@@ -47,52 +47,62 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        if (fcmUtil.isNoticeNotification(remoteMessage.data)) {
-            // TODO by mwy3055: 알림 잘 오는 거 확인되면 return으로 바꾸기 (see SplashActivity)
-            val id = remoteMessage.data["id"]?.toInt() ?: 0
-            val articleId = remoteMessage.data["articleId"]!!
-            val category = remoteMessage.data["category"]!!
-            val postedDate = remoteMessage.data["postedDate"]!!
-            val subject = remoteMessage.data["subject"]!!
-            // 키 이름은 baseUrl이지만, 실제로는 full url이 내려오고 있음
-            val fullUrl = remoteMessage.data["baseUrl"]!!
-
-            // insert into db
-            val receivedDate = DateUtil.getCurrentTime()
-            fcmUtil.insertNotificationIntoDatabase(
-                articleId = articleId,
-                id = id,
-                category = category,
-                postedDate = postedDate,
-                subject = subject,
-                fullUrl = fullUrl,
-                receivedDate = receivedDate
-            )
-
-            // show notification
-            val categoryKr = WordConverter.convertEnglishToKorean(category)
-            showNotificationWithUrl(
-                title = subject,
-                body = categoryKr,
-                url = fullUrl,
-                articleId = articleId,
-                id = id,
-                category = category,
-                subject = subject,
-            )
-        } else if (fcmUtil.isCustomNotification(remoteMessage.data)) {
-            val type = remoteMessage.data["type"]!!
-            val title = remoteMessage.data["title"]!!
-            val body = remoteMessage.data["body"]!!
-
-            if (pref.extNotificationAllowed) {
-                showCustomNotification(type = type, title = title, body = body)
-            }
-        } else if (fcmUtil.isAcademicEventNotification(remoteMessage.data)) {
-            val title = remoteMessage.data["title"]!!
-            val body = remoteMessage.data["body"]!!
-            showAcademicEventNotification(title, body)
+        when (remoteMessage.data["type"]) {
+            MESSAGE_NOTICE -> onNoticeMessageReceived(remoteMessage.data)
+            MESSAGE_CUSTOM -> onCustomMessageReceived(remoteMessage.data)
+            MESSAGE_ACADEMIC_EVENT -> onAcademicEventMessageReceived(remoteMessage.data)
         }
+    }
+
+    private fun onNoticeMessageReceived(data: Map<String, String?>) {
+        // TODO by mwy3055: 알림 잘 오는 거 확인되면 return으로 바꾸기 (see SplashActivity)
+        val id = data["id"]?.toInt() ?: 0
+        val articleId = data["articleId"]!!
+        val category = data["category"]!!
+        val postedDate = data["postedDate"]!!
+        val subject = data["subject"]!!
+        // 키 이름은 baseUrl이지만, 실제로는 full url이 내려오고 있음
+        val fullUrl = data["baseUrl"]!!
+
+        // insert into db
+        val receivedDate = DateUtil.getCurrentTime()
+        fcmUtil.insertNotificationIntoDatabase(
+            articleId = articleId,
+            id = id,
+            category = category,
+            postedDate = postedDate,
+            subject = subject,
+            fullUrl = fullUrl,
+            receivedDate = receivedDate
+        )
+
+        // show notification
+        val categoryKr = WordConverter.convertEnglishToKorean(category)
+        showNotificationWithUrl(
+            title = subject,
+            body = categoryKr,
+            url = fullUrl,
+            articleId = articleId,
+            id = id,
+            category = category,
+            subject = subject,
+        )
+    }
+
+    private fun onCustomMessageReceived(data: Map<String, String?>) {
+        val type = data["type"]!!
+        val title = data["title"]!!
+        val body = data["body"]!!
+
+        if (pref.extNotificationAllowed) {
+            showCustomNotification(type = type, title = title, body = body)
+        }
+    }
+
+    private fun onAcademicEventMessageReceived(data: Map<String, String?>) {
+        val title = data["title"]!!
+        val body = data["body"]!!
+        showAcademicEventNotification(title, body)
     }
 
     private fun showNotificationWithUrl(
@@ -116,5 +126,11 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
     private fun showAcademicEventNotification(title: String, body: String) {
         val intent = navigator.createMainIntent(this, MainScreenRoute.Calendar)
         KuringNotificationManager.showAcademicEventNotification(this, intent, title, body)
+    }
+
+    companion object {
+        private const val MESSAGE_NOTICE = "notice"
+        private const val MESSAGE_CUSTOM = "admin"
+        private const val MESSAGE_ACADEMIC_EVENT = "academic"
     }
 }
