@@ -32,7 +32,7 @@ interface NoticeDao {
      * @param categoryName 카테고리 이름
      * @return 주어진 카테고리 공지의 페이징 객체
      */
-    @Query("SELECT * FROM NoticeEntity WHERE category = :categoryName ORDER BY isImportant, postedDate DESC")
+    @Query("SELECT * FROM NoticeEntity WHERE category = :categoryName ORDER BY isImportant, postedDate DESC, id DESC")
     fun getNotices(categoryName: String): PagingSource<Int, NoticeEntity>
 
     @Query("SELECT * FROM NoticeEntity ORDER BY isImportant")
