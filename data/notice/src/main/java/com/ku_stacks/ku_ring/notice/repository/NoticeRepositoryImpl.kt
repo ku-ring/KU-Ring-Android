@@ -1,6 +1,10 @@
 package com.ku_stacks.ku_ring.notice.repository
 
-import androidx.paging.*
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.map
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.local.room.NoticeDao
 import com.ku_stacks.ku_ring.notice.mapper.toNotice
@@ -99,6 +103,12 @@ class NoticeRepositoryImpl @Inject constructor(
     override suspend fun clearSavedNotices() {
         withContext(ioDispatcher) {
             noticeDao.clearSavedNotices()
+        }
+    }
+
+    override suspend fun clearAllNoticesApartFromSavedOrRead() {
+        withContext(ioDispatcher) {
+            noticeDao.clearAllNoticesApartFromSavedOrRead()
         }
     }
 

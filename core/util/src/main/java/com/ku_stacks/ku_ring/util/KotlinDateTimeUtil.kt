@@ -1,10 +1,14 @@
 package com.ku_stacks.ku_ring.util
 
+import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.YearMonth
+import kotlinx.datetime.isoDayNumber
+import kotlinx.datetime.minus
+import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.datetime.yearMonth
 import kotlin.time.Clock
@@ -21,6 +25,13 @@ fun LocalDateTime.Companion.now(): LocalDateTime {
 fun LocalDate.Companion.now(): LocalDate {
     val now = LocalDateTime.now()
     return now.date
+}
+
+fun LocalDate.getMondayAndSundayOfWeek(): Pair<LocalDate, LocalDate> {
+    val dayOfWeek = dayOfWeek.isoDayNumber
+    val monday = minus(dayOfWeek - 1, DateTimeUnit.DAY)
+    val sunday = monday.plus(6, DateTimeUnit.DAY)
+    return monday to sunday
 }
 
 fun DayOfWeek.koreanDayOfWeek(long: Boolean = false): String {

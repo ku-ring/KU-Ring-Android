@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import com.ku_stacks.ku_ring.local.entity.NoticeEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -31,7 +32,7 @@ interface NoticeDao {
      * @param categoryName 카테고리 이름
      * @return 주어진 카테고리 공지의 페이징 객체
      */
-    @Query("SELECT * FROM NoticeEntity WHERE category = :categoryName ORDER BY isImportant, postedDate DESC, articleId DESC")
+    @Query("SELECT * FROM NoticeEntity WHERE category = :categoryName ORDER BY isImportant, postedDate DESC, id DESC")
     fun getNotices(categoryName: String): PagingSource<Int, NoticeEntity>
 
     @Query("SELECT * FROM NoticeEntity ORDER BY isImportant")
@@ -48,6 +49,9 @@ interface NoticeDao {
 
     @Query("SELECT id FROM NoticeEntity WHERE articleId = :articleId AND category = :category")
     suspend fun getNoticeId(articleId: String, category: String): Int?
+
+    @Query("SELECT COUNT(*) FROM NoticeEntity WHERE category LIKE :category")
+    suspend fun getCountOfNotice(category: String): Int
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateNotice(notice: NoticeEntity)
@@ -77,18 +81,33 @@ interface NoticeDao {
         return getCountOfReadNotice(true, id) > 0
     }
 
+    @Transaction
+    suspend fun insertAndUpdateNotices(notices: List<NoticeEntity>) {
+        insertNotices(notices)
+        notices.forEach { notice ->
+            with(notice) {
+                val noticeId = getNoticeId(articleId, category)
+                if (noticeId == 0) updateNoticeId(articleId, category, id)
+                if (noticeId != null) updateNoticeCommentCount(articleId, category, commentCount)
+            }
+        }
+    }
+
     // 학과별 공지 쿼리
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertDepartmentNotices(notices: List<NoticeEntity>)
 
     @Query(
         "SELECT * FROM NoticeEntity WHERE department LIKE :shortName " +
-                "ORDER BY isImportant, postedDate DESC, articleId DESC"
+                "ORDER BY isImportant, postedDate DESC"
     )
     fun getDepartmentNotices(shortName: String): PagingSource<Int, NoticeEntity>
 
     @Query("SELECT id FROM NoticeEntity WHERE articleId = :articleId AND department LIKE :shortName")
     suspend fun getDepartmentNoticeId(articleId: String, shortName: String): Int?
+
+    @Query("SELECT COUNT(*) FROM NoticeEntity WHERE department LIKE :shortName")
+    suspend fun getCountOfDepartmentNotice(shortName: String): Int
 
     @Query("UPDATE NoticeEntity SET id = :id WHERE articleId = :articleId AND department LIKE :shortName")
     suspend fun updateDepartmentNoticeId(articleId: String, shortName: String, id: Int)
@@ -103,7 +122,24 @@ interface NoticeDao {
     @Query("DELETE FROM NoticeEntity WHERE department LIKE :shortName")
     suspend fun clearDepartment(shortName: String)
 
+    @Query("DELETE FROM NoticeEntity WHERE isRead = 0 AND isSaved = 0")
+    suspend fun clearAllNoticesApartFromSavedOrRead()
+
     //not using now
     @Query("DELETE FROM NoticeEntity")
     suspend fun deleteAllNoticeRecord()
+
+    @Transaction
+    suspend fun insertAndUpdateDepartmentNotices(notices: List<NoticeEntity>) {
+        insertNotices(notices)
+        notices.forEach { notice ->
+            with(notice) {
+                val noticeId = getDepartmentNoticeId(articleId, department)
+                if (noticeId == 0) updateDepartmentNoticeId(articleId, department, id)
+                if (noticeId != null) {
+                    updateDepartmentNoticeCommentCount(articleId, department, commentCount)
+                }
+            }
+        }
+    }
 }

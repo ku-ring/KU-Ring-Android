@@ -11,6 +11,7 @@ import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.remote.notice.NoticeClient
 import com.ku_stacks.ku_ring.remote.notice.response.NoticeResponse
 import com.ku_stacks.ku_ring.util.DateUtil
+import com.ku_stacks.ku_ring.util.WordConverter
 import com.ku_stacks.ku_ring.util.suspendRunCatching
 
 @OptIn(ExperimentalPagingApi::class)
@@ -21,24 +22,22 @@ class CategoryNoticeMediator(
     private val preferences: PreferenceUtil,
 ) : RemoteMediator<Int, NoticeEntity>() {
 
-    private val pageNumberMap = hashMapOf<CategoryNoticePageKey, Int>()
-
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, NoticeEntity>
     ): MediatorResult {
         val page = when (loadType) {
-            LoadType.REFRESH -> getRefreshKey(state) ?: 0
-            LoadType.PREPEND -> getPrependKey(state)
-            LoadType.APPEND -> getAppendKey(state)
+            LoadType.REFRESH -> 0
+            LoadType.PREPEND -> null
+            LoadType.APPEND -> getAppendKey()
         }
 
-        if (page == null || page < 0) {
-            return MediatorResult.Success(endOfPaginationReached = page != null)
+        if (page == null) {
+            return MediatorResult.Success(endOfPaginationReached = true)
         }
 
         return suspendRunCatching {
-            val noticeResponse = noticeClient.fetchNoticeList(categoryShortName, page, itemSize)
+            val noticeResponse = noticeClient.fetchNoticeList(categoryShortName, page, ITEM_SIZE)
             insertNotices(noticeResponse.noticeResponse)
 
             MediatorResult.Success(endOfPaginationReached = noticeResponse.noticeResponse.isEmpty())
@@ -49,27 +48,7 @@ class CategoryNoticeMediator(
 
     private suspend fun insertNotices(noticeResponses: List<NoticeResponse>) {
         val entities = noticeResponses.toEntities(getAppStartedDate())
-        noticeDao.insertNotices(entities)
-        updateNoticesId(entities)
-        updateNoticesCommentCount(entities)
-    }
-
-    private suspend fun updateNoticesId(entities: List<NoticeEntity>) {
-        entities.forEach { entity ->
-            if (noticeDao.getNoticeId(entity.articleId, entity.category) == 0) {
-                noticeDao.updateNoticeId(entity.articleId, entity.category, entity.id)
-            }
-        }
-    }
-
-    private suspend fun updateNoticesCommentCount(entities: List<NoticeEntity>) {
-        entities.forEach { entity ->
-            if (noticeDao.getNoticeId(entity.articleId, entity.category) != null) {
-                noticeDao.updateNoticeCommentCount(
-                    entity.articleId, entity.category, entity.commentCount
-                )
-            }
-        }
+        noticeDao.insertAndUpdateNotices(entities)
     }
 
     private fun getAppStartedDate(): String {
@@ -78,37 +57,14 @@ class CategoryNoticeMediator(
         }
     }
 
-    private fun getRefreshKey(state: PagingState<Int, NoticeEntity>): Int? {
-        return state.anchorPosition?.let { anchorPosition ->
-            state.closestItemToPosition(anchorPosition)?.articleId?.let { articleId ->
-                pageNumberMap[CategoryNoticePageKey(articleId, categoryShortName)]
-            }
-        }
-    }
-
-    private fun getPrependKey(state: PagingState<Int, NoticeEntity>): Int? {
-        val firstItem = state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
-        return firstItem?.let {
-            pageNumberMap[CategoryNoticePageKey(it.articleId, categoryShortName)]?.minus(1)
-        }
-    }
-
-    private fun getAppendKey(state: PagingState<Int, NoticeEntity>): Int? {
-        val lastItem = state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
-        return lastItem?.let {
-            // page number가 존재하지 않는 공지: 이전 실행에서 로드된 공지
-            // 따라서 page size를 통해 간접적으로 page key를 계산해야 한다.
-            (pageNumberMap[CategoryNoticePageKey(it.articleId, categoryShortName)]
-                ?: state.pages.size).plus(1)
-        }
+    private suspend fun getAppendKey(): Int? {
+        val category = WordConverter.convertShortNameToFullName(categoryShortName)
+        val noticeCount = noticeDao.getCountOfNotice(category)
+        // DB에 저장된 공지 개수로 지금까지 불러온 페이지 개수를 파악해 다음 page key를 계산한다
+        return noticeCount / ITEM_SIZE
     }
 
     companion object {
-        private const val itemSize = 20
+        private const val ITEM_SIZE = 20
     }
 }
-
-private data class CategoryNoticePageKey(
-    val articleId: String,
-    val categoryShortName: String,
-)

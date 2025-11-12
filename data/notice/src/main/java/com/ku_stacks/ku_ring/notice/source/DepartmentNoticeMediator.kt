@@ -10,7 +10,6 @@ import com.ku_stacks.ku_ring.notice.mapper.toEntityList
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.remote.notice.NoticeClient
 import com.ku_stacks.ku_ring.util.DateUtil
-import timber.log.Timber
 
 @OptIn(ExperimentalPagingApi::class)
 class DepartmentNoticeMediator(
@@ -20,20 +19,18 @@ class DepartmentNoticeMediator(
     private val preferences: PreferenceUtil,
 ) : RemoteMediator<Int, NoticeEntity>() {
 
-    private val pageNumberMap = hashMapOf<PageKey, Int>()
-
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, NoticeEntity>
     ): MediatorResult {
         val page = when (loadType) {
-            LoadType.REFRESH -> getRefreshKey(state) ?: 0
-            LoadType.PREPEND -> getPrependKey(state)
-            LoadType.APPEND -> getAppendKey(state)
+            LoadType.REFRESH -> 0
+            LoadType.PREPEND -> null
+            LoadType.APPEND -> getAppendKey()
         }
 
-        if (page == null || page < 0) {
-            return MediatorResult.Success(endOfPaginationReached = page != null)
+        if (page == null) {
+            return MediatorResult.Success(endOfPaginationReached = true)
         }
 
         return try {
@@ -44,14 +41,12 @@ class DepartmentNoticeMediator(
             val noticeResponse = noticeClient.fetchDepartmentNoticeList(
                 shortName = shortName,
                 page = page,
-                size = itemSize
+                size = ITEM_SIZE
             )
 
             val startDate = getAppStartedDate()
             val entities = noticeResponse.data.toEntityList(shortName, startDate)
             insertNotices(entities, page)
-            updateNoticesId(entities)
-            updateNoticesCommentCount(entities)
 
             val isPageEnd = noticeResponse.data.isEmpty()
             MediatorResult.Success(endOfPaginationReached = isPageEnd)
@@ -64,7 +59,7 @@ class DepartmentNoticeMediator(
         val importNoticesResponse = noticeClient.fetchDepartmentNoticeList(
             shortName = shortName,
             page = 0,
-            size = itemSize,
+            size = ITEM_SIZE,
             important = true
         )
 
@@ -74,31 +69,7 @@ class DepartmentNoticeMediator(
     }
 
     private suspend fun insertNotices(noticeEntities: List<NoticeEntity>, page: Int) {
-        noticeEntities.map {
-            pageNumberMap[PageKey(it.articleId, shortName)] = page
-        }
-        noticeDao.insertDepartmentNotices(noticeEntities)
-    }
-
-    private suspend fun updateNoticesId(entities: List<NoticeEntity>) {
-        Timber.d("Update notices: ${entities.size}")
-        entities.forEach { entity ->
-            if (noticeDao.getDepartmentNoticeId(entity.articleId, entity.department) == 0) {
-                Timber.d("Update notice id ${entity.articleId}")
-                noticeDao.updateDepartmentNoticeId(entity.articleId, entity.department, entity.id)
-            }
-        }
-    }
-
-    private suspend fun updateNoticesCommentCount(entities: List<NoticeEntity>) {
-        entities.forEach { entity ->
-            val noticeId = noticeDao.getDepartmentNoticeId(entity.articleId, entity.department)
-            if (noticeId != null) {
-                noticeDao.updateDepartmentNoticeCommentCount(
-                    entity.articleId, entity.department, entity.commentCount
-                )
-            }
-        }
+        noticeDao.insertAndUpdateDepartmentNotices(noticeEntities)
     }
 
     private fun getAppStartedDate(): String {
@@ -108,36 +79,13 @@ class DepartmentNoticeMediator(
         }
     }
 
-    private fun getRefreshKey(state: PagingState<Int, NoticeEntity>): Int? {
-        return state.anchorPosition?.let { anchorPosition ->
-            state.closestItemToPosition(anchorPosition)?.articleId?.let { articleId ->
-                pageNumberMap[PageKey(articleId, shortName)]
-            }
-        }
-    }
-
-    private fun getPrependKey(state: PagingState<Int, NoticeEntity>): Int? {
-        val firstItem = state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
-        return firstItem?.let {
-            pageNumberMap[PageKey(it.articleId, shortName)]?.minus(1)
-        }
-    }
-
-    private fun getAppendKey(state: PagingState<Int, NoticeEntity>): Int? {
-        val lastItem = state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
-        return lastItem?.let {
-            // page number가 존재하지 않는 공지: 이전 실행에서 로드된 공지
-            // 따라서 page size를 통해 간접적으로 page key를 계산해야 한다.
-            (pageNumberMap[PageKey(it.articleId, shortName)] ?: state.pages.size).plus(1)
-        }
+    private suspend fun getAppendKey(): Int? {
+        val noticeCount = noticeDao.getCountOfDepartmentNotice(shortName)
+        // DB에 저장된 공지 개수로 지금까지 불러온 페이지 개수를 파악해 다음 page key를 계산한다
+        return noticeCount / ITEM_SIZE
     }
 
     companion object {
-        const val itemSize = 20
+        const val ITEM_SIZE = 20
     }
 }
-
-private data class PageKey(
-    val articleId: String,
-    val shortName: String,
-)
