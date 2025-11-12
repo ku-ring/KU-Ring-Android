@@ -25,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -166,11 +167,11 @@ private fun CreateCommentButton(
     enabled: Boolean,
     modifier: Modifier = Modifier,
 ) {
-    val description = stringResource(R.string.comment_bottom_sheet_textfield_description)
+    val (description, iconRes, background) = getCommentButtonResources(enabled)
     Box(
         modifier = modifier
             .clip(CircleShape)
-            .background(KuringTheme.colors.gray400)
+            .background(background)
             .clickable(
                 enabled = enabled,
                 role = Role.Button,
@@ -181,10 +182,33 @@ private fun CreateCommentButton(
             },
     ) {
         Icon(
-            imageVector = ImageVector.vectorResource(R.drawable.ic_arrow_up_v2),
+            imageVector = ImageVector.vectorResource(iconRes),
             contentDescription = null,
             modifier = Modifier.padding(8.dp),
             tint = KuringTheme.colors.background,
+        )
+    }
+}
+
+private data class CommentButtonResource(
+    val description: String,
+    val iconRes: Int,
+    val color: Color,
+)
+
+@Composable
+private fun getCommentButtonResources(enabled: Boolean): CommentButtonResource {
+    return if (enabled) {
+        CommentButtonResource(
+            stringResource(R.string.comment_bottom_sheet_textfield_description),
+            R.drawable.ic_arrow_up_v2,
+            KuringTheme.colors.gray400,
+        )
+    } else {
+        CommentButtonResource(
+            "",
+            R.drawable.ic_lock_v2,
+            KuringTheme.colors.gray300,
         )
     }
 }
