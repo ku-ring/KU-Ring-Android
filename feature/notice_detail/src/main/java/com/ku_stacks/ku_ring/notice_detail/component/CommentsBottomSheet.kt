@@ -61,7 +61,13 @@ internal fun CommentsBottomSheet(
             LazyPagingCommentColumn(
                 comments = comments,
                 replyCommentId = replyCommentId,
-                setReplyCommentId = setReplyCommentId,
+                setReplyCommentId = {
+                    if (isTextFieldEnabled) {
+                        setReplyCommentId(it)
+                    } else {
+                        onTextFieldClickedWhenDisabled()
+                    }
+                },
                 onReportComment = onReportComment,
                 onDeleteIconClick = onDeleteComment,
                 modifier = Modifier

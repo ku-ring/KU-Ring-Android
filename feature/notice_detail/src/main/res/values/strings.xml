@@ -14,7 +14,7 @@
     <string name="comment_bottom_sheet_error_loading">댓글 로드 중 에러가 발생했어요. 잠시 후 다시 시도해 주세요.</string>
     <string name="comment_bottom_sheet_empty">등록된 댓글이 없어요.</string>
     <string name="comment_bottom_sheet_textfield_placeholder">댓글 추가</string>
-    <string name="comment_bottom_sheet_textfield_not_logged_in_placeholder">로그인 후 댓글을 추가해보세요!</string>
+    <string name="comment_bottom_sheet_textfield_not_logged_in_placeholder">로그인 후 댓글을 달 수 있어요</string>
     <string name="comment_bottom_sheet_textfield_reply_placeholder">대댓글 추가</string>
     <string name="comment_bottom_sheet_textfield_description">댓글 추가</string>
     <string name="comment_bottom_sheet_create_success">댓글이 추가되었어요.</string>
