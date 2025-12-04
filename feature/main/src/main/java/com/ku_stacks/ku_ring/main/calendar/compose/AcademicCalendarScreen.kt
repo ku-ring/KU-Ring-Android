@@ -38,11 +38,11 @@ import com.ku_stacks.ku_ring.main.calendar.compose.component.calendar.CalendarMo
 import com.ku_stacks.ku_ring.main.calendar.compose.component.calendar.CalendarWeekdaysHeader
 import com.ku_stacks.ku_ring.main.calendar.compose.component.calendar.MonthCalendarState
 import com.ku_stacks.ku_ring.main.calendar.compose.component.calendar.rememberMonthCalendarState
-import com.ku_stacks.ku_ring.main.calendar.mockEvents
 import com.ku_stacks.ku_ring.util.now
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.collections.immutable.persistentMapOf
+import kotlinx.collections.immutable.toImmutableMap
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
@@ -59,8 +59,12 @@ fun AcademicCalendarScreen(
         snapshotFlow { calendarState.pagerState.currentPage }
             .distinctUntilChanged()
             .collect { page ->
-                val yearMonth = calendarState.getYearMonth(page)
-                viewModel.fetchAcademicEvents(yearMonth)
+                val monthModel = calendarState.getMonthModel(page)
+                val visibleDateRange = monthModel.visibleDateRange
+                viewModel.fetchAcademicEvents(
+                    startDate = visibleDateRange.start,
+                    endDate = visibleDateRange.endInclusive
+                )
             }
     }
 
@@ -183,7 +187,9 @@ private fun AcademicCalendarScreenPreview() {
         AcademicCalendarScreen(
             uiState = AcademicCalendarUiState(
                 selectedDate = selectedDate,
-                eventLoadState = AcademicEventLoadState.Success(mockEvents),
+                eventLoadState = AcademicEventLoadState.Success(
+                    emptyMap<String, List<AcademicEvent>>().toImmutableMap()
+                ),
             ),
             calendarState = rememberMonthCalendarState(),
             onDateClick = { date -> selectedDate = date }

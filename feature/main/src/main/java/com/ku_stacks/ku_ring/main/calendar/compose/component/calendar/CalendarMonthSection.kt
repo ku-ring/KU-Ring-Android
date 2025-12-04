@@ -12,11 +12,11 @@ import androidx.compose.ui.unit.dp
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.AcademicEvent
-import com.ku_stacks.ku_ring.main.calendar.mockEvents
 import com.ku_stacks.ku_ring.main.calendar.model.MonthModel
 import com.ku_stacks.ku_ring.util.now
 import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.collections.immutable.toImmutableMap
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.YearMonth
 
@@ -63,7 +63,7 @@ private fun CalendarMonthSectionPreview() {
             month = monthModel,
             selectedDate = LocalDate.now(),
             onDateClick = {},
-            monthEvents = mockEvents,
+            monthEvents = emptyMap<String, List<AcademicEvent>>().toImmutableMap(),
             modifier = Modifier.background(KuringTheme.colors.background)
         )
     }
