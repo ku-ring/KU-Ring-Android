@@ -22,33 +22,24 @@ class AcademicCalendarViewModel @Inject constructor(
     internal val uiState = _uiState.asStateFlow()
 
     internal fun fetchAcademicEvents(startDate: LocalDate, endDate: LocalDate) = viewModelScope.launch {
-        updateEventLoadState(AcademicEventLoadState.Loading)
         getAcademicEventsUseCase(startDate, endDate)
             .onSuccess {
-                val eventMap = it.toImmutableMap()
-                updateEventLoadState(AcademicEventLoadState.Success(eventMap))
+                _uiState.update { currentState ->
+                    currentState.copy(
+                        monthEvent = it.toImmutableMap(),
+                        loadState = AcademicEventLoadState.Success,
+                    )
+                }
             }
             .onFailure { t ->
                 Timber.e(t)
-                updateEventLoadState(
-                    AcademicEventLoadState.Error(t.message.toString())
-                )
+                _uiState.update { it.copy(loadState = AcademicEventLoadState.Error) }
             }
     }
 
     internal fun updateSelectedDate(date: DayModel) {
         _uiState.update { currentState ->
-            currentState.copy(
-                selectedDate = date,
-            )
-        }
-    }
-
-    private fun updateEventLoadState(newValue: AcademicEventLoadState) {
-        _uiState.update { currentState ->
-            currentState.copy(
-                eventLoadState = newValue
-            )
+            currentState.copy(selectedDate = date)
         }
     }
 }

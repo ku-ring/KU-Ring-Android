@@ -8,18 +8,19 @@ import com.ku_stacks.ku_ring.util.now
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.persistentMapOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.datetime.LocalDate
 
 @Immutable
 internal data class AcademicCalendarUiState(
     val selectedDate: DayModel,
-    val eventLoadState: AcademicEventLoadState,
+    val monthEvent: ImmutableMap<String, List<AcademicEvent>>,
+    val loadState: AcademicEventLoadState,
 ) {
     val eventsOnSelectedDate: ImmutableList<AcademicEvent>
         get() = runCatching {
-            val loadState = eventLoadState as AcademicEventLoadState.Success
-            requireNotNull(loadState.eventMap[selectedDate.mapKey]).toImmutableList()
+            requireNotNull(monthEvent[selectedDate.mapKey]).toImmutableList()
         }.getOrDefault(persistentListOf())
 
     companion object {
@@ -29,14 +30,14 @@ internal data class AcademicCalendarUiState(
                 isToday = true,
                 dayType = DayType.MONTH_DAY,
             ),
-            eventLoadState = AcademicEventLoadState.Loading,
+            monthEvent = persistentMapOf<String, List<AcademicEvent>>(),
+            loadState = AcademicEventLoadState.Loading,
         )
     }
 }
 
 internal sealed interface AcademicEventLoadState {
-    data object Loading : AcademicEventLoadState
-    data class Error(val message: String) : AcademicEventLoadState
-    data class Success(val eventMap: ImmutableMap<String, List<AcademicEvent>>) :
-        AcademicEventLoadState
+    object Loading : AcademicEventLoadState
+    object Success : AcademicEventLoadState
+    object Error : AcademicEventLoadState
 }

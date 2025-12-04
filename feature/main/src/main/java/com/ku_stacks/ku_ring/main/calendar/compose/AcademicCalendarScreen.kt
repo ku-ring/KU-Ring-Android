@@ -2,6 +2,7 @@ package com.ku_stacks.ku_ring.main.calendar.compose
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -13,19 +14,27 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.material.Text
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.ku_stacks.ku_ring.designsystem.R.color.kus_label
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
+import com.ku_stacks.ku_ring.designsystem.components.indicator.PagingLoadingIndicator
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.AcademicEvent
+import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.calendar.AcademicCalendarUiState
 import com.ku_stacks.ku_ring.main.calendar.AcademicCalendarViewModel
 import com.ku_stacks.ku_ring.main.calendar.AcademicEventLoadState
@@ -37,14 +46,10 @@ import com.ku_stacks.ku_ring.main.calendar.compose.component.calendar.MonthCalen
 import com.ku_stacks.ku_ring.main.calendar.compose.component.calendar.rememberMonthCalendarState
 import com.ku_stacks.ku_ring.main.calendar.model.DayModel
 import com.ku_stacks.ku_ring.main.calendar.type.DayType
-import com.ku_stacks.ku_ring.util.now
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.ImmutableMap
-import kotlinx.collections.immutable.persistentMapOf
-import kotlinx.collections.immutable.toImmutableMap
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
-import kotlinx.datetime.LocalDate
 
 @Composable
 fun AcademicCalendarScreen(
@@ -92,10 +97,6 @@ private fun AcademicCalendarScreen(
     modifier: Modifier = Modifier,
 ) {
     val coroutineScope = rememberCoroutineScope()
-    val monthEvents = run {
-        val loadState = uiState.eventLoadState as? AcademicEventLoadState.Success
-        loadState?.eventMap ?: persistentMapOf()
-    }
 
     Column(
         modifier = modifier
@@ -127,7 +128,7 @@ private fun AcademicCalendarScreen(
         CalendarPager(
             calendarState = calendarState,
             selectedDate = uiState.selectedDate,
-            monthEvents = monthEvents,
+            monthEvents = uiState.monthEvent,
             onDateClick = onDateClick,
         )
 
@@ -136,10 +137,22 @@ private fun AcademicCalendarScreen(
             modifier = Modifier.padding(start = 8.dp, end = 8.dp, top = 16.dp),
         )
 
-        AcademicScheduleColumn(
-            academicEvents = uiState.eventsOnSelectedDate,
-            modifier = Modifier.weight(1f)
-        )
+        when (uiState.loadState) {
+            AcademicEventLoadState.Success -> {
+                AcademicScheduleColumn(
+                    academicEvents = uiState.eventsOnSelectedDate,
+                    modifier = Modifier.weight(1f),
+                )
+            }
+
+            AcademicEventLoadState.Loading -> {
+                PagingLoadingIndicator(Modifier.fillMaxSize())
+            }
+
+            AcademicEventLoadState.Error -> {
+                LoadingErrorText(Modifier.fillMaxSize())
+            }
+        }
     }
 }
 
@@ -187,16 +200,26 @@ private fun AcademicScheduleColumn(
     }
 }
 
+@Composable
+private fun LoadingErrorText(modifier: Modifier = Modifier) {
+    Box(modifier = modifier) {
+        Text(
+            text = stringResource(id = R.string.calendar_error_load_event),
+            style = KuringTheme.typography.caption1,
+            color = colorResource(id = kus_label),
+            modifier = Modifier.align(Alignment.Center),
+            textAlign = TextAlign.Center,
+        )
+    }
+}
+
 @LightAndDarkPreview
 @Composable
 private fun AcademicCalendarScreenPreview() {
     KuringTheme {
         AcademicCalendarScreen(
-            uiState = AcademicCalendarUiState(
-                selectedDate = DayModel(LocalDate.now(), true, DayType.MONTH_DAY),
-                eventLoadState = AcademicEventLoadState.Success(
-                    emptyMap<String, List<AcademicEvent>>().toImmutableMap()
-                ),
+            uiState = AcademicCalendarUiState.Empty.copy(
+                loadState = AcademicEventLoadState.Error,
             ),
             calendarState = rememberMonthCalendarState(),
             onDateClick = { }
