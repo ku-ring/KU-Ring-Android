@@ -2,6 +2,8 @@ package com.ku_stacks.ku_ring.main.calendar
 
 import androidx.compose.runtime.Immutable
 import com.ku_stacks.ku_ring.domain.AcademicEvent
+import com.ku_stacks.ku_ring.main.calendar.model.DayModel
+import com.ku_stacks.ku_ring.main.calendar.type.DayType
 import com.ku_stacks.ku_ring.util.now
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.ImmutableMap
@@ -11,18 +13,22 @@ import kotlinx.datetime.LocalDate
 
 @Immutable
 internal data class AcademicCalendarUiState(
-    val selectedDate: LocalDate,
+    val selectedDate: DayModel,
     val eventLoadState: AcademicEventLoadState,
 ) {
     val eventsOnSelectedDate: ImmutableList<AcademicEvent>
         get() = runCatching {
             val loadState = eventLoadState as AcademicEventLoadState.Success
-            requireNotNull(loadState.eventMap[selectedDate.toString()]).toImmutableList()
+            requireNotNull(loadState.eventMap[selectedDate.mapKey]).toImmutableList()
         }.getOrDefault(persistentListOf())
 
     companion object {
         val Empty = AcademicCalendarUiState(
-            selectedDate = LocalDate.now(),
+            selectedDate = DayModel(
+                date = LocalDate.now(),
+                isToday = true,
+                dayType = DayType.MONTH_DAY,
+            ),
             eventLoadState = AcademicEventLoadState.Loading,
         )
     }

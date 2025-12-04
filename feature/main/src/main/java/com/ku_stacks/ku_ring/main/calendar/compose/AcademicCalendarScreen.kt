@@ -17,10 +17,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -38,6 +35,8 @@ import com.ku_stacks.ku_ring.main.calendar.compose.component.calendar.CalendarMo
 import com.ku_stacks.ku_ring.main.calendar.compose.component.calendar.CalendarWeekdaysHeader
 import com.ku_stacks.ku_ring.main.calendar.compose.component.calendar.MonthCalendarState
 import com.ku_stacks.ku_ring.main.calendar.compose.component.calendar.rememberMonthCalendarState
+import com.ku_stacks.ku_ring.main.calendar.model.DayModel
+import com.ku_stacks.ku_ring.main.calendar.type.DayType
 import com.ku_stacks.ku_ring.util.now
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.ImmutableMap
@@ -68,6 +67,15 @@ fun AcademicCalendarScreen(
             }
     }
 
+    LaunchedEffect(uiState.selectedDate) {
+        val currentPage = calendarState.pagerState.currentPage
+        when (uiState.selectedDate.dayType) {
+            DayType.IN_DAY -> calendarState.pagerState.animateScrollToPage(currentPage - 1)
+            DayType.OUT_DAY -> calendarState.pagerState.animateScrollToPage(currentPage + 1)
+            DayType.MONTH_DAY -> {}
+        }
+    }
+
     AcademicCalendarScreen(
         uiState = uiState,
         calendarState = calendarState,
@@ -80,7 +88,7 @@ fun AcademicCalendarScreen(
 private fun AcademicCalendarScreen(
     uiState: AcademicCalendarUiState,
     calendarState: MonthCalendarState,
-    onDateClick: (LocalDate) -> Unit,
+    onDateClick: (DayModel) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -137,10 +145,10 @@ private fun AcademicCalendarScreen(
 
 @Composable
 private fun CalendarPager(
-    selectedDate: LocalDate,
+    selectedDate: DayModel,
     calendarState: MonthCalendarState,
     monthEvents: ImmutableMap<String, List<AcademicEvent>>,
-    onDateClick: (LocalDate) -> Unit,
+    onDateClick: (DayModel) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     HorizontalPager(
@@ -182,17 +190,16 @@ private fun AcademicScheduleColumn(
 @LightAndDarkPreview
 @Composable
 private fun AcademicCalendarScreenPreview() {
-    var selectedDate by remember { mutableStateOf(LocalDate.now()) }
     KuringTheme {
         AcademicCalendarScreen(
             uiState = AcademicCalendarUiState(
-                selectedDate = selectedDate,
+                selectedDate = DayModel(LocalDate.now(), true, DayType.MONTH_DAY),
                 eventLoadState = AcademicEventLoadState.Success(
                     emptyMap<String, List<AcademicEvent>>().toImmutableMap()
                 ),
             ),
             calendarState = rememberMonthCalendarState(),
-            onDateClick = { date -> selectedDate = date }
+            onDateClick = { }
         )
     }
 }

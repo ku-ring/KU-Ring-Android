@@ -12,7 +12,9 @@ import androidx.compose.ui.unit.dp
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.AcademicEvent
+import com.ku_stacks.ku_ring.main.calendar.model.DayModel
 import com.ku_stacks.ku_ring.main.calendar.model.MonthModel
+import com.ku_stacks.ku_ring.main.calendar.type.DayType
 import com.ku_stacks.ku_ring.util.now
 import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.collections.immutable.toImmutableList
@@ -23,9 +25,9 @@ import kotlinx.datetime.YearMonth
 @Composable
 internal fun CalendarMonthSection(
     month: MonthModel,
-    selectedDate: LocalDate,
+    selectedDate: DayModel,
     monthEvents: ImmutableMap<String, List<AcademicEvent>>,
-    onDateClick: (LocalDate) -> Unit,
+    onDateClick: (DayModel) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -39,14 +41,13 @@ internal fun CalendarMonthSection(
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 week.forEach { day ->
-                    val key = day.date.toString()
-                    val events = monthEvents[key] ?: emptyList()
+                    val events = monthEvents[day.mapKey] ?: emptyList()
                     CalendarDayCell(
                         dayModel = day,
-                        isSelected = day.date == selectedDate,
+                        isSelected = day.date == selectedDate.date,
                         events = events.toImmutableList(),
-                        onClick = { onDateClick(day.date) },
-                        modifier = Modifier.weight(1f)
+                        onClick = { onDateClick(day) },
+                        modifier = Modifier.weight(1f),
                     )
                 }
             }
@@ -58,13 +59,14 @@ internal fun CalendarMonthSection(
 @Composable
 private fun CalendarMonthSectionPreview() {
     val monthModel = MonthModel(YearMonth.now())
+    val dayModel = DayModel(LocalDate.now(), true, DayType.MONTH_DAY)
     KuringTheme {
         CalendarMonthSection(
             month = monthModel,
-            selectedDate = LocalDate.now(),
+            selectedDate = dayModel,
             onDateClick = {},
             monthEvents = emptyMap<String, List<AcademicEvent>>().toImmutableMap(),
-            modifier = Modifier.background(KuringTheme.colors.background)
+            modifier = Modifier.background(KuringTheme.colors.background),
         )
     }
 }
