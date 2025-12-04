@@ -59,16 +59,13 @@ fun AcademicCalendarScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val calendarState = rememberMonthCalendarState()
 
-    LaunchedEffect(calendarState.pagerState.currentPage) {
-        snapshotFlow { calendarState.pagerState.currentPage }
+    LaunchedEffect(calendarState.currentMonthModel) {
+        snapshotFlow { calendarState.currentMonthModel }
             .distinctUntilChanged()
-            .collect { page ->
-                val monthModel = calendarState.getMonthModel(page)
+            .collect { monthModel ->
                 val visibleDateRange = monthModel.visibleDateRange
-                viewModel.fetchAcademicEvents(
-                    startDate = visibleDateRange.start,
-                    endDate = visibleDateRange.endInclusive
-                )
+                viewModel.fetchAcademicEvents(visibleDateRange.start, visibleDateRange.endInclusive)
+                viewModel.updateSelectedDateOnScroll(monthModel)
             }
     }
 
@@ -84,7 +81,7 @@ fun AcademicCalendarScreen(
     AcademicCalendarScreen(
         uiState = uiState,
         calendarState = calendarState,
-        onDateClick = viewModel::updateSelectedDate,
+        onDateClick = viewModel::updateSelectedDateOnClick,
         modifier = modifier,
     )
 }
