@@ -61,7 +61,6 @@ class MonthModelTest {
             val startDiff = (yearMonth.firstDay.toEpochDays() - start.toEpochDays()).toInt()
             val endDiff = (end.toEpochDays() - yearMonth.lastDay.toEpochDays()).toInt()
 
-            println("start: $start, end: $end, month: $yearMonth")
             // then
             assert(startDiff < 7)
             assert(endDiff < 7)
