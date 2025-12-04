@@ -4,6 +4,7 @@ import androidx.compose.runtime.Immutable
 import com.ku_stacks.ku_ring.util.now
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateRange
 import kotlinx.datetime.YearMonth
 import kotlinx.datetime.isoDayNumber
 import kotlinx.datetime.minus
@@ -16,24 +17,38 @@ data class MonthModel(
     val yearMonth: YearMonth,
     val referenceDate: LocalDate = LocalDate.now()
 ) {
-    private val firstDayOfWeek = yearMonth.firstDay.dayOfWeek.isoDayNumber
-    val inDays = firstDayOfWeek % 7
-    val monthDays = yearMonth.lastDay.day
-    val outDays = (7 - ((inDays + monthDays) % 7)) % 7
-    val totalDays = monthDays + inDays + outDays
-    private val rows = (0 until totalDays).chunked(7)
-    val calendarMonth: List<List<DayModel>> = rows.map { week ->
-        week.map { dayOffset ->
-            getDay(dayOffset)
-        }
+    val visibleDateRange: LocalDateRange = calculateVisibleDateRange()
+    val calendarMonth: List<List<DayModel>> = generateCalendarGrid()
+
+    private fun calculateVisibleDateRange(): LocalDateRange {
+        val startOfMonth = yearMonth.firstDay
+        val endOfMonth = yearMonth.lastDay
+
+        val inDays = startOfMonth.dayOfWeek.isoDayNumber % 7
+        val daysFilled = inDays + endOfMonth.day
+        val outDays = (7 - (daysFilled % 7)) % 7
+
+        val firstDayOnCalendar = startOfMonth.minus(DatePeriod(days = inDays))
+        val lastDayOnCalendar = endOfMonth.plus(DatePeriod(days = outDays))
+
+        return firstDayOnCalendar .. lastDayOnCalendar
     }
 
-    private fun getDay(dayOffset: Int): DayModel {
-        val firstDayOnCalendar = yearMonth.firstDay.minus(DatePeriod(days = inDays))
-        val date = firstDayOnCalendar.plus(DatePeriod(days = dayOffset))
-        val isOutDate = date.yearMonth != yearMonth
-        val isToday = date == referenceDate
-        return DayModel(date, isToday, isOutDate)
+    private fun generateCalendarGrid(): List<List<DayModel>> {
+        val firstDay = visibleDateRange.start
+        val lastDay = visibleDateRange.endInclusive
+        val totalDays = (lastDay.toEpochDays() - firstDay.toEpochDays()).toInt() + 1
+
+        return (0 until totalDays).chunked(7) { week ->
+            week.map { dayOffset ->
+                val date = firstDay.plus(DatePeriod(days = dayOffset))
+                DayModel(
+                    date = date,
+                    isToday = date == referenceDate,
+                    isOutDate = date.yearMonth != yearMonth
+                )
+            }
+        }
     }
 
     override fun toString(): String {
