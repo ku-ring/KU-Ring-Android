@@ -1,6 +1,7 @@
 package com.ku_stacks.ku_ring.main.calendar.model
 
 import androidx.compose.runtime.Immutable
+import com.ku_stacks.ku_ring.main.calendar.type.DayType
 import com.ku_stacks.ku_ring.util.now
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.LocalDate
@@ -10,7 +11,6 @@ import kotlinx.datetime.isoDayNumber
 import kotlinx.datetime.minus
 import kotlinx.datetime.number
 import kotlinx.datetime.plus
-import kotlinx.datetime.yearMonth
 
 @Immutable
 data class MonthModel(
@@ -42,13 +42,20 @@ data class MonthModel(
         return (0 until totalDays).chunked(7) { week ->
             week.map { dayOffset ->
                 val date = firstDay.plus(DatePeriod(days = dayOffset))
+                val dayType = getDayType(date)
                 DayModel(
                     date = date,
                     isToday = date == referenceDate,
-                    isOutDate = date.yearMonth != yearMonth
+                    dayType = dayType,
                 )
             }
         }
+    }
+
+    private fun getDayType(date: LocalDate) = when  {
+        date < yearMonth.firstDay -> DayType.IN_DAY
+        date > yearMonth.lastDay -> DayType.OUT_DAY
+        else -> DayType.MONTH_DAY
     }
 
     override fun toString(): String {
