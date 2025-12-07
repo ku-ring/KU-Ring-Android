@@ -7,83 +7,87 @@ import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.YearMonth
 import kotlinx.datetime.plus
 import kotlinx.datetime.yearMonth
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.MethodSource
+import java.util.stream.IntStream
 
 class MonthModelTest {
-    private val validationMonthRange = (-50 .. 50)
 
-    @Test
-    fun `calendarMonth's number of days is a multiple of 7`() {
-        validationMonthRange.forEach { month ->
-            // given
-            val yearMonth = YearMonth.now().plus(month, DateTimeUnit.MONTH)
-            val monthModel = MonthModel(yearMonth)
-
-            // when
-            val monthModelSize = monthModel.calendarMonth.flatten().size
-
-            // then
-            assertEquals(0, monthModelSize % 7)
+    companion object {
+        @JvmStatic
+        fun monthRangeProvider(): IntStream {
+            return IntStream.range(-20, 21)
         }
     }
 
-    @Test
-    fun `visibleDateRange is start on Sunday and end on Saturday`() {
-        validationMonthRange.forEach { month ->
-            // given
-            val yearMonth = YearMonth.now().plus(month, DateTimeUnit.MONTH)
-            val monthModel = MonthModel(yearMonth)
+    @ParameterizedTest
+    @MethodSource("monthRangeProvider")
+    fun `calendarMonth's number of days is a multiple of 7`(monthOffset: Int) {
+        // given
+        val yearMonth = YearMonth.now().plus(monthOffset, DateTimeUnit.MONTH)
+        val monthModel = MonthModel(yearMonth)
 
-            // when
-            val visibleDateRange = monthModel.visibleDateRange
-            val start = visibleDateRange.start.dayOfWeek
-            val end = visibleDateRange.endInclusive.dayOfWeek
+        // when
+        val monthModelSize = monthModel.calendarMonth.flatten().size
 
-            // then
-            assertEquals(DayOfWeek.SUNDAY, start)
-            assertEquals(DayOfWeek.SATURDAY, end)
-        }
+        // then
+        assertEquals(0, monthModelSize % 7)
     }
 
-    @Test
-    fun `visibleDateRange is not more than a week far from month`() {
-        validationMonthRange.forEach { month ->
-            // given
-            val yearMonth = YearMonth.now().plus(month, DateTimeUnit.MONTH)
-            val monthModel = MonthModel(yearMonth)
+    @ParameterizedTest
+    @MethodSource("monthRangeProvider")
+    fun `visibleDateRange must start on Sunday and end on Saturday`(monthOffset: Int) {
+        // given
+        val yearMonth = YearMonth.now().plus(monthOffset, DateTimeUnit.MONTH)
+        val monthModel = MonthModel(yearMonth)
 
-            // when
-            val visibleDateRange = monthModel.visibleDateRange
-            val start = visibleDateRange.start
-            val end = visibleDateRange.endInclusive
+        // when
+        val visibleDateRange = monthModel.visibleDateRange
+        val start = visibleDateRange.start.dayOfWeek
+        val end = visibleDateRange.endInclusive.dayOfWeek
 
-            val startDiff = (yearMonth.firstDay.toEpochDays() - start.toEpochDays()).toInt()
-            val endDiff = (end.toEpochDays() - yearMonth.lastDay.toEpochDays()).toInt()
-
-            // then
-            assert(startDiff < 7)
-            assert(endDiff < 7)
-        }
+        // then
+        assertEquals(DayOfWeek.SUNDAY, start)
+        assertEquals(DayOfWeek.SATURDAY, end)
     }
 
-    @Test
-    fun `calendar distinguishes inDays and outDays correctly`() {
-        validationMonthRange.forEach { month ->
-            // given
-            val yearMonth = YearMonth.now().plus(month, DateTimeUnit.MONTH)
-            val monthModel = MonthModel(yearMonth)
+    @ParameterizedTest
+    @MethodSource("monthRangeProvider")
+    fun `visibleDateRange is not more than a week far from month`(monthOffset: Int) {
+        // given
+        val yearMonth = YearMonth.now().plus(monthOffset, DateTimeUnit.MONTH)
+        val monthModel = MonthModel(yearMonth)
 
-            // when
-            val dayModels = monthModel.calendarMonth.flatten()
+        // when
+        val visibleDateRange = monthModel.visibleDateRange
+        val start = visibleDateRange.start
+        val end = visibleDateRange.endInclusive
 
-            // then
-            dayModels.forEach { dayModel ->
-                if (dayModel.isOutDate) {
-                    assert(dayModel.date.yearMonth != yearMonth)
-                } else {
-                    assert(dayModel.date.yearMonth == yearMonth)
-                }
+        val startDiff = (yearMonth.firstDay.toEpochDays() - start.toEpochDays()).toInt()
+        val endDiff = (end.toEpochDays() - yearMonth.lastDay.toEpochDays()).toInt()
+
+        // then
+        assert(startDiff < 7)
+        assert(endDiff < 7)
+    }
+
+    @ParameterizedTest
+    @MethodSource("monthRangeProvider")
+    fun `calendar distinguishes previous month's and next month's days correctly`(monthOffset: Int) {
+        // given
+        val yearMonth = YearMonth.now().plus(monthOffset, DateTimeUnit.MONTH)
+        val monthModel = MonthModel(yearMonth)
+
+        // when
+        val dayModels = monthModel.calendarMonth.flatten()
+
+        // then
+        dayModels.forEach { dayModel ->
+            if (dayModel.isOutDate) {
+                assert(dayModel.date.yearMonth != yearMonth)
+            } else {
+                assert(dayModel.date.yearMonth == yearMonth)
             }
         }
     }

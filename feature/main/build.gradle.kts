@@ -4,7 +4,7 @@ plugins {
     kuring("view")
     kuring("compose")
     kuringPrimitive("retrofit")
-    kuringPrimitive("test")
+    kuringPrimitive("junit5")
 }
 
 android {
