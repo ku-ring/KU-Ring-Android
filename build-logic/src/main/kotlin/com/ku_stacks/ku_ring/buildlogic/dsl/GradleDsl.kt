@@ -75,6 +75,12 @@ fun DependencyHandlerScope.testImplementation(
     add("testImplementation", artifact)
 }
 
+fun DependencyHandlerScope.testRuntimeOnly(
+    artifact: MinimalExternalModuleDependency,
+) {
+    add("testRuntimeOnly", artifact)
+}
+
 fun DependencyHandlerScope.implementationPlatform(
     artifact: MinimalExternalModuleDependency,
 ) {
