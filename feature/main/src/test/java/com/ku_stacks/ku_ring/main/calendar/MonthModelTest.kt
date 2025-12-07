@@ -8,6 +8,7 @@ import kotlinx.datetime.YearMonth
 import kotlinx.datetime.plus
 import kotlinx.datetime.yearMonth
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
 import java.util.stream.IntStream
@@ -68,8 +69,8 @@ class MonthModelTest {
         val endDiff = (end.toEpochDays() - yearMonth.lastDay.toEpochDays()).toInt()
 
         // then
-        assert(startDiff < 7)
-        assert(endDiff < 7)
+        assertTrue(startDiff < 7)
+        assertTrue(endDiff < 7)
     }
 
     @ParameterizedTest
@@ -85,9 +86,9 @@ class MonthModelTest {
         // then
         dayModels.forEach { dayModel ->
             if (dayModel.isOutDate) {
-                assert(dayModel.date.yearMonth != yearMonth)
+                assertTrue(dayModel.date.yearMonth != yearMonth)
             } else {
-                assert(dayModel.date.yearMonth == yearMonth)
+                assertTrue(dayModel.date.yearMonth == yearMonth)
             }
         }
     }
