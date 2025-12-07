@@ -3,7 +3,7 @@ package com.ku_stacks.ku_ring.main.calendar
 import androidx.compose.runtime.Immutable
 import com.ku_stacks.ku_ring.domain.AcademicEvent
 import com.ku_stacks.ku_ring.main.calendar.model.DayModel
-import com.ku_stacks.ku_ring.main.calendar.type.DayType
+import com.ku_stacks.ku_ring.main.calendar.type.DayOwner
 import com.ku_stacks.ku_ring.util.now
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.ImmutableMap
@@ -28,7 +28,7 @@ internal data class AcademicCalendarUiState(
             selectedDate = DayModel(
                 date = LocalDate.now(),
                 isToday = true,
-                dayType = DayType.MONTH_DAY,
+                type = DayOwner.CURRENT_MONTH,
             ),
             monthEvent = persistentMapOf<String, List<AcademicEvent>>(),
             loadState = AcademicEventLoadState.Loading,

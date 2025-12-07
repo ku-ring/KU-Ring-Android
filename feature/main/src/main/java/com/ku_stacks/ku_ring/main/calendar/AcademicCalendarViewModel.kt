@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.ku_stacks.ku_ring.domain.academicevent.usecase.GetAcademicEventsUseCase
 import com.ku_stacks.ku_ring.main.calendar.model.DayModel
 import com.ku_stacks.ku_ring.main.calendar.model.MonthModel
-import com.ku_stacks.ku_ring.main.calendar.type.DayType
+import com.ku_stacks.ku_ring.main.calendar.type.DayOwner
 import com.ku_stacks.ku_ring.util.now
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableMap
@@ -62,7 +62,7 @@ class AcademicCalendarViewModel @Inject constructor(
                 selectedDate = DayModel(
                     date = date,
                     isToday = date == LocalDate.now(),
-                    dayType = DayType.MONTH_DAY,
+                    type = DayOwner.CURRENT_MONTH,
                 )
             )
         }

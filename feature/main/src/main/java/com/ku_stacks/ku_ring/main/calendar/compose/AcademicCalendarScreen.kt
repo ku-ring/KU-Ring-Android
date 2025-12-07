@@ -45,7 +45,7 @@ import com.ku_stacks.ku_ring.main.calendar.compose.component.calendar.CalendarWe
 import com.ku_stacks.ku_ring.main.calendar.compose.component.calendar.MonthCalendarState
 import com.ku_stacks.ku_ring.main.calendar.compose.component.calendar.rememberMonthCalendarState
 import com.ku_stacks.ku_ring.main.calendar.model.DayModel
-import com.ku_stacks.ku_ring.main.calendar.type.DayType
+import com.ku_stacks.ku_ring.main.calendar.type.DayOwner
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -71,10 +71,10 @@ fun AcademicCalendarScreen(
 
     LaunchedEffect(uiState.selectedDate) {
         val currentPage = calendarState.pagerState.currentPage
-        when (uiState.selectedDate.dayType) {
-            DayType.IN_DAY -> calendarState.pagerState.animateScrollToPage(currentPage - 1)
-            DayType.OUT_DAY -> calendarState.pagerState.animateScrollToPage(currentPage + 1)
-            DayType.MONTH_DAY -> {}
+        when (uiState.selectedDate.type) {
+            DayOwner.PREVIOUS_MONTH -> calendarState.pagerState.animateScrollToPage(currentPage - 1)
+            DayOwner.NEXT_MONTH -> calendarState.pagerState.animateScrollToPage(currentPage + 1)
+            DayOwner.CURRENT_MONTH -> {}
         }
     }
 

@@ -14,7 +14,7 @@ import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.AcademicEvent
 import com.ku_stacks.ku_ring.main.calendar.model.DayModel
 import com.ku_stacks.ku_ring.main.calendar.model.MonthModel
-import com.ku_stacks.ku_ring.main.calendar.type.DayType
+import com.ku_stacks.ku_ring.main.calendar.type.DayOwner
 import com.ku_stacks.ku_ring.util.now
 import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.collections.immutable.toImmutableList
@@ -59,7 +59,7 @@ internal fun CalendarMonthSection(
 @Composable
 private fun CalendarMonthSectionPreview() {
     val monthModel = MonthModel(YearMonth.now())
-    val dayModel = DayModel(LocalDate.now(), true, DayType.MONTH_DAY)
+    val dayModel = DayModel(LocalDate.now(), true, DayOwner.CURRENT_MONTH)
     KuringTheme {
         CalendarMonthSection(
             month = monthModel,

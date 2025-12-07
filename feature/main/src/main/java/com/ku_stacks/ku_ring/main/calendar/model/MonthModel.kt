@@ -1,7 +1,7 @@
 package com.ku_stacks.ku_ring.main.calendar.model
 
 import androidx.compose.runtime.Immutable
-import com.ku_stacks.ku_ring.main.calendar.type.DayType
+import com.ku_stacks.ku_ring.main.calendar.type.DayOwner
 import com.ku_stacks.ku_ring.util.now
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.LocalDate
@@ -24,12 +24,12 @@ data class MonthModel(
         val startOfMonth = yearMonth.firstDay
         val endOfMonth = yearMonth.lastDay
 
-        val inDays = startOfMonth.dayOfWeek.isoDayNumber % 7
-        val daysFilled = inDays + endOfMonth.day
-        val outDays = (7 - (daysFilled % 7)) % 7
+        val inDates = startOfMonth.dayOfWeek.isoDayNumber % 7
+        val daysFilled = inDates + endOfMonth.day
+        val outDates = (7 - (daysFilled % 7)) % 7
 
-        val firstDayOnCalendar = startOfMonth.minus(DatePeriod(days = inDays))
-        val lastDayOnCalendar = endOfMonth.plus(DatePeriod(days = outDays))
+        val firstDayOnCalendar = startOfMonth.minus(DatePeriod(days = inDates))
+        val lastDayOnCalendar = endOfMonth.plus(DatePeriod(days = outDates))
 
         return firstDayOnCalendar .. lastDayOnCalendar
     }
@@ -46,16 +46,16 @@ data class MonthModel(
                 DayModel(
                     date = date,
                     isToday = date == referenceDate,
-                    dayType = dayType,
+                    type = dayType,
                 )
             }
         }
     }
 
     private fun getDayType(date: LocalDate) = when  {
-        date < yearMonth.firstDay -> DayType.IN_DAY
-        date > yearMonth.lastDay -> DayType.OUT_DAY
-        else -> DayType.MONTH_DAY
+        date < yearMonth.firstDay -> DayOwner.PREVIOUS_MONTH
+        date > yearMonth.lastDay -> DayOwner.NEXT_MONTH
+        else -> DayOwner.CURRENT_MONTH
     }
 
     override fun toString(): String {
