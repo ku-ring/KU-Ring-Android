@@ -49,6 +49,8 @@ desugarJdk = "2.1.5"
 
 # Test
 androidx-espresso = "3.7.0"
+android-junit5 = "1.14.0.0"
+junit5 = "6.0.1"
 
 # Third Party
 coil = '2.7.0'
@@ -133,6 +135,11 @@ mockito-core = 'org.mockito:mockito-core:5.20.0'
 mockito-inline = 'org.mockito:mockito-inline:5.2.0'
 mockito-kotlin = 'org.mockito.kotlin:mockito-kotlin:6.1.0'
 junit = 'junit:junit:4.13.2'
+junit5 = { group = 'org.junit.jupiter', name ='junit-jupiter-api', version.ref = 'junit5'}
+junit5-engine = { group = 'org.junit.jupiter', name ='junit-jupiter-engine', version.ref = 'junit5'}
+junit5-params = { group = 'org.junit.jupiter', name ='junit-jupiter-params', version.ref = 'junit5'}
+junit-vintage-engine = { group = 'org.junit.vintage', name ='junit-vintage-engine', version.ref = 'junit5'}
+
 robolectric = 'org.robolectric:robolectric:4.16'
 
 # Android Test
@@ -281,3 +288,4 @@ dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
 crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlytics" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+android-junit5 = { id = "de.mannodermaus.android-junit5", version.ref = "android-junit5"}
