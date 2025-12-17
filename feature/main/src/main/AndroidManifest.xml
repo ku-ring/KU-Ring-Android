@@ -5,6 +5,10 @@
         <activity
             android:name=".setting.compose.OpenSourceActivity"
             android:exported="false" />
+
+        <meta-data
+            android:name="com.naver.maps.map.NCP_KEY_ID"
+            android:value="${naverClientId}" />
     </application>
 
 </manifest>
