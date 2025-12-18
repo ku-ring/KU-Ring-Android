@@ -84,6 +84,7 @@ dependencies {
     implementation(projects.data.noticecomment)
     implementation(projects.data.report)
     implementation(projects.data.academicevent)
+    implementation(projects.data.place)
     implementation(projects.domain.navigation)
     implementation(projects.feature.editDepartments)
     implementation(projects.feature.editSubscription)

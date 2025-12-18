@@ -34,6 +34,7 @@ dependencies {
     implementation(projects.data.search)
     implementation(projects.domain.user)
     implementation(projects.domain.academicevent)
+    implementation(projects.domain.place)
     implementation(projects.domain.navigation)
 
     implementation(libs.bundles.compose.interop)
