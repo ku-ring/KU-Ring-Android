@@ -31,6 +31,14 @@ tasks.register("clean", Delete::class) {
     delete(rootProject.layout.buildDirectory)
 }
 
+subprojects {
+    configurations.all {
+        resolutionStrategy {
+            force(rootProject.libs.kotlin.metadata.jvm)
+        }
+    }
+}
+
 apply {
     from("gradle/dependencyGraph.gradle")
 }
