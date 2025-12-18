@@ -30,7 +30,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.main.calendar.compose.AcademicCalendarScreen
-import com.ku_stacks.ku_ring.main.campusmap.CampusMapScreen
+import com.ku_stacks.ku_ring.main.campusmap.compose.CampusMapScreen
 import com.ku_stacks.ku_ring.main.notice.compose.NoticeScreen
 import com.ku_stacks.ku_ring.main.setting.SettingViewModel
 import com.ku_stacks.ku_ring.main.setting.compose.OpenSourceActivity
