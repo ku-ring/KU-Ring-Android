@@ -22,8 +22,6 @@ class PlaceRepositoryTest {
     private lateinit var repository: PlaceRepository
     private lateinit var testDispatcher: TestDispatcher
 
-
-
     @Before
     fun setUp() {
         val context: Context = ApplicationProvider.getApplicationContext()
@@ -44,6 +42,7 @@ class PlaceRepositoryTest {
             address = "서울특별시 광진구 능동로 120",
             latitude = 37.544361,
             longitude = 127.078199,
+            priority = Place.Priority.MIDDLE,
         )
 
         // when

@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.ku_stacks.ku_ring.designsystem.R
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.Place
+import com.ku_stacks.ku_ring.domain.Place.Priority
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraAnimation
 import com.naver.maps.map.CameraPosition
@@ -34,6 +35,9 @@ private const val INITIAL_LONGITUDE = 127.076846
 private const val INITIAL_ZOOM_LEVEL = 14.2
 private const val MIN_ZOOM_LEVEL = 5.0
 private const val MAX_ZOOM_LEVEL = 21.0
+private const val ZOOM_LEVEL_PRIORITY_HIGH = 0.0
+private const val ZOOM_LEVEL_PRIORITY_MID = 14.8
+private const val ZOOM_LEVEL_PRIORITY_LOW = 15.1
 
 
 @OptIn(ExperimentalNaverMapApi::class)
@@ -84,7 +88,7 @@ internal fun NaverMapSection(
             CampusPlaceMarker(
                 place = place,
                 isFocused = isFocused,
-                zIndex = if(isFocused) 100 else 0,
+                zIndex = if (isFocused) 100 else 0,
             ) {
                 onMapPinClick(place)
             }
@@ -104,6 +108,12 @@ private fun CampusPlaceMarker(
     val markerState = MarkerState(position)
 
     val iconSizeDp = if (isFocused) 40.dp else 30.dp
+    val priority = if (isFocused) Priority.HIGH else place.priority
+    val minZoom = when (priority) {
+        Priority.HIGH -> ZOOM_LEVEL_PRIORITY_HIGH
+        Priority.MIDDLE -> ZOOM_LEVEL_PRIORITY_MID
+        Priority.LOW -> ZOOM_LEVEL_PRIORITY_LOW
+    }
 
     Marker(
         state = markerState,
@@ -111,9 +121,11 @@ private fun CampusPlaceMarker(
         iconTintColor = KuringTheme.colors.mainPrimary,
         width = iconSizeDp,
         height = iconSizeDp,
-        captionText = if(isFocused) place.name else null,
+        captionText = place.name,//if (isFocused) place.name else null,
         zIndex = zIndex,
         isHideCollidedSymbols = true,
+        isHideCollidedCaptions = true,
+        minZoom = minZoom,
         onClick = {
             onClick(it)
             // true를 반환하면 지도 클릭 이벤트로 전파되지 않습니다.

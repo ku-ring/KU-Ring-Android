@@ -7,4 +7,17 @@ data class Place (
     val address: String,
     val latitude: Double,
     val longitude: Double,
-)
+    val priority: Priority,
+) {
+    enum class Priority {
+        HIGH, MIDDLE, LOW
+        ;
+        companion object {
+            fun from(value: String) = try {
+                Priority.valueOf(value.uppercase())
+            } catch (e: Exception) {
+                LOW
+            }
+        }
+    }
+}

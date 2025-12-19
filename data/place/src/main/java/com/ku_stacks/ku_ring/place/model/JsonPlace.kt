@@ -17,4 +17,5 @@ internal data class JsonPlace(
     val data: String? = null,
     val places: Map<String, List<String>> = emptyMap(),
     val parentId: String,
+    val priority: String,
 )

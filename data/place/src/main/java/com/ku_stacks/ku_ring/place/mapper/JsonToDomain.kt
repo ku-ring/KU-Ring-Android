@@ -1,6 +1,7 @@
 package com.ku_stacks.ku_ring.place.mapper
 
 import com.ku_stacks.ku_ring.domain.Place
+import com.ku_stacks.ku_ring.domain.Place.Priority
 import com.ku_stacks.ku_ring.place.model.JsonPlace
 
 internal fun JsonPlace.toDomain() = Place(
@@ -10,4 +11,5 @@ internal fun JsonPlace.toDomain() = Place(
     address = address,
     latitude = latitude,
     longitude = longitude,
+    priority = Priority.from(priority)
 )

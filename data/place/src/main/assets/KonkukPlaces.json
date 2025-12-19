@@ -12,7 +12,8 @@
     "phone": null,
     "data": null,
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "middle"
   },
   {
     "id": "건대항쟁기립상",
@@ -27,7 +28,8 @@
     "phone": null,
     "data": null,
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "low"
   },
   {
     "id": "청심대",
@@ -42,7 +44,8 @@
     "phone": null,
     "data": null,
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "low"
   },
   {
     "id": "와우도",
@@ -57,7 +60,8 @@
     "phone": null,
     "data": null,
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "middle"
   },
   {
     "id": "제2황소상",
@@ -72,7 +76,8 @@
     "phone": null,
     "data": null,
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "middle"
   },
   {
     "id": "새천년관대공연장",
@@ -87,7 +92,8 @@
     "phone": null,
     "data": "http://www.weneart.com/",
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "low"
   },
   {
     "id": "건축관",
@@ -102,7 +108,8 @@
     "phone": null,
     "data": null,
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "high"
   },
   {
     "id": "경영관",
@@ -117,7 +124,8 @@
     "phone": null,
     "data": null,
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "high"
   },
   {
     "id": "공대별관",
@@ -132,7 +140,8 @@
     "phone": null,
     "data": null,
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "middle"
   },
   {
     "id": "공예관",
@@ -147,7 +156,8 @@
     "phone": null,
     "data": null,
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "middle"
   },
   {
     "id": "공학관A동",
@@ -162,7 +172,8 @@
     "phone": null,
     "data": null,
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "high"
   },
   {
     "id": "공학관B동",
@@ -177,7 +188,8 @@
     "phone": null,
     "data": null,
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "low"
   },
   {
     "id": "공학관C동",
@@ -192,7 +204,8 @@
     "phone": null,
     "data": null,
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "low"
   },
   {
     "id": "과학관",
@@ -207,7 +220,8 @@
     "phone": null,
     "data": null,
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "middle"
   },
   {
     "id": "교육과학관",
@@ -222,7 +236,8 @@
     "phone": null,
     "data": null,
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "middle"
   },
   {
     "id": "국제학사",
@@ -237,7 +252,8 @@
     "phone": null,
     "data": null,
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "high"
   },
   {
     "id": "노천극장",
@@ -252,7 +268,8 @@
     "phone": null,
     "data": null,
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "middle"
   },
   {
     "id": "동물생명과학관",
@@ -269,7 +286,8 @@
     "places": {
       "카페": ["동생대레스티오"]
     },
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "high"
   },
   {
     "id": "박물관",
@@ -284,7 +302,8 @@
     "phone": null,
     "data": null,
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "middle"
   },
   {
     "id": "법학관",
@@ -299,7 +318,8 @@
     "phone": null,
     "data": null,
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "high"
   },
   {
     "id": "산학협동관",
@@ -314,7 +334,8 @@
     "phone": null,
     "data": null,
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "high"
   },
   {
     "id": "상허기념도서관",
@@ -333,7 +354,8 @@
       "휴게실": ["상허쉼터"],
       "카페": ["도서관레스티오"]
     },
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "high"
   },
   {
     "id": "상허연구관",
@@ -348,7 +370,8 @@
     "phone": null,
     "data": null,
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "middle"
   },
   {
     "id": "상허유석창박사동상",
@@ -363,7 +386,8 @@
     "phone": null,
     "data": null,
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "low"
   },
   {
     "id": "새천년관",
@@ -378,7 +402,8 @@
     "phone": null,
     "data": null,
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "high"
   },
   {
     "id": "생명과학관",
@@ -393,7 +418,8 @@
     "phone": null,
     "data": null,
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "middle"
   },
   {
     "id": "수의학관",
@@ -408,7 +434,8 @@
     "phone": null,
     "data": null,
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "high"
   },
   {
     "id": "신공학관",
@@ -423,7 +450,8 @@
     "phone": null,
     "data": null,
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "high"
   },
   {
     "id": "실내체육관",
@@ -438,7 +466,8 @@
     "phone": null,
     "data": null,
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "high"
   },
   {
     "id": "언어교육원",
@@ -453,7 +482,8 @@
     "phone": null,
     "data": null,
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "middle"
   },
   {
     "id": "예술문화관",
@@ -468,7 +498,8 @@
     "phone": null,
     "data": null,
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "middle"
   },
   {
     "id": "의생명과학연구관",
@@ -483,7 +514,8 @@
     "phone": null,
     "data": null,
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "low"
   },
   {
     "id": "인문학관",
@@ -498,7 +530,8 @@
     "phone": null,
     "data": null,
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "middle"
   },
   {
     "id": "일감호",
@@ -515,7 +548,8 @@
     "places": {
       "랜드마크": ["와우도", "홍예교", "청심대"]
     },
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "middle"
   },
   {
     "id": "일우헌",
@@ -530,7 +564,8 @@
     "phone": null,
     "data": null,
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "low"
   },
   {
     "id": "입학정보관",
@@ -545,7 +580,8 @@
     "phone": null,
     "data": null,
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "middle"
   },
   {
     "id": "제2학생회관",
@@ -562,7 +598,8 @@
     "places": {
       "공연": ["노천극장"]
     },
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "low"
   },
   {
     "id": "중장비실험동",
@@ -577,7 +614,8 @@
     "phone": null,
     "data": null,
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "middle"
   },
   {
     "id": "창의관",
@@ -592,7 +630,8 @@
     "phone": null,
     "data": "113 학군단",
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "middle"
   },
   {
     "id": "쿨하우스글로벌홀",
@@ -607,7 +646,8 @@
     "phone": null,
     "data": null,
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "low"
   },
   {
     "id": "쿨하우스드림홀",
@@ -622,7 +662,8 @@
     "phone": null,
     "data": null,
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "middle"
   },
   {
     "id": "쿨하우스레이크홀",
@@ -637,7 +678,8 @@
     "phone": null,
     "data": null,
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "low"
   },
   {
     "id": "쿨하우스비전홀",
@@ -652,7 +694,8 @@
     "phone": null,
     "data": null,
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "middle"
   },
   {
     "id": "쿨하우스프론티어홀",
@@ -667,7 +710,8 @@
     "phone": null,
     "data": null,
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "low"
   },
   {
     "id": "학생회관",
@@ -682,7 +726,8 @@
     "phone": null,
     "data": null,
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "high"
   },
   {
     "id": "해봉부동산학관",
@@ -697,7 +742,8 @@
     "phone": null,
     "data": null,
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "middle"
   },
   {
     "id": "행정관",
@@ -712,6 +758,7 @@
     "phone": null,
     "data": null,
     "places": {},
-    "parentId": "konkuk"
+    "parentId": "konkuk",
+    "priority": "high"
   }
 ]
