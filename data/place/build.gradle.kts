@@ -19,4 +19,6 @@ dependencies {
     implementation(projects.core.util)
     implementation(projects.data.domain)
     implementation(projects.domain.place)
+
+    testImplementation(libs.kotlinx.coroutines.test)
 }

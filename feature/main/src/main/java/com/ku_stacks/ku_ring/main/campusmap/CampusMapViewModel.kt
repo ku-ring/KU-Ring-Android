@@ -1,6 +1,7 @@
 package com.ku_stacks.ku_ring.main.campusmap
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.ku_stacks.ku_ring.domain.Place
 import com.ku_stacks.ku_ring.domain.place.repository.PlaceRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -9,6 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,7 +24,7 @@ class CampusMapViewModel @Inject constructor(
         fetchCampusPlaces()
     }
 
-    private fun fetchCampusPlaces(){
+    private fun fetchCampusPlaces() = viewModelScope.launch {
         val places = placeRepository.getPlaces()
         _uiState.update { currentState ->
             currentState.copy(

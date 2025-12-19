@@ -9,7 +9,7 @@ import javax.inject.Inject
 class PlaceRepositoryImpl @Inject constructor(
     private val placeDataSource: PlaceDataSource,
 ): PlaceRepository {
-    override fun getPlaces(): List<Place> {
+    override suspend fun getPlaces(): List<Place> {
         return placeDataSource.getJsonPlaces().map { it.toDomain() }
     }
 }

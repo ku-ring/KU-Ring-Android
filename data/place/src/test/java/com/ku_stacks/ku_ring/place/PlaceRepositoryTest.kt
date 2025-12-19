@@ -6,6 +6,10 @@ import com.ku_stacks.ku_ring.domain.Place
 import com.ku_stacks.ku_ring.domain.place.repository.PlaceRepository
 import com.ku_stacks.ku_ring.place.datasource.PlaceDataSource
 import com.ku_stacks.ku_ring.place.repository.PlaceRepositoryImpl
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.TestCoroutineScheduler
+import kotlinx.coroutines.test.TestDispatcher
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -16,16 +20,22 @@ import org.robolectric.RobolectricTestRunner
 class PlaceRepositoryTest {
     private lateinit var dataSource: PlaceDataSource
     private lateinit var repository: PlaceRepository
+    private lateinit var testDispatcher: TestDispatcher
+
+
 
     @Before
     fun setUp() {
         val context: Context = ApplicationProvider.getApplicationContext()
-        dataSource = PlaceDataSource(context)
+        val testScheduler = TestCoroutineScheduler()
+        testDispatcher = StandardTestDispatcher(testScheduler)
+
+        dataSource = PlaceDataSource(context, testDispatcher)
         repository = PlaceRepositoryImpl(dataSource)
     }
 
     @Test
-    fun `get places from json file in assets`() {
+    fun `get places from json file in assets`() = runTest(testDispatcher) {
         // given
         val expect = Place(
             id = "KU스포츠광장",
