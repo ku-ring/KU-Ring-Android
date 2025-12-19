@@ -169,7 +169,11 @@ fun NavGraphBuilder.mainScreenNavGraph(
         )
     }
     composable<MainScreenRoute.CampusMap> {
-        CampusMapScreen()
+        CampusMapScreen(
+            onLibrarySeatFabClick = {
+                navigator.navigateToLibrarySeat(activity)
+            }
+        )
     }
     composable<MainScreenRoute.Settings> {
         // TODO by mwy3055: SettingScreen 내부도 navigation으로 migrate해야 함
