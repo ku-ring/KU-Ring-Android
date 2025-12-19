@@ -15,7 +15,7 @@ data class Place (
         companion object {
             fun from(value: String) = try {
                 Priority.valueOf(value.uppercase())
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 LOW
             }
         }
