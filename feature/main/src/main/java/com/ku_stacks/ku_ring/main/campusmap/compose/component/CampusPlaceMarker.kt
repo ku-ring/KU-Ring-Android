@@ -42,7 +42,7 @@ internal fun CampusPlaceMarker(
         iconTintColor = KuringTheme.colors.mainPrimary,
         width = iconSizeDp,
         height = iconSizeDp,
-        captionText = place.name,//if (isFocused) place.name else null,
+        captionText = place.name,
         zIndex = zIndex,
         isHideCollidedSymbols = true,
         isHideCollidedCaptions = true,
