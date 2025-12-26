@@ -23,11 +23,11 @@ import com.naver.maps.map.compose.NaverMap
 import com.naver.maps.map.compose.rememberCameraPositionState
 import kotlinx.collections.immutable.ImmutableList
 
-private const val INITIAL_LATITUDE = 37.542366
-private const val INITIAL_LONGITUDE = 127.076846
-private const val INITIAL_ZOOM_LEVEL = 14.2
-private const val MIN_ZOOM_LEVEL = 5.0
-private const val MAX_ZOOM_LEVEL = 21.0
+private const val INITIAL_LATITUDE = 37.542366    // 지도의 초기 카메라 위치의 위도 (건국대학교 학생회관)
+private const val INITIAL_LONGITUDE = 127.076846   // 지도의 초기 카메라 위치의 경도 (건국대학교 학생회관)
+private const val INITIAL_ZOOM_LEVEL = 14.2      // 지도의 초기 확대 레벨
+private const val MIN_ZOOM_LEVEL = 5.0           // 사용자가 설정할 수 있는 지도의 최소 확대 레벨
+private const val MAX_ZOOM_LEVEL = 21.0          // 사용자가 설정할 수 있는 지도의 최대 확대 레벨
 
 @OptIn(ExperimentalNaverMapApi::class)
 @Composable
