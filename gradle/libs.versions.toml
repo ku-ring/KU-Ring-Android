@@ -201,9 +201,9 @@ pageindicatorview = 'com.romandanylyk:pageindicatorview:1.0.3'
 shimmer = 'com.facebook.shimmer:shimmer:0.5.0'
 timber = 'com.jakewharton.timber:timber:5.0.1'
 semver = "net.swiftzer.semver:semver:2.1.0"
-naver-map = { module = "io.github.fornewid:naver-map-compose", version.ref = "naver-map"}
-play-service-location = {module = "com.google.android.gms:play-services-location", version.ref  = "play-service-location"}
-naver-map-location = {module = "io.github.fornewid:naver-map-location", version.ref  = "play-service-location"}
+naver-map = { module = "io.github.fornewid:naver-map-compose", version.ref = "naver-map" }
+play-service-location = { module = "com.google.android.gms:play-services-location", version.ref = "play-service-location" }
+naver-map-location = { module = "io.github.fornewid:naver-map-location", version.ref = "play-service-location" }
 
 [bundles]
 retrofit = [
