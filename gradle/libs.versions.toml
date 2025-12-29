@@ -61,6 +61,8 @@ crashlytics = "3.0.6"
 lottie = "6.7.1"
 ktor = "3.3.3"
 javax-inject = "1"
+naver-map = "1.9.0"
+play-service-location = "21.0.1"
 
 [libraries]
 # Project-level dependencies
@@ -207,6 +209,9 @@ pageindicatorview = 'com.romandanylyk:pageindicatorview:1.0.3'
 shimmer = 'com.facebook.shimmer:shimmer:0.5.0'
 timber = 'com.jakewharton.timber:timber:5.0.1'
 semver = "net.swiftzer.semver:semver:2.1.0"
+naver-map = { module = "io.github.fornewid:naver-map-compose", version.ref = "naver-map" }
+play-service-location = { module = "com.google.android.gms:play-services-location", version.ref = "play-service-location" }
+naver-map-location = { module = "io.github.fornewid:naver-map-location", version.ref = "play-service-location" }
 
 [bundles]
 retrofit = [
@@ -278,6 +283,11 @@ android-test = [
     'androidx-espresso-core',
     'androidx-test-runner',
     'androidx-test-rules'
+]
+naver-map = [
+    'naver-map',
+    'play-service-location',
+    'naver-map-location',
 ]
 
 [plugins]

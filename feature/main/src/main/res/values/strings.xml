@@ -118,6 +118,7 @@
     <!--  campus map  -->
     <string name="campus_map_title">캠퍼스맵</string>
     <string name="campus_on_construction">서비스 준비 중이에요</string>
+    <string name="campus_library_seat_fab">열람실 좌석 보기</string>
 
     <!-- academic calendar-->
     <string name="academic_event_bottom_sheet_title">이번 주 예정된 학사일정을 확인해보아요</string>

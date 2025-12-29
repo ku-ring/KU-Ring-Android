@@ -14,6 +14,7 @@ dependencyResolutionManagement {
         mavenCentral()
         maven { setUrl("https://jitpack.io") }
         maven { setUrl("https://repo.sendbird.com/public/maven") }
+        maven { setUrl("https://repository.map.naver.com/archive/maven") }
     }
 }
 
@@ -37,6 +38,7 @@ include(
     ":data:library",
     ":data:local",
     ":data:local:test",
+    ":data:place",
     ":data:remote",
     ":data:report",
     ":data:space",
@@ -46,6 +48,7 @@ include(
     ":domain:noticecomment",
     ":domain:report",
     ":domain:academicevent",
+    ":domain:place",
     ":domain:navigation",
     ":core:thirdparty",
     ":core:work",

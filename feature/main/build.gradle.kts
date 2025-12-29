@@ -1,4 +1,5 @@
 import com.ku_stacks.ku_ring.buildlogic.dsl.setNameSpace
+import java.util.Properties
 
 plugins {
     kuring("view")
@@ -7,9 +8,17 @@ plugins {
     kuringPrimitive("junit5")
 }
 
+val properties = Properties().apply {
+    load(project.rootProject.file("local.properties").inputStream())
+}
+
 android {
     setNameSpace("main")
     namespace = "com.ku_stacks.ku_ring.main"
+
+    defaultConfig {
+        manifestPlaceholders["naverClientId"] = properties["naver.client.id"] as String
+    }
 }
 
 dependencies {
@@ -25,6 +34,7 @@ dependencies {
     implementation(projects.data.search)
     implementation(projects.domain.user)
     implementation(projects.domain.academicevent)
+    implementation(projects.domain.place)
     implementation(projects.domain.navigation)
 
     implementation(libs.bundles.compose.interop)
@@ -36,4 +46,5 @@ dependencies {
     implementation(libs.bundles.paging)
     implementation(libs.shimmer)
     implementation(libs.androidx.swiperefreshlayout)
+    implementation(libs.bundles.naver.map)
 }
