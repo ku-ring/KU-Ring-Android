@@ -63,6 +63,10 @@ brew install graphviz
 gradlew projectDependencyGraph
 ```
 
+### Module Graph
+
+<img src="./project.dot.png" alt="프로젝트 모듈 의존성 그래프" />
+
 # Contact
 
 [![Email](https://img.shields.io/badge/kuring.korea@gmail.com-168de2?style=for-the-badge&logo=gmail&logoColor=white)](mailto:kuring.korea@gmail.com)
