@@ -13,7 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.feedback.R
 import com.ku_stacks.ku_ring.feedback.feedback.compose.FeedbackScreen
-import com.ku_stacks.ku_ring.ui_util.showToast
+import com.ku_stacks.ku_ring.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.ku_stacks.ku_ring.domain.user.repository.UserRepository
 import com.ku_stacks.ku_ring.feedback.R
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
-import com.ku_stacks.ku_ring.thirdparty.firebase.analytics.EventAnalytics
+import com.ku_stacks.ku_ring.firebase.analytics.EventAnalytics
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch

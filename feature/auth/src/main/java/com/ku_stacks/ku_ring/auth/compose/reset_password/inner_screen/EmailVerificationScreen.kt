@@ -47,7 +47,7 @@ import com.ku_stacks.ku_ring.feature.auth.R.string.reset_password_verification_b
 import com.ku_stacks.ku_ring.feature.auth.R.string.reset_password_verification_navigate_to_ku_mail
 import com.ku_stacks.ku_ring.feature.auth.R.string.reset_password_verification_top_bar_heading
 import com.ku_stacks.ku_ring.feature.auth.R.string.reset_password_verification_top_bar_sub_heading
-import com.ku_stacks.ku_ring.util.KuringTimer
+import com.ku_stacks.ku_ring.compose_util.timer.KuringTimer
 import com.ku_stacks.ku_ring.util.navigateToExternalBrowser
 import kotlinx.coroutines.launch
 

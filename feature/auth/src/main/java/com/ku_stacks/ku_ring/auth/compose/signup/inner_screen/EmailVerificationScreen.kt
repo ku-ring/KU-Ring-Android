@@ -46,7 +46,7 @@ import com.ku_stacks.ku_ring.feature.auth.R.string.sign_up_button_proceed
 import com.ku_stacks.ku_ring.feature.auth.R.string.sign_up_navigate_to_ku_mail
 import com.ku_stacks.ku_ring.feature.auth.R.string.sign_up_top_bar_heading
 import com.ku_stacks.ku_ring.feature.auth.R.string.sign_up_top_bar_sub_heading
-import com.ku_stacks.ku_ring.util.KuringTimer
+import com.ku_stacks.ku_ring.compose_util.timer.KuringTimer
 import com.ku_stacks.ku_ring.util.navigateToExternalBrowser
 import kotlinx.coroutines.launch
 

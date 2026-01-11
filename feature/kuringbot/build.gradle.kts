@@ -13,7 +13,7 @@ android {
 dependencies {
     implementation(projects.core.designsystem)
     implementation(projects.core.preferences)
-    implementation(projects.core.uiUtil)
+    implementation(projects.core.composeUtil)
     implementation(projects.core.util)
     implementation(projects.data.domain)
     implementation(projects.data.ai)
