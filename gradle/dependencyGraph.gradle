@@ -61,37 +61,24 @@ tasks.register('projectDependencyGraph') {
                     config.dependencies
                             .withType(ProjectDependency)
                             .each { dep ->
-                                def dependency = null
-                                // For type-safe project accessors, use the path property
-                                try {
-                                    def path = dep.path ?: dep.dependencyProject?.path
-                                    if (path) {
-                                        dependency = rootProject.findProject(path)
-                                    }
-                                } catch (Exception e1) {
-                                    // Fallback: try to get dependencyProject directly
-                                    try {
-                                        dependency = dep.dependencyProject
-                                    } catch (Exception e2) {
-                                        // Skip this dependency
-                                    }
+                                def dependency = dep.dependencyProject
+                                if (dependency == null) {
+                                    return
                                 }
 
-                                if (dependency != null) {
-                                    projects.add(project)
-                                    projects.add(dependency)
-                                    rootProjects.remove(dependency)
+                                projects.add(project)
+                                projects.add(dependency)
+                                rootProjects.remove(dependency)
 
-                                    def graphKey = new Tuple2<Project, Project>(project, dependency)
-                                    def traits = dependencies.computeIfAbsent(graphKey) { new ArrayList<String>() }
+                                def graphKey = new Tuple2<Project, Project>(project, dependency)
+                                def traits = dependencies.computeIfAbsent(graphKey) { new ArrayList<String>() }
 
-                                    if (config.name.toLowerCase().endsWith('implementation')) {
-                                        traits.add('style=dotted')
-                                    }
+                                if (config.name.toLowerCase().endsWith('implementation')) {
+                                    traits.add('style=dotted')
                                 }
                             }
-                } catch (Exception ignored) {
-                    // Skip configurations that cannot be processed
+                } catch (Exception e) {
+                    logger.debug("Skipped configuration '${config.name}' in project '${project.path}': ${e.message}")
                 }
             }
         }
