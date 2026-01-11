@@ -9,8 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.edit_subscription.compose.EditSubscriptionScreen
-import com.ku_stacks.ku_ring.thirdparty.compose.KuringCompositionLocalProvider
-import com.ku_stacks.ku_ring.thirdparty.di.LocalNavigator
+import com.ku_stacks.ku_ring.compose_locals.KuringCompositionLocalProvider
+import com.ku_stacks.ku_ring.compose_locals.LocalNavigator
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

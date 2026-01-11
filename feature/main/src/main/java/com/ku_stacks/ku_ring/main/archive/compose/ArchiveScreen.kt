@@ -26,8 +26,8 @@ import com.ku_stacks.ku_ring.main.archive.ArchiveViewModel
 import com.ku_stacks.ku_ring.main.archive.compose.components.ArchiveScreenTopBar
 import com.ku_stacks.ku_ring.main.archive.compose.components.ArchivedNotices
 import com.ku_stacks.ku_ring.main.archive.compose.components.DeleteArchivedNoticesAlertDialog
-import com.ku_stacks.ku_ring.thirdparty.di.LocalNavigator
-import com.ku_stacks.ku_ring.ui_util.preview_data.previewNotices
+import com.ku_stacks.ku_ring.compose_locals.LocalNavigator
+import com.ku_stacks.ku_ring.ui.preview.previewNotices
 
 @Composable
 fun ArchiveScreen(

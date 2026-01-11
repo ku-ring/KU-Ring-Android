@@ -37,9 +37,9 @@ import com.ku_stacks.ku_ring.main.setting.compose.OpenSourceActivity
 import com.ku_stacks.ku_ring.main.setting.compose.inner_screen.SettingScreen
 import com.ku_stacks.ku_ring.navigation.KuringNavigator
 import com.ku_stacks.ku_ring.navigation.MainScreenRoute
-import com.ku_stacks.ku_ring.thirdparty.compose.KuringCompositionLocalProvider
-import com.ku_stacks.ku_ring.thirdparty.di.LocalNavigator
-import com.ku_stacks.ku_ring.ui_util.showToast
+import com.ku_stacks.ku_ring.compose_locals.KuringCompositionLocalProvider
+import com.ku_stacks.ku_ring.compose_locals.LocalNavigator
+import com.ku_stacks.ku_ring.util.showToast
 
 @Composable
 fun MainScreen(

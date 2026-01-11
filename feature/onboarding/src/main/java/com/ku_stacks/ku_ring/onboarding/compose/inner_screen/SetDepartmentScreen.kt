@@ -22,8 +22,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.ku_stacks.ku_ring.designsystem.components.DepartmentWithAddIcon
-import com.ku_stacks.ku_ring.designsystem.components.DepartmentWithCheckIcon
+import com.ku_stacks.ku_ring.ui.department.DepartmentWithAddIcon
+import com.ku_stacks.ku_ring.ui.department.DepartmentWithCheckIcon
 import com.ku_stacks.ku_ring.designsystem.components.KuringCallToAction
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.components.SearchTextField
@@ -32,7 +32,7 @@ import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 import com.ku_stacks.ku_ring.domain.Department
 import com.ku_stacks.ku_ring.onboarding.R
 import com.ku_stacks.ku_ring.onboarding.compose.OnboardingViewModel
-import com.ku_stacks.ku_ring.ui_util.preview_data.previewDepartments
+import com.ku_stacks.ku_ring.ui.preview.previewDepartments
 
 @Composable
 internal fun SetDepartmentScreen(
