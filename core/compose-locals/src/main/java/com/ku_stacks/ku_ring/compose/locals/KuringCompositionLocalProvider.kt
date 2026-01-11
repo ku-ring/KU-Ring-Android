@@ -23,21 +23,12 @@ fun KuringCompositionLocalProvider(
     content: @Composable () -> Unit
 ) {
     val context = LocalContext.current
-    val navigator = remember {
-        EntryPointAccessors
-            .fromApplication<KuringCompositionLocalEntryPoint>(context)
-            .navigator()
+    val entryPoint = remember {
+        EntryPointAccessors.fromApplication<KuringCompositionLocalEntryPoint>(context)
     }
-    val preference = remember {
-        EntryPointAccessors
-            .fromApplication<KuringCompositionLocalEntryPoint>(context)
-            .preference()
-    }
-    val analytics = remember {
-        EntryPointAccessors
-            .fromApplication<KuringCompositionLocalEntryPoint>(context)
-            .analytics()
-    }
+    val navigator = remember(entryPoint) { entryPoint.navigator() }
+    val preference = remember(entryPoint) { entryPoint.preference() }
+    val analytics = remember(entryPoint) { entryPoint.analytics() }
     CompositionLocalProvider(
         LocalNavigator provides navigator,
         LocalPreferences provides preference,

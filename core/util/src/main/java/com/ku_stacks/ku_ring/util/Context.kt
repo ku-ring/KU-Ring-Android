@@ -26,7 +26,7 @@ fun Context.navigateToExternalBrowser(url: String) = try {
     val intent = Intent(Intent.ACTION_VIEW, url.toUri())
     startActivity(intent)
 } catch (e: ActivityNotFoundException) {
-    Timber.e(e.printStackTrace().toString())
+    Timber.e(e)
 }
 
 fun Context.showToast(msg: String) =
