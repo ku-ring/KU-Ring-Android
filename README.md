@@ -65,7 +65,7 @@ gradlew projectDependencyGraph
 
 ### Module Graph
 
-<img src="./project.dot.png" alt="adadada" />
+<img src="./project.dot.png" alt="프로젝트 모듈 의존성 그래프" />
 
 # Contact
 
