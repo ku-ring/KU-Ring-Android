@@ -10,8 +10,8 @@ android {
 
 dependencies {
     implementation(projects.core.util)
-    implementation(projects.core.uiUtil)
     implementation(projects.core.preferences)
+    implementation(projects.core.designsystem)
     implementation(projects.data.notice)
     implementation(projects.domain.user)
     implementation(projects.domain.navigation)
