@@ -1,6 +1,8 @@
 // from: https://github.com/DroidKaigi/conference-app-2021/blob/main/gradle/dependencyGraph.gradle
 // from: https://github.com/JakeWharton/SdkSearch/blob/3351cad9bfacb0a364858e843774147143f58c7a/gradle/projectDependencyGraph.gradle
 tasks.register('projectDependencyGraph') {
+    notCompatibleWithConfigurationCache("This task accesses project model at execution time")
+
     doLast {
         def dotFileName = 'project.dot'
         def dot = new File(rootProject.rootDir, dotFileName)
@@ -53,23 +55,44 @@ tasks.register('projectDependencyGraph') {
                 javaProjects.add(project)
             }
 
-            project.configurations.configureEach { config ->
+            project.configurations.each { config ->
                 if (config.name.toLowerCase().contains("test")) return
-                config.dependencies
-                        .withType(ProjectDependency)
-                        .collect { it.dependencyProject }
-                        .each { dependency ->
-                            projects.add(project)
-                            projects.add(dependency)
-                            rootProjects.remove(dependency)
+                try {
+                    config.dependencies
+                            .withType(ProjectDependency)
+                            .each { dep ->
+                                def dependency = null
+                                // For type-safe project accessors, use the path property
+                                try {
+                                    def path = dep.path ?: dep.dependencyProject?.path
+                                    if (path) {
+                                        dependency = rootProject.findProject(path)
+                                    }
+                                } catch (Exception e1) {
+                                    // Fallback: try to get dependencyProject directly
+                                    try {
+                                        dependency = dep.dependencyProject
+                                    } catch (Exception e2) {
+                                        // Skip this dependency
+                                    }
+                                }
 
-                            def graphKey = new Tuple2<Project, Project>(project, dependency)
-                            def traits = dependencies.computeIfAbsent(graphKey) { new ArrayList<String>() }
+                                if (dependency != null) {
+                                    projects.add(project)
+                                    projects.add(dependency)
+                                    rootProjects.remove(dependency)
 
-                            if (config.name.toLowerCase().endsWith('implementation')) {
-                                traits.add('style=dotted')
+                                    def graphKey = new Tuple2<Project, Project>(project, dependency)
+                                    def traits = dependencies.computeIfAbsent(graphKey) { new ArrayList<String>() }
+
+                                    if (config.name.toLowerCase().endsWith('implementation')) {
+                                        traits.add('style=dotted')
+                                    }
+                                }
                             }
-                        }
+                } catch (Exception ignored) {
+                    // Skip configurations that cannot be processed
+                }
             }
         }
 
