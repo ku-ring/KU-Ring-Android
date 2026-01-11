@@ -18,7 +18,7 @@ import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.setting.SettingViewModel
 import com.ku_stacks.ku_ring.main.setting.compose.inner_screen.SettingScreen
-import com.ku_stacks.ku_ring.ui_util.showToast
+import com.ku_stacks.ku_ring.util.showToast
 
 // TODO: 향후 compose 완전 migration 시 사용
 @Composable

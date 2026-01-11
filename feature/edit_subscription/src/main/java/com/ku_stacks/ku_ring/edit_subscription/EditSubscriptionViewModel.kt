@@ -9,7 +9,7 @@ import com.ku_stacks.ku_ring.edit_subscription.uimodel.DepartmentSubscriptionUiM
 import com.ku_stacks.ku_ring.edit_subscription.uimodel.NormalSubscriptionUiModel
 import com.ku_stacks.ku_ring.notice.repository.NoticeRepository
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
-import com.ku_stacks.ku_ring.thirdparty.firebase.analytics.EventAnalytics
+import com.ku_stacks.ku_ring.firebase.analytics.EventAnalytics
 import com.ku_stacks.ku_ring.util.WordConverter
 import com.ku_stacks.ku_ring.util.modifyList
 import com.ku_stacks.ku_ring.util.modifyMap

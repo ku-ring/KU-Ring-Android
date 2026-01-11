@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.ku_stacks.ku_ring.designsystem.components.NoticeItem
+import com.ku_stacks.ku_ring.ui.notice.NoticeItem
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.main.search.compose.SearchState

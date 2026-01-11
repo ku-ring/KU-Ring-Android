@@ -9,8 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.ui_util.TransitionType
-import com.ku_stacks.ku_ring.ui_util.setActivityTransition
+import com.ku_stacks.ku_ring.util.TransitionType
+import com.ku_stacks.ku_ring.util.setActivityTransition
 
 class NotionViewActivity : AppCompatActivity() {
 

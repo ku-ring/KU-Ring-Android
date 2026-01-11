@@ -9,6 +9,5 @@ android {
 }
 
 dependencies {
-    implementation(projects.data.domain)
     implementation(libs.bundles.compose.interop)
 }

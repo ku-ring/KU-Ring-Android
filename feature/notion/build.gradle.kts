@@ -10,6 +10,6 @@ android {
 }
 
 dependencies {
-    implementation(projects.core.uiUtil)
+    implementation(projects.core.util)
     implementation(projects.core.designsystem)
 }

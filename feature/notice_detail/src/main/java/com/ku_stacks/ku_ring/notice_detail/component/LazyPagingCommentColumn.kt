@@ -30,7 +30,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
-import com.ku_stacks.ku_ring.designsystem.components.comment.Comment
+import com.ku_stacks.ku_ring.ui.comment.Comment
 import com.ku_stacks.ku_ring.designsystem.components.indicator.PagingLoadingIndicator
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard

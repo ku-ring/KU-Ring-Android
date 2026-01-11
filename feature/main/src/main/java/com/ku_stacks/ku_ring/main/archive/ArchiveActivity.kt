@@ -11,9 +11,9 @@ import com.ku_stacks.ku_ring.main.R.anim.anim_slide_left_exit
 import com.ku_stacks.ku_ring.main.R.anim.anim_slide_right_enter
 import com.ku_stacks.ku_ring.main.R.anim.anim_stay_exit
 import com.ku_stacks.ku_ring.main.archive.compose.ArchiveScreen
-import com.ku_stacks.ku_ring.thirdparty.compose.KuringCompositionLocalProvider
-import com.ku_stacks.ku_ring.ui_util.TransitionType
-import com.ku_stacks.ku_ring.ui_util.setActivityTransition
+import com.ku_stacks.ku_ring.compose.locals.KuringCompositionLocalProvider
+import com.ku_stacks.ku_ring.util.TransitionType
+import com.ku_stacks.ku_ring.util.setActivityTransition
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

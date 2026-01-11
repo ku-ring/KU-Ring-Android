@@ -11,7 +11,7 @@ import com.ku_stacks.ku_ring.feedback.feedback.FeedbackViewModel
 import com.ku_stacks.ku_ring.feedback.util.MainDispatcherRule
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.testutil.MockUtil
-import com.ku_stacks.ku_ring.thirdparty.firebase.analytics.EventAnalytics
+import com.ku_stacks.ku_ring.firebase.analytics.EventAnalytics
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
