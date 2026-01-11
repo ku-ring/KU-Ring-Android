@@ -1,6 +1,8 @@
 // from: https://github.com/DroidKaigi/conference-app-2021/blob/main/gradle/dependencyGraph.gradle
 // from: https://github.com/JakeWharton/SdkSearch/blob/3351cad9bfacb0a364858e843774147143f58c7a/gradle/projectDependencyGraph.gradle
 tasks.register('projectDependencyGraph') {
+    notCompatibleWithConfigurationCache("This task accesses project model at execution time")
+
     doLast {
         def dotFileName = 'project.dot'
         def dot = new File(rootProject.rootDir, dotFileName)
@@ -53,23 +55,31 @@ tasks.register('projectDependencyGraph') {
                 javaProjects.add(project)
             }
 
-            project.configurations.configureEach { config ->
+            project.configurations.each { config ->
                 if (config.name.toLowerCase().contains("test")) return
-                config.dependencies
-                        .withType(ProjectDependency)
-                        .collect { it.dependencyProject }
-                        .each { dependency ->
-                            projects.add(project)
-                            projects.add(dependency)
-                            rootProjects.remove(dependency)
+                try {
+                    config.dependencies
+                            .withType(ProjectDependency)
+                            .each { dep ->
+                                def dependency = dep.dependencyProject
+                                if (dependency == null) {
+                                    return
+                                }
 
-                            def graphKey = new Tuple2<Project, Project>(project, dependency)
-                            def traits = dependencies.computeIfAbsent(graphKey) { new ArrayList<String>() }
+                                projects.add(project)
+                                projects.add(dependency)
+                                rootProjects.remove(dependency)
 
-                            if (config.name.toLowerCase().endsWith('implementation')) {
-                                traits.add('style=dotted')
+                                def graphKey = new Tuple2<Project, Project>(project, dependency)
+                                def traits = dependencies.computeIfAbsent(graphKey) { new ArrayList<String>() }
+
+                                if (config.name.toLowerCase().endsWith('implementation')) {
+                                    traits.add('style=dotted')
+                                }
                             }
-                        }
+                } catch (Exception e) {
+                    logger.debug("Skipped configuration '${config.name}' in project '${project.path}': ${e.message}")
+                }
             }
         }
 
