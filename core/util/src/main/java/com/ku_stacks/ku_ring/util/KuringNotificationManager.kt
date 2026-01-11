@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.media.RingtoneManager
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
 
@@ -17,8 +18,10 @@ object KuringNotificationManager {
         intent: Intent,
         title: String?,
         body: String?,
+        @DrawableRes largeIconRes: Int,
+        @DrawableRes smallIconRes: Int,
     ) {
-        val notification = createNotification(context, intent, title, body)
+        val notification = createNotification(context, intent, title, body, largeIconRes, smallIconRes)
         sendNotification(context, notification, URL_NOTIFICATION)
     }
 
@@ -28,17 +31,26 @@ object KuringNotificationManager {
         type: String,
         title: String,
         body: String,
+        @DrawableRes largeIconRes: Int,
+        @DrawableRes smallIconRes: Int,
     ) {
-        val notification = createNotification(context, intent, title, body)
+        val notification = createNotification(context, intent, title, body, largeIconRes, smallIconRes)
         sendNotification(context, notification, CUSTOM_NOTIFICATION)
     }
 
-    fun showReengagementNotification(context: Context, intent: Intent) {
+    fun showReengagementNotification(
+        context: Context,
+        intent: Intent,
+        @DrawableRes largeIconRes: Int,
+        @DrawableRes smallIconRes: Int,
+    ) {
         val notification = createNotification(
             context = context,
             intent = intent,
             titleId = R.string.reengagement_title,
-            bodyId = R.string.reengagement_body
+            bodyId = R.string.reengagement_body,
+            largeIconRes = largeIconRes,
+            smallIconRes = smallIconRes
         )
         sendNotification(context, notification, REENGAGEMENT_NOTIFICATION)
     }
@@ -47,9 +59,11 @@ object KuringNotificationManager {
         context: Context,
         intent: Intent,
         title: String,
-        body: String
+        body: String,
+        @DrawableRes largeIconRes: Int,
+        @DrawableRes smallIconRes: Int,
     ) {
-        val notification = createNotification(context, intent, title, body)
+        val notification = createNotification(context, intent, title, body, largeIconRes, smallIconRes)
         sendNotification(context, notification, ACADEMIC_EVENT_NOTIFICATION)
     }
 
@@ -57,13 +71,17 @@ object KuringNotificationManager {
         context: Context,
         intent: Intent,
         @StringRes titleId: Int,
-        @StringRes bodyId: Int
+        @StringRes bodyId: Int,
+        @DrawableRes largeIconRes: Int,
+        @DrawableRes smallIconRes: Int,
     ): Notification {
         return createNotification(
             context = context,
             intent = intent,
             title = context.resources.getText(titleId).toString(),
             body = context.resources.getText(bodyId).toString(),
+            largeIconRes = largeIconRes,
+            smallIconRes = smallIconRes
         )
     }
 
@@ -72,6 +90,8 @@ object KuringNotificationManager {
         intent: Intent,
         title: String?,
         body: String?,
+        @DrawableRes largeIconRes: Int,
+        @DrawableRes smallIconRes: Int,
     ): Notification {
         val pendingIntent = PendingIntent.getActivity(
             context,
@@ -85,10 +105,10 @@ object KuringNotificationManager {
             .setLargeIcon(
                 BitmapFactory.decodeResource(
                     context.resources,
-                    R.drawable.ic_notification
+                    largeIconRes
                 )
             )
-            .setSmallIcon(R.drawable.ic_status_bar)
+            .setSmallIcon(smallIconRes)
             .setContentTitle(title)
             .setContentText(body)
             .setSound(defaultSound)

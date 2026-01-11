@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.ui_util
+package com.ku_stacks.ku_ring.util
 
 import android.app.Activity
 import android.app.Activity.OVERRIDE_TRANSITION_CLOSE
@@ -23,6 +23,7 @@ fun Activity.setActivityTransition(
         }
         overrideActivityTransition(overrideType, enterAnim, exitAnim)
     } else {
+        @Suppress("DEPRECATION")
         overridePendingTransition(enterAnim, exitAnim)
     }
 }
