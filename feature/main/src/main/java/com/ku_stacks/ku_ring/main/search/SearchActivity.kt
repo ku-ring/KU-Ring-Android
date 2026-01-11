@@ -13,8 +13,8 @@ import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.mapper.toWebViewNotice
 import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.search.compose.SearchScreen
-import com.ku_stacks.ku_ring.compose_locals.KuringCompositionLocalProvider
-import com.ku_stacks.ku_ring.compose_locals.LocalNavigator
+import com.ku_stacks.ku_ring.compose.locals.KuringCompositionLocalProvider
+import com.ku_stacks.ku_ring.compose.locals.LocalNavigator
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

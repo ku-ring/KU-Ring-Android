@@ -44,7 +44,7 @@ import com.ku_stacks.ku_ring.designsystem.components.topbar.CenterTitleTopBar
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 import com.ku_stacks.ku_ring.notice_detail.R
-import com.ku_stacks.ku_ring.compose_util.keyboard.rememberKeyboardVisibilityState
+import com.ku_stacks.ku_ring.compose.utils.keyboard.rememberKeyboardVisibilityState
 import com.ku_stacks.ku_ring.util.showToast
 import kotlinx.coroutines.launch
 

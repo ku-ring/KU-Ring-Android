@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.compose_util.keyboard
+package com.ku_stacks.ku_ring.compose.utils.keyboard
 
 import android.view.ViewTreeObserver
 import androidx.compose.runtime.Composable

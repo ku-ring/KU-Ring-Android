@@ -10,10 +10,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.onboarding.compose.OnboardingScreen
-import com.ku_stacks.ku_ring.compose_locals.KuringCompositionLocalProvider
-import com.ku_stacks.ku_ring.compose_locals.LocalAnalytics
-import com.ku_stacks.ku_ring.compose_locals.LocalNavigator
-import com.ku_stacks.ku_ring.compose_locals.LocalPreferences
+import com.ku_stacks.ku_ring.compose.locals.KuringCompositionLocalProvider
+import com.ku_stacks.ku_ring.compose.locals.LocalAnalytics
+import com.ku_stacks.ku_ring.compose.locals.LocalNavigator
+import com.ku_stacks.ku_ring.compose.locals.LocalPreferences
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.compose_locals.di
+package com.ku_stacks.ku_ring.compose.locals.di
 
 import androidx.compose.runtime.staticCompositionLocalOf
 import com.ku_stacks.ku_ring.firebase.analytics.EventAnalytics

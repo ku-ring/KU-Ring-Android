@@ -43,7 +43,7 @@ import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 import com.ku_stacks.ku_ring.feedback.R
 import com.ku_stacks.ku_ring.feedback.feedback.FeedbackTextStatus
 import com.ku_stacks.ku_ring.feedback.feedback.FeedbackViewModel
-import com.ku_stacks.ku_ring.compose_util.keyboard.rememberKeyboardVisibilityState
+import com.ku_stacks.ku_ring.compose.utils.keyboard.rememberKeyboardVisibilityState
 
 @Composable
 fun FeedbackScreen(

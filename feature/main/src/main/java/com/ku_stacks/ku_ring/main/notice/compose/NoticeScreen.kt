@@ -19,7 +19,7 @@ import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.main.notice.compose.components.KuringBotFab
 import com.ku_stacks.ku_ring.main.notice.compose.components.NoticeScreenHeader
 import com.ku_stacks.ku_ring.main.notice.compose.inner_screen.NoticeTabScreens
-import com.ku_stacks.ku_ring.compose_locals.LocalNavigator
+import com.ku_stacks.ku_ring.compose.locals.LocalNavigator
 
 @Composable
 internal fun NoticeScreen(

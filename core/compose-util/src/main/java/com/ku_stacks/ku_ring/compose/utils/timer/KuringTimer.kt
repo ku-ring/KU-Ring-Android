@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.compose_util.timer
+package com.ku_stacks.ku_ring.compose.utils.timer
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf

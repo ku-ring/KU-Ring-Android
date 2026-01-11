@@ -8,7 +8,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.compose_util.timer.KuringTimer
+import com.ku_stacks.ku_ring.compose.utils.timer.KuringTimer
 
 @Composable
 internal fun CodeTimer(
