@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.R as DesignR
 import com.ku_stacks.ku_ring.library.compose.LibrarySeatScreen
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -38,11 +39,11 @@ class LibrarySeatActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             overrideActivityTransition(
                 OVERRIDE_TRANSITION_CLOSE,
-                R.anim.anim_slide_left_enter,
-                R.anim.anim_slide_left_exit
+                DesignR.anim.anim_slide_left_enter,
+                DesignR.anim.anim_slide_left_exit
             )
         } else {
-            overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
+            overridePendingTransition(DesignR.anim.anim_slide_left_enter, DesignR.anim.anim_slide_left_exit)
         }
     }
 
@@ -99,11 +100,11 @@ class LibrarySeatActivity : AppCompatActivity() {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
                     overrideActivityTransition(
                         OVERRIDE_TRANSITION_OPEN,
-                        R.anim.anim_slide_right_enter,
-                        R.anim.anim_stay_exit
+                        DesignR.anim.anim_slide_right_enter,
+                        DesignR.anim.anim_stay_exit
                     )
                 } else {
-                    overridePendingTransition(R.anim.anim_slide_right_enter, R.anim.anim_stay_exit)
+                    overridePendingTransition(DesignR.anim.anim_slide_right_enter, DesignR.anim.anim_stay_exit)
                 }
             }
         }

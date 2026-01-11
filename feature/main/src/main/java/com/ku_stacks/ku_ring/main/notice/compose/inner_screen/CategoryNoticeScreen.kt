@@ -20,7 +20,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.ku_stacks.ku_ring.designsystem.components.LazyPagingNoticeItemColumn
+import com.ku_stacks.ku_ring.ui.notice.LazyPagingNoticeItemColumn
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.main.notice.CategoryNoticeViewModel
 

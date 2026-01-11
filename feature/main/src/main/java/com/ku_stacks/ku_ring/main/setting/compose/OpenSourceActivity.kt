@@ -13,8 +13,8 @@ import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.setting.compose.inner_screen.OpenSourceScreen
 import com.ku_stacks.ku_ring.navigation.KuringNavigator
-import com.ku_stacks.ku_ring.thirdparty.compose.KuringCompositionLocalProvider
-import com.ku_stacks.ku_ring.thirdparty.di.LocalNavigator
+import com.ku_stacks.ku_ring.compose.locals.KuringCompositionLocalProvider
+import com.ku_stacks.ku_ring.compose.locals.LocalNavigator
 import dagger.hilt.android.AndroidEntryPoint
 
 // TODO: compose 완전 migration 및 메인 화면 navigation 통합 후 삭제 예정

@@ -4,6 +4,9 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import timber.log.Timber
@@ -23,5 +26,19 @@ fun Context.navigateToExternalBrowser(url: String) = try {
     val intent = Intent(Intent.ACTION_VIEW, url.toUri())
     startActivity(intent)
 } catch (e: ActivityNotFoundException) {
-    Timber.e(e.printStackTrace().toString())
+    Timber.e(e)
+}
+
+fun Context.showToast(msg: String) =
+    Toast.makeText(applicationContext, msg, Toast.LENGTH_SHORT).show()
+
+fun Context.showToast(@StringRes id: Int) = showToast(getString(id))
+
+fun Context.getAppVersionName(): String {
+    return try {
+        val info = this.packageManager?.getPackageInfo(this.packageName, 0)
+        info?.versionName
+    } catch (e: PackageManager.NameNotFoundException) {
+        ""
+    } ?: ""
 }

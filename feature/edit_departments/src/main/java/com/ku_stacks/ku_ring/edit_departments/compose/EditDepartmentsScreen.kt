@@ -28,9 +28,9 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ku_stacks.ku_ring.designsystem.components.DarkPreview
-import com.ku_stacks.ku_ring.designsystem.components.DepartmentWithAddIcon
-import com.ku_stacks.ku_ring.designsystem.components.DepartmentWithCheckIcon
-import com.ku_stacks.ku_ring.designsystem.components.DepartmentWithDeleteIcon
+import com.ku_stacks.ku_ring.ui.department.DepartmentWithAddIcon
+import com.ku_stacks.ku_ring.ui.department.DepartmentWithCheckIcon
+import com.ku_stacks.ku_ring.ui.department.DepartmentWithDeleteIcon
 import com.ku_stacks.ku_ring.designsystem.components.LargeTopAppBar
 import com.ku_stacks.ku_ring.designsystem.components.LightPreview
 import com.ku_stacks.ku_ring.designsystem.components.SearchTextField

@@ -109,7 +109,7 @@
         </provider>
 
         <service
-            android:name="com.ku_stacks.ku_ring.thirdparty.firebase.MyFireBaseMessagingService"
+            android:name="com.ku_stacks.ku_ring.firebase.messaging.KuringMessagingService"
             android:enabled="true"
             android:exported="false"
             android:stopWithTask="false">

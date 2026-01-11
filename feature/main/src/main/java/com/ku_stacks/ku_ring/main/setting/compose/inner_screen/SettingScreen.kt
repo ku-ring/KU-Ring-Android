@@ -49,7 +49,7 @@ import com.ku_stacks.ku_ring.main.setting.compose.groups.InformationGroup
 import com.ku_stacks.ku_ring.main.setting.compose.groups.ProfileGroup
 import com.ku_stacks.ku_ring.main.setting.compose.groups.SocialNetworkServiceGroup
 import com.ku_stacks.ku_ring.main.setting.compose.groups.SubscribeGroup
-import com.ku_stacks.ku_ring.ui_util.getAppVersionName
+import com.ku_stacks.ku_ring.util.getAppVersionName
 
 @Composable
 internal fun SettingScreen(

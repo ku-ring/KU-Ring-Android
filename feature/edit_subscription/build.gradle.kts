@@ -10,8 +10,9 @@ android {
 dependencies {
     implementation(projects.core.util)
     implementation(projects.core.designsystem)
-    implementation(projects.core.uiUtil)
-    implementation(projects.core.thirdparty)
+    implementation(projects.core.ui)
+    implementation(projects.core.composeLocals)
+    implementation(projects.core.firebaseAnalytics)
     implementation(projects.core.preferences)
     implementation(projects.data.domain)
     implementation(projects.data.department)
