@@ -12,8 +12,8 @@ android {
 dependencies {
     implementation(projects.core.designsystem)
     implementation(projects.core.util)
-    implementation(projects.core.uiUtil)
-    implementation(projects.core.thirdparty)
+    implementation(projects.core.firebaseMessaging)
+    implementation(projects.core.composeLocals)
     implementation(projects.core.preferences)
     implementation(projects.core.work)
     implementation(projects.data.space)

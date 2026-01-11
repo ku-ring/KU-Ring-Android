@@ -6,6 +6,7 @@ import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.ku_stacks.ku_ring.navigation.KuringNavigator
 import com.ku_stacks.ku_ring.util.KuringNotificationManager
+import com.ku_stacks.ku_ring.designsystem.R as DesignR
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
@@ -18,7 +19,12 @@ class ReEngagementNotificationWork @AssistedInject constructor(
 
     override fun doWork(): Result {
         val intent = navigator.createMainIntent(applicationContext)
-        KuringNotificationManager.showReengagementNotification(applicationContext, intent)
+        KuringNotificationManager.showReengagementNotification(
+            applicationContext,
+            intent,
+            largeIconRes = DesignR.drawable.ic_notification,
+            smallIconRes = DesignR.drawable.ic_status_bar
+        )
         return Result.success()
     }
 

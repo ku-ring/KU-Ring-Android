@@ -45,7 +45,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.ku_stacks.ku_ring.department.UnsupportedDepartmentUtil
 import com.ku_stacks.ku_ring.designsystem.components.KuringCallToAction
-import com.ku_stacks.ku_ring.designsystem.components.LazyPagingNoticeItemColumn
+import com.ku_stacks.ku_ring.ui.notice.LazyPagingNoticeItemColumn
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 import com.ku_stacks.ku_ring.domain.Department

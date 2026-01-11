@@ -21,14 +21,24 @@ dependencyResolutionManagement {
 rootProject.name = "KURing"
 include(
     ":app",
+    // core modules
     ":core:util",
-    ":core:ui_util",
+    ":core:compose-util",
+    ":core:ui",
+    ":core:designsystem",
+    ":core:preferences",
+    ":core:work",
+    ":core:testUtil",
+    ":core:firebase-analytics",
+    ":core:firebase-crashlytics",
+    ":core:firebase-messaging",
+    ":core:compose-locals",
+    // data modules
     ":data:domain",
     ":data:domain:testUtils",
     ":data:notice",
     ":data:notice:test",
     ":data:noticecomment",
-    ":core:preferences",
     ":data:academicevent",
     ":data:ai",
     ":data:user",
@@ -44,15 +54,14 @@ include(
     ":data:space",
     ":data:search",
     ":data:verification",
+    // domain modules
     ":domain:user",
     ":domain:noticecomment",
     ":domain:report",
     ":domain:academicevent",
     ":domain:place",
     ":domain:navigation",
-    ":core:thirdparty",
-    ":core:work",
-    ":core:testUtil",
+    // feature modules
     ":feature:auth",
     ":feature:edit_subscription",
     ":feature:feedback",
@@ -62,7 +71,6 @@ include(
     ":feature:onboarding",
     ":feature:splash",
     ":feature:main",
-    ":core:designsystem",
     ":feature:kuringbot",
     ":feature:edit_departments",
 )

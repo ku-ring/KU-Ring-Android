@@ -28,7 +28,7 @@ import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 import com.ku_stacks.ku_ring.domain.Department
 import com.ku_stacks.ku_ring.onboarding.R
 import com.ku_stacks.ku_ring.onboarding.compose.OnboardingViewModel
-import com.ku_stacks.ku_ring.ui_util.preview_data.previewDepartments
+import com.ku_stacks.ku_ring.ui.preview.previewDepartments
 
 @Composable
 internal fun ConfirmDepartmentScreen(

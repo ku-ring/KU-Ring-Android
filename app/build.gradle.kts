@@ -77,8 +77,10 @@ android {
 
 dependencies {
     implementation(projects.core.util)
-    implementation(projects.core.uiUtil)
-    implementation(projects.core.thirdparty)
+    implementation(projects.core.firebaseAnalytics)
+    implementation(projects.core.firebaseCrashlytics)
+    implementation(projects.core.firebaseMessaging)
+    implementation(projects.core.composeLocals)
     implementation(projects.core.work)
     implementation(projects.data.domain)
     implementation(projects.data.noticecomment)

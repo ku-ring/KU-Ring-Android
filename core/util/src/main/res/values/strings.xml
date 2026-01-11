@@ -1,0 +1,11 @@
+<resources>
+    <!-- re-engagement notification -->
+    <string name="reengagement_title">공지를 일주일 이상 확인하지 않았어요!</string>
+    <string name="reengagement_body">놓친 공지가 있는지 확인해보세요</string>
+
+    <!-- navigator -->
+    <string name="navigator_notice_screen">공지사항</string>
+    <string name="navigator_academic_calendar_screen">학사일정</string>
+    <string name="navigator_campus_map_screen">캠퍼스맵</string>
+    <string name="navigator_setting_screen">더보기</string>
+</resources>
