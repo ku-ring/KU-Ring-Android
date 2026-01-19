@@ -50,7 +50,7 @@ desugarJdk = "2.1.5"
 # Test
 androidx-espresso = "3.7.0"
 android-junit5 = "1.14.0.0"
-junit5 = "6.0.1"
+junit5 = "6.0.2"
 
 # Third Party
 coil = '2.7.0'
