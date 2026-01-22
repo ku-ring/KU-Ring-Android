@@ -17,7 +17,7 @@ versionCode = "20402"
 # app-level dependency
 # Kotlin
 kotlinx-coroutines = '1.10.2'
-kotlinx-serialization-json = "1.9.0"
+kotlinx-serialization-json = "1.10.0"
 kotlinx-datetime = "0.7.1"
 kotlinx-immutable = "0.4.0"
 
