@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -28,6 +29,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.ku_stacks.ku_ring.compose.locals.KuringCompositionLocalProvider
+import com.ku_stacks.ku_ring.compose.locals.LocalNavigator
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.main.calendar.compose.AcademicCalendarScreen
 import com.ku_stacks.ku_ring.main.campusmap.compose.CampusMapScreen
@@ -37,8 +40,6 @@ import com.ku_stacks.ku_ring.main.setting.compose.OpenSourceActivity
 import com.ku_stacks.ku_ring.main.setting.compose.inner_screen.SettingScreen
 import com.ku_stacks.ku_ring.navigation.KuringNavigator
 import com.ku_stacks.ku_ring.navigation.MainScreenRoute
-import com.ku_stacks.ku_ring.compose.locals.KuringCompositionLocalProvider
-import com.ku_stacks.ku_ring.compose.locals.LocalNavigator
 import com.ku_stacks.ku_ring.util.showToast
 
 @Composable
@@ -110,7 +111,8 @@ private fun MainScreenRoute.screenOrder() =
         is MainScreenRoute.Notice -> 0
         is MainScreenRoute.Calendar -> 1
         is MainScreenRoute.CampusMap -> 2
-        is MainScreenRoute.Settings -> 3
+        is MainScreenRoute.Club -> 3
+        is MainScreenRoute.Settings -> 4
     }
 
 private fun slideDirection(
@@ -174,6 +176,10 @@ fun NavGraphBuilder.mainScreenNavGraph(
                 navigator.navigateToLibrarySeat(activity)
             }
         )
+    }
+    composable<MainScreenRoute.Club> {
+        // TODO by mwy3055: implement club screen
+        Text("Club!")
     }
     composable<MainScreenRoute.Settings> {
         // TODO by mwy3055: SettingScreen 내부도 navigation으로 migrate해야 함

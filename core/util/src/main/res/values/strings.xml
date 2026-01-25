@@ -7,5 +7,6 @@
     <string name="navigator_notice_screen">공지사항</string>
     <string name="navigator_academic_calendar_screen">학사일정</string>
     <string name="navigator_campus_map_screen">캠퍼스맵</string>
+    <string name="navigator_club_screen">동아리</string>
     <string name="navigator_setting_screen">더보기</string>
 </resources>
