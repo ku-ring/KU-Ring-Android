@@ -136,6 +136,12 @@ data class MainScreenNavigationBarItem(
                     labelId = R.string.navigator_campus_map_screen,
                 )
 
+                MainScreenRoute.Club -> MainScreenNavigationBarItem(
+                    selectedIconId = R.drawable.ic_club_filled_v2,
+                    unselectedIconId = R.drawable.ic_club_v2,
+                    labelId = R.string.navigator_club_screen,
+                )
+
                 MainScreenRoute.Settings -> MainScreenNavigationBarItem(
                     selectedIconId = R.drawable.ic_more_horizontal_fill_v2,
                     unselectedIconId = R.drawable.ic_more_horizontal_v2,
