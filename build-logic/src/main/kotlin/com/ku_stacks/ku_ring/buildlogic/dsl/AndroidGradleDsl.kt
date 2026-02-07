@@ -1,13 +1,12 @@
 package com.ku_stacks.ku_ring.buildlogic.dsl
 
-import com.android.build.gradle.LibraryExtension
-import com.android.build.gradle.TestedExtension
+import com.android.build.api.dsl.CommonExtension
+import com.android.build.api.dsl.LibraryExtension
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.getByType
 
-fun Project.android(action: TestedExtension.() -> Unit) {
-    extensions.configure(action)
-}
+internal fun Project.androidExtension(): CommonExtension =
+    extensions.getByType(CommonExtension::class)
 
 fun LibraryExtension.setNameSpace(nameSpace: String) {
     namespace = "com.ku_stacks.ku_ring.${nameSpace}"

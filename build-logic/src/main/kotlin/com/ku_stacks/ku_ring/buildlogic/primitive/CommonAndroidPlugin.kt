@@ -1,18 +1,17 @@
 package com.ku_stacks.ku_ring.buildlogic.primitive
 
-import com.android.build.gradle.BaseExtension
+import com.ku_stacks.ku_ring.buildlogic.dsl.androidExtension
 import com.ku_stacks.ku_ring.buildlogic.dsl.implementation
 import com.ku_stacks.ku_ring.buildlogic.dsl.library
 import com.ku_stacks.ku_ring.buildlogic.dsl.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.getByType
 
 class CommonAndroidPlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
-        extensions.getByType<BaseExtension>().apply {
-            defaultConfig {
+        androidExtension().apply {
+            defaultConfig.apply {
                 testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
             }
             buildFeatures.apply {
