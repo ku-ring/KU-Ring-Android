@@ -91,7 +91,6 @@ val item = ClubCategoryItemState(
 @LightAndDarkPreview
 @Composable
 private fun ClubCategoryItemPreview() {
-
     KuringTheme {
         Column(
             verticalArrangement = Arrangement.spacedBy(8.dp),
