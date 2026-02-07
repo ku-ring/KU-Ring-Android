@@ -56,6 +56,7 @@ class ClubOnboardingViewModel @Inject constructor(
                 categoryName = R.string.category_culture_art,
                 description = R.string.description_culture_art,
                 categoryId = "culture_art",
+                // TODO: 아이콘 새로 만들어지면 바꾸기
                 iconId = R.drawable.ic_academic_v2,
             ),
             ClubCategoryItemState(

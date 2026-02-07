@@ -9,7 +9,6 @@ plugins {
 
 android {
     setNameSpace("club")
-    namespace = "com.ku_stacks.ku_ring.club"
 }
 
 dependencies {
