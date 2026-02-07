@@ -18,12 +18,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.ku_stacks.ku_ring.club.R
 import com.ku_stacks.ku_ring.club.onboarding.components.ClubCategoryItem
+import com.ku_stacks.ku_ring.club.onboarding.components.ClubCategoryItemPreviewParameterProvider
 import com.ku_stacks.ku_ring.club.onboarding.components.ClubCategoryItemState
-import com.ku_stacks.ku_ring.club.onboarding.components.item
 import com.ku_stacks.ku_ring.designsystem.components.KuringCallToAction
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.components.topbar.CenterTitleTopBar
@@ -146,7 +147,9 @@ private fun ClubOnboardingActions(
 
 @LightAndDarkPreview
 @Composable
-private fun ClubOnboardingScreenPreview() {
+private fun ClubOnboardingScreenPreview(
+    @PreviewParameter(ClubCategoryItemPreviewParameterProvider::class) item: ClubCategoryItemState,
+) {
     var selectedItemIndex by remember { mutableIntStateOf(0) }
     val items = (0..3).map { item }
     KuringTheme {

@@ -22,8 +22,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import com.ku_stacks.ku_ring.club.R
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 
@@ -81,16 +81,11 @@ fun ClubCategoryItem(
     }
 }
 
-val item = ClubCategoryItemState(
-    categoryName = R.string.category_academic,
-    description = R.string.description_academic,
-    categoryId = "",
-    iconId = R.drawable.ic_academic_v2,
-)
-
 @LightAndDarkPreview
 @Composable
-private fun ClubCategoryItemPreview() {
+private fun ClubCategoryItemPreview(
+    @PreviewParameter(ClubCategoryItemPreviewParameterProvider::class) item: ClubCategoryItemState,
+) {
     KuringTheme {
         Column(
             verticalArrangement = Arrangement.spacedBy(8.dp),
