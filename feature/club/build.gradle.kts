@@ -14,8 +14,10 @@ android {
 
 dependencies {
     implementation(projects.core.designsystem)
+    implementation(projects.core.preferences)
     implementation(projects.core.ui)
     implementation(projects.data.domain)
 
     implementation(libs.bundles.compose.interop)
+    implementation(libs.kotlinx.immutable)
 }

@@ -27,6 +27,31 @@ import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
 
 /**
+ * 제목만을 보여주는 최상단 바이다.
+ * navigation과 action 없이 제목만 보여줄 때 사용한다.
+ *
+ * @param title 표시할 제목 텍스트
+ * @param modifier 적용할 [Modifier]
+ */
+@Composable
+fun CenterTitleTopBar(
+    title: String,
+    modifier: Modifier = Modifier,
+) {
+    CenterTitleTopBar(
+        title = title,
+        modifier = modifier,
+        navigation = null,
+        onNavigationClick = null,
+        navigationClickLabel = null,
+        navigationContentColor = KuringTheme.colors.textBody,
+        action = {},
+        onActionClick = null,
+        actionClickLabel = null,
+    )
+}
+
+/**
  * 제목과 내비게이션 아이콘, 액션 텍스트를 보여주는 최상단 바이다.
  * 액션을 텍스트로 표시하고자 할 때 사용하는 composable이다.
  *
