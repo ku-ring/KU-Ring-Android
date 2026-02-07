@@ -13,4 +13,5 @@ dependencies {
     implementation(projects.data.domain)
     implementation(libs.bundles.compose.interop)
     implementation(libs.androidx.paging.compose)
+    implementation(libs.kotlinx.datetime)
 }
