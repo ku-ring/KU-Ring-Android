@@ -14,9 +14,10 @@ import kotlinx.datetime.LocalDateTime
  * @property applyQualification 동아리 가입 조건 (없으면 `null`)
  * @property recruitment 동아리 모집 정보 (없으면 `null`)
  * @property webUrl 동아리 웹사이트 URL (없으면 `null`)
- * @property posterImageUrl 동아리 로고 URL (없으면 `null`)
+ * @property posterImageUrl 동아리 포스터 URL (없으면 `null`)
  * @property descriptionImageUrl 동아리 소개 본문에 포함될 홍보 이미지/포스터 URL 목록 (없으면 `null`)
  * @property isSubscribed 동아리 구독 여부
+ * @property subscribeCount 동아리 구독자 수
  */
 data class Club(
     val id: Int,
@@ -37,7 +38,7 @@ data class Club(
 )
 
 /**
- * 쿠링에서 분류하는 4가지 동아리 카테고리
+ * 쿠링에서 분류하는 5가지 동아리 카테고리
  */
 enum class ClubCategory(
     val koreanName: String,
@@ -73,7 +74,7 @@ enum class ClubDivision(
     BUSINESS("경영대학"),
     REAL_ESTATE("부동산과학원"),
     KU_CONVERGENCE("KU융합과학기술원"),
-    SANGHUH_LIFE_SCIENCE("생명과학대학"),
+    SANGHUH_LIFE_SCIENCE("상허생명과학대학"),
     VETERINARY("수의과대학"),
     ART_DESIGN("예술디자인대학"),
     EDUCATION("사범대학"),
