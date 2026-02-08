@@ -10,15 +10,15 @@ interface VerificationService {
     @POST("v2/verification-code/signup")
     suspend fun sendVerificationCode(
         @Body request: SendCodeRequest,
-    ): DefaultResponse
+    ): DefaultResponse<Nothing>
 
     @POST("v2/verification-code/password-reset")
     suspend fun sendVerificationCodeForPasswordReset(
         @Body request: SendCodeRequest,
-    ): DefaultResponse
+    ): DefaultResponse<Nothing>
 
     @POST("v2/verification-code/verify")
     suspend fun verifyVerificationCode(
         @Body request: VerifyCodeRequest,
-    ): DefaultResponse
+    ): DefaultResponse<Nothing>
 }

@@ -13,7 +13,7 @@ class NoticeCommentClient @Inject constructor(
         noticeId: Int,
         parentCommentId: Int?,
         content: String,
-    ): DefaultResponse = noticeCommentService.createComment(
+    ): DefaultResponse<Nothing> = noticeCommentService.createComment(
         noticeId = noticeId,
         request = NoticeCommentCreateRequest(parentCommentId, content),
     )
@@ -22,7 +22,7 @@ class NoticeCommentClient @Inject constructor(
         noticeId: Int,
         commentId: Int,
         content: String,
-    ): DefaultResponse = noticeCommentService.editComment(
+    ): DefaultResponse<Nothing> = noticeCommentService.editComment(
         noticeId = noticeId,
         commentId = commentId,
         request = NoticeCommentEditRequest(content),
@@ -31,7 +31,7 @@ class NoticeCommentClient @Inject constructor(
     suspend fun deleteComment(
         noticeId: Int,
         commentId: Int,
-    ): DefaultResponse = noticeCommentService.deleteComment(
+    ): DefaultResponse<Nothing> = noticeCommentService.deleteComment(
         noticeId = noticeId,
         commentId = commentId,
     )
