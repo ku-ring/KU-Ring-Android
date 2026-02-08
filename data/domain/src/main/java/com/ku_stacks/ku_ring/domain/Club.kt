@@ -1,6 +1,8 @@
 package com.ku_stacks.ku_ring.domain
 
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.daysUntil
 
 /**
  * @property id 동아리 ID
@@ -120,3 +122,8 @@ data class ClubLocation(
     val latitude: Double?,
     val longitude: Double?,
 )
+
+fun Club.calculateDDay(today: LocalDate): Int? =
+    recruitment?.end?.date?.let { endDate ->
+        today.daysUntil(endDate)
+    }

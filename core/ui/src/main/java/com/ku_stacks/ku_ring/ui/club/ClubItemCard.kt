@@ -47,9 +47,9 @@ import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.utils.ensureLineHeight
 import com.ku_stacks.ku_ring.domain.Club
 import com.ku_stacks.ku_ring.domain.RecruitmentStatus
+import com.ku_stacks.ku_ring.domain.calculateDDay
 import com.ku_stacks.ku_ring.util.now
 import kotlinx.datetime.LocalDate
-import kotlinx.datetime.daysUntil
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -58,6 +58,7 @@ internal fun ClubItemCard(
     onInterestToggleClick: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
+    today: LocalDate = LocalDate.now(),
 ) {
     val isRecruitmentCompleted = club.recruitment?.recruitmentStatus == RecruitmentStatus.CLOSED
     val containerColor = if (isRecruitmentCompleted) {
@@ -71,9 +72,7 @@ internal fun ClubItemCard(
             club.category.koreanName,
             club.division.koreanName,
         )
-    val dDay = club.recruitment?.end?.date?.let { endDate ->
-        LocalDate.now().daysUntil(endDate)
-    } ?: 0
+    val dDay = club.calculateDDay(today) ?: 0
 
     Surface(
         modifier = modifier

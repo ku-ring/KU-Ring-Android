@@ -25,7 +25,7 @@ fun ClubDeadlineTag(
     dDay: Int,
     isRecruitmentCompleted: Boolean,
 ) {
-    val isNearDeadline = dDay < DEADLINE_THRESHOLD
+    val isNearDeadline = dDay <= DEADLINE_THRESHOLD
     val text =
         if (isRecruitmentCompleted) stringResource(club_card_tag_recruitment_complete)
         else stringResource(club_card_tag_d_day, dDay.toString())
