@@ -49,7 +49,7 @@ import com.ku_stacks.ku_ring.domain.Club
 import com.ku_stacks.ku_ring.domain.RecruitmentStatus
 import com.ku_stacks.ku_ring.util.now
 import kotlinx.datetime.LocalDate
-import kotlinx.datetime.minus
+import kotlinx.datetime.daysUntil
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -72,8 +72,7 @@ internal fun ClubItemCard(
             club.division.koreanName,
         )
     val dDay = club.recruitment?.end?.date?.let { endDate ->
-        val today = LocalDate.now()
-        endDate.minus(today).days
+        LocalDate.now().daysUntil(endDate)
     } ?: 0
 
     Surface(
