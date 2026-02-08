@@ -1,0 +1,20 @@
+<resources>
+    <!--  Category names  -->
+    <string name="category_academic">학술활동</string>
+    <string name="category_culture_art">문화예술</string>
+    <string name="category_social_value">사회가치</string>
+    <string name="category_activity">야외활동</string>
+
+    <!--  Category descriptions  -->
+    <string name="description_academic">자연과학분과, 인문학술분과</string>
+    <string name="description_culture_art">전시문예분과, 공연예술분과</string>
+    <string name="description_social_value">사회분과, 봉사분과, 종교분과</string>
+    <string name="description_activity">구기체육분과, 레저무예분과</string>
+
+    <!--  Onboarding screen strings  -->
+    <string name="club_onboarding_topbar_title">동아리</string>
+    <string name="club_onboarding_title">어떤 동아리를 찾고 있나요?</string>
+    <string name="club_onboarding_description">관심있는 카테고리의 동아리를 탐색해보아요</string>
+    <string name="club_onboarding_cta">확인</string>
+    <string name="club_onboarding_dismiss">건너뛰기</string>
+</resources>

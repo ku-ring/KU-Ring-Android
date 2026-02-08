@@ -99,6 +99,7 @@ dependencies {
     implementation(projects.feature.kuringbot)
     implementation(projects.feature.library)
     implementation(projects.feature.auth)
+    implementation(projects.feature.club)
 
     implementation(libs.androidx.startup.runtime)
     testImplementation(libs.kotlinx.coroutines.test)
