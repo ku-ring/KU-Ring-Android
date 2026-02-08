@@ -9,5 +9,5 @@ interface ReportService {
     @POST("v2/reports")
     suspend fun report(
         @Body reportBody: ReportRequest,
-    ): DefaultResponse
+    ): DefaultResponse<Nothing>
 }
