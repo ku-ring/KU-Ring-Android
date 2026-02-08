@@ -123,6 +123,9 @@ data class ClubLocation(
     val longitude: Double?,
 )
 
+/**
+ * 기준 날짜로부터 동아리 모집 마감일 사이의 남은 일수를 계산한다.
+ */
 fun Club.calculateDDay(today: LocalDate): Int? =
     recruitment?.end?.date?.let { endDate ->
         today.daysUntil(endDate)
