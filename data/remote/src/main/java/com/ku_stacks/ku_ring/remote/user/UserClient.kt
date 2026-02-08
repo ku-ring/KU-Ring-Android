@@ -15,19 +15,19 @@ class UserClient @Inject constructor(
 ) {
     suspend fun setAcademicEventNotification(
         request: AcademicEventNotificationRequest,
-    ): DefaultResponse = userService.patchAcademicEventNotification(request)
+    ): DefaultResponse<Nothing> = userService.patchAcademicEventNotification(request)
 
     suspend fun sendFeedback(
         token: String,
         feedbackRequest: FeedbackRequest,
-    ): DefaultResponse {
+    ): DefaultResponse<Nothing> {
         return userService.sendFeedback(
             token = token,
             feedbackRequest = feedbackRequest
         )
     }
 
-    suspend fun registerUser(token: String): DefaultResponse =
+    suspend fun registerUser(token: String): DefaultResponse<Nothing> =
         userService.registerUser(RegisterUserRequest(token))
 
     suspend fun getKuringBotQueryCount(token: String): Int {
@@ -39,7 +39,7 @@ class UserClient @Inject constructor(
     suspend fun getUserData(): UserDataResponse =
         userService.getUserData()
 
-    suspend fun signUp(token: String, request: AuthorizeUserRequest): DefaultResponse =
+    suspend fun signUp(token: String, request: AuthorizeUserRequest): DefaultResponse<Nothing> =
         userService.signUp(
             token = token,
             request = request
@@ -51,13 +51,13 @@ class UserClient @Inject constructor(
             request = request
         )
 
-    suspend fun logout(): DefaultResponse =
+    suspend fun logout(): DefaultResponse<Nothing> =
         userService.logout()
 
-    suspend fun patchPassword(request: AuthorizeUserRequest): DefaultResponse =
+    suspend fun patchPassword(request: AuthorizeUserRequest): DefaultResponse<Nothing> =
         userService.patchPassword(
             request = request,
         )
 
-    suspend fun withdrawUser(): DefaultResponse = userService.withdraw()
+    suspend fun withdrawUser(): DefaultResponse<Nothing> = userService.withdraw()
 }

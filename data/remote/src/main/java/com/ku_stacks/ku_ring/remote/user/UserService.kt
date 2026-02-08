@@ -19,16 +19,16 @@ interface UserService {
     @PATCH("v2/users/notifications/academic-events")
     suspend fun patchAcademicEventNotification(
         @Body request: AcademicEventNotificationRequest,
-    ): DefaultResponse
+    ): DefaultResponse<Nothing>
 
     @POST("v2/users/feedbacks")
     suspend fun sendFeedback(
         @Header("User-Token") token: String,
         @Body feedbackRequest: FeedbackRequest,
-    ): DefaultResponse
+    ): DefaultResponse<Nothing>
 
     @POST("v2/users")
-    suspend fun registerUser(@Body registerUserRequest: RegisterUserRequest): DefaultResponse
+    suspend fun registerUser(@Body registerUserRequest: RegisterUserRequest): DefaultResponse<Nothing>
 
     @GET("v2/users/ask-counts")
     suspend fun getKuringBotQueryCount(@Header("User-Token") token: String): KuringBotQueryCountResponse
@@ -40,7 +40,7 @@ interface UserService {
     suspend fun signUp(
         @Header("User-Token") token: String,
         @Body request: AuthorizeUserRequest,
-    ): DefaultResponse
+    ): DefaultResponse<Nothing>
 
     @POST("v2/users/login")
     suspend fun signIn(
@@ -49,13 +49,13 @@ interface UserService {
     ): SignInResponse
 
     @POST("v2/users/logout")
-    suspend fun logout(): DefaultResponse
+    suspend fun logout(): DefaultResponse<Nothing>
 
     @PATCH("v2/users/password")
     suspend fun patchPassword(
         @Body request: AuthorizeUserRequest,
-    ): DefaultResponse
+    ): DefaultResponse<Nothing>
 
     @DELETE("v2/users/withdraw")
-    suspend fun withdraw(): DefaultResponse
+    suspend fun withdraw(): DefaultResponse<Nothing>
 }

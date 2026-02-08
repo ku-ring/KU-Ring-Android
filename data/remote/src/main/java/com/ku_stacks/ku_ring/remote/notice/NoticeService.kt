@@ -6,7 +6,11 @@ import com.ku_stacks.ku_ring.remote.notice.response.NoticeListResponse
 import com.ku_stacks.ku_ring.remote.notice.response.SearchNoticeListResponse
 import com.ku_stacks.ku_ring.remote.notice.response.SubscribeListResponse
 import com.ku_stacks.ku_ring.remote.util.DefaultResponse
-import retrofit2.http.*
+import retrofit2.http.Body
+import retrofit2.http.GET
+import retrofit2.http.Header
+import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface NoticeService {
     // TODO: 공지 API와 학과 공지 API를 하나의 함수로 대응
@@ -26,7 +30,7 @@ interface NoticeService {
     suspend fun saveSubscribeList(
         @Header("User-Token") token: String,
         @Body subscribeRequest: SubscribeRequest
-    ): DefaultResponse
+    ): DefaultResponse<Nothing>
 
     @GET("v2/notices")
     suspend fun fetchDepartmentNoticeList(

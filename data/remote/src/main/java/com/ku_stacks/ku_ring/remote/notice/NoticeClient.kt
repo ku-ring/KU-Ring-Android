@@ -23,7 +23,7 @@ class NoticeClient @Inject constructor(
     suspend fun saveSubscribe(
         token: String,
         subscribeRequest: SubscribeRequest
-    ): DefaultResponse = noticeService.saveSubscribeList(
+    ): DefaultResponse<Nothing> = noticeService.saveSubscribeList(
         token,
         subscribeRequest
     )
