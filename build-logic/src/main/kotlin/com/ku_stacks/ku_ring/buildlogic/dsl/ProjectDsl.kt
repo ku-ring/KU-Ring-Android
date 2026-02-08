@@ -4,20 +4,17 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 
 fun Project.configureAndroidLibrary() {
-    android {
-        setCompileSdkVersion(libs.version("compileSdk").toInt())
-
-        defaultConfig {
+    androidExtension().apply {
+        compileSdk = libs.version("compileSdk").toInt()
+        defaultConfig.apply {
             minSdk = libs.version("minSdk").toInt()
-            targetSdk = libs.version("targetSdk").toInt()
         }
-
-        compileOptions {
+        compileOptions.apply {
             isCoreLibraryDesugaringEnabled = true
         }
+    }
 
-        dependencies {
-            "coreLibraryDesugaring"(libs.findLibrary("desugarLibs").get())
-        }
+    dependencies {
+        "coreLibraryDesugaring"(libs.findLibrary("desugarLibs").get())
     }
 }
