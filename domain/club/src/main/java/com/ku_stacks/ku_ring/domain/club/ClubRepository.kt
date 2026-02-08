@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.club
+package com.ku_stacks.ku_ring.domain.club
 
 import com.ku_stacks.ku_ring.domain.Club
 
