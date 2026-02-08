@@ -128,5 +128,5 @@ data class ClubLocation(
  */
 fun Club.calculateDDay(today: LocalDate): Int? =
     recruitment?.end?.date?.let { endDate ->
-        today.daysUntil(endDate)
+        today.daysUntil(endDate).coerceAtLeast(0)
     }
