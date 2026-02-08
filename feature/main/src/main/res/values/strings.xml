@@ -127,4 +127,14 @@
     <string name="calendar_btn_navigate_previous">이전 달로 이동</string>
     <string name="calendar_btn_navigate_next">다음 달로 이동</string>
     <string name="calendar_error_load_event">학사 일정 로드 중 에러가 발생했어요.\n잠시 후 다시 시도해 주세요.</string>
+
+    <!-- club -->
+    <string name="club_title">동아리</string>
+    <string name="club_bottom_sheet_division_title">동아리 소속 선택</string>
+    <string name="club_bottom_sheet_division_reset">초기화</string>
+    <string name="club_bottom_sheet_division_confirm">확인 (%s)</string>
+    <string name="club_top_bar_action_subscribe">동아리 즐겨찾기</string>
+    <string name="club_top_bar_action_notification">알림</string>
+
+
 </resources>
