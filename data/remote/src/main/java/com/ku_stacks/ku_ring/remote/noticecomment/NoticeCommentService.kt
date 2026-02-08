@@ -16,20 +16,20 @@ interface NoticeCommentService {
     suspend fun createComment(
         @Path("id") noticeId: Int,
         @Body request: NoticeCommentCreateRequest,
-    ): DefaultResponse
+    ): DefaultResponse<Nothing>
 
     @POST("v2/notices/{id}/comments/{commentId}")
     suspend fun editComment(
         @Path("id") noticeId: Int,
         @Path("commentId") commentId: Int,
         @Body request: NoticeCommentEditRequest,
-    ): DefaultResponse
+    ): DefaultResponse<Nothing>
 
     @DELETE("v2/notices/{id}/comments/{commentId}")
     suspend fun deleteComment(
         @Path("id") noticeId: Int,
         @Path("commentId") commentId: Int,
-    ): DefaultResponse
+    ): DefaultResponse<Nothing>
 
     @GET("v2/notices/{id}/comments")
     suspend fun getComment(
