@@ -58,6 +58,7 @@ include(
     ":data:search",
     ":data:verification",
     // domain modules
+    ":domain:club",
     ":domain:user",
     ":domain:noticecomment",
     ":domain:report",
