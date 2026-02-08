@@ -1,9 +1,11 @@
+import com.ku_stacks.ku_ring.buildlogic.dsl.setNameSpace
+
 plugins {
-    kuring("kotlin")
+    kuring("feature")
 }
 
-kotlin {
-    jvmToolchain(17)
+android {
+    setNameSpace("domain.club")
 }
 
 dependencies {
