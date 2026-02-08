@@ -3,7 +3,7 @@ package com.ku_stacks.ku_ring.navigator
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
+import com.google.android.gms.oss.licenses.v2.OssLicensesMenuActivity
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.auth.AuthActivity
 import com.ku_stacks.ku_ring.domain.Notice
@@ -98,8 +98,8 @@ class KuringNavigatorImpl @Inject constructor() : KuringNavigator {
 
     override fun navigateToOssLicensesMenu(activity: Activity) {
         val intent = Intent(activity, OssLicensesMenuActivity::class.java)
+            .putExtra("title", activity.getString(R.string.open_source_license))
         activity.startActivity(intent)
-        OssLicensesMenuActivity.setActivityTitle(activity.getString(R.string.open_source_license))
     }
 
     override fun navigateToKuringBot(context: Context) {
