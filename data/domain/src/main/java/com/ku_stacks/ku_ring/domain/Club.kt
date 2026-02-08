@@ -3,134 +3,119 @@ package com.ku_stacks.ku_ring.domain
 import kotlinx.datetime.LocalDateTime
 
 /**
+ * @property id 동아리 ID
  * @property name 동아리 이름
+ * @property summary 동아리 한 줄 소개
+ * @property category 동아리 카테고리
  * @property affiliation 동아리 소속
  * @property division 동아리 분과
- * @property introduction 동아리 소개
- * @property applyRestriction 동아리 가입 조건 (없으면 `null`)
+ * @property description 동아리 상세 소개글
+ * @property location 동아리 방 위치 (없으면 `null`)
+ * @property applyQualification 동아리 가입 조건 (없으면 `null`)
  * @property recruitment 동아리 모집 정보 (없으면 `null`)
- * @property clubRoom 동아리 방 위치 (없으면 `null`)
- * @property logoUrl 동아리 로고 URL (없으면 `null`)
  * @property webUrl 동아리 웹사이트 URL (없으면 `null`)
+ * @property posterImageUrl 동아리 로고 URL (없으면 `null`)
+ * @property descriptionImageUrl 동아리 소개 본문에 포함될 홍보 이미지/포스터 URL 목록 (없으면 `null`)
+ * @property isSubscribed 동아리 구독 여부
  */
 data class Club(
+    val id: Int,
     val name: String,
-    val affiliation: ClubType,
-    private val division: ClubDivision,
-    val introduction: String,
-    val applyRestriction: String?,
+    val summary: String,
+    val category: ClubCategory,
+    val affiliation: ClubAffiliation,
+    val division: ClubDivision,
+    val description: String,
+    val location: ClubLocation?,
+    val applyQualification: String?,
     val recruitment: ClubRecruitment?,
-    val clubRoom: String?,
-    val logoUrl: String?,
     val webUrl: String?,
+    val posterImageUrl: String?,
+    val descriptionImageUrl: List<String>?,
     val isSubscribed: Boolean,
-) {
-    val category: ClubCategory = ClubCategory.ACADEMIC // TODO: convert division into category
+    val subscribeCount: Int,
+)
 
-    val clubRoomBuildingCode: Int =
-        0 // TODO: extract building code from club room (or get from server)
+/**
+ * 쿠링에서 분류하는 4가지 동아리 카테고리
+ */
+enum class ClubCategory(
+    val koreanName: String,
+) {
+    ACADEMIC("학술활동"),
+    CULTURE_ARTS("문화예술"),
+    SOCIAL("사회가치"),
+    ACTIVITIES("야외활동"),
+    OTHERS("기타"),
 }
 
-enum class ClubType {
+/**
+ * 동아리 소속 대분류
+ */
+enum class ClubAffiliation {
     CENTRAL,            // 중앙동아리
     COLLEGE,            // 단과대
     OTHERS,             // 기타
 }
 
 /**
- * 동아리 분과
+ * 동아리 소속 소분류
  */
-enum class ClubDivision {
-    /**
-     * 자연과학분과
-     */
-    NATURAL_SCIENCE,
-
-    /**
-     * 인문학술분과
-     */
-    HUMANITIES,
-
-    /**
-     * 봉사분과
-     */
-    VOLUNTEER,
-
-    /**
-     * 사회분과
-     */
-    SOCIAL_AFFAIRS,
-
-    /**
-     * 종교분과
-     */
-    RELIGION,
-
-    /**
-     * 전시문예분과
-     */
-    EXHIBITION_ARTS,
-
-    /**
-     * 공연예술분과
-     */
-    PERFORMING_ARTS,
-
-    /**
-     * 레저무예분과
-     */
-    LEISURE_MARTIAL,
-
-    /**
-     * 구기체육분과
-     */
-    SPORTS,
-
-    /**
-     * 기타
-     */
-    OTHERS,
+enum class ClubDivision(
+    val koreanName: String,
+) {
+    CENTRAL("중앙동아리"),
+    LIBERAL_ARTS("문과대학"),
+    SCIENCE("이과대학"),
+    ARCHITECTURE("건축대학"),
+    ENGINEERING("공과대학"),
+    SOCIAL_SCIENCES("사회과학대학"),
+    BUSINESS("경영대학"),
+    REAL_ESTATE("부동산과학원"),
+    KU_CONVERGENCE("KU융합과학기술원"),
+    SANGHUH_LIFE_SCIENCE("생명과학대학"),
+    VETERINARY("수의과대학"),
+    ART_DESIGN("예술디자인대학"),
+    EDUCATION("사범대학"),
+    SANGHUH_GENERAL("상허교양대학"),
+    INTERNATIONAL("국제대학"),
+    CONVERGENCE_SCI_TECH("융합과학기술원"),
+    LIFE_SCIENCE("생명과학대학"),
+    ETC("기타"),
 }
 
 /**
- * 쿠링에서 분류하는 4가지 카테고리
- */
-enum class ClubCategory {
-    /**
-     * 학술활동
-     */
-    ACADEMIC,
-
-    /**
-     * 문화예술
-     */
-    CULTURE_ARTS,
-
-    /**
-     * 사회가치
-     */
-    SOCIAL,
-
-    /**
-     * 야외활동
-     */
-    ACTIVITIES,
-
-    /**
-     * 기타 (예외 처리용)
-     */
-    OTHERS,
-}
-
-/**
- * @property content 모집 글 본문
  * @property start 모집 시작일 (없으면 `null`)
- * @property end 모집 마감일 (없으면 `null`. `start`와 `end` 둘 다 `null`일 경우 상시모집)
+ * @property end 모집 마감일 (없으면 `null`)
+ * @property recruitmentStatus 모집 상태
  * @property applyLink 가입 링크 (없으면 `null`)
  */
 data class ClubRecruitment(
-    val content: String,
     val start: LocalDateTime?,
     val end: LocalDateTime?,
+    val recruitmentStatus: RecruitmentStatus,
     val applyLink: String?,
+)
+
+/**
+ * 동아리 모집 여부를 나타내는 카테고리
+ */
+enum class RecruitmentStatus {
+    BEFORE,
+    RECRUITING,
+    CLOSED,
+    ALWAYS,
+}
+
+/**
+ * @property building 동아리 방 위치 건물
+ * @property roomNumber 동아리 방 위치 방 번호
+ * @property latitude 동아리 방 위치 위도 (없으면 `null`)
+ * @property longitude 동아리 방 위치 경도 (없으면 `null`)
+ */
+data class ClubLocation(
+    val building: String,
+    val roomNumber: String,
+    val latitude: Double?,
+    val longitude: Double?,
 )
