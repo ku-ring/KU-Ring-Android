@@ -65,7 +65,6 @@ fun ClubTag(
     }
 }
 
-// TODO: 도메인 확정이 확정되면, PreviewParameterProvider로 테스트용 데이터를 주입하도록 수정
 @LightAndDarkPreview
 @Composable
 private fun ClubTagPreview() {

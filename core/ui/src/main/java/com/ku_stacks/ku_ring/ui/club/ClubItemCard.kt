@@ -47,12 +47,14 @@ import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.utils.ensureLineHeight
 import com.ku_stacks.ku_ring.domain.Club
 import com.ku_stacks.ku_ring.domain.RecruitmentStatus
+import com.ku_stacks.ku_ring.util.now
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.minus
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 internal fun ClubItemCard(
     club: Club,
-    dDay: Int,
     onInterestToggleClick: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
@@ -66,10 +68,14 @@ internal fun ClubItemCard(
     
     // 동아리 태그는 동아리 카테고리와 동아리 소속을 포함
     val tags = listOf(
-        club.category.koreanName,
-        club.division.koreanName,
-    )
-    
+            club.category.koreanName,
+            club.division.koreanName,
+        )
+    val dDay = club.recruitment?.end?.date?.let { endDate ->
+        val today = LocalDate.now()
+        endDate.minus(today).days
+    } ?: 0
+
     Surface(
         modifier = modifier
             .clickable(onClick = onClick),
@@ -234,7 +240,6 @@ private fun ClubItemCardWhenRecruitmentOnGoingPreview(
     KuringTheme {
         ClubItemCard(
             club = club,
-            dDay = 5,
             onInterestToggleClick = {},
             modifier = Modifier
                 .fillMaxWidth()
