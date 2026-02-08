@@ -55,6 +55,10 @@ class PreferenceUtil(@ApplicationContext context: Context) {
         get() = prefs.getInt(NOTIFICATION_PERMISSION_DIALOG_COUNT, 0)
         set(value) = prefs.edit { putInt(NOTIFICATION_PERMISSION_DIALOG_COUNT, value) }
 
+    var clubInitialCategory: String
+        get() = prefs.getString(CLUB_INITIAL_CATEGORY, null) ?: ""
+        set(value) = prefs.edit { putString(CLUB_INITIAL_CATEGORY, value) }
+
     fun deleteStartDate() {
         prefs.edit { remove(START_DATE) }
     }
@@ -91,5 +95,6 @@ class PreferenceUtil(@ApplicationContext context: Context) {
         const val SURVEY_2024_COMPLETE = "SURVEY_2024_COMPLETE"
         const val LAST_DATE_ACADEMIC_EVENT_SHEET_SHOWN = "LAST_DATE_ACADEMIC_EVENT_SHEET_SHOWN"
         const val NOTIFICATION_PERMISSION_DIALOG_COUNT = "NOTIFICATION_PERMISSION_DIALOG_COUNT"
+        const val CLUB_INITIAL_CATEGORY = "CLUB_INITIAL_CATEGORY"
     }
 }
