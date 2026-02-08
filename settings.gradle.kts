@@ -66,6 +66,7 @@ include(
     ":domain:navigation",
     // feature modules
     ":feature:auth",
+    ":feature:club",
     ":feature:edit_subscription",
     ":feature:feedback",
     ":feature:library",
