@@ -48,5 +48,22 @@ class ApplicationPlugin : Plugin<Project> {
             implementation(libs.library("androidx-constraintlayout"))
             testImplementation(libs.library("androidx-fragment-testing"))
         }
+
+        listOf(
+            "debug",
+            "release",
+        ).forEach { variant ->
+            tasks.matching { it.name == "${variant}OssDependencyTask" }.configureEach {
+                mustRunAfter("${variant}OssLicensesCleanUp")
+            }
+
+            tasks.matching { it.name == "${variant}OssDependencyTask" }.configureEach {
+                gradle.startParameter.excludedTaskNames += name
+            }
+
+            tasks.matching { it.name == "${variant}OssLicensesCleanUp" }.configureEach {
+                gradle.startParameter.excludedTaskNames += name
+            }
+        }
     }
 }
