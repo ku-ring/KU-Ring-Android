@@ -13,5 +13,5 @@ import javax.inject.Singleton
 abstract class RepositoryModule {
     @Binds
     @Singleton
-    abstract fun provideClubRepository(clubRepositoryImpl: ClubRepositoryImpl): ClubRepository
+    abstract fun bindClubRepository(clubRepositoryImpl: ClubRepositoryImpl): ClubRepository
 }
