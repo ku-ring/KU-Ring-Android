@@ -34,6 +34,7 @@ import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.MainPrimaryDark
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.MainPrimaryLight
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.MainPrimarySelectedDark
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.MainPrimarySelectedLight
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Red
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.RegistrationDark
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.RegistrationLight
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.TextBodyDark
@@ -78,6 +79,7 @@ class KuringColors internal constructor(
     registration: Color,
     event: Color,
     white: Color,
+    red: Color,
     isLight: Boolean,
 ) {
     var background by mutableStateOf(background, structuralEqualityPolicy())
@@ -124,6 +126,8 @@ class KuringColors internal constructor(
         internal set
     var white by mutableStateOf(white, structuralEqualityPolicy())
         internal set
+    var red by mutableStateOf(red, structuralEqualityPolicy())
+        internal set
     var isLight by mutableStateOf(isLight, structuralEqualityPolicy())
         internal set
 
@@ -150,6 +154,7 @@ class KuringColors internal constructor(
         registration: Color = this.registration,
         event: Color = this.event,
         white: Color = this.white,
+        red: Color = this.red,
         isLight: Boolean = this.isLight,
     ): KuringColors = KuringColors(
         background,
@@ -174,6 +179,7 @@ class KuringColors internal constructor(
         registration,
         event,
         white,
+        red,
         isLight,
     )
 
@@ -201,6 +207,7 @@ class KuringColors internal constructor(
                 "registration=$registration, " +
                 "event=$event, " +
                 "white=$white, " +
+                "red=$red, " +
                 "isLight=$isLight, " +
                 ")"
     }
@@ -229,6 +236,7 @@ fun kuringLightColors() = KuringColors(
     registration = RegistrationLight,
     event = EventLight,
     white = White,
+    red = Red,
     isLight = true,
 )
 
@@ -255,6 +263,7 @@ fun kuringDarkColors() = KuringColors(
     registration = RegistrationDark,
     event = EventDark,
     white = White,
+    red = Red,
     isLight = false,
 )
 
@@ -280,6 +289,7 @@ internal fun KuringColors.updateColorsFrom(other: KuringColors) {
     registration = other.registration
     event = other.event
     white = other.white
+    red = other.red
 }
 
 val KuringColors.mainBackground: Color
