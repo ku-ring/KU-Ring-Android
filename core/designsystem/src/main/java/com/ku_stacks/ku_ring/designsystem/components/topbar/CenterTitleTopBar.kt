@@ -169,6 +169,71 @@ fun CenterTitleTopBar(
     )
 }
 
+// TODO: 다른 CenterTitleTopBar들이 이 오버로딩 컴포저블을 참조하도록 수정
+/**
+ * 제목과 내비게이션 아이콘, 그리고 멀티액션을 보여주는 최상단 바이다.
+ * 텍스트가 아닌 일반적인 composable을 액션으로 보여주고 싶을 때 사용하는 오버로딩이다.
+ *
+ * @param title 표시할 제목 텍스트
+ * @param modifier 적용할 [Modifier]
+ * @param navigation 텍스트 왼쪽에 표시할 navigation indicator. 주로 뒤로 가기 아이콘이 사용되나, `취소` 등의 텍스트를 사용할 수도 있다.
+ * @param onNavigationClick 내비게이션 컴포넌트를 클릭할 때 실행할 콜백.
+ * @param navigationClickLabel 내비게이션 클릭 콜백을 설명하는 텍스트. 콜백이 null이 아니라면 접근성을 위해 제공하는 것이 좋다.
+ * @param navigationContentColor 내비게이션 컴포넌트의 content color. [LocalContentColor]에 전달된다.
+ * @param actions 텍스트 오른쪽에 표시될 [TopBarAction]의 목록
+ */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CenterTitleTopBar(
+    title: String,
+    modifier: Modifier = Modifier,
+    navigation: @Composable (() -> Unit)? = null,
+    onNavigationClick: (() -> Unit)? = null,
+    navigationClickLabel: String? = null,
+    navigationContentColor: Color = KuringTheme.colors.textBody,
+    actions: List<TopBarAction> = emptyList(),
+) {
+    val backgroundColor = KuringTheme.colors.background
+    val contentPadding = PaddingValues(horizontal = 12.dp, vertical = 15.dp)
+    CenterAlignedTopAppBar(
+        title = {
+            TopBarTitle(
+                title = title,
+            )
+        },
+        navigationIcon = {
+            navigation?.let {
+                Navigation(
+                    navigationIcon = navigation,
+                    navigationContentColor = navigationContentColor,
+                    onNavigationClick = onNavigationClick,
+                    navigationClickLabel = navigationClickLabel,
+                    contentPadding = contentPadding,
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(50)),
+                )
+            }
+        },
+        actions = {
+            actions.forEach { action ->
+                Action(
+                    action = action.action,
+                    onActionClick = action.onClick,
+                    actionClickLabel = action.clickLabel,
+                    contentPadding = contentPadding,
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(50)),
+                )
+            }
+        },
+        modifier = modifier,
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = backgroundColor,
+            navigationIconContentColor = navigationContentColor,
+        ),
+    )
+}
+
 @Composable
 private fun Action(
     action: @Composable () -> Unit,
