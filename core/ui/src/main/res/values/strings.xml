@@ -13,4 +13,8 @@
     <string name="comment_report">신고하기</string>
     <string name="comment_delete">삭제하기</string>
     <string name="comment_header_more">더 많은 작업하기</string>
+
+    <!-- Club -->
+    <string name="club_card_tag_recruitment_complete">모집종료</string>
+    <string name="club_card_tag_d_day">D-%s</string>
 </resources>
