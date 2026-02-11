@@ -85,7 +85,7 @@ fun LazyPagingClubItemColumn(
                                 onSubscribeToggleClick = {
                                     onClubSubscribeToggle(club.copy(isSubscribed = it))
                                 },
-                                modifier = modifier.fillMaxWidth()
+                                modifier = Modifier.fillMaxWidth()
                             )
                         }
                     }

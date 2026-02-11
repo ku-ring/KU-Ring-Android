@@ -157,7 +157,6 @@ private fun ClubListScreen(
 
         HorizontalPager(
             state = pagerState,
-            modifier = modifier,
         ) {
             LazyPagingClubItemColumn(
                 clubs = clubs,
