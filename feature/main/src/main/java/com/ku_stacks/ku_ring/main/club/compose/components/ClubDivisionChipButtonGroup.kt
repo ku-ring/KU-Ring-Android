@@ -53,6 +53,9 @@ fun ClubDivisionChipButtonGroup(
 ) {
     val contentHeight = 37.dp
     val isResetButtonVisible = selectedDivisions.isNotEmpty()
+    val paddingValues =
+        if (isResetButtonVisible) PaddingValues(start = 20.dp)
+        else PaddingValues()
 
     Box(
         modifier = modifier
@@ -61,7 +64,9 @@ fun ClubDivisionChipButtonGroup(
             .padding(end = 11.dp),
     ) {
         LazyRow(
-            modifier = Modifier.fillMaxHeight(),
+            modifier = Modifier
+                .fillMaxHeight()
+                .padding(paddingValues),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(10.dp),
             contentPadding = PaddingValues(end = 60.dp),
@@ -71,9 +76,9 @@ fun ClubDivisionChipButtonGroup(
                     visible = isResetButtonVisible,
                     enter = expandHorizontally(expandFrom = Alignment.Start) + fadeIn(),
                     exit = shrinkHorizontally(shrinkTowards = Alignment.Start) + fadeOut(),
-                    modifier = Modifier
                 ) {
                     ResetButton(
+                        size = contentHeight,
                         onClick = onResetClick,
                     )
                 }
@@ -107,6 +112,7 @@ fun ClubDivisionChipButtonGroup(
 
 @Composable
 private fun ResetButton(
+    size: Dp,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(horizontal = 14.dp, vertical = 6.5.dp),
     onClick: () -> Unit,
@@ -123,6 +129,7 @@ private fun ResetButton(
         border = BorderStroke(width = 1.dp, color = KuringTheme.colors.gray200),
         shape = shape,
         modifier = modifier
+            .height(size)
             .background(color = containerColor, shape = backgroundShape)
             .clip(shape)
             .clickable(
