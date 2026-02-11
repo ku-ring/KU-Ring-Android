@@ -53,9 +53,9 @@ import kotlinx.datetime.LocalDate
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-internal fun ClubItemCard(
+fun ClubItemCard(
     club: Club,
-    onInterestToggleClick: (Boolean) -> Unit,
+    onSubscribeToggleClick: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
     today: LocalDate = LocalDate.now(),
@@ -150,7 +150,7 @@ internal fun ClubItemCard(
                     SubscribeToggle(
                         isSubscribed = club.isSubscribed,
                         subscribeCount = club.subscribeCount,
-                        onToggle = onInterestToggleClick,
+                        onToggle = onSubscribeToggleClick,
                     )
                 }
             }
@@ -238,7 +238,7 @@ private fun ClubItemCardWhenRecruitmentOnGoingPreview(
     KuringTheme {
         ClubItemCard(
             club = club,
-            onInterestToggleClick = {},
+            onSubscribeToggleClick = {},
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight(),

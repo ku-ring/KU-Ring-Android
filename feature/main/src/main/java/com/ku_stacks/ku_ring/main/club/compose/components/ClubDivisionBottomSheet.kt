@@ -43,7 +43,7 @@ fun ClubDivisionBottomSheet(
     onDismissRequest: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val sheetState = rememberModalBottomSheetState()
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val scope = rememberCoroutineScope()
     var currentSelected by remember { mutableStateOf(selectedItems) }
 

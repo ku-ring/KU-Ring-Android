@@ -6,12 +6,20 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,60 +27,79 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.mutableStateSetOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ku_stacks.ku_ring.designsystem.R
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.ClubDivision
-import kotlinx.collections.immutable.ImmutableMap
-import kotlinx.collections.immutable.toImmutableMap
 
 @Composable
 fun ClubDivisionChipButtonGroup(
-    isSelectedMap: ImmutableMap<ClubDivision, Boolean>,
+    selectedDivisions: Set<ClubDivision>,
     onChipClick: (ClubDivision) -> Unit,
     onResetClick: () -> Unit,
+    onExpandClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val isResetButtonVisible by remember(isSelectedMap) {
-        derivedStateOf { isSelectedMap.containsValue(true) }
-    }
+    val contentHeight = 37.dp
+    val isResetButtonVisible = selectedDivisions.isNotEmpty()
 
-    LazyRow(
-        modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(10.dp),
+    Box(
+        modifier = modifier
+            .height(contentHeight)
+            .wrapContentHeight()
+            .padding(end = 11.dp),
     ) {
-        stickyHeader {
-            AnimatedVisibility(
-                visible = isResetButtonVisible,
-                enter = expandHorizontally(expandFrom = Alignment.Start) + fadeIn(),
-                exit = shrinkHorizontally(shrinkTowards = Alignment.Start) + fadeOut(),
-            ) {
-                ResetButton(
-                    onClick = onResetClick,
-                    modifier = Modifier,
+        LazyRow(
+            modifier = Modifier.fillMaxHeight(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            contentPadding = PaddingValues(end = 60.dp),
+        ) {
+            stickyHeader {
+                AnimatedVisibility(
+                    visible = isResetButtonVisible,
+                    enter = expandHorizontally(expandFrom = Alignment.Start) + fadeIn(),
+                    exit = shrinkHorizontally(shrinkTowards = Alignment.Start) + fadeOut(),
+                    modifier = Modifier
+                ) {
+                    ResetButton(
+                        onClick = onResetClick,
+                    )
+                }
+            }
+
+            items(
+                items = ClubDivision.entries,
+                key = { item -> item.name },
+            ) { item ->
+                ClubDivisionChipButton(
+                    item = item,
+                    isSelected = selectedDivisions.contains(item),
+                    onClick = onChipClick,
                 )
             }
         }
 
-        items(
-            items = ClubDivision.entries,
-            key = { item -> item.name },
-        ) { item ->
-            ClubDivisionChipButton(
-                item = item,
-                isSelected = isSelectedMap[item] ?: false,
-                onClick = onChipClick,
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.align(Alignment.CenterEnd)
+        ) {
+            GradientBox(width = 30.dp)
+            ExpandButton(
+                onClick = onExpandClick,
+                modifier = Modifier
+                    .fillMaxHeight(),
             )
         }
     }
@@ -81,16 +108,22 @@ fun ClubDivisionChipButtonGroup(
 @Composable
 private fun ResetButton(
     modifier: Modifier = Modifier,
+    contentPadding: PaddingValues = PaddingValues(horizontal = 14.dp, vertical = 6.5.dp),
     onClick: () -> Unit,
 ) {
-    val shape = RoundedCornerShape(24.dp)
     val interactionSource = remember { MutableInteractionSource() }
+    val containerColor = KuringTheme.colors.background
+
+    val roundedCornerDp = 24.dp
+    val shape = RoundedCornerShape(roundedCornerDp)
+    val backgroundShape = RoundedCornerShape(bottomEnd = roundedCornerDp, topEnd = roundedCornerDp)
 
     Surface(
-        color = KuringTheme.colors.background,
+        color = containerColor,
         border = BorderStroke(width = 1.dp, color = KuringTheme.colors.gray200),
         shape = shape,
         modifier = modifier
+            .background(color = containerColor, shape = backgroundShape)
             .clip(shape)
             .clickable(
                 interactionSource = interactionSource,
@@ -103,36 +136,86 @@ private fun ResetButton(
             contentDescription = null,
             tint = KuringTheme.colors.gray400,
             modifier = Modifier
-                .padding(
-                    horizontal = 14.dp,
-                    vertical = 6.5.dp,
-                )
+                .padding(contentPadding)
                 .size(24.dp),
         )
     }
+}
+
+
+@Composable
+private fun ExpandButton(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
+) {
+    Surface(
+        color = KuringTheme.colors.background,
+        modifier = modifier
+            .clickable(
+                onClick = onClick,
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null
+            ),
+    ) {
+        Icon(
+            imageVector = ImageVector.vectorResource(R.drawable.ic_chevron_down_v2),
+            contentDescription = null,
+            tint = KuringTheme.colors.gray300,
+            modifier = Modifier
+                .padding(6.dp)
+                .size(24.dp),
+        )
+    }
+}
+
+@Composable
+private fun GradientBox(
+    width: Dp,
+    modifier: Modifier = Modifier,
+) {
+    val gradientColor = KuringTheme.colors.background
+    Box(
+        modifier = modifier
+            .width(width)
+            .fillMaxHeight()
+            .background(
+                brush = Brush.linearGradient(
+                    colors = listOf(
+                        gradientColor.copy(alpha = 0f),
+                        gradientColor.copy(alpha = 0.2f),
+                        gradientColor.copy(alpha = 0.9f),
+                    ),
+                    start = Offset(0f, 0f),
+                    end = Offset(Float.POSITIVE_INFINITY, 0f)
+                )
+            )
+    )
 }
 
 @LightAndDarkPreview
 @Composable
 private fun ClubDivisionChipButtonGroupPreview() {
     KuringTheme {
-        val isSelectedMap = remember {
-            mutableStateMapOf<ClubDivision, Boolean>().apply {
-                putAll(ClubDivision.entries.associateWith { false })
-            }
+        val selectedDivisions = remember {
+            mutableStateSetOf(ClubDivision.CENTRAL)
         }
 
         ClubDivisionChipButtonGroup(
-            isSelectedMap = isSelectedMap.toImmutableMap(),
+            selectedDivisions = selectedDivisions,
             onChipClick = { item ->
-                isSelectedMap[item] = !isSelectedMap[item]!!
-            },
-            onResetClick = {
-                ClubDivision.entries.forEach { item ->
-                    isSelectedMap[item] = false
+                if (selectedDivisions.contains(item)) {
+                    selectedDivisions.remove(item)
+                } else {
+                    selectedDivisions.add(item)
                 }
             },
-            modifier = Modifier.fillMaxWidth(),
+            onResetClick = {
+                selectedDivisions.clear()
+            },
+            onExpandClick = {},
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(KuringTheme.colors.background),
         )
     }
 }

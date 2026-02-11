@@ -22,19 +22,19 @@ import com.ku_stacks.ku_ring.main.R.string.club_top_bar_action_subscribe
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun ClubTopBar(
-    onInterestNavigate: () -> Unit,
-    onNotificationNavigate: () -> Unit,
+    onNavigateToSubscription: () -> Unit,
+    onNavigateToNotification: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val actions = listOf(
         TopBarAction(
             action = { ClubTopBarActionIcon(ic_star_v2) },
-            onClick = onInterestNavigate,
+            onClick = onNavigateToSubscription,
             clickLabel = stringResource(club_top_bar_action_subscribe),
         ),
         TopBarAction(
             action = { ClubTopBarActionIcon(ic_bell_v2) },
-            onClick = onNotificationNavigate,
+            onClick = onNavigateToNotification,
             clickLabel = stringResource(club_top_bar_action_notification),
         ),
     )
@@ -63,8 +63,8 @@ private fun ClubTopBarActionIcon(
 private fun ClubTopBarPreview() {
     KuringTheme {
         ClubTopBar(
-            onInterestNavigate = {},
-            onNotificationNavigate = {},
+            onNavigateToSubscription = {},
+            onNavigateToNotification = {},
         )
     }
 }
