@@ -38,8 +38,8 @@ class ClubListViewModel @Inject constructor() : ViewModel() {
             category = uiState.selectedCategory,
             divisions = uiState.selectedDivisions,
             sortOption = uiState.sortOption,
-        ).cachedIn(viewModelScope)
-    }
+        )
+    }.cachedIn(viewModelScope)
     private val _subscriptionOverride = MutableStateFlow<Map<Int, Boolean>>(emptyMap())
 
     val clubsFlow = combine(_rawClubsFlow, _subscriptionOverride) { pagingData, overrides ->
@@ -100,8 +100,7 @@ class ClubListViewModel @Inject constructor() : ViewModel() {
     }
 
     fun updateBottomSheetVisibility() {
-        val newState = !_uiState.value.isDivisionBottomSheetVisible
-        _uiState.update { it.copy(isDivisionBottomSheetVisible = newState) }
+        _uiState.update { it.copy(isDivisionBottomSheetVisible = !it.isDivisionBottomSheetVisible) }
     }
 
     fun updateSortOption(sortOption: ClubSortOption) {

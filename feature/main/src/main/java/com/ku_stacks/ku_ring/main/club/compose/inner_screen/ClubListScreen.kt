@@ -58,8 +58,8 @@ fun ClubListScreen(
         pageCount = { ClubCategory.entries.size }
     )
 
-    LaunchedEffect(pagerState.currentPage) {
-        val selectedCategory = ClubCategory.entries[pagerState.currentPage]
+    LaunchedEffect(pagerState.settledPage) {
+        val selectedCategory = ClubCategory.entries[pagerState.settledPage]
         viewModel.updateSelectedCategory(selectedCategory)
     }
 
@@ -173,7 +173,7 @@ private fun ClubListScreenPreview(
 ) {
     KuringTheme {
         val pagingData = PagingData.from(clubs)
-        val clubs = flowOf(pagingData).collectAsLazyPagingItems()
+        val clubFlow = flowOf(pagingData).collectAsLazyPagingItems()
         val pagerState = rememberPagerState(pageCount = { ClubCategory.entries.size })
         val uiState = ClubListUiState(
             isDivisionBottomSheetVisible = false,
@@ -182,20 +182,18 @@ private fun ClubListScreenPreview(
             selectedCategory = ClubCategory.ACADEMIC
         )
 
-        KuringTheme {
-            ClubListScreen(
-                uiState = uiState,
-                clubs = clubs,
-                pagerState = pagerState,
-                onNavigateToClubDetail = {},
-                onNavigateToClubSubscription = {},
-                onNavigateToNotification = {},
-                onSelectedDivisionsChange = {},
-                onBottomSheetVisibilityChange = {},
-                onSubscriptionToggle = {},
-                onSortOptionChange = {},
-                modifier = Modifier.fillMaxSize()
-            )
-        }
+        ClubListScreen(
+            uiState = uiState,
+            clubs = clubFlow,
+            pagerState = pagerState,
+            onNavigateToClubDetail = {},
+            onNavigateToClubSubscription = {},
+            onNavigateToNotification = {},
+            onSelectedDivisionsChange = {},
+            onBottomSheetVisibilityChange = {},
+            onSubscriptionToggle = {},
+            onSortOptionChange = {},
+            modifier = Modifier.fillMaxSize()
+        )
     }
 }
