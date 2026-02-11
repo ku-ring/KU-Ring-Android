@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.main.club.compose.components
+package com.ku_stacks.ku_ring.ui.club
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -19,7 +19,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.main.club.compose.type.ClubSortOption
 
 @Composable
 fun ClubListSortButtonRow(

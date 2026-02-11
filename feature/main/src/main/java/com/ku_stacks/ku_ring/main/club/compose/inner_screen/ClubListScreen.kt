@@ -37,11 +37,11 @@ import com.ku_stacks.ku_ring.main.club.compose.ClubListViewModel
 import com.ku_stacks.ku_ring.main.club.compose.components.ClubDivisionBottomSheet
 import com.ku_stacks.ku_ring.main.club.compose.components.ClubDivisionChipButtonGroup
 import com.ku_stacks.ku_ring.main.club.compose.components.ClubListPager
-import com.ku_stacks.ku_ring.main.club.compose.components.ClubListSortButtonRow
 import com.ku_stacks.ku_ring.main.club.compose.components.ClubTabRow
 import com.ku_stacks.ku_ring.main.club.compose.components.ClubTopBar
 import com.ku_stacks.ku_ring.main.club.compose.preview.ClubsPreviewParameterProvider
-import com.ku_stacks.ku_ring.main.club.compose.type.ClubSortOption
+import com.ku_stacks.ku_ring.ui.club.ClubListSortButtonRow
+import com.ku_stacks.ku_ring.ui.club.ClubSortOption
 import kotlinx.coroutines.flow.flowOf
 
 @Composable
