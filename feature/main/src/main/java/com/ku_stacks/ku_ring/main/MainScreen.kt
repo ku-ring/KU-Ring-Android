@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -34,6 +33,7 @@ import com.ku_stacks.ku_ring.compose.locals.LocalNavigator
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.main.calendar.compose.AcademicCalendarScreen
 import com.ku_stacks.ku_ring.main.campusmap.compose.CampusMapScreen
+import com.ku_stacks.ku_ring.main.club.compose.inner_screen.ClubListScreen
 import com.ku_stacks.ku_ring.main.notice.compose.NoticeScreen
 import com.ku_stacks.ku_ring.main.setting.SettingViewModel
 import com.ku_stacks.ku_ring.main.setting.compose.OpenSourceActivity
@@ -178,8 +178,17 @@ fun NavGraphBuilder.mainScreenNavGraph(
         )
     }
     composable<MainScreenRoute.Club> {
-        // TODO by mwy3055: implement club screen
-        Text("Club!")
+        ClubListScreen(
+            onNavigateToClubDetail = {
+                // TODO: 동아리 상세 화면으로 이동
+            },
+            onNavigateToClubSubscription = {
+                // TODO: 동아리 구독목록 화면으로 이동
+            },
+            onNavigateToNotification = {
+                // TODO: 알림 목록 화면으로 이동
+            }
+        )
     }
     composable<MainScreenRoute.Settings> {
         // TODO by mwy3055: SettingScreen 내부도 navigation으로 migrate해야 함
