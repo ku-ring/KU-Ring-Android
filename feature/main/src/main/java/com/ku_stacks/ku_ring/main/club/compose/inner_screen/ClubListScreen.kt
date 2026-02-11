@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Text
@@ -36,12 +37,12 @@ import com.ku_stacks.ku_ring.main.club.compose.ClubListUiState
 import com.ku_stacks.ku_ring.main.club.compose.ClubListViewModel
 import com.ku_stacks.ku_ring.main.club.compose.components.ClubDivisionBottomSheet
 import com.ku_stacks.ku_ring.main.club.compose.components.ClubDivisionChipButtonGroup
-import com.ku_stacks.ku_ring.main.club.compose.components.ClubListPager
 import com.ku_stacks.ku_ring.main.club.compose.components.ClubTabRow
 import com.ku_stacks.ku_ring.main.club.compose.components.ClubTopBar
-import com.ku_stacks.ku_ring.main.club.compose.preview.ClubsPreviewParameterProvider
 import com.ku_stacks.ku_ring.ui.club.ClubListSortButtonRow
 import com.ku_stacks.ku_ring.ui.club.ClubSortOption
+import com.ku_stacks.ku_ring.ui.club.ClubsPreviewParameterProvider
+import com.ku_stacks.ku_ring.ui.club.LazyPagingClubItemColumn
 import kotlinx.coroutines.flow.flowOf
 
 @Composable
@@ -154,15 +155,19 @@ private fun ClubListScreen(
             )
         }
 
-        ClubListPager(
-            pagerState = pagerState,
-            clubPagingItem = clubs,
-            onClubItemClick = onNavigateToClubDetail,
-            onClubSubscribeToggle = onSubscriptionToggle,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(contentPadding),
-        )
+        HorizontalPager(
+            state = pagerState,
+            modifier = modifier,
+        ) {
+            LazyPagingClubItemColumn(
+                clubs = clubs,
+                onClubSubscribeToggle = onSubscriptionToggle,
+                onClubItemClick = onNavigateToClubDetail,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(contentPadding),
+            )
+        }
     }
 }
 

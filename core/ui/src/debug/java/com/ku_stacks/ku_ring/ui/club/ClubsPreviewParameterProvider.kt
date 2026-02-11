@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.main.club.compose.preview
+package com.ku_stacks.ku_ring.ui.club
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.ku_stacks.ku_ring.domain.Club
@@ -46,8 +46,10 @@ class ClubsPreviewParameterProvider : PreviewParameterProvider<List<Club>> {
             subscribeCount = 50
         )
     )
+
     override val values: Sequence<List<Club>>
         get() = sequenceOf(
-            dummyClubs
+            dummyClubs,
+            emptyList(),
         )
 }
