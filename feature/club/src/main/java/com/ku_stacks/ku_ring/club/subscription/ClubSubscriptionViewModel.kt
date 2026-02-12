@@ -69,9 +69,7 @@ class ClubSubscriptionViewModel @Inject constructor() : ViewModel() {
         val newState = _subscriptionOverride.value[clubId]?.not() ?: club.isSubscribed
 
         _subscriptionOverride.update { it + (clubId to newState) }
-        viewModelScope.launch {
-            handleSubscription(clubId, newState)
-        }
+        handleSubscription(clubId, newState)
     }
 
     private fun handleSubscription(clubId: Int, newState: Boolean) {
