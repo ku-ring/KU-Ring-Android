@@ -24,6 +24,8 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.LoadState
+import androidx.paging.LoadStates
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -176,7 +178,14 @@ private fun ClubListScreenPreview(
     @PreviewParameter(ClubsPreviewParameterProvider::class) clubs: List<Club>,
 ) {
     KuringTheme {
-        val pagingData = PagingData.from(clubs)
+        val pagingData = PagingData.from(
+            data = clubs,
+            sourceLoadStates = LoadStates(
+                refresh = LoadState.NotLoading(false),
+                prepend = LoadState.NotLoading(false),
+                append = LoadState.NotLoading(false)
+            )
+        )
         val clubFlow = flowOf(pagingData).collectAsLazyPagingItems()
         val pagerState = rememberPagerState(pageCount = { ClubCategory.entries.size })
         val uiState = ClubListUiState(
