@@ -4,10 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
@@ -18,10 +15,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.core.content.IntentCompat
 import androidx.navigation.NavHostController
@@ -81,12 +78,13 @@ class MainActivity : AppCompatActivity() {
             navController = rememberNavController()
             val startDestination = intent.parseMainScreenRoute() ?: MainScreenRoute.Notice
             KuringTheme {
+                val context = LocalContext.current
                 var isOpenSettingsDialogVisible by rememberSaveable { mutableStateOf(false) }
                 var isAppSettingsOpened by rememberSaveable { mutableStateOf(false) }
 
                 // 앱 설정 이동 후에 다시 확인
                 LifecycleResumeEffect(Unit) {
-                    if (baseContext.checkHasNotificationPermission()
+                    if (context.checkHasNotificationPermission()
                         && isAppSettingsOpened
                     ) {
                         pref.notificationPermissionDialogCount = 0
@@ -140,7 +138,8 @@ class MainActivity : AppCompatActivity() {
         onGranted: () -> Unit = {},
         onDenied: () -> Unit = {},
     ) {
-        if (!baseContext.checkHasNotificationPermission()) {
+        val context = LocalContext.current
+        if (!context.checkHasNotificationPermission()) {
             val launcher = rememberLauncherForActivityResult(
                 contract = ActivityResultContracts.RequestPermission(),
             ) { isGranted ->
