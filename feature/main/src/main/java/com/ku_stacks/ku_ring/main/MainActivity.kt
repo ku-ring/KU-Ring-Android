@@ -1,21 +1,37 @@
 package com.ku_stacks.ku_ring.main
 
+import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.core.content.IntentCompat
 import androidx.navigation.NavHostController
+import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.navigation.compose.rememberNavController
+import com.ku_stacks.ku_ring.designsystem.components.KuringAlertDialog
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.WebViewNotice
 import com.ku_stacks.ku_ring.navigation.KuringNavigator
 import com.ku_stacks.ku_ring.navigation.MainScreenRoute
+import com.ku_stacks.ku_ring.preferences.PreferenceUtil
+import com.ku_stacks.ku_ring.util.checkHasNotificationPermission
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -26,6 +42,9 @@ class MainActivity : AppCompatActivity() {
     lateinit var navigator: KuringNavigator
 
     lateinit var navController: NavHostController
+
+    @Inject
+    lateinit var pref: PreferenceUtil
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
@@ -60,6 +79,45 @@ class MainActivity : AppCompatActivity() {
             navController = rememberNavController()
             val startDestination = intent.parseMainScreenRoute() ?: MainScreenRoute.Notice
             KuringTheme {
+                var isOpenSettingsDialogVisible by remember { mutableStateOf(false) }
+
+                LifecycleResumeEffect(Unit) {
+                    if (baseContext.checkHasNotificationPermission() && isOpenSettingsDialogVisible) {
+                        pref.notificationPermissionDialogCount = 0
+
+                        isOpenSettingsDialogVisible = false
+                    }
+                    onPauseOrDispose {}
+                }
+
+                RequestNotificationPermission(
+                    onGranted = {
+                        pref.resetNotificationPermissionDialogCount()
+                    },
+                    onDenied = {
+                        if (pref.canShowNotificationPermissionDialog()) {
+                            isOpenSettingsDialogVisible = true
+                        }
+                    },
+                )
+
+                if (isOpenSettingsDialogVisible) {
+                    KuringAlertDialog(
+                        text = "알림을 받으려면 설정에서\n알림 권한을 허용해주세요.",
+                        confirmText = "설정으로 이동",
+                        onConfirm = {
+                            isOpenSettingsDialogVisible = false
+                            pref.notificationPermissionDialogCount++
+                            launchAppSettings()
+                        },
+                        onCancel = {
+                            isOpenSettingsDialogVisible = false
+                            pref.notificationPermissionDialogCount++
+                        },
+                    )
+                }
+
+                val navController = rememberNavController()
                 MainScreen(
                     navController = navController,
                     modifier = Modifier
@@ -69,6 +127,37 @@ class MainActivity : AppCompatActivity() {
                 )
             }
         }
+    }
+
+    @Composable
+    private fun RequestNotificationPermission(
+        onGranted: () -> Unit = {},
+        onDenied: () -> Unit = {},
+    ) {
+        if (!baseContext.checkHasNotificationPermission()) {
+            val launcher = rememberLauncherForActivityResult(
+                contract = ActivityResultContracts.RequestPermission(),
+            ) { isGranted ->
+                if (isGranted) onGranted() else onDenied()
+            }
+
+            LaunchedEffect(Unit) {
+                launcher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
+    }
+
+    private fun launchAppSettings() {
+        val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
+                putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
+            }
+        } else {
+            Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                data = Uri.fromParts("package", packageName, null)
+            }
+        }
+        startActivity(intent)
     }
 
     private fun navToNoticeActivity(webViewNotice: WebViewNotice) {
