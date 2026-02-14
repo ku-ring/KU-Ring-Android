@@ -19,6 +19,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.core.content.IntentCompat
@@ -79,8 +80,8 @@ class MainActivity : AppCompatActivity() {
             navController = rememberNavController()
             val startDestination = intent.parseMainScreenRoute() ?: MainScreenRoute.Notice
             KuringTheme {
-                var isOpenSettingsDialogVisible by remember { mutableStateOf(false) }
-                var isAppSettingsOpened by remember { mutableStateOf(false) }
+                var isOpenSettingsDialogVisible by rememberSaveable { mutableStateOf(false) }
+                var isAppSettingsOpened by rememberSaveable { mutableStateOf(false) }
 
                 // 앱 설정 이동 후에 다시 확인
                 LifecycleResumeEffect(Unit) {
@@ -152,16 +153,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun launchAppSettings() {
-        val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
-                putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
-            }
-        } else {
-            Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                data = Uri.fromParts("package", packageName, null)
-            }
-        }
-        startActivity(intent)
+        navigator.navigateToAppNotificationSettings(this)
     }
 
     private fun navToNoticeActivity(webViewNotice: WebViewNotice) {

@@ -42,4 +42,5 @@ interface KuringNavigator {
     fun navigateToLibrarySeat(activity: Activity)
     fun navigateToAuth(context: Context)
     fun navigateToSignOut(context: Context)
+    fun navigateToAppNotificationSettings(context: Context)
 }

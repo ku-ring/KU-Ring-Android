@@ -214,6 +214,7 @@ fun NavGraphBuilder.mainScreenNavGraph(
             onNavigateToKuringInstagram = { activity.navigateToKuringInstagram() },
             onNavigateToFeedback = { navigator.navigateToFeedback(activity) },
             onLogoutClick = viewModel::logout,
+            onNavigateToAppNotificationSettings = { navigator.navigateToAppNotificationSettings(activity) },
             onNavigateToSignOut = { navigator.navigateToSignOut(activity) },
             modifier =
                 Modifier
