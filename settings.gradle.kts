@@ -42,6 +42,7 @@ include(
     ":data:notice",
     ":data:notice:test",
     ":data:noticecomment",
+    ":data:notification",
     ":data:academicevent",
     ":data:ai",
     ":data:user",
