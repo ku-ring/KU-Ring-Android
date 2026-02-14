@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity() {
                     if (context.checkHasNotificationPermission()
                         && isAppSettingsOpened
                     ) {
-                        pref.notificationPermissionDialogCount = 0
+                        pref.resetNotificationPermissionDialogCount()
                         isAppSettingsOpened = false
                     }
                     onPauseOrDispose {}
