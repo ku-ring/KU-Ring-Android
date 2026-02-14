@@ -80,12 +80,15 @@ class MainActivity : AppCompatActivity() {
             val startDestination = intent.parseMainScreenRoute() ?: MainScreenRoute.Notice
             KuringTheme {
                 var isOpenSettingsDialogVisible by remember { mutableStateOf(false) }
+                var isAppSettingsOpened by remember { mutableStateOf(false) }
 
+                // 앱 설정 이동 후에 다시 확인
                 LifecycleResumeEffect(Unit) {
-                    if (baseContext.checkHasNotificationPermission() && isOpenSettingsDialogVisible) {
+                    if (baseContext.checkHasNotificationPermission()
+                        && isAppSettingsOpened
+                    ) {
                         pref.notificationPermissionDialogCount = 0
-
-                        isOpenSettingsDialogVisible = false
+                        isAppSettingsOpened = false
                     }
                     onPauseOrDispose {}
                 }
@@ -111,6 +114,7 @@ class MainActivity : AppCompatActivity() {
                             launchAppSettings()
                         },
                         onCancel = {
+                            isAppSettingsOpened = true
                             isOpenSettingsDialogVisible = false
                             pref.notificationPermissionDialogCount++
                         },
