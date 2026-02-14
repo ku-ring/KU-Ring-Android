@@ -23,6 +23,7 @@ interface KuringNavigator {
 
     fun navigateToArchive(activity: Activity)
     fun navigateToSearch(activity: Activity)
+    fun navigateToNotification(activity: Activity)
     fun createNoticeWebIntent(
         context: Context,
         url: String?,

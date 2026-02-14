@@ -22,6 +22,7 @@ import com.ku_stacks.ku_ring.main.search.SearchActivity
 import com.ku_stacks.ku_ring.navigation.KuringNavigator
 import com.ku_stacks.ku_ring.navigation.MainScreenRoute
 import com.ku_stacks.ku_ring.notice_detail.NoticeWebActivity
+import com.ku_stacks.ku_ring.notification.NotificationActivity
 import com.ku_stacks.ku_ring.notion.NotionViewActivity
 import com.ku_stacks.ku_ring.onboarding.OnboardingActivity
 import com.ku_stacks.ku_ring.splash.SplashActivity
@@ -65,6 +66,10 @@ class KuringNavigatorImpl @Inject constructor() : KuringNavigator {
 
     override fun navigateToSearch(activity: Activity) {
         SearchActivity.start(activity)
+    }
+
+    override fun navigateToNotification(activity: Activity) {
+        NotificationActivity.start(activity)
     }
 
     override fun createNoticeWebIntent(
