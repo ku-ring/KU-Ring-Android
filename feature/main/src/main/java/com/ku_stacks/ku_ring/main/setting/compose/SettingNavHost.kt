@@ -29,7 +29,6 @@ internal fun SettingHavHost(
     navigateToKuringInstagram: () -> Unit,
     navigateToFeedback: () -> Unit,
     navigateToOssLicenses: () -> Unit,
-    navigateToAppNotificationSettings: () -> Unit,
     navigateToSignOut: () -> Unit,
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
@@ -55,7 +54,6 @@ internal fun SettingHavHost(
             navigateToKuringInstagram = navigateToKuringInstagram,
             navigateToFeedback = navigateToFeedback,
             navigateToOssLicenses = navigateToOssLicenses,
-            navigateToAppNotificationSettings = navigateToAppNotificationSettings,
             navigateToSignOut = navigateToSignOut,
             modifier = Modifier
                 .background(background)
@@ -73,7 +71,6 @@ private fun NavGraphBuilder.settingNavGraph(
     navigateToKuringInstagram: () -> Unit,
     navigateToFeedback: () -> Unit,
     navigateToOssLicenses: () -> Unit,
-    navigateToAppNotificationSettings: () -> Unit,
     navigateToSignOut: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -100,7 +97,6 @@ private fun NavGraphBuilder.settingNavGraph(
             onNavigateToKuringInstagram = navigateToKuringInstagram,
             onNavigateToFeedback = navigateToFeedback,
             onLogoutClick = viewModel::logout,
-            onNavigateToAppNotificationSettings = navigateToAppNotificationSettings,
             onNavigateToSignOut = navigateToSignOut,
             modifier = modifier,
         )

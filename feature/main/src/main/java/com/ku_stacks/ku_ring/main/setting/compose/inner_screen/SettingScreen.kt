@@ -28,7 +28,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.LifecycleResumeEffect
 import com.ku_stacks.ku_ring.designsystem.R.color.kus_label
 import com.ku_stacks.ku_ring.designsystem.R.string.network_error
 import com.ku_stacks.ku_ring.designsystem.components.KuringAlertDialog
@@ -51,7 +50,6 @@ import com.ku_stacks.ku_ring.main.setting.compose.groups.ProfileGroup
 import com.ku_stacks.ku_ring.main.setting.compose.groups.SocialNetworkServiceGroup
 import com.ku_stacks.ku_ring.main.setting.compose.groups.SubscribeGroup
 import com.ku_stacks.ku_ring.ui_util.getAppVersionName
-import com.ku_stacks.ku_ring.util.checkHasNotificationPermission
 
 @Composable
 internal fun SettingScreen(
@@ -68,17 +66,13 @@ internal fun SettingScreen(
     onNavigateToKuringInstagram: () -> Unit,
     onNavigateToFeedback: () -> Unit,
     onLogoutClick: () -> Unit,
-    onNavigateToAppNotificationSettings: () -> Unit,
     onNavigateToSignOut: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val scrollState = rememberScrollState()
     val appVersion = LocalContext.current.getAppVersionName()
-    val context = LocalContext.current
 
     var isLogoutDialogVisible by rememberSaveable { mutableStateOf(false) }
-    var isNotificationPermissionDialogVisible by rememberSaveable { mutableStateOf(false) }
-    var hasNotificationPermission by rememberSaveable { mutableStateOf(context.checkHasNotificationPermission()) }
 
     LifecycleResumeEffect(Unit) {
         hasNotificationPermission = context.checkHasNotificationPermission()
@@ -156,18 +150,6 @@ internal fun SettingScreen(
                 ErrorScreen()
             }
         }
-    }
-
-    if (isNotificationPermissionDialogVisible) {
-        KuringAlertDialog(
-            text = "알림을 받으려면 설정에서\n알림 권한을 허용해주세요.",
-            confirmText = "설정으로 이동",
-            onConfirm = {
-                isNotificationPermissionDialogVisible = false
-                onNavigateToAppNotificationSettings()
-            },
-            onCancel = { isNotificationPermissionDialogVisible = false },
-        )
     }
 
     if (isLogoutDialogVisible) {
@@ -270,7 +252,6 @@ private fun SettingScreenPreview() {
             onNavigateToKuringInstagram = {},
             onNavigateToFeedback = {},
             onLogoutClick = {},
-            onNavigateToAppNotificationSettings = {},
             onNavigateToSignOut = {},
             modifier = Modifier
                 .fillMaxSize()
