@@ -50,6 +50,7 @@ import com.ku_stacks.ku_ring.main.setting.compose.groups.ProfileGroup
 import com.ku_stacks.ku_ring.main.setting.compose.groups.SocialNetworkServiceGroup
 import com.ku_stacks.ku_ring.main.setting.compose.groups.SubscribeGroup
 import com.ku_stacks.ku_ring.ui_util.getAppVersionName
+import com.ku_stacks.ku_ring.util.checkHasNotificationPermission
 
 @Composable
 internal fun SettingScreen(
@@ -71,6 +72,7 @@ internal fun SettingScreen(
 ) {
     val scrollState = rememberScrollState()
     val appVersion = LocalContext.current.getAppVersionName()
+    val context = LocalContext.current
 
     var isLogoutDialogVisible by rememberSaveable { mutableStateOf(false) }
 
@@ -99,7 +101,7 @@ internal fun SettingScreen(
                         SettingScreenDivider()
                         SubscribeGroup(
                             onNavigateToEditSubscription = onNavigateToEditSubscription,
-                            isExtNotificationEnabled = isExtNotificationEnabled,
+                            isExtNotificationEnabled = isExtNotificationEnabled && context.checkHasNotificationPermission(),
                             onExtNotificationEnabledToggle = onExtNotificationEnabledToggle,
                             isAcademicEventNotificationEnabled = isAcademicEventNotificationEnabled,
                             onAcademicEventNotificationEnabledToggle = onAcademicEventNotificationEnabledToggle,
