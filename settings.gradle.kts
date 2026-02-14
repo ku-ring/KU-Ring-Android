@@ -62,6 +62,7 @@ include(
     ":domain:club",
     ":domain:user",
     ":domain:noticecomment",
+    ":domain:notification",
     ":domain:report",
     ":domain:academicevent",
     ":domain:place",
