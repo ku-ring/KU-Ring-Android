@@ -120,17 +120,4 @@ class KuringNavigatorImpl @Inject constructor() : KuringNavigator {
     override fun navigateToSignOut(context: Context) {
         AuthActivity.startSignOut(context)
     }
-
-    override fun navigateToAppNotificationSettings(activity: Activity) {
-        val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
-                putExtra(Settings.EXTRA_APP_PACKAGE, activity.packageName)
-            }
-        } else {
-            Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                data = Uri.fromParts("package", activity.packageName, null)
-            }
-        }
-        activity.startActivity(intent)
-    }
 }
