@@ -111,12 +111,12 @@ class MainActivity : AppCompatActivity() {
                         text = stringResource(R.string.notification_permission_dialog_text),
                         confirmText = stringResource(R.string.notification_permission_dialog_confirm),
                         onConfirm = {
+                            isAppSettingsOpened = true
                             isOpenSettingsDialogVisible = false
                             pref.notificationPermissionDialogCount++
                             launchAppSettings()
                         },
                         onCancel = {
-                            isAppSettingsOpened = true
                             isOpenSettingsDialogVisible = false
                             pref.notificationPermissionDialogCount++
                         },
