@@ -57,7 +57,9 @@ include(
     ":data:space",
     ":data:search",
     ":data:verification",
+    ":data:club",
     // domain modules
+    ":domain:club",
     ":domain:user",
     ":domain:noticecomment",
     ":domain:report",
