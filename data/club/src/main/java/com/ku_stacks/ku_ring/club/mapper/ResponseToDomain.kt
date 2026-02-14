@@ -16,12 +16,10 @@ fun ClubDetailResponse.toClub(): Club {
         id = id,
         name = name,
         summary = shortIntroduction,
-        category = findEnumValue<ClubCategory>(category.uppercase(), ClubCategory.OTHERS),
-        affiliation = findEnumValue<ClubAffiliation>(
-            affiliation.uppercase(),
-            ClubAffiliation.OTHERS
-        ),
-        division = findEnumValue<ClubDivision>(division.uppercase(), ClubDivision.ETC),
+        category = category.uppercase().toEnumOrDefault<ClubCategory>(ClubCategory.OTHERS),
+        affiliation = affiliation.uppercase()
+            .toEnumOrDefault<ClubAffiliation>(ClubAffiliation.OTHERS),
+        division = division.uppercase().toEnumOrDefault<ClubDivision>(ClubDivision.ETC),
         description = description,
         location = location.toLocation(),
         applyQualification = qualifications,
@@ -49,10 +47,8 @@ fun ClubDetailResponse.parseRecruitment(): ClubRecruitment? {
         ClubRecruitment(
             start = start,
             end = end,
-            recruitmentStatus = findEnumValue<RecruitmentStatus>(
-                recruitmentStatus.uppercase(),
-                RecruitmentStatus.BEFORE
-            ),
+            recruitmentStatus = recruitmentStatus.uppercase()
+                .toEnumOrDefault<RecruitmentStatus>(RecruitmentStatus.BEFORE),
             applyLink = applyUrl,
         )
     } else {
@@ -60,12 +56,9 @@ fun ClubDetailResponse.parseRecruitment(): ClubRecruitment? {
     }
 }
 
-private inline fun <reified T : Enum<T>> findEnumValue(
-    value: String,
-    default: T
-): T {
+private inline fun <reified T : Enum<T>> String.toEnumOrDefault(default: T): T {
     return try {
-        enumValueOf(value)
+        enumValueOf(this)
     } catch (e: IllegalArgumentException) {
         default
     }
