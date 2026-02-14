@@ -48,7 +48,7 @@ class ApplicationPlugin : Plugin<Project> {
             implementation(libs.library("androidx-constraintlayout"))
             testImplementation(libs.library("androidx-fragment-testing"))
         }
-
+        // TODO: google/play-services-plugins#356 해소 후 삭제
         listOf(
             "debug",
             "release",
