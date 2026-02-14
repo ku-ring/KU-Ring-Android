@@ -22,6 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.core.content.IntentCompat
 import androidx.navigation.NavHostController
 import androidx.lifecycle.compose.LifecycleResumeEffect
@@ -107,8 +108,8 @@ class MainActivity : AppCompatActivity() {
 
                 if (isOpenSettingsDialogVisible) {
                     KuringAlertDialog(
-                        text = "알림을 받으려면 설정에서\n알림 권한을 허용해주세요.",
-                        confirmText = "설정으로 이동",
+                        text = stringResource(R.string.notification_permission_dialog_text),
+                        confirmText = stringResource(R.string.notification_permission_dialog_confirm),
                         onConfirm = {
                             isOpenSettingsDialogVisible = false
                             pref.notificationPermissionDialogCount++
