@@ -14,15 +14,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import androidx.core.content.IntentCompat
 import androidx.navigation.NavHostController
-import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.navigation.compose.rememberNavController
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.WebViewNotice
 import com.ku_stacks.ku_ring.navigation.KuringNavigator
 import com.ku_stacks.ku_ring.navigation.MainScreenRoute
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
-import com.ku_stacks.ku_ring.ui_util.KuringNavigator
-import com.ku_stacks.ku_ring.util.checkHasNotificationPermission
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -104,10 +101,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
         startActivity(intent)
-    }
-
-    private fun navToNoticeActivity(webViewNotice: WebViewNotice) {
-        navigator.navigateToNoticeWeb(this, webViewNotice)
     }
 
     private fun Intent.parseMainScreenRoute(): MainScreenRoute? =

@@ -74,11 +74,6 @@ internal fun SettingScreen(
 
     var isLogoutDialogVisible by rememberSaveable { mutableStateOf(false) }
 
-    LifecycleResumeEffect(Unit) {
-        hasNotificationPermission = context.checkHasNotificationPermission()
-        onPauseOrDispose {}
-    }
-
     Scaffold(
         topBar = {
             CenterTitleTopBar(
@@ -104,15 +99,8 @@ internal fun SettingScreen(
                         SettingScreenDivider()
                         SubscribeGroup(
                             onNavigateToEditSubscription = onNavigateToEditSubscription,
-                            isExtNotificationEnabled = isExtNotificationEnabled && hasNotificationPermission,
-                            onExtNotificationEnabledToggle = { enabled ->
-                                if (hasNotificationPermission) {
-                                    onExtNotificationEnabledToggle(enabled)
-                                }
-                                else {
-                                    isNotificationPermissionDialogVisible = true
-                                }
-                            },
+                            isExtNotificationEnabled = isExtNotificationEnabled,
+                            onExtNotificationEnabledToggle = onExtNotificationEnabledToggle,
                             isAcademicEventNotificationEnabled = isAcademicEventNotificationEnabled,
                             onAcademicEventNotificationEnabledToggle = onAcademicEventNotificationEnabledToggle,
                         )
