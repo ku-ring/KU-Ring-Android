@@ -16,7 +16,6 @@ import javax.inject.Inject
 class NotificationRepositoryImpl @Inject constructor(
     private val notificationDataSource: NotificationDataSource,
     @field:IODispatcher private val ioDispatcher: CoroutineDispatcher
-
 ) : NotificationRepository {
     override fun getNotificationList(): Flow<PagingData<Notification>> =
         notificationDataSource.getNotificationPager(pageSize = PAGE_SIZE)
