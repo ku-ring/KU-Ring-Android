@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    setNameSpace("notification")
+    setNameSpace("feature.notification")
 }
 
 dependencies {
@@ -16,6 +16,7 @@ dependencies {
     implementation(projects.core.preferences)
     implementation(projects.core.ui)
     implementation(projects.data.domain)
+    implementation(projects.domain.navigation)
     implementation(projects.domain.notification)
 
     implementation(libs.bundles.compose.interop)

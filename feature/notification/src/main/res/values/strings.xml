@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="notification_top_bar_title">알림</string>
+
+    <!-- Content Description -->
+    <string name="notification_cd_back">뒤로 가기</string>
+    <string name="notification_cd_edit_subscription">구독 설정</string>
+
+    <!-- Category Text -->
+    <string name="notification_category_notice">공지사항</string>
+    <string name="notification_category_academic">학사일정</string>
+    <string name="notification_category_club">동아리</string>
+    <string name="notification_category_custom">일정</string>
+
+    <!-- Swipe To Delete Box -->
+    <string name="notification_swipe_to_delete_box_delete">삭제</string>
+
+</resources>
