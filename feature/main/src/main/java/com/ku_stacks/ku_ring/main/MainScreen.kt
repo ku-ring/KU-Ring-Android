@@ -183,7 +183,7 @@ fun NavGraphBuilder.mainScreenNavGraph(
                 // TODO: 동아리 상세 화면으로 이동
             },
             onNavigateToClubSubscription = {
-                // TODO: 동아리 구독목록 화면으로 이동
+                navigator.navigateToClubSubscription(activity)
             },
             onNavigateToNotification = {
                 // TODO: 알림 목록 화면으로 이동

@@ -7,6 +7,7 @@ import com.google.android.gms.oss.licenses.v2.OssLicensesMenuActivity
 import com.ku_stacks.ku_ring.R
 import com.ku_stacks.ku_ring.auth.AuthActivity
 import com.ku_stacks.ku_ring.club.onboarding.ClubOnboardingActivity
+import com.ku_stacks.ku_ring.club.subscription.ClubSubscriptionActivity
 import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.domain.WebViewNotice
 import com.ku_stacks.ku_ring.domain.mapper.toWebViewNotice
@@ -121,5 +122,9 @@ class KuringNavigatorImpl @Inject constructor() : KuringNavigator {
 
     override fun navigateToClubOnboarding(context: Context) {
         ClubOnboardingActivity.start(context)
+    }
+
+    override fun navigateToClubSubscription(context: Context) {
+        ClubSubscriptionActivity.start(context)
     }
 }
