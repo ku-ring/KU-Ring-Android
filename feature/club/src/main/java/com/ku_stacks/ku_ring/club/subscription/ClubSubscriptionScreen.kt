@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -73,7 +74,7 @@ private fun ClubSubscriptionScreen(
         ClubSubscriptionTopBar(onNavigateUp = onNavigateUp)
 
         HorizontalDivider(
-            thickness = 1.dp,
+            thickness = Dp.Hairline,
             color = KuringTheme.colors.borderline,
             modifier = Modifier.padding(bottom = 8.dp)
         )
