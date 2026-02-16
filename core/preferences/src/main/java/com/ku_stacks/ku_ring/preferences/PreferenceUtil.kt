@@ -51,6 +51,10 @@ class PreferenceUtil(@ApplicationContext context: Context) {
         get() = prefs.getString(LAST_DATE_ACADEMIC_EVENT_SHEET_SHOWN, null) ?: ""
         set(value) = prefs.edit { putString(LAST_DATE_ACADEMIC_EVENT_SHEET_SHOWN, value) }
 
+    var notificationPermissionDialogCount: Int
+        get() = prefs.getInt(NOTIFICATION_PERMISSION_DIALOG_COUNT, 0)
+        set(value) = prefs.edit { putInt(NOTIFICATION_PERMISSION_DIALOG_COUNT, value) }
+
     fun deleteStartDate() {
         prefs.edit { remove(START_DATE) }
     }
@@ -67,6 +71,14 @@ class PreferenceUtil(@ApplicationContext context: Context) {
         subscription = stringSet
     }
 
+    fun canShowNotificationPermissionDialog(): Boolean {
+        return notificationPermissionDialogCount < 2
+    }
+
+    fun resetNotificationPermissionDialogCount() {
+        notificationPermissionDialogCount = 0
+    }
+
     companion object {
         const val FIRST_RUN = "FIRST_RUN"
         const val START_DATE = "START_DATE"
@@ -78,5 +90,6 @@ class PreferenceUtil(@ApplicationContext context: Context) {
         const val CAMPUS_USER_ID = "CAMPUS_USER_ID"
         const val SURVEY_2024_COMPLETE = "SURVEY_2024_COMPLETE"
         const val LAST_DATE_ACADEMIC_EVENT_SHEET_SHOWN = "LAST_DATE_ACADEMIC_EVENT_SHEET_SHOWN"
+        const val NOTIFICATION_PERMISSION_DIALOG_COUNT = "NOTIFICATION_PERMISSION_DIALOG_COUNT"
     }
 }

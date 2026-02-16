@@ -3,7 +3,10 @@ package com.ku_stacks.ku_ring.main
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
@@ -16,6 +19,7 @@ import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.WebViewNotice
 import com.ku_stacks.ku_ring.navigation.KuringNavigator
 import com.ku_stacks.ku_ring.navigation.MainScreenRoute
+import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -26,6 +30,9 @@ class MainActivity : AppCompatActivity() {
     lateinit var navigator: KuringNavigator
 
     lateinit var navController: NavHostController
+
+    @Inject
+    lateinit var pref: PreferenceUtil
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
@@ -60,6 +67,14 @@ class MainActivity : AppCompatActivity() {
             navController = rememberNavController()
             val startDestination = intent.parseMainScreenRoute() ?: MainScreenRoute.Notice
             KuringTheme {
+                NotificationPermissionHandler(
+                    onPermissionGranted = { pref.resetNotificationPermissionDialogCount() },
+                    canShowSettingsDialog = { pref.canShowNotificationPermissionDialog() },
+                    onSettingsDialogShown = { pref.notificationPermissionDialogCount++ },
+                    openAppNotificationSettings = { launchAppNotificationSettings() }
+                )
+
+                val navController = rememberNavController()
                 MainScreen(
                     navController = navController,
                     modifier = Modifier
@@ -73,6 +88,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun navToNoticeActivity(webViewNotice: WebViewNotice) {
         navigator.navigateToNoticeWeb(this, webViewNotice)
+    }
+
+    private fun launchAppNotificationSettings() {
+        val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
+                putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
+            }
+        } else {
+            Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                data = Uri.fromParts("package", packageName, null)
+            }
+        }
+        startActivity(intent)
     }
 
     private fun Intent.parseMainScreenRoute(): MainScreenRoute? =

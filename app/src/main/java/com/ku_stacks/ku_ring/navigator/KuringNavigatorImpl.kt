@@ -117,5 +117,4 @@ class KuringNavigatorImpl @Inject constructor() : KuringNavigator {
     override fun navigateToSignOut(context: Context) {
         AuthActivity.startSignOut(context)
     }
-
 }

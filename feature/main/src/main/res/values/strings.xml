@@ -3,6 +3,10 @@
 <resources>
     <string name="setting_screen_top_app_bar_title">더보기</string>
 
+    <!--  권한 요청  -->
+    <string name="notification_permission_dialog_text">알림을 받으려면 설정에서\n알림 권한을 허용해주세요.</string>
+    <string name="notification_permission_dialog_confirm">설정으로 이동</string>
+
     <!--  navigation  -->
     <string name="main_bottom_navigation_item">%s 화면으로 이동하기</string>
 

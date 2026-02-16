@@ -139,6 +139,7 @@ internal fun SettingScreen(
             }
         }
     }
+
     if (isLogoutDialogVisible) {
         LogoutDialog(
             onDismiss = { isLogoutDialogVisible = false },
