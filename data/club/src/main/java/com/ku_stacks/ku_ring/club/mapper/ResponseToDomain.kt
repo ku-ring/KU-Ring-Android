@@ -27,7 +27,7 @@ fun ClubDetailResponse.toClub(): Club {
         location = location.toLocation(),
         applyQualification = qualifications,
         recruitment = parseRecruitment(),
-        webUrl = null,
+        webUrl = snsUrl.take(2),
         posterImageUrl = posterImageUrl,
         descriptionImageUrl = if (posterImageUrl.isEmpty()) null else listOf(posterImageUrl),
         isSubscribed = isSubscribed,

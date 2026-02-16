@@ -35,7 +35,7 @@ data class Club(
     val location: ClubLocation?,
     val applyQualification: String?,
     val recruitment: ClubRecruitment?,
-    val webUrl: String?,
+    val webUrl: List<String>,
     val posterImageUrl: String?,
     val descriptionImageUrl: List<String>?,
     val isSubscribed: Boolean,
@@ -124,7 +124,9 @@ data class ClubLocation(
     val roomNumber: String,
     val latitude: Double?,
     val longitude: Double?,
-)
+) {
+    val fullLocation: String = "$building $roomNumber"
+}
 
 fun Club.calculateDDay(): Int? = recruitment?.end?.date?.let { endDate ->
     val today = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
