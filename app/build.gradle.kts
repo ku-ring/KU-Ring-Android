@@ -83,6 +83,7 @@ dependencies {
     implementation(projects.core.composeLocals)
     implementation(projects.core.work)
     implementation(projects.data.domain)
+    implementation(projects.data.club)
     implementation(projects.data.noticecomment)
     implementation(projects.data.report)
     implementation(projects.data.academicevent)
