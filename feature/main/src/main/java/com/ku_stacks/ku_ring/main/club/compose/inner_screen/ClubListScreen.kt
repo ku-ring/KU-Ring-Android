@@ -41,10 +41,10 @@ import com.ku_stacks.ku_ring.main.club.compose.components.ClubDivisionBottomShee
 import com.ku_stacks.ku_ring.main.club.compose.components.ClubDivisionChipButtonGroup
 import com.ku_stacks.ku_ring.main.club.compose.components.ClubTabRow
 import com.ku_stacks.ku_ring.main.club.compose.components.ClubTopBar
+import com.ku_stacks.ku_ring.ui.club.ClubItemColumn
 import com.ku_stacks.ku_ring.ui.club.ClubListSortButtonRow
 import com.ku_stacks.ku_ring.ui.club.ClubSortOption
 import com.ku_stacks.ku_ring.ui.club.ClubsPreviewParameterProvider
-import com.ku_stacks.ku_ring.ui.club.LazyPagingClubItemColumn
 import kotlinx.coroutines.flow.flowOf
 
 @Composable
@@ -160,7 +160,7 @@ private fun ClubListScreen(
         HorizontalPager(
             state = pagerState,
         ) {
-            LazyPagingClubItemColumn(
+            ClubItemColumn(
                 clubs = clubs,
                 onClubSubscribeToggle = onSubscriptionToggle,
                 onClubItemClick = onNavigateToClubDetail,

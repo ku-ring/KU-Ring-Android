@@ -37,7 +37,7 @@ import com.ku_stacks.ku_ring.ui.R.string.club_list_no_item
 import kotlinx.coroutines.flow.flowOf
 
 @Composable
-fun LazyPagingClubItemColumn(
+fun ClubItemColumn(
     clubs: LazyPagingItems<Club>,
     onClubSubscribeToggle: (Club) -> Unit,
     onClubItemClick: (Club) -> Unit,
@@ -122,7 +122,7 @@ private fun EmptyClubItemView(
 
 @LightAndDarkPreview
 @Composable
-private fun LazyPagingClubItemColumnPreview(
+private fun ClubItemColumnPreview(
     @PreviewParameter(ClubsPreviewParameterProvider::class) clubs: List<Club>,
 ) {
     val pagingData = PagingData.from(
@@ -142,7 +142,7 @@ private fun LazyPagingClubItemColumnPreview(
                 .height(500.dp)
                 .padding(20.dp),
         ) {
-            LazyPagingClubItemColumn(
+            ClubItemColumn(
                 clubs = clubs,
                 onClubSubscribeToggle = {},
                 onClubItemClick = {},

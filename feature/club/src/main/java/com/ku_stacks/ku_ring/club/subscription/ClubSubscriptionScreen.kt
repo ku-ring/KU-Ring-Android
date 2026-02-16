@@ -30,10 +30,10 @@ import com.ku_stacks.ku_ring.club.subscription.component.ClubSubscriptionTopBar
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.Club
+import com.ku_stacks.ku_ring.ui.club.ClubItemColumn
 import com.ku_stacks.ku_ring.ui.club.ClubListSortButtonRow
 import com.ku_stacks.ku_ring.ui.club.ClubSortOption
 import com.ku_stacks.ku_ring.ui.club.ClubsPreviewParameterProvider
-import com.ku_stacks.ku_ring.ui.club.LazyPagingClubItemColumn
 import kotlinx.coroutines.flow.flowOf
 
 @Composable
@@ -98,7 +98,7 @@ private fun ClubSubscriptionScreen(
             )
         }
 
-        LazyPagingClubItemColumn(
+        ClubItemColumn(
             clubs = clubs,
             onClubSubscribeToggle = onSubscriptionToggle,
             onClubItemClick = onNavigateToClubDetail,
