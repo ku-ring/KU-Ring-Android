@@ -23,4 +23,7 @@ data class DefaultResponse<T>(
 ) {
     val isSuccess: Boolean
         get() = (resultCode == 200)
+
+    val isSuccessAndDataExists: Boolean
+        get() = isSuccess && (data != null)
 }

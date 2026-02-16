@@ -1,6 +1,6 @@
 [versions]
 # project-level dependency
-android-gradle = "9.0.0"
+android-gradle = "9.0.1"
 kotlin = '2.3.10'
 ksp = '2.3.5'
 hilt = '2.59.1'
@@ -11,8 +11,8 @@ compileSdk = "36"
 targetSdk = "35"
 minSdk = "24"
 # Update appVersion, versionCode both
-appVersion = "2.4.1"
-versionCode = "20401"
+appVersion = "2.4.2"
+versionCode = "20402"
 
 # app-level dependency
 # Kotlin
@@ -23,7 +23,7 @@ kotlinx-immutable = "0.4.0"
 
 # Compose
 compose-compiler = '1.4.8'
-compose-bom = '2026.01.01'
+compose-bom = '2026.02.00'
 
 # Androidx
 androidx-lifecycle = '2.10.0'
@@ -33,7 +33,7 @@ androidx-constraintlayout-compose = "1.1.1"
 androidx-activity = '1.12.3'
 androidx-core = "1.17.0" # 1.17.0은 targetSdk 36 필요
 androidx-fragment = '1.8.9'
-androidx-paging = '3.4.0'
+androidx-paging = '3.4.1'
 androidx-room = '2.8.4'
 androidx-viewpager2 = '1.1.0'
 androidx-work = '2.11.1'
