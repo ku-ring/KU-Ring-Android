@@ -74,6 +74,7 @@ fun ClubListScreen(
         onNavigateToClubSubscription = onNavigateToClubSubscription,
         onNavigateToNotification = onNavigateToNotification,
         onSelectedDivisionsChange = viewModel::updateSelectedDivisions,
+        onSelectedDivisionReset = viewModel::resetSelectedDivisions,
         onBottomSheetVisibilityChange = viewModel::updateBottomSheetVisibility,
         onSubscriptionToggle = viewModel::updateClubSubscription,
         onSortOptionChange = viewModel::updateSortOption
@@ -89,6 +90,7 @@ private fun ClubListScreen(
     onNavigateToClubSubscription: () -> Unit,
     onNavigateToNotification: () -> Unit,
     onSelectedDivisionsChange: (Set<ClubDivision>) -> Unit,
+    onSelectedDivisionReset: () -> Unit,
     onBottomSheetVisibilityChange: () -> Unit,
     onSubscriptionToggle: (Club) -> Unit,
     onSortOptionChange: (ClubSortOption) -> Unit,
@@ -132,7 +134,7 @@ private fun ClubListScreen(
                     onSelectedDivisionsChange(selectedDivision + division)
                 }
             },
-            onResetClick = { onSelectedDivisionsChange(setOf()) },
+            onResetClick = onSelectedDivisionReset,
             onExpandClick = onBottomSheetVisibilityChange,
         )
 
@@ -203,6 +205,7 @@ private fun ClubListScreenPreview(
             onNavigateToClubSubscription = {},
             onNavigateToNotification = {},
             onSelectedDivisionsChange = {},
+            onSelectedDivisionReset = {},
             onBottomSheetVisibilityChange = {},
             onSubscriptionToggle = {},
             onSortOptionChange = {},

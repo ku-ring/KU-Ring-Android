@@ -99,6 +99,10 @@ class ClubListViewModel @Inject constructor() : ViewModel() {
         }
     }
 
+    fun resetSelectedDivisions() {
+        _uiState.update { it.copy(selectedDivisions = setOf()) }
+    }
+
     fun updateBottomSheetVisibility() {
         _uiState.update { it.copy(isDivisionBottomSheetVisible = !it.isDivisionBottomSheetVisible) }
     }
