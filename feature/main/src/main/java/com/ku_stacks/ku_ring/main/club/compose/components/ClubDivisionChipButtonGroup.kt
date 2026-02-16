@@ -12,13 +12,11 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -32,8 +30,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.Dp
@@ -41,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import com.ku_stacks.ku_ring.designsystem.R
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.designsystem.utils.overlayingGradient
 import com.ku_stacks.ku_ring.domain.ClubDivision
 
 @Composable
@@ -96,17 +93,11 @@ fun ClubDivisionChipButtonGroup(
             }
         }
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.align(Alignment.CenterEnd)
-        ) {
-            GradientBox(width = 30.dp)
-            ExpandButton(
-                onClick = onExpandClick,
-                modifier = Modifier
-                    .fillMaxHeight(),
-            )
-        }
+        ExpandButton(
+            onClick = onExpandClick,
+            modifier = Modifier
+                .align(Alignment.CenterEnd),
+        )
     }
 }
 
@@ -155,9 +146,20 @@ private fun ExpandButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) {
+    val backgroundColor = KuringTheme.colors.background
+
     Surface(
-        color = KuringTheme.colors.background,
+        color = backgroundColor,
         modifier = modifier
+            .overlayingGradient(
+                colors = listOf(
+                    backgroundColor.copy(alpha = 0f),
+                    backgroundColor.copy(alpha = 0.2f),
+                    backgroundColor.copy(alpha = 0.9f),
+                    backgroundColor.copy(alpha = 1f),
+                ),
+                start = 30.dp
+            )
             .clickable(
                 onClick = onClick,
                 interactionSource = remember { MutableInteractionSource() },
@@ -169,34 +171,11 @@ private fun ExpandButton(
             contentDescription = null,
             tint = KuringTheme.colors.gray300,
             modifier = Modifier
+                .background(backgroundColor)
                 .padding(6.dp)
                 .size(24.dp),
         )
     }
-}
-
-@Composable
-private fun GradientBox(
-    width: Dp,
-    modifier: Modifier = Modifier,
-) {
-    val gradientColor = KuringTheme.colors.background
-    Box(
-        modifier = modifier
-            .width(width)
-            .fillMaxHeight()
-            .background(
-                brush = Brush.linearGradient(
-                    colors = listOf(
-                        gradientColor.copy(alpha = 0f),
-                        gradientColor.copy(alpha = 0.2f),
-                        gradientColor.copy(alpha = 0.9f),
-                    ),
-                    start = Offset(0f, 0f),
-                    end = Offset(Float.POSITIVE_INFINITY, 0f)
-                )
-            )
-    )
 }
 
 @LightAndDarkPreview
