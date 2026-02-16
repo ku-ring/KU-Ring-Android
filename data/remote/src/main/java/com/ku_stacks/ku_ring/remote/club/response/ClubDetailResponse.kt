@@ -18,8 +18,8 @@ data class ClubDetailResponse(
     // TODO: isBookmarked를 이걸로 통일 요청
     val isSubscribed: Boolean,
     // TODO: json key 이름을 snsUrl로 변경하도록 요청; 요청 결과에 따라 수정 예정
-    @SerialName("instagramUrl")
-    val snsUrl: String,
+    @SerialName("homepageUrl")
+    val snsUrl: List<String>,
     val description: String,
     val qualifications: String,
     val recruitmentStatus: String,
