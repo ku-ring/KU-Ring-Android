@@ -1,5 +1,6 @@
 package com.ku_stacks.ku_ring.local.dao
 
+import androidx.paging.PagingSource
 import com.ku_stacks.ku_ring.local.LocalDbAbstract
 import com.ku_stacks.ku_ring.local.room.PushDao
 import com.ku_stacks.ku_ring.local.test.LocalTestUtil
@@ -31,7 +32,17 @@ class PushDaoTest : LocalDbAbstract() {
         pushDao.insertNotification(pushMock)
 
         // when
-        val pushFromDB = pushDao.getNotificationList().first().first()
+        val pagingSource = pushDao.getNotificationList()
+        val loadResult = pagingSource.load(
+            PagingSource.LoadParams.Refresh(
+                key = null,
+                loadSize = 1,
+                placeholdersEnabled = false
+            )
+        )
+        val resultData = (loadResult as PagingSource.LoadResult.Page).data
+        val pushFromDB = resultData.first()
+
 
         // then
         assertThat(pushFromDB.articleId, `is`(pushMock.articleId))
@@ -51,7 +62,16 @@ class PushDaoTest : LocalDbAbstract() {
         pushDao.updateNotificationAsOld(pushMock.articleId, false)
 
         // when
-        val pushFromDB = pushDao.getNotificationList().first().first()
+        val pagingSource = pushDao.getNotificationList()
+        val loadResult = pagingSource.load(
+            PagingSource.LoadParams.Refresh(
+                key = null,
+                loadSize = 1,
+                placeholdersEnabled = false
+            )
+        )
+        val resultData = (loadResult as PagingSource.LoadResult.Page).data
+        val pushFromDB = resultData.first()
 
         // then : updateConfirmedNotification 하면 isNew 값이 false
         assertThat(pushFromDB.articleId, `is`(pushMock.articleId))
