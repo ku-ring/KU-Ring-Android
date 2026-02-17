@@ -9,6 +9,7 @@ abstract class BasePagingSource<Value : Any> : PagingSource<Int, Value>() {
      *
      * @param cursor 조회할 다음 페이지
      * @param size 조회할 페이지의 크기
+     * @return [PagingRawData]로 래핑한 조회 결과
      * @throws IllegalStateException 조회에 실패하면 메시지를 포함한 예외를 던집니다.
      */
     abstract suspend fun provideData(cursor: Int, size: Int): PagingRawData<Value>
