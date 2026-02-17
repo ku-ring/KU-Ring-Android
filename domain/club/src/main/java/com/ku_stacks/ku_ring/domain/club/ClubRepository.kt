@@ -1,6 +1,10 @@
 package com.ku_stacks.ku_ring.domain.club
 
+import androidx.paging.PagingData
 import com.ku_stacks.ku_ring.domain.Club
+import com.ku_stacks.ku_ring.domain.ClubCategory
+import com.ku_stacks.ku_ring.domain.ClubDivision
+import kotlinx.coroutines.flow.Flow
 
 interface ClubRepository {
     /**
@@ -26,4 +30,25 @@ interface ClubRepository {
      * @return 정상 처리 시 동아리의 상세 정보를 [Result]에 담아 반환. 실패 시 [Result.Failure]
      */
     suspend fun getClubDetail(clubId: Int): Result<Club>
+
+    /**
+     * 필터 조건에 맞는 동아리 목록을 페이징으로 가져온다.
+     *
+     * @param category 동아리 카테고리
+     * @param division 동아리 구분
+     * @param sortBy 정렬 기준
+     * @return 동아리 목록의 [PagingData]를 [Flow]로 반환
+     */
+    fun getClubs(
+        category: ClubCategory,
+        division: ClubDivision,
+        sortBy: String,
+    ): Flow<PagingData<Club>>
+
+    /**
+     * 구독한 동아리 목록을 페이징으로 가져온다.
+     *
+     * @return 동아리 목록의 [PagingData]를 [Flow]로 반환
+     */
+    fun getSubscribedClubs(): Flow<PagingData<Club>>
 }

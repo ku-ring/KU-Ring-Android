@@ -8,6 +8,7 @@ import com.ku_stacks.ku_ring.domain.ClubLocation
 import com.ku_stacks.ku_ring.domain.ClubRecruitment
 import com.ku_stacks.ku_ring.domain.RecruitmentStatus
 import com.ku_stacks.ku_ring.remote.club.response.ClubDetailResponse
+import com.ku_stacks.ku_ring.remote.club.response.ClubListItem
 import com.ku_stacks.ku_ring.remote.club.response.ClubRoomLocation
 import kotlinx.datetime.LocalDateTime
 
@@ -50,6 +51,43 @@ fun ClubDetailResponse.parseRecruitment(): ClubRecruitment? {
             recruitmentStatus = recruitmentStatus.uppercase()
                 .toEnumOrDefault<RecruitmentStatus>(RecruitmentStatus.BEFORE),
             applyLink = applyUrl,
+        )
+    } else {
+        null
+    }
+}
+
+fun ClubListItem.toClub(): Club {
+    return Club(
+        id = id,
+        name = name,
+        summary = shortIntroduction,
+        category = category.uppercase().toEnumOrDefault<ClubCategory>(ClubCategory.OTHERS),
+        division = division.uppercase().toEnumOrDefault<ClubDivision>(ClubDivision.ETC),
+        posterImageUrl = imageUrl,
+        isSubscribed = isSubscribed,
+        subscribeCount = subscriberCount,
+        recruitment = parseRecruitment(),
+        // 하위 속성들은 사용되지 않음
+        location = null,
+        applyQualification = null,
+        webUrl = null,
+        descriptionImageUrl = null,
+        description = "",
+        affiliation = ClubAffiliation.CENTRAL,
+    )
+}
+
+fun ClubListItem.parseRecruitment(): ClubRecruitment? {
+    return if (recruitStartAt.isNotEmpty() && recruitEndAt.isNotEmpty()) {
+        val start = LocalDateTime.parse(recruitStartAt)
+        val end = LocalDateTime.parse(recruitEndAt)
+        ClubRecruitment(
+            start = start,
+            end = end,
+            // 하위 속성들은 사용되지 않음
+            recruitmentStatus = RecruitmentStatus.BEFORE,
+            applyLink = null,
         )
     } else {
         null
