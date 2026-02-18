@@ -479,10 +479,12 @@ private fun ClubTags(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(4.dp),
     ) {
-        ClubDeadlineTag(
-            dDay = club.calculateDDay() ?: 0,
-            isRecruitmentCompleted = club.recruitment?.recruitmentStatus == RecruitmentStatus.CLOSED,
-        )
+        club.recruitment?.let { recruitment ->
+            ClubDeadlineTag(
+                dDay = club.calculateDDay() ?: 0,
+                recruitmentStatus = recruitment.recruitmentStatus,
+            )
+        }
         ClubTag(text = club.category.koreanName)
         ClubTag(text = club.division.koreanName)
     }

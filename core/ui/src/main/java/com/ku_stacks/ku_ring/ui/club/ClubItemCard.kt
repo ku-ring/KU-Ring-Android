@@ -66,12 +66,12 @@ fun ClubItemCard(
     } else {
         KuringTheme.colors.background
     }
-    
+
     // 동아리 태그는 동아리 카테고리와 동아리 소속을 포함
     val tags = listOf(
-            club.category.koreanName,
-            club.division.koreanName,
-        )
+        club.category.koreanName,
+        club.division.koreanName,
+    )
     val dDay = club.calculateDDay(today) ?: 0
 
     Surface(
@@ -100,9 +100,9 @@ fun ClubItemCard(
                     .aspectRatio(3f / 4f)
                     .padding(bottom = 9.dp),
             )
-            
+
             Spacer(modifier = Modifier.width(10.dp))
-            
+
             Column(modifier = Modifier.weight(1f)) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -116,15 +116,17 @@ fun ClubItemCard(
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
-                    
-                    ClubDeadlineTag(
-                        dDay = dDay,
-                        isRecruitmentCompleted = isRecruitmentCompleted,
-                    )
+
+                    club.recruitment?.let { recruitment ->
+                        ClubDeadlineTag(
+                            dDay = dDay,
+                            recruitmentStatus = recruitment.recruitmentStatus,
+                        )
+                    }
                 }
-                
+
                 Spacer(modifier = Modifier.height(4.dp))
-                
+
                 Text(
                     text = club.summary,
                     style = KuringTheme.typography.caption1.ensureLineHeight(),
@@ -134,9 +136,9 @@ fun ClubItemCard(
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.fillMaxWidth(),
                 )
-                
+
                 Spacer(modifier = Modifier.height(7.dp))
-                
+
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -170,7 +172,7 @@ private fun ThumbnailImage(
     } else {
         KuringTheme.colors.gray100 to KuringTheme.colors.gray200
     }
-    
+
     Box(
         modifier = modifier
             .background(color = containerColor, shape = RoundedCornerShape(14))
@@ -182,7 +184,7 @@ private fun ThumbnailImage(
             contentDescription = null,
             tint = contentColor,
         )
-        
+
         AsyncImage(
             model = logoUrl,
             contentDescription = clubName,
@@ -200,7 +202,7 @@ private fun SubscribeToggle(
     onToggle: (Boolean) -> Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
-    
+
     Row(
         modifier = modifier
             .defaultMinSize(40.dp, 40.dp) // 터치 영역 확보
@@ -219,7 +221,7 @@ private fun SubscribeToggle(
             color = KuringTheme.colors.textCaption1,
             modifier = Modifier.padding(start = 2.dp),
         )
-        
+
         val iconRes = if (isSubscribed) ic_star_fill_v2 else ic_star_v2
         Icon(
             imageVector = ImageVector.vectorResource(id = iconRes),
