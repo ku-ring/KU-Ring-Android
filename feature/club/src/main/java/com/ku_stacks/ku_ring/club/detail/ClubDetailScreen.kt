@@ -1,9 +1,11 @@
 package com.ku_stacks.ku_ring.club.detail
 
+import android.content.Context
 import android.view.Gravity
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -62,6 +64,9 @@ import com.ku_stacks.ku_ring.domain.RecruitmentStatus
 import com.ku_stacks.ku_ring.domain.calculateDDay
 import com.ku_stacks.ku_ring.ui.club.ClubDeadlineTag
 import com.ku_stacks.ku_ring.ui.club.ClubTag
+import com.ku_stacks.ku_ring.util.navigateToExternalBrowser
+import com.ku_stacks.ku_ring.util.navigateToExternalBrowserOrThrow
+import com.ku_stacks.ku_ring.util.percentEncode
 import com.ku_stacks.ku_ring.util.showToast
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraAnimation
@@ -313,13 +318,30 @@ private fun ClubLocation(
     }
 }
 
+private fun Context.navigateToNaverMap(location: ClubLocation) {
+    val searchKeyword =
+        getString(R.string.club_detail_map_search_keyword, location.building).percentEncode()
+    try {
+        // 네이버 지도 앱이 깔려있다면 맵을 실행
+        val uri = getString(R.string.club_detail_map_uri, searchKeyword)
+        navigateToExternalBrowserOrThrow(uri)
+    } catch (_: Exception) {
+        // 맵이 없다면, 모바일 웹을 실행
+        val url = getString(R.string.club_detail_map_url, searchKeyword)
+        navigateToExternalBrowser(url)
+    }
+}
+
 @Composable
 private fun ClubLocationButton(
     location: ClubLocation,
     modifier: Modifier = Modifier,
 ) {
+    val context = LocalContext.current
     Row(
-        modifier = modifier.clearAndSetSemantics { contentDescription = location.fullLocation },
+        modifier = modifier
+            .clickable(onClick = { context.navigateToNaverMap(location) })
+            .clearAndSetSemantics { contentDescription = location.fullLocation },
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(4.dp),
     ) {
@@ -330,8 +352,9 @@ private fun ClubLocationButton(
         )
         Text(
             text = location.fullLocation,
-            style = KuringTheme.typography.caption1,
-            color = KuringTheme.colors.textBody,
+            style = KuringTheme.typography.caption1_1,
+            color = KuringTheme.colors.textCaption1,
+            textDecoration = TextDecoration.Underline,
         )
     }
 }
@@ -357,6 +380,7 @@ private fun ClubLocationMap(
     val mapProperties = MapProperties(
         minZoom = zoomLevel,
         maxZoom = zoomLevel,
+        isNightModeEnabled = isSystemInDarkTheme(),
     )
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition(
@@ -371,10 +395,12 @@ private fun ClubLocationMap(
         )
     }
 
+    val context = LocalContext.current
     NaverMap(
         properties = mapProperties,
         uiSettings = mapUiSettings,
         cameraPositionState = cameraPositionState,
+        onMapClick = { _, _ -> context.navigateToNaverMap(location) },
         modifier = modifier
             .clip(RoundedCornerShape(16.dp))
             .fillMaxWidth()

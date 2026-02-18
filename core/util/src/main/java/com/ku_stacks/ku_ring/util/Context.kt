@@ -23,10 +23,14 @@ fun Context.findActivity(): AppCompatActivity? {
 }
 
 fun Context.navigateToExternalBrowser(url: String) = try {
-    val intent = Intent(Intent.ACTION_VIEW, url.toUri())
-    startActivity(intent)
+    navigateToExternalBrowserOrThrow(url)
 } catch (e: ActivityNotFoundException) {
     Timber.e(e)
+}
+
+fun Context.navigateToExternalBrowserOrThrow(url: String) {
+    val intent = Intent(Intent.ACTION_VIEW, url.toUri())
+    startActivity(intent)
 }
 
 fun Context.showToast(msg: String) =
