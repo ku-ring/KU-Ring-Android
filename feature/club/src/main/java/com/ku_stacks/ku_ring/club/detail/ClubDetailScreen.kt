@@ -28,6 +28,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -42,8 +43,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.role
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
@@ -292,7 +295,10 @@ private fun SnsButton(
     Row(
         modifier = modifier
             .clickable(onClick = { context.navigateToExternalBrowser(snsUrl.url) })
-            .clearAndSetSemantics { contentDescription = text },
+            .clearAndSetSemantics {
+                contentDescription = text
+                role = Role.Button
+            },
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
@@ -349,7 +355,10 @@ private fun ClubLocationButton(
     Row(
         modifier = modifier
             .clickable(onClick = { context.navigateToNaverMap(location) })
-            .clearAndSetSemantics { contentDescription = location.fullLocation },
+            .clearAndSetSemantics {
+                contentDescription = location.fullLocation
+                role = Role.Button
+            },
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(4.dp),
     ) {
@@ -473,12 +482,22 @@ private fun ClubRecruitmentQualification(
 private fun ClubRequestUpdate(
     modifier: Modifier = Modifier,
 ) {
+    val context = LocalContext.current
+    val text = stringResource(R.string.club_detail_request_update)
+    val formUrl = stringResource(R.string.club_detail_update_link)
     Text(
-        text = stringResource(R.string.club_detail_request_update),
+        text = text,
         style = KuringTheme.typography.caption1_1,
         color = KuringTheme.colors.textCaption1,
         textDecoration = TextDecoration.Underline,
-        modifier = modifier,
+        modifier = modifier
+            .clickable { context.navigateToExternalBrowser(formUrl) }
+            .padding(horizontal = 8.dp)
+            .minimumInteractiveComponentSize()
+            .clearAndSetSemantics {
+                contentDescription = text
+                role = Role.Button
+            },
     )
 }
 
@@ -550,6 +569,7 @@ private fun ClubErrorScreen(
                 .padding(8.dp)
                 .clearAndSetSemantics {
                     contentDescription = description
+                    role = Role.Button
                 }
                 .align(Alignment.Center),
             horizontalAlignment = Alignment.CenterHorizontally,

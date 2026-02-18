@@ -43,6 +43,7 @@
     <string name="club_detail_description_image">%d번째 동아리 이미지</string>
 
     <string name="club_detail_request_update">정보 수정 요청하기</string>
+    <string name="club_detail_update_link">https://docs.google.com/forms/d/e/1FAIpQLSfeIQ06BSryZIfd9gybWLgNfe2xkpwBlV4WYpyo3chFLIT_VA/viewform</string>
 
     <string name="club_detail_subscribe_fail">구독에 실패했습니다. 잠시 후 다시 시도해 보세요.</string>
     <string name="club_detail_unsubscribe_fail">구독 해제에 실패했습니다. 잠시 후 다시 시도해 보세요.</string>
