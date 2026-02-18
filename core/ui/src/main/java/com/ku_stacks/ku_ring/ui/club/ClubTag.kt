@@ -39,7 +39,7 @@ fun ClubDeadlineTag(
     val (containerColor, contentColor) = with(KuringTheme.colors) {
         when {
             recruitmentStatus != RecruitmentStatus.ALWAYS && isNearDeadline -> event to red
-            else -> gray100 to textCaption2
+            else -> gray100 to textCaption1
         }
     }
 
@@ -55,7 +55,7 @@ fun ClubTag(
     text: String,
     modifier: Modifier = Modifier,
     contentColor: Color = KuringTheme.colors.gray100,
-    containerColor: Color = KuringTheme.colors.textCaption2,
+    containerColor: Color = KuringTheme.colors.textCaption1,
 ) {
     Surface(
         color = containerColor,

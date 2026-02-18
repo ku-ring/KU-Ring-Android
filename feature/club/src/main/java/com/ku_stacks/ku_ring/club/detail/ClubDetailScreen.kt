@@ -91,7 +91,7 @@ fun ClubDetailScreen(
     val clubUiState by viewModel.clubUiState.collectAsStateWithLifecycle()
     when (clubUiState) {
         ClubDetailUiState.Loading -> {
-            ClubLoadingScreen()
+            ClubLoadingScreen(modifier = modifier)
         }
 
         is ClubDetailUiState.Success -> {
@@ -197,12 +197,14 @@ private fun ClubDetailScreen(
                 Spacer(modifier = Modifier.height(24.dp))
                 ClubRecruitmentQualification(qualification)
             }
-            Spacer(modifier = Modifier.height(24.dp))
             club.descriptionImageUrl?.let { imageLinks ->
+                Spacer(modifier = Modifier.height(24.dp))
                 ClubDescriptionImages(
                     imageLinks = imageLinks,
+                    modifier = Modifier.fillMaxWidth(),
                 )
             }
+            Spacer(modifier = Modifier.height(24.dp))
             ClubRequestUpdate(modifier = Modifier.align(Alignment.CenterHorizontally))
         }
     }
@@ -216,7 +218,9 @@ private fun ClubSubscribeButton(
     modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = modifier.clickable(onClick = { onClick(!isSubscribed) }),
+        modifier = modifier
+            .clickable(onClick = { onClick(!isSubscribed) })
+            .padding(horizontal = 4.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
@@ -284,8 +288,11 @@ private fun SnsButton(
     modifier: Modifier = Modifier,
 ) {
     val text = stringResource(id = snsUrl.textResId)
+    val context = LocalContext.current
     Row(
-        modifier = modifier.clearAndSetSemantics { contentDescription = text },
+        modifier = modifier
+            .clickable(onClick = { context.navigateToExternalBrowser(snsUrl.url) })
+            .clearAndSetSemantics { contentDescription = text },
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
@@ -296,8 +303,9 @@ private fun SnsButton(
         )
         Text(
             text = text,
-            style = KuringTheme.typography.caption1,
-            color = KuringTheme.colors.textBody,
+            style = KuringTheme.typography.caption1_1,
+            color = KuringTheme.colors.textCaption1,
+            textDecoration = TextDecoration.Underline,
         )
     }
 }
@@ -490,7 +498,7 @@ private fun ClubDescriptionImages(
                     .crossfade(true)
                     .build(),
                 contentDescription = stringResource(R.string.club_detail_description_image, index),
-                contentScale = ContentScale.Crop,
+                contentScale = ContentScale.FillWidth,
             )
         }
     }
