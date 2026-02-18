@@ -79,9 +79,10 @@ fun ClubListItem.toClub(): Club {
 }
 
 fun ClubListItem.parseRecruitment(): ClubRecruitment? {
-    return if (recruitStartAt.isNotEmpty() && recruitEndAt.isNotEmpty()) {
+    return runCatching {
         val start = LocalDateTime.parse(recruitStartAt)
         val end = LocalDateTime.parse(recruitEndAt)
+
         ClubRecruitment(
             start = start,
             end = end,
@@ -89,9 +90,7 @@ fun ClubListItem.parseRecruitment(): ClubRecruitment? {
             recruitmentStatus = RecruitmentStatus.BEFORE,
             applyLink = null,
         )
-    } else {
-        null
-    }
+    }.getOrNull()
 }
 
 private inline fun <reified T : Enum<T>> String.toEnumOrDefault(default: T): T {
