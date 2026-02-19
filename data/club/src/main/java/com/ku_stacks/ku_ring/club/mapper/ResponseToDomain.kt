@@ -27,9 +27,11 @@ fun ClubDetailResponse.toClub(): Club {
         location = location.toLocation(),
         applyQualification = qualifications,
         recruitment = parseRecruitment(),
-        webUrl = snsUrl.take(2),
-        posterImageUrl = posterImageUrl,
-        descriptionImageUrl = if (posterImageUrl.isEmpty()) null else listOf(posterImageUrl),
+        webUrl = listOfNotNull(instagramUrl, youtubeUrl, etcUrl),
+        posterImageUrl = descriptionImageUrl,
+        descriptionImageUrl = if (descriptionImageUrl.isEmpty()) null else listOf(
+            descriptionImageUrl
+        ),
         isSubscribed = isSubscribed,
         subscribeCount = subscriptionCount,
     )
@@ -38,9 +40,8 @@ fun ClubDetailResponse.toClub(): Club {
 fun ClubRoomLocation.toLocation() = ClubLocation(
     building = buildingName,
     roomNumber = room,
-    // TODO: API 문서 변경 완료되면 위도 및 경도 추가
-    latitude = null,
-    longitude = null,
+    latitude = latitude,
+    longitude = longitude,
 )
 
 fun ClubDetailResponse.parseRecruitment(): ClubRecruitment? {
