@@ -6,6 +6,7 @@ import com.ku_stacks.ku_ring.domain.ClubCategory
 import com.ku_stacks.ku_ring.domain.ClubDivision
 import com.ku_stacks.ku_ring.domain.ClubLocation
 import com.ku_stacks.ku_ring.domain.ClubRecruitment
+import com.ku_stacks.ku_ring.domain.ClubSummary
 import com.ku_stacks.ku_ring.domain.RecruitmentStatus
 import com.ku_stacks.ku_ring.remote.club.response.ClubDetailResponse
 import com.ku_stacks.ku_ring.remote.club.response.ClubListItem
@@ -57,8 +58,11 @@ fun ClubDetailResponse.parseRecruitment(): ClubRecruitment? {
     }
 }
 
-fun ClubListItem.toClub(): Club {
-    return Club(
+fun ClubListItem.toClubSummary(): ClubSummary {
+    val start = LocalDateTime.parse(recruitStartAt)
+    val end = LocalDateTime.parse(recruitEndAt)
+
+    return ClubSummary(
         id = id,
         name = name,
         summary = shortIntroduction,
@@ -67,30 +71,9 @@ fun ClubListItem.toClub(): Club {
         posterImageUrl = imageUrl,
         isSubscribed = isSubscribed,
         subscribeCount = subscriberCount,
-        recruitment = parseRecruitment(),
-        // 하위 속성들은 사용되지 않음
-        location = null,
-        applyQualification = null,
-        webUrl = null,
-        descriptionImageUrl = null,
-        description = "",
-        affiliation = ClubAffiliation.CENTRAL,
+        recruitmentStart = start,
+        recruitmentEnd = end,
     )
-}
-
-fun ClubListItem.parseRecruitment(): ClubRecruitment? {
-    return runCatching {
-        val start = LocalDateTime.parse(recruitStartAt)
-        val end = LocalDateTime.parse(recruitEndAt)
-
-        ClubRecruitment(
-            start = start,
-            end = end,
-            // 하위 속성들은 사용되지 않음
-            recruitmentStatus = RecruitmentStatus.BEFORE,
-            applyLink = null,
-        )
-    }.getOrNull()
 }
 
 private inline fun <reified T : Enum<T>> String.toEnumOrDefault(default: T): T {

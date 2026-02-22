@@ -4,6 +4,7 @@ import androidx.paging.PagingData
 import com.ku_stacks.ku_ring.domain.Club
 import com.ku_stacks.ku_ring.domain.ClubCategory
 import com.ku_stacks.ku_ring.domain.ClubDivision
+import com.ku_stacks.ku_ring.domain.ClubSummary
 import kotlinx.coroutines.flow.Flow
 
 interface ClubRepository {
@@ -43,12 +44,12 @@ interface ClubRepository {
         category: ClubCategory,
         division: ClubDivision,
         sortBy: String,
-    ): Flow<PagingData<Club>>
+    ): Flow<PagingData<ClubSummary>>
 
     /**
      * 구독한 동아리 목록을 페이징으로 가져온다.
      *
      * @return 동아리 목록의 [PagingData]를 [Flow]로 반환
      */
-    fun getSubscribedClubs(): Flow<PagingData<Club>>
+    fun getSubscribedClubs(): Flow<PagingData<ClubSummary>>
 }

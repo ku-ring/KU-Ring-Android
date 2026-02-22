@@ -5,12 +5,14 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.ku_stacks.ku_ring.club.mapper.toClub
+import com.ku_stacks.ku_ring.club.mapper.toClubSummary
 import com.ku_stacks.ku_ring.club.pagingsource.ClubListRequest
 import com.ku_stacks.ku_ring.club.pagingsource.ClubsPagingSource
 import com.ku_stacks.ku_ring.club.pagingsource.SubscribedClubPagingSource
 import com.ku_stacks.ku_ring.domain.Club
 import com.ku_stacks.ku_ring.domain.ClubCategory
 import com.ku_stacks.ku_ring.domain.ClubDivision
+import com.ku_stacks.ku_ring.domain.ClubSummary
 import com.ku_stacks.ku_ring.domain.club.ClubRepository
 import com.ku_stacks.ku_ring.remote.club.ClubClient
 import kotlinx.coroutines.flow.Flow
@@ -50,7 +52,7 @@ class ClubRepositoryImpl @Inject constructor(
         category: ClubCategory,
         division: ClubDivision,
         sortBy: String,
-    ): Flow<PagingData<Club>> {
+    ): Flow<PagingData<ClubSummary>> {
         return Pager(
             config = PagingConfig(pageSize = PAGE_SIZE),
             pagingSourceFactory = {
@@ -63,16 +65,16 @@ class ClubRepositoryImpl @Inject constructor(
                 )
             },
         ).flow.map { pagingData ->
-            pagingData.map { it.toClub() }
+            pagingData.map { it.toClubSummary() }
         }
     }
 
-    override fun getSubscribedClubs(): Flow<PagingData<Club>> {
+    override fun getSubscribedClubs(): Flow<PagingData<ClubSummary>> {
         return Pager(
             config = PagingConfig(pageSize = PAGE_SIZE),
             pagingSourceFactory = { subscribedClubsFactory.create() },
         ).flow.map { pagingData ->
-            pagingData.map { it.toClub() }
+            pagingData.map { it.toClubSummary() }
         }
     }
 
