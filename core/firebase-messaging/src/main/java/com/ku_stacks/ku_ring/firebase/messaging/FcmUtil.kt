@@ -44,6 +44,13 @@ class FcmUtil @Inject constructor(
         return title != null && body != null
     }
 
+    fun isClubNotification(data: Map<String, String?>): Boolean {
+        val clubId = data["clubId"]
+        val title = data["title"]
+        val body = data["body"]
+        return clubId != null && title != null && body != null
+    }
+
     fun insertNoticeNotificationIntoDatabase(
         data: Map<String, String?>,
         receivedDate: String,

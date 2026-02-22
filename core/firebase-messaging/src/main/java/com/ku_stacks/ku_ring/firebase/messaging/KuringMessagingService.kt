@@ -5,7 +5,6 @@ import androidx.work.WorkManager
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.ku_stacks.ku_ring.firebase.messaging.type.NotificationType
-import com.ku_stacks.ku_ring.local.room.PushDao
 import com.ku_stacks.ku_ring.navigation.KuringNavigator
 import com.ku_stacks.ku_ring.navigation.MainScreenRoute
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
@@ -19,9 +18,6 @@ import com.ku_stacks.ku_ring.designsystem.R as DesignR
 
 @AndroidEntryPoint
 class KuringMessagingService : FirebaseMessagingService() {
-
-    @Inject
-    lateinit var pushDao: PushDao
 
     @Inject
     lateinit var pref: PreferenceUtil
@@ -49,12 +45,16 @@ class KuringMessagingService : FirebaseMessagingService() {
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        val type = NotificationType.from(remoteMessage.data["type"])
-        when (type) {
-            NotificationType.NOTICE -> onNoticeMessageReceived(remoteMessage.data)
-            NotificationType.CUSTOM -> onCustomMessageReceived(remoteMessage.data)
-            NotificationType.ACADEMIC_EVENT -> onAcademicEventMessageReceived(remoteMessage.data)
-            NotificationType.CLUB -> { } // TODO: 동아리 알림을 수신했을 때의 로직 추가
+        try {
+            val type = NotificationType.from(remoteMessage.data["type"])
+            when (type) {
+                NotificationType.NOTICE -> onNoticeMessageReceived(remoteMessage.data)
+                NotificationType.CUSTOM -> onCustomMessageReceived(remoteMessage.data)
+                NotificationType.ACADEMIC_EVENT -> onAcademicEventMessageReceived(remoteMessage.data)
+                NotificationType.CLUB -> onClubMessageReceived(remoteMessage.data)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
@@ -66,9 +66,9 @@ class KuringMessagingService : FirebaseMessagingService() {
         val fullUrl = data["baseUrl"]!!
 
         val receivedDate = DateUtil.getCurrentTime()
-        fcmUtil.insertNoticeNotificationIntoDatabase(data, receivedDate)
-
         val categoryKr = WordConverter.convertEnglishToKorean(category)
+
+        fcmUtil.insertNoticeNotificationIntoDatabase(data, receivedDate)
         showNotificationWithUrl(
             title = subject,
             body = categoryKr,
@@ -81,24 +81,33 @@ class KuringMessagingService : FirebaseMessagingService() {
     }
 
     private fun onCustomMessageReceived(data: Map<String, String?>) {
+        val type = data["type"]!!
+        val title = data["title"]!!
+        val body = data["body"]!!
         val receivedDate = DateUtil.getCurrentTime()
-        fcmUtil.insertNotificationIntoDatabase(data, receivedDate)
 
+        fcmUtil.insertNotificationIntoDatabase(data, receivedDate)
         if (pref.extNotificationAllowed) {
-            val type = data["type"]!!
-            val title = data["title"]!!
-            val body = data["body"]!!
             showCustomNotification(type = type, title = title, body = body)
         }
     }
 
     private fun onAcademicEventMessageReceived(data: Map<String, String?>) {
-        val receivedDate = DateUtil.getCurrentTime()
-        fcmUtil.insertNotificationIntoDatabase(data, receivedDate)
-
         val title = data["title"]!!
         val body = data["body"]!!
+        val receivedDate = DateUtil.getCurrentTime()
+
+        fcmUtil.insertNotificationIntoDatabase(data, receivedDate)
         showAcademicEventNotification(title, body)
+    }
+
+    private fun onClubMessageReceived(data: Map<String, String?>) {
+        val title = data["title"]!!
+        val body = data["body"]!!
+        val receivedDate = DateUtil.getCurrentTime()
+
+        fcmUtil.insertNotificationIntoDatabase(data, receivedDate)
+        showClubNotification(title, body)
     }
 
     private fun showNotificationWithUrl(
@@ -134,5 +143,9 @@ class KuringMessagingService : FirebaseMessagingService() {
             largeIconRes = DesignR.drawable.ic_notification,
             smallIconRes = DesignR.drawable.ic_status_bar
         )
+    }
+
+    private fun showClubNotification(title: String, body: String) {
+        // TODO: 동아리의 상세화면으로 이동하는 로직 추가
     }
 }
