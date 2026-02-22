@@ -43,7 +43,7 @@ fun ClubDivisionBottomSheet(
     onDismissRequest: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val sheetState = rememberModalBottomSheetState()
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val scope = rememberCoroutineScope()
     var currentSelected by remember { mutableStateOf(selectedItems) }
 
@@ -95,6 +95,7 @@ fun ClubDivisionBottomSheet(
                 }
             },
             onReset = { currentSelected = emptySet() },
+            confirmEnabled = currentSelected != selectedItems,
             modifier = Modifier.padding(
                 start = 20.dp,
                 end = 20.dp,
@@ -128,6 +129,7 @@ private fun ClubDivisionItemRow(
 @Composable
 private fun ActionButtonGroup(
     selectedItemCount: Int,
+    confirmEnabled: Boolean,
     onConfirm: () -> Unit,
     onReset: () -> Unit,
     modifier: Modifier = Modifier,
@@ -155,7 +157,7 @@ private fun ActionButtonGroup(
         KuringCallToAction(
             text = stringResource(club_bottom_sheet_division_confirm, selectedItemCount),
             onClick = onConfirm,
-            enabled = selectedItemCount > 0,
+            enabled = confirmEnabled,
             modifier = Modifier.weight(1f),
         )
     }
