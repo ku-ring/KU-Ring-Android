@@ -1,7 +1,8 @@
 package com.ku_stacks.ku_ring.firebase.messaging
 
+import com.ku_stacks.ku_ring.firebase.messaging.mapper.getPushEntity
 import com.ku_stacks.ku_ring.local.entity.NoticeEntity
-import com.ku_stacks.ku_ring.local.entity.PushEntity
+import com.ku_stacks.ku_ring.local.entity.PushContent
 import com.ku_stacks.ku_ring.local.room.NoticeDao
 import com.ku_stacks.ku_ring.local.room.PushDao
 import com.ku_stacks.ku_ring.util.IODispatcher
@@ -43,36 +44,24 @@ class FcmUtil @Inject constructor(
         return title != null && body != null
     }
 
-    fun insertNotificationIntoDatabase(
-        articleId: String,
-        id: Int,
-        category: String,
-        postedDate: String,
-        subject: String,
-        fullUrl: String,
-        receivedDate: String
+    fun insertNoticeNotificationIntoDatabase(
+        data: Map<String, String?>,
+        receivedDate: String,
     ) {
         CoroutineScope(ioDispatcher).launch {
             try {
-                pushDao.insertNotification(
-                    PushEntity(
-                        articleId = articleId,
-                        category = category,
-                        postedDate = postedDate,
-                        subject = subject,
-                        fullUrl = fullUrl,
-                        isNew = true,
-                        receivedDate = receivedDate
-                    )
-                )
+                val entity = getPushEntity(data, receivedDate)
+                val content = entity.content as PushContent.Notice
+
+                pushDao.insertNotification(entity)
                 noticeDao.insertNotice(
                     NoticeEntity(
-                        articleId = articleId,
-                        id = id,
-                        category = category,
-                        subject = subject,
-                        postedDate = postedDate,
-                        url = fullUrl,
+                        articleId = content.articleId,
+                        id = content.id,
+                        category = content.category,
+                        subject = content.subject,
+                        postedDate = content.postedDate,
+                        url = content.fullUrl,
                         isNew = true,
                         isRead = false,
                         isSaved = false,
@@ -80,6 +69,20 @@ class FcmUtil @Inject constructor(
                         isReadOnStorage = false
                     )
                 )
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun insertNotificationIntoDatabase(
+        data: Map<String, String?>,
+        receivedDate: String,
+    ) {
+        CoroutineScope(ioDispatcher).launch {
+            try {
+                val entity = getPushEntity(data, receivedDate)
+                pushDao.insertNotification(entity)
             } catch (e: Exception) {
                 e.printStackTrace()
             }

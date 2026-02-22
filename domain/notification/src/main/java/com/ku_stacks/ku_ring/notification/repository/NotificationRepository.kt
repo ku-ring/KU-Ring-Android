@@ -6,6 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface NotificationRepository {
     fun getNotificationList(): Flow<PagingData<Notification>>
-    suspend fun updateNotificationAsRead(articleId: String)
-    suspend fun deleteNotification(articleId: String)
+    suspend fun updateNotificationAsRead(id: Int)
+    suspend fun deleteNotification(id: Int)
 }

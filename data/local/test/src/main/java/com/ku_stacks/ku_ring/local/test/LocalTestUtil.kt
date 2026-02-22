@@ -4,6 +4,7 @@ import com.ku_stacks.ku_ring.local.entity.AcademicEventEntity
 import com.ku_stacks.ku_ring.local.entity.DepartmentEntity
 import com.ku_stacks.ku_ring.local.entity.KuringBotMessageEntity
 import com.ku_stacks.ku_ring.local.entity.NoticeEntity
+import com.ku_stacks.ku_ring.local.entity.PushContent
 import com.ku_stacks.ku_ring.local.entity.PushEntity
 
 object LocalTestUtil {
@@ -46,13 +47,17 @@ object LocalTestUtil {
     )
 
     fun fakePushEntity() = PushEntity(
-        articleId = "5b4a11b",
-        category = "bachelor",
-        postedDate = "2022-01-14 00:50:33",
-        subject = "2023학년도 전과 선발자 안내",
-        fullUrl = "http://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do?forum=notice&sort=6&id=5b4f972&cat=0000300001",
+        id = 1,
         isNew = true,
         receivedDate = "20220114-005036",
+        content = PushContent.Notice(
+            id = 1234,
+            articleId = "5b4a11b",
+            category = "bachelor",
+            subject = "2023학년도 전과 선발자 안내",
+            fullUrl = "http://www.konkuk.ac.kr",
+            postedDate = "2022-01-14 00:50:33",
+        ),
     )
 
     fun fakeKuringBotMessageEntity(

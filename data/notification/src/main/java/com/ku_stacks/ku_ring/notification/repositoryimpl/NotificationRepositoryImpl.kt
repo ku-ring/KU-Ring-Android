@@ -23,14 +23,14 @@ class NotificationRepositoryImpl @Inject constructor(
                 pagingData.map { it.toDomain() }
             }
 
-    override suspend fun updateNotificationAsRead(articleId: String) =
+    override suspend fun updateNotificationAsRead(id: Int) =
         withContext(ioDispatcher) {
-            notificationDataSource.updateNotificationAsRead(articleId, true)
+            notificationDataSource.updateNotificationAsRead(id, true)
         }
 
-    override suspend fun deleteNotification(articleId: String) =
+    override suspend fun deleteNotification(id: Int) =
         withContext(ioDispatcher) {
-            notificationDataSource.deleteNotification(articleId)
+            notificationDataSource.deleteNotification(id)
         }
 
     companion object {
