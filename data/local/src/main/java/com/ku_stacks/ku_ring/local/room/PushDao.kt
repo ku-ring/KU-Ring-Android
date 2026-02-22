@@ -1,5 +1,6 @@
 package com.ku_stacks.ku_ring.local.room
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -16,7 +17,7 @@ interface PushDao {
     suspend fun updateNotificationAsOld(articleId: String, value: Boolean)
 
     @Query("SELECT * FROM PushEntity ORDER BY postedDate DESC, receivedDate DESC")
-    fun getNotificationList(): Flow<List<PushEntity>>
+    fun getNotificationList(): PagingSource<Int, PushEntity>
 
     @Query("SELECT COUNT(articleId) FROM PushEntity WHERE isNew = :value")
     fun getNotificationCount(value: Boolean): Flow<Int>
