@@ -17,4 +17,8 @@
     <string name="club_onboarding_description">관심있는 카테고리의 동아리를 탐색해보아요</string>
     <string name="club_onboarding_cta">확인</string>
     <string name="club_onboarding_dismiss">건너뛰기</string>
+
+    <!-- Subscription screen strings -->
+    <string name="club_subscription_topbar_title">구독</string>
+    <string name="club_subscription_item_count">총 %s개</string>
 </resources>
