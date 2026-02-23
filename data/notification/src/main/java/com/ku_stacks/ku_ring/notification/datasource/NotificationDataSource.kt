@@ -17,8 +17,8 @@ class NotificationDataSource @Inject constructor(
             pagingSourceFactory = { pushDao.getNotificationList() },
         )
 
-    suspend fun updateNotificationAsRead(id: Int, value: Boolean) {
-        pushDao.updateNotificationAsOld(id, value)
+    suspend fun updateNotificationAsRead(id: Int, isNew: Boolean) {
+        pushDao.updateNotificationAsOld(id, isNew)
     }
 
     suspend fun deleteNotification(id: Int) {

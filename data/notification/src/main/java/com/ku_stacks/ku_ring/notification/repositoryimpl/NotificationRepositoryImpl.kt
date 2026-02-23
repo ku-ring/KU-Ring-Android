@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 class NotificationRepositoryImpl @Inject constructor(
     private val notificationDataSource: NotificationDataSource,
-    @field:IODispatcher private val ioDispatcher: CoroutineDispatcher
+    @IODispatcher private val ioDispatcher: CoroutineDispatcher
 ) : NotificationRepository {
     override fun getNotificationList(): Flow<PagingData<Notification>> =
         notificationDataSource.getNotificationPager(pageSize = PAGE_SIZE)
@@ -25,7 +25,7 @@ class NotificationRepositoryImpl @Inject constructor(
 
     override suspend fun updateNotificationAsRead(id: Int) =
         withContext(ioDispatcher) {
-            notificationDataSource.updateNotificationAsRead(id, true)
+            notificationDataSource.updateNotificationAsRead(id, false)
         }
 
     override suspend fun deleteNotification(id: Int) =
