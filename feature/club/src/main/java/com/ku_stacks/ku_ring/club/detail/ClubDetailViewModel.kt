@@ -23,6 +23,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDateTime
 import javax.inject.Inject
@@ -50,7 +51,6 @@ class ClubDetailViewModel @Inject constructor(
 
     fun loadClub() {
         viewModelScope.launch {
-
             // TODO: delete this mock
             delay(300)
             _clubUiState.value = ClubDetailUiState.Success(
@@ -91,20 +91,32 @@ class ClubDetailViewModel @Inject constructor(
     fun updateSubscription(newState: Boolean) {
         subscriptionJob?.cancel()
         subscriptionJob = viewModelScope.launch {
+            val errorToastMessageId = if (newState) {
+                R.string.club_detail_subscribe_fail
+            } else {
+                R.string.club_detail_unsubscribe_fail
+            }
+
             try {
-                if (newState) {
-                    clubRepository.subscribeClub(clubId).onSuccess {
-                        updateUiStateAfterSubscription(it, true)
-                    }.onFailure {
-                        _toastByResource.emit(R.string.club_detail_subscribe_fail)
-                    }
+                val result = if (newState) {
+                    clubRepository.subscribeClub(clubId)
                 } else {
-                    clubRepository.unsubscribeClub(clubId).onSuccess {
-                        updateUiStateAfterSubscription(it, false)
-                    }.onFailure { _toastByResource.emit(R.string.club_detail_unsubscribe_fail) }
+                    clubRepository.unsubscribeClub(clubId)
                 }
+
+                result.onSuccess {
+                    updateUiStateAfterSubscription(it, newState)
+                }.onFailure {
+                    _toastByResource.emit(errorToastMessageId)
+                }
+            } catch (e: CancellationException) {
+                // 코루틴이 취소되는 상황이므로, 그대로 던져야 함
+                throw e
+            } catch (_: Exception) {
+                // 그 외의 exception은 실패 상황으로 처리
+                _toastByResource.emit(errorToastMessageId)
             } finally {
-                if (subscriptionJob === this) {
+                if (subscriptionJob === coroutineContext.job) {
                     subscriptionJob = null
                 }
             }
