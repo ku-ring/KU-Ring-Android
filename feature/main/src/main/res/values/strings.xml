@@ -139,6 +139,6 @@
     <string name="club_bottom_sheet_division_confirm">확인 (%s)</string>
     <string name="club_top_bar_action_subscribe">동아리 즐겨찾기</string>
     <string name="club_top_bar_action_notification">알림</string>
-
-
+    <string name="club_item_count">총 %s개</string>
+    <string name="club_list_no_item">등록된 동아리가 없어요!</string>
 </resources>
