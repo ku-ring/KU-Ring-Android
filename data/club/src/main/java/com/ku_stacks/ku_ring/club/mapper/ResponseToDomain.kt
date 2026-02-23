@@ -59,8 +59,8 @@ fun ClubDetailResponse.parseRecruitment(): ClubRecruitment? {
 }
 
 fun ClubListItem.toClubSummary(): ClubSummary {
-    val start = LocalDateTime.parse(recruitStartAt)
-    val end = LocalDateTime.parse(recruitEndAt)
+    val start = recruitStartAt.toLocalDateTimeOrNull()
+    val end = recruitEndAt.toLocalDateTimeOrNull()
 
     return ClubSummary(
         id = id,
@@ -81,5 +81,13 @@ private inline fun <reified T : Enum<T>> String.toEnumOrDefault(default: T): T {
         enumValueOf(this)
     } catch (e: IllegalArgumentException) {
         default
+    }
+}
+
+private fun String.toLocalDateTimeOrNull(): LocalDateTime? {
+    return try {
+        if (this.isEmpty()) null else LocalDateTime.parse(this)
+    } catch (e: Exception) {
+        null
     }
 }
