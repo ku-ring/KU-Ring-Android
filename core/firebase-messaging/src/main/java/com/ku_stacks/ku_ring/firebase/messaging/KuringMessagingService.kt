@@ -5,6 +5,10 @@ import androidx.work.WorkManager
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.ku_stacks.ku_ring.firebase.messaging.type.NotificationType
+import com.ku_stacks.ku_ring.firebase.messaging.type.NotificationType.ACADEMIC_EVENT
+import com.ku_stacks.ku_ring.firebase.messaging.type.NotificationType.CLUB
+import com.ku_stacks.ku_ring.firebase.messaging.type.NotificationType.CUSTOM
+import com.ku_stacks.ku_ring.firebase.messaging.type.NotificationType.NOTICE
 import com.ku_stacks.ku_ring.navigation.KuringNavigator
 import com.ku_stacks.ku_ring.navigation.MainScreenRoute
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
@@ -45,81 +49,65 @@ class KuringMessagingService : FirebaseMessagingService() {
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        try {
-            val type = NotificationType.from(remoteMessage.data["type"])
-            when (type) {
-                NotificationType.NOTICE -> onNoticeMessageReceived(remoteMessage.data)
-                NotificationType.CUSTOM -> onCustomMessageReceived(remoteMessage.data)
-                NotificationType.ACADEMIC_EVENT -> onAcademicEventMessageReceived(remoteMessage.data)
-                NotificationType.CLUB -> onClubMessageReceived(remoteMessage.data)
+        runCatching {
+            val data = remoteMessage.data
+            val notificationType = NotificationType.from(data["type"])
+            val receivedDate = DateUtil.getCurrentTime()
+
+            when (notificationType) {
+                NOTICE -> onNoticeMessageReceived(data, receivedDate)
+                CUSTOM -> onCustomMessageReceived(data, receivedDate)
+                CLUB -> onClubMessageReceived(data, receivedDate)
+                ACADEMIC_EVENT -> onAcademicEventMessageReceived(data, receivedDate)
             }
-        } catch (e: Exception) {
+        }.onFailure { e ->
             e.printStackTrace()
         }
     }
 
-    private fun onNoticeMessageReceived(data: Map<String, String?>) {
-        val id = data["id"]?.toInt() ?: 0
-        val articleId = data["articleId"]!!
-        val category = data["category"]!!
-        val subject = data["subject"]!!
-        val fullUrl = data["baseUrl"]!!
-
-        val receivedDate = DateUtil.getCurrentTime()
-        val categoryKr = WordConverter.convertEnglishToKorean(category)
-
+    private fun onNoticeMessageReceived(
+        data: Map<String, String?>,
+        receivedDate: String,
+    ) {
         fcmUtil.insertNoticeNotificationIntoDatabase(data, receivedDate)
-        showNotificationWithUrl(
-            title = subject,
-            body = categoryKr,
-            url = fullUrl,
-            articleId = articleId,
-            id = id,
-            category = category,
-            subject = subject,
-        )
+        showNotificationWithUrl(data)
     }
 
-    private fun onCustomMessageReceived(data: Map<String, String?>) {
-        val type = data["type"]!!
-        val title = data["title"]!!
-        val body = data["body"]!!
-        val receivedDate = DateUtil.getCurrentTime()
-
+    private fun onCustomMessageReceived(
+        data: Map<String, String?>,
+        receivedDate: String,
+    ) {
         fcmUtil.insertNotificationIntoDatabase(data, receivedDate)
         if (pref.extNotificationAllowed) {
-            showCustomNotification(type = type, title = title, body = body)
+            showCustomNotification(data)
         }
     }
 
-    private fun onAcademicEventMessageReceived(data: Map<String, String?>) {
-        val title = data["title"]!!
-        val body = data["body"]!!
-        val receivedDate = DateUtil.getCurrentTime()
-
-        fcmUtil.insertNotificationIntoDatabase(data, receivedDate)
-        showAcademicEventNotification(title, body)
-    }
-
-    private fun onClubMessageReceived(data: Map<String, String?>) {
-        val title = data["title"]!!
-        val body = data["body"]!!
-        val receivedDate = DateUtil.getCurrentTime()
-
-        fcmUtil.insertNotificationIntoDatabase(data, receivedDate)
-        showClubNotification(title, body)
-    }
-
-    private fun showNotificationWithUrl(
-        title: String?,
-        body: String?,
-        url: String?,
-        articleId: String?,
-        id: Int?,
-        category: String?,
-        subject: String?,
+    private fun onAcademicEventMessageReceived(
+        data: Map<String, String?>,
+        receivedDate: String,
     ) {
-        val intent = navigator.createNoticeWebIntent(this, url, articleId, id, category, subject)
+        fcmUtil.insertNotificationIntoDatabase(data, receivedDate)
+        showAcademicEventNotification(data)
+    }
+
+    private fun onClubMessageReceived(
+        data: Map<String, String?>,
+        receivedDate: String,
+    ) {
+        fcmUtil.insertNotificationIntoDatabase(data, receivedDate)
+        showClubNotification(data)
+    }
+
+    private fun showNotificationWithUrl(data: Map<String, String?>) {
+        val id = data["id"]?.toInt() ?: 0
+        val articleId = data["articleId"]!!
+        val category = data["category"]!!
+        val url = data["baseUrl"]!!
+        val title = data["subject"]!!
+        val body = WordConverter.convertEnglishToKorean(category)
+
+        val intent = navigator.createNoticeWebIntent(this, url, articleId, id, category, title)
         KuringNotificationManager.showNotificationWithUrl(
             this, intent, title, body,
             largeIconRes = DesignR.drawable.ic_notification,
@@ -127,7 +115,11 @@ class KuringMessagingService : FirebaseMessagingService() {
         )
     }
 
-    private fun showCustomNotification(type: String, title: String, body: String) {
+    private fun showCustomNotification(data: Map<String, String?>) {
+        val type = data["type"]!!
+        val title = data["title"]!!
+        val body = data["body"]!!
+
         val intent = navigator.createMainIntent(this)
         KuringNotificationManager.showCustomNotification(
             this, intent, type, title, body,
@@ -136,7 +128,10 @@ class KuringMessagingService : FirebaseMessagingService() {
         )
     }
 
-    private fun showAcademicEventNotification(title: String, body: String) {
+    private fun showAcademicEventNotification(data: Map<String, String?>) {
+        val title = data["title"]!!
+        val body = data["body"]!!
+
         val intent = navigator.createMainIntent(this, MainScreenRoute.Calendar)
         KuringNotificationManager.showAcademicEventNotification(
             this, intent, title, body,
@@ -145,7 +140,7 @@ class KuringMessagingService : FirebaseMessagingService() {
         )
     }
 
-    private fun showClubNotification(title: String, body: String) {
-        // TODO: 동아리의 상세화면으로 이동하는 로직 추가
+    private fun showClubNotification(data: Map<String, String?>) {
+        // TODO: 동아리의 상세화면 인텐트와 동아리 알림을 추가
     }
 }
