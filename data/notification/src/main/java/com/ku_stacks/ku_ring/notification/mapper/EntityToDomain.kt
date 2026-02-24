@@ -17,7 +17,7 @@ internal fun PushEntity.toDomain() = Notification(
 private fun PushContent.toCategory(): NotificationCategory = when (this) {
     is PushContent.Notice -> NotificationCategory.NOTICE
     is PushContent.Club -> NotificationCategory.CLUB
-    is PushContent.Common -> NotificationCategory.from(type)
+    is PushContent.Common -> NotificationCategory.from(pushType)
 }
 
 private fun PushContent.toDomain(): NotificationContent = when (this) {
