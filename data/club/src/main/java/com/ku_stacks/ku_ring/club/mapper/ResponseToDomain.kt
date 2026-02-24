@@ -11,6 +11,7 @@ import com.ku_stacks.ku_ring.domain.RecruitmentStatus
 import com.ku_stacks.ku_ring.remote.club.response.ClubDetailResponse
 import com.ku_stacks.ku_ring.remote.club.response.ClubListItem
 import com.ku_stacks.ku_ring.remote.club.response.ClubRoomLocation
+import com.ku_stacks.ku_ring.util.toLocalDateTimeOrNull
 import kotlinx.datetime.LocalDateTime
 
 fun ClubDetailResponse.toClub(): Club {
@@ -81,13 +82,5 @@ private inline fun <reified T : Enum<T>> String.toEnumOrDefault(default: T): T {
         enumValueOf(this)
     } catch (e: IllegalArgumentException) {
         default
-    }
-}
-
-private fun String.toLocalDateTimeOrNull(): LocalDateTime? {
-    return try {
-        if (this.isEmpty()) null else LocalDateTime.parse(this)
-    } catch (e: Exception) {
-        null
     }
 }
