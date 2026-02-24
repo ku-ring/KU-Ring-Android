@@ -106,7 +106,7 @@ private fun getAcademicEventPushEntity(
         isNew = true,
         receivedDate = receivedDate,
         content = PushContent.Common(
-            type = type,
+            pushType = type,
             title = title,
             body = body,
         )
@@ -125,7 +125,7 @@ private fun getCustomPushEntity(
         isNew = true,
         receivedDate = receivedDate,
         content = PushContent.Common(
-            type = type,
+            pushType = type,
             title = title,
             body = body,
         )

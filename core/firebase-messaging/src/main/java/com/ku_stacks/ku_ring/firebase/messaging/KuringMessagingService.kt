@@ -4,6 +4,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.ku_stacks.ku_ring.designsystem.R
 import com.ku_stacks.ku_ring.firebase.messaging.type.NotificationType
 import com.ku_stacks.ku_ring.firebase.messaging.type.NotificationType.ACADEMIC_EVENT
 import com.ku_stacks.ku_ring.firebase.messaging.type.NotificationType.CLUB
@@ -18,7 +19,6 @@ import com.ku_stacks.ku_ring.util.WordConverter
 import com.ku_stacks.ku_ring.work.RegisterUserWork
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import com.ku_stacks.ku_ring.designsystem.R as DesignR
 
 @AndroidEntryPoint
 class KuringMessagingService : FirebaseMessagingService() {
@@ -69,6 +69,8 @@ class KuringMessagingService : FirebaseMessagingService() {
         data: Map<String, String?>,
         receivedDate: String,
     ) {
+        if(!fcmUtil.isNoticeNotification(data)) return
+
         fcmUtil.insertNoticeNotificationIntoDatabase(data, receivedDate)
         showNotificationWithUrl(data)
     }
@@ -77,6 +79,8 @@ class KuringMessagingService : FirebaseMessagingService() {
         data: Map<String, String?>,
         receivedDate: String,
     ) {
+        if(!fcmUtil.isCustomNotification(data)) return
+
         fcmUtil.insertNotificationIntoDatabase(data, receivedDate)
         if (pref.extNotificationAllowed) {
             showCustomNotification(data)
@@ -87,6 +91,8 @@ class KuringMessagingService : FirebaseMessagingService() {
         data: Map<String, String?>,
         receivedDate: String,
     ) {
+        if(!fcmUtil.isAcademicEventNotification(data)) return
+
         fcmUtil.insertNotificationIntoDatabase(data, receivedDate)
         showAcademicEventNotification(data)
     }
@@ -95,6 +101,8 @@ class KuringMessagingService : FirebaseMessagingService() {
         data: Map<String, String?>,
         receivedDate: String,
     ) {
+        if(!fcmUtil.isClubNotification(data)) return
+
         fcmUtil.insertNotificationIntoDatabase(data, receivedDate)
         showClubNotification(data)
     }
@@ -110,8 +118,8 @@ class KuringMessagingService : FirebaseMessagingService() {
         val intent = navigator.createNoticeWebIntent(this, url, articleId, id, category, title)
         KuringNotificationManager.showNotificationWithUrl(
             this, intent, title, body,
-            largeIconRes = DesignR.drawable.ic_notification,
-            smallIconRes = DesignR.drawable.ic_status_bar
+            largeIconRes = R.drawable.ic_notification,
+            smallIconRes = R.drawable.ic_status_bar
         )
     }
 
@@ -123,8 +131,8 @@ class KuringMessagingService : FirebaseMessagingService() {
         val intent = navigator.createMainIntent(this)
         KuringNotificationManager.showCustomNotification(
             this, intent, type, title, body,
-            largeIconRes = DesignR.drawable.ic_notification,
-            smallIconRes = DesignR.drawable.ic_status_bar
+            largeIconRes = R.drawable.ic_notification,
+            smallIconRes = R.drawable.ic_status_bar
         )
     }
 
@@ -135,8 +143,8 @@ class KuringMessagingService : FirebaseMessagingService() {
         val intent = navigator.createMainIntent(this, MainScreenRoute.Calendar)
         KuringNotificationManager.showAcademicEventNotification(
             this, intent, title, body,
-            largeIconRes = DesignR.drawable.ic_notification,
-            smallIconRes = DesignR.drawable.ic_status_bar
+            largeIconRes = R.drawable.ic_notification,
+            smallIconRes = R.drawable.ic_status_bar
         )
     }
 

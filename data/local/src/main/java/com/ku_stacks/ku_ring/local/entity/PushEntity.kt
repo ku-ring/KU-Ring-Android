@@ -9,7 +9,6 @@ import kotlinx.serialization.Serializable
  * 다양한 타입의 알림을 저장하기 위한 공통 Entity
  *
  * @param id 알림의 고유 ID
- * @param category 알림의 카테고리
  * @param receivedDate 알림을 받은 날짜
  * @param isNew 알림이 새로 들어온 알림인지 여부
  * @param content 알림 내용
@@ -53,7 +52,7 @@ sealed class PushContent {
      */
     @Serializable
     data class Common(
-        val type: String,
+        val pushType: String,
         val title: String,
         val body: String,
     ) : PushContent()
