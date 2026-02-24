@@ -14,5 +14,11 @@
 
     <!-- Swipe To Delete Box -->
     <string name="notification_swipe_to_delete_box_delete">삭제</string>
+    <string name="notification_received_today">오늘</string>
+    <string name="notification_received_yesterday">어제</string>
+    <string name="notification_received_days_ago">%s일 전</string>
+    <string name="notification_received_weeks_ago">%s주 전</string>
+    <string name="notification_received_months_ago">%달 전</string>
+    <string name="notification_received_year_ago">1년 전</string>
 
 </resources>

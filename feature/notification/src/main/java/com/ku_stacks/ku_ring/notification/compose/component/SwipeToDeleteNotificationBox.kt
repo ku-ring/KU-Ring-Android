@@ -36,6 +36,7 @@ import com.ku_stacks.ku_ring.designsystem.utils.ensureLineHeight
 import com.ku_stacks.ku_ring.domain.Notification
 import com.ku_stacks.ku_ring.feature.notification.R.string.notification_swipe_to_delete_box_delete
 import com.ku_stacks.ku_ring.notification.compose.preview.NotificationPreviewParameterProvider
+import com.ku_stacks.ku_ring.notification.model.DaysSinceReceived
 import com.ku_stacks.ku_ring.notification.model.NotificationUiModel
 
 @Composable
@@ -61,10 +62,11 @@ fun SwipeToDeleteNotificationBox(
         },
     ) {
         ForegroundContent(
-            notification = notificationUiModel.notification,
             content = notificationUiModel.content,
             icon = notificationUiModel.iconRes,
             categoryString = notificationUiModel.categoryStringRes,
+            isNew = notificationUiModel.notification.isNew,
+            daysSinceReceived = notificationUiModel.daysSinceReceived,
             onClick = onClick,
         )
     }
@@ -72,16 +74,17 @@ fun SwipeToDeleteNotificationBox(
 
 @Composable
 private fun ForegroundContent(
-    notification: Notification,
     content: String,
     @DrawableRes icon: Int,
     @StringRes categoryString: Int,
+    isNew: Boolean,
+    daysSinceReceived: DaysSinceReceived?,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(horizontal = 20.dp, vertical = 16.dp),
 ) {
     val backgroundColor =
-        if (notification.isNew) KuringTheme.colors.mainPrimarySelected
+        if (isNew) KuringTheme.colors.mainPrimarySelected
         else KuringTheme.colors.background
     val interaction = remember { MutableInteractionSource() }
 
@@ -124,11 +127,16 @@ private fun ForegroundContent(
             )
         }
 
-        Text(
-            text = notification.receivedDate,
-            style = KuringTheme.typography.caption1.ensureLineHeight(),
-            color = KuringTheme.colors.textCaption1,
-        )
+        daysSinceReceived?.let {
+            Text(
+                // "오늘", "어제" 문자열 리소스에는 포맷터가 존재하지 않음
+                // `it.days`가 무시됨
+                text = stringResource(it.stringRes, it.days),
+                style = KuringTheme.typography.caption1.ensureLineHeight(),
+                color = KuringTheme.colors.textCaption1,
+            )
+        }
+
     }
 }
 
