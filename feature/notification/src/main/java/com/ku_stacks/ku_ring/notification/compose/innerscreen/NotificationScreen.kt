@@ -17,6 +17,7 @@ import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
+import androidx.paging.compose.itemKey
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.Notification
@@ -74,7 +75,7 @@ private fun NotificationScreen(
         ) {
             items(
                 count = notificationUiModels.itemCount,
-                key = { index -> notificationUiModels[index]?.notification?.id ?: index },
+                key = notificationUiModels.itemKey {  it.notification.id },
                 contentType = notificationUiModels.itemContentType { it.javaClass }
             ) { index ->
                 notificationUiModels[index]?.let { uiModel ->
