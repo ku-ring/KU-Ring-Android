@@ -6,9 +6,12 @@ import com.ku_stacks.ku_ring.domain.ClubCategory
 import com.ku_stacks.ku_ring.domain.ClubDivision
 import com.ku_stacks.ku_ring.domain.ClubLocation
 import com.ku_stacks.ku_ring.domain.ClubRecruitment
+import com.ku_stacks.ku_ring.domain.ClubSummary
 import com.ku_stacks.ku_ring.domain.RecruitmentStatus
 import com.ku_stacks.ku_ring.remote.club.response.ClubDetailResponse
+import com.ku_stacks.ku_ring.remote.club.response.ClubListItem
 import com.ku_stacks.ku_ring.remote.club.response.ClubRoomLocation
+import com.ku_stacks.ku_ring.util.toLocalDateTimeOrNull
 import kotlinx.datetime.LocalDateTime
 
 fun ClubDetailResponse.toClub(): Club {
@@ -54,6 +57,24 @@ fun ClubDetailResponse.parseRecruitment(): ClubRecruitment? {
     } else {
         null
     }
+}
+
+fun ClubListItem.toClubSummary(): ClubSummary {
+    val start = recruitStartAt.toLocalDateTimeOrNull()
+    val end = recruitEndAt.toLocalDateTimeOrNull()
+
+    return ClubSummary(
+        id = id,
+        name = name,
+        summary = shortIntroduction,
+        category = category.uppercase().toEnumOrDefault<ClubCategory>(ClubCategory.OTHERS),
+        division = division.uppercase().toEnumOrDefault<ClubDivision>(ClubDivision.ETC),
+        posterImageUrl = imageUrl,
+        isSubscribed = isSubscribed,
+        subscribeCount = subscriberCount,
+        recruitmentStart = start,
+        recruitmentEnd = end,
+    )
 }
 
 private inline fun <reified T : Enum<T>> String.toEnumOrDefault(default: T): T {
