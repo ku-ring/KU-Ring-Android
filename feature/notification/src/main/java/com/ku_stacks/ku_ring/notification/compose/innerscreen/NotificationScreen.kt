@@ -1,12 +1,11 @@
 package com.ku_stacks.ku_ring.notification.compose.innerscreen
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -58,18 +57,19 @@ private fun NotificationScreen(
     onDeleteNotification: (Notification) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column(
-        modifier = modifier
-            .background(color = KuringTheme.colors.background)
-            .fillMaxSize()
-            .systemBarsPadding(),
-    ) {
-        NotificationTopBar(
-            onNavigationClick = onNavigationClick,
-            onEditSubscriptionClick = onEditSubscriptionClick,
-        )
+    Scaffold (
+        topBar = {
+            NotificationTopBar(
+                onNavigationClick = onNavigationClick,
+                onEditSubscriptionClick = onEditSubscriptionClick,
+            )
+        },
+        containerColor = KuringTheme.colors.background,
+        modifier = modifier.fillMaxSize(),
+    ) { innerPadding ->
         LazyColumn(
-            modifier = modifier
+            modifier = Modifier
+                .padding(innerPadding)
                 .fillMaxSize(),
         ) {
             items(
