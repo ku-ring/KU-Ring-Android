@@ -9,7 +9,7 @@ import com.ku_stacks.ku_ring.local.entity.PushEntity
  * FCM을 통해 전달받은 데이터를 NoticeEntity로 변환하는 함수입니다.
  * @param data FCM을 통해 전달받은 데이터
  * @return 변환된 NoticeEntity 객체
- * @throws IllegalArgumentException 유효하지 않은 메시지 타입일 경우 발생
+ * @throws NullPointerException 필수 필드가 누락된 경우 발생
  */
 internal fun getNoticeEntity(
     data: Map<String, String?>,
