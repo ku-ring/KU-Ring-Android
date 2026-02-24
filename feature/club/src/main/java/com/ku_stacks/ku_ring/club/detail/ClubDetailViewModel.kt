@@ -17,6 +17,7 @@ import com.ku_stacks.ku_ring.domain.RecruitmentStatus
 import com.ku_stacks.ku_ring.domain.club.ClubRepository
 import com.ku_stacks.ku_ring.util.now
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
