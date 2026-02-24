@@ -31,10 +31,6 @@
     <string name="club_detail_youtube_url">유튜브 바로가기</string>
     <string name="club_detail_other_url">동아리 SNS 바로가기</string>
 
-    <string name="club_detail_map_search_keyword">건국대학교 서울캠퍼스%s</string>
-    <string name="club_detail_map_url">https://m.map.naver.com/search?query=%s</string>
-    <string name="club_detail_map_uri">nmap://search?query=%s&amp;appname=com.ku_stacks.ku_ring</string>
-
     <string name="club_detail_qualification_title">🙋🏻 지원 자격</string>
 
     <string name="club_detail_cta_recruiting">지원하기</string>

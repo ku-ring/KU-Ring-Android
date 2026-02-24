@@ -9,4 +9,9 @@
     <string name="navigator_campus_map_screen">캠퍼스맵</string>
     <string name="navigator_club_screen">동아리</string>
     <string name="navigator_setting_screen">더보기</string>
+
+    <!--  Naver map  -->
+    <string name="naver_map_keyword_campus_name_prefix">건국대학교 서울캠퍼스%s</string>
+    <string name="naver_map_web_url">https://m.map.naver.com/search?query=%s</string>
+    <string name="naver_map_app_uri">nmap://search?query=%s&amp;appname=com.ku_stacks.ku_ring</string>
 </resources>

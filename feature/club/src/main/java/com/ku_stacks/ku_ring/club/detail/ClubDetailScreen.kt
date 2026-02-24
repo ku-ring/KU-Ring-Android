@@ -1,6 +1,5 @@
 package com.ku_stacks.ku_ring.club.detail
 
-import android.content.Context
 import android.view.Gravity
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
@@ -68,8 +67,7 @@ import com.ku_stacks.ku_ring.domain.calculateDDay
 import com.ku_stacks.ku_ring.ui.club.ClubDeadlineTag
 import com.ku_stacks.ku_ring.ui.club.ClubTag
 import com.ku_stacks.ku_ring.util.navigateToExternalBrowser
-import com.ku_stacks.ku_ring.util.navigateToExternalBrowserOrThrow
-import com.ku_stacks.ku_ring.util.percentEncode
+import com.ku_stacks.ku_ring.util.searchFromNaverMap
 import com.ku_stacks.ku_ring.util.showToast
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraAnimation
@@ -332,20 +330,6 @@ private fun ClubLocation(
     }
 }
 
-private fun Context.navigateToNaverMap(location: ClubLocation) {
-    val searchKeyword =
-        getString(R.string.club_detail_map_search_keyword, location.building).percentEncode()
-    try {
-        // 네이버 지도 앱이 깔려있다면 맵을 실행
-        val uri = getString(R.string.club_detail_map_uri, searchKeyword)
-        navigateToExternalBrowserOrThrow(uri)
-    } catch (_: Exception) {
-        // 맵이 없다면, 모바일 웹을 실행
-        val url = getString(R.string.club_detail_map_url, searchKeyword)
-        navigateToExternalBrowser(url)
-    }
-}
-
 @Composable
 private fun ClubLocationButton(
     location: ClubLocation,
@@ -354,7 +338,7 @@ private fun ClubLocationButton(
     val context = LocalContext.current
     Row(
         modifier = modifier
-            .clickable(onClick = { context.navigateToNaverMap(location) })
+            .clickable(onClick = { context.searchFromNaverMap(location.building) })
             .clearAndSetSemantics {
                 contentDescription = location.fullLocation
                 role = Role.Button
@@ -417,7 +401,7 @@ private fun ClubLocationMap(
         properties = mapProperties,
         uiSettings = mapUiSettings,
         cameraPositionState = cameraPositionState,
-        onMapClick = { _, _ -> context.navigateToNaverMap(location) },
+        onMapClick = { _, _ -> context.searchFromNaverMap(location.building) },
         modifier = modifier
             .clip(RoundedCornerShape(16.dp))
             .fillMaxWidth()
