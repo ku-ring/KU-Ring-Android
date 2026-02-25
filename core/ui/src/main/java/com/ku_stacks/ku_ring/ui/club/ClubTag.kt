@@ -15,28 +15,34 @@ import androidx.compose.ui.unit.dp
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.utils.ensureLineHeight
+import com.ku_stacks.ku_ring.domain.RecruitmentStatus
 import com.ku_stacks.ku_ring.ui.R.string.club_card_tag_d_day
-import com.ku_stacks.ku_ring.ui.R.string.club_card_tag_recruitment_complete
+import com.ku_stacks.ku_ring.ui.R.string.club_card_tag_d_day_end
+import com.ku_stacks.ku_ring.ui.R.string.club_card_tag_recruitment_always
 
 private const val DEADLINE_THRESHOLD = 3
 
 @Composable
 fun ClubDeadlineTag(
     dDay: Int,
-    isRecruitmentCompleted: Boolean,
+    recruitmentStatus: RecruitmentStatus,
 ) {
     val isNearDeadline = dDay <= DEADLINE_THRESHOLD
-    val text =
-        if (isRecruitmentCompleted) stringResource(club_card_tag_recruitment_complete)
-        else stringResource(club_card_tag_d_day, dDay.toString())
+    val text = when {
+        recruitmentStatus == RecruitmentStatus.ALWAYS -> stringResource(
+            club_card_tag_recruitment_always
+        )
+
+        dDay == 0 -> stringResource(club_card_tag_d_day_end)
+        else -> stringResource(club_card_tag_d_day, dDay.toString())
+    }
     val (containerColor, contentColor) = with(KuringTheme.colors) {
         when {
-            isRecruitmentCompleted -> gray100 to textCaption2
-            isNearDeadline -> event to red
-            else -> gray100 to textCaption2
+            recruitmentStatus != RecruitmentStatus.ALWAYS && isNearDeadline -> event to red
+            else -> gray100 to textCaption1
         }
     }
-    
+
     ClubTag(
         text = text,
         containerColor = containerColor,
@@ -49,7 +55,7 @@ fun ClubTag(
     text: String,
     modifier: Modifier = Modifier,
     contentColor: Color = KuringTheme.colors.gray100,
-    containerColor: Color = KuringTheme.colors.textCaption2,
+    containerColor: Color = KuringTheme.colors.textCaption1,
 ) {
     Surface(
         color = containerColor,
@@ -77,15 +83,19 @@ private fun ClubTagPreview() {
         ) {
             ClubDeadlineTag(
                 dDay = 7,
-                isRecruitmentCompleted = false,
+                recruitmentStatus = RecruitmentStatus.RECRUITING,
             )
             ClubDeadlineTag(
                 dDay = 2,
-                isRecruitmentCompleted = false,
+                recruitmentStatus = RecruitmentStatus.RECRUITING,
             )
             ClubDeadlineTag(
                 dDay = 0,
-                isRecruitmentCompleted = true,
+                recruitmentStatus = RecruitmentStatus.RECRUITING,
+            )
+            ClubDeadlineTag(
+                dDay = 0,
+                recruitmentStatus = RecruitmentStatus.ALWAYS,
             )
         }
     }

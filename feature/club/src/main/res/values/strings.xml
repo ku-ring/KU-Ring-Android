@@ -21,4 +21,28 @@
     <!-- Subscription screen strings -->
     <string name="club_subscription_topbar_title">구독</string>
     <string name="club_subscription_item_count">총 %s개</string>
+
+    <!--  Detail Screen  -->
+    <string name="club_detail_title">동아리</string>
+    <string name="club_detail_back_description">뒤로 가기</string>
+    <string name="club_detail_subscribe_description">구독하기</string>
+
+    <string name="club_detail_instagram_url">인스타그램 바로가기</string>
+    <string name="club_detail_youtube_url">유튜브 바로가기</string>
+    <string name="club_detail_other_url">동아리 SNS 바로가기</string>
+
+    <string name="club_detail_qualification_title">🙋🏻 지원 자격</string>
+
+    <string name="club_detail_cta_recruiting">지원하기</string>
+    <string name="club_detail_cta_not_recruiting">모집 기간이 아니에요</string>
+
+    <string name="club_detail_description_image">%d번째 동아리 이미지</string>
+
+    <string name="club_detail_request_update">정보 수정 요청하기</string>
+    <string name="club_detail_update_link">https://docs.google.com/forms/d/e/1FAIpQLSfeIQ06BSryZIfd9gybWLgNfe2xkpwBlV4WYpyo3chFLIT_VA/viewform</string>
+
+    <string name="club_detail_subscribe_fail">구독에 실패했습니다. 잠시 후 다시 시도해 보세요.</string>
+    <string name="club_detail_unsubscribe_fail">구독 해제에 실패했습니다. 잠시 후 다시 시도해 보세요.</string>
+    <string name="club_detail_load_error">알 수 없는 문제가 발생했습니다.\n잠시 후 다시 시도해 보세요.</string>
+    <string name="club_detail_load_error_description">상세 정보 다시 로드하기</string>
 </resources>

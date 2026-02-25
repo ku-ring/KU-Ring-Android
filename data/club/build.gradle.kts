@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    setNameSpace("club")
+    setNameSpace("data.club")
 }
 
 dependencies {

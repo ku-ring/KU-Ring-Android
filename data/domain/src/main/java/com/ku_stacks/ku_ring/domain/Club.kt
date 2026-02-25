@@ -2,7 +2,10 @@ package com.ku_stacks.ku_ring.domain
 
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
 import kotlinx.datetime.daysUntil
+import kotlinx.datetime.toLocalDateTime
+import kotlin.time.Clock
 
 /**
  * @property id 동아리 ID
@@ -32,7 +35,7 @@ data class Club(
     val location: ClubLocation?,
     val applyQualification: String?,
     val recruitment: ClubRecruitment?,
-    val webUrl: String?,
+    val webUrl: List<String>,
     val posterImageUrl: String?,
     val descriptionImageUrl: List<String>?,
     val isSubscribed: Boolean,
@@ -121,7 +124,14 @@ data class ClubLocation(
     val roomNumber: String,
     val latitude: Double?,
     val longitude: Double?,
-)
+) {
+    val fullLocation: String = "$building $roomNumber"
+}
+
+fun Club.calculateDDay(): Int? = recruitment?.end?.date?.let { endDate ->
+    val today = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+    today.daysUntil(endDate).coerceAtLeast(0)
+}
 
 /**
  * 기준 날짜로부터 동아리 모집 마감일 사이의 남은 일수를 계산한다.
