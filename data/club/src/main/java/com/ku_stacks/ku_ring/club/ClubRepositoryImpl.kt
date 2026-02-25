@@ -50,7 +50,7 @@ class ClubRepositoryImpl @Inject constructor(
 
     override fun getClubs(
         category: ClubCategory,
-        division: ClubDivision,
+        division: Set<ClubDivision>,
         sortBy: String,
     ): Flow<PagingData<ClubSummary>> {
         return Pager(
@@ -59,7 +59,7 @@ class ClubRepositoryImpl @Inject constructor(
                 clubsFactory.create(
                     ClubListRequest(
                         category = category.name.lowercase(),
-                        division = division.name.lowercase(),
+                        division = division.joinToString(",") { it.name.lowercase() },
                         sortBy = sortBy,
                     )
                 )

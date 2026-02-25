@@ -42,7 +42,7 @@ interface ClubRepository {
      */
     fun getClubs(
         category: ClubCategory,
-        division: ClubDivision,
+        division: Set<ClubDivision>,
         sortBy: String,
     ): Flow<PagingData<ClubSummary>>
 
