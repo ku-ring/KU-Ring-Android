@@ -18,7 +18,7 @@ sealed interface NotificationContent {
     ) : NotificationContent
 
     data class Club(
-        val clubId: String,
+        val clubId: Int,
         val title: String,
         val body: String,
     ) : NotificationContent

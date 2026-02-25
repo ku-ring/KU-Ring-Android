@@ -79,7 +79,7 @@ private fun getClubPushEntity(
     data: Map<String, String?>,
     receivedDate: String,
 ): PushEntity {
-    val clubId = data["clubId"]!!
+    val clubId = data["clubId"]?.toInt() ?: 0
     val title = data["title"]!!
     val body = data["body"]!!
 

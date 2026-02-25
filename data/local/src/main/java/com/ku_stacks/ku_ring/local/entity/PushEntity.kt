@@ -42,7 +42,7 @@ sealed class PushContent {
      */
     @Serializable
     data class Club(
-        val clubId: String,
+        val clubId: Int,
         val title: String,
         val body: String,
     ) : PushContent()
