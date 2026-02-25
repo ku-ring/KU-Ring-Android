@@ -35,9 +35,9 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.ku_stacks.ku_ring.compose.locals.LocalNavigator
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.domain.Club
 import com.ku_stacks.ku_ring.domain.ClubCategory
 import com.ku_stacks.ku_ring.domain.ClubDivision
+import com.ku_stacks.ku_ring.domain.ClubSummary
 import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.club.compose.ClubListUiState
 import com.ku_stacks.ku_ring.main.club.compose.ClubListViewModel
@@ -48,7 +48,7 @@ import com.ku_stacks.ku_ring.main.club.compose.components.ClubTopBar
 import com.ku_stacks.ku_ring.ui.club.ClubItemColumn
 import com.ku_stacks.ku_ring.ui.club.ClubListSortButtonRow
 import com.ku_stacks.ku_ring.ui.club.ClubSortOption
-import com.ku_stacks.ku_ring.ui.club.ClubsPreviewParameterProvider
+import com.ku_stacks.ku_ring.ui.club.ClubSummaryPreviewParameterProvider
 import com.ku_stacks.ku_ring.ui.dialog.LoginAlertDialog
 import kotlinx.coroutines.flow.flowOf
 
@@ -60,7 +60,7 @@ fun ClubListScreen(
     viewModel: ClubListViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val clubs = viewModel.clubsFlow.collectAsLazyPagingItems()
+    val clubSummaryFlow = viewModel.clubsFlow.collectAsLazyPagingItems()
     val pagerState = rememberPagerState(
         initialPage = uiState.selectedCategory.ordinal,
         pageCount = { ClubCategory.entries.size }
@@ -79,7 +79,7 @@ fun ClubListScreen(
 
     ClubListScreen(
         uiState = uiState,
-        clubs = clubs,
+        clubSummaries = clubSummaryFlow,
         pagerState = pagerState,
         onNavigateToClubDetail = { onNavigateToClubDetail(it.id) },
         onNavigateToClubSubscription = onNavigateToClubSubscription,
@@ -87,9 +87,9 @@ fun ClubListScreen(
         onSelectedDivisionsChange = viewModel::updateSelectedDivisions,
         onSelectedDivisionReset = viewModel::resetSelectedDivisions,
         onBottomSheetVisibilityChange = viewModel::updateBottomSheetVisibility,
-        onSubscriptionToggle = { club ->
+        onSubscriptionToggle = { clubSummary ->
             if (viewModel.isUserLoggedIn()) {
-                viewModel.updateClubSubscription(club)
+                viewModel.updateClubSubscription(clubSummary)
             } else {
                 isLoginDialogVisible = true
             }
@@ -111,15 +111,15 @@ fun ClubListScreen(
 @Composable
 private fun ClubListScreen(
     uiState: ClubListUiState,
-    clubs: LazyPagingItems<Club>,
+    clubSummaries: LazyPagingItems<ClubSummary>,
     pagerState: PagerState,
-    onNavigateToClubDetail: (Club) -> Unit,
+    onNavigateToClubDetail: (ClubSummary) -> Unit,
     onNavigateToClubSubscription: () -> Unit,
     onNavigateToNotification: () -> Unit,
     onSelectedDivisionsChange: (Set<ClubDivision>) -> Unit,
     onSelectedDivisionReset: () -> Unit,
     onBottomSheetVisibilityChange: () -> Unit,
-    onSubscriptionToggle: (Club) -> Unit,
+    onSubscriptionToggle: (ClubSummary) -> Unit,
     onSortOptionChange: (ClubSortOption) -> Unit,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(horizontal = 20.dp)
@@ -171,7 +171,7 @@ private fun ClubListScreen(
                 .padding(contentPadding)
         ) {
             Text(
-                text = stringResource(R.string.club_item_count, clubs.itemCount.toString()),
+                text = stringResource(R.string.club_item_count, clubSummaries.itemCount.toString()),
                 style = KuringTheme.typography.body1,
                 color = KuringTheme.colors.textCaption1,
             )
@@ -186,7 +186,7 @@ private fun ClubListScreen(
             state = pagerState,
         ) {
             ClubItemColumn(
-                clubs = clubs,
+                clubSummaries = clubSummaries,
                 onClubSubscribeToggle = onSubscriptionToggle,
                 onClubItemClick = onNavigateToClubDetail,
                 modifier = Modifier
@@ -200,11 +200,11 @@ private fun ClubListScreen(
 @LightAndDarkPreview
 @Composable
 private fun ClubListScreenPreview(
-    @PreviewParameter(ClubsPreviewParameterProvider::class) clubs: List<Club>,
+    @PreviewParameter(ClubSummaryPreviewParameterProvider ::class) clubSummaries: List<ClubSummary>,
 ) {
     KuringTheme {
         val pagingData = PagingData.from(
-            data = clubs,
+            data = clubSummaries,
             sourceLoadStates = LoadStates(
                 refresh = LoadState.NotLoading(false),
                 prepend = LoadState.NotLoading(false),
@@ -222,7 +222,7 @@ private fun ClubListScreenPreview(
 
         ClubListScreen(
             uiState = uiState,
-            clubs = clubFlow,
+            clubSummaries = clubFlow,
             pagerState = pagerState,
             onNavigateToClubDetail = {},
             onNavigateToClubSubscription = {},

@@ -45,22 +45,23 @@ import com.ku_stacks.ku_ring.designsystem.R.drawable.ic_star_fill_v2
 import com.ku_stacks.ku_ring.designsystem.R.drawable.ic_star_v2
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.utils.ensureLineHeight
-import com.ku_stacks.ku_ring.domain.Club
+import com.ku_stacks.ku_ring.domain.ClubSummary
 import com.ku_stacks.ku_ring.domain.RecruitmentStatus
 import com.ku_stacks.ku_ring.domain.calculateDDay
+import com.ku_stacks.ku_ring.domain.isRecruitmentCompleted
 import com.ku_stacks.ku_ring.util.now
 import kotlinx.datetime.LocalDate
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun ClubItemCard(
-    club: Club,
+    clubSummary: ClubSummary,
     onSubscribeToggleClick: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
     today: LocalDate = LocalDate.now(),
 ) {
-    val isRecruitmentCompleted = club.recruitment?.recruitmentStatus == RecruitmentStatus.CLOSED
+    val isRecruitmentCompleted = clubSummary.isRecruitmentCompleted()
     val containerColor = if (isRecruitmentCompleted) {
         KuringTheme.colors.gray200
     } else {
@@ -69,10 +70,10 @@ fun ClubItemCard(
 
     // 동아리 태그는 동아리 카테고리와 동아리 소속을 포함
     val tags = listOf(
-        club.category.koreanName,
-        club.division.koreanName,
-    )
-    val dDay = club.calculateDDay(today) ?: 0
+            clubSummary.category.koreanName,
+            clubSummary.division.koreanName,
+        )
+    val dDay = clubSummary.calculateDDay(today) ?: 0
 
     Surface(
         modifier = modifier
@@ -92,17 +93,17 @@ fun ClubItemCard(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             ThumbnailImage(
-                clubName = club.name,
-                logoUrl = club.posterImageUrl,
-                isRecruitmentCompleted = club.recruitment?.recruitmentStatus == RecruitmentStatus.CLOSED,
+                clubName = clubSummary.name,
+                logoUrl = clubSummary.posterImageUrl,
+                isRecruitmentCompleted = isRecruitmentCompleted,
                 modifier = Modifier
                     .fillMaxHeight()
                     .aspectRatio(3f / 4f)
                     .padding(bottom = 9.dp),
             )
-
+            
             Spacer(modifier = Modifier.width(10.dp))
-
+            
             Column(modifier = Modifier.weight(1f)) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -110,25 +111,23 @@ fun ClubItemCard(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
-                        text = club.name,
+                        text = clubSummary.name,
                         style = KuringTheme.typography.body1.ensureLineHeight(),
                         color = KuringTheme.colors.textTitle,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
-
-                    club.recruitment?.let { recruitment ->
-                        ClubDeadlineTag(
-                            dDay = dDay,
-                            recruitmentStatus = recruitment.recruitmentStatus,
-                        )
-                    }
+                    
+                    ClubDeadlineTag(
+                        dDay = dDay,
+                        isRecruitmentCompleted = isRecruitmentCompleted,
+                    )
                 }
-
+                
                 Spacer(modifier = Modifier.height(4.dp))
-
+                
                 Text(
-                    text = club.summary,
+                    text = clubSummary.summary,
                     style = KuringTheme.typography.caption1.ensureLineHeight(),
                     color = KuringTheme.colors.textCaption2,
                     minLines = 2,   // 텍스트가 짧아도 2줄을 보장
@@ -136,9 +135,9 @@ fun ClubItemCard(
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.fillMaxWidth(),
                 )
-
+                
                 Spacer(modifier = Modifier.height(7.dp))
-
+                
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -150,8 +149,8 @@ fun ClubItemCard(
                         tags.forEach { tag -> ClubTag(tag) }
                     }
                     SubscribeToggle(
-                        isSubscribed = club.isSubscribed,
-                        subscribeCount = club.subscribeCount,
+                        isSubscribed = clubSummary.isSubscribed,
+                        subscribeCount = clubSummary.subscribeCount,
                         onToggle = onSubscribeToggleClick,
                     )
                 }
@@ -172,7 +171,7 @@ private fun ThumbnailImage(
     } else {
         KuringTheme.colors.gray100 to KuringTheme.colors.gray200
     }
-
+    
     Box(
         modifier = modifier
             .background(color = containerColor, shape = RoundedCornerShape(14))
@@ -184,7 +183,7 @@ private fun ThumbnailImage(
             contentDescription = null,
             tint = contentColor,
         )
-
+        
         AsyncImage(
             model = logoUrl,
             contentDescription = clubName,
@@ -202,7 +201,7 @@ private fun SubscribeToggle(
     onToggle: (Boolean) -> Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
-
+    
     Row(
         modifier = modifier
             .defaultMinSize(40.dp, 40.dp) // 터치 영역 확보
@@ -221,7 +220,7 @@ private fun SubscribeToggle(
             color = KuringTheme.colors.textCaption1,
             modifier = Modifier.padding(start = 2.dp),
         )
-
+        
         val iconRes = if (isSubscribed) ic_star_fill_v2 else ic_star_v2
         Icon(
             imageVector = ImageVector.vectorResource(id = iconRes),
@@ -235,11 +234,11 @@ private fun SubscribeToggle(
 @PreviewLightDark
 @Composable
 private fun ClubItemCardWhenRecruitmentOnGoingPreview(
-    @PreviewParameter(ClubItemCardPreviewParameterProvider::class) club: Club,
+    @PreviewParameter(ClubItemCardPreviewParameterProvider::class) clubSummary: ClubSummary,
 ) {
     KuringTheme {
         ClubItemCard(
-            club = club,
+            clubSummary = clubSummary,
             onSubscribeToggleClick = {},
             modifier = Modifier
                 .fillMaxWidth()

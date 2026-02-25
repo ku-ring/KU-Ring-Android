@@ -32,15 +32,15 @@ import com.ku_stacks.ku_ring.designsystem.R.drawable.ic_alert_circle_v2
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.components.indicator.PagingLoadingIndicator
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.domain.Club
+import com.ku_stacks.ku_ring.domain.ClubSummary
 import com.ku_stacks.ku_ring.ui.R.string.club_list_no_item
 import kotlinx.coroutines.flow.flowOf
 
 @Composable
 fun ClubItemColumn(
-    clubs: LazyPagingItems<Club>,
-    onClubSubscribeToggle: (Club) -> Unit,
-    onClubItemClick: (Club) -> Unit,
+    clubSummaries: LazyPagingItems<ClubSummary>,
+    onClubSubscribeToggle: (ClubSummary) -> Unit,
+    onClubItemClick: (ClubSummary) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
@@ -48,7 +48,7 @@ fun ClubItemColumn(
         contentPadding = PaddingValues(top = 16.dp),
         modifier = modifier,
     ) {
-        when (clubs.loadState.refresh) {
+        when (clubSummaries.loadState.refresh) {
             is LoadState.Loading -> {
                 item {
                     PagingLoadingIndicator(
@@ -66,19 +66,19 @@ fun ClubItemColumn(
             }
 
             is LoadState.NotLoading -> {
-                if (clubs.itemCount == 0) {
+                if (clubSummaries.itemCount == 0) {
                     item {
                         EmptyClubItemView()
                     }
                 } else {
                     items(
-                        count = clubs.itemCount,
-                        key = clubs.itemKey(),
-                        contentType = clubs.itemContentType { it.javaClass }
+                        count = clubSummaries.itemCount,
+                        key = clubSummaries.itemKey(),
+                        contentType = clubSummaries.itemContentType { it.javaClass }
                     ) { index ->
-                        clubs[index]?.let { club ->
+                        clubSummaries[index]?.let { club ->
                             ClubItemCard(
-                                club = club,
+                                clubSummary = club,
                                 onClick = {
                                     onClubItemClick(club)
                                 },
@@ -123,7 +123,7 @@ private fun EmptyClubItemView(
 @LightAndDarkPreview
 @Composable
 private fun ClubItemColumnPreview(
-    @PreviewParameter(ClubsPreviewParameterProvider::class) clubs: List<Club>,
+    @PreviewParameter(ClubSummaryPreviewParameterProvider::class) clubs: List<ClubSummary>,
 ) {
     val pagingData = PagingData.from(
         data = clubs,
@@ -143,7 +143,7 @@ private fun ClubItemColumnPreview(
                 .padding(20.dp),
         ) {
             ClubItemColumn(
-                clubs = clubs,
+                clubSummaries = clubs,
                 onClubSubscribeToggle = {},
                 onClubItemClick = {},
                 modifier = Modifier
