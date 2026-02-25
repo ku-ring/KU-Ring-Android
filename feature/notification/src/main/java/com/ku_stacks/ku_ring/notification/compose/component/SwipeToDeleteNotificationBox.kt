@@ -105,7 +105,8 @@ private fun ForegroundContent(
             verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
             Row(
-                verticalAlignment = Alignment.CenterVertically
+                horizontalArrangement = Arrangement.spacedBy(2.dp),
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Icon(
                     imageVector = ImageVector.vectorResource(icon),
