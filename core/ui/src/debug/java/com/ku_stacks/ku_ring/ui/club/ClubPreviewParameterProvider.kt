@@ -25,7 +25,7 @@ class ClubItemCardPreviewParameterProvider : PreviewParameterProvider<Club> {
         description = "{SubText}\n{SubText}",
         recruitment = recruitment,
         location = null,
-        webUrl = "",
+        webUrl = emptyList(),
         applyQualification = null,
         posterImageUrl = null,
         descriptionImageUrl = null,

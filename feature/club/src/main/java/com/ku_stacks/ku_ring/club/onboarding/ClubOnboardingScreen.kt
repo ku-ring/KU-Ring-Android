@@ -137,7 +137,7 @@ private fun ClubOnboardingActions(
         )
         Text(
             text = stringResource(R.string.club_onboarding_dismiss),
-            style = KuringTheme.typography.body2SB,
+            style = KuringTheme.typography.body2,
             color = KuringTheme.colors.textCaption1,
             textAlign = TextAlign.Center,
             modifier = Modifier.clickable(onClick = onDismiss),

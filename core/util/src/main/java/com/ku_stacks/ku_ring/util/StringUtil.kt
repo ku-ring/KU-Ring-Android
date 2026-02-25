@@ -1,5 +1,6 @@
 package com.ku_stacks.ku_ring.util
 
+import android.net.Uri
 import kotlinx.datetime.LocalDateTime
 
 infix fun String.or(that: String): String = if (BuildConfig.DEBUG) this else that
@@ -12,4 +13,8 @@ fun String.toLocalDateTimeOrNull(): LocalDateTime? {
     } catch (e: Exception) {
         null
     }
+}
+
+fun String.percentEncode(): String {
+    return Uri.encode(this)
 }
