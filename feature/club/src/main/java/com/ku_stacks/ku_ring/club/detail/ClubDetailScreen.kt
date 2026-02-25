@@ -218,10 +218,15 @@ private fun ClubSubscribeButton(
     onClick: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val description = stringResource(R.string.club_detail_subscribe_description)
     Row(
         modifier = modifier
             .clickable(onClick = { onClick(!isSubscribed) })
-            .padding(horizontal = 4.dp, vertical = 8.dp),
+            .padding(horizontal = 4.dp, vertical = 8.dp)
+            .clearAndSetSemantics {
+                contentDescription = description
+                role = Role.Button
+            },
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
@@ -500,7 +505,10 @@ private fun ClubDescriptionImages(
                     .data(url)
                     .crossfade(true)
                     .build(),
-                contentDescription = stringResource(R.string.club_detail_description_image, index),
+                contentDescription = stringResource(
+                    R.string.club_detail_description_image,
+                    index + 1
+                ),
                 contentScale = ContentScale.FillWidth,
             )
         }
