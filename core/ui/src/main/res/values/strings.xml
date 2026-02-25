@@ -19,4 +19,9 @@
     <string name="club_card_tag_d_day">D-%s</string>
     <string name="club_list_no_item">등록된 동아리가 없어요!</string>
     <string name="club_card_tag_d_day_end">D-day</string>
+
+    <!-- Login dialog -->
+    <string name="login_dialog_body">로그인이 필요한 서비스에요.</string>
+    <string name="login_dialog_cancel">취소</string>
+    <string name="login_dialog_do_login">로그인하기</string>
 </resources>

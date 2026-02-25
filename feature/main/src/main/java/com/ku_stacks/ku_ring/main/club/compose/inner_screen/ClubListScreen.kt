@@ -15,18 +15,24 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.LoadStates
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.ku_stacks.ku_ring.compose.locals.LocalNavigator
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.Club
@@ -43,6 +49,7 @@ import com.ku_stacks.ku_ring.ui.club.ClubItemColumn
 import com.ku_stacks.ku_ring.ui.club.ClubListSortButtonRow
 import com.ku_stacks.ku_ring.ui.club.ClubSortOption
 import com.ku_stacks.ku_ring.ui.club.ClubsPreviewParameterProvider
+import com.ku_stacks.ku_ring.ui.dialog.LoginAlertDialog
 import kotlinx.coroutines.flow.flowOf
 
 @Composable
@@ -58,6 +65,12 @@ fun ClubListScreen(
         initialPage = uiState.selectedCategory.ordinal,
         pageCount = { ClubCategory.entries.size }
     )
+    var isLoginDialogVisible by remember { mutableStateOf(false) }
+
+    LifecycleResumeEffect(Unit) {
+        isLoginDialogVisible = false
+        onPauseOrDispose { }
+    }
 
     LaunchedEffect(pagerState.settledPage) {
         val selectedCategory = ClubCategory.entries[pagerState.settledPage]
@@ -74,9 +87,25 @@ fun ClubListScreen(
         onSelectedDivisionsChange = viewModel::updateSelectedDivisions,
         onSelectedDivisionReset = viewModel::resetSelectedDivisions,
         onBottomSheetVisibilityChange = viewModel::updateBottomSheetVisibility,
-        onSubscriptionToggle = viewModel::updateClubSubscription,
-        onSortOptionChange = viewModel::updateSortOption
+        onSubscriptionToggle = { club ->
+            if (viewModel.isUserLoggedIn()) {
+                viewModel.updateClubSubscription(club)
+            } else {
+                isLoginDialogVisible = true
+            }
+        },
+        onSortOptionChange = viewModel::updateSortOption,
     )
+
+    if (isLoginDialogVisible) {
+        val navigator = LocalNavigator.current
+        val context = LocalContext.current
+
+        LoginAlertDialog(
+            onConfirm = { navigator.navigateToAuth(context) },
+            onDismiss = { isLoginDialogVisible = false },
+        )
+    }
 }
 
 @Composable
