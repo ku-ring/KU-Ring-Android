@@ -7,9 +7,9 @@ import androidx.paging.LoadStates
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
-import com.ku_stacks.ku_ring.domain.Club
 import com.ku_stacks.ku_ring.domain.ClubCategory
 import com.ku_stacks.ku_ring.domain.ClubDivision
+import com.ku_stacks.ku_ring.domain.ClubSummary
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.ui.club.ClubSortOption
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -36,8 +36,8 @@ class ClubListViewModel @Inject constructor(
     val uiState = _uiState.asStateFlow()
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    private val _rawClubsFlow: Flow<PagingData<Club>> = _uiState.flatMapLatest { uiState ->
-        getClubs(
+    private val _rawClubSummaryFlow: Flow<PagingData<ClubSummary>> = _uiState.flatMapLatest { uiState ->
+        getClubSummaries(
             category = uiState.selectedCategory,
             divisions = uiState.selectedDivisions,
             sortOption = uiState.sortOption,
@@ -45,22 +45,22 @@ class ClubListViewModel @Inject constructor(
     }.cachedIn(viewModelScope)
     private val _subscriptionOverride = MutableStateFlow<Map<Int, Boolean>>(emptyMap())
 
-    val clubsFlow = combine(_rawClubsFlow, _subscriptionOverride) { pagingData, overrides ->
-        pagingData.map { club ->
-            val isSubscribed = overrides[club.id] ?: club.isSubscribed
-            club.copy(isSubscribed = isSubscribed)
+    val clubsFlow = combine(_rawClubSummaryFlow, _subscriptionOverride) { pagingData, overrides ->
+        pagingData.map { clubSummary ->
+            val isSubscribed = overrides[clubSummary.id] ?: clubSummary.isSubscribed
+            clubSummary.copy(isSubscribed = isSubscribed)
         }
     }
 
     private val subscriptionJobs = mutableMapOf<Int, Job>()
 
     /**
-     * 사용자의 club 구독 상태를 업데이트합니다.
-     * @param club 새로운 구독상태를 포함하는 동아리 정보
+     * 사용자의 동아리 구독 상태를 업데이트합니다.
+     * @param clubSummary 새로운 구독상태를 포함하는 동아리 정보
      */
-    fun updateClubSubscription(club: Club) {
-        val clubId = club.id
-        val newState = _subscriptionOverride.value[clubId]?.not() ?: club.isSubscribed
+    fun updateClubSubscription(clubSummary: ClubSummary) {
+        val clubId = clubSummary.id
+        val newState = _subscriptionOverride.value[clubId]?.not() ?: clubSummary.isSubscribed
 
         _subscriptionOverride.update { it + (clubId to newState) }
         viewModelScope.launch {
@@ -114,11 +114,11 @@ class ClubListViewModel @Inject constructor(
         _uiState.update { it.copy(sortOption = sortOption) }
     }
 
-    private fun getClubs(
+    private fun getClubSummaries(
         category: ClubCategory,
         divisions: Set<ClubDivision>,
         sortOption: ClubSortOption,
-    ): Flow<PagingData<Club>> {
+    ): Flow<PagingData<ClubSummary>> {
         // TODO: 실제 API 호출
         return flowOf(
             PagingData.empty(

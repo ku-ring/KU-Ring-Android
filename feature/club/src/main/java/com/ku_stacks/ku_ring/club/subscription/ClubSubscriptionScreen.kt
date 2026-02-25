@@ -29,11 +29,11 @@ import com.ku_stacks.ku_ring.club.R.string.club_subscription_item_count
 import com.ku_stacks.ku_ring.club.subscription.component.ClubSubscriptionTopBar
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.domain.Club
+import com.ku_stacks.ku_ring.domain.ClubSummary
 import com.ku_stacks.ku_ring.ui.club.ClubItemColumn
 import com.ku_stacks.ku_ring.ui.club.ClubListSortButtonRow
 import com.ku_stacks.ku_ring.ui.club.ClubSortOption
-import com.ku_stacks.ku_ring.ui.club.ClubsPreviewParameterProvider
+import com.ku_stacks.ku_ring.ui.club.ClubSummaryPreviewParameterProvider
 import kotlinx.coroutines.flow.flowOf
 
 @Composable
@@ -43,11 +43,11 @@ fun ClubSubscriptionScreen(
     viewModel: ClubSubscriptionViewModel = hiltViewModel(),
 ) {
     val sortOption by viewModel.sortOption.collectAsStateWithLifecycle()
-    val clubs = viewModel.subscribedClubsFlow.collectAsLazyPagingItems()
+    val clubSummaryFlow = viewModel.subscribedClubsFlow.collectAsLazyPagingItems()
 
     ClubSubscriptionScreen(
         sortOption = sortOption,
-        clubs = clubs,
+        clubSummaries = clubSummaryFlow,
         onNavigateUp = onNavigateUp,
         onSortOptionChange = viewModel::updateSortOption,
         onSubscriptionToggle = viewModel::updateClubSubscription,
@@ -58,11 +58,11 @@ fun ClubSubscriptionScreen(
 @Composable
 private fun ClubSubscriptionScreen(
     sortOption: ClubSortOption,
-    clubs: LazyPagingItems<Club>,
+    clubSummaries: LazyPagingItems<ClubSummary>,
     onNavigateUp: () -> Unit,
     onSortOptionChange: (ClubSortOption) -> Unit,
-    onSubscriptionToggle: (Club) -> Unit,
-    onNavigateToClubDetail: (Club) -> Unit,
+    onSubscriptionToggle: (ClubSummary) -> Unit,
+    onNavigateToClubDetail: (ClubSummary) -> Unit,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(horizontal = 20.dp)
 ) {
@@ -87,7 +87,7 @@ private fun ClubSubscriptionScreen(
                 .padding(contentPadding)
         ) {
             Text(
-                text = stringResource(club_subscription_item_count, clubs.itemCount.toString()),
+                text = stringResource(club_subscription_item_count, clubSummaries.itemCount.toString()),
                 style = KuringTheme.typography.body1,
                 color = KuringTheme.colors.textCaption1,
             )
@@ -99,7 +99,7 @@ private fun ClubSubscriptionScreen(
         }
 
         ClubItemColumn(
-            clubs = clubs,
+            clubSummaries = clubSummaries,
             onClubSubscribeToggle = onSubscriptionToggle,
             onClubItemClick = onNavigateToClubDetail,
             modifier = Modifier
@@ -112,10 +112,10 @@ private fun ClubSubscriptionScreen(
 @LightAndDarkPreview
 @Composable
 private fun ClubSubscriptionScreenPreview(
-    @PreviewParameter(ClubsPreviewParameterProvider::class) clubs: List<Club>,
+    @PreviewParameter(ClubSummaryPreviewParameterProvider ::class) clubSummaries: List<ClubSummary>,
 ) {
     val pagingData = PagingData.from(
-        data = clubs,
+        data = clubSummaries,
         sourceLoadStates = LoadStates(
             refresh = LoadState.NotLoading(false),
             prepend = LoadState.NotLoading(false),
@@ -127,7 +127,7 @@ private fun ClubSubscriptionScreenPreview(
     KuringTheme {
         ClubSubscriptionScreen(
             sortOption = ClubSortOption.END_OF_RECRUITMENT,
-            clubs = clubFlow,
+            clubSummaries = clubFlow,
             onNavigateUp = {},
             onSortOptionChange = {},
             onSubscriptionToggle = {},
