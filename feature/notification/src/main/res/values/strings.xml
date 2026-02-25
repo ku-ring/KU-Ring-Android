@@ -18,7 +18,7 @@
     <string name="notification_received_yesterday">어제</string>
     <string name="notification_received_days_ago">%s일 전</string>
     <string name="notification_received_weeks_ago">%s주 전</string>
-    <string name="notification_received_months_ago">%달 전</string>
+    <string name="notification_received_months_ago">%s달 전</string>
     <string name="notification_received_year_ago">1년 전</string>
 
 </resources>
