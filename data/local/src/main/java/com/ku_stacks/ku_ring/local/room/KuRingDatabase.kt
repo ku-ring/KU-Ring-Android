@@ -24,7 +24,7 @@ import com.ku_stacks.ku_ring.local.typeconverter.PushTypeConverter
         CategoryOrderEntity::class,
         AcademicEventEntity::class,
     ],
-    version = 11,
+    version = 12,
     exportSchema = false
 )
 @TypeConverters(
