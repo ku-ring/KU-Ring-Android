@@ -10,6 +10,7 @@ import androidx.paging.map
 import com.ku_stacks.ku_ring.domain.Club
 import com.ku_stacks.ku_ring.domain.ClubCategory
 import com.ku_stacks.ku_ring.domain.ClubDivision
+import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.ui.club.ClubSortOption
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -28,7 +29,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 @OptIn(ExperimentalCoroutinesApi::class)
-class ClubListViewModel @Inject constructor() : ViewModel() {
+class ClubListViewModel @Inject constructor(
+    private val preferenceUtil: PreferenceUtil,
+) : ViewModel() {
     private val _uiState = MutableStateFlow(ClubListUiState.empty())
     val uiState = _uiState.asStateFlow()
 
@@ -127,6 +130,8 @@ class ClubListViewModel @Inject constructor() : ViewModel() {
             )
         )
     }
+
+    fun isUserLoggedIn(): Boolean = preferenceUtil.accessToken.isNotEmpty()
 
     companion object {
         private const val TAG = "ClubListViewModel"
