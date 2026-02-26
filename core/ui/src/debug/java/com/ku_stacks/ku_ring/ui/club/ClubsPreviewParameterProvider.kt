@@ -32,7 +32,7 @@ class ClubsPreviewParameterProvider : PreviewParameterProvider<List<Club>> {
             id = 2,
             name = "농구부",
             summary = "즐겁게 농구합시다.",
-            category = ClubCategory.ACTIVITIES,
+            category = ClubCategory.ACTIVITY,
             affiliation = ClubAffiliation.CENTRAL,
             division = ClubDivision.CENTRAL,
             description = "상세 설명",

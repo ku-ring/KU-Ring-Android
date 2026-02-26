@@ -29,15 +29,8 @@ class ClubClient @Inject constructor(
     suspend fun getClubs(
         category: String,
         division: String,
-        sortBy: String,
-        cursor: Int?,
-        size: Int,
-    ): DefaultResponse<ClubListResponse> =
-        clubService.getClubs(category, division, sortBy, cursor, size)
+    ): DefaultResponse<ClubListResponse> = clubService.getClubs(category, division)
 
-    suspend fun getSubscribedClubs(
-        cursor: Int?,
-        size: Int,
-    ): DefaultResponse<ClubListResponse> =
-        clubService.getSubscribedClubs(cursor, size)
+    suspend fun getSubscribedClubs(): DefaultResponse<ClubListResponse> =
+        clubService.getSubscribedClubs()
 }

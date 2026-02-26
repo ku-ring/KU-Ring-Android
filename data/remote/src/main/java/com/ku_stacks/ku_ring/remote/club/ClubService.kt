@@ -34,14 +34,8 @@ interface ClubService {
     suspend fun getClubs(
         @Query("category") category: String,
         @Query("division") division: String,
-        @Query("sortBy") sortBy: String,
-        @Query("cursor") cursor: Int?,
-        @Query("size") size: Int,
     ): DefaultResponse<ClubListResponse>
 
     @GET("v2/users/bookmarks/clubs")
-    suspend fun getSubscribedClubs(
-        @Query("cursor") cursor: Int?,
-        @Query("size") size: Int,
-    ): DefaultResponse<ClubListResponse>
+    suspend fun getSubscribedClubs(): DefaultResponse<ClubListResponse>
 }
