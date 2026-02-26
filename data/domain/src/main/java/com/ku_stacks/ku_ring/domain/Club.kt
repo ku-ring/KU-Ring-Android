@@ -50,8 +50,8 @@ enum class ClubCategory(
 ) {
     ACADEMIC("학술활동"),
     CULTURE_ARTS("문화예술"),
-    SOCIAL("사회가치"),
-    ACTIVITIES("야외활동"),
+    SOCIAL_VALUE("사회가치"),
+    ACTIVITY("야외활동"),
     OTHERS("기타"),
 }
 
