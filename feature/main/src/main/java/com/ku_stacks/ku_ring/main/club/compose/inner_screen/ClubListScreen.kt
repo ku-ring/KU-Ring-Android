@@ -81,7 +81,13 @@ fun ClubListScreen(
         pagerState = pagerState,
         isDivisionBottomSheetVisible = isDivisionBottomSheetVisible,
         onNavigateToClubDetail = { onNavigateToClubDetail(it.id) },
-        onNavigateToClubSubscription = onNavigateToClubSubscription,
+        onNavigateToClubSubscription = {
+            if (viewModel.isUserLoggedIn()) {
+                onNavigateToClubSubscription()
+            } else {
+                isLoginDialogVisible = true
+            }
+        },
         onNavigateToNotification = onNavigateToNotification,
         onSelectedDivisionsChange = viewModel::updateSelectedDivisions,
         onSelectedDivisionReset = viewModel::resetSelectedDivisions,
