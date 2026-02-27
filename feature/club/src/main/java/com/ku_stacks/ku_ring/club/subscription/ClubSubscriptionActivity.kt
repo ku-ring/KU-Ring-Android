@@ -7,10 +7,15 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.navigation.KuringNavigator
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ClubSubscriptionActivity : ComponentActivity() {
+    @Inject
+    lateinit var navigator: KuringNavigator
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -19,7 +24,7 @@ class ClubSubscriptionActivity : ComponentActivity() {
                 ClubSubscriptionScreen(
                     onNavigateUp = ::finish,
                     onNavigateToClubDetail = { clubId ->
-                        // TODO: 동아리 상세 화면으로 이동하는 로직 구현
+                        navigator.navigateToClubDetail(this, clubId)
                     },
                 )
             }

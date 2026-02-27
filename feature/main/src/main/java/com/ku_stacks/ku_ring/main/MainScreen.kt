@@ -179,14 +179,14 @@ fun NavGraphBuilder.mainScreenNavGraph(
     }
     composable<MainScreenRoute.Club> {
         ClubListScreen(
-            onNavigateToClubDetail = {
-                // TODO: 동아리 상세 화면으로 이동
+            onNavigateToClubDetail = { clubId ->
+                navigator.navigateToClubDetail(activity, clubId)
             },
             onNavigateToClubSubscription = {
                 navigator.navigateToClubSubscription(activity)
             },
             onNavigateToNotification = {
-                // TODO: 알림 목록 화면으로 이동
+                navigator.navigateToNotification(activity)
             }
         )
     }
