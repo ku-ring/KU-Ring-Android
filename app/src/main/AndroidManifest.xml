@@ -82,6 +82,9 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
+            android:name=".notification.NotificationActivity"
+            android:exported="false" />
+        <activity
             android:name=".kuringbot.KuringBotActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
