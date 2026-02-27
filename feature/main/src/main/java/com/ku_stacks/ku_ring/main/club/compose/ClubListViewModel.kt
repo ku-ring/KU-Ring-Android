@@ -32,15 +32,12 @@ class ClubListViewModel @Inject constructor(
     private val preferenceUtil: PreferenceUtil,
     private val clubRepository: ClubRepository
 ) : ViewModel() {
-    private val _chatListFilter = MutableStateFlow(
-        ClubListFilter(
-            selectedCategory = getInitialCategory(),
-            selectedDivisions = setOf(),
-            sortOption = ClubSortOption.END_OF_RECRUITMENT,
-        )
-    )
-    val chatListFilter: StateFlow<ClubListFilter> = _chatListFilter
-        .asStateFlow()
+    private val _chatListFilter = MutableStateFlow(ClubListFilter(
+        selectedCategory = getInitialCategory(),
+        selectedDivisions = setOf(),
+        sortOption = ClubSortOption.END_OF_RECRUITMENT
+    ))
+    val chatListFilter: StateFlow<ClubListFilter> = _chatListFilter.asStateFlow()
     private val _serverParams = _chatListFilter
         .map { it.selectedCategory to it.selectedDivisions }
         .distinctUntilChanged()
@@ -116,7 +113,7 @@ class ClubListViewModel @Inject constructor(
         subscriptionJobs[clubId] = job
     }
 
-    fun updateSelectedCategory(category: ClubCategory) {
+    fun updateSelectedCategory(category: ClubCategory?) {
         _chatListFilter.update { it.copy(selectedCategory = category) }
     }
 
@@ -133,9 +130,14 @@ class ClubListViewModel @Inject constructor(
     }
 
     private suspend fun fetchClubSummary(
-        category: ClubCategory,
+        category: ClubCategory?,
         divisions: Set<ClubDivision>,
     ) {
+        if(category == null) {
+            _uiState.update { ClubListUiState.Error("category is null") }
+            return
+        }
+
         _uiState.update { ClubListUiState.Loading }
         clubRepository.getClubs(category, divisions)
             .onSuccess { clubSummaries ->
@@ -157,9 +159,10 @@ class ClubListViewModel @Inject constructor(
         }
     }
 
-    private fun getInitialCategory(): ClubCategory {
-        return ClubCategory.entries.find { it.name == preferenceUtil.clubInitialCategory }
-            ?: ClubCategory.ALL
+    fun getInitialCategory(): ClubCategory? {
+        val saved = preferenceUtil.clubInitialCategory
+        if (saved.isEmpty()) return null
+        return ClubCategory.entries.find { it.name.lowercase() == saved }
     }
 
     fun isUserLoggedIn(): Boolean = preferenceUtil.accessToken.isNotEmpty()

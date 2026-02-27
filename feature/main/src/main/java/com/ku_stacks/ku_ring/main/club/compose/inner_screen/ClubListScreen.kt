@@ -51,6 +51,7 @@ import com.ku_stacks.ku_ring.ui.dialog.LoginAlertDialog
 
 @Composable
 fun ClubListScreen(
+    onNavigateToClubOnboarding: () -> Unit,
     onNavigateToClubDetail: (Int) -> Unit,
     onNavigateToClubSubscription: () -> Unit,
     onNavigateToNotification: () -> Unit,
@@ -58,60 +59,72 @@ fun ClubListScreen(
 ) {
     val clubFilter by viewModel.chatListFilter.collectAsStateWithLifecycle()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val pagerState = rememberPagerState(
-        initialPage = clubFilter.selectedCategory.ordinal,
-        pageCount = { ClubCategory.entries.size }
-    )
     var isLoginDialogVisible by remember { mutableStateOf(false) }
     var isDivisionBottomSheetVisible by remember { mutableStateOf(false) }
+    val selectedCategory = clubFilter.selectedCategory
 
     LifecycleResumeEffect(Unit) {
         isLoginDialogVisible = false
+        val initialCategory = viewModel.getInitialCategory()
+        viewModel.updateSelectedCategory(initialCategory)
         onPauseOrDispose { }
     }
 
-    LaunchedEffect(pagerState.currentPage) {
-        val selectedCategory = ClubCategory.entries[pagerState.currentPage]
-        viewModel.updateSelectedCategory(selectedCategory)
+    LaunchedEffect(selectedCategory) {
+        if (selectedCategory == null) {
+            onNavigateToClubOnboarding()
+        }
     }
 
-    ClubListScreen(
-        clubFilter = clubFilter,
-        uiState = uiState,
-        pagerState = pagerState,
-        isDivisionBottomSheetVisible = isDivisionBottomSheetVisible,
-        onNavigateToClubDetail = { onNavigateToClubDetail(it.id) },
-        onNavigateToClubSubscription = {
-            if (viewModel.isUserLoggedIn()) {
-                onNavigateToClubSubscription()
-            } else {
-                isLoginDialogVisible = true
-            }
-        },
-        onNavigateToNotification = onNavigateToNotification,
-        onSelectedDivisionsChange = viewModel::updateSelectedDivisions,
-        onSelectedDivisionReset = viewModel::resetSelectedDivisions,
-        onBottomSheetVisibilityChange = {
-            isDivisionBottomSheetVisible = !isDivisionBottomSheetVisible
-        },
-        onSubscriptionToggle = { clubSummary ->
-            if (viewModel.isUserLoggedIn()) {
-                viewModel.updateClubSubscription(clubSummary)
-            } else {
-                isLoginDialogVisible = true
-            }
-        },
-        onSortOptionChange = viewModel::updateSortOption,
-    )
-
-    if (isLoginDialogVisible) {
-        val navigator = LocalNavigator.current
-        val context = LocalContext.current
-
-        LoginAlertDialog(
-            onConfirm = { navigator.navigateToAuth(context) },
-            onDismiss = { isLoginDialogVisible = false },
+    if (selectedCategory != null) {
+        val pagerState = rememberPagerState(
+            initialPage = selectedCategory.ordinal,
+            pageCount = { ClubCategory.entries.size }
         )
+
+        LaunchedEffect(pagerState.currentPage) {
+            val category = ClubCategory.entries[pagerState.currentPage]
+            viewModel.updateSelectedCategory(category)
+        }
+
+        ClubListScreen(
+            clubFilter = clubFilter,
+            uiState = uiState,
+            pagerState = pagerState,
+            isDivisionBottomSheetVisible = isDivisionBottomSheetVisible,
+            onNavigateToClubDetail = { onNavigateToClubDetail(it.id) },
+            onNavigateToClubSubscription = {
+                if (viewModel.isUserLoggedIn()) {
+                    onNavigateToClubSubscription()
+                } else {
+                    isLoginDialogVisible = true
+                }
+            },
+            onNavigateToNotification = onNavigateToNotification,
+            onSelectedDivisionsChange = viewModel::updateSelectedDivisions,
+            onSelectedDivisionReset = viewModel::resetSelectedDivisions,
+            onBottomSheetVisibilityChange = {
+                isDivisionBottomSheetVisible = !isDivisionBottomSheetVisible
+            },
+            onSubscriptionToggle = { clubSummary ->
+                if (viewModel.isUserLoggedIn()) {
+                    viewModel.updateClubSubscription(clubSummary)
+                } else {
+                    isLoginDialogVisible = true
+                }
+            },
+            onSortOptionChange = viewModel::updateSortOption,
+        )
+
+        if (isLoginDialogVisible) {
+            val navigator = LocalNavigator.current
+            val context = LocalContext.current
+
+            LoginAlertDialog(
+                onConfirm = { navigator.navigateToAuth(context) },
+                onDismiss = { isLoginDialogVisible = false },
+            )
+        }
     }
 }
 

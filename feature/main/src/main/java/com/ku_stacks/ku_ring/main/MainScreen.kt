@@ -179,6 +179,9 @@ fun NavGraphBuilder.mainScreenNavGraph(
     }
     composable<MainScreenRoute.Club> {
         ClubListScreen(
+            onNavigateToClubOnboarding = {
+                navigator.navigateToClubOnboarding(activity)
+            },
             onNavigateToClubDetail = { clubId ->
                 navigator.navigateToClubDetail(activity, clubId)
             },
