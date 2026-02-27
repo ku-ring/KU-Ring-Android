@@ -2,9 +2,6 @@ package com.ku_stacks.ku_ring.main.club.compose
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.PagingData
-import androidx.paging.cachedIn
-import androidx.paging.map
 import com.ku_stacks.ku_ring.domain.ClubCategory
 import com.ku_stacks.ku_ring.domain.ClubDivision
 import com.ku_stacks.ku_ring.domain.ClubSummary
@@ -15,13 +12,14 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,24 +28,24 @@ class ClubListViewModel @Inject constructor(
     private val preferenceUtil: PreferenceUtil,
     private val clubRepository: ClubRepository
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(ClubListUiState.empty())
-    val uiState = _uiState.asStateFlow()
+    private val _chatListFilter = MutableStateFlow(ClubListFilter.default())
+    val chatListFilter: StateFlow<ClubListFilter> = _chatListFilter
+        .asStateFlow()
+    private val _serverParams = _chatListFilter
+        .map { it.selectedCategory to it.selectedDivisions }
+        .distinctUntilChanged()
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    private val _rawClubSummaryFlow: Flow<PagingData<ClubSummary>> =
-        _uiState.flatMapLatest { uiState ->
-            getClubSummaries(
-                category = uiState.selectedCategory,
-                divisions = uiState.selectedDivisions,
-                sortOption = uiState.sortOption,
-            )
-        }.cachedIn(viewModelScope)
-    private val _subscriptionOverride = MutableStateFlow<Map<Int, Boolean>>(emptyMap())
+    private val _uiState = MutableStateFlow<ClubListUiState>(ClubListUiState.Loading)
+    val uiState: StateFlow<ClubListUiState> = _uiState.asStateFlow()
 
-    val clubsFlow = combine(_rawClubSummaryFlow, _subscriptionOverride) { pagingData, overrides ->
-        pagingData.map { clubSummary ->
-            val isSubscribed = overrides[clubSummary.id] ?: clubSummary.isSubscribed
-            clubSummary.copy(isSubscribed = isSubscribed)
+    init {
+        viewModelScope.launch {
+            _serverParams.collect { (category, divisions) ->
+                fetchClubSummary(
+                    _chatListFilter.value.selectedCategory,
+                    _chatListFilter.value.selectedDivisions
+                )
+            }
         }
     }
 
@@ -55,9 +53,14 @@ class ClubListViewModel @Inject constructor(
 
     fun updateClubSubscription(clubSummary: ClubSummary) {
         val clubId = clubSummary.id
-        val newState = _subscriptionOverride.value[clubId]?.not() ?: clubSummary.isSubscribed
+        val newState = clubSummary.isSubscribed
+        _uiState.update {
+            val previous = (it as? ClubListUiState.Success)?.clubSummaries ?: emptyList()
+            ClubListUiState.Success(previous.map { item ->
+                if (item.id == clubId) item.copy(isSubscribed = newState) else item
+            })
+        }
 
-        _subscriptionOverride.update { it + (clubId to newState) }
         viewModelScope.launch {
             handleSubscription(clubId, newState)
         }
@@ -81,33 +84,44 @@ class ClubListViewModel @Inject constructor(
     }
 
     fun updateSelectedCategory(category: ClubCategory) {
-        _uiState.update { it.copy(selectedCategory = category) }
+        _chatListFilter.update { it.copy(selectedCategory = category) }
     }
 
     fun updateSelectedDivisions(divisions: Set<ClubDivision>) {
-        _uiState.update {
-            it.copy(selectedDivisions = divisions)
-        }
+        _chatListFilter.update { it.copy(selectedDivisions = divisions) }
     }
 
     fun resetSelectedDivisions() {
-        _uiState.update { it.copy(selectedDivisions = setOf()) }
-    }
-
-    fun updateBottomSheetVisibility() {
-        _uiState.update { it.copy(isDivisionBottomSheetVisible = !it.isDivisionBottomSheetVisible) }
+        _chatListFilter.update { it.copy(selectedDivisions = setOf()) }
     }
 
     fun updateSortOption(sortOption: ClubSortOption) {
-        _uiState.update { it.copy(sortOption = sortOption) }
+        _chatListFilter.update { it.copy(sortOption = sortOption) }
+        _uiState.update { currentState ->
+            val state = (currentState as? ClubListUiState.Success) ?: return@update currentState
+            val clubSummaries = when (sortOption) {
+                ClubSortOption.END_OF_RECRUITMENT -> state.clubSummaries.sortedBy { it.recruitmentEnd }
+                ClubSortOption.ALPHABETIC -> state.clubSummaries.sortedBy { it.name }
+            }
+            state.copy(clubSummaries = clubSummaries)
+        }
     }
 
-    private fun getClubSummaries(
+    private suspend fun fetchClubSummary(
         category: ClubCategory,
         divisions: Set<ClubDivision>,
-        sortOption: ClubSortOption,
-    ): Flow<PagingData<ClubSummary>> {
-        return clubRepository.getClubs(category, divisions, sortOption.value)
+    ) {
+        _uiState.update { ClubListUiState.Loading }
+        clubRepository.getClubs(category, divisions)
+            .onSuccess { clubSummaries ->
+                _uiState.update {
+                    ClubListUiState.Success(clubSummaries)
+                }
+            }
+            .onFailure { e ->
+                Timber.e(e)
+                _uiState.update { ClubListUiState.Error(e.message.toString()) }
+            }
     }
 
     private suspend fun setClubSubscription(clubId: Int, isSubscribed: Boolean) {

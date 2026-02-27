@@ -15,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -27,18 +28,15 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.paging.LoadState
-import androidx.paging.LoadStates
-import androidx.paging.PagingData
-import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.collectAsLazyPagingItems
 import com.ku_stacks.ku_ring.compose.locals.LocalNavigator
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
+import com.ku_stacks.ku_ring.designsystem.components.indicator.PagingLoadingIndicator
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.ClubCategory
 import com.ku_stacks.ku_ring.domain.ClubDivision
 import com.ku_stacks.ku_ring.domain.ClubSummary
 import com.ku_stacks.ku_ring.main.R
+import com.ku_stacks.ku_ring.main.club.compose.ClubListFilter
 import com.ku_stacks.ku_ring.main.club.compose.ClubListUiState
 import com.ku_stacks.ku_ring.main.club.compose.ClubListViewModel
 import com.ku_stacks.ku_ring.main.club.compose.components.ClubDivisionBottomSheet
@@ -50,7 +48,6 @@ import com.ku_stacks.ku_ring.ui.club.ClubListSortButtonRow
 import com.ku_stacks.ku_ring.ui.club.ClubSortOption
 import com.ku_stacks.ku_ring.ui.club.ClubSummaryPreviewParameterProvider
 import com.ku_stacks.ku_ring.ui.dialog.LoginAlertDialog
-import kotlinx.coroutines.flow.flowOf
 
 @Composable
 fun ClubListScreen(
@@ -59,34 +56,38 @@ fun ClubListScreen(
     onNavigateToNotification: () -> Unit,
     viewModel: ClubListViewModel = hiltViewModel()
 ) {
+    val clubFilter by viewModel.chatListFilter.collectAsStateWithLifecycle()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val clubSummaryFlow = viewModel.clubsFlow.collectAsLazyPagingItems()
     val pagerState = rememberPagerState(
-        initialPage = uiState.selectedCategory.ordinal,
+        initialPage = clubFilter.selectedCategory.ordinal,
         pageCount = { ClubCategory.entries.size }
     )
     var isLoginDialogVisible by remember { mutableStateOf(false) }
+    var isDivisionBottomSheetVisible by remember { mutableStateOf(false) }
 
     LifecycleResumeEffect(Unit) {
         isLoginDialogVisible = false
         onPauseOrDispose { }
     }
 
-    LaunchedEffect(pagerState.settledPage) {
-        val selectedCategory = ClubCategory.entries[pagerState.settledPage]
+    LaunchedEffect(pagerState.currentPage) {
+        val selectedCategory = ClubCategory.entries[pagerState.currentPage]
         viewModel.updateSelectedCategory(selectedCategory)
     }
 
     ClubListScreen(
+        clubFilter = clubFilter,
         uiState = uiState,
-        clubSummaries = clubSummaryFlow,
         pagerState = pagerState,
+        isDivisionBottomSheetVisible = isDivisionBottomSheetVisible,
         onNavigateToClubDetail = { onNavigateToClubDetail(it.id) },
         onNavigateToClubSubscription = onNavigateToClubSubscription,
         onNavigateToNotification = onNavigateToNotification,
         onSelectedDivisionsChange = viewModel::updateSelectedDivisions,
         onSelectedDivisionReset = viewModel::resetSelectedDivisions,
-        onBottomSheetVisibilityChange = viewModel::updateBottomSheetVisibility,
+        onBottomSheetVisibilityChange = {
+            isDivisionBottomSheetVisible = !isDivisionBottomSheetVisible
+        },
         onSubscriptionToggle = { clubSummary ->
             if (viewModel.isUserLoggedIn()) {
                 viewModel.updateClubSubscription(clubSummary)
@@ -111,7 +112,7 @@ fun ClubListScreen(
 @Composable
 private fun ClubListScreen(
     uiState: ClubListUiState,
-    clubSummaries: LazyPagingItems<ClubSummary>,
+    clubFilter: ClubListFilter,
     pagerState: PagerState,
     onNavigateToClubDetail: (ClubSummary) -> Unit,
     onNavigateToClubSubscription: () -> Unit,
@@ -121,12 +122,13 @@ private fun ClubListScreen(
     onBottomSheetVisibilityChange: () -> Unit,
     onSubscriptionToggle: (ClubSummary) -> Unit,
     onSortOptionChange: (ClubSortOption) -> Unit,
+    isDivisionBottomSheetVisible: Boolean,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(horizontal = 20.dp)
 ) {
-    if (uiState.isDivisionBottomSheetVisible) {
+    if (isDivisionBottomSheetVisible) {
         ClubDivisionBottomSheet(
-            selectedItems = uiState.selectedDivisions,
+            selectedItems = clubFilter.selectedDivisions,
             onConfirm = { newValue ->
                 onSelectedDivisionsChange(newValue)
                 onBottomSheetVisibilityChange()
@@ -150,9 +152,9 @@ private fun ClubListScreen(
         )
 
         ClubDivisionChipButtonGroup(
-            selectedDivisions = uiState.selectedDivisions,
+            selectedDivisions = clubFilter.selectedDivisions,
             onChipClick = { division ->
-                val selectedDivision = uiState.selectedDivisions
+                val selectedDivision = clubFilter.selectedDivisions
                 if (selectedDivision.contains(division)) {
                     onSelectedDivisionsChange(selectedDivision - division)
                 } else {
@@ -170,29 +172,46 @@ private fun ClubListScreen(
                 .fillMaxWidth()
                 .padding(contentPadding)
         ) {
+            val clubSummariesSize = (uiState as? ClubListUiState.Success)?.clubSummaries?.size ?: 0
+
             Text(
-                text = stringResource(R.string.club_item_count, clubSummaries.itemCount.toString()),
+                text = stringResource(R.string.club_item_count, clubSummariesSize.toString()),
                 style = KuringTheme.typography.body1,
                 color = KuringTheme.colors.textCaption1,
             )
 
             ClubListSortButtonRow(
-                selectedOption = uiState.sortOption,
+                selectedOption = clubFilter.sortOption,
                 onOptionSelect = onSortOptionChange
             )
         }
 
         HorizontalPager(
             state = pagerState,
-        ) {
-            ClubItemColumn(
-                clubSummaries = clubSummaries,
-                onClubSubscribeToggle = onSubscriptionToggle,
-                onClubItemClick = onNavigateToClubDetail,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(contentPadding),
-            )
+        ) { page ->
+            val pageCategory = ClubCategory.entries[page]
+            if (uiState is ClubListUiState.Loading || clubFilter.selectedCategory != pageCategory) {
+                PagingLoadingIndicator(
+                    modifier = Modifier
+                        .padding(top = 50.dp)
+                        .fillMaxWidth()
+                )
+            } else {
+                val clubSummaries =
+                    if (uiState is ClubListUiState.Success) uiState.clubSummaries
+                    else emptyList()
+
+                key(clubFilter.sortOption) {
+                    ClubItemColumn(
+                        clubSummaries = clubSummaries,
+                        onClubSubscribeToggle = onSubscriptionToggle,
+                        onClubItemClick = onNavigateToClubDetail,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(contentPadding),
+                    )
+                }
+            }
         }
     }
 }
@@ -200,29 +219,19 @@ private fun ClubListScreen(
 @LightAndDarkPreview
 @Composable
 private fun ClubListScreenPreview(
-    @PreviewParameter(ClubSummaryPreviewParameterProvider ::class) clubSummaries: List<ClubSummary>,
+    @PreviewParameter(ClubSummaryPreviewParameterProvider::class) clubSummaries: List<ClubSummary>,
 ) {
     KuringTheme {
-        val pagingData = PagingData.from(
-            data = clubSummaries,
-            sourceLoadStates = LoadStates(
-                refresh = LoadState.NotLoading(false),
-                prepend = LoadState.NotLoading(false),
-                append = LoadState.NotLoading(false)
-            )
-        )
-        val clubFlow = flowOf(pagingData).collectAsLazyPagingItems()
         val pagerState = rememberPagerState(pageCount = { ClubCategory.entries.size })
-        val uiState = ClubListUiState(
-            isDivisionBottomSheetVisible = false,
+        val clubFilter = ClubListFilter(
             selectedDivisions = setOf(ClubDivision.ENGINEERING),
             sortOption = ClubSortOption.END_OF_RECRUITMENT,
             selectedCategory = ClubCategory.ACADEMIC
         )
 
         ClubListScreen(
-            uiState = uiState,
-            clubSummaries = clubFlow,
+            clubFilter = clubFilter,
+            uiState = ClubListUiState.Success(clubSummaries),
             pagerState = pagerState,
             onNavigateToClubDetail = {},
             onNavigateToClubSubscription = {},
@@ -232,7 +241,8 @@ private fun ClubListScreenPreview(
             onBottomSheetVisibilityChange = {},
             onSubscriptionToggle = {},
             onSortOptionChange = {},
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
+            isDivisionBottomSheetVisible = false,
         )
     }
 }

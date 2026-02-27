@@ -2,20 +2,25 @@ package com.ku_stacks.ku_ring.main.club.compose
 
 import com.ku_stacks.ku_ring.domain.ClubCategory
 import com.ku_stacks.ku_ring.domain.ClubDivision
+import com.ku_stacks.ku_ring.domain.ClubSummary
 import com.ku_stacks.ku_ring.ui.club.ClubSortOption
 
-data class ClubListUiState(
+sealed interface ClubListUiState {
+    data object Loading : ClubListUiState
+    data class Success(val clubSummaries: List<ClubSummary>) : ClubListUiState
+    data class Error(val message: String?) : ClubListUiState
+}
+
+data class ClubListFilter(
     val selectedCategory: ClubCategory,
     val selectedDivisions: Set<ClubDivision>,
     val sortOption: ClubSortOption,
-    val isDivisionBottomSheetVisible: Boolean,
 ) {
     companion object {
-        fun empty() = ClubListUiState(
+        fun default() = ClubListFilter(
             selectedCategory = ClubCategory.ACADEMIC,
-            selectedDivisions = emptySet(),
-            sortOption = ClubSortOption.END_OF_RECRUITMENT,
-            isDivisionBottomSheetVisible = false,
+            selectedDivisions = setOf(),
+            sortOption = ClubSortOption.END_OF_RECRUITMENT
         )
     }
 }
