@@ -19,7 +19,7 @@ fun ClubDetailResponse.toClub(): Club {
         id = id,
         name = name,
         summary = shortIntroduction,
-        category = category.uppercase().toEnumOrDefault<ClubCategory>(ClubCategory.OTHERS),
+        category = category.uppercase().toEnumOrDefault<ClubCategory>(ClubCategory.ALL),
         affiliation = affiliation.uppercase()
             .toEnumOrDefault<ClubAffiliation>(ClubAffiliation.OTHERS),
         division = division.uppercase().toEnumOrDefault<ClubDivision>(ClubDivision.ETC),
@@ -68,7 +68,7 @@ fun ClubListItem.toClubSummary(): ClubSummary {
         id = id,
         name = name,
         summary = shortIntroduction,
-        category = category.uppercase().toEnumOrDefault<ClubCategory>(ClubCategory.OTHERS),
+        category = category.uppercase().toEnumOrDefault<ClubCategory>(ClubCategory.ALL),
         division = division.uppercase().toEnumOrDefault<ClubDivision>(ClubDivision.ETC),
         posterImageUrl = imageUrl,
         isSubscribed = isSubscribed,
