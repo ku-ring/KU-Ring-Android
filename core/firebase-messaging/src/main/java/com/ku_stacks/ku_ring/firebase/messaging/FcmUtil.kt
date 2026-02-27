@@ -1,7 +1,7 @@
 package com.ku_stacks.ku_ring.firebase.messaging
 
-import com.ku_stacks.ku_ring.local.entity.NoticeEntity
-import com.ku_stacks.ku_ring.local.entity.PushEntity
+import com.ku_stacks.ku_ring.firebase.messaging.mapper.getNoticeEntity
+import com.ku_stacks.ku_ring.firebase.messaging.mapper.getPushEntity
 import com.ku_stacks.ku_ring.local.room.NoticeDao
 import com.ku_stacks.ku_ring.local.room.PushDao
 import com.ku_stacks.ku_ring.util.IODispatcher
@@ -43,43 +43,37 @@ class FcmUtil @Inject constructor(
         return title != null && body != null
     }
 
-    fun insertNotificationIntoDatabase(
-        articleId: String,
-        id: Int,
-        category: String,
-        postedDate: String,
-        subject: String,
-        fullUrl: String,
-        receivedDate: String
+    fun isClubNotification(data: Map<String, String?>): Boolean {
+        val clubId = data["clubId"]
+        val title = data["title"]
+        val body = data["body"]
+        return clubId != null && title != null && body != null
+    }
+
+    fun insertNoticeNotificationIntoDatabase(
+        data: Map<String, String?>,
+        receivedDate: String,
     ) {
         CoroutineScope(ioDispatcher).launch {
             try {
-                pushDao.insertNotification(
-                    PushEntity(
-                        articleId = articleId,
-                        category = category,
-                        postedDate = postedDate,
-                        subject = subject,
-                        fullUrl = fullUrl,
-                        isNew = true,
-                        receivedDate = receivedDate
-                    )
-                )
-                noticeDao.insertNotice(
-                    NoticeEntity(
-                        articleId = articleId,
-                        id = id,
-                        category = category,
-                        subject = subject,
-                        postedDate = postedDate,
-                        url = fullUrl,
-                        isNew = true,
-                        isRead = false,
-                        isSaved = false,
-                        isImportant = false,
-                        isReadOnStorage = false
-                    )
-                )
+                val pushEntity = getPushEntity(data, receivedDate)
+                val noticeEntity = getNoticeEntity(data)
+                pushDao.insertNotification(pushEntity)
+                noticeDao.insertNotice(noticeEntity)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun insertNotificationIntoDatabase(
+        data: Map<String, String?>,
+        receivedDate: String,
+    ) {
+        CoroutineScope(ioDispatcher).launch {
+            try {
+                val entity = getPushEntity(data, receivedDate)
+                pushDao.insertNotification(entity)
             } catch (e: Exception) {
                 e.printStackTrace()
             }

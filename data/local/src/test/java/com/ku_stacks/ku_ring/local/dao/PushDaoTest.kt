@@ -10,11 +10,8 @@ import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
-@RunWith(RobolectricTestRunner::class)
 @Config(sdk = [24])
 class PushDaoTest : LocalDbAbstract() {
 
@@ -43,13 +40,8 @@ class PushDaoTest : LocalDbAbstract() {
         val resultData = (loadResult as PagingSource.LoadResult.Page).data
         val pushFromDB = resultData.first()
 
-
         // then
-        assertThat(pushFromDB.articleId, `is`(pushMock.articleId))
-        assertThat(pushFromDB.category, `is`(pushMock.category))
-        assertThat(pushFromDB.postedDate, `is`(pushMock.postedDate))
-        assertThat(pushFromDB.subject, `is`(pushMock.subject))
-        assertThat(pushFromDB.fullUrl, `is`(pushMock.fullUrl))
+        assertThat(pushFromDB.content, `is`(pushMock.content))
         assertThat(pushFromDB.isNew, `is`(pushMock.isNew))
         assertThat(pushFromDB.receivedDate, `is`(pushMock.receivedDate))
     }
@@ -59,7 +51,7 @@ class PushDaoTest : LocalDbAbstract() {
         // given
         val pushMock = LocalTestUtil.fakePushEntity()
         pushDao.insertNotification(pushMock)
-        pushDao.updateNotificationAsOld(pushMock.articleId, false)
+        pushDao.updateNotificationAsOld(pushMock.id, false)
 
         // when
         val pagingSource = pushDao.getNotificationList()
@@ -74,7 +66,7 @@ class PushDaoTest : LocalDbAbstract() {
         val pushFromDB = resultData.first()
 
         // then : updateConfirmedNotification 하면 isNew 값이 false
-        assertThat(pushFromDB.articleId, `is`(pushMock.articleId))
+        assertThat(pushFromDB.id, `is`(pushMock.id))
         assertThat(pushFromDB.isNew, `is`(false))
     }
 
@@ -94,7 +86,7 @@ class PushDaoTest : LocalDbAbstract() {
         assertThat(notiCountFromDB, `is`(1))
 
         // when
-        pushDao.updateNotificationAsOld(pushMock.articleId, false)
+        pushDao.updateNotificationAsOld(pushMock.id, false)
         // then : isNew 를 false 로 업데이트하면 0개의 데이터
         notiCountFromDB = pushDao.getNotificationCount(true).first()
         assertThat(notiCountFromDB, `is`(0))
@@ -114,7 +106,7 @@ class PushDaoTest : LocalDbAbstract() {
         assertThat(notiCountFromDB, `is`(1))
 
         // when
-        pushDao.deleteNotification(pushMock.articleId)
+        pushDao.deleteNotification(pushMock.id)
         // then : delete 후에 0개의 데이터
         notiCountFromDB = pushDao.getNotificationCount(true).first()
         assertThat(notiCountFromDB, `is`(0))

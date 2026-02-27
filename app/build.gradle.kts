@@ -102,6 +102,7 @@ dependencies {
     implementation(projects.feature.library)
     implementation(projects.feature.auth)
     implementation(projects.feature.club)
+    implementation(projects.feature.notification)
 
     implementation(libs.androidx.startup.runtime)
     testImplementation(libs.kotlinx.coroutines.test)

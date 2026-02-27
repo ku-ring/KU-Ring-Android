@@ -13,17 +13,17 @@ interface PushDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertNotification(pushEntity: PushEntity)
 
-    @Query("UPDATE PushEntity SET isNew = :value WHERE articleId = :articleId and isNew = not :value")
-    suspend fun updateNotificationAsOld(articleId: String, value: Boolean)
+    @Query("UPDATE PushEntity SET isNew = :value WHERE id = :id and isNew = not :value")
+    suspend fun updateNotificationAsOld(id: Int, value: Boolean)
 
-    @Query("SELECT * FROM PushEntity ORDER BY postedDate DESC, receivedDate DESC")
+    @Query("SELECT * FROM PushEntity ORDER BY receivedDate DESC")
     fun getNotificationList(): PagingSource<Int, PushEntity>
 
-    @Query("SELECT COUNT(articleId) FROM PushEntity WHERE isNew = :value")
+    @Query("SELECT COUNT(id) FROM PushEntity WHERE isNew = :value")
     fun getNotificationCount(value: Boolean): Flow<Int>
 
-    @Query("DELETE FROM PushEntity WHERE articleId = :articleId")
-    suspend fun deleteNotification(articleId: String)
+    @Query("DELETE FROM PushEntity WHERE id = :id")
+    suspend fun deleteNotification(id: Int)
 
     //not using now
     @Query("DELETE FROM PushEntity")

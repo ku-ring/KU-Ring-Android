@@ -1,15 +1,33 @@
 package com.ku_stacks.ku_ring.domain
 
 data class Notification(
-    val articleId: String,
+    val id: Int,
     val category: NotificationCategory,
-    val postedDate: String,
-    val subject: String,
-    val fullUrl: String,
-    var isNew: Boolean,
+    val isNew: Boolean,
     val receivedDate: String,
-    val tag: List<String>
+    val content: NotificationContent,
 )
+
+sealed interface NotificationContent {
+    data class Notice(
+        val articleId: String,
+        val noticeCategory: String,
+        val subject: String,
+        val fullUrl: String,
+        val postedDate: String,
+    ) : NotificationContent
+
+    data class Club(
+        val clubId: Int,
+        val title: String,
+        val body: String,
+    ) : NotificationContent
+
+    data class Common(
+        val title: String,
+        val body: String,
+    ) : NotificationContent
+}
 
 enum class NotificationCategory(
     val category: String,
@@ -17,6 +35,7 @@ enum class NotificationCategory(
     NOTICE("notice"),
     CUSTOM("admin"),
     ACADEMIC_EVENT("academic"),
+    CLUB("club"),
     UNKNOWN("unknown")
     ;
 
