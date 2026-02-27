@@ -46,11 +46,12 @@ import com.ku_stacks.ku_ring.designsystem.R.drawable.ic_star_v2
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.utils.ensureLineHeight
 import com.ku_stacks.ku_ring.domain.ClubSummary
-import com.ku_stacks.ku_ring.domain.RecruitmentStatus
 import com.ku_stacks.ku_ring.domain.calculateDDay
+import com.ku_stacks.ku_ring.domain.getRecruitmentStatus
 import com.ku_stacks.ku_ring.domain.isRecruitmentCompleted
 import com.ku_stacks.ku_ring.util.now
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -120,7 +121,7 @@ fun ClubItemCard(
                     
                     ClubDeadlineTag(
                         dDay = dDay,
-                        isRecruitmentCompleted = isRecruitmentCompleted,
+                        recruitmentStatus = clubSummary.getRecruitmentStatus(LocalDateTime.now()),
                     )
                 }
                 

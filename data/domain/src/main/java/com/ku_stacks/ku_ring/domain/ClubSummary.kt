@@ -31,3 +31,12 @@ fun ClubSummary.calculateDDay(today: LocalDate): Int? =
     recruitmentEnd?.date?.let { endDate ->
         today.daysUntil(endDate).coerceAtLeast(0)
     }
+
+fun ClubSummary.getRecruitmentStatus(today: LocalDateTime): RecruitmentStatus {
+    return when {
+        recruitmentEnd == null || recruitmentStart == null -> RecruitmentStatus.ALWAYS
+        today < recruitmentStart -> RecruitmentStatus.BEFORE
+        today > recruitmentEnd -> RecruitmentStatus.CLOSED
+        else -> return RecruitmentStatus.RECRUITING
+    }
+}
