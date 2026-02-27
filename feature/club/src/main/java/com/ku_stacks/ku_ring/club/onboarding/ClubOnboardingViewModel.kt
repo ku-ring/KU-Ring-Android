@@ -44,6 +44,11 @@ class ClubOnboardingViewModel @Inject constructor(
         return index in onboardingItems.indices
     }
 
+    // 동아리 카테고리 온보딩을 건너뛰면 전체로 설정
+    fun skipSelectingInitialCategory() {
+        preferences.clubInitialCategory = "all"
+    }
+
     private fun initOnboardingItems(): ImmutableList<ClubCategoryItemState> {
         return persistentListOf(
             ClubCategoryItemState(
