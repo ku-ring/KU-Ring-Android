@@ -6,6 +6,7 @@ import com.ku_stacks.ku_ring.domain.ClubCategory
 import com.ku_stacks.ku_ring.domain.ClubDivision
 import com.ku_stacks.ku_ring.domain.ClubSummary
 import com.ku_stacks.ku_ring.domain.club.ClubRepository
+import com.ku_stacks.ku_ring.domain.isRecruitmentCompleted
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.ui.club.ClubSortOption
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,10 +14,13 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -41,8 +45,31 @@ class ClubListViewModel @Inject constructor(
         .map { it.selectedCategory to it.selectedDivisions }
         .distinctUntilChanged()
 
+    private val _sortOption = _chatListFilter
+        .map { it.sortOption }
+        .distinctUntilChanged()
+
     private val _uiState = MutableStateFlow<ClubListUiState>(ClubListUiState.Loading)
-    val uiState: StateFlow<ClubListUiState> = _uiState.asStateFlow()
+    val uiState: StateFlow<ClubListUiState> =
+        combine(_uiState, _sortOption) { currentState, sortOption ->
+            val state = (currentState as? ClubListUiState.Success) ?: return@combine currentState
+            val clubSummaries = when (sortOption) {
+                ClubSortOption.END_OF_RECRUITMENT -> state.clubSummaries.sortedWith(
+                    compareBy<ClubSummary> { it.isRecruitmentCompleted() }
+                        .thenBy { it.recruitmentEnd }
+                )
+
+                ClubSortOption.ALPHABETIC -> state.clubSummaries.sortedWith(
+                    compareBy<ClubSummary> { it.isRecruitmentCompleted() }
+                        .thenBy { it.name }
+                )
+            }
+            ClubListUiState.Success(clubSummaries)
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = ClubListUiState.Loading
+        )
 
     init {
         viewModelScope.launch {
@@ -103,14 +130,6 @@ class ClubListViewModel @Inject constructor(
 
     fun updateSortOption(sortOption: ClubSortOption) {
         _chatListFilter.update { it.copy(sortOption = sortOption) }
-        _uiState.update { currentState ->
-            val state = (currentState as? ClubListUiState.Success) ?: return@update currentState
-            val clubSummaries = when (sortOption) {
-                ClubSortOption.END_OF_RECRUITMENT -> state.clubSummaries.sortedBy { it.recruitmentEnd }
-                ClubSortOption.ALPHABETIC -> state.clubSummaries.sortedBy { it.name }
-            }
-            state.copy(clubSummaries = clubSummaries)
-        }
     }
 
     private suspend fun fetchClubSummary(

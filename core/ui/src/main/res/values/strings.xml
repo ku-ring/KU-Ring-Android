@@ -15,6 +15,7 @@
     <string name="comment_header_more">더 많은 작업하기</string>
 
     <!-- Club -->
+    <string name="club_card_tag_recruitment_end">모집종료</string>
     <string name="club_card_tag_recruitment_always">상시모집</string>
     <string name="club_card_tag_d_day">D-%s</string>
     <string name="club_list_no_item">등록된 동아리가 없어요!</string>
