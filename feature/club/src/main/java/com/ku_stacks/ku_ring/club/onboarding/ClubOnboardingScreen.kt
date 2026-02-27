@@ -42,7 +42,10 @@ fun ClubOnboardingScreen(
                 onClose()
             }
         },
-        onDismiss = onClose,
+        onDismiss = {
+            viewModel.skipSelectingInitialCategory()
+            onClose()
+        },
         categoryItems = viewModel.onboardingItems,
         selectedItemIndex = viewModel.selectedItemIndex,
         selectItem = viewModel::setSelectedItem,
