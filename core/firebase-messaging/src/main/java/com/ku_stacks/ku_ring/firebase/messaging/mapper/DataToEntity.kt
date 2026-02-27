@@ -16,7 +16,7 @@ internal fun getNoticeEntity(
 ): NoticeEntity {
     return NoticeEntity(
         articleId = data["articleId"]!!,
-        id = data["id"]?.toInt() ?: 0,
+        id = data["id"]?.toIntOrNull() ?: 0,
         category = data["category"]!!,
         subject = data["subject"]!!,
         postedDate = data["postedDate"]!!,
@@ -54,7 +54,7 @@ private fun getNoticePushEntity(
     data: Map<String, String?>,
     receivedDate: String,
 ): PushEntity {
-    val id = data["id"]?.toInt() ?: 0
+    val id = data["id"]?.toIntOrNull() ?: 0
     val articleId = data["articleId"]!!
     val category = data["category"]!!
     val postedDate = data["postedDate"]!!
@@ -79,7 +79,7 @@ private fun getClubPushEntity(
     data: Map<String, String?>,
     receivedDate: String,
 ): PushEntity {
-    val clubId = data["clubId"]?.toInt() ?: 0
+    val clubId = data["clubId"]?.toIntOrNull()  ?: 0
     val title = data["title"]!!
     val body = data["body"]!!
 
