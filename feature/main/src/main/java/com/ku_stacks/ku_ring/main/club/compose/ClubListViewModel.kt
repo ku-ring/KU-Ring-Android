@@ -28,7 +28,13 @@ class ClubListViewModel @Inject constructor(
     private val preferenceUtil: PreferenceUtil,
     private val clubRepository: ClubRepository
 ) : ViewModel() {
-    private val _chatListFilter = MutableStateFlow(ClubListFilter.default())
+    private val _chatListFilter = MutableStateFlow(
+        ClubListFilter(
+            selectedCategory = getInitialCategory(),
+            selectedDivisions = setOf(),
+            sortOption = ClubSortOption.END_OF_RECRUITMENT,
+        )
+    )
     val chatListFilter: StateFlow<ClubListFilter> = _chatListFilter
         .asStateFlow()
     private val _serverParams = _chatListFilter
@@ -130,6 +136,11 @@ class ClubListViewModel @Inject constructor(
         } else {
             clubRepository.unsubscribeClub(clubId)
         }
+    }
+
+    private fun getInitialCategory(): ClubCategory {
+        return ClubCategory.entries.find { it.name == preferenceUtil.clubInitialCategory }
+            ?: ClubCategory.ALL
     }
 
     fun isUserLoggedIn(): Boolean = preferenceUtil.accessToken.isNotEmpty()

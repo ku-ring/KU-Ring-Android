@@ -2,7 +2,6 @@ package com.ku_stacks.ku_ring.club.subscription
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ku_stacks.ku_ring.domain.ClubCategory
 import com.ku_stacks.ku_ring.domain.ClubSummary
 import com.ku_stacks.ku_ring.domain.club.ClubRepository
 import com.ku_stacks.ku_ring.ui.club.ClubSortOption
@@ -47,7 +46,7 @@ class ClubSubscriptionViewModel @Inject constructor(
     }
 
     private fun fetchSubscribedClubs() = viewModelScope.launch {
-        clubRepository.getClubs(category = ClubCategory.CULTURE_ARTS, division = setOf())
+        clubRepository.getSubscribedClubs()
             .onSuccess { result ->
                 _clubSummaries.update { result }
             }
