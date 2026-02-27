@@ -12,6 +12,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -20,11 +21,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.paging.LoadState
-import androidx.paging.LoadStates
-import androidx.paging.PagingData
-import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.collectAsLazyPagingItems
 import com.ku_stacks.ku_ring.club.R.string.club_subscription_item_count
 import com.ku_stacks.ku_ring.club.subscription.component.ClubSubscriptionTopBar
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
@@ -34,7 +30,6 @@ import com.ku_stacks.ku_ring.ui.club.ClubItemColumn
 import com.ku_stacks.ku_ring.ui.club.ClubListSortButtonRow
 import com.ku_stacks.ku_ring.ui.club.ClubSortOption
 import com.ku_stacks.ku_ring.ui.club.ClubSummaryPreviewParameterProvider
-import kotlinx.coroutines.flow.flowOf
 
 @Composable
 fun ClubSubscriptionScreen(
@@ -43,11 +38,11 @@ fun ClubSubscriptionScreen(
     viewModel: ClubSubscriptionViewModel = hiltViewModel(),
 ) {
     val sortOption by viewModel.sortOption.collectAsStateWithLifecycle()
-    val clubSummaryFlow = viewModel.subscribedClubsFlow.collectAsLazyPagingItems()
+    val clubSummaries by viewModel.clubSummaries.collectAsStateWithLifecycle()
 
     ClubSubscriptionScreen(
         sortOption = sortOption,
-        clubSummaries = clubSummaryFlow,
+        clubSummaries = clubSummaries,
         onNavigateUp = onNavigateUp,
         onSortOptionChange = viewModel::updateSortOption,
         onSubscriptionToggle = viewModel::updateClubSubscription,
@@ -58,7 +53,7 @@ fun ClubSubscriptionScreen(
 @Composable
 private fun ClubSubscriptionScreen(
     sortOption: ClubSortOption,
-    clubSummaries: LazyPagingItems<ClubSummary>,
+    clubSummaries: List<ClubSummary>,
     onNavigateUp: () -> Unit,
     onSortOptionChange: (ClubSortOption) -> Unit,
     onSubscriptionToggle: (ClubSummary) -> Unit,
@@ -87,7 +82,7 @@ private fun ClubSubscriptionScreen(
                 .padding(contentPadding)
         ) {
             Text(
-                text = stringResource(club_subscription_item_count, clubSummaries.itemCount.toString()),
+                text = stringResource(club_subscription_item_count, clubSummaries.size.toString()),
                 style = KuringTheme.typography.body1,
                 color = KuringTheme.colors.textCaption1,
             )
@@ -98,14 +93,16 @@ private fun ClubSubscriptionScreen(
             )
         }
 
-        ClubItemColumn(
-            clubSummaries = clubSummaries,
-            onClubSubscribeToggle = onSubscriptionToggle,
-            onClubItemClick = onNavigateToClubDetail,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(contentPadding),
-        )
+        key(sortOption) {
+            ClubItemColumn(
+                clubSummaries = clubSummaries,
+                onClubSubscribeToggle = onSubscriptionToggle,
+                onClubItemClick = onNavigateToClubDetail,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(contentPadding),
+            )
+        }
     }
 }
 
@@ -114,20 +111,10 @@ private fun ClubSubscriptionScreen(
 private fun ClubSubscriptionScreenPreview(
     @PreviewParameter(ClubSummaryPreviewParameterProvider ::class) clubSummaries: List<ClubSummary>,
 ) {
-    val pagingData = PagingData.from(
-        data = clubSummaries,
-        sourceLoadStates = LoadStates(
-            refresh = LoadState.NotLoading(false),
-            prepend = LoadState.NotLoading(false),
-            append = LoadState.NotLoading(false)
-        )
-    )
-    val clubFlow = flowOf(pagingData).collectAsLazyPagingItems()
-
     KuringTheme {
         ClubSubscriptionScreen(
             sortOption = ClubSortOption.END_OF_RECRUITMENT,
-            clubSummaries = clubFlow,
+            clubSummaries = clubSummaries,
             onNavigateUp = {},
             onSortOptionChange = {},
             onSubscriptionToggle = {},

@@ -2,62 +2,56 @@ package com.ku_stacks.ku_ring.club.subscription
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.LoadState
-import androidx.paging.LoadStates
-import androidx.paging.PagingData
-import androidx.paging.cachedIn
-import androidx.paging.map
+import com.ku_stacks.ku_ring.domain.ClubCategory
 import com.ku_stacks.ku_ring.domain.ClubSummary
+import com.ku_stacks.ku_ring.domain.club.ClubRepository
 import com.ku_stacks.ku_ring.ui.club.ClubSortOption
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class ClubSubscriptionViewModel @Inject constructor() : ViewModel() {
+class ClubSubscriptionViewModel @Inject constructor(
+    private val clubRepository: ClubRepository
+) : ViewModel() {
     private val _sortOption = MutableStateFlow(ClubSortOption.END_OF_RECRUITMENT)
     val sortOption = _sortOption.asStateFlow()
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    private val _rawSubscribedClubsFlow: Flow<PagingData<ClubSummary>> =
-        _sortOption.flatMapLatest { sortOption ->
-            getSubscribedClubs(sortOption)
-        }.cachedIn(viewModelScope)
-    private val _subscriptionOverride = MutableStateFlow<Map<Int, Boolean>>(emptyMap())
-
-    val subscribedClubsFlow =
-        combine(_rawSubscribedClubsFlow, _subscriptionOverride) { pagingData, overrides ->
-            pagingData.map { clubSummary ->
-                val isSubscribed = overrides[clubSummary.id] ?: clubSummary.isSubscribed
-                clubSummary.copy(isSubscribed = isSubscribed)
+    private val _clubSummaries = MutableStateFlow<List<ClubSummary>>(emptyList())
+    val clubSummaries: StateFlow<List<ClubSummary>> =
+        combine(_clubSummaries, _sortOption) { summaries, sortOption ->
+            when (sortOption) {
+                ClubSortOption.END_OF_RECRUITMENT -> summaries.sortedBy { it.recruitmentEnd }
+                ClubSortOption.ALPHABETIC -> summaries.sortedBy { it.name }
             }
-        }
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = emptyList()
+        )
 
     private val subscriptionJobs = mutableMapOf<Int, Job>()
 
-    private fun getSubscribedClubs(
-        sortOption: ClubSortOption,
-    ): Flow<PagingData<ClubSummary>> {
-        // TODO: 실제 API 호출
-        return flowOf(
-            PagingData.empty(
-                LoadStates(
-                    refresh = LoadState.NotLoading(false),
-                    prepend = LoadState.NotLoading(false),
-                    append = LoadState.NotLoading(false)
-                )
-            )
-        )
+    init {
+        fetchSubscribedClubs()
+    }
+
+    private fun fetchSubscribedClubs() = viewModelScope.launch {
+        clubRepository.getClubs(category = ClubCategory.CULTURE_ARTS, division = setOf())
+            .onSuccess { result ->
+                _clubSummaries.update { result }
+            }
+            .onFailure(Timber::e)
     }
 
     /**
@@ -66,10 +60,16 @@ class ClubSubscriptionViewModel @Inject constructor() : ViewModel() {
      */
     fun updateClubSubscription(clubSummary: ClubSummary) {
         val clubId = clubSummary.id
-        val newState = _subscriptionOverride.value[clubId]?.not() ?: clubSummary.isSubscribed
+        val newState = clubSummary.isSubscribed
+        _clubSummaries.update {
+            it.map { item ->
+                if (item.id == clubId) item.copy(isSubscribed = newState) else item
+            }
+        }
 
-        _subscriptionOverride.update { it + (clubId to newState) }
-        handleSubscription(clubId, newState)
+        viewModelScope.launch {
+            handleSubscription(clubId, newState)
+        }
     }
 
     private fun handleSubscription(clubId: Int, newState: Boolean) {
@@ -78,7 +78,7 @@ class ClubSubscriptionViewModel @Inject constructor() : ViewModel() {
         val job = viewModelScope.launch {
             try {
                 delay(300)
-                // TODO: 실제 API 호출
+                setClubSubscription(clubId, newState)
             } finally {
                 if (subscriptionJobs[clubId] === this) {
                     subscriptionJobs.remove(clubId)
@@ -87,6 +87,14 @@ class ClubSubscriptionViewModel @Inject constructor() : ViewModel() {
         }
 
         subscriptionJobs[clubId] = job
+    }
+
+    private suspend fun setClubSubscription(clubId: Int, isSubscribed: Boolean) {
+        if (isSubscribed) {
+            clubRepository.subscribeClub(clubId)
+        } else {
+            clubRepository.unsubscribeClub(clubId)
+        }
     }
 
     fun updateSortOption(sortOption: ClubSortOption) {
