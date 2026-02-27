@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ku_stacks.ku_ring.domain.ClubSummary
 import com.ku_stacks.ku_ring.domain.club.ClubRepository
+import com.ku_stacks.ku_ring.domain.isRecruitmentCompleted
 import com.ku_stacks.ku_ring.ui.club.ClubSortOption
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -30,8 +31,14 @@ class ClubSubscriptionViewModel @Inject constructor(
     val clubSummaries: StateFlow<List<ClubSummary>> =
         combine(_clubSummaries, _sortOption) { summaries, sortOption ->
             when (sortOption) {
-                ClubSortOption.END_OF_RECRUITMENT -> summaries.sortedBy { it.recruitmentEnd }
-                ClubSortOption.ALPHABETIC -> summaries.sortedBy { it.name }
+                ClubSortOption.END_OF_RECRUITMENT -> summaries.sortedWith(
+                    compareBy<ClubSummary> { it.isRecruitmentCompleted() }
+                        .thenBy { it.recruitmentEnd }
+                )
+                ClubSortOption.ALPHABETIC -> summaries.sortedWith(
+                    compareBy<ClubSummary> { it.isRecruitmentCompleted() }
+                        .thenBy { it.name }
+                )
             }
         }.stateIn(
             scope = viewModelScope,
