@@ -6,9 +6,12 @@ import com.ku_stacks.ku_ring.domain.ClubCategory
 import com.ku_stacks.ku_ring.domain.ClubDivision
 import com.ku_stacks.ku_ring.domain.ClubLocation
 import com.ku_stacks.ku_ring.domain.ClubRecruitment
+import com.ku_stacks.ku_ring.domain.ClubSummary
 import com.ku_stacks.ku_ring.domain.RecruitmentStatus
 import com.ku_stacks.ku_ring.remote.club.response.ClubDetailResponse
+import com.ku_stacks.ku_ring.remote.club.response.ClubListItem
 import com.ku_stacks.ku_ring.remote.club.response.ClubRoomLocation
+import com.ku_stacks.ku_ring.util.toLocalDateTimeOrNull
 import kotlinx.datetime.LocalDateTime
 
 fun ClubDetailResponse.toClub(): Club {
@@ -24,9 +27,11 @@ fun ClubDetailResponse.toClub(): Club {
         location = location.toLocation(),
         applyQualification = qualifications,
         recruitment = parseRecruitment(),
-        webUrl = null,
-        posterImageUrl = posterImageUrl,
-        descriptionImageUrl = if (posterImageUrl.isEmpty()) null else listOf(posterImageUrl),
+        webUrl = listOfNotNull(instagramUrl, youtubeUrl, etcUrl),
+        posterImageUrl = descriptionImageUrl,
+        descriptionImageUrl = if (descriptionImageUrl.isEmpty()) null else listOf(
+            descriptionImageUrl
+        ),
         isSubscribed = isSubscribed,
         subscribeCount = subscriptionCount,
     )
@@ -35,9 +40,8 @@ fun ClubDetailResponse.toClub(): Club {
 fun ClubRoomLocation.toLocation() = ClubLocation(
     building = buildingName,
     roomNumber = room,
-    // TODO: API 문서 변경 완료되면 위도 및 경도 추가
-    latitude = null,
-    longitude = null,
+    latitude = latitude,
+    longitude = longitude,
 )
 
 fun ClubDetailResponse.parseRecruitment(): ClubRecruitment? {
@@ -54,6 +58,24 @@ fun ClubDetailResponse.parseRecruitment(): ClubRecruitment? {
     } else {
         null
     }
+}
+
+fun ClubListItem.toClubSummary(): ClubSummary {
+    val start = recruitStartAt.toLocalDateTimeOrNull()
+    val end = recruitEndAt.toLocalDateTimeOrNull()
+
+    return ClubSummary(
+        id = id,
+        name = name,
+        summary = shortIntroduction,
+        category = category.uppercase().toEnumOrDefault<ClubCategory>(ClubCategory.OTHERS),
+        division = division.uppercase().toEnumOrDefault<ClubDivision>(ClubDivision.ETC),
+        posterImageUrl = imageUrl,
+        isSubscribed = isSubscribed,
+        subscribeCount = subscriberCount,
+        recruitmentStart = start,
+        recruitmentEnd = end,
+    )
 }
 
 private inline fun <reified T : Enum<T>> String.toEnumOrDefault(default: T): T {

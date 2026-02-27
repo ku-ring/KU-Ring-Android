@@ -28,6 +28,7 @@ android {
 dependencies {
     implementation(projects.core.util)
     implementation(projects.core.preferences)
+    implementation(libs.androidx.paging.common.ktx)
 
     testImplementation(libs.kotlinx.coroutines.test)
 }

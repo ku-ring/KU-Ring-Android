@@ -105,6 +105,10 @@
             android:name=".club.subscription.ClubSubscriptionActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".club.detail.ClubDetailActivity"
+            android:exported="false" />
+
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
