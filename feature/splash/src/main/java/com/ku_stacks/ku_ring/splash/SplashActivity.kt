@@ -23,13 +23,13 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.firebase.messaging.FcmUtil
 import com.ku_stacks.ku_ring.navigation.KuringNavigator
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.splash.compose.SplashScreen
-import com.ku_stacks.ku_ring.firebase.messaging.FcmUtil
-import com.ku_stacks.ku_ring.util.getAppVersionName
 import com.ku_stacks.ku_ring.util.DateUtil
 import com.ku_stacks.ku_ring.util.KuringNotificationManager
+import com.ku_stacks.ku_ring.util.getAppVersionName
 import com.ku_stacks.ku_ring.work.ReEngagementNotificationWork
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -135,6 +135,10 @@ class SplashActivity : AppCompatActivity() {
                 handleCustomNotification()
             }
 
+            launchedFromClubNotificationEvent(intent) -> {
+                // TODO: 동아리 상세 페이지로 이동하는 로직 추가
+            }
+
             onboardingRequired() -> {
                 createNotificationChannel()
                 navigator.navigateToOnboarding(this@SplashActivity)
@@ -174,19 +178,8 @@ class SplashActivity : AppCompatActivity() {
             val id = map["id"]?.toInt() ?: 0
             val articleId = map["articleId"] ?: return
             val category = map["category"] ?: return
-            val postedDate = map["postedDate"] ?: return
             val subject = map["subject"] ?: return
             val fullUrl = map["baseUrl"] ?: return
-
-            fcmUtil.insertNotificationIntoDatabase(
-                articleId = articleId,
-                id = id,
-                category = category,
-                postedDate = postedDate,
-                subject = subject,
-                fullUrl = fullUrl,
-                receivedDate = DateUtil.getCurrentTime()
-            )
 
             navigator.navigateToMain(
                 activity = this@SplashActivity,
@@ -203,6 +196,12 @@ class SplashActivity : AppCompatActivity() {
         val data = intent.extras?.toMap()
             ?: return false
         return fcmUtil.isCustomNotification(data)
+    }
+
+    private fun launchedFromClubNotificationEvent(intent: Intent): Boolean {
+        val data = intent.extras?.toMap()
+            ?: return false
+        return fcmUtil.isClubNotification(data)
     }
 
     private fun handleCustomNotification() {

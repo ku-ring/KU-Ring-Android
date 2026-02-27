@@ -138,7 +138,7 @@ fun NavGraphBuilder.mainScreenNavGraph(
                 navigator.navigateToArchive(activity)
             },
             onNotificationIconClick = {
-                navigator.navigateToEditSubscription(activity)
+                navigator.navigateToNotification(activity)
             },
             onNoticeClick = {
                 navigator.navigateToNoticeWeb(activity, it)

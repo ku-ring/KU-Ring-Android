@@ -150,6 +150,22 @@ object DBModule {
         }
     }
 
+    private val MIGRATION_11_12 = object : Migration(11, 12) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("DROP TABLE IF EXISTS PushEntity")
+            db.execSQL(
+                """
+                CREATE TABLE IF NOT EXISTS PushEntity(
+                    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                    receivedDate TEXT NOT NULL,
+                    isNew INTEGER NOT NULL,
+                    content TEXT NOT NULL
+                )
+            """.trimIndent()
+            )
+        }
+    }
+
     @Singleton
     @Provides
     fun provideKuRingDatabase(
@@ -170,6 +186,7 @@ object DBModule {
             MIGRATION_8_9,
             MIGRATION_9_10,
             MIGRATION_10_11,
+            MIGRATION_11_12,
         ).build()
 
     @Singleton

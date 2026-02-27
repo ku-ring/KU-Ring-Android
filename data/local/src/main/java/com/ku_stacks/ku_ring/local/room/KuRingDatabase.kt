@@ -2,6 +2,7 @@ package com.ku_stacks.ku_ring.local.room
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.ku_stacks.ku_ring.local.entity.AcademicEventEntity
 import com.ku_stacks.ku_ring.local.entity.BlackUserEntity
 import com.ku_stacks.ku_ring.local.entity.CategoryOrderEntity
@@ -10,6 +11,7 @@ import com.ku_stacks.ku_ring.local.entity.KuringBotMessageEntity
 import com.ku_stacks.ku_ring.local.entity.NoticeEntity
 import com.ku_stacks.ku_ring.local.entity.PushEntity
 import com.ku_stacks.ku_ring.local.entity.SearchHistoryEntity
+import com.ku_stacks.ku_ring.local.typeconverter.PushTypeConverter
 
 @Database(
     entities = [
@@ -22,8 +24,11 @@ import com.ku_stacks.ku_ring.local.entity.SearchHistoryEntity
         CategoryOrderEntity::class,
         AcademicEventEntity::class,
     ],
-    version = 11,
+    version = 12,
     exportSchema = false
+)
+@TypeConverters(
+    PushTypeConverter::class,
 )
 abstract class KuRingDatabase : RoomDatabase() {
     abstract fun noticeDao(): NoticeDao

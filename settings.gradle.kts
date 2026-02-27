@@ -81,4 +81,5 @@ include(
     ":feature:main",
     ":feature:kuringbot",
     ":feature:edit_departments",
+    ":feature:notification"
 )
