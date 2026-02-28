@@ -19,7 +19,6 @@ import com.ku_stacks.ku_ring.domain.RecruitmentStatus
 import com.ku_stacks.ku_ring.ui.R.string.club_card_tag_d_day
 import com.ku_stacks.ku_ring.ui.R.string.club_card_tag_d_day_end
 import com.ku_stacks.ku_ring.ui.R.string.club_card_tag_recruitment_always
-import com.ku_stacks.ku_ring.ui.R.string.club_card_tag_recruitment_end
 
 private const val DEADLINE_THRESHOLD = 3
 
@@ -33,10 +32,6 @@ fun ClubDeadlineTag(
         recruitmentStatus == RecruitmentStatus.ALWAYS -> stringResource(
             club_card_tag_recruitment_always
         )
-        recruitmentStatus == RecruitmentStatus.CLOSED -> stringResource(
-            club_card_tag_recruitment_end
-        )
-
         dDay == 0 -> stringResource(club_card_tag_d_day_end)
         else -> stringResource(club_card_tag_d_day, dDay.toString())
     }

@@ -1,7 +1,6 @@
 package com.ku_stacks.ku_ring.domain.club.usecase
 
 import com.ku_stacks.ku_ring.domain.ClubSummary
-
 import com.ku_stacks.ku_ring.domain.isRecruitmentCompleted
 import javax.inject.Inject
 
