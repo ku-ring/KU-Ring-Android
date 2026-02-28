@@ -6,7 +6,7 @@ enum class ClubSortOption(
 ) {
     END_OF_RECRUITMENT(
         text = "모집 마감일 순",
-        value = "recruitEndData"
+        value = "recruitEndDate"
     ),
     ALPHABETIC(
         text = "가나다 순",
