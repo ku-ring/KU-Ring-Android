@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ku_stacks.ku_ring.domain.ClubCategory
 import com.ku_stacks.ku_ring.domain.ClubDivision
-import com.ku_stacks.ku_ring.domain.ClubSummary
 import com.ku_stacks.ku_ring.domain.club.ClubRepository
 import com.ku_stacks.ku_ring.domain.club.usecase.SortClubSummariesUseCase
 import com.ku_stacks.ku_ring.main.R.string.club_subscribe_fail
@@ -93,12 +92,11 @@ class ClubListViewModel @Inject constructor(
         }
     }
 
-    fun updateClubSubscription(clubSummary: ClubSummary) {
-        val clubId = clubSummary.id
-        val isSubscribed = clubSummary.isSubscribed
-        val isSubscribedPrevious =
-            (_uiState.value as? ClubListUiState.Success)?.clubSummaries
-                ?.find { it.id == clubId }?.isSubscribed
+    fun updateClubSubscription(clubId: Int) {
+        val clubSummary = (_uiState.value as? ClubListUiState.Success)?.clubSummaries
+            ?.find { it.id == clubId } ?: return
+        val isSubscribed = !_subscribedIds.value.contains(clubId)
+        val isSubscribedPrevious = clubSummary.isSubscribed
 
         _subscribedIds.update { if (isSubscribed) it + clubId else it - clubId }
         handleSubscription(clubId, isSubscribed, isSubscribedPrevious)

@@ -6,7 +6,6 @@ import com.ku_stacks.ku_ring.club.R.string.club_subscription_subscribe_fail
 import com.ku_stacks.ku_ring.club.R.string.club_subscription_unsubscribe_fail
 import com.ku_stacks.ku_ring.club.subscription.contract.ClubSubscriptionSideEffect
 import com.ku_stacks.ku_ring.club.subscription.contract.ClubSubscriptionUiState
-import com.ku_stacks.ku_ring.domain.ClubSummary
 import com.ku_stacks.ku_ring.domain.club.ClubRepository
 import com.ku_stacks.ku_ring.domain.club.usecase.SortClubSummariesUseCase
 import com.ku_stacks.ku_ring.ui.club.ClubSortOption
@@ -83,9 +82,8 @@ class ClubSubscriptionViewModel @Inject constructor(
             }
     }
 
-    fun updateClubSubscription(clubSummary: ClubSummary) {
-        val clubId = clubSummary.id
-        val isSubscribed = clubSummary.isSubscribed
+    fun updateClubSubscription(clubId: Int) {
+        val isSubscribed = !_subscribedIds.value.contains(clubId)
         val isSubscribedPrevious =
             (_uiState.value as? ClubSubscriptionUiState.Success)?.clubSummaries
                 ?.find { it.id == clubId }?.isSubscribed
