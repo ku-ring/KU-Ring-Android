@@ -130,7 +130,7 @@
     <string name="academic_calendar_top_bar_title">학사 일정</string>
     <string name="calendar_btn_navigate_previous">이전 달로 이동</string>
     <string name="calendar_btn_navigate_next">다음 달로 이동</string>
-    <string name="calendar_error_load_event">동아리 목록 로드 중 에러가 발생했어요.\n잠시 후 다시 시도해 주세요.</string>
+    <string name="calendar_error_load_event">학사 일정 로드 중 에러가 발생했어요.\n잠시 후 다시 시도해 주세요.</string>
 
     <!-- club -->
     <string name="club_title">동아리</string>

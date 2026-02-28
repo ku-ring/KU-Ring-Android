@@ -12,7 +12,7 @@ sealed interface ClubListUiState {
 }
 
 data class ClubListFilter(
-    val selectedCategory: ClubCategory?,
+    val selectedCategory: ClubCategory,
     val selectedDivisions: Set<ClubDivision>,
     val sortOption: ClubSortOption,
 )

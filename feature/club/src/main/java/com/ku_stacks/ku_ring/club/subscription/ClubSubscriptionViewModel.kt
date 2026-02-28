@@ -118,7 +118,7 @@ class ClubSubscriptionViewModel @Inject constructor(
                         Timber.e(e)
                         if (isSubscribedPrevious != null) {
                             _subscribedIds.update { if (isSubscribedPrevious) it + clubId else it - clubId }
-                            _sideEffect.send(
+                            _sideEffect.trySend(
                                 ClubSubscriptionSideEffect.ShowToast(
                                     if (isSubscribed) club_subscription_subscribe_fail
                                     else club_subscription_unsubscribe_fail
