@@ -56,7 +56,6 @@ import com.ku_stacks.ku_ring.ui.dialog.LoginAlertDialog
 
 @Composable
 fun ClubListScreen(
-    onNavigateToClubOnboarding: () -> Unit,
     onNavigateToClubDetail: (Int) -> Unit,
     onNavigateToClubSubscription: () -> Unit,
     onNavigateToNotification: () -> Unit,
@@ -70,15 +69,7 @@ fun ClubListScreen(
 
     LifecycleResumeEffect(Unit) {
         isLoginDialogVisible = false
-        val initialCategory = viewModel.getInitialCategory()
-        viewModel.updateSelectedCategory(initialCategory)
         onPauseOrDispose { }
-    }
-
-    LaunchedEffect(selectedCategory) {
-        if (selectedCategory == null) {
-            onNavigateToClubOnboarding()
-        }
     }
 
     val lifecycleOwner = LocalLifecycleOwner.current

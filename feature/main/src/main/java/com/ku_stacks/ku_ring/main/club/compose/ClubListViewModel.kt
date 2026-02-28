@@ -88,7 +88,6 @@ class ClubListViewModel @Inject constructor(
                 .map { it.selectedCategory to it.selectedDivisions }
                 .distinctUntilChanged()
                 .collect { (category, divisions) ->
-                    if(category == null) return@collect
                     fetchClubSummary(category, divisions)
                 }
         }
@@ -129,7 +128,7 @@ class ClubListViewModel @Inject constructor(
                         Timber.e(e)
                         if (isSubscribedPrevious != null) {
                             _subscribedIds.update { if (isSubscribedPrevious) it + clubId else it - clubId }
-                            _sideEffect.send(
+                            _sideEffect.trySend(
                                 ClubListSideEffect.ShowToast(
                                     if (isSubscribed) club_subscribe_fail
                                     else club_unsubscribe_fail
@@ -172,16 +171,15 @@ class ClubListViewModel @Inject constructor(
             }
     }
 
-    fun getInitialCategory(): ClubCategory? {
+    fun getInitialCategory(): ClubCategory {
         val saved = preferenceUtil.clubInitialCategory
-        if (saved.isEmpty()) return null
-        return ClubCategory.entries.find { it.name.lowercase() == saved }
+        return ClubCategory.entries.find { it.name.lowercase() == saved } ?: ClubCategory.ALL
     }
 
     fun isUserLoggedIn(): Boolean = preferenceUtil.accessToken.isNotEmpty()
 
 
-    fun updateSelectedCategory(category: ClubCategory?) {
+    fun updateSelectedCategory(category: ClubCategory) {
         _chatListFilter.update { it.copy(selectedCategory = category) }
     }
 

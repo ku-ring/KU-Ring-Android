@@ -30,6 +30,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.ku_stacks.ku_ring.compose.locals.KuringCompositionLocalProvider
 import com.ku_stacks.ku_ring.compose.locals.LocalNavigator
+import com.ku_stacks.ku_ring.compose.locals.LocalPreferences
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.main.calendar.compose.AcademicCalendarScreen
 import com.ku_stacks.ku_ring.main.campusmap.compose.CampusMapScreen
@@ -178,10 +179,11 @@ fun NavGraphBuilder.mainScreenNavGraph(
         )
     }
     composable<MainScreenRoute.Club> {
+        val preferences = LocalPreferences.current
+        if (preferences.clubInitialCategory.isBlank()) {
+            navigator.navigateToClubOnboarding(activity)
+        }
         ClubListScreen(
-            onNavigateToClubOnboarding = {
-                navigator.navigateToClubOnboarding(activity)
-            },
             onNavigateToClubDetail = { clubId ->
                 navigator.navigateToClubDetail(activity, clubId)
             },
