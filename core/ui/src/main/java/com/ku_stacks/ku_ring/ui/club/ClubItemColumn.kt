@@ -31,7 +31,7 @@ import com.ku_stacks.ku_ring.ui.R.string.club_list_no_item
 @Composable
 fun ClubItemColumn(
     clubSummaries: List<ClubSummary>,
-    onClubSubscribeToggle: (ClubSummary) -> Unit,
+    onClubSubscribeToggle: (Int) -> Unit,
     onClubItemClick: (ClubSummary) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -55,12 +55,8 @@ fun ClubItemColumn(
                 ) { clubSummary ->
                     ClubItemCard(
                         clubSummary = clubSummary,
-                        onClick = {
-                            onClubItemClick(clubSummary)
-                        },
-                        onSubscribeToggleClick = {
-                            onClubSubscribeToggle(clubSummary.copy(isSubscribed = it))
-                        },
+                        onClick = { onClubItemClick(clubSummary) },
+                        onSubscribeToggleClick = { onClubSubscribeToggle(clubSummary.id) },
                         modifier = Modifier.fillMaxWidth()
                     )
                 }

@@ -86,55 +86,53 @@ fun ClubListScreen(
             }
     }
 
-    if (selectedCategory != null) {
-        val pagerState = rememberPagerState(
-            initialPage = selectedCategory.ordinal,
-            pageCount = { ClubCategory.entries.size }
+    val pagerState = rememberPagerState(
+        initialPage = selectedCategory.ordinal,
+        pageCount = { ClubCategory.entries.size }
+    )
+
+    LaunchedEffect(pagerState.settledPage) {
+        val category = ClubCategory.entries[pagerState.settledPage]
+        viewModel.updateSelectedCategory(category)
+    }
+
+    ClubListScreen(
+        clubFilter = clubFilter,
+        uiState = uiState,
+        pagerState = pagerState,
+        isDivisionBottomSheetVisible = isDivisionBottomSheetVisible,
+        onNavigateToClubDetail = { onNavigateToClubDetail(it.id) },
+        onNavigateToClubSubscription = {
+            if (viewModel.isUserLoggedIn()) {
+                onNavigateToClubSubscription()
+            } else {
+                isLoginDialogVisible = true
+            }
+        },
+        onNavigateToNotification = onNavigateToNotification,
+        onSelectedDivisionsChange = viewModel::updateSelectedDivisions,
+        onSelectedDivisionReset = viewModel::resetSelectedDivisions,
+        onBottomSheetVisibilityChange = {
+            isDivisionBottomSheetVisible = !isDivisionBottomSheetVisible
+        },
+        onSubscriptionToggle = { clubSummary ->
+            if (viewModel.isUserLoggedIn()) {
+                viewModel.updateClubSubscription(clubSummary)
+            } else {
+                isLoginDialogVisible = true
+            }
+        },
+        onSortOptionChange = viewModel::updateSortOption,
+    )
+
+    if (isLoginDialogVisible) {
+        val navigator = LocalNavigator.current
+        val context = LocalContext.current
+
+        LoginAlertDialog(
+            onConfirm = { navigator.navigateToAuth(context) },
+            onDismiss = { isLoginDialogVisible = false },
         )
-
-        LaunchedEffect(pagerState.settledPage) {
-            val category = ClubCategory.entries[pagerState.settledPage]
-            viewModel.updateSelectedCategory(category)
-        }
-
-        ClubListScreen(
-            clubFilter = clubFilter,
-            uiState = uiState,
-            pagerState = pagerState,
-            isDivisionBottomSheetVisible = isDivisionBottomSheetVisible,
-            onNavigateToClubDetail = { onNavigateToClubDetail(it.id) },
-            onNavigateToClubSubscription = {
-                if (viewModel.isUserLoggedIn()) {
-                    onNavigateToClubSubscription()
-                } else {
-                    isLoginDialogVisible = true
-                }
-            },
-            onNavigateToNotification = onNavigateToNotification,
-            onSelectedDivisionsChange = viewModel::updateSelectedDivisions,
-            onSelectedDivisionReset = viewModel::resetSelectedDivisions,
-            onBottomSheetVisibilityChange = {
-                isDivisionBottomSheetVisible = !isDivisionBottomSheetVisible
-            },
-            onSubscriptionToggle = { clubSummary ->
-                if (viewModel.isUserLoggedIn()) {
-                    viewModel.updateClubSubscription(clubSummary)
-                } else {
-                    isLoginDialogVisible = true
-                }
-            },
-            onSortOptionChange = viewModel::updateSortOption,
-        )
-
-        if (isLoginDialogVisible) {
-            val navigator = LocalNavigator.current
-            val context = LocalContext.current
-
-            LoginAlertDialog(
-                onConfirm = { navigator.navigateToAuth(context) },
-                onDismiss = { isLoginDialogVisible = false },
-            )
-        }
     }
 }
 
@@ -149,7 +147,7 @@ private fun ClubListScreen(
     onSelectedDivisionsChange: (Set<ClubDivision>) -> Unit,
     onSelectedDivisionReset: () -> Unit,
     onBottomSheetVisibilityChange: () -> Unit,
-    onSubscriptionToggle: (ClubSummary) -> Unit,
+    onSubscriptionToggle: (Int) -> Unit,
     onSortOptionChange: (ClubSortOption) -> Unit,
     isDivisionBottomSheetVisible: Boolean,
     modifier: Modifier = Modifier,

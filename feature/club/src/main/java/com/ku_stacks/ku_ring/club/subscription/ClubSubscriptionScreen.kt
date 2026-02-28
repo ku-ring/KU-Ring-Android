@@ -81,7 +81,7 @@ private fun ClubSubscriptionScreen(
     uiState: ClubSubscriptionUiState,
     onNavigateUp: () -> Unit,
     onSortOptionChange: (ClubSortOption) -> Unit,
-    onSubscriptionToggle: (ClubSummary) -> Unit,
+    onSubscriptionToggle: (Int) -> Unit,
     onNavigateToClubDetail: (ClubSummary) -> Unit,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(horizontal = 20.dp)
