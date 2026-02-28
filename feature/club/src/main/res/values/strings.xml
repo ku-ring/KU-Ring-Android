@@ -21,6 +21,9 @@
     <!-- Subscription screen strings -->
     <string name="club_subscription_topbar_title">구독</string>
     <string name="club_subscription_item_count">총 %s개</string>
+    <string name="club_subscription_subscribe_fail">구독에 실패했습니다. 잠시 후 다시 시도해 보세요.</string>
+    <string name="club_subscription_unsubscribe_fail">구독 해제에 실패했습니다. 잠시 후 다시 시도해 보세요.</string>
+    <string name="club_subscription_load_error">동아리 목록을 불러오는 중 에러가 발생했어요.\n잠시 후 다시 시도해 보세요.</string>
 
     <!--  Detail Screen  -->
     <string name="club_detail_title">동아리</string>
@@ -45,4 +48,5 @@
     <string name="club_detail_unsubscribe_fail">구독 해제에 실패했습니다. 잠시 후 다시 시도해 보세요.</string>
     <string name="club_detail_load_error">알 수 없는 문제가 발생했습니다.\n잠시 후 다시 시도해 보세요.</string>
     <string name="club_detail_load_error_description">상세 정보 다시 로드하기</string>
+
 </resources>
