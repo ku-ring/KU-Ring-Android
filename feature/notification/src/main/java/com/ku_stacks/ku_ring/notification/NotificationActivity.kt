@@ -8,7 +8,10 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.Notification
+import com.ku_stacks.ku_ring.domain.NotificationCategory
+import com.ku_stacks.ku_ring.domain.NotificationContent
 import com.ku_stacks.ku_ring.navigation.KuringNavigator
+import com.ku_stacks.ku_ring.navigation.MainScreenRoute
 import com.ku_stacks.ku_ring.notification.compose.innerscreen.NotificationScreen
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -37,7 +40,44 @@ class NotificationActivity : ComponentActivity() {
     }
 
     private fun determineNavigationTarget(notification: Notification) {
-        // TODO: 이동 화면 추가
+        when (notification.category) {
+            NotificationCategory.ACADEMIC_EVENT -> {
+                navigateToAcademicEvent()
+            }
+
+            NotificationCategory.CLUB -> {
+                navigateToClubDetail(notification.content as NotificationContent.Club)
+            }
+
+            NotificationCategory.NOTICE -> {
+                navigateToNotice(notification)
+            }
+
+            else -> {} // 이외의 알림들은 처리하지 않음
+        }
+    }
+
+    private fun navigateToAcademicEvent() {
+        val intent = navigator.createMainIntent(this, MainScreenRoute.Calendar)
+        startActivity(intent)
+    }
+
+    private fun navigateToClubDetail(content: NotificationContent.Club) {
+        val clubId = content.clubId
+        navigator.navigateToClubDetail(this, clubId)
+    }
+
+    private fun navigateToNotice(notification: Notification) {
+        val webViewNotice = notification.content as NotificationContent.Notice
+        val intent = navigator.createNoticeWebIntent(
+            context = this,
+            id = notification.id,
+            articleId = webViewNotice.articleId,
+            url = webViewNotice.fullUrl,
+            category = webViewNotice.noticeCategory,
+            subject = webViewNotice.subject,
+        )
+        startActivity(intent)
     }
 
     companion object {
