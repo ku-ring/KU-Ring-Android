@@ -149,6 +149,15 @@ class KuringMessagingService : FirebaseMessagingService() {
     }
 
     private fun showClubNotification(data: Map<String, String?>) {
-        // TODO: 동아리의 상세화면 인텐트와 동아리 알림을 추가
+        val clubId = data["clubId"]?.toInt()!!
+        val title = data["title"]!!
+        val body = data["body"]!!
+
+        val intent = navigator.createClubDetailIntent(this, clubId)
+        KuringNotificationManager.showClubNotification(
+            this, intent, title, body,
+            largeIconRes = R.drawable.ic_notification,
+            smallIconRes = R.drawable.ic_status_bar,
+        )
     }
 }

@@ -137,4 +137,7 @@ class KuringNavigatorImpl @Inject constructor() : KuringNavigator {
     override fun navigateToClubDetail(context: Context, clubId: Int) {
         ClubDetailActivity.start(context, clubId)
     }
+    override fun createClubDetailIntent(context: Context, clubId: Int): Intent {
+        return ClubDetailActivity.createIntent(context, clubId)
+    }
 }

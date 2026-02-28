@@ -46,6 +46,12 @@ class ClubDetailActivity : ComponentActivity() {
             context.startActivity(intent)
         }
 
+        fun createIntent(context: Context, clubId: Int): Intent {
+            val intent = Intent(context, ClubDetailActivity::class.java)
+            intent.putExtra(CLUB_ID_KEY, clubId)
+            return intent
+        }
+
         const val CLUB_ID_KEY = "CLUB_ID_KEY"
     }
 }
