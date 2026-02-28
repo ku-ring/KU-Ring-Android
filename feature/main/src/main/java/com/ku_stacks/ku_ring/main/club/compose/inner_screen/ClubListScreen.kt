@@ -1,6 +1,6 @@
 package com.ku_stacks.ku_ring.main.club.compose.inner_screen
 
-import androidx.compose.foundation.background
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -23,11 +24,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.LifecycleResumeEffect
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.flowWithLifecycle
 import com.ku_stacks.ku_ring.compose.locals.LocalNavigator
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.components.indicator.PagingLoadingIndicator
@@ -37,6 +41,7 @@ import com.ku_stacks.ku_ring.domain.ClubDivision
 import com.ku_stacks.ku_ring.domain.ClubSummary
 import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.club.compose.ClubListFilter
+import com.ku_stacks.ku_ring.main.club.compose.ClubListSideEffect
 import com.ku_stacks.ku_ring.main.club.compose.ClubListUiState
 import com.ku_stacks.ku_ring.main.club.compose.ClubListViewModel
 import com.ku_stacks.ku_ring.main.club.compose.components.ClubDivisionBottomSheet
@@ -76,14 +81,28 @@ fun ClubListScreen(
         }
     }
 
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val context = LocalContext.current
+    LaunchedEffect(viewModel.sideEffect) {
+        viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle)
+            .collect { sideEffect ->
+                when (sideEffect) {
+                    is ClubListSideEffect.ShowToast -> {
+                        val message = context.getString(sideEffect.messageId)
+                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+    }
+
     if (selectedCategory != null) {
         val pagerState = rememberPagerState(
             initialPage = selectedCategory.ordinal,
             pageCount = { ClubCategory.entries.size }
         )
 
-        LaunchedEffect(pagerState.currentPage) {
-            val category = ClubCategory.entries[pagerState.currentPage]
+        LaunchedEffect(pagerState.settledPage) {
+            val category = ClubCategory.entries[pagerState.settledPage]
             viewModel.updateSelectedCategory(category)
         }
 
@@ -156,79 +175,98 @@ private fun ClubListScreen(
         )
     }
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(KuringTheme.colors.background),
-    ) {
-        ClubTopBar(
-            onNavigateToSubscription = onNavigateToClubSubscription,
-            onNavigateToNotification = onNavigateToNotification,
-        )
-
-        ClubTabRow(
-            pagerState = pagerState,
-        )
-
-        ClubDivisionChipButtonGroup(
-            selectedDivisions = clubFilter.selectedDivisions,
-            onChipClick = { division ->
-                val selectedDivision = clubFilter.selectedDivisions
-                if (selectedDivision.contains(division)) {
-                    onSelectedDivisionsChange(selectedDivision - division)
-                } else {
-                    onSelectedDivisionsChange(selectedDivision + division)
-                }
-            },
-            onResetClick = onSelectedDivisionReset,
-            onExpandClick = onBottomSheetVisibilityChange,
-        )
-
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
+    Scaffold(
+        topBar = {
+            ClubTopBar(
+                onNavigateToSubscription = onNavigateToClubSubscription,
+                onNavigateToNotification = onNavigateToNotification,
+            )
+        },
+        containerColor = KuringTheme.colors.background,
+        modifier = modifier.fillMaxSize(),
+    ) { innerPadding ->
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(contentPadding)
+                .padding(innerPadding)
         ) {
-            val clubSummariesSize = (uiState as? ClubListUiState.Success)?.clubSummaries?.size ?: 0
-
-            Text(
-                text = stringResource(R.string.club_item_count, clubSummariesSize.toString()),
-                style = KuringTheme.typography.body1,
-                color = KuringTheme.colors.textCaption1,
+            ClubTabRow(
+                pagerState = pagerState,
             )
 
-            ClubListSortButtonRow(
-                selectedOption = clubFilter.sortOption,
-                onOptionSelect = onSortOptionChange
+            ClubDivisionChipButtonGroup(
+                selectedDivisions = clubFilter.selectedDivisions,
+                onChipClick = { division ->
+                    val selectedDivision = clubFilter.selectedDivisions
+                    if (selectedDivision.contains(division)) {
+                        onSelectedDivisionsChange(selectedDivision - division)
+                    } else {
+                        onSelectedDivisionsChange(selectedDivision + division)
+                    }
+                },
+                onResetClick = onSelectedDivisionReset,
+                onExpandClick = onBottomSheetVisibilityChange,
             )
-        }
 
-        HorizontalPager(
-            state = pagerState,
-        ) { page ->
-            val pageCategory = ClubCategory.entries[page]
-            if (uiState is ClubListUiState.Loading || clubFilter.selectedCategory != pageCategory) {
-                PagingLoadingIndicator(
-                    modifier = Modifier
-                        .padding(top = 50.dp)
-                        .fillMaxWidth()
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(contentPadding)
+            ) {
+                val clubSummariesSize =
+                    (uiState as? ClubListUiState.Success)?.clubSummaries?.size ?: 0
+
+                Text(
+                    text = stringResource(R.string.club_item_count, clubSummariesSize.toString()),
+                    style = KuringTheme.typography.body1,
+                    color = KuringTheme.colors.textCaption1,
                 )
-            } else {
-                val clubSummaries =
-                    if (uiState is ClubListUiState.Success) uiState.clubSummaries
-                    else emptyList()
 
-                key(clubFilter.sortOption) {
-                    ClubItemColumn(
-                        clubSummaries = clubSummaries,
-                        onClubSubscribeToggle = onSubscriptionToggle,
-                        onClubItemClick = onNavigateToClubDetail,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(contentPadding),
-                    )
+                ClubListSortButtonRow(
+                    selectedOption = clubFilter.sortOption,
+                    onOptionSelect = onSortOptionChange
+                )
+            }
+
+            HorizontalPager(
+                state = pagerState,
+            ) { page ->
+                val pageCategory = ClubCategory.entries[page]
+                when {
+                    uiState is ClubListUiState.Loading || pageCategory != clubFilter.selectedCategory -> {
+                        PagingLoadingIndicator(
+                            modifier = Modifier
+                                .padding(top = 50.dp)
+                                .fillMaxSize()
+                        )
+                    }
+
+                    uiState is ClubListUiState.Success -> {
+
+                        key(clubFilter.sortOption) {
+                            ClubItemColumn(
+                                clubSummaries = uiState.clubSummaries,
+                                onClubSubscribeToggle = onSubscriptionToggle,
+                                onClubItemClick = onNavigateToClubDetail,
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(contentPadding),
+                            )
+                        }
+                    }
+
+                    else -> {
+                        Text(
+                            text = stringResource(id = R.string.club_error_load_event),
+                            style = KuringTheme.typography.caption1,
+                            color = KuringTheme.colors.textCaption1,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .padding(top = 50.dp)
+                                .fillMaxSize()
+                        )
+                    }
                 }
             }
         }
