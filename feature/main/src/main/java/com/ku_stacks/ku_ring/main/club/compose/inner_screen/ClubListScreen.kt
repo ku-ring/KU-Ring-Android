@@ -57,7 +57,7 @@ fun ClubListScreen(
     onNavigateToNotification: () -> Unit,
     viewModel: ClubListViewModel = hiltViewModel()
 ) {
-    val clubFilter by viewModel.chatListFilter.collectAsStateWithLifecycle()
+    val clubFilter by viewModel.clubListFilter.collectAsStateWithLifecycle()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     var isLoginDialogVisible by remember { mutableStateOf(false) }
     var isDivisionBottomSheetVisible by remember { mutableStateOf(false) }
