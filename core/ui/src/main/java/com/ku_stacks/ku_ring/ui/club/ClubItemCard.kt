@@ -46,9 +46,9 @@ import com.ku_stacks.ku_ring.designsystem.R.drawable.ic_star_v2
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.utils.ensureLineHeight
 import com.ku_stacks.ku_ring.domain.ClubSummary
+import com.ku_stacks.ku_ring.domain.RecruitmentStatus
 import com.ku_stacks.ku_ring.domain.calculateDDay
 import com.ku_stacks.ku_ring.domain.getRecruitmentStatus
-import com.ku_stacks.ku_ring.domain.isRecruitmentCompleted
 import com.ku_stacks.ku_ring.util.now
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
@@ -62,7 +62,8 @@ fun ClubItemCard(
     onClick: () -> Unit = {},
     today: LocalDate = LocalDate.now(),
 ) {
-    val isRecruitmentCompleted = clubSummary.isRecruitmentCompleted()
+    val recruitmentStatus = clubSummary.getRecruitmentStatus(LocalDateTime.now())
+    val isRecruitmentCompleted = recruitmentStatus == RecruitmentStatus.CLOSED
     val containerColor = if (isRecruitmentCompleted) {
         KuringTheme.colors.gray200
     } else {
@@ -71,9 +72,9 @@ fun ClubItemCard(
 
     // 동아리 태그는 동아리 카테고리와 동아리 소속을 포함
     val tags = listOf(
-            clubSummary.category.koreanName,
-            clubSummary.division.koreanName,
-        )
+        clubSummary.category.koreanName,
+        clubSummary.division.koreanName,
+    )
     val dDay = clubSummary.calculateDDay(today) ?: 0
 
     Surface(
@@ -102,9 +103,9 @@ fun ClubItemCard(
                     .aspectRatio(3f / 4f)
                     .padding(bottom = 9.dp),
             )
-            
+
             Spacer(modifier = Modifier.width(10.dp))
-            
+
             Column(modifier = Modifier.weight(1f)) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -118,15 +119,18 @@ fun ClubItemCard(
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
-                    
-                    ClubDeadlineTag(
-                        dDay = dDay,
-                        recruitmentStatus = clubSummary.getRecruitmentStatus(LocalDateTime.now()),
-                    )
+
+                    if (recruitmentStatus != RecruitmentStatus.CLOSED) {
+                        ClubDeadlineTag(
+                            dDay = dDay,
+                            recruitmentStatus = recruitmentStatus
+                        )
+                    }
+
                 }
-                
+
                 Spacer(modifier = Modifier.height(4.dp))
-                
+
                 Text(
                     text = clubSummary.summary,
                     style = KuringTheme.typography.caption1.ensureLineHeight(),
@@ -136,9 +140,9 @@ fun ClubItemCard(
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.fillMaxWidth(),
                 )
-                
+
                 Spacer(modifier = Modifier.height(7.dp))
-                
+
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -172,7 +176,7 @@ private fun ThumbnailImage(
     } else {
         KuringTheme.colors.gray100 to KuringTheme.colors.gray200
     }
-    
+
     Box(
         modifier = modifier
             .background(color = containerColor, shape = RoundedCornerShape(14))
@@ -184,7 +188,7 @@ private fun ThumbnailImage(
             contentDescription = null,
             tint = contentColor,
         )
-        
+
         AsyncImage(
             model = logoUrl,
             contentDescription = clubName,
@@ -202,7 +206,7 @@ private fun SubscribeToggle(
     onToggle: (Boolean) -> Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
-    
+
     Row(
         modifier = modifier
             .defaultMinSize(40.dp, 40.dp) // 터치 영역 확보
@@ -221,7 +225,7 @@ private fun SubscribeToggle(
             color = KuringTheme.colors.textCaption1,
             modifier = Modifier.padding(start = 2.dp),
         )
-        
+
         val iconRes = if (isSubscribed) ic_star_fill_v2 else ic_star_v2
         Icon(
             imageVector = ImageVector.vectorResource(id = iconRes),
