@@ -7,6 +7,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.Dp
@@ -23,7 +27,7 @@ import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.Notification
 import com.ku_stacks.ku_ring.notification.NotificationViewModel
 import com.ku_stacks.ku_ring.notification.compose.component.NotificationTopBar
-import com.ku_stacks.ku_ring.notification.compose.component.SwipeToDeleteNotificationBox
+import com.ku_stacks.ku_ring.notification.compose.component.SwipeToRevealDeleteBox
 import com.ku_stacks.ku_ring.notification.compose.preview.NotificationsPreviewParameterProvider
 import com.ku_stacks.ku_ring.notification.model.NotificationUiModel
 import kotlinx.coroutines.flow.flowOf
@@ -58,7 +62,7 @@ private fun NotificationScreen(
     onDeleteNotification: (Notification) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Scaffold (
+    Scaffold(
         topBar = {
             NotificationTopBar(
                 onNavigationClick = onNavigationClick,
@@ -68,6 +72,8 @@ private fun NotificationScreen(
         containerColor = KuringTheme.colors.background,
         modifier = modifier.fillMaxSize(),
     ) { innerPadding ->
+        var revealedItemId by remember { mutableStateOf<Int?>(null) }
+
         LazyColumn(
             modifier = Modifier
                 .padding(innerPadding)
@@ -75,14 +81,19 @@ private fun NotificationScreen(
         ) {
             items(
                 count = notificationUiModels.itemCount,
-                key = notificationUiModels.itemKey {  it.notification.id },
+                key = notificationUiModels.itemKey { it.notification.id },
                 contentType = notificationUiModels.itemContentType { it.javaClass }
             ) { index ->
                 notificationUiModels[index]?.let { uiModel ->
-                    SwipeToDeleteNotificationBox(
+                    val notification = uiModel.notification
+                    val isRevealed = revealedItemId == uiModel.notification.id
+
+                    SwipeToRevealDeleteBox(
                         notificationUiModel = uiModel,
-                        onClick = { onNotificationClick(uiModel.notification) },
-                        onDelete = { onDeleteNotification(uiModel.notification) },
+                        isRevealed = isRevealed,
+                        onReveal = { revealedItemId = notification.id },
+                        onClick = { onNotificationClick(notification) },
+                        onDelete = { onDeleteNotification(notification) },
                         modifier = Modifier
                             .fillMaxWidth()
                             .animateItem()
