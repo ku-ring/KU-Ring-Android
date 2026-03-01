@@ -120,7 +120,7 @@ fun ClubItemCard(
                         overflow = TextOverflow.Ellipsis,
                     )
 
-                    if (recruitmentStatus != RecruitmentStatus.CLOSED) {
+                    if (!isRecruitmentCompleted) {
                         ClubDeadlineTag(
                             dDay = dDay,
                             recruitmentStatus = recruitmentStatus
