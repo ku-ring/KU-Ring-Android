@@ -182,8 +182,10 @@ private fun ClubDetailScreen(
                 .padding(horizontal = 20.dp, vertical = 24.dp),
         ) {
             ClubInfo(club)
-            Spacer(modifier = Modifier.height(24.dp))
-            ClubLinks(club)
+            if (club.webUrl.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(24.dp))
+                ClubLinks(club)
+            }
             Spacer(modifier = Modifier.height(24.dp))
             HorizontalDivider(
                 modifier = Modifier.fillMaxWidth(),
@@ -255,18 +257,22 @@ private fun ClubInfo(
 ) {
     Column(modifier = modifier) {
         ClubTags(club)
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            text = club.name,
-            style = KuringTheme.typography.title1,
-            color = KuringTheme.colors.textTitle,
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = club.summary,
-            style = KuringTheme.typography.body2,
-            color = KuringTheme.colors.textBody,
-        )
+        if (club.name.isNotEmpty()) {
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = club.name,
+                style = KuringTheme.typography.title1,
+                color = KuringTheme.colors.textTitle,
+            )
+        }
+        if (club.summary.isNotEmpty()) {
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = club.summary,
+                style = KuringTheme.typography.body2,
+                color = KuringTheme.colors.textBody,
+            )
+        }
     }
 }
 
