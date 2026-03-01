@@ -109,38 +109,37 @@ class ClubListViewModel @Inject constructor(
     ) {
         subscriptionJobs[clubId]?.cancel()
         val job = viewModelScope.launch {
-            try {
-                delay(300)
-                setClubSubscription(clubId, isSubscribed)
-                    .onSuccess {
-                        _uiState.update { currentState ->
-                            (currentState as? ClubListUiState.Success)?.let { successState ->
-                                val updatedState = successState.clubSummaries.map {
-                                    if (it.id == clubId) it.copy(isSubscribed = isSubscribed) else it
-                                }
-                                ClubListUiState.Success(updatedState)
-                            } ?: currentState
-                        }
+            delay(300)
+            setClubSubscription(clubId, isSubscribed)
+                .onSuccess {
+                    _uiState.update { currentState ->
+                        (currentState as? ClubListUiState.Success)?.let { successState ->
+                            val updatedState = successState.clubSummaries.map {
+                                if (it.id == clubId) it.copy(isSubscribed = isSubscribed) else it
+                            }
+                            ClubListUiState.Success(updatedState)
+                        } ?: currentState
                     }
-                    .onFailure { e ->
-                        Timber.e(e)
-                        if (isSubscribedPrevious != null) {
-                            _subscribedIds.update { if (isSubscribedPrevious) it + clubId else it - clubId }
-                            _sideEffect.trySend(
-                                ClubListSideEffect.ShowToast(
-                                    if (isSubscribed) club_subscribe_fail
-                                    else club_unsubscribe_fail
-                                )
-                            )
-                        }
-                    }
-            } finally {
-                if (subscriptionJobs[clubId] === this) {
-                    subscriptionJobs.remove(clubId)
                 }
-            }
+                .onFailure { e ->
+                    Timber.e(e)
+                    if (isSubscribedPrevious != null) {
+                        _subscribedIds.update { if (isSubscribedPrevious) it + clubId else it - clubId }
+                        _sideEffect.trySend(
+                            ClubListSideEffect.ShowToast(
+                                if (isSubscribed) club_subscribe_fail
+                                else club_unsubscribe_fail
+                            )
+                        )
+                    }
+                }
         }
         subscriptionJobs[clubId] = job
+        job.invokeOnCompletion {
+            if (subscriptionJobs[clubId] === job) {
+                subscriptionJobs.remove(clubId)
+            }
+        }
     }
 
     private suspend fun setClubSubscription(clubId: Int, isSubscribed: Boolean): Result<Int> {

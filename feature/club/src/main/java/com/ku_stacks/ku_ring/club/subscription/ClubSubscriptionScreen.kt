@@ -1,6 +1,5 @@
 package com.ku_stacks.ku_ring.club.subscription
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -40,6 +39,7 @@ import com.ku_stacks.ku_ring.ui.club.ClubItemColumn
 import com.ku_stacks.ku_ring.ui.club.ClubListSortButtonRow
 import com.ku_stacks.ku_ring.ui.club.ClubSortOption
 import com.ku_stacks.ku_ring.ui.club.ClubSummaryPreviewParameterProvider
+import com.ku_stacks.ku_ring.util.showToast
 
 @Composable
 fun ClubSubscriptionScreen(
@@ -57,10 +57,7 @@ fun ClubSubscriptionScreen(
         viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
-                    is ClubSubscriptionSideEffect.ShowToast -> {
-                        val message = context.getString(sideEffect.messageId)
-                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-                    }
+                    is ClubSubscriptionSideEffect.ShowToast -> context.showToast(sideEffect.messageId)
                 }
             }
     }

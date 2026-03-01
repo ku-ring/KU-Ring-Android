@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.core.net.toUri
@@ -180,8 +181,10 @@ fun NavGraphBuilder.mainScreenNavGraph(
     }
     composable<MainScreenRoute.Club> {
         val preferences = LocalPreferences.current
-        if (preferences.clubInitialCategory.isBlank()) {
-            navigator.navigateToClubOnboarding(activity)
+        LaunchedEffect(preferences.clubInitialCategory) {
+            if (preferences.clubInitialCategory.isBlank()) {
+                navigator.navigateToClubOnboarding(activity)
+            }
         }
         ClubListScreen(
             onNavigateToClubDetail = { clubId ->

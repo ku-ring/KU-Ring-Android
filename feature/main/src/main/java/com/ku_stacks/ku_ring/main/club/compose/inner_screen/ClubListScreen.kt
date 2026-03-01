@@ -1,6 +1,5 @@
 package com.ku_stacks.ku_ring.main.club.compose.inner_screen
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -53,6 +52,7 @@ import com.ku_stacks.ku_ring.ui.club.ClubListSortButtonRow
 import com.ku_stacks.ku_ring.ui.club.ClubSortOption
 import com.ku_stacks.ku_ring.ui.club.ClubSummaryPreviewParameterProvider
 import com.ku_stacks.ku_ring.ui.dialog.LoginAlertDialog
+import com.ku_stacks.ku_ring.util.showToast
 
 @Composable
 fun ClubListScreen(
@@ -78,10 +78,7 @@ fun ClubListScreen(
         viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
-                    is ClubListSideEffect.ShowToast -> {
-                        val message = context.getString(sideEffect.messageId)
-                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-                    }
+                    is ClubListSideEffect.ShowToast -> context.showToast(sideEffect.messageId)
                 }
             }
     }
