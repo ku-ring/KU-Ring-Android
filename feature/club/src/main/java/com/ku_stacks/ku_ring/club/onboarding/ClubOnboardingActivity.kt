@@ -6,7 +6,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.ui.Modifier
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,7 +20,13 @@ class ClubOnboardingActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             KuringTheme {
-                ClubOnboardingScreen(onClose = ::finish, modifier = Modifier.fillMaxSize())
+                ClubOnboardingScreen(
+                    onClose = ::finish,
+                    modifier = Modifier
+                        .background(KuringTheme.colors.background)
+                        .safeDrawingPadding()
+                        .fillMaxSize(),
+                )
             }
         }
     }
