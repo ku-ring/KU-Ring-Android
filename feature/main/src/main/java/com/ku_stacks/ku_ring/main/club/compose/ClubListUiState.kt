@@ -15,4 +15,12 @@ data class ClubListFilter(
     val selectedCategory: ClubCategory,
     val selectedDivisions: Set<ClubDivision>,
     val sortOption: ClubSortOption,
-)
+) {
+    companion object {
+        fun default() = ClubListFilter(
+            selectedCategory = ClubCategory.ALL,
+            selectedDivisions = setOf(),
+            sortOption = ClubSortOption.END_OF_RECRUITMENT
+        )
+    }
+}

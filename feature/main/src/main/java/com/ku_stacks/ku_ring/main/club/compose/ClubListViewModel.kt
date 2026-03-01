@@ -39,13 +39,7 @@ class ClubListViewModel @Inject constructor(
 
     private val _subscribedIds = MutableStateFlow<Set<Int>>(emptySet())
 
-    private val _chatListFilter = MutableStateFlow(
-        ClubListFilter(
-            selectedCategory = getInitialCategory(),
-            selectedDivisions = setOf(),
-            sortOption = ClubSortOption.END_OF_RECRUITMENT
-        )
-    )
+    private val _chatListFilter = MutableStateFlow(ClubListFilter.default())
     val clubListFilter: StateFlow<ClubListFilter> = _chatListFilter.asStateFlow()
 
     private val _uiState = MutableStateFlow<ClubListUiState>(ClubListUiState.Loading)
@@ -67,6 +61,7 @@ class ClubListViewModel @Inject constructor(
     private val subscriptionJobs = mutableMapOf<Int, Job>()
 
     init {
+        observeInitialCategory()
         observeFilters()
     }
 
@@ -168,9 +163,15 @@ class ClubListViewModel @Inject constructor(
             }
     }
 
-    fun getInitialCategory(): ClubCategory {
-        val saved = preferenceUtil.clubInitialCategory
-        return ClubCategory.entries.find { it.name.lowercase() == saved } ?: ClubCategory.ALL
+    private fun observeInitialCategory() {
+        viewModelScope.launch {
+            preferenceUtil.clubCategoryFlow.collect { category ->
+                val categoryEnum =
+                    ClubCategory.entries.find { it.name.equals(category, ignoreCase = true) }
+                        ?: ClubCategory.ALL
+                updateSelectedCategory(categoryEnum)
+            }
+        }
     }
 
     fun isUserLoggedIn(): Boolean = preferenceUtil.accessToken.isNotEmpty()

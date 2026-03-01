@@ -65,7 +65,6 @@ fun ClubListScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     var isLoginDialogVisible by remember { mutableStateOf(false) }
     var isDivisionBottomSheetVisible by remember { mutableStateOf(false) }
-    val selectedCategory = clubFilter.selectedCategory
 
     LifecycleResumeEffect(Unit) {
         isLoginDialogVisible = false
@@ -84,13 +83,17 @@ fun ClubListScreen(
     }
 
     val pagerState = rememberPagerState(
-        initialPage = selectedCategory.ordinal,
+        initialPage = clubFilter.selectedCategory.ordinal,
         pageCount = { ClubCategory.entries.size }
     )
 
     LaunchedEffect(pagerState.settledPage) {
         val category = ClubCategory.entries[pagerState.settledPage]
         viewModel.updateSelectedCategory(category)
+    }
+
+    LaunchedEffect(clubFilter.selectedCategory) {
+        pagerState.scrollToPage(clubFilter.selectedCategory.ordinal)
     }
 
     ClubListScreen(
