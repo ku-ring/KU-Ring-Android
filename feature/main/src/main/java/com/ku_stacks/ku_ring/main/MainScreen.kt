@@ -181,8 +181,9 @@ fun NavGraphBuilder.mainScreenNavGraph(
     }
     composable<MainScreenRoute.Club> {
         val preferences = LocalPreferences.current
-        LaunchedEffect(preferences.clubInitialCategory) {
-            if (preferences.clubInitialCategory.isBlank()) {
+        val clubCategory by preferences.clubCategoryFlow.collectAsStateWithLifecycle()
+        LaunchedEffect(Unit) {
+            if (clubCategory.isBlank()) {
                 navigator.navigateToClubOnboarding(activity)
             }
         }
