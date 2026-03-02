@@ -182,7 +182,7 @@ private fun ClubDetailScreen(
                 .padding(horizontal = 20.dp, vertical = 24.dp),
         ) {
             ClubInfo(club)
-            if (club.webUrl.isNotEmpty()) {
+            if (club.webUrl.isNotEmpty() || club.location != null) {
                 Spacer(modifier = Modifier.height(24.dp))
                 ClubLinks(club)
             }
