@@ -7,10 +7,12 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -100,7 +102,7 @@ private fun KuringCallToActionBase(
     modifier: Modifier = Modifier,
     contents: @Composable () -> Unit,
 ) {
-    val backgroundColor by animateColorAsState(
+    val containerColor by animateColorAsState(
         targetValue = if (enabled) KuringTheme.colors.mainPrimary else KuringTheme.colors.gray200,
         label = "background color",
     )
@@ -128,9 +130,11 @@ private fun KuringCallToActionBase(
 
     Button(
         onClick = onClick,
-        colors = ButtonDefaults.textButtonColors(
-            backgroundColor = backgroundColor,
+        colors = ButtonDefaults.buttonColors(
+            containerColor = containerColor,
             contentColor = contentColor,
+            disabledContainerColor = containerColor,
+            disabledContentColor = contentColor
         ),
         shape = RoundedCornerShape(50),
         elevation = null,
@@ -140,7 +144,9 @@ private fun KuringCallToActionBase(
             .then(blurModifier)
             .padding(horizontal = 20.dp, vertical = 16.dp),
     ) {
-        contents()
+        CompositionLocalProvider(LocalContentColor provides contentColor) {
+            contents()
+        }
     }
 }
 
@@ -150,7 +156,7 @@ private fun KuringCallToActionPreview_Enabled() {
     KuringTheme {
         KuringCallToAction(
             text = "완료",
-            enabled = true,
+            enabled = false,
             onClick = { },
             modifier = Modifier
                 .background(KuringTheme.colors.background)
