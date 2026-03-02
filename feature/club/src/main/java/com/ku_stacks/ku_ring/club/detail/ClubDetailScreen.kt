@@ -230,6 +230,7 @@ private fun ClubSubscribeButton(
                 role = Role.Button
             },
         verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(2.dp)
     ) {
         Text(
             text = if (subscribeCount > 99) "99+" else subscribeCount.toString(),
