@@ -156,7 +156,7 @@ private fun KuringCallToActionPreview_Enabled() {
     KuringTheme {
         KuringCallToAction(
             text = "완료",
-            enabled = false,
+            enabled = true,
             onClick = { },
             modifier = Modifier
                 .background(KuringTheme.colors.background)
