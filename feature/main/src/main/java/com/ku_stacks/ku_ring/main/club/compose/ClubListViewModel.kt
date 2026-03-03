@@ -21,6 +21,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
@@ -34,19 +36,19 @@ import javax.inject.Inject
 class ClubListViewModel @Inject constructor(
     private val preferenceUtil: PreferenceUtil,
     private val clubRepository: ClubRepository,
-    private val sortClubSummariesUseCase: SortClubSummariesUseCase,
+    private val sortClubSummaries: SortClubSummariesUseCase,
 ) : ViewModel() {
 
     private val _subscribedIds = MutableStateFlow<Set<Int>>(emptySet())
 
-    private val _chatListFilter = MutableStateFlow(ClubListFilter.default())
-    val clubListFilter: StateFlow<ClubListFilter> = _chatListFilter.asStateFlow()
+    private val _clubListFilter = MutableStateFlow<ClubListFilter?>(null)
+    val clubListFilter = _clubListFilter.asStateFlow()
 
     private val _uiState = MutableStateFlow<ClubListUiState>(ClubListUiState.Loading)
     val uiState: StateFlow<ClubListUiState> = combine(
         _uiState,
         _subscribedIds,
-        clubListFilter.map { it.sortOption }.distinctUntilChanged(),
+        clubListFilter.filterNotNull().map { it.sortOption }.distinctUntilChanged(),
     ) { currentState, subscribedIds, sortOption ->
         combineToUiState(currentState, subscribedIds, sortOption)
     }.stateIn(
@@ -71,14 +73,30 @@ class ClubListViewModel @Inject constructor(
         sortOption: ClubSortOption,
     ): ClubListUiState {
         val state = (uiState as? ClubListUiState.Success) ?: return uiState
-        val clubSummaries = sortClubSummariesUseCase(state.clubSummaries, sortOption.name)
+        val clubSummaries = sortClubSummaries(state.clubSummaries, sortOption.name)
             .map { it.copy(isSubscribed = subscribedIds.contains(it.id)) }
         return ClubListUiState.Success(clubSummaries)
     }
 
+    private fun observeInitialCategory() {
+        viewModelScope.launch {
+            preferenceUtil.clubCategoryFlow
+                .filter { it.isNotBlank() }
+                .collect { category ->
+                    val categoryEnum = ClubCategory.entries.find { entry ->
+                        entry.name.equals(category, ignoreCase = true)
+                    } ?: ClubCategory.ALL
+                    _clubListFilter.update {
+                        ClubListFilter.default().copy(selectedCategory = categoryEnum)
+                    }
+                }
+        }
+    }
+
     private fun observeFilters() {
         viewModelScope.launch {
-            _chatListFilter
+            _clubListFilter
+                .filterNotNull()
                 .map { it.selectedCategory to it.selectedDivisions }
                 .distinctUntilChanged()
                 .collect { (category, divisions) ->
@@ -163,33 +181,21 @@ class ClubListViewModel @Inject constructor(
             }
     }
 
-    private fun observeInitialCategory() {
-        viewModelScope.launch {
-            preferenceUtil.clubCategoryFlow.collect { category ->
-                val categoryEnum =
-                    ClubCategory.entries.find { it.name.equals(category, ignoreCase = true) }
-                        ?: ClubCategory.ALL
-                updateSelectedCategory(categoryEnum)
-            }
-        }
-    }
-
     fun isUserLoggedIn(): Boolean = preferenceUtil.accessToken.isNotEmpty()
 
-
     fun updateSelectedCategory(category: ClubCategory) {
-        _chatListFilter.update { it.copy(selectedCategory = category) }
+        _clubListFilter.update { it?.copy(selectedCategory = category) }
     }
 
     fun updateSelectedDivisions(divisions: Set<ClubDivision>) {
-        _chatListFilter.update { it.copy(selectedDivisions = divisions) }
+        _clubListFilter.update { it?.copy(selectedDivisions = divisions) }
     }
 
     fun resetSelectedDivisions() {
-        _chatListFilter.update { it.copy(selectedDivisions = setOf()) }
+        _clubListFilter.update { it?.copy(selectedDivisions = setOf()) }
     }
 
     fun updateSortOption(sortOption: ClubSortOption) {
-        _chatListFilter.update { it.copy(sortOption = sortOption) }
+        _clubListFilter.update { it?.copy(sortOption = sortOption) }
     }
 }
