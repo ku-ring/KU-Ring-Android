@@ -217,13 +217,13 @@ private fun SubscribeToggle(
                 onValueChange = { onToggle(it) },
             ),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
+        horizontalArrangement = Arrangement.End,
     ) {
         Text(
             text = subscribeCount.toString(),
-            style = KuringTheme.typography.tag2.ensureLineHeight(),
+            style = KuringTheme.typography.tag2,
             color = KuringTheme.colors.textCaption1,
-            modifier = Modifier.padding(start = 2.dp),
+            modifier = Modifier.padding(end = 2.dp),
         )
 
         val iconRes = if (isSubscribed) ic_star_fill_v2 else ic_star_v2

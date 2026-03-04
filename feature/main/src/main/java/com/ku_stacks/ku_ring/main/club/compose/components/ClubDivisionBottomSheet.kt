@@ -56,11 +56,7 @@ fun ClubDivisionBottomSheet(
         modifier = modifier,
     ) {
         Column(
-            modifier = Modifier.padding(
-                start = 20.dp,
-                end = 20.dp,
-                top = 24.dp,
-            ),
+            modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 24.dp),
         ) {
             Text(
                 text = stringResource(club_bottom_sheet_division_title),
@@ -68,7 +64,7 @@ fun ClubDivisionBottomSheet(
                 color = KuringTheme.colors.textBody,
             )
             
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
             ClubDivisionItemRow(
                 selectedItems = currentSelected,
@@ -80,9 +76,9 @@ fun ClubDivisionBottomSheet(
                     }
                 },
             )
-
-            Spacer(modifier = Modifier.height(16.dp))
         }
+
+        Spacer(modifier = Modifier.height(8.dp))
 
         ActionButtonGroup(
             selectedItemCount = currentSelected.size,
@@ -96,12 +92,10 @@ fun ClubDivisionBottomSheet(
             },
             onReset = { currentSelected = emptySet() },
             confirmEnabled = currentSelected != selectedItems,
-            modifier = Modifier.padding(
-                start = 20.dp,
-                end = 20.dp,
-                bottom = 24.dp,
-            ),
+            modifier = Modifier.padding(horizontal = 20.dp),
         )
+
+        Spacer(modifier = Modifier.height(24.dp))
     }
 }
 
@@ -113,7 +107,7 @@ private fun ClubDivisionItemRow(
 ) {
     FlowRow(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(10.dp),
+        verticalArrangement = Arrangement.spacedBy(5.dp),
         horizontalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         ClubDivision.entries.forEach { item ->
