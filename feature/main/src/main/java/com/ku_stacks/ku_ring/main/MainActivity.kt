@@ -84,8 +84,6 @@ class MainActivity : AppCompatActivity() {
                 )
             }
         }
-        // TODO: remove when detail implementation finishes
-        navigator.navigateToClubDetail(this, 1)
     }
 
     private fun navToNoticeActivity(webViewNotice: WebViewNotice) {

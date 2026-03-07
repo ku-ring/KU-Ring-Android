@@ -1,41 +1,44 @@
 package com.ku_stacks.ku_ring.ui.club
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import com.ku_stacks.ku_ring.domain.Club
-import com.ku_stacks.ku_ring.domain.ClubAffiliation
 import com.ku_stacks.ku_ring.domain.ClubCategory
 import com.ku_stacks.ku_ring.domain.ClubDivision
-import com.ku_stacks.ku_ring.domain.ClubRecruitment
-import com.ku_stacks.ku_ring.domain.RecruitmentStatus
+import com.ku_stacks.ku_ring.domain.ClubSummary
+import com.ku_stacks.ku_ring.util.now
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.minus
+import kotlinx.datetime.plus
 
-class ClubItemCardPreviewParameterProvider : PreviewParameterProvider<Club> {
-    val recruitment = ClubRecruitment(
-        start = null,
-        end = null,
-        recruitmentStatus = RecruitmentStatus.RECRUITING,
-        applyLink = null,
-    )
-    val club = Club(
+class ClubItemCardPreviewParameterProvider : PreviewParameterProvider<ClubSummary> {
+    fun LocalDateTime.plusDays(days: Int): LocalDateTime {
+        val date = this.date.plus(days, DateTimeUnit.DAY)
+        return LocalDateTime(date, this.time)
+    }
+
+    fun LocalDateTime.minusDays(days: Int): LocalDateTime {
+        val date = this.date.minus(days, DateTimeUnit.DAY)
+        return LocalDateTime(date, this.time)
+    }
+
+    val today = LocalDateTime.now()
+
+    val summary = ClubSummary(
         id = 1,
         name = "{ClubName}",
         category = ClubCategory.ACADEMIC,
-        affiliation = ClubAffiliation.CENTRAL,
         division = ClubDivision.CENTRAL,
         summary = "{SubText}\n{SubText}",
-        description = "{SubText}\n{SubText}",
-        recruitment = recruitment,
-        location = null,
-        webUrl = emptyList(),
-        applyQualification = null,
         posterImageUrl = null,
-        descriptionImageUrl = null,
         isSubscribed = false,
-        subscribeCount = 50,
+        subscribeCount = 10,
+        recruitmentStart = today.minusDays(5),
+        recruitmentEnd = today,
     )
 
-    override val values: Sequence<Club>
+    override val values: Sequence<ClubSummary>
         get() = sequenceOf(
-            club,
-            club.copy(recruitment = recruitment.copy(recruitmentStatus = RecruitmentStatus.CLOSED))
+            summary,
+            summary.copy(recruitmentEnd = today.plusDays(5))
         )
 }

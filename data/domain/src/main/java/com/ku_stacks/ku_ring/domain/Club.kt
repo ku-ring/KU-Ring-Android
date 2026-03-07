@@ -48,11 +48,11 @@ data class Club(
 enum class ClubCategory(
     val koreanName: String,
 ) {
+    ALL("전체"),
     ACADEMIC("학술활동"),
     CULTURE_ARTS("문화예술"),
-    SOCIAL("사회가치"),
-    ACTIVITIES("야외활동"),
-    OTHERS("기타"),
+    SOCIAL_VALUE("사회가치"),
+    ACTIVITY("야외활동"),
 }
 
 /**
