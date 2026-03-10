@@ -41,7 +41,6 @@ fun ClubRoomLocation.toLocation() = ClubLocation(
 fun ClubDetailResponse.parseRecruitment(): ClubRecruitment? {
     val recruitStartDate = recruitStartAt?.toLocalDateTimeOrNull()
     val recruitEndDate = recruitEndAt?.toLocalDateTimeOrNull()
-    val recruitmentStatus = recruitmentStatus
 
     return if (recruitStartDate != null && recruitEndDate != null) {
         ClubRecruitment(
