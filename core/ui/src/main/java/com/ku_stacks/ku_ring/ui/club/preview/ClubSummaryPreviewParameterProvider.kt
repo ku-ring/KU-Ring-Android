@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.ui.club
+package com.ku_stacks.ku_ring.ui.club.preview
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.ku_stacks.ku_ring.domain.ClubCategory

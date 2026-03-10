@@ -27,6 +27,7 @@ import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.ClubSummary
 import com.ku_stacks.ku_ring.ui.R.string.club_list_no_item
+import com.ku_stacks.ku_ring.ui.club.preview.ClubSummaryPreviewParameterProvider
 
 @Composable
 fun ClubItemColumn(
