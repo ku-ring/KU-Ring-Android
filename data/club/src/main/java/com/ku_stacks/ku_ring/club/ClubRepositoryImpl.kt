@@ -16,7 +16,7 @@ class ClubRepositoryImpl @Inject constructor(
     override suspend fun subscribeClub(clubId: Int): Result<Int> {
         val response = clubClient.subscribeClub(clubId)
         return when {
-            response.isSuccessAndDataExists -> Result.success(response.data!!.bookmarkCount)
+            response.isSuccessAndDataExists -> Result.success(response.data!!.subscriptionCount)
             else -> Result.failure(IllegalStateException(response.resultMsg))
         }
     }
@@ -24,7 +24,7 @@ class ClubRepositoryImpl @Inject constructor(
     override suspend fun unsubscribeClub(clubId: Int): Result<Int> {
         val response = clubClient.unsubscribeClub(clubId)
         return when {
-            response.isSuccessAndDataExists -> Result.success(response.data!!.bookmarkCount)
+            response.isSuccessAndDataExists -> Result.success(response.data!!.subscriptionCount)
             else -> Result.failure(IllegalStateException(response.resultMsg))
         }
     }

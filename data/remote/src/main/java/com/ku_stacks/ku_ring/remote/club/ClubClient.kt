@@ -1,7 +1,6 @@
 package com.ku_stacks.ku_ring.remote.club
 
 import com.ku_stacks.ku_ring.remote.club.request.ClubSubscribeRequest
-import com.ku_stacks.ku_ring.remote.club.request.ClubUnsubscribeRequest
 import com.ku_stacks.ku_ring.remote.club.response.ClubDetailResponse
 import com.ku_stacks.ku_ring.remote.club.response.ClubListResponse
 import com.ku_stacks.ku_ring.remote.club.response.ClubSubscribeResponse
@@ -20,7 +19,7 @@ class ClubClient @Inject constructor(
     suspend fun unsubscribeClub(
         clubId: Int
     ): DefaultResponse<ClubUnsubscribeResponse> =
-        clubService.unsubscribeClub(ClubUnsubscribeRequest(clubId))
+        clubService.unsubscribeClub(clubId)
 
     suspend fun getClubDetail(
         clubId: Int
