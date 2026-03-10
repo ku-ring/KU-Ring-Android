@@ -10,7 +10,6 @@ data class ClubDetailResponse(
     @SerialName("summary")
     val shortIntroduction: String,
     val category: String,
-    val affiliation: String,
     val division: String,
     @SerialName("subscriberCount")
     val subscriptionCount: Int,
@@ -18,14 +17,14 @@ data class ClubDetailResponse(
     val instagramUrl: String?,
     val youtubeUrl: String?,
     val etcUrl: String?,
-    val description: String,
-    val qualifications: String,
+    val description: String?,
+    val qualifications: String?,
     val recruitmentStatus: String,
-    val isRecruiting: Boolean,
-    val recruitStartAt: String,
-    val recruitEndAt: String,
-    val applyUrl: String,
-    val descriptionImageUrl: String,
+    val recruitStartAt: String?,
+    val recruitEndAt: String?,
+    val applyUrl: String?,
+    @SerialName("posterImageUrl")
+    val descriptionImageUrl: String?,
     val location: ClubRoomLocation,
 )
 

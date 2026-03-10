@@ -6,7 +6,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ClubListResponse(
     val clubs: List<ClubListItem>,
-    val totalCount: Int,
 )
 
 @Serializable
@@ -16,13 +15,11 @@ data class ClubListItem(
     @SerialName("summary")
     val shortIntroduction: String,
     @SerialName("iconImageUrl")
-    val imageUrl: String,
+    val imageUrl: String?,
     val category: String,
     val division: String,
     val isSubscribed: Boolean,
     val subscriberCount: Int,
-    @SerialName("recruitStartDate")
-    val recruitStartAt: String,
-    @SerialName("recruitEndDate")
-    val recruitEndAt: String,
+    val recruitStartDate: String?,
+    val recruitEndDate: String?,
 )
