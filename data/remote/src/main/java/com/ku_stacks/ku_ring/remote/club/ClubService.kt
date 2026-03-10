@@ -31,7 +31,7 @@ interface ClubService {
 
     @GET("v2/clubs")
     suspend fun getClubs(
-        @Query("category") category: String,
+        @Query("category") category: String?,
         @Query("division") division: String,
     ): DefaultResponse<ClubListResponse>
 

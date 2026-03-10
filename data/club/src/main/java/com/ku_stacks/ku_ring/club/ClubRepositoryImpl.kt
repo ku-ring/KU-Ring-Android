@@ -42,7 +42,7 @@ class ClubRepositoryImpl @Inject constructor(
         division: Set<ClubDivision>,
     ): Result<List<ClubSummary>> = runCatching {
         val response = clubClient.getClubs(
-            category = category.name.lowercase(),
+            category = if (category == ClubCategory.ALL) null else category.name.lowercase(),
             division = division.joinToString(",") { it.name.lowercase() },
         )
         when {

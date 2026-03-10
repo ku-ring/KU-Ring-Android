@@ -26,7 +26,7 @@ class ClubClient @Inject constructor(
     ): DefaultResponse<ClubDetailResponse> = clubService.getClubDetail(clubId)
 
     suspend fun getClubs(
-        category: String,
+        category: String?,
         division: String,
     ): DefaultResponse<ClubListResponse> = clubService.getClubs(category, division)
 
