@@ -49,6 +49,7 @@ import com.ku_stacks.ku_ring.domain.ClubSummary
 import com.ku_stacks.ku_ring.domain.RecruitmentStatus
 import com.ku_stacks.ku_ring.domain.calculateDDay
 import com.ku_stacks.ku_ring.domain.getRecruitmentStatus
+import com.ku_stacks.ku_ring.ui.club.preview.ClubItemCardPreviewParameterProvider
 import com.ku_stacks.ku_ring.util.now
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime

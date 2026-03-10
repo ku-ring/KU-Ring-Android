@@ -38,7 +38,7 @@ import com.ku_stacks.ku_ring.domain.ClubSummary
 import com.ku_stacks.ku_ring.ui.club.ClubItemColumn
 import com.ku_stacks.ku_ring.ui.club.ClubListSortButtonRow
 import com.ku_stacks.ku_ring.ui.club.ClubSortOption
-import com.ku_stacks.ku_ring.ui.club.ClubSummaryPreviewParameterProvider
+import com.ku_stacks.ku_ring.ui.club.preview.ClubSummaryPreviewParameterProvider
 import com.ku_stacks.ku_ring.util.showToast
 
 @Composable
