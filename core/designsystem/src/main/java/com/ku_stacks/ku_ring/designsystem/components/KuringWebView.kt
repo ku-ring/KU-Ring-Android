@@ -1,6 +1,8 @@
 package com.ku_stacks.ku_ring.designsystem.components
 
 import android.content.Context
+import android.util.Log
+import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebChromeClient
 import android.webkit.WebSettings
@@ -16,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -32,6 +35,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import com.ku_stacks.ku_ring.designsystem.R
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.values.Pretendard
+import timber.log.Timber
 
 @Composable
 fun KuringWebView(
@@ -39,12 +43,15 @@ fun KuringWebView(
     modifier: Modifier = Modifier,
     customSettings: WebSettings.() -> Unit = {},
 ) {
+    var webViewFailed by remember { mutableStateOf(false) }
+
     // Preview에서 android view를 지원하지 않으므로, 프리뷰가 아닐 때에만 웹뷰를 보여주도록 설정
-    if (url != null && !LocalInspectionMode.current) {
+    if (url != null && !LocalInspectionMode.current && !webViewFailed) {
         KuringWebView(
             url = url,
             customSettings = customSettings,
             modifier = modifier,
+            onWebViewFailed = { webViewFailed = true },
         )
     } else {
         KuringWebViewErrorScreen(modifier = modifier)
@@ -56,6 +63,7 @@ fun KuringWebView(
 private fun KuringWebView(
     url: String,
     customSettings: WebSettings.() -> Unit,
+    onWebViewFailed: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var progress by remember { mutableIntStateOf(0) }
@@ -70,14 +78,20 @@ private fun KuringWebView(
         }
         AndroidView(
             factory = { context ->
-                createWebView(
-                    context = context,
-                    onSetProgress = { progress = it },
-                    customSettings = customSettings,
-                )
+                try {
+                    createWebView(
+                        context = context,
+                        onSetProgress = { progress = it },
+                        customSettings = customSettings,
+                    )
+                } catch (e: Exception) {
+                    Timber.e(e)
+                    onWebViewFailed()
+                    View(context)
+                }
             },
             update = {
-                it.loadUrl(url)
+                if (it is WebView) it.loadUrl(url)
             },
         )
     }
