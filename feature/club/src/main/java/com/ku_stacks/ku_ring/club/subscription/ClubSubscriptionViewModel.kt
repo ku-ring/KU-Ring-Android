@@ -7,8 +7,10 @@ import com.ku_stacks.ku_ring.club.R.string.club_subscription_unsubscribe_fail
 import com.ku_stacks.ku_ring.club.subscription.contract.ClubSubscriptionSideEffect
 import com.ku_stacks.ku_ring.club.subscription.contract.ClubSubscriptionUiState
 import com.ku_stacks.ku_ring.domain.club.ClubRepository
+import com.ku_stacks.ku_ring.domain.club.usecase.ApplyClubSubscriptionUseCase
 import com.ku_stacks.ku_ring.domain.club.usecase.SortClubSummariesUseCase
 import com.ku_stacks.ku_ring.ui.club.ClubSortOption
+import com.ku_stacks.ku_ring.util.getHttpExceptionMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
@@ -29,6 +31,7 @@ import javax.inject.Inject
 class ClubSubscriptionViewModel @Inject constructor(
     private val clubRepository: ClubRepository,
     private val sortClubSummariesUseCase: SortClubSummariesUseCase,
+    private val applyClubSubscription: ApplyClubSubscriptionUseCase,
 ) : ViewModel() {
 
     private val _subscribedIds = MutableStateFlow<Set<Int>>(emptySet())
@@ -65,7 +68,7 @@ class ClubSubscriptionViewModel @Inject constructor(
     ): ClubSubscriptionUiState {
         val state = (uiState as? ClubSubscriptionUiState.Success) ?: return uiState
         val clubSummaries = sortClubSummariesUseCase(state.clubSummaries, sortOption.name)
-            .map { it.copy(isSubscribed = subscribedIds.contains(it.id)) }
+            .map { applyClubSubscription(it, subscribedIds.contains(it.id)) }
         return ClubSubscriptionUiState.Success(clubSummaries)
     }
 
@@ -105,14 +108,14 @@ class ClubSubscriptionViewModel @Inject constructor(
                     _uiState.update { currentState ->
                         (currentState as? ClubSubscriptionUiState.Success)?.let { successState ->
                             val updatedState = successState.clubSummaries.map {
-                                if (it.id == clubId) it.copy(isSubscribed = isSubscribed) else it
+                                if (it.id == clubId) applyClubSubscription(it, isSubscribed) else it
                             }
                             ClubSubscriptionUiState.Success(updatedState)
                         } ?: currentState
                     }
                 }
                 .onFailure { e ->
-                    Timber.e(e)
+                    Timber.e("Failed to update club subscription: ${e.message}")
                     if (isSubscribedPrevious != null) {
                         _subscribedIds.update { if (isSubscribedPrevious) it + clubId else it - clubId }
                         _sideEffect.trySend(
@@ -133,8 +136,13 @@ class ClubSubscriptionViewModel @Inject constructor(
     }
 
     private suspend fun setClubSubscription(clubId: Int, isSubscribed: Boolean): Result<Int> {
-        return if (isSubscribed) clubRepository.subscribeClub(clubId)
-        else clubRepository.unsubscribeClub(clubId)
+        return try {
+            if (isSubscribed) clubRepository.subscribeClub(clubId)
+            else clubRepository.unsubscribeClub(clubId)
+        } catch (e: Exception) {
+            val exception = e.getHttpExceptionMessage()?.let { Exception(it.message) } ?: e
+            Result.failure(exception)
+        }
     }
 
     fun updateSortOption(sortOption: ClubSortOption) {
