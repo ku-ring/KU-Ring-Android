@@ -11,6 +11,7 @@ import com.ku_stacks.ku_ring.main.R.string.club_subscribe_fail
 import com.ku_stacks.ku_ring.main.R.string.club_unsubscribe_fail
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.ui.club.ClubSortOption
+import com.ku_stacks.ku_ring.util.getHttpExceptionMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
@@ -160,8 +161,13 @@ class ClubListViewModel @Inject constructor(
     }
 
     private suspend fun setClubSubscription(clubId: Int, isSubscribed: Boolean): Result<Int> {
-        return if (isSubscribed) clubRepository.subscribeClub(clubId)
-        else clubRepository.unsubscribeClub(clubId)
+        return try {
+            if (isSubscribed) clubRepository.subscribeClub(clubId)
+            else clubRepository.unsubscribeClub(clubId)
+        } catch (e: Exception) {
+            val exception = e.getHttpExceptionMessage()?.let { Exception(it.message) } ?: e
+            Result.failure(exception)
+        }
     }
 
     private suspend fun fetchClubSummary(
