@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ku_stacks.ku_ring.domain.ClubCategory
 import com.ku_stacks.ku_ring.domain.ClubDivision
-import com.ku_stacks.ku_ring.domain.ClubSummary
 import com.ku_stacks.ku_ring.domain.club.ClubRepository
+import com.ku_stacks.ku_ring.domain.club.usecase.ApplyClubSubscriptionUseCase
 import com.ku_stacks.ku_ring.domain.club.usecase.SortClubSummariesUseCase
 import com.ku_stacks.ku_ring.main.R.string.club_subscribe_fail
 import com.ku_stacks.ku_ring.main.R.string.club_unsubscribe_fail
@@ -39,6 +39,7 @@ class ClubListViewModel @Inject constructor(
     private val preferenceUtil: PreferenceUtil,
     private val clubRepository: ClubRepository,
     private val sortClubSummaries: SortClubSummariesUseCase,
+    private val applyClubSubscription: ApplyClubSubscriptionUseCase,
 ) : ViewModel() {
 
     private val _subscribedIds = MutableStateFlow<Set<Int>>(emptySet())
@@ -77,7 +78,7 @@ class ClubListViewModel @Inject constructor(
         val state = (uiState as? ClubListUiState.Success) ?: return uiState
         val clubSummaries = sortClubSummaries(state.clubSummaries, sortOption.name)
             .map { clubSummary ->
-                clubSummary.withSubscription(subscribedIds.contains(clubSummary.id))
+                applyClubSubscription(clubSummary, subscribedIds.contains(clubSummary.id))
             }
         return ClubListUiState.Success(clubSummaries)
     }
@@ -132,7 +133,7 @@ class ClubListViewModel @Inject constructor(
                     _uiState.update { currentState ->
                         (currentState as? ClubListUiState.Success)?.let { successState ->
                             val updatedState = successState.clubSummaries.map {
-                                if (it.id == clubId) it.withSubscription(isSubscribed)
+                                if (it.id == clubId) applyClubSubscription(it, isSubscribed)
                                 else it
                             }
                             ClubListUiState.Success(updatedState)
@@ -213,18 +214,3 @@ class ClubListViewModel @Inject constructor(
     }
 }
 
-/**
- * ClubSummary의 구독 여부를 업데이트하는 확장 함수입니다.
- * 기존 구독 여부와 새로운 구독 여부를 비교하여 구독 수를 증가/감소/유지합니다.
- */
-private fun ClubSummary.withSubscription(isSubscribed: Boolean): ClubSummary {
-    val countDelta = when {
-        isSubscribed && !this.isSubscribed -> 1
-        !isSubscribed && this.isSubscribed -> -1
-        else -> 0
-    }
-    return this.copy(
-        isSubscribed = isSubscribed,
-        subscribeCount = (this.subscribeCount + countDelta).coerceAtLeast(0),
-    )
-}
