@@ -8,7 +8,7 @@ import com.ku_stacks.ku_ring.util.now
 import kotlinx.datetime.LocalDateTime
 
 class ClubSummaryPreviewParameterProvider : PreviewParameterProvider<List<ClubSummary>> {
-    val dummy = ClubSummary(
+    private val dummy = ClubSummary(
         id = 1,
         name = "쿠링 학술 소모임",
         summary = "안드로이드를 공부하는 모임입니다.",
