@@ -1,7 +1,6 @@
 package com.ku_stacks.ku_ring.designsystem.components
 
 import android.content.Context
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebChromeClient
