@@ -126,7 +126,7 @@ private fun ClubOnboardingActions(
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(20.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         KuringCallToAction(

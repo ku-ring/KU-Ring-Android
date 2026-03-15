@@ -13,11 +13,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CornerSize
@@ -53,8 +55,6 @@ fun ClubDivisionChipButtonGroup(
     val containerColor = KuringTheme.colors.background
 
     val isResetButtonVisible = selectedDivisions.isNotEmpty()
-    val paddingValues = if (isResetButtonVisible) PaddingValues(start = 20.dp)
-    else PaddingValues()
 
     Box(
         modifier = modifier
@@ -63,7 +63,6 @@ fun ClubDivisionChipButtonGroup(
     ) {
         LazyRow(
             modifier = Modifier
-                .padding(paddingValues)
                 .height(contentHeight),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(10.dp),
@@ -84,6 +83,7 @@ fun ClubDivisionChipButtonGroup(
                                 bottomStart = CornerSize(0.dp),
                             ),
                         )
+                        .padding(start = 20.dp)
                 ) {
                     ResetButton(
                         onClick = onResetClick,
@@ -96,6 +96,15 @@ fun ClubDivisionChipButtonGroup(
                 items = ClubDivision.entries,
                 key = { item -> item.name },
             ) { item ->
+                AnimatedVisibility(
+                    visible = !isResetButtonVisible && item == ClubDivision.entries.first(),
+                    enter = expandHorizontally(expandFrom = Alignment.Start) + fadeIn(),
+                    exit = shrinkHorizontally(shrinkTowards = Alignment.Start) + fadeOut(),
+                ) {
+                    // 디자인 스펙을 맞추기 위한 패딩
+                    Spacer(modifier = Modifier.width(10.dp))
+                }
+
                 ClubDivisionChipButton(
                     item = item,
                     isSelected = selectedDivisions.contains(item),
@@ -195,7 +204,7 @@ private fun ClubDivisionChipButtonGroupPreview() {
         Box(
             Modifier
                 .background(KuringTheme.colors.background)
-                .padding(10.dp)
+                .padding(vertical = 10.dp)
         ) {
             ClubDivisionChipButtonGroup(
                 selectedDivisions = selectedDivisions,
@@ -206,7 +215,7 @@ private fun ClubDivisionChipButtonGroupPreview() {
                         selectedDivisions.add(item)
                     }
                 },
-                onResetClick = {},
+                onResetClick = { selectedDivisions.clear() },
                 onExpandClick = {},
                 modifier = Modifier
                     .fillMaxWidth()
