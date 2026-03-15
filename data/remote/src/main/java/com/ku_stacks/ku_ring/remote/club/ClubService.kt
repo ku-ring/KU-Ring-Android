@@ -1,7 +1,6 @@
 package com.ku_stacks.ku_ring.remote.club
 
 import com.ku_stacks.ku_ring.remote.club.request.ClubSubscribeRequest
-import com.ku_stacks.ku_ring.remote.club.request.ClubUnsubscribeRequest
 import com.ku_stacks.ku_ring.remote.club.response.ClubDetailResponse
 import com.ku_stacks.ku_ring.remote.club.response.ClubListResponse
 import com.ku_stacks.ku_ring.remote.club.response.ClubSubscribeResponse
@@ -15,14 +14,14 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ClubService {
-    @POST("v2/users/bookmarks/clubs")
+    @POST("v2/users/subscriptions/clubs")
     suspend fun subscribeClub(
         @Body request: ClubSubscribeRequest,
     ): DefaultResponse<ClubSubscribeResponse>
 
-    @DELETE("v2/users/bookmarks/clubs")
+    @DELETE("v2/users/subscriptions/clubs/{id}")
     suspend fun unsubscribeClub(
-        @Body request: ClubUnsubscribeRequest,
+        @Path("id") clubId: Int,
     ): DefaultResponse<ClubUnsubscribeResponse>
 
     @GET("v2/clubs/{id}")
@@ -32,16 +31,10 @@ interface ClubService {
 
     @GET("v2/clubs")
     suspend fun getClubs(
-        @Query("category") category: String,
+        @Query("category") category: String?,
         @Query("division") division: String,
-        @Query("sortBy") sortBy: String,
-        @Query("cursor") cursor: Int?,
-        @Query("size") size: Int,
     ): DefaultResponse<ClubListResponse>
 
     @GET("v2/users/bookmarks/clubs")
-    suspend fun getSubscribedClubs(
-        @Query("cursor") cursor: Int?,
-        @Query("size") size: Int,
-    ): DefaultResponse<ClubListResponse>
+    suspend fun getSubscribedClubs(): DefaultResponse<ClubListResponse>
 }

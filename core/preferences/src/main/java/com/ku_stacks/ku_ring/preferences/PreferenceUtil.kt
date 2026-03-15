@@ -5,6 +5,10 @@ import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.ku_stacks.ku_ring.util.WordConverter
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 class PreferenceUtil(@ApplicationContext context: Context) {
 
@@ -57,7 +61,13 @@ class PreferenceUtil(@ApplicationContext context: Context) {
 
     var clubInitialCategory: String
         get() = prefs.getString(CLUB_INITIAL_CATEGORY, null) ?: ""
-        set(value) = prefs.edit { putString(CLUB_INITIAL_CATEGORY, value) }
+        set(value) = run {
+            _clubCategoryFlow.update { value }
+            prefs.edit { putString(CLUB_INITIAL_CATEGORY, value) }
+        }
+
+    private val _clubCategoryFlow = MutableStateFlow(clubInitialCategory)
+    val clubCategoryFlow: StateFlow<String> = _clubCategoryFlow.asStateFlow()
 
     fun deleteStartDate() {
         prefs.edit { remove(START_DATE) }

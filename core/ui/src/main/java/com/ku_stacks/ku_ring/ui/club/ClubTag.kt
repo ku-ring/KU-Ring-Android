@@ -32,7 +32,6 @@ fun ClubDeadlineTag(
         recruitmentStatus == RecruitmentStatus.ALWAYS -> stringResource(
             club_card_tag_recruitment_always
         )
-
         dDay == 0 -> stringResource(club_card_tag_d_day_end)
         else -> stringResource(club_card_tag_d_day, dDay.toString())
     }

@@ -141,4 +141,7 @@
     <string name="club_top_bar_action_notification">알림</string>
     <string name="club_item_count">총 %s개</string>
     <string name="club_list_no_item">등록된 동아리가 없어요!</string>
+    <string name="club_error_load_event">동아리 목록 로드 중 에러가 발생했어요.\n잠시 후 다시 시도해 주세요.</string>
+    <string name="club_subscribe_fail">구독에 실패했습니다. 잠시 후 다시 시도해 보세요.</string>
+    <string name="club_unsubscribe_fail">구독 해제에 실패했습니다. 잠시 후 다시 시도해 보세요.</string>
 </resources>

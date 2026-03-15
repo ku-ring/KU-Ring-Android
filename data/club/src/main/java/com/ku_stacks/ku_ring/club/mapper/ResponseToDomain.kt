@@ -1,7 +1,6 @@
 package com.ku_stacks.ku_ring.club.mapper
 
 import com.ku_stacks.ku_ring.domain.Club
-import com.ku_stacks.ku_ring.domain.ClubAffiliation
 import com.ku_stacks.ku_ring.domain.ClubCategory
 import com.ku_stacks.ku_ring.domain.ClubDivision
 import com.ku_stacks.ku_ring.domain.ClubLocation
@@ -12,26 +11,21 @@ import com.ku_stacks.ku_ring.remote.club.response.ClubDetailResponse
 import com.ku_stacks.ku_ring.remote.club.response.ClubListItem
 import com.ku_stacks.ku_ring.remote.club.response.ClubRoomLocation
 import com.ku_stacks.ku_ring.util.toLocalDateTimeOrNull
-import kotlinx.datetime.LocalDateTime
 
 fun ClubDetailResponse.toClub(): Club {
     return Club(
         id = id,
         name = name,
         summary = shortIntroduction,
-        category = category.uppercase().toEnumOrDefault<ClubCategory>(ClubCategory.OTHERS),
-        affiliation = affiliation.uppercase()
-            .toEnumOrDefault<ClubAffiliation>(ClubAffiliation.OTHERS),
+        category = category.uppercase().toEnumOrDefault<ClubCategory>(ClubCategory.ALL),
         division = division.uppercase().toEnumOrDefault<ClubDivision>(ClubDivision.ETC),
-        description = description,
+        description = description ?: "",
         location = location.toLocation(),
         applyQualification = qualifications,
         recruitment = parseRecruitment(),
         webUrl = listOfNotNull(instagramUrl, youtubeUrl, etcUrl),
         posterImageUrl = descriptionImageUrl,
-        descriptionImageUrl = if (descriptionImageUrl.isEmpty()) null else listOf(
-            descriptionImageUrl
-        ),
+        descriptionImageUrl = descriptionImageUrl?.let { listOf(it) },
         isSubscribed = isSubscribed,
         subscribeCount = subscriptionCount,
     )
@@ -45,12 +39,13 @@ fun ClubRoomLocation.toLocation() = ClubLocation(
 )
 
 fun ClubDetailResponse.parseRecruitment(): ClubRecruitment? {
-    return if (recruitStartAt.isNotEmpty() && recruitEndAt.isNotEmpty()) {
-        val start = LocalDateTime.parse(recruitStartAt)
-        val end = LocalDateTime.parse(recruitEndAt)
+    val recruitStartDate = recruitStartAt?.toLocalDateTimeOrNull()
+    val recruitEndDate = recruitEndAt?.toLocalDateTimeOrNull()
+
+    return if (recruitStartDate != null && recruitEndDate != null) {
         ClubRecruitment(
-            start = start,
-            end = end,
+            start = recruitStartDate,
+            end = recruitEndDate,
             recruitmentStatus = recruitmentStatus.uppercase()
                 .toEnumOrDefault<RecruitmentStatus>(RecruitmentStatus.BEFORE),
             applyLink = applyUrl,
@@ -61,14 +56,14 @@ fun ClubDetailResponse.parseRecruitment(): ClubRecruitment? {
 }
 
 fun ClubListItem.toClubSummary(): ClubSummary {
-    val start = recruitStartAt.toLocalDateTimeOrNull()
-    val end = recruitEndAt.toLocalDateTimeOrNull()
+    val start = recruitStartDate?.toLocalDateTimeOrNull()
+    val end = recruitEndDate?.toLocalDateTimeOrNull()
 
     return ClubSummary(
         id = id,
         name = name,
         summary = shortIntroduction,
-        category = category.uppercase().toEnumOrDefault<ClubCategory>(ClubCategory.OTHERS),
+        category = category.uppercase().toEnumOrDefault<ClubCategory>(ClubCategory.ALL),
         division = division.uppercase().toEnumOrDefault<ClubDivision>(ClubDivision.ETC),
         posterImageUrl = imageUrl,
         isSubscribed = isSubscribed,

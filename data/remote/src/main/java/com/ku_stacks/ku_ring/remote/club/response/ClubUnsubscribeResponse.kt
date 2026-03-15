@@ -4,5 +4,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ClubUnsubscribeResponse(
-    val bookmarkCount: Int,
+    val subscriptionCount: Int,
 )
