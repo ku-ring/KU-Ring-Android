@@ -1,7 +1,9 @@
 package com.ku_stacks.ku_ring.firebase.messaging
 
+import android.content.Intent
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
+import com.google.firebase.messaging.Constants
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.ku_stacks.ku_ring.designsystem.R
@@ -46,6 +48,20 @@ class KuringMessagingService : FirebaseMessagingService() {
         }
     }
 
+    override fun handleIntent(intent: Intent?) {
+        intent?.apply {
+            // FCM 알림에 [notification] 헤더가 포함되어 있으면 [onMessageReceived]가 호출되지 않습니다.
+            // 쿠링 안드로이드 프로젝트에선 [notification]에 포함된 데이터를 사용하지 않습니다.
+            // 따라서 관련 헤더를 전부 지워줍니다.
+            val temp = extras?.apply {
+                remove(Constants.MessageNotificationKeys.ENABLE_NOTIFICATION)
+                remove("gcm.notification.e")
+            }
+            replaceExtras(temp)
+        }
+        super.handleIntent(intent)
+    }
+
     private fun enqueueRegisterUserWork(token: String) {
         val workerData = RegisterUserWork.createData(token)
         val registerUserWorkRequest = OneTimeWorkRequestBuilder<RegisterUserWork>()
@@ -56,6 +72,8 @@ class KuringMessagingService : FirebaseMessagingService() {
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
+        if (remoteMessage.data.isEmpty()) return
+
         runCatching {
             val payload = remoteMessage.data.toFcmPayload()
             val receivedDate = DateUtil.getCurrentTime()
