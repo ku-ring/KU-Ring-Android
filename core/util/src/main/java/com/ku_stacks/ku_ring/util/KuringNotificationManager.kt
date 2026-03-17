@@ -28,7 +28,6 @@ object KuringNotificationManager {
     fun showCustomNotification(
         context: Context,
         intent: Intent,
-        type: String,
         title: String,
         body: String,
         @DrawableRes largeIconRes: Int,
