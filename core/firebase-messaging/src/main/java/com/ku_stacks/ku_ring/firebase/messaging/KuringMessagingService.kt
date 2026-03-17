@@ -5,11 +5,7 @@ import androidx.work.WorkManager
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.ku_stacks.ku_ring.designsystem.R
-import com.ku_stacks.ku_ring.firebase.messaging.type.NotificationType
-import com.ku_stacks.ku_ring.firebase.messaging.type.NotificationType.ACADEMIC_EVENT
-import com.ku_stacks.ku_ring.firebase.messaging.type.NotificationType.CLUB
-import com.ku_stacks.ku_ring.firebase.messaging.type.NotificationType.CUSTOM
-import com.ku_stacks.ku_ring.firebase.messaging.type.NotificationType.NOTICE
+import com.ku_stacks.ku_ring.firebase.messaging.model.KuringFcmPayload
 import com.ku_stacks.ku_ring.navigation.KuringNavigator
 import com.ku_stacks.ku_ring.navigation.MainScreenRoute
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
@@ -18,6 +14,11 @@ import com.ku_stacks.ku_ring.util.KuringNotificationManager
 import com.ku_stacks.ku_ring.util.WordConverter
 import com.ku_stacks.ku_ring.work.RegisterUserWork
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.decodeFromJsonElement
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -31,6 +32,12 @@ class KuringMessagingService : FirebaseMessagingService() {
 
     @Inject
     lateinit var navigator: KuringNavigator
+
+    private val json = Json {
+        ignoreUnknownKeys = true
+        encodeDefaults = true
+        classDiscriminator = "messageType"
+    }
 
     override fun onNewToken(token: String) {
         if (pref.fcmToken != token) {
@@ -50,114 +57,120 @@ class KuringMessagingService : FirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         runCatching {
-            val data = remoteMessage.data
-            val notificationType = NotificationType.from(data["type"])
+            val payload = remoteMessage.data.toFcmPayload()
             val receivedDate = DateUtil.getCurrentTime()
 
-            when (notificationType) {
-                NOTICE -> onNoticeMessageReceived(data, receivedDate)
-                CUSTOM -> onCustomMessageReceived(data, receivedDate)
-                CLUB -> onClubMessageReceived(data, receivedDate)
-                ACADEMIC_EVENT -> onAcademicEventMessageReceived(data, receivedDate)
+            when (payload) {
+                is KuringFcmPayload.Notice -> onNoticeMessageReceived(payload, receivedDate)
+                is KuringFcmPayload.AcademicEvent -> onAcademicEventMessageReceived(
+                    payload,
+                    receivedDate
+                )
+
+                is KuringFcmPayload.Custom -> onCustomMessageReceived(payload, receivedDate)
+                is KuringFcmPayload.Club -> onClubMessageReceived(payload, receivedDate)
             }
         }.onFailure { e ->
-            e.printStackTrace()
+            Timber.e(e)
         }
     }
 
     private fun onNoticeMessageReceived(
-        data: Map<String, String?>,
+        payload: KuringFcmPayload,
         receivedDate: String,
     ) {
-        if(!fcmUtil.isNoticeNotification(data)) return
+        if (payload !is KuringFcmPayload.Notice) return
 
-        fcmUtil.insertNoticeNotificationIntoDatabase(data, receivedDate)
-        showNotificationWithUrl(data)
+        fcmUtil.insertNoticeNotificationIntoDatabase(payload, receivedDate)
+        showNotificationWithUrl(payload)
     }
 
     private fun onCustomMessageReceived(
-        data: Map<String, String?>,
+        payload: KuringFcmPayload,
         receivedDate: String,
     ) {
-        if(!fcmUtil.isCustomNotification(data)) return
+        if (payload !is KuringFcmPayload.Custom) return
 
-        fcmUtil.insertNotificationIntoDatabase(data, receivedDate)
+        fcmUtil.insertNotificationIntoDatabase(payload, receivedDate)
         if (pref.extNotificationAllowed) {
-            showCustomNotification(data)
+            showCustomNotification(payload)
         }
     }
 
     private fun onAcademicEventMessageReceived(
-        data: Map<String, String?>,
+        payload: KuringFcmPayload,
         receivedDate: String,
     ) {
-        if(!fcmUtil.isAcademicEventNotification(data)) return
+        if (payload !is KuringFcmPayload.AcademicEvent) return
 
-        fcmUtil.insertNotificationIntoDatabase(data, receivedDate)
-        showAcademicEventNotification(data)
+        fcmUtil.insertNotificationIntoDatabase(payload, receivedDate)
+        showAcademicEventNotification(payload)
     }
 
     private fun onClubMessageReceived(
-        data: Map<String, String?>,
+        payload: KuringFcmPayload,
         receivedDate: String,
     ) {
-        if(!fcmUtil.isClubNotification(data)) return
+        if (payload !is KuringFcmPayload.Club) return
 
-        fcmUtil.insertNotificationIntoDatabase(data, receivedDate)
-        showClubNotification(data)
+        fcmUtil.insertNotificationIntoDatabase(payload, receivedDate)
+        showClubNotification(payload)
     }
 
-    private fun showNotificationWithUrl(data: Map<String, String?>) {
-        val id = data["id"]?.toInt() ?: 0
-        val articleId = data["articleId"]!!
-        val category = data["category"]!!
-        val url = data["baseUrl"]!!
-        val title = data["subject"]!!
-        val body = WordConverter.convertEnglishToKorean(category)
+    private fun showNotificationWithUrl(payload: KuringFcmPayload.Notice) {
+        val context = this@KuringMessagingService
+        with(payload) {
+            val title = subject
+            val body = WordConverter.convertEnglishToKorean(category)
 
-        val intent = navigator.createNoticeWebIntent(this, url, articleId, id, category, title)
-        KuringNotificationManager.showNotificationWithUrl(
-            this, intent, title, body,
-            largeIconRes = R.drawable.ic_notification,
-            smallIconRes = R.drawable.ic_status_bar
-        )
+            val intent =
+                navigator.createNoticeWebIntent(context, baseUrl, articleId, id, category, title)
+            KuringNotificationManager.showNotificationWithUrl(
+                context, intent, title, body,
+                largeIconRes = R.drawable.ic_notification,
+                smallIconRes = R.drawable.ic_status_bar
+            )
+        }
     }
 
-    private fun showCustomNotification(data: Map<String, String?>) {
-        val type = data["type"]!!
-        val title = data["title"]!!
-        val body = data["body"]!!
-
-        val intent = navigator.createMainIntent(this)
-        KuringNotificationManager.showCustomNotification(
-            this, intent, type, title, body,
-            largeIconRes = R.drawable.ic_notification,
-            smallIconRes = R.drawable.ic_status_bar
-        )
+    private fun showCustomNotification(payload: KuringFcmPayload.Custom) {
+        val context = this@KuringMessagingService
+        with(payload) {
+            val intent = navigator.createMainIntent(context)
+            KuringNotificationManager.showCustomNotification(
+                context, intent, title, body,
+                largeIconRes = R.drawable.ic_notification,
+                smallIconRes = R.drawable.ic_status_bar
+            )
+        }
     }
 
-    private fun showAcademicEventNotification(data: Map<String, String?>) {
-        val title = data["title"]!!
-        val body = data["body"]!!
-
-        val intent = navigator.createMainIntent(this, MainScreenRoute.Calendar)
-        KuringNotificationManager.showAcademicEventNotification(
-            this, intent, title, body,
-            largeIconRes = R.drawable.ic_notification,
-            smallIconRes = R.drawable.ic_status_bar
-        )
+    private fun showAcademicEventNotification(payload: KuringFcmPayload.AcademicEvent) {
+        val context = this@KuringMessagingService
+        with(payload) {
+            val intent = navigator.createMainIntent(context, MainScreenRoute.Calendar)
+            KuringNotificationManager.showAcademicEventNotification(
+                context, intent, title, body,
+                largeIconRes = R.drawable.ic_notification,
+                smallIconRes = R.drawable.ic_status_bar
+            )
+        }
     }
 
-    private fun showClubNotification(data: Map<String, String?>) {
-        val clubId = data["clubId"]?.toInt()!!
-        val title = data["title"]!!
-        val body = data["body"]!!
+    private fun showClubNotification(payload: KuringFcmPayload.Club) {
+        val context = this@KuringMessagingService
+        with(payload) {
+            val intent = navigator.createClubDetailIntent(context, clubId)
+            KuringNotificationManager.showClubNotification(
+                context, intent, title, body,
+                largeIconRes = R.drawable.ic_notification,
+                smallIconRes = R.drawable.ic_status_bar,
+            )
+        }
+    }
 
-        val intent = navigator.createClubDetailIntent(this, clubId)
-        KuringNotificationManager.showClubNotification(
-            this, intent, title, body,
-            largeIconRes = R.drawable.ic_notification,
-            smallIconRes = R.drawable.ic_status_bar,
-        )
+    private fun Map<String, String>.toFcmPayload(): KuringFcmPayload {
+        val jsonObject = JsonObject(mapValues { (_, value) -> JsonPrimitive(value) })
+        return json.decodeFromJsonElement<KuringFcmPayload>(jsonObject)
     }
 }

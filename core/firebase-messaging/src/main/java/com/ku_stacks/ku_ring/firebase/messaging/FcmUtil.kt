@@ -1,13 +1,15 @@
 package com.ku_stacks.ku_ring.firebase.messaging
 
-import com.ku_stacks.ku_ring.firebase.messaging.mapper.getNoticeEntity
-import com.ku_stacks.ku_ring.firebase.messaging.mapper.getPushEntity
+import com.ku_stacks.ku_ring.firebase.messaging.mapper.toNoticeEntity
+import com.ku_stacks.ku_ring.firebase.messaging.mapper.toPushEntity
+import com.ku_stacks.ku_ring.firebase.messaging.model.KuringFcmPayload
 import com.ku_stacks.ku_ring.local.room.NoticeDao
 import com.ku_stacks.ku_ring.local.room.PushDao
 import com.ku_stacks.ku_ring.util.IODispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 class FcmUtil @Inject constructor(
@@ -51,31 +53,31 @@ class FcmUtil @Inject constructor(
     }
 
     fun insertNoticeNotificationIntoDatabase(
-        data: Map<String, String?>,
+        payload: KuringFcmPayload.Notice,
         receivedDate: String,
     ) {
         CoroutineScope(ioDispatcher).launch {
             try {
-                val pushEntity = getPushEntity(data, receivedDate)
-                val noticeEntity = getNoticeEntity(data)
+                val pushEntity = payload.toPushEntity(receivedDate)
+                val noticeEntity = payload.toNoticeEntity()
                 pushDao.insertNotification(pushEntity)
                 noticeDao.insertNotice(noticeEntity)
             } catch (e: Exception) {
-                e.printStackTrace()
+                Timber.e(e)
             }
         }
     }
 
     fun insertNotificationIntoDatabase(
-        data: Map<String, String?>,
+        payload: KuringFcmPayload,
         receivedDate: String,
     ) {
         CoroutineScope(ioDispatcher).launch {
             try {
-                val entity = getPushEntity(data, receivedDate)
+                val entity = payload.toPushEntity(receivedDate)
                 pushDao.insertNotification(entity)
             } catch (e: Exception) {
-                e.printStackTrace()
+                Timber.e(e)
             }
         }
     }
