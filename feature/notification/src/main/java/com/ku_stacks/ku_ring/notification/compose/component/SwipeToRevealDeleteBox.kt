@@ -93,9 +93,9 @@ fun SwipeToRevealDeleteBox(
 
     // 외부 상태(삭제버튼이 표시된 아이템의 Id) 변화에 따른 반응
     LaunchedEffect(isRevealed) {
-        if (!isRevealed) {
-            anchoredDraggableState.animateTo(DragValue.Settled)
-        }
+        anchoredDraggableState.animateTo(
+            if (isRevealed) DragValue.Revealed else DragValue.Settled
+        )
     }
 
     // 내부 상태(스와이프 상태) 변화에 따른 반응

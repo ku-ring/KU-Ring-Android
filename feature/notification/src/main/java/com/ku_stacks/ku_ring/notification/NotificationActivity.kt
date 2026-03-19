@@ -46,7 +46,9 @@ class NotificationActivity : ComponentActivity() {
             }
 
             NotificationCategory.CLUB -> {
-                navigateToClubDetail(notification.content as NotificationContent.Club)
+                (notification.content as? NotificationContent.Club)?.let { content ->
+                    navigateToClubDetail(content)
+                }
             }
 
             NotificationCategory.NOTICE -> {
