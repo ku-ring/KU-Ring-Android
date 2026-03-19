@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.core.content.IntentCompat
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.google.firebase.messaging.FirebaseMessaging
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.WebViewNotice
 import com.ku_stacks.ku_ring.navigation.KuringNavigator
@@ -34,9 +33,6 @@ class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var pref: PreferenceUtil
-
-    @Inject
-    lateinit var firebaseMessaging: FirebaseMessaging
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
