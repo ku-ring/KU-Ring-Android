@@ -35,6 +35,6 @@ interface ClubService {
         @Query("division") division: String,
     ): DefaultResponse<ClubListResponse>
 
-    @GET("v2/users/bookmarks/clubs")
+    @GET("v2/users/subscriptions/clubs")
     suspend fun getSubscribedClubs(): DefaultResponse<ClubListResponse>
 }
