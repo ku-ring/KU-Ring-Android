@@ -53,8 +53,8 @@ fun ClubDeadlineTag(
 fun ClubTag(
     text: String,
     modifier: Modifier = Modifier,
-    contentColor: Color = KuringTheme.colors.gray100,
-    containerColor: Color = KuringTheme.colors.textCaption1,
+    contentColor: Color = KuringTheme.colors.textCaption1,
+    containerColor: Color = KuringTheme.colors.gray100,
 ) {
     Surface(
         color = containerColor,

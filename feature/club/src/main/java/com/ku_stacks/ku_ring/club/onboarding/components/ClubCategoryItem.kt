@@ -6,11 +6,10 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -64,7 +63,7 @@ fun ClubCategoryItem(
             painter = painterResource(item.iconId),
             contentDescription = null,
             tint = Color.Unspecified,
-            modifier = Modifier.height(IntrinsicSize.Min),
+            modifier = Modifier.size(50.dp),
         )
         Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
             Text(
