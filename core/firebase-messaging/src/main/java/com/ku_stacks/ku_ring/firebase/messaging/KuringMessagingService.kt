@@ -38,7 +38,6 @@ class KuringMessagingService : FirebaseMessagingService() {
     private val json = Json {
         ignoreUnknownKeys = true
         encodeDefaults = true
-        classDiscriminator = "messageType"
     }
 
     override fun onNewToken(token: String) {
