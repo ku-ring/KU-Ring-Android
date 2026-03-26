@@ -1,5 +1,6 @@
 package com.ku_stacks.ku_ring.notification.compose.innerscreen
 
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -8,13 +9,12 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.Dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.LoadStates
 import androidx.paging.PagingData
@@ -40,26 +40,32 @@ internal fun NotificationScreen(
     viewModel: NotificationViewModel = hiltViewModel()
 ) {
     val notificationUiModels = viewModel.notificationsFlow.collectAsLazyPagingItems()
+    val revealedItemId by viewModel.revealedItemId.collectAsStateWithLifecycle()
 
     NotificationScreen(
         notificationUiModels = notificationUiModels,
+        revealedItemId = revealedItemId,
         onNavigationClick = onNavigateUp,
         onEditSubscriptionClick = onNavigateToEditSubscription,
         onNotificationClick = { notification ->
             onNotificationClick(notification)
             viewModel.updateNotificationAsRead(notification)
+            viewModel.setRevealedItemId(null)
         },
-        onDeleteNotification = viewModel::deleteNotification,
+        onNotificationDelete = viewModel::deleteNotification,
+        onNotificationReveal = viewModel::setRevealedItemId,
     )
 }
 
 @Composable
 private fun NotificationScreen(
     notificationUiModels: LazyPagingItems<NotificationUiModel>,
+    revealedItemId: Int?,
     onNavigationClick: () -> Unit,
     onEditSubscriptionClick: () -> Unit,
     onNotificationClick: (Notification) -> Unit,
-    onDeleteNotification: (Notification) -> Unit,
+    onNotificationDelete: (Notification) -> Unit,
+    onNotificationReveal: (Int?) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Scaffold(
@@ -70,10 +76,12 @@ private fun NotificationScreen(
             )
         },
         containerColor = KuringTheme.colors.background,
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .pointerInput(Unit) {
+                detectTapGestures { onNotificationReveal(null) }
+            },
     ) { innerPadding ->
-        var revealedItemId by remember { mutableStateOf<Int?>(null) }
-
         LazyColumn(
             modifier = Modifier
                 .padding(innerPadding)
@@ -91,9 +99,9 @@ private fun NotificationScreen(
                     SwipeToRevealDeleteBox(
                         notificationUiModel = uiModel,
                         isRevealed = isRevealed,
-                        onReveal = { revealedItemId = notification.id },
+                        onReveal = { onNotificationReveal(notification.id) },
                         onClick = { onNotificationClick(notification) },
-                        onDelete = { onDeleteNotification(notification) },
+                        onDelete = { onNotificationDelete(notification) },
                         modifier = Modifier
                             .fillMaxWidth()
                             .animateItem()
@@ -129,11 +137,13 @@ private fun NotificationScreenPreview(
 
     KuringTheme {
         NotificationScreen(
+            revealedItemId = null,
             notificationUiModels = notificationPagingData,
-            onDeleteNotification = {},
             onNavigationClick = {},
             onNotificationClick = {},
             onEditSubscriptionClick = {},
+            onNotificationDelete = {},
+            onNotificationReveal = {},
         )
     }
 }
