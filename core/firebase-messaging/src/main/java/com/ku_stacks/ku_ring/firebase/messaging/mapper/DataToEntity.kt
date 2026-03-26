@@ -19,61 +19,40 @@ internal fun KuringFcmPayload.Notice.toNoticeEntity() = NoticeEntity(
     isReadOnStorage = false
 )
 
-
 internal fun KuringFcmPayload.toPushEntity(
     receivedDate: String,
-) = when (this) {
-    is KuringFcmPayload.Notice -> toNoticePushEntity(receivedDate)
-    is KuringFcmPayload.AcademicEvent -> toAcademicEventPushEntity(receivedDate)
-    is KuringFcmPayload.Club -> toClubPushEntity(receivedDate)
-    is KuringFcmPayload.Custom -> toCustomPushEntity(receivedDate)
-}
-
-private fun KuringFcmPayload.Notice.toNoticePushEntity(
-    receivedDate: String,
 ) = PushEntity(
     isNew = true,
     receivedDate = receivedDate,
-    content = PushContent.Notice(
-        id = id,
-        articleId = articleId,
-        category = category,
-        subject = subject,
-        fullUrl = baseUrl,
-        postedDate = postedDate
-    )
+    content = when (this) {
+        is KuringFcmPayload.Notice -> toContent()
+        is KuringFcmPayload.AcademicEvent -> toContent()
+        is KuringFcmPayload.Club -> toContent()
+        is KuringFcmPayload.Custom -> toContent()
+    }
 )
 
-private fun KuringFcmPayload.AcademicEvent.toAcademicEventPushEntity(
-    receivedDate: String,
-) = PushEntity(
-    isNew = true,
-    receivedDate = receivedDate,
-    content = PushContent.Academic(
-        title = title,
-        body = body,
-    )
+private fun KuringFcmPayload.Notice.toContent() = PushContent.Notice(
+    id = id,
+    articleId = articleId,
+    category = category,
+    subject = subject,
+    fullUrl = baseUrl,
+    postedDate = postedDate
 )
 
-private fun KuringFcmPayload.Club.toClubPushEntity(
-    receivedDate: String,
-) = PushEntity(
-    isNew = true,
-    receivedDate = receivedDate,
-    content = PushContent.Club(
-        clubId = clubId,
-        title = title,
-        body = body,
-    )
+private fun KuringFcmPayload.AcademicEvent.toContent() = PushContent.Academic(
+    title = title,
+    body = body,
 )
 
-private fun KuringFcmPayload.Custom.toCustomPushEntity(
-    receivedDate: String,
-) = PushEntity(
-    isNew = true,
-    receivedDate = receivedDate,
-    content = PushContent.Custom(
-        title = title,
-        body = body,
-    )
+private fun KuringFcmPayload.Club.toContent() = PushContent.Club(
+    clubId = clubId,
+    title = title,
+    body = body,
+)
+
+private fun KuringFcmPayload.Custom.toContent() = PushContent.Custom(
+    title = title,
+    body = body,
 )
