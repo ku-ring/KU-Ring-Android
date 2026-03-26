@@ -52,11 +52,11 @@ class KuringMessagingService : FirebaseMessagingService() {
             // FCM 알림에 [notification] 헤더가 포함되어 있으면 [onMessageReceived]가 호출되지 않습니다.
             // 쿠링 안드로이드 프로젝트에선 [notification]에 포함된 데이터를 사용하지 않습니다.
             // 따라서 관련 헤더를 전부 지워줍니다.
-            val temp = extras?.apply {
+            val extrasNotificationRemoved = extras?.apply {
                 remove(Constants.MessageNotificationKeys.ENABLE_NOTIFICATION)
                 remove("gcm.notification.e")
             }
-            replaceExtras(temp)
+            replaceExtras(extrasNotificationRemoved)
         }
         super.handleIntent(intent)
     }
@@ -93,21 +93,17 @@ class KuringMessagingService : FirebaseMessagingService() {
     }
 
     private fun onNoticeMessageReceived(
-        payload: KuringFcmPayload,
+        payload: KuringFcmPayload.Notice,
         receivedDate: String,
     ) {
-        if (payload !is KuringFcmPayload.Notice) return
-
         fcmUtil.insertNoticeNotificationIntoDatabase(payload, receivedDate)
         showNotificationWithUrl(payload)
     }
 
     private fun onCustomMessageReceived(
-        payload: KuringFcmPayload,
+        payload: KuringFcmPayload.Custom,
         receivedDate: String,
     ) {
-        if (payload !is KuringFcmPayload.Custom) return
-
         fcmUtil.insertNotificationIntoDatabase(payload, receivedDate)
         if (pref.extNotificationAllowed) {
             showCustomNotification(payload)
@@ -115,21 +111,17 @@ class KuringMessagingService : FirebaseMessagingService() {
     }
 
     private fun onAcademicEventMessageReceived(
-        payload: KuringFcmPayload,
+        payload: KuringFcmPayload.AcademicEvent,
         receivedDate: String,
     ) {
-        if (payload !is KuringFcmPayload.AcademicEvent) return
-
         fcmUtil.insertNotificationIntoDatabase(payload, receivedDate)
         showAcademicEventNotification(payload)
     }
 
     private fun onClubMessageReceived(
-        payload: KuringFcmPayload,
+        payload: KuringFcmPayload.Club,
         receivedDate: String,
     ) {
-        if (payload !is KuringFcmPayload.Club) return
-
         fcmUtil.insertNotificationIntoDatabase(payload, receivedDate)
         showClubNotification(payload)
     }
