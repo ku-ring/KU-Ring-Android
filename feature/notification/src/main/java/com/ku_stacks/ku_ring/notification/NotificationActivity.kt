@@ -70,16 +70,17 @@ class NotificationActivity : ComponentActivity() {
     }
 
     private fun navigateToNotice(notification: Notification) {
-        val webViewNotice = notification.content as NotificationContent.Notice
-        val intent = navigator.createNoticeWebIntent(
-            context = this,
-            id = notification.id,
-            articleId = webViewNotice.articleId,
-            url = webViewNotice.fullUrl,
-            category = webViewNotice.noticeCategory,
-            subject = webViewNotice.subject,
-        )
-        startActivity(intent)
+        (notification.content as? NotificationContent.Notice)?.let { webViewNotice ->
+            val intent = navigator.createNoticeWebIntent(
+                context = this,
+                id = notification.id,
+                articleId = webViewNotice.articleId,
+                url = webViewNotice.fullUrl,
+                category = webViewNotice.noticeCategory,
+                subject = webViewNotice.subject,
+            )
+            startActivity(intent)
+        }
     }
 
     companion object {
