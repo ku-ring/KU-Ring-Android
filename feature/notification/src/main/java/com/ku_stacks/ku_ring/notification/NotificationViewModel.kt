@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import androidx.paging.map
-import com.ku_stacks.ku_ring.domain.Notification
 import com.ku_stacks.ku_ring.notification.model.NotificationUiModel
 import com.ku_stacks.ku_ring.notification.repository.NotificationRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -34,12 +33,12 @@ class NotificationViewModel @Inject constructor(
 
     private fun getNotificationsAsFlow() = notificationRepository.getNotificationList()
 
-    fun deleteNotification(notification: Notification) = viewModelScope.launch {
-        notificationRepository.deleteNotification(notification.id)
+    fun deleteNotification(notificationId: Int) = viewModelScope.launch {
+        notificationRepository.deleteNotification(notificationId)
     }
 
-    fun updateNotificationAsRead(notification: Notification) = viewModelScope.launch {
-        notificationRepository.updateNotificationAsRead(notification.id)
+    fun updateNotificationAsRead(notificationId: Int) = viewModelScope.launch {
+        notificationRepository.updateNotificationAsRead(notificationId)
     }
 
     fun setRevealedItemId(id: Int?) {

@@ -49,7 +49,7 @@ internal fun NotificationScreen(
         onEditSubscriptionClick = onNavigateToEditSubscription,
         onNotificationClick = { notification ->
             onNotificationClick(notification)
-            viewModel.updateNotificationAsRead(notification)
+            viewModel.updateNotificationAsRead(notification.id)
             viewModel.setRevealedItemId(null)
         },
         onNotificationDelete = viewModel::deleteNotification,
@@ -64,7 +64,7 @@ private fun NotificationScreen(
     onNavigationClick: () -> Unit,
     onEditSubscriptionClick: () -> Unit,
     onNotificationClick: (Notification) -> Unit,
-    onNotificationDelete: (Notification) -> Unit,
+    onNotificationDelete: (Int) -> Unit,
     onNotificationReveal: (Int?) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -99,9 +99,9 @@ private fun NotificationScreen(
                     SwipeToRevealDeleteBox(
                         notificationUiModel = uiModel,
                         isRevealed = isRevealed,
-                        onReveal = { onNotificationReveal(notification.id) },
                         onClick = { onNotificationClick(notification) },
-                        onDelete = { onNotificationDelete(notification) },
+                        onReveal = { onNotificationReveal(notification.id) },
+                        onDelete = { onNotificationDelete(notification.id) },
                         modifier = Modifier
                             .fillMaxWidth()
                             .animateItem()
