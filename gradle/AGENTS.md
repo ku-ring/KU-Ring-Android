@@ -9,7 +9,7 @@ KU-Ring Android 프로젝트의 Gradle 설정 및 의존성 관리 디렉토리�
 
 ## 디렉토리 구조
 
-```
+```text
 gradle/
 ├── wrapper/
 │   ├── gradle-wrapper.jar          # Gradle 래퍼 실행 JAR

@@ -11,7 +11,7 @@ firebase-messaging 모듈은 Firebase Cloud Messaging으로부터 수신되는 �
 
 ## 모듈 구조
 
-```
+```text
 firebase-messaging/
 ├── src/main/
 │   └── java/com/ku_stacks/ku_ring/firebase/messaging/
@@ -48,7 +48,7 @@ firebase-messaging/
 앱이 포그라운드 상태일 때 FCM 메시지가 도착하면 호출됩니다.
 
 **흐름**:
-```
+```text
 FCM 메시지 도착
   ↓
 KuringMessagingService.onMessageReceived()
@@ -294,7 +294,7 @@ FcmUtil.subscribeToTopic("academic_notices")
 
 ### 포그라운드 메시지
 
-```
+```text
 앱이 열린 상태에서 사용자가 알림 수신
   ↓
 FCM이 RemoteMessage 전달
@@ -314,7 +314,7 @@ UI 업데이트 (ViewModel이 레포지토리 Flow를 수신 중인 경우)
 
 ### 백그라운드 메시지
 
-```
+```text
 앱이 닫힌 상태에서 사용자가 알림 수신
   ↓
 FCM이 RemoteMessage 전달
@@ -336,7 +336,7 @@ onMessageReceived() 실행
 
 ### 토큰 갱신
 
-```
+```text
 기기 토큰 만료 또는 새 설치
   ↓
 FCM이 새 토큰 생성

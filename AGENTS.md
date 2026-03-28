@@ -48,7 +48,7 @@
 
 ### 루트 레벨
 
-```
+```text
 KU-Ring-Android/
 ├── app/                    # 메인 애플리케이션 모듈 (진입점)
 ├── core/                   # 모든 레이어에서 공유하는 라이브러리
@@ -216,7 +216,7 @@ Debug와 Release 빌드의 차이점:
 - 엔티티 정의는 `data:local` 모듈에 위치
 - 버전 추적을 위한 스키마 스냅샷은 `app/schemas/`에 저장
 - `app/build.gradle.kts`에서 스키마 위치 설정:
-  ```
+  ```text
   room.schemaLocation = "$projectDir/schemas"
   ```
 

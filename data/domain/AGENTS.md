@@ -16,7 +16,7 @@
 
 ## 모듈 구조
 
-```
+```text
 data/domain/
 ├── src/main/java/com/ku_stacks/ku_ring/domain/
 │   ├── (엔티티 정의)
@@ -161,7 +161,7 @@ class InvalidDataException(message: String = "Invalid data") : DomainException(m
 
 `testUtils/` 서브 모듈은 테스트용 팩토리와 픽스처를 제공합니다:
 
-```
+```text
 data/domain/testUtils/
 ├── build.gradle.kts
 └── src/main/java/com/ku_stacks/ku_ring/domain/testUtil/
@@ -217,7 +217,7 @@ fun testNoticeMapping() {
 
 도메인 레이어는 모든 데이터 모듈의 의존 대상입니다:
 
-```
+```text
 data:domain (공유 엔티티 & 매퍼)
     ↑
     사용처: notice, noticecomment, notification, user, department, club 등

@@ -9,7 +9,7 @@
 
 ### 디렉토리 구조
 
-```
+```text
 app/
 ├── src/
 │   ├── main/java/com/ku_stacks/ku_ring/
@@ -41,24 +41,24 @@ app/
 ### 의존성
 
 **Core 모듈:**
-```
+```text
 core:util, core:firebase-analytics, core:firebase-crashlytics,
 core:firebase-messaging, core:compose-locals, core:work
 ```
 
 **데이터 레이어:**
-```
+```text
 data:domain, data:club, data:noticecomment, data:report,
 data:academicevent, data:notification, data:place
 ```
 
 **도메인 레이어:**
-```
+```text
 domain:navigation
 ```
 
 **Feature 모듈:**
-```
+```text
 feature:auth, feature:club, feature:edit_subscription, feature:feedback,
 feature:library, feature:notice_detail, feature:notion, feature:onboarding,
 feature:splash, feature:main, feature:kuringbot, feature:edit_departments,
@@ -178,7 +178,7 @@ class TimberInitializer : Initializer<Unit> {
 ```
 
 **서명 설정 위치:**
-```
+```text
 app/signing/keystore.properties
 app/signing/ku_ring_keystore.jks
 ```

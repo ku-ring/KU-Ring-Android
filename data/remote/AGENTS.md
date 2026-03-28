@@ -15,7 +15,7 @@
 
 ## 모듈 구조
 
-```
+```text
 data/remote/
 ├── src/main/java/com/ku_stacks/ku_ring/remote/
 │   ├── academicevent/
@@ -238,7 +238,7 @@ data class NoticeFilterRequest(
 
 테스트 리소스에는 샘플 API 응답이 포함됩니다:
 
-```
+```text
 src/test/resources/api-response/
 ├── NoticeResponse.json
 ├── LibrarySeatsResponse.json
@@ -273,7 +273,7 @@ val mockService = mock<NoticeService> {
 
 1. 피처 패키지 생성: `remote/myfeature/`
 2. 서브 디렉토리 생성:
-   ```
+   ```text
    di/
    request/
    response/

@@ -15,7 +15,7 @@
 
 ## 모듈 구조
 
-```
+```text
 data/
 ├── domain/                 # 공유 도메인 모델, 매퍼, 예외
 ├── local/                  # Room 데이터베이스, DAO, 엔티티, 타입 컨버터
@@ -219,7 +219,7 @@ interface NoticeLocalDataSource {
 
 1. 모듈 생성: `data/mynewfeature/`
 2. 구조 생성:
-   ```
+   ```text
    src/main/java/com/ku_stacks/ku_ring/mynewfeature/
    ├── di/RepositoryModule.kt
    ├── mapper/
@@ -250,7 +250,7 @@ interface NoticeLocalDataSource {
 
 1. `data:remote/src/main/java/com/ku_stacks/ku_ring/remote/myfeature/`에 피처 패키지 생성
 2. 구조 생성:
-   ```
+   ```text
    di/
    ├── MyFeatureModule.kt
    request/

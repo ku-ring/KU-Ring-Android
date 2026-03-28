@@ -18,7 +18,7 @@ auth 피처 모듈은 로그인, 회원가입, 비밀번호 재설정, 로그아
 
 ## 모듈 구조
 
-```
+```text
 feature/auth/
 ├── build.gradle.kts
 ├── src/main/java/com/ku_stacks/ku_ring/auth/

@@ -21,7 +21,7 @@ main 모듈은 앱에서 가장 큰 피처 모듈입니다. 단일 탭 인터페
 
 ## 모듈 구조
 
-```
+```text
 feature/main/
 ├── build.gradle.kts
 ├── src/main/java/com/ku_stacks/ku_ring/main/

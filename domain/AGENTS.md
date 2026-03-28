@@ -24,7 +24,7 @@
 
 각 도메인 모듈(`navigation` 제외)은 아래 구조를 따릅니다:
 
-```
+```text
 domain/{module}/
 ├── build.gradle.kts           # Convention: kuring("kotlin")
 ├── src/main/java/com/ku_stacks/ku_ring/domain/{module}/

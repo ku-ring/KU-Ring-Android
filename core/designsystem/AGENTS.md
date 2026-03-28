@@ -13,7 +13,7 @@ designsystem 모듈은 앱 전반의 시각적 디자인에 대한 단일 진실
 
 ### 디렉토리 레이아웃
 
-```
+```text
 designsystem/
 ├── src/main/
 │   ├── java/com/ku_stacks/ku_ring/designsystem/
@@ -290,6 +290,7 @@ designsystem 전용 테스트 실행:
 ```bash
 ./gradlew test
 ```
+
 
 ### Compose 미리보기 확인
 

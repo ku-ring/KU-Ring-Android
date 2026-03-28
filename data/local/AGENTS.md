@@ -15,7 +15,7 @@ Room 데이터베이스를 통해 앱의 영구 로컬 저장소를 제공합니
 
 ## 모듈 구조
 
-```
+```text
 data/local/
 ├── src/main/java/com/ku_stacks/ku_ring/local/
 │   ├── di/

@@ -9,7 +9,7 @@ KU-Ring Android의 GitHub Actions CI/CD 워크플로우 및 저장소 설정 디
 
 ## 디렉토리 구조
 
-```
+```text
 .github/
 ├── workflows/
 │   ├── android-develop.yml          # develop 브랜치용 CI 워크플로우 (빌드 + 유닛 테스트)
