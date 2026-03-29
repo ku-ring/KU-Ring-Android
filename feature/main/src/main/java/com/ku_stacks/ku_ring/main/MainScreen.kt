@@ -41,6 +41,7 @@ import com.ku_stacks.ku_ring.main.setting.compose.inner_screen.SettingScreen
 import com.ku_stacks.ku_ring.navigation.MainScreenRoute
 import com.ku_stacks.ku_ring.navigation.Navigator
 import com.ku_stacks.ku_ring.navigation.keys.ArchiveKey
+import com.ku_stacks.ku_ring.navigation.keys.AuthEntryPoint
 import com.ku_stacks.ku_ring.navigation.keys.AuthFlowKey
 import com.ku_stacks.ku_ring.navigation.keys.ClubSubscriptionKey
 import com.ku_stacks.ku_ring.navigation.keys.EditDepartmentsKey
@@ -219,7 +220,7 @@ fun NavGraphBuilder.mainScreenNavGraph(
 
         SettingScreen(
             settingUiState = settingsUiState,
-            onNavigateToSignIn = { navigator.navigate(AuthFlowKey("SIGN_IN")) },
+            onNavigateToSignIn = { navigator.navigate(AuthFlowKey(AuthEntryPoint.SIGN_IN)) },
             onNavigateToEditSubscription = { navigator.navigate(EditSubscriptionKey) },
             onExtNotificationEnabledToggle = viewModel::setExtNotificationAllowed,
             onAcademicEventNotificationEnabledToggle = { value ->
@@ -244,7 +245,7 @@ fun NavGraphBuilder.mainScreenNavGraph(
             onNavigateToKuringInstagram = { activity.navigateToKuringInstagram() },
             onNavigateToFeedback = { navigator.navigate(FeedbackKey) },
             onLogoutClick = viewModel::logout,
-            onNavigateToSignOut = { navigator.navigate(AuthFlowKey("SIGN_OUT")) },
+            onNavigateToSignOut = { navigator.navigate(AuthFlowKey(AuthEntryPoint.SIGN_OUT)) },
             modifier =
                 Modifier
                     .fillMaxSize()

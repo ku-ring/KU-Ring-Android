@@ -12,6 +12,7 @@ import com.ku_stacks.ku_ring.compose.locals.KuringCompositionLocalProvider
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.WebViewNotice
 import com.ku_stacks.ku_ring.navigation.EntryBuilderProvider
+import com.ku_stacks.ku_ring.navigation.DeepLinkIntentFactory
 import com.ku_stacks.ku_ring.navigation.Navigator
 import com.ku_stacks.ku_ring.navigation.keys.MainHubKey
 import com.ku_stacks.ku_ring.navigation.keys.NoticeWebKey
@@ -83,14 +84,10 @@ class HostActivity : ComponentActivity() {
         }
 
         // MainScreenRoute가 Intent extras에 있으면 해당 탭으로 이동
-        val route = intent.getStringExtra(INTENT_KEY_ROUTE)
+        val route = intent.getStringExtra(DeepLinkIntentFactory.INTENT_KEY_ROUTE)
         if (route != null) {
             navigator.navigate(MainHubKey(startTab = route))
             return
         }
-    }
-
-    companion object {
-        private const val INTENT_KEY_ROUTE = "MAIN_SCREEN_ROUTE"
     }
 }

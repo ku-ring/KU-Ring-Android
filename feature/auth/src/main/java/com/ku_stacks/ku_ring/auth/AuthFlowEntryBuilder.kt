@@ -9,6 +9,7 @@ import com.ku_stacks.ku_ring.auth.compose.AuthDestination
 import com.ku_stacks.ku_ring.auth.compose.AuthScreen
 import com.ku_stacks.ku_ring.compose.locals.LocalNavigator
 import com.ku_stacks.ku_ring.navigation.EntryBuilderProvider
+import com.ku_stacks.ku_ring.navigation.keys.AuthEntryPoint
 import com.ku_stacks.ku_ring.navigation.keys.AuthFlowKey
 import dagger.Module
 import dagger.Provides
@@ -20,10 +21,9 @@ class AuthFlowEntryBuilder : EntryBuilderProvider {
     override fun EntryProviderScope<NavKey>.provide() {
         entry<AuthFlowKey> { key ->
             val navigator = LocalNavigator.current
-            val startDestination = if (key.entryPoint == "SIGN_OUT") {
-                AuthDestination.SignOut
-            } else {
-                AuthDestination.SignIn
+            val startDestination = when (key.entryPoint) {
+                AuthEntryPoint.SIGN_OUT -> AuthDestination.SignOut
+                AuthEntryPoint.SIGN_IN -> AuthDestination.SignIn
             }
             AuthScreen(
                 onNavigateUp = { navigator.goBack() },

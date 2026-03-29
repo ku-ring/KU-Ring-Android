@@ -26,7 +26,7 @@ class ClubDetailEntryBuilder : EntryBuilderProvider {
             val navigator = LocalNavigator.current
             val context = LocalContext.current
             val viewModel = hiltViewModel<ClubDetailViewModel>()
-            viewModel.clubId = key.clubId
+            viewModel.initClubId(key.clubId)
             ClubDetailScreen(
                 viewModel = viewModel,
                 onBack = { navigator.goBack() },

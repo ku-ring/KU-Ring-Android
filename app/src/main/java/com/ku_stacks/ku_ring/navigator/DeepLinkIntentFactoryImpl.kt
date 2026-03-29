@@ -11,7 +11,7 @@ class DeepLinkIntentFactoryImpl @Inject constructor() : DeepLinkIntentFactory {
 
     override fun createMainIntent(context: Context, route: MainScreenRoute): Intent {
         return Intent().setClassName(context, "com.ku_stacks.ku_ring.HostActivity").apply {
-            putExtra(INTENT_KEY_ROUTE, route.route)
+            putExtra(DeepLinkIntentFactory.INTENT_KEY_ROUTE, route.route)
         }
     }
 
@@ -32,9 +32,5 @@ class DeepLinkIntentFactoryImpl @Inject constructor() : DeepLinkIntentFactory {
                 WebViewNotice(url, articleId, id, category, subject.orEmpty()),
             )
         }
-    }
-
-    companion object {
-        private const val INTENT_KEY_ROUTE = "MAIN_SCREEN_ROUTE"
     }
 }

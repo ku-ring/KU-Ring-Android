@@ -16,6 +16,7 @@ class Navigator @Inject constructor() {
     }
 
     fun goBack(): Boolean {
+        if (backStack.size <= 1) return false
         return backStack.removeLastOrNull() != null
     }
 

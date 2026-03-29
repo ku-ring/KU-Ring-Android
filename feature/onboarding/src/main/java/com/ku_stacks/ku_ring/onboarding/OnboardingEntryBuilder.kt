@@ -31,7 +31,7 @@ class OnboardingEntryBuilder : EntryBuilderProvider {
                     navigator.replaceAll(MainHubKey())
                     analytics.click(
                         screenName = "start first Subscription Notification",
-                        screenClass = "OnboardingActivity",
+                        screenClass = "OnboardingScreen",
                     )
                     preferences.firstRunFlag = false
                 },

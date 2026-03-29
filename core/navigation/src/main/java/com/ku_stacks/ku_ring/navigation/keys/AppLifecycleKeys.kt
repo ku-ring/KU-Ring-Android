@@ -5,4 +5,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable data object SplashKey : NavKey
 @Serializable data object OnboardingKey : NavKey
-@Serializable data class AuthFlowKey(val entryPoint: String) : NavKey
+@Serializable data class AuthFlowKey(val entryPoint: AuthEntryPoint) : NavKey
+
+@Serializable
+enum class AuthEntryPoint {
+    SIGN_IN,
+    SIGN_OUT,
+}

@@ -26,6 +26,7 @@ class ClubDetailViewModel @Inject constructor(
 ) : ViewModel() {
 
     var clubId by mutableIntStateOf(savedStateHandle.get<Int>(CLUB_ID_KEY) ?: -1)
+        private set
 
     private val _clubUiState = MutableStateFlow<ClubDetailUiState>(ClubDetailUiState.Loading)
     val clubUiState = _clubUiState.asStateFlow()
@@ -35,7 +36,9 @@ class ClubDetailViewModel @Inject constructor(
 
     private var subscriptionJob: Job? = null
 
-    init {
+    fun initClubId(id: Int) {
+        if (clubId == id) return
+        clubId = id
         loadClub()
     }
 

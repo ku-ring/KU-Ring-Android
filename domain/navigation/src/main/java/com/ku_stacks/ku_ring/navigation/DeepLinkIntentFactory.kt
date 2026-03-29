@@ -14,4 +14,8 @@ interface DeepLinkIntentFactory {
         category: String?,
         subject: String?,
     ): Intent
+
+    companion object {
+        const val INTENT_KEY_ROUTE = "MAIN_SCREEN_ROUTE"
+    }
 }
