@@ -10,7 +10,7 @@ import com.ku_stacks.ku_ring.firebase.messaging.type.NotificationType.ACADEMIC_E
 import com.ku_stacks.ku_ring.firebase.messaging.type.NotificationType.CLUB
 import com.ku_stacks.ku_ring.firebase.messaging.type.NotificationType.CUSTOM
 import com.ku_stacks.ku_ring.firebase.messaging.type.NotificationType.NOTICE
-import com.ku_stacks.ku_ring.navigation.KuringNavigator
+import com.ku_stacks.ku_ring.navigation.DeepLinkIntentFactory
 import com.ku_stacks.ku_ring.navigation.MainScreenRoute
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.util.DateUtil
@@ -30,7 +30,7 @@ class KuringMessagingService : FirebaseMessagingService() {
     lateinit var fcmUtil: FcmUtil
 
     @Inject
-    lateinit var navigator: KuringNavigator
+    lateinit var navigator: DeepLinkIntentFactory
 
     override fun onNewToken(token: String) {
         if (pref.fcmToken != token) {
