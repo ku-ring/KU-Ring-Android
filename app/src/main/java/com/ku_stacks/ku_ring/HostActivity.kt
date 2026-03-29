@@ -17,6 +17,7 @@ import com.ku_stacks.ku_ring.navigation.DeepLinkIntentFactory
 import com.ku_stacks.ku_ring.navigation.Navigator
 import com.ku_stacks.ku_ring.navigation.keys.MainHubKey
 import com.ku_stacks.ku_ring.navigation.keys.NoticeWebKey
+import androidx.annotation.VisibleForTesting
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -73,29 +74,35 @@ class HostActivity : ComponentActivity() {
         }
     }
 
-    private fun extractNavKey(intent: Intent): NavKey? {
-        // WebViewNotice가 Intent extras에 있으면 해당 화면으로 이동
-        val webViewNotice = IntentCompat.getSerializableExtra(
-            intent,
-            WebViewNotice.EXTRA_KEY,
-            WebViewNotice::class.java,
-        )
-        if (webViewNotice != null) {
-            return NoticeWebKey(
-                url = webViewNotice.url,
-                articleId = webViewNotice.articleId,
-                id = webViewNotice.id.toString(),
-                category = webViewNotice.category,
-                subject = webViewNotice.subject,
+    private fun extractNavKey(intent: Intent): NavKey? =
+        extractNavKeyFromIntent(intent)
+
+    companion object {
+        @VisibleForTesting
+        internal fun extractNavKeyFromIntent(intent: Intent): NavKey? {
+            // WebViewNotice가 Intent extras에 있으면 해당 화면으로 이동
+            val webViewNotice = IntentCompat.getSerializableExtra(
+                intent,
+                WebViewNotice.EXTRA_KEY,
+                WebViewNotice::class.java,
             )
-        }
+            if (webViewNotice != null) {
+                return NoticeWebKey(
+                    url = webViewNotice.url,
+                    articleId = webViewNotice.articleId,
+                    id = webViewNotice.id.toString(),
+                    category = webViewNotice.category,
+                    subject = webViewNotice.subject,
+                )
+            }
 
-        // MainScreenRoute가 Intent extras에 있으면 해당 탭으로 이동
-        val route = intent.getStringExtra(DeepLinkIntentFactory.INTENT_KEY_ROUTE)
-        if (route != null) {
-            return MainHubKey(startTab = route)
-        }
+            // MainScreenRoute가 Intent extras에 있으면 해당 탭으로 이동
+            val route = intent.getStringExtra(DeepLinkIntentFactory.INTENT_KEY_ROUTE)
+            if (route != null) {
+                return MainHubKey(startTab = route)
+            }
 
-        return null
+            return null
+        }
     }
 }
