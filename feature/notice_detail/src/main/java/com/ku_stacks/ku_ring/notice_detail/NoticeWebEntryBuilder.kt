@@ -6,6 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
+import com.ku_stacks.ku_ring.compose.locals.LocalNavigator
 import com.ku_stacks.ku_ring.domain.WebViewNotice
 import com.ku_stacks.ku_ring.navigation.EntryBuilderProvider
 import com.ku_stacks.ku_ring.navigation.keys.NoticeWebKey
@@ -18,7 +19,7 @@ import dagger.multibindings.IntoSet
 class NoticeWebEntryBuilder : EntryBuilderProvider {
     override fun EntryProviderScope<NavKey>.provide() {
         entry<NoticeWebKey> { key ->
-            val activity = LocalActivity.current
+            val navigator = LocalNavigator.current
             val webViewNotice = WebViewNotice(
                 url = key.url,
                 articleId = key.articleId,
@@ -30,7 +31,7 @@ class NoticeWebEntryBuilder : EntryBuilderProvider {
             NoticeDetailScreen(
                 navController = navController,
                 webViewNotice = webViewNotice,
-                onClose = { activity?.finish() },
+                onClose = { navigator.goBack() },
                 modifier = Modifier.fillMaxSize(),
             )
         }

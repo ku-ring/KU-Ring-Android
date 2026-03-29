@@ -23,6 +23,8 @@ import com.ku_stacks.ku_ring.compose.locals.LocalNavigator
 import com.ku_stacks.ku_ring.compose.locals.LocalPreferences
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.navigation.EntryBuilderProvider
+import com.ku_stacks.ku_ring.navigation.keys.MainHubKey
+import com.ku_stacks.ku_ring.navigation.keys.OnboardingKey
 import com.ku_stacks.ku_ring.navigation.keys.SplashKey
 import com.ku_stacks.ku_ring.splash.compose.SplashScreen
 import com.ku_stacks.ku_ring.util.DateUtil
@@ -76,9 +78,9 @@ class SplashEntryBuilder : EntryBuilderProvider {
                         val onboardingRequired = preferences.firstRunFlag && preferences.subscription.isEmpty()
                         if (onboardingRequired) {
                             createNotificationChannel(context)
-                            navigator.navigateToOnboarding(context as android.app.Activity)
+                            navigator.replaceAll(OnboardingKey)
                         } else {
-                            navigator.navigateToMain(context as android.app.Activity)
+                            navigator.replaceAll(MainHubKey())
                         }
                     }
                 }

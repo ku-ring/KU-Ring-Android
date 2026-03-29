@@ -1,8 +1,8 @@
 package com.ku_stacks.ku_ring.club.subscription
 
-import androidx.activity.compose.LocalActivity
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
+import com.ku_stacks.ku_ring.compose.locals.LocalNavigator
 import com.ku_stacks.ku_ring.navigation.EntryBuilderProvider
 import com.ku_stacks.ku_ring.navigation.keys.ClubSubscriptionKey
 import dagger.Module
@@ -14,9 +14,9 @@ import dagger.multibindings.IntoSet
 class ClubSubscriptionEntryBuilder : EntryBuilderProvider {
     override fun EntryProviderScope<NavKey>.provide() {
         entry<ClubSubscriptionKey> {
-            val activity = LocalActivity.current
+            val navigator = LocalNavigator.current
             ClubSubscriptionScreen(
-                onNavigateUp = { activity?.finish() },
+                onNavigateUp = { navigator.goBack() },
                 onNavigateToClubDetail = { },
             )
         }

@@ -11,6 +11,7 @@ import com.ku_stacks.ku_ring.compose.locals.LocalNavigator
 import com.ku_stacks.ku_ring.compose.locals.LocalPreferences
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.navigation.EntryBuilderProvider
+import com.ku_stacks.ku_ring.navigation.keys.MainHubKey
 import com.ku_stacks.ku_ring.navigation.keys.OnboardingKey
 import com.ku_stacks.ku_ring.onboarding.compose.OnboardingScreen
 import dagger.Module
@@ -25,18 +26,14 @@ class OnboardingEntryBuilder : EntryBuilderProvider {
             val navigator = LocalNavigator.current
             val analytics = LocalAnalytics.current
             val preferences = LocalPreferences.current
-            val activity = LocalActivity.current
             OnboardingScreen(
                 onNavigateToMain = {
-                    activity?.let {
-                        navigator.navigateToMain(it)
-                        analytics.click(
-                            screenName = "start first Subscription Notification",
-                            screenClass = "OnboardingActivity",
-                        )
-                        preferences.firstRunFlag = false
-                        it.finish()
-                    }
+                    navigator.replaceAll(MainHubKey())
+                    analytics.click(
+                        screenName = "start first Subscription Notification",
+                        screenClass = "OnboardingActivity",
+                    )
+                    preferences.firstRunFlag = false
                 },
                 modifier = Modifier
                     .background(KuringTheme.colors.background)

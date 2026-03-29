@@ -9,6 +9,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
+import com.ku_stacks.ku_ring.compose.locals.LocalNavigator
 import com.ku_stacks.ku_ring.feedback.feedback.compose.FeedbackScreen
 import com.ku_stacks.ku_ring.navigation.EntryBuilderProvider
 import com.ku_stacks.ku_ring.navigation.keys.FeedbackKey
@@ -22,12 +23,12 @@ class FeedbackEntryBuilder : EntryBuilderProvider {
     override fun EntryProviderScope<NavKey>.provide() {
         entry<FeedbackKey> {
             val viewModel = hiltViewModel<FeedbackViewModel>()
-            val activity = LocalActivity.current
+            val navigator = LocalNavigator.current
             val context = LocalContext.current
 
             LaunchedEffect(Unit) {
                 viewModel.quit.collect {
-                    activity?.finish()
+                    navigator.goBack()
                 }
             }
             LaunchedEffect(Unit) {

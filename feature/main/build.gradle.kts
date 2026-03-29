@@ -39,6 +39,7 @@ dependencies {
     implementation(projects.domain.navigation)
     implementation(projects.core.navigation)
 
+    implementation(libs.play.services.oss.licenses)
     implementation(libs.bundles.compose.interop)
     implementation(libs.kotlinx.datetime)
     implementation(libs.kotlinx.immutable)

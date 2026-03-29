@@ -12,6 +12,7 @@ import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.mapper.toWebViewNotice
 import com.ku_stacks.ku_ring.main.search.compose.SearchScreen
 import com.ku_stacks.ku_ring.navigation.EntryBuilderProvider
+import com.ku_stacks.ku_ring.navigation.keys.NoticeWebKey
 import com.ku_stacks.ku_ring.navigation.keys.SearchKey
 import dagger.Module
 import dagger.Provides
@@ -24,11 +25,13 @@ class SearchEntryBuilder : EntryBuilderProvider {
         entry<SearchKey> {
             val viewModel = hiltViewModel<SearchViewModel>()
             val navigator = LocalNavigator.current
-            val activity = LocalActivity.current
             SearchScreen(
                 viewModel = viewModel,
-                onNavigationClick = { activity?.finish() },
-                onClickNotice = { activity?.let { act -> navigator.navigateToNoticeWeb(act, it.toWebViewNotice()) } },
+                onNavigationClick = { navigator.goBack() },
+                onClickNotice = {
+                    val wv = it.toWebViewNotice()
+                    navigator.navigate(NoticeWebKey(wv.url, wv.articleId, wv.id.toString(), wv.category, wv.subject))
+                },
                 modifier = Modifier
                     .background(KuringTheme.colors.background)
                     .fillMaxSize(),

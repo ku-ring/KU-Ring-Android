@@ -9,6 +9,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
+import com.ku_stacks.ku_ring.compose.locals.LocalNavigator
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.navigation.EntryBuilderProvider
 import com.ku_stacks.ku_ring.navigation.keys.ClubDetailKey
@@ -22,13 +23,13 @@ import dagger.multibindings.IntoSet
 class ClubDetailEntryBuilder : EntryBuilderProvider {
     override fun EntryProviderScope<NavKey>.provide() {
         entry<ClubDetailKey> { key ->
-            val activity = LocalActivity.current
+            val navigator = LocalNavigator.current
             val context = LocalContext.current
             val viewModel = hiltViewModel<ClubDetailViewModel>()
             viewModel.clubId = key.clubId
             ClubDetailScreen(
                 viewModel = viewModel,
-                onBack = { activity?.finish() },
+                onBack = { navigator.goBack() },
                 onMoveToRecruitmentLink = context::navigateToExternalBrowser,
                 modifier = Modifier
                     .background(KuringTheme.colors.background)

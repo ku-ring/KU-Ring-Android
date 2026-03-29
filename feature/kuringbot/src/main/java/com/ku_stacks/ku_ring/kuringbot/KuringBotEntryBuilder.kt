@@ -9,6 +9,7 @@ import androidx.navigation3.runtime.NavKey
 import com.ku_stacks.ku_ring.compose.locals.LocalNavigator
 import com.ku_stacks.ku_ring.kuringbot.compose.KuringBotScreen
 import com.ku_stacks.ku_ring.navigation.EntryBuilderProvider
+import com.ku_stacks.ku_ring.navigation.keys.AuthFlowKey
 import com.ku_stacks.ku_ring.navigation.keys.KuringBotKey
 import dagger.Module
 import dagger.Provides
@@ -20,10 +21,9 @@ class KuringBotEntryBuilder : EntryBuilderProvider {
     override fun EntryProviderScope<NavKey>.provide() {
         entry<KuringBotKey> {
             val navigator = LocalNavigator.current
-            val activity = LocalActivity.current
             KuringBotScreen(
-                onBackButtonClick = { activity?.finish() },
-                onMoveToLogin = { activity?.let { navigator.navigateToAuth(it) } },
+                onBackButtonClick = { navigator.goBack() },
+                onMoveToLogin = { navigator.navigate(AuthFlowKey("SIGN_IN")) },
                 modifier = Modifier
                     .imePadding()
                     .fillMaxSize(),

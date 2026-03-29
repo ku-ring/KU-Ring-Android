@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
+import com.ku_stacks.ku_ring.compose.locals.LocalNavigator
 import com.ku_stacks.ku_ring.library.compose.LibrarySeatScreen
 import com.ku_stacks.ku_ring.navigation.EntryBuilderProvider
 import com.ku_stacks.ku_ring.navigation.keys.LibrarySeatKey
@@ -24,10 +25,10 @@ import timber.log.Timber
 class LibrarySeatEntryBuilder : EntryBuilderProvider {
     override fun EntryProviderScope<NavKey>.provide() {
         entry<LibrarySeatKey> {
-            val activity = LocalActivity.current
+            val navigator = LocalNavigator.current
             val context = LocalContext.current
             LibrarySeatScreen(
-                onNavigateBack = { activity?.finish() },
+                onNavigateBack = { navigator.goBack() },
                 onLaunchLibraryIntent = {
                     try {
                         context.packageManager.getPackageInfo(

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
+import com.ku_stacks.ku_ring.compose.locals.LocalNavigator
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.edit_departments.compose.EditDepartmentsScreen
 import com.ku_stacks.ku_ring.navigation.EntryBuilderProvider
@@ -19,9 +20,9 @@ import dagger.multibindings.IntoSet
 class EditDepartmentsEntryBuilder : EntryBuilderProvider {
     override fun EntryProviderScope<NavKey>.provide() {
         entry<EditDepartmentsKey> {
-            val activity = LocalActivity.current
+            val navigator = LocalNavigator.current
             EditDepartmentsScreen(
-                onClose = { activity?.finish() },
+                onClose = { navigator.goBack() },
                 modifier = Modifier
                     .fillMaxSize()
                     .background(KuringTheme.colors.background),

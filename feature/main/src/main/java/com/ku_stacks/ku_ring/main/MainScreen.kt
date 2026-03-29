@@ -31,14 +31,27 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.ku_stacks.ku_ring.compose.locals.KuringCompositionLocalProvider
 import com.ku_stacks.ku_ring.compose.locals.LocalNavigator
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.domain.mapper.toWebViewNotice
 import com.ku_stacks.ku_ring.main.calendar.compose.AcademicCalendarScreen
 import com.ku_stacks.ku_ring.main.campusmap.compose.CampusMapScreen
 import com.ku_stacks.ku_ring.main.club.compose.inner_screen.ClubListScreen
 import com.ku_stacks.ku_ring.main.notice.compose.NoticeScreen
 import com.ku_stacks.ku_ring.main.setting.SettingViewModel
 import com.ku_stacks.ku_ring.main.setting.compose.inner_screen.SettingScreen
-import com.ku_stacks.ku_ring.navigation.KuringNavigator
 import com.ku_stacks.ku_ring.navigation.MainScreenRoute
+import com.ku_stacks.ku_ring.navigation.Navigator
+import com.ku_stacks.ku_ring.navigation.keys.ArchiveKey
+import com.ku_stacks.ku_ring.navigation.keys.AuthFlowKey
+import com.ku_stacks.ku_ring.navigation.keys.ClubSubscriptionKey
+import com.ku_stacks.ku_ring.navigation.keys.EditDepartmentsKey
+import com.ku_stacks.ku_ring.navigation.keys.EditSubscriptionKey
+import com.ku_stacks.ku_ring.navigation.keys.FeedbackKey
+import com.ku_stacks.ku_ring.navigation.keys.LibrarySeatKey
+import com.ku_stacks.ku_ring.navigation.keys.NoticeWebKey
+import com.ku_stacks.ku_ring.navigation.keys.NotificationKey
+import com.ku_stacks.ku_ring.navigation.keys.NotionViewKey
+import com.ku_stacks.ku_ring.navigation.keys.OpenSourceKey
+import com.ku_stacks.ku_ring.navigation.keys.SearchKey
 import com.ku_stacks.ku_ring.util.showToast
 
 @Composable
@@ -125,31 +138,34 @@ private fun slideDirection(
 
 fun NavGraphBuilder.mainScreenNavGraph(
     navController: NavHostController,
-    navigator: KuringNavigator,
+    navigator: Navigator,
     activity: Activity,
 ) {
     composable<MainScreenRoute.Notice> {
         NoticeScreen(
             onSearchIconClick = {
-                navigator.navigateToSearch(activity)
+                navigator.navigate(SearchKey)
             },
             onArchiveIconClick = {
-                navigator.navigateToArchive(activity)
+                navigator.navigate(ArchiveKey)
             },
             onNotificationIconClick = {
-                navigator.navigateToNotification(activity)
+                navigator.navigate(NotificationKey)
             },
             onNoticeClick = {
-                navigator.navigateToNoticeWeb(activity, it)
+                val wv = it.toWebViewNotice()
+                navigator.navigate(
+                    NoticeWebKey(wv.url, wv.articleId, wv.id.toString(), wv.category, wv.subject)
+                )
             },
             onNavigateToEditDepartment = {
-                navigator.navigateToEditSubscribedDepartment(activity)
+                navigator.navigate(EditDepartmentsKey)
             },
             onNavigateToAcademicEvent = {
                 navController.navigate(MainScreenRoute.Calendar)
             },
             onNavigateToLibrarySeat = {
-                navigator.navigateToLibrarySeat(activity)
+                navigator.navigate(LibrarySeatKey)
             },
             onBackSingleTap = {
                 activity.showToast(R.string.home_finish_if_back_again)
@@ -172,7 +188,7 @@ fun NavGraphBuilder.mainScreenNavGraph(
     composable<MainScreenRoute.CampusMap> {
         CampusMapScreen(
             onLibrarySeatFabClick = {
-                navigator.navigateToLibrarySeat(activity)
+                navigator.navigate(LibrarySeatKey)
             }
         )
     }
@@ -182,7 +198,7 @@ fun NavGraphBuilder.mainScreenNavGraph(
                 // TODO: 동아리 상세 화면으로 이동
             },
             onNavigateToClubSubscription = {
-                navigator.navigateToClubSubscription(activity)
+                navigator.navigate(ClubSubscriptionKey)
             },
             onNavigateToNotification = {
                 // TODO: 알림 목록 화면으로 이동
@@ -203,8 +219,8 @@ fun NavGraphBuilder.mainScreenNavGraph(
 
         SettingScreen(
             settingUiState = settingsUiState,
-            onNavigateToSignIn = { navigator.navigateToAuth(activity) },
-            onNavigateToEditSubscription = { navigator.navigateToEditSubscription(activity) },
+            onNavigateToSignIn = { navigator.navigate(AuthFlowKey("SIGN_IN")) },
+            onNavigateToEditSubscription = { navigator.navigate(EditSubscriptionKey) },
             onExtNotificationEnabledToggle = viewModel::setExtNotificationAllowed,
             onAcademicEventNotificationEnabledToggle = { value ->
                 viewModel.setAcademicEventNotificationAllowed(
@@ -224,11 +240,11 @@ fun NavGraphBuilder.mainScreenNavGraph(
             onNavigateToServiceTerms = {
                 activity.startWebView(navigator, R.string.notion_terms_of_service_url)
             },
-            onNavigateToOpenSources = { navigator.navigateToOpenSource() },
+            onNavigateToOpenSources = { navigator.navigate(OpenSourceKey) },
             onNavigateToKuringInstagram = { activity.navigateToKuringInstagram() },
-            onNavigateToFeedback = { navigator.navigateToFeedback(activity) },
+            onNavigateToFeedback = { navigator.navigate(FeedbackKey) },
             onLogoutClick = viewModel::logout,
-            onNavigateToSignOut = { navigator.navigateToSignOut(activity) },
+            onNavigateToSignOut = { navigator.navigate(AuthFlowKey("SIGN_OUT")) },
             modifier =
                 Modifier
                     .fillMaxSize()
@@ -238,11 +254,11 @@ fun NavGraphBuilder.mainScreenNavGraph(
 }
 
 private fun Activity.startWebView(
-    navigator: KuringNavigator,
+    navigator: Navigator,
     @StringRes urlId: Int,
 ) {
     val url = getString(urlId)
-    navigator.navigateToNotionView(this, url)
+    navigator.navigate(NotionViewKey(url))
     this.overridePendingTransition(
         R.anim.anim_slide_right_enter,
         R.anim.anim_stay_exit,
