@@ -28,28 +28,16 @@
 
         <activity
             android:name=".HostActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".splash.SplashActivity"
             android:exported="true"
-            android:screenOrientation="portrait">
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".main.MainActivity"
-            android:exported="true"
-            android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".feedback.feedback.FeedbackActivity"
-            android:exported="true"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
             android:exported="true"
@@ -59,59 +47,6 @@
             android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
             android:exported="true"
             android:theme="@style/OpenSourceItemTheme" />
-
-        <activity
-            android:name=".notice_detail.NoticeWebActivity"
-            android:exported="true" />
-
-        <activity
-            android:name=".edit_subscription.EditSubscriptionActivity"
-            android:exported="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/EditSubscriptionTheme" />
-
-        <activity
-            android:name=".notion.NotionViewActivity"
-            android:exported="true" />
-
-        <activity
-            android:name=".onboarding.OnboardingActivity"
-            android:exported="true"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".main.archive.ArchiveActivity"
-            android:exported="false" />
-        <activity
-            android:name=".main.search.SearchActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".notification.NotificationActivity"
-            android:exported="false" />
-        <activity
-            android:name=".kuringbot.KuringBotActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".library.LibrarySeatActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".auth.AuthActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-
-        <activity
-            android:name=".club.onboarding.ClubOnboardingActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".club.subscription.ClubSubscriptionActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".club.detail.ClubDetailActivity"
-            android:exported="false" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"
