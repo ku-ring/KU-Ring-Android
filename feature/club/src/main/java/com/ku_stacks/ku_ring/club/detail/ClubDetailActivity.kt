@@ -4,15 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.safeDrawingPadding
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.util.navigateToExternalBrowser
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,22 +11,9 @@ class ClubDetailActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-
-        setContent {
-            KuringTheme {
-                val context = LocalContext.current
-
-                ClubDetailScreen(
-                    onBack = ::finish,
-                    onMoveToRecruitmentLink = context::navigateToExternalBrowser,
-                    modifier = Modifier
-                        .background(KuringTheme.colors.background)
-                        .safeDrawingPadding()
-                        .fillMaxSize(),
-                )
-            }
-        }
+        val intent = Intent().setClassName(this, "com.ku_stacks.ku_ring.HostActivity")
+        startActivity(intent)
+        finish()
     }
 
     companion object {

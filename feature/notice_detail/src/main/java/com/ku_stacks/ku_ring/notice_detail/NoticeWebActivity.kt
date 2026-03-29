@@ -4,14 +4,8 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.ui.Modifier
-import androidx.navigation.compose.rememberNavController
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.WebViewNotice
-import com.ku_stacks.ku_ring.compose.locals.KuringCompositionLocalProvider
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -19,29 +13,10 @@ class NoticeWebActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // Deprecated되지 않은 다른 함수가 API 33 이상에서만 사용할 수 있어서 부득이하게 deprecated 함수를 사용
-        val webViewNotice = intent.getSerializableExtra(WebViewNotice.EXTRA_KEY) as? WebViewNotice
-            ?: throw IllegalStateException("WebViewNotice should not be null.")
-
-        setContent {
-            KuringCompositionLocalProvider {
-                KuringTheme {
-                    val navController = rememberNavController()
-                    NoticeDetailScreen(
-                        navController = navController,
-                        webViewNotice = webViewNotice,
-                        onClose = ::finish,
-                        modifier = Modifier.fillMaxSize(),
-                    )
-                }
-            }
-        }
-    }
-
-    override fun finish() {
-        super.finish()
-        overridePendingTransition(R.anim.anim_slide_left_enter, R.anim.anim_slide_left_exit)
+        val redirectIntent = Intent().setClassName(this, "com.ku_stacks.ku_ring.HostActivity")
+        intent.extras?.let { redirectIntent.putExtras(it) }
+        startActivity(redirectIntent)
+        finish()
     }
 
     companion object {

@@ -1,41 +1,19 @@
 package com.ku_stacks.ku_ring.notion
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.compose.setContent
-import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.ui.Modifier
-import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.util.TransitionType
-import com.ku_stacks.ku_ring.util.setActivityTransition
+import androidx.activity.ComponentActivity
+import dagger.hilt.android.AndroidEntryPoint
 
-class NotionViewActivity : AppCompatActivity() {
+@AndroidEntryPoint
+class NotionViewActivity : ComponentActivity() {
 
-    @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val url = intent.getStringExtra(NOTION_URL)
-        setContent {
-            KuringTheme {
-                NotionScreen(
-                    url = url,
-                    modifier = Modifier.fillMaxSize(),
-                )
-            }
-        }
-    }
-
-    override fun finish() {
-        super.finish()
-        setActivityTransition(
-            TransitionType.CLOSE,
-            R.anim.anim_slide_left_enter,
-            R.anim.anim_slide_left_exit
-        )
+        val intent = Intent().setClassName(this, "com.ku_stacks.ku_ring.HostActivity")
+        startActivity(intent)
+        finish()
     }
 
     companion object {
