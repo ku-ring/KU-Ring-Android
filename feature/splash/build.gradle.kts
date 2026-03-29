@@ -22,6 +22,7 @@ dependencies {
     implementation(projects.data.domain)
     implementation(projects.domain.user)
     implementation(projects.domain.navigation)
+    implementation(projects.core.navigation)
 
     implementation(libs.semver)
 

@@ -1,33 +1,34 @@
-package com.ku_stacks.ku_ring.kuringbot
+package com.ku_stacks.ku_ring.auth
 
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.imePadding
 import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
+import com.ku_stacks.ku_ring.auth.compose.AuthDestination
+import com.ku_stacks.ku_ring.auth.compose.AuthScreen
 import com.ku_stacks.ku_ring.compose.locals.LocalNavigator
-import com.ku_stacks.ku_ring.kuringbot.compose.KuringBotScreen
 import com.ku_stacks.ku_ring.navigation.EntryBuilderProvider
 import com.ku_stacks.ku_ring.navigation.keys.AuthEntryPoint
 import com.ku_stacks.ku_ring.navigation.keys.AuthFlowKey
-import com.ku_stacks.ku_ring.navigation.keys.KuringBotKey
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 
-class KuringBotEntryBuilder : EntryBuilderProvider {
+class AuthFlowEntryBuilder : EntryBuilderProvider {
     override fun EntryProviderScope<NavKey>.provide() {
-        entry<KuringBotKey> {
+        entry<AuthFlowKey> { key ->
             val navigator = LocalNavigator.current
-            KuringBotScreen(
-                onBackButtonClick = { navigator.goBack() },
-                onMoveToLogin = { navigator.navigate(AuthFlowKey(AuthEntryPoint.SIGN_IN)) },
-                modifier = Modifier
-                    .imePadding()
-                    .fillMaxSize(),
+            val startDestination = when (key.entryPoint) {
+                AuthEntryPoint.SIGN_OUT -> AuthDestination.SignOut
+                AuthEntryPoint.SIGN_IN -> AuthDestination.SignIn
+            }
+            AuthScreen(
+                onNavigateUp = { navigator.goBack() },
+                startDestination = startDestination,
+                modifier = Modifier.fillMaxSize(),
             )
         }
     }
@@ -35,8 +36,8 @@ class KuringBotEntryBuilder : EntryBuilderProvider {
 
 @Module
 @InstallIn(SingletonComponent::class)
-object KuringBotEntryBuilderModule {
+object AuthFlowEntryBuilderModule {
     @Provides
     @IntoSet
-    fun provideKuringBotEntryBuilder(): EntryBuilderProvider = KuringBotEntryBuilder()
+    fun provideAuthFlowEntryBuilder(): EntryBuilderProvider = AuthFlowEntryBuilder()
 }

@@ -53,6 +53,8 @@ import com.ku_stacks.ku_ring.domain.WebViewNotice
 import com.ku_stacks.ku_ring.notice_detail.R
 import com.ku_stacks.ku_ring.notice_detail.component.CommentsBottomSheet
 import com.ku_stacks.ku_ring.compose.locals.LocalNavigator
+import com.ku_stacks.ku_ring.navigation.keys.AuthEntryPoint
+import com.ku_stacks.ku_ring.navigation.keys.AuthFlowKey
 import com.ku_stacks.ku_ring.util.WordConverter
 import kotlinx.coroutines.launch
 
@@ -235,11 +237,10 @@ private fun NoticeWebScreen(
 
     if (isLoginDialogVisible) {
         val navigator = LocalNavigator.current
-        val context = LocalContext.current
         KuringAlertDialog(
             text = stringResource(R.string.comment_login_dialog_body),
             onConfirm = {
-                navigator.navigateToAuth(context)
+                navigator.navigate(AuthFlowKey(AuthEntryPoint.SIGN_IN))
             },
             onCancel = { isLoginDialogVisible = false },
             confirmText = stringResource(R.string.comment_login_dialog_do_login),

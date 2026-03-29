@@ -20,6 +20,7 @@ import com.ku_stacks.ku_ring.main.notice.compose.components.KuringBotFab
 import com.ku_stacks.ku_ring.main.notice.compose.components.NoticeScreenHeader
 import com.ku_stacks.ku_ring.main.notice.compose.inner_screen.NoticeTabScreens
 import com.ku_stacks.ku_ring.compose.locals.LocalNavigator
+import com.ku_stacks.ku_ring.navigation.keys.KuringBotKey
 
 @Composable
 internal fun NoticeScreen(
@@ -60,7 +61,7 @@ internal fun NoticeScreen(
                     enter = fadeIn(tween(40)),
                     exit = fadeOut(targetAlpha = 1f),
                 ) {
-                    KuringBotFab(onClick = { navigator.navigateToKuringBot(context) })
+                    KuringBotFab(onClick = { navigator.navigate(KuringBotKey) })
                 }
             },
             modifier = modifier,

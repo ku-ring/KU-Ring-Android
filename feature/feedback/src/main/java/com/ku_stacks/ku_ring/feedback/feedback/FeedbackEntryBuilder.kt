@@ -1,7 +1,7 @@
 package com.ku_stacks.ku_ring.feedback.feedback
 
-import android.app.Activity
 import android.widget.Toast
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -9,6 +9,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
+import com.ku_stacks.ku_ring.compose.locals.LocalNavigator
 import com.ku_stacks.ku_ring.feedback.feedback.compose.FeedbackScreen
 import com.ku_stacks.ku_ring.navigation.EntryBuilderProvider
 import com.ku_stacks.ku_ring.navigation.keys.FeedbackKey
@@ -22,11 +23,12 @@ class FeedbackEntryBuilder : EntryBuilderProvider {
     override fun EntryProviderScope<NavKey>.provide() {
         entry<FeedbackKey> {
             val viewModel = hiltViewModel<FeedbackViewModel>()
+            val navigator = LocalNavigator.current
             val context = LocalContext.current
 
             LaunchedEffect(Unit) {
                 viewModel.quit.collect {
-                    (context as? Activity)?.finish()
+                    navigator.goBack()
                 }
             }
             LaunchedEffect(Unit) {

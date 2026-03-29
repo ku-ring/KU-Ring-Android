@@ -11,6 +11,7 @@ android {
 
 dependencies {
     implementation(projects.core.designsystem)
+    implementation(projects.core.composeLocals)
     implementation(projects.core.navigation)
     implementation(projects.core.util)
     implementation(projects.data.domain)

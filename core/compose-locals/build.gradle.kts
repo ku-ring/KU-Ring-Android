@@ -11,6 +11,6 @@ android {
 dependencies {
     implementation(projects.core.preferences)
     implementation(projects.core.firebaseAnalytics)
-    implementation(projects.domain.navigation)
+    implementation(projects.core.navigation)
     implementation(libs.bundles.compose)
 }

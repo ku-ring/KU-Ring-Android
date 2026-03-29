@@ -2,7 +2,7 @@ package com.ku_stacks.ku_ring.compose.locals.di
 
 import androidx.compose.runtime.staticCompositionLocalOf
 import com.ku_stacks.ku_ring.firebase.analytics.EventAnalytics
-import com.ku_stacks.ku_ring.navigation.KuringNavigator
+import com.ku_stacks.ku_ring.navigation.Navigator
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
@@ -13,10 +13,10 @@ import dagger.hilt.components.SingletonComponent
 interface KuringCompositionLocalEntryPoint {
     fun analytics(): EventAnalytics
     fun preference(): PreferenceUtil
-    fun navigator(): KuringNavigator
+    fun navigator(): Navigator
 }
 
-val LocalNavigator = staticCompositionLocalOf<KuringNavigator> {
+val LocalNavigator = staticCompositionLocalOf<Navigator> {
     error("No Navigator Provided")
 }
 
