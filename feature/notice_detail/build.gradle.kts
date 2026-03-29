@@ -21,6 +21,7 @@ dependencies {
     implementation(projects.domain.noticecomment)
     implementation(projects.domain.report)
     implementation(projects.domain.navigation)
+    implementation(projects.core.navigation)
 
     implementation(libs.bundles.compose.interop)
 }
