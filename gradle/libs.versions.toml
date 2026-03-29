@@ -23,7 +23,7 @@ kotlinx-immutable = "0.4.0"
 
 # Compose
 compose-compiler = '1.4.8'
-compose-bom = '2026.03.00'
+compose-bom = '2026.03.01'
 
 # Androidx
 androidx-lifecycle = '2.10.0'
@@ -36,7 +36,7 @@ androidx-fragment = '1.8.9'
 androidx-paging = '3.4.2'
 androidx-room = '2.8.4'
 androidx-viewpager2 = '1.1.0'
-androidx-work = '2.11.1'
+androidx-work = '2.11.2'
 androidx-navigation = "2.9.7"
 androidx-startup = '1.2.0'
 androidx-swiperefreshlayout = '1.2.0'
@@ -59,7 +59,7 @@ retrofit = '3.0.0'
 firebase = '34.11.0'
 crashlytics = "3.0.6"
 lottie = "6.7.1"
-ktor = "3.4.1"
+ktor = "3.4.2"
 javax-inject = "1"
 naver-map = "1.9.0"
 play-service-location = "21.3.0"
