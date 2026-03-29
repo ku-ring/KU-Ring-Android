@@ -108,11 +108,11 @@ class NavigationE2ETest {
     @Test
     fun 공지_탭에서_공지_상세로_이동하면_NoticeWebKey가_백스택_최상단에_위치한다() {
         val noticeKey = NoticeWebKey(
-            url = "https://kuring.com/notice/1",
-            articleId = "art1",
-            id = "1",
+            url = "https://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do?id=5a206c73",
+            articleId = "5a206c73",
+            id = "20240315001",
             category = "학사",
-            subject = "테스트공지",
+            subject = "2024학년도 1학기 수강신청 안내",
         )
         composeTestRule.runOnUiThread {
             navigator.replaceAll(MainHubKey())
@@ -153,10 +153,10 @@ class NavigationE2ETest {
     fun 동아리_탭에서_동아리_상세로_이동하면_ClubDetailKey가_백스택_최상단에_위치한다() {
         composeTestRule.runOnUiThread {
             navigator.replaceAll(MainHubKey())
-            navigator.navigate(ClubDetailKey(clubId = 42))
+            navigator.navigate(ClubDetailKey(clubId = 1))
 
             assertEquals(2, navigator.backStack.size)
-            assertEquals(ClubDetailKey(clubId = 42), navigator.backStack.last())
+            assertEquals(ClubDetailKey(clubId = 1), navigator.backStack.last())
         }
     }
 
@@ -237,7 +237,15 @@ class NavigationE2ETest {
         composeTestRule.runOnUiThread {
             navigator.replaceAll(MainHubKey())
             navigator.navigate(SearchKey)
-            navigator.navigate(NoticeWebKey("url", "art1", "1", "일반", "제목"))
+            navigator.navigate(
+                NoticeWebKey(
+                    url = "https://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do?id=7b3e9f12",
+                    articleId = "7b3e9f12",
+                    id = "20240401005",
+                    category = "일반",
+                    subject = "2024학년도 건국대학교 학생생활관 입사 안내",
+                )
+            )
         }
         composeTestRule.waitForIdle()
         assertEquals(3, navigator.backStack.size)
@@ -273,11 +281,11 @@ class NavigationE2ETest {
     @Test
     fun FCM_콜드_스타트_시_pendingDeepLink가_스플래시_완료_후_적용된다() {
         val noticeKey = NoticeWebKey(
-            url = "https://kuring.com/notice/fcm",
-            articleId = "fcm123",
-            id = "99",
+            url = "https://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do?id=a1c2d3e4",
+            articleId = "a1c2d3e4",
+            id = "20240520012",
             category = "장학",
-            subject = "FCM딥링크테스트",
+            subject = "2024학년도 2학기 국가장학금 신청 안내",
         )
 
         composeTestRule.runOnUiThread {
@@ -299,11 +307,11 @@ class NavigationE2ETest {
         composeTestRule.waitForIdle()
 
         val noticeKey = NoticeWebKey(
-            url = "https://kuring.com/notice/warm",
-            articleId = "warm456",
-            id = "77",
-            category = "일반",
-            subject = "웜스타트딥링크",
+            url = "https://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do?id=f5e6d7c8",
+            articleId = "f5e6d7c8",
+            id = "20240601003",
+            category = "취창업",
+            subject = "2024 건국대학교 취업박람회 참가 신청 안내",
         )
         composeTestRule.runOnUiThread {
             navigator.navigate(noticeKey)

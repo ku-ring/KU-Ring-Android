@@ -47,16 +47,20 @@ class NavigatorTest {
     fun `여러 화면을 순차적으로 navigate하면 올바른 순서로 백스택이 쌓인다`() {
         navigator.navigate(MainHubKey())
         navigator.navigate(SearchKey)
-        navigator.navigate(NoticeWebKey("url", "art1", "1", "일반", "제목"))
+        val noticeKey = NoticeWebKey(
+            url = "https://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do?id=5a206c73",
+            articleId = "5a206c73",
+            id = "20240315001",
+            category = "학사",
+            subject = "2024학년도 1학기 수강신청 안내",
+        )
+        navigator.navigate(noticeKey)
 
         assertEquals(4, navigator.backStack.size)
         assertEquals(SplashKey, navigator.backStack[0])
         assertEquals(MainHubKey(), navigator.backStack[1])
         assertEquals(SearchKey, navigator.backStack[2])
-        assertEquals(
-            NoticeWebKey("url", "art1", "1", "일반", "제목"),
-            navigator.backStack[3],
-        )
+        assertEquals(noticeKey, navigator.backStack[3])
     }
 
     @Test
@@ -95,7 +99,13 @@ class NavigatorTest {
 
     @Test
     fun `setPendingDeepLink 후 replaceAll하면 딥링크 키가 백스택에 추가된다`() {
-        val deepLinkKey = NoticeWebKey("url", "art1", "1", "일반", "제목")
+        val deepLinkKey = NoticeWebKey(
+            url = "https://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do?id=a1c2d3e4",
+            articleId = "a1c2d3e4",
+            id = "20240520012",
+            category = "장학",
+            subject = "2024학년도 2학기 국가장학금 신청 안내",
+        )
         navigator.setPendingDeepLink(deepLinkKey)
 
         navigator.replaceAll(MainHubKey())
@@ -107,7 +117,13 @@ class NavigatorTest {
 
     @Test
     fun `replaceAll 이후 pendingDeepLink는 소비되어 다음 replaceAll에 영향을 주지 않는다`() {
-        val deepLinkKey = NoticeWebKey("url", "art1", "1", "일반", "제목")
+        val deepLinkKey = NoticeWebKey(
+            url = "https://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do?id=a1c2d3e4",
+            articleId = "a1c2d3e4",
+            id = "20240520012",
+            category = "장학",
+            subject = "2024학년도 2학기 국가장학금 신청 안내",
+        )
         navigator.setPendingDeepLink(deepLinkKey)
 
         navigator.replaceAll(MainHubKey())
@@ -146,7 +162,13 @@ class NavigatorTest {
     @Test
     fun `공지 탭에서 공지 상세로 이동하면 NoticeWebKey가 백스택 최상단에 위치한다`() {
         navigator.replaceAll(MainHubKey())
-        val noticeKey = NoticeWebKey("https://example.com", "article1", "1", "일반", "공지제목")
+        val noticeKey = NoticeWebKey(
+            url = "https://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do?id=7b3e9f12",
+            articleId = "7b3e9f12",
+            id = "20240401005",
+            category = "일반",
+            subject = "2024학년도 건국대학교 학생생활관 입사 안내",
+        )
         navigator.navigate(noticeKey)
 
         assertEquals(noticeKey, navigator.backStack.last())
@@ -184,7 +206,15 @@ class NavigatorTest {
     fun `상세 화면에서 뒤로가기를 하면 이전 화면으로 복원된다`() {
         navigator.replaceAll(MainHubKey())
         navigator.navigate(SearchKey)
-        navigator.navigate(NoticeWebKey("url", "a", "1", "c", "s"))
+        navigator.navigate(
+            NoticeWebKey(
+                url = "https://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do?id=c4d5e6f7",
+                articleId = "c4d5e6f7",
+                id = "20240410008",
+                category = "학생",
+                subject = "2024학년도 동아리 등록 및 지원금 신청 안내",
+            )
+        )
 
         navigator.goBack()
         assertEquals(SearchKey, navigator.backStack.last())
@@ -205,7 +235,13 @@ class NavigatorTest {
 
     @Test
     fun `FCM 콜드 스타트 시 pendingDeepLink가 스플래시 완료 후 적용된다`() {
-        val noticeKey = NoticeWebKey("https://kuring.com/notice", "art123", "42", "학사", "긴급공지")
+        val noticeKey = NoticeWebKey(
+            url = "https://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do?id=e8f9a0b1",
+            articleId = "e8f9a0b1",
+            id = "20240601001",
+            category = "학사",
+            subject = "2024학년도 1학기 기말고사 시간표 안내",
+        )
         navigator.setPendingDeepLink(noticeKey)
 
         navigator.replaceAll(MainHubKey())
@@ -219,7 +255,13 @@ class NavigatorTest {
     fun `웜 스타트 시 직접 navigate하면 해당 화면이 백스택에 추가된다`() {
         navigator.replaceAll(MainHubKey())
 
-        val noticeKey = NoticeWebKey("https://kuring.com/notice", "art456", "99", "장학", "장학금안내")
+        val noticeKey = NoticeWebKey(
+            url = "https://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do?id=b2c3d4e5",
+            articleId = "b2c3d4e5",
+            id = "20240715003",
+            category = "장학",
+            subject = "2024학년도 교내 성적우수 장학금 선발 안내",
+        )
         navigator.navigate(noticeKey)
 
         assertEquals(2, navigator.backStack.size)

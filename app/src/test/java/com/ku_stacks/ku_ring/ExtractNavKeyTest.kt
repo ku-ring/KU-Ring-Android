@@ -27,11 +27,11 @@ class ExtractNavKeyTest {
     @Test
     fun `WebViewNotice가 포함된 Intent를 전달하면 NoticeWebKey를 반환한다`() {
         val notice = WebViewNotice(
-            url = "https://kuring.com/notice/123",
-            articleId = "article123",
-            id = 42,
+            url = "https://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do?id=5a206c73",
+            articleId = "5a206c73",
+            id = 20240315,
             category = "학사",
-            subject = "긴급공지",
+            subject = "2024학년도 1학기 수강신청 안내",
         )
         val intent = Intent().apply {
             putExtra(WebViewNotice.EXTRA_KEY, notice)
@@ -41,11 +41,11 @@ class ExtractNavKeyTest {
 
         assertEquals(
             NoticeWebKey(
-                url = "https://kuring.com/notice/123",
-                articleId = "article123",
-                id = "42",
+                url = "https://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do?id=5a206c73",
+                articleId = "5a206c73",
+                id = "20240315",
                 category = "학사",
-                subject = "긴급공지",
+                subject = "2024학년도 1학기 수강신청 안내",
             ),
             result,
         )
@@ -65,11 +65,11 @@ class ExtractNavKeyTest {
     @Test
     fun `WebViewNotice와 Route가 모두 포함되면 WebViewNotice가 우선 적용된다`() {
         val notice = WebViewNotice(
-            url = "https://kuring.com/notice/1",
-            articleId = "art1",
-            id = 1,
+            url = "https://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do?id=7b3e9f12",
+            articleId = "7b3e9f12",
+            id = 20240401,
             category = "일반",
-            subject = "제목",
+            subject = "2024학년도 건국대학교 학생생활관 입사 안내",
         )
         val intent = Intent().apply {
             putExtra(WebViewNotice.EXTRA_KEY, notice)
@@ -80,11 +80,11 @@ class ExtractNavKeyTest {
 
         assertEquals(
             NoticeWebKey(
-                url = "https://kuring.com/notice/1",
-                articleId = "art1",
-                id = "1",
+                url = "https://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do?id=7b3e9f12",
+                articleId = "7b3e9f12",
+                id = "20240401",
                 category = "일반",
-                subject = "제목",
+                subject = "2024학년도 건국대학교 학생생활관 입사 안내",
             ),
             result,
         )
