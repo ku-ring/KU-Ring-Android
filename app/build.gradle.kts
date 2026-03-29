@@ -81,6 +81,7 @@ dependencies {
     implementation(projects.core.firebaseCrashlytics)
     implementation(projects.core.firebaseMessaging)
     implementation(projects.core.composeLocals)
+    implementation(projects.core.designsystem)
     implementation(projects.core.work)
     implementation(projects.data.domain)
     implementation(projects.data.club)

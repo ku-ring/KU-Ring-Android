@@ -8,6 +8,7 @@ android {
 }
 
 dependencies {
+    implementation(projects.core.navigation)
     implementation(projects.core.util)
     implementation(projects.core.designsystem)
     implementation(projects.core.ui)

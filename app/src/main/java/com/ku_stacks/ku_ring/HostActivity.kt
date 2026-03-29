@@ -6,6 +6,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
+import com.ku_stacks.ku_ring.compose.locals.KuringCompositionLocalProvider
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.navigation.EntryBuilderProvider
 import com.ku_stacks.ku_ring.navigation.keys.SplashKey
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,14 +23,20 @@ class HostActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val backStack = rememberNavBackStack(SplashKey)
-            NavDisplay(
-                backStack = backStack,
-                onBack = { if (backStack.removeLastOrNull() == null) finish() },
-                entryProvider = entryProvider {
-                    entryBuilders.forEach { builder -> with(builder) { provide() } }
+            KuringCompositionLocalProvider {
+                KuringTheme {
+                    val backStack = rememberNavBackStack(SplashKey)
+                    NavDisplay(
+                        backStack = backStack,
+                        onBack = { if (backStack.removeLastOrNull() == null) finish() },
+                        entryProvider = entryProvider {
+                            entryBuilders.forEach { builder ->
+                                with(builder) { provide() }
+                            }
+                        }
+                    )
                 }
-            )
+            }
         }
     }
 }
