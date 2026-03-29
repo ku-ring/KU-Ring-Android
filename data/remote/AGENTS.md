@@ -286,7 +286,7 @@ val mockService = mock<NoticeService> {
        val fieldName: String
    )
    ```
-4. 서비스 인터페이스 정의:
+4. 서비스 인터페이스 정의 (Retrofit):
    ```kotlin
    interface MyService {
        @GET("/api/my-endpoint")
@@ -300,8 +300,8 @@ val mockService = mock<NoticeService> {
    object MyModule {
        @Provides
        @Singleton
-       fun provideMyService(httpClient: HttpClient): MyService {
-           return MyService(httpClient)
+       fun provideMyService(@Named("Default") retrofit: Retrofit): MyService {
+           return retrofit.create(MyService::class.java)
        }
    }
    ```

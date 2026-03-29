@@ -326,8 +326,9 @@ gradlew projectDependencyGraph
    - 모듈 간 순환 의존성 확인
 
 3. **Compose 컴파일**
-   - `libs.versions.toml`의 `compose-compiler` 버전이 Kotlin 버전과 일치하는지 확인
-   - 현재: Compose 2026.03.01, Compiler 1.4.8
+   - Kotlin 2.0+ 에서는 `org.jetbrains.kotlin.plugin.compose` 플러그인이 Kotlin 버전(2.3.20)에 맞춰 Compose Compiler를 자동 관리
+   - `libs.versions.toml`의 `compose-compiler` 키는 레거시 참조용이며, 실제 컴파일러 버전은 `compose-compiler-plugin`(= Kotlin 버전)을 따름
+   - `compose-bom` 버전(현재 2026.03.01)은 별도로 관리
 
 4. **Room 스키마 변경**
    - 새 엔티티는 `app/schemas/`에 스키마 스냅샷 필요

@@ -112,7 +112,7 @@ object NoticeMappers {
         content = content,
         category = category,
         departmentId = departmentId,
-        postedAt = LocalDateTime.ofEpochSecond(createdAt),
+        postedAt = createdAt.toLocalDateTime(),
         imageUrl = imageUrl,
         link = link
     )

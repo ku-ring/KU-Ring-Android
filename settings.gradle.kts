@@ -71,15 +71,15 @@ include(
     // feature modules
     ":feature:auth",
     ":feature:club",
+    ":feature:edit_departments",
     ":feature:edit_subscription",
     ":feature:feedback",
+    ":feature:kuringbot",
     ":feature:library",
+    ":feature:main",
     ":feature:notice_detail",
+    ":feature:notification",
     ":feature:notion",
     ":feature:onboarding",
-    ":feature:splash",
-    ":feature:main",
-    ":feature:kuringbot",
-    ":feature:edit_departments",
-    ":feature:notification"
+    ":feature:splash"
 )
