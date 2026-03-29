@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.core.content.IntentCompat
+import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import com.ku_stacks.ku_ring.compose.locals.KuringCompositionLocalProvider
@@ -32,8 +33,8 @@ class HostActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        // FCM 알림으로 앱이 cold start된 경우 Intent에서 WebViewNotice 추출
-        handleIntent(intent)
+        // FCM 알림으로 앱이 cold start된 경우, Splash 완료 후 딥링크 처리
+        handleIntent(intent, deferred = true)
 
         setContent {
             KuringCompositionLocalProvider {
@@ -60,10 +61,19 @@ class HostActivity : ComponentActivity() {
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        handleIntent(intent)
+        handleIntent(intent, deferred = false)
     }
 
-    private fun handleIntent(intent: Intent) {
+    private fun handleIntent(intent: Intent, deferred: Boolean) {
+        val key = extractNavKey(intent) ?: return
+        if (deferred) {
+            navigator.setPendingDeepLink(key)
+        } else {
+            navigator.navigate(key)
+        }
+    }
+
+    private fun extractNavKey(intent: Intent): NavKey? {
         // WebViewNotice가 Intent extras에 있으면 해당 화면으로 이동
         val webViewNotice = IntentCompat.getSerializableExtra(
             intent,
@@ -71,23 +81,21 @@ class HostActivity : ComponentActivity() {
             WebViewNotice::class.java,
         )
         if (webViewNotice != null) {
-            navigator.navigate(
-                NoticeWebKey(
-                    url = webViewNotice.url,
-                    articleId = webViewNotice.articleId,
-                    id = webViewNotice.id.toString(),
-                    category = webViewNotice.category,
-                    subject = webViewNotice.subject,
-                )
+            return NoticeWebKey(
+                url = webViewNotice.url,
+                articleId = webViewNotice.articleId,
+                id = webViewNotice.id.toString(),
+                category = webViewNotice.category,
+                subject = webViewNotice.subject,
             )
-            return
         }
 
         // MainScreenRoute가 Intent extras에 있으면 해당 탭으로 이동
         val route = intent.getStringExtra(DeepLinkIntentFactory.INTENT_KEY_ROUTE)
         if (route != null) {
-            navigator.navigate(MainHubKey(startTab = route))
-            return
+            return MainHubKey(startTab = route)
         }
+
+        return null
     }
 }
