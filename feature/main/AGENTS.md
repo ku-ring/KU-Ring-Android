@@ -220,7 +220,6 @@ val properties = Properties().apply {
 
 android {
     setNameSpace("main")
-    namespace = "com.ku_stacks.ku_ring.main"
 
     defaultConfig {
         manifestPlaceholders["naverClientId"] =
@@ -311,12 +310,12 @@ dependencies {
 
 ### 탭 공유 네비게이션
 
-메인 화면은 `MainViewModel` 또는 로컬 `mutableIntState`로 탭 상태를 관리합니다:
+메인 화면은 `MainViewModel` 또는 로컬 `mutableIntStateOf`로 탭 상태를 관리합니다:
 
 ```kotlin
 @Composable
 fun MainScreen(viewModel: MainViewModel = hiltViewModel()) {
-    var selectedTab by remember { mutableIntState(0) }
+    var selectedTab by remember { mutableIntStateOf(0) }
 
     Scaffold(
         bottomBar = {

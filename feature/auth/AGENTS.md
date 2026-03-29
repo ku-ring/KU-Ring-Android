@@ -375,13 +375,16 @@ fun PasswordInputField(
 제출 전 유효성 검사:
 
 ```kotlin
-fun SignUpViewModel.validateEmail(email: String): String? {
+fun SignUpViewModel.validateEmail(email: String): EmailValidationResult {
     return when {
-        email.isBlank() -> "Email is required"
-        !email.contains("@") -> "Invalid email format"
-        else -> null
+        email.isBlank() -> EmailValidationResult.EMPTY
+        !email.contains("@") -> EmailValidationResult.INVALID_FORMAT
+        else -> EmailValidationResult.VALID
     }
 }
+
+// UI 레이어에서 strings.xml 리소스로 매핑
+// e.g., EmailValidationResult.EMPTY -> R.string.error_email_required
 ```
 
 ## AI 에이전트 안내

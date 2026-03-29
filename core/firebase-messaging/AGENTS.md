@@ -45,7 +45,7 @@ firebase-messaging/
 ### 주요 메서드
 
 #### onMessageReceived(remoteMessage: RemoteMessage)
-앱이 포그라운드 상태일 때 FCM 메시지가 도착하면 호출됩니다.
+데이터 메시지 수신 시 호출됩니다(포그라운드/백그라운드 포함). KU-Ring은 데이터 전용 메시지를 사용하므로 앱 상태와 무관하게 이 메서드가 호출됩니다.
 
 **흐름**:
 ```text
