@@ -64,6 +64,7 @@ javax-inject = "1"
 naver-map = "1.9.0"
 play-service-location = "21.3.0"
 naver-map-location = "21.0.2"
+navigation3 = "1.0.1"
 
 [libraries]
 # Project-level dependencies
@@ -206,6 +207,7 @@ ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx
 # Other libraries
 keyboardvisibilityevent = 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:3.0.0-RC3'
 leakcanary-android = 'com.squareup.leakcanary:leakcanary-android:2.14'
+lifecycle-viewmodel-navigation3 = { module = "androidx.lifecycle:lifecycle-viewmodel-navigation3", version = "2.11.0-alpha03" }
 pageindicatorview = 'com.romandanylyk:pageindicatorview:1.0.3'
 shimmer = 'com.facebook.shimmer:shimmer:0.5.0'
 timber = 'com.jakewharton.timber:timber:5.0.1'
@@ -213,6 +215,8 @@ semver = "net.swiftzer.semver:semver:2.1.0"
 naver-map = { module = "io.github.fornewid:naver-map-compose", version.ref = "naver-map" }
 play-service-location = { module = "com.google.android.gms:play-services-location", version.ref = "play-service-location" }
 naver-map-location = { module = "io.github.fornewid:naver-map-location", version.ref = "naver-map-location" }
+navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "navigation3" }
+navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "navigation3" }
 
 [bundles]
 retrofit = [
