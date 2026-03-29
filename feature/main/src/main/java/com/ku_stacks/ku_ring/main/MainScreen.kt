@@ -43,6 +43,7 @@ import com.ku_stacks.ku_ring.navigation.Navigator
 import com.ku_stacks.ku_ring.navigation.keys.ArchiveKey
 import com.ku_stacks.ku_ring.navigation.keys.AuthEntryPoint
 import com.ku_stacks.ku_ring.navigation.keys.AuthFlowKey
+import com.ku_stacks.ku_ring.navigation.keys.ClubDetailKey
 import com.ku_stacks.ku_ring.navigation.keys.ClubSubscriptionKey
 import com.ku_stacks.ku_ring.navigation.keys.EditDepartmentsKey
 import com.ku_stacks.ku_ring.navigation.keys.EditSubscriptionKey
@@ -195,14 +196,14 @@ fun NavGraphBuilder.mainScreenNavGraph(
     }
     composable<MainScreenRoute.Club> {
         ClubListScreen(
-            onNavigateToClubDetail = {
-                // TODO: 동아리 상세 화면으로 이동
+            onNavigateToClubDetail = { clubId ->
+                navigator.navigate(ClubDetailKey(clubId))
             },
             onNavigateToClubSubscription = {
                 navigator.navigate(ClubSubscriptionKey)
             },
             onNavigateToNotification = {
-                // TODO: 알림 목록 화면으로 이동
+                navigator.navigate(NotificationKey)
             }
         )
     }
