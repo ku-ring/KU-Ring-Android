@@ -18,6 +18,7 @@ dependencies {
     implementation(projects.core.util)
     implementation(projects.data.domain)
     implementation(projects.domain.club)
+    implementation(projects.domain.navigation)
 
     implementation(libs.bundles.compose.interop)
     implementation(libs.kotlinx.immutable)

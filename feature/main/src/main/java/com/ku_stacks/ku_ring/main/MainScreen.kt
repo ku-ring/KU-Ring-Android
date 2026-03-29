@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.core.net.toUri
@@ -30,6 +31,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.ku_stacks.ku_ring.compose.locals.KuringCompositionLocalProvider
 import com.ku_stacks.ku_ring.compose.locals.LocalNavigator
+import com.ku_stacks.ku_ring.compose.locals.LocalPreferences
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.main.calendar.compose.AcademicCalendarScreen
 import com.ku_stacks.ku_ring.main.campusmap.compose.CampusMapScreen
@@ -178,15 +180,22 @@ fun NavGraphBuilder.mainScreenNavGraph(
         )
     }
     composable<MainScreenRoute.Club> {
+        val preferences = LocalPreferences.current
+        val clubCategory by preferences.clubCategoryFlow.collectAsStateWithLifecycle()
+        LaunchedEffect(Unit) {
+            if (clubCategory.isBlank()) {
+                navigator.navigateToClubOnboarding(activity)
+            }
+        }
         ClubListScreen(
-            onNavigateToClubDetail = {
-                // TODO: 동아리 상세 화면으로 이동
+            onNavigateToClubDetail = { clubId ->
+                navigator.navigateToClubDetail(activity, clubId)
             },
             onNavigateToClubSubscription = {
                 navigator.navigateToClubSubscription(activity)
             },
             onNavigateToNotification = {
-                // TODO: 알림 목록 화면으로 이동
+                navigator.navigateToNotification(activity)
             }
         )
     }

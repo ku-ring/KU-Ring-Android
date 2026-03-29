@@ -32,7 +32,6 @@ fun ClubDeadlineTag(
         recruitmentStatus == RecruitmentStatus.ALWAYS -> stringResource(
             club_card_tag_recruitment_always
         )
-
         dDay == 0 -> stringResource(club_card_tag_d_day_end)
         else -> stringResource(club_card_tag_d_day, dDay.toString())
     }
@@ -54,8 +53,8 @@ fun ClubDeadlineTag(
 fun ClubTag(
     text: String,
     modifier: Modifier = Modifier,
-    contentColor: Color = KuringTheme.colors.gray100,
-    containerColor: Color = KuringTheme.colors.textCaption1,
+    contentColor: Color = KuringTheme.colors.textCaption1,
+    containerColor: Color = KuringTheme.colors.gray100,
 ) {
     Surface(
         color = containerColor,

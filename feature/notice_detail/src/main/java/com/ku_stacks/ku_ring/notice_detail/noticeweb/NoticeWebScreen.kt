@@ -43,6 +43,7 @@ import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.Pager
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.ku_stacks.ku_ring.compose.locals.LocalNavigator
 import com.ku_stacks.ku_ring.designsystem.components.KuringAlertDialog
 import com.ku_stacks.ku_ring.designsystem.components.KuringWebView
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
@@ -52,7 +53,7 @@ import com.ku_stacks.ku_ring.domain.NoticeComment
 import com.ku_stacks.ku_ring.domain.WebViewNotice
 import com.ku_stacks.ku_ring.notice_detail.R
 import com.ku_stacks.ku_ring.notice_detail.component.CommentsBottomSheet
-import com.ku_stacks.ku_ring.compose.locals.LocalNavigator
+import com.ku_stacks.ku_ring.ui.dialog.LoginAlertDialog
 import com.ku_stacks.ku_ring.util.WordConverter
 import kotlinx.coroutines.launch
 
@@ -236,14 +237,10 @@ private fun NoticeWebScreen(
     if (isLoginDialogVisible) {
         val navigator = LocalNavigator.current
         val context = LocalContext.current
-        KuringAlertDialog(
-            text = stringResource(R.string.comment_login_dialog_body),
-            onConfirm = {
-                navigator.navigateToAuth(context)
-            },
-            onCancel = { isLoginDialogVisible = false },
-            confirmText = stringResource(R.string.comment_login_dialog_do_login),
-            cancelText = stringResource(R.string.comment_login_dialog_cancel),
+
+        LoginAlertDialog(
+            onConfirm = { navigator.navigateToAuth(context) },
+            onDismiss = { isLoginDialogVisible = false },
         )
     }
 }

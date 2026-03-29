@@ -12,7 +12,6 @@ import kotlin.time.Clock
  * @property name 동아리 이름
  * @property summary 동아리 한 줄 소개
  * @property category 동아리 카테고리
- * @property affiliation 동아리 소속
  * @property division 동아리 분과
  * @property description 동아리 상세 소개글
  * @property location 동아리 방 위치 (없으면 `null`)
@@ -29,7 +28,6 @@ data class Club(
     val name: String,
     val summary: String,
     val category: ClubCategory,
-    val affiliation: ClubAffiliation,
     val division: ClubDivision,
     val description: String,
     val location: ClubLocation?,
@@ -48,20 +46,11 @@ data class Club(
 enum class ClubCategory(
     val koreanName: String,
 ) {
+    ALL("전체"),
     ACADEMIC("학술활동"),
-    CULTURE_ARTS("문화예술"),
-    SOCIAL("사회가치"),
-    ACTIVITIES("야외활동"),
-    OTHERS("기타"),
-}
-
-/**
- * 동아리 소속 대분류
- */
-enum class ClubAffiliation {
-    CENTRAL,            // 중앙동아리
-    COLLEGE,            // 단과대
-    OTHERS,             // 기타
+    CULTURE_ART("문화예술"),
+    SOCIAL_VALUE("사회가치"),
+    ACTIVITY("야외활동"),
 }
 
 /**

@@ -42,7 +42,10 @@ fun ClubOnboardingScreen(
                 onClose()
             }
         },
-        onDismiss = onClose,
+        onDismiss = {
+            viewModel.skipSelectingInitialCategory()
+            onClose()
+        },
         categoryItems = viewModel.onboardingItems,
         selectedItemIndex = viewModel.selectedItemIndex,
         selectItem = viewModel::setSelectedItem,
@@ -123,7 +126,7 @@ private fun ClubOnboardingActions(
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(20.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         KuringCallToAction(

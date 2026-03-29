@@ -1,17 +1,20 @@
 package com.ku_stacks.ku_ring.designsystem.components.topbar
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.LocalContentColor
-import androidx.compose.material.Text
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -194,7 +197,7 @@ fun CenterTitleTopBar(
     actions: List<TopBarAction> = emptyList(),
 ) {
     val backgroundColor = KuringTheme.colors.background
-    val contentPadding = PaddingValues(horizontal = 12.dp, vertical = 15.dp)
+    val contentPadding = PaddingValues(12.dp)
     CenterAlignedTopAppBar(
         title = {
             TopBarTitle(
@@ -222,6 +225,7 @@ fun CenterTitleTopBar(
                     actionClickLabel = action.clickLabel,
                     contentPadding = contentPadding,
                     modifier = Modifier
+                        .wrapContentSize(unbounded = true)
                         .clip(RoundedCornerShape(50)),
                 )
             }
@@ -242,19 +246,18 @@ private fun Action(
     actionClickLabel: String? = null,
     contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
-    // TODO: Lazy layout 없이 같은 효과를 낼 수 있는 방법 찾기 (Navigation도 동일)
-    LazyRow(
-        modifier = modifier.clickable(
-            onClick = { onActionClick?.invoke() },
-            onClickLabel = actionClickLabel,
-            enabled = onActionClick != null,
-        ),
-        contentPadding = contentPadding,
+    Box(
+        modifier = modifier
+            .clickable(
+                onClick = { onActionClick?.invoke() },
+                onClickLabel = actionClickLabel,
+                enabled = onActionClick != null,
+            )
+            .padding(contentPadding),
+        contentAlignment = Alignment.Center,
     ) {
-        item {
-            CompositionLocalProvider(LocalContentColor provides KuringTheme.colors.gray300) {
-                action()
-            }
+        CompositionLocalProvider(LocalContentColor provides KuringTheme.colors.gray300) {
+            action()
         }
     }
 }
@@ -289,17 +292,16 @@ private fun Navigation(
 ) {
     if (navigationIcon != null) {
         CompositionLocalProvider(LocalContentColor provides navigationContentColor) {
-            LazyRow(
-                modifier = modifier.clickable(
-                    onClick = { onNavigationClick?.invoke() },
-                    onClickLabel = navigationClickLabel,
-                    enabled = onNavigationClick != null,
-                ),
-                contentPadding = contentPadding,
+            Box(
+                modifier = modifier
+                    .clickable(
+                        onClick = { onNavigationClick?.invoke() },
+                        onClickLabel = navigationClickLabel,
+                        enabled = onNavigationClick != null,
+                    )
+                    .padding(contentPadding),
             ) {
-                item {
-                    navigationIcon()
-                }
+                navigationIcon()
             }
         }
     }
@@ -336,6 +338,7 @@ private fun TopAppBarPreview_ActionIcon() {
                     contentDescription = null,
                 )
             },
+            onNavigationClick = {},
             action = {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_trashcan_v2),
