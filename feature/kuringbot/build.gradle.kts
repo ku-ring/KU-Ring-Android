@@ -11,6 +11,8 @@ android {
 }
 
 dependencies {
+    implementation(projects.core.navigation)
+    implementation(projects.core.composeLocals)
     implementation(projects.core.designsystem)
     implementation(projects.core.preferences)
     implementation(projects.core.composeUtil)
