@@ -24,7 +24,7 @@ class HostActivity : ComponentActivity() {
             val backStack = rememberNavBackStack(SplashKey)
             NavDisplay(
                 backStack = backStack,
-                onBack = { backStack.removeLastOrNull() },
+                onBack = { if (backStack.removeLastOrNull() == null) finish() },
                 entryProvider = entryProvider {
                     entryBuilders.forEach { builder -> with(builder) { provide() } }
                 }
