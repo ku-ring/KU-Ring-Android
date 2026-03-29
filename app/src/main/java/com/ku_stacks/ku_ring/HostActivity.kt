@@ -15,6 +15,7 @@ import com.ku_stacks.ku_ring.domain.WebViewNotice
 import com.ku_stacks.ku_ring.navigation.EntryBuilderProvider
 import com.ku_stacks.ku_ring.navigation.DeepLinkIntentFactory
 import com.ku_stacks.ku_ring.navigation.Navigator
+import com.ku_stacks.ku_ring.navigation.MainScreenRoute
 import com.ku_stacks.ku_ring.navigation.keys.MainHubKey
 import com.ku_stacks.ku_ring.navigation.keys.NoticeWebKey
 import dagger.hilt.android.AndroidEntryPoint
@@ -93,7 +94,10 @@ class HostActivity : ComponentActivity() {
         // MainScreenRoute가 Intent extras에 있으면 해당 탭으로 이동
         val route = intent.getStringExtra(DeepLinkIntentFactory.INTENT_KEY_ROUTE)
         if (route != null) {
-            return MainHubKey(startTab = route)
+            val validRoute = MainScreenRoute.entries.any { it.route == route }
+            if (validRoute) {
+                return MainHubKey(startTab = route)
+            }
         }
 
         return null

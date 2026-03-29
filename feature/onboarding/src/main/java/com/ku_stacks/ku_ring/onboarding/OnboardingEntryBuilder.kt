@@ -29,6 +29,7 @@ class OnboardingEntryBuilder : EntryBuilderProvider {
             OnboardingScreen(
                 onNavigateToMain = {
                     navigator.replaceAll(MainHubKey())
+                    navigator.consumePendingDeepLink()
                     analytics.click(
                         screenName = "start first Subscription Notification",
                         screenClass = "OnboardingScreen",

@@ -81,6 +81,7 @@ class SplashEntryBuilder : EntryBuilderProvider {
                             navigator.replaceAll(OnboardingKey)
                         } else {
                             navigator.replaceAll(MainHubKey())
+                            navigator.consumePendingDeepLink()
                         }
                     }
                 }

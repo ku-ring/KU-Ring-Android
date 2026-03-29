@@ -11,6 +11,7 @@ import javax.inject.Singleton
 class Navigator @Inject constructor() {
     val backStack: SnapshotStateList<NavKey> = mutableStateListOf(SplashKey)
 
+    @Volatile
     private var pendingDeepLink: NavKey? = null
 
     fun navigate(key: NavKey) {
@@ -29,6 +30,9 @@ class Navigator @Inject constructor() {
     fun replaceAll(key: NavKey) {
         backStack.clear()
         backStack.add(key)
+    }
+
+    fun consumePendingDeepLink() {
         pendingDeepLink?.let { backStack.add(it) }
         pendingDeepLink = null
     }
