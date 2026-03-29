@@ -36,6 +36,7 @@ android {
 
     defaultConfig {
         applicationId = "com.ku_stacks.ku_ring"
+        testInstrumentationRunner = "com.ku_stacks.ku_ring.HiltTestRunner"
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -116,6 +117,7 @@ dependencies {
     implementation(libs.play.services.auth)
     androidTestImplementation(libs.androidx.navigation.testing)
     androidTestImplementation(libs.androidx.espresso.intents)
+    androidTestImplementation(libs.androidx.work.testing)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.crashlytics.ktx)
 }
