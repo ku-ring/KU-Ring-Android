@@ -70,7 +70,11 @@ fun ClubListScreen(
 
     LifecycleResumeEffect(Unit) {
         isLoginDialogVisible = false
-        onPauseOrDispose { }
+        val filterJob = viewModel.observeFilters()
+
+        onPauseOrDispose {
+            filterJob.cancel()
+        }
     }
 
     val lifecycleOwner = LocalLifecycleOwner.current

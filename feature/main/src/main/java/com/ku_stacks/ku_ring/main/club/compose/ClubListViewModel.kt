@@ -67,7 +67,6 @@ class ClubListViewModel @Inject constructor(
 
     init {
         observeInitialCategory()
-        observeFilters()
     }
 
     private fun combineToUiState(
@@ -98,7 +97,7 @@ class ClubListViewModel @Inject constructor(
         }
     }
 
-    private fun observeFilters() {
+    fun observeFilters() =
         viewModelScope.launch {
             _clubListFilter
                 .filterNotNull()
@@ -108,7 +107,6 @@ class ClubListViewModel @Inject constructor(
                     fetchClubSummary(category, divisions)
                 }
         }
-    }
 
     fun updateClubSubscription(clubId: Int) {
         val clubSummary = (_uiState.value as? ClubListUiState.Success)?.clubSummaries
@@ -213,4 +211,3 @@ class ClubListViewModel @Inject constructor(
         _clubListFilter.update { it?.copy(sortOption = sortOption) }
     }
 }
-
