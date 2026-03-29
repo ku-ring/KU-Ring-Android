@@ -230,10 +230,6 @@ compose = [
     'compose-material-icons-core',
     'compose-material-icons-extended',
     'compose-ui',
-    'compose-ui-test',
-    'compose-ui-test-junit4',
-    'compose-ui-test-manifest',
-    'compose-ui-tooling',
     'compose-ui-tooling-preview',
     'androidx-navigation-compose',
 ]
