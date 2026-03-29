@@ -13,6 +13,7 @@ dependencies {
     implementation(projects.core.util)
     implementation(projects.core.composeUtil)
     implementation(projects.core.designsystem)
+    implementation(projects.core.navigation)
     implementation(projects.domain.user)
     implementation(projects.data.verification)
 
