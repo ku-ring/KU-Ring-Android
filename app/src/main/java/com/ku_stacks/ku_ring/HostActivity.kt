@@ -5,21 +5,16 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.runtime.DisposableEffect
 import androidx.core.content.IntentCompat
-import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
-import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import com.ku_stacks.ku_ring.compose.locals.KuringCompositionLocalProvider
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.WebViewNotice
 import com.ku_stacks.ku_ring.navigation.EntryBuilderProvider
-import com.ku_stacks.ku_ring.navigation.NavigationController
+import com.ku_stacks.ku_ring.navigation.Navigator
 import com.ku_stacks.ku_ring.navigation.keys.MainHubKey
 import com.ku_stacks.ku_ring.navigation.keys.NoticeWebKey
-import com.ku_stacks.ku_ring.navigation.keys.SplashKey
-import com.ku_stacks.ku_ring.navigator.KuringNavigatorImpl
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -30,7 +25,7 @@ class HostActivity : ComponentActivity() {
     lateinit var entryBuilders: @JvmSuppressWildcards Set<EntryBuilderProvider>
 
     @Inject
-    lateinit var navigatorImpl: KuringNavigatorImpl
+    lateinit var navigator: Navigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,26 +37,15 @@ class HostActivity : ComponentActivity() {
         setContent {
             KuringCompositionLocalProvider {
                 KuringTheme {
-                    val backStack = rememberNavBackStack(SplashKey)
-
-                    DisposableEffect(backStack) {
-                        navigatorImpl.navigationController = object : NavigationController {
-                            override fun navigate(key: NavKey) {
-                                backStack.add(key)
-                            }
-
-                            override fun popBackStack() {
-                                backStack.removeLastOrNull()
-                            }
-                        }
-                        onDispose {
-                            navigatorImpl.navigationController = null
-                        }
-                    }
-
                     NavDisplay(
-                        backStack = backStack,
-                        onBack = { if (backStack.removeLastOrNull() == null) finish() },
+                        backStack = navigator.backStack,
+                        onBack = {
+                            if (navigator.backStack.size <= 1) {
+                                finish()
+                            } else {
+                                navigator.goBack()
+                            }
+                        },
                         entryProvider = entryProvider {
                             entryBuilders.forEach { builder ->
                                 with(builder) { provide() }
@@ -86,7 +70,7 @@ class HostActivity : ComponentActivity() {
             WebViewNotice::class.java,
         )
         if (webViewNotice != null) {
-            navigatorImpl.navigationController?.navigate(
+            navigator.navigate(
                 NoticeWebKey(
                     url = webViewNotice.url,
                     articleId = webViewNotice.articleId,
@@ -101,7 +85,7 @@ class HostActivity : ComponentActivity() {
         // MainScreenRoute가 Intent extras에 있으면 해당 탭으로 이동
         val route = intent.getStringExtra(INTENT_KEY_ROUTE)
         if (route != null) {
-            navigatorImpl.navigationController?.navigate(MainHubKey(startTab = route))
+            navigator.navigate(MainHubKey(startTab = route))
             return
         }
     }
