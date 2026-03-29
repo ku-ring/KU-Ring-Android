@@ -36,6 +36,7 @@ include(
     ":core:firebase-crashlytics",
     ":core:firebase-messaging",
     ":core:compose-locals",
+    ":core:navigation",
     // data modules
     ":data:domain",
     ":data:domain:testUtils",

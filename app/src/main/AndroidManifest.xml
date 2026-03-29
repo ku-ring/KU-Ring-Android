@@ -27,6 +27,10 @@
         tools:replace="icon, label">
 
         <activity
+            android:name=".HostActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".splash.SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait">

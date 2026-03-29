@@ -73,6 +73,10 @@ gradlePlugin {
             id = "com.ku_stacks.ku_ring.buildlogic.primitive.common-android"
             implementationClass = "com.ku_stacks.ku_ring.buildlogic.primitive.CommonAndroidPlugin"
         }
+        register("com.ku_stacks.ku_ring.buildlogic.primitive.Navigation3Plugin") {
+            id = "com.ku_stacks.ku_ring.buildlogic.primitive.navigation3"
+            implementationClass = "com.ku_stacks.ku_ring.buildlogic.primitive.Navigation3Plugin"
+        }
         register("com.ku_stacks.ku_ring.buildlogic.primitive.AndroidTestPlugin") {
             id = "com.ku_stacks.ku_ring.buildlogic.primitive.android-test"
             implementationClass = "com.ku_stacks.ku_ring.buildlogic.primitive.AndroidTestPlugin"
