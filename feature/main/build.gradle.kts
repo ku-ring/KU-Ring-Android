@@ -37,6 +37,7 @@ dependencies {
     implementation(projects.domain.academicevent)
     implementation(projects.domain.place)
     implementation(projects.domain.navigation)
+    implementation(projects.core.navigation)
 
     implementation(libs.bundles.compose.interop)
     implementation(libs.kotlinx.datetime)

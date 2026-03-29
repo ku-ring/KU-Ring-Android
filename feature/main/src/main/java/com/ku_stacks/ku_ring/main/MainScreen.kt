@@ -36,7 +36,6 @@ import com.ku_stacks.ku_ring.main.campusmap.compose.CampusMapScreen
 import com.ku_stacks.ku_ring.main.club.compose.inner_screen.ClubListScreen
 import com.ku_stacks.ku_ring.main.notice.compose.NoticeScreen
 import com.ku_stacks.ku_ring.main.setting.SettingViewModel
-import com.ku_stacks.ku_ring.main.setting.compose.OpenSourceActivity
 import com.ku_stacks.ku_ring.main.setting.compose.inner_screen.SettingScreen
 import com.ku_stacks.ku_ring.navigation.KuringNavigator
 import com.ku_stacks.ku_ring.navigation.MainScreenRoute
@@ -225,7 +224,7 @@ fun NavGraphBuilder.mainScreenNavGraph(
             onNavigateToServiceTerms = {
                 activity.startWebView(navigator, R.string.notion_terms_of_service_url)
             },
-            onNavigateToOpenSources = { OpenSourceActivity.start(activity) },
+            onNavigateToOpenSources = { navigator.navigateToOpenSource() },
             onNavigateToKuringInstagram = { activity.navigateToKuringInstagram() },
             onNavigateToFeedback = { navigator.navigateToFeedback(activity) },
             onLogoutClick = viewModel::logout,
