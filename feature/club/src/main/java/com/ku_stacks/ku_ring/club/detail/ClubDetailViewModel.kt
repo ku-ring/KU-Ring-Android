@@ -25,8 +25,7 @@ class ClubDetailViewModel @Inject constructor(
     private val clubRepository: ClubRepository,
 ) : ViewModel() {
 
-    var clubId by mutableIntStateOf(savedStateHandle.get<Int>(ClubDetailActivity.CLUB_ID_KEY) ?: -1)
-        private set
+    var clubId by mutableIntStateOf(savedStateHandle.get<Int>(CLUB_ID_KEY) ?: -1)
 
     private val _clubUiState = MutableStateFlow<ClubDetailUiState>(ClubDetailUiState.Loading)
     val clubUiState = _clubUiState.asStateFlow()
@@ -95,5 +94,9 @@ class ClubDetailViewModel @Inject constructor(
                 )
             )
         }
+    }
+
+    companion object {
+        const val CLUB_ID_KEY = "CLUB_ID_KEY"
     }
 }

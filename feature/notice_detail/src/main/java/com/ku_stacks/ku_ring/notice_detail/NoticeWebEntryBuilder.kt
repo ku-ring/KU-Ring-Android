@@ -1,9 +1,8 @@
 package com.ku_stacks.ku_ring.notice_detail
 
-import android.app.Activity
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
@@ -19,7 +18,7 @@ import dagger.multibindings.IntoSet
 class NoticeWebEntryBuilder : EntryBuilderProvider {
     override fun EntryProviderScope<NavKey>.provide() {
         entry<NoticeWebKey> { key ->
-            val context = LocalContext.current
+            val activity = LocalActivity.current
             val webViewNotice = WebViewNotice(
                 url = key.url,
                 articleId = key.articleId,
@@ -31,7 +30,7 @@ class NoticeWebEntryBuilder : EntryBuilderProvider {
             NoticeDetailScreen(
                 navController = navController,
                 webViewNotice = webViewNotice,
-                onClose = { (context as? Activity)?.finish() },
+                onClose = { activity?.finish() },
                 modifier = Modifier.fillMaxSize(),
             )
         }

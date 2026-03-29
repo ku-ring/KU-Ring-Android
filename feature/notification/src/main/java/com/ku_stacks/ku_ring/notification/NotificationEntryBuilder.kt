@@ -1,7 +1,6 @@
 package com.ku_stacks.ku_ring.notification
 
-import android.app.Activity
-import androidx.compose.ui.platform.LocalContext
+import androidx.activity.compose.LocalActivity
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.ku_stacks.ku_ring.compose.locals.LocalNavigator
@@ -18,10 +17,10 @@ class NotificationEntryBuilder : EntryBuilderProvider {
     override fun EntryProviderScope<NavKey>.provide() {
         entry<NotificationKey> {
             val navigator = LocalNavigator.current
-            val context = LocalContext.current
+            val activity = LocalActivity.current
             NotificationScreen(
-                onNavigateUp = { (context as? Activity)?.finish() },
-                onNavigateToEditSubscription = { navigator.navigateToEditSubscription(context as Activity) },
+                onNavigateUp = { activity?.finish() },
+                onNavigateToEditSubscription = { activity?.let { navigator.navigateToEditSubscription(it) } },
                 onNotificationClick = {},
             )
         }

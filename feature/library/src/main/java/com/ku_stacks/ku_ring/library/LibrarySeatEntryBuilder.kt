@@ -1,11 +1,11 @@
 package com.ku_stacks.ku_ring.library
 
-import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.widget.Toast
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -24,9 +24,10 @@ import timber.log.Timber
 class LibrarySeatEntryBuilder : EntryBuilderProvider {
     override fun EntryProviderScope<NavKey>.provide() {
         entry<LibrarySeatKey> {
+            val activity = LocalActivity.current
             val context = LocalContext.current
             LibrarySeatScreen(
-                onNavigateBack = { (context as? Activity)?.finish() },
+                onNavigateBack = { activity?.finish() },
                 onLaunchLibraryIntent = {
                     try {
                         context.packageManager.getPackageInfo(

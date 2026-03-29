@@ -1,11 +1,12 @@
 package com.ku_stacks.ku_ring.club.detail
 
-import android.app.Activity
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
@@ -21,9 +22,13 @@ import dagger.multibindings.IntoSet
 class ClubDetailEntryBuilder : EntryBuilderProvider {
     override fun EntryProviderScope<NavKey>.provide() {
         entry<ClubDetailKey> { key ->
+            val activity = LocalActivity.current
             val context = LocalContext.current
+            val viewModel = hiltViewModel<ClubDetailViewModel>()
+            viewModel.clubId = key.clubId
             ClubDetailScreen(
-                onBack = { (context as? Activity)?.finish() },
+                viewModel = viewModel,
+                onBack = { activity?.finish() },
                 onMoveToRecruitmentLink = context::navigateToExternalBrowser,
                 modifier = Modifier
                     .background(KuringTheme.colors.background)

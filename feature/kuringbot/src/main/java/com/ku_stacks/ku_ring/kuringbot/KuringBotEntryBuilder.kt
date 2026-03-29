@@ -1,10 +1,9 @@
 package com.ku_stacks.ku_ring.kuringbot
 
-import android.app.Activity
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.ku_stacks.ku_ring.compose.locals.LocalNavigator
@@ -21,10 +20,10 @@ class KuringBotEntryBuilder : EntryBuilderProvider {
     override fun EntryProviderScope<NavKey>.provide() {
         entry<KuringBotKey> {
             val navigator = LocalNavigator.current
-            val context = LocalContext.current
+            val activity = LocalActivity.current
             KuringBotScreen(
-                onBackButtonClick = { (context as? Activity)?.finish() },
-                onMoveToLogin = { navigator.navigateToAuth(context) },
+                onBackButtonClick = { activity?.finish() },
+                onMoveToLogin = { activity?.let { navigator.navigateToAuth(it) } },
                 modifier = Modifier
                     .imePadding()
                     .fillMaxSize(),

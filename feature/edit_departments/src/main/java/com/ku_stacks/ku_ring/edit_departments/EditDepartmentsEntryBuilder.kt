@@ -1,10 +1,9 @@
 package com.ku_stacks.ku_ring.edit_departments
 
-import android.app.Activity
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
@@ -20,9 +19,9 @@ import dagger.multibindings.IntoSet
 class EditDepartmentsEntryBuilder : EntryBuilderProvider {
     override fun EntryProviderScope<NavKey>.provide() {
         entry<EditDepartmentsKey> {
-            val context = LocalContext.current
+            val activity = LocalActivity.current
             EditDepartmentsScreen(
-                onClose = { (context as? Activity)?.finish() },
+                onClose = { activity?.finish() },
                 modifier = Modifier
                     .fillMaxSize()
                     .background(KuringTheme.colors.background),

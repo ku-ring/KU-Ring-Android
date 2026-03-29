@@ -1,9 +1,8 @@
 package com.ku_stacks.ku_ring.edit_subscription
 
-import android.app.Activity
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.ku_stacks.ku_ring.compose.locals.LocalNavigator
@@ -20,12 +19,12 @@ class EditSubscriptionEntryBuilder : EntryBuilderProvider {
     override fun EntryProviderScope<NavKey>.provide() {
         entry<EditSubscriptionKey> {
             val navigator = LocalNavigator.current
-            val context = LocalContext.current
+            val activity = LocalActivity.current
             EditSubscriptionScreen(
-                onNavigateToBack = { (context as? Activity)?.finish() },
-                onFinish = { (context as? Activity)?.finish() },
+                onNavigateToBack = { activity?.finish() },
+                onFinish = { activity?.finish() },
                 onAddDepartmentButtonClick = {
-                    navigator.navigateToEditSubscribedDepartment(context as Activity)
+                    activity?.let { navigator.navigateToEditSubscribedDepartment(it) }
                 },
                 modifier = Modifier.fillMaxSize(),
             )
