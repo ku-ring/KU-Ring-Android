@@ -25,7 +25,7 @@ class PushEntity(
 @Serializable
 sealed class PushContent {
     /**
-     * 공지사항 알림을 구분하기 위한 타입
+     * 공지사항 알림
      */
     @Serializable
     data class Notice(
@@ -38,7 +38,7 @@ sealed class PushContent {
     ) : PushContent()
 
     /**
-     * 동아리 알림을 구분하기 위한 타입
+     * 동아리 알림
      */
     @Serializable
     data class Club(
@@ -48,11 +48,19 @@ sealed class PushContent {
     ) : PushContent()
 
     /**
-     * 학사 일정과 커스텀 알림을 구분하기 위한 타입
+     * 학사 일정 알림
      */
     @Serializable
-    data class Common(
-        val pushType: String,
+    data class Academic(
+        val title: String,
+        val body: String,
+    ) : PushContent()
+
+    /**
+     * 커스텀(관리자) 알림
+     */
+    @Serializable
+    data class Custom(
         val title: String,
         val body: String,
     ) : PushContent()

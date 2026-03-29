@@ -28,7 +28,6 @@ object KuringNotificationManager {
     fun showCustomNotification(
         context: Context,
         intent: Intent,
-        type: String,
         title: String,
         body: String,
         @DrawableRes largeIconRes: Int,
@@ -65,6 +64,19 @@ object KuringNotificationManager {
     ) {
         val notification = createNotification(context, intent, title, body, largeIconRes, smallIconRes)
         sendNotification(context, notification, ACADEMIC_EVENT_NOTIFICATION)
+    }
+
+    fun showClubNotification(
+        context: Context,
+        intent: Intent,
+        title: String,
+        body: String,
+        @DrawableRes largeIconRes: Int,
+        @DrawableRes smallIconRes: Int,
+    ) {
+        val notification =
+            createNotification(context, intent, title, body, largeIconRes, smallIconRes)
+        sendNotification(context, notification, CLUB_NOTIFICATION)
     }
 
     private fun createNotification(
@@ -130,4 +142,5 @@ object KuringNotificationManager {
     private const val CUSTOM_NOTIFICATION = 1
     private const val REENGAGEMENT_NOTIFICATION = 2
     private const val ACADEMIC_EVENT_NOTIFICATION = 3
+    private const val CLUB_NOTIFICATION = 4
 }

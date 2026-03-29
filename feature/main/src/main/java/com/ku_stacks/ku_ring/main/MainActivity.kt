@@ -74,7 +74,6 @@ class MainActivity : AppCompatActivity() {
                     openAppNotificationSettings = { launchAppNotificationSettings() }
                 )
 
-                val navController = rememberNavController()
                 MainScreen(
                     navController = navController,
                     modifier = Modifier

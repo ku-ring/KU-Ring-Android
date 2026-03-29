@@ -17,7 +17,8 @@ internal fun PushEntity.toDomain() = Notification(
 private fun PushContent.toCategory(): NotificationCategory = when (this) {
     is PushContent.Notice -> NotificationCategory.NOTICE
     is PushContent.Club -> NotificationCategory.CLUB
-    is PushContent.Common -> NotificationCategory.from(pushType)
+    is PushContent.Academic -> NotificationCategory.ACADEMIC_EVENT
+    is PushContent.Custom -> NotificationCategory.CUSTOM
 }
 
 private fun PushContent.toDomain(): NotificationContent = when (this) {
@@ -28,12 +29,19 @@ private fun PushContent.toDomain(): NotificationContent = when (this) {
         fullUrl = fullUrl,
         postedDate = postedDate,
     )
+
     is PushContent.Club -> NotificationContent.Club(
         clubId = clubId,
         title = title,
         body = body,
     )
-    is PushContent.Common -> NotificationContent.Common(
+
+    is PushContent.Academic -> NotificationContent.Common(
+        title = title,
+        body = body,
+    )
+
+    is PushContent.Custom -> NotificationContent.Common(
         title = title,
         body = body,
     )

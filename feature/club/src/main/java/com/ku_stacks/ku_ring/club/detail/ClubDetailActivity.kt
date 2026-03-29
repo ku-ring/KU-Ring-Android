@@ -38,12 +38,25 @@ class ClubDetailActivity : ComponentActivity() {
         }
     }
 
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+    }
+
     companion object {
         fun start(context: Context, clubId: Int) {
             val intent = Intent(context, ClubDetailActivity::class.java).apply {
                 putExtra(CLUB_ID_KEY, clubId)
             }
             context.startActivity(intent)
+        }
+
+        fun createIntent(context: Context, clubId: Int): Intent {
+            return Intent(context, ClubDetailActivity::class.java)
+                .apply {
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    putExtra(CLUB_ID_KEY, clubId)
+                }
         }
 
         const val CLUB_ID_KEY = "CLUB_ID_KEY"

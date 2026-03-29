@@ -45,5 +45,6 @@ interface KuringNavigator {
     fun navigateToSignOut(context: Context)
     fun navigateToClubOnboarding(context: Context)
     fun navigateToClubDetail(context: Context, clubId: Int)
+    fun createClubDetailIntent(context: Context, clubId: Int): Intent
     fun navigateToClubSubscription(context: Context)
 }
