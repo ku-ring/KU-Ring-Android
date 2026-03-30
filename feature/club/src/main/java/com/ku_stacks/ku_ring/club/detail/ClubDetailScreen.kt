@@ -359,6 +359,7 @@ private fun ClubLocationButton(
         horizontalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         Icon(
+            modifier = Modifier.size(24.dp),
             painter = painterResource(id = R.drawable.ic_map_pin_v2),
             contentDescription = null,
             tint = KuringTheme.colors.textBody,
