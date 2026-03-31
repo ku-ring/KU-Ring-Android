@@ -114,6 +114,7 @@ fun ClubItemCard(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
+                        modifier = Modifier.weight(1f),
                         text = clubSummary.name,
                         style = KuringTheme.typography.body1.ensureLineHeight(),
                         color = KuringTheme.colors.textTitle,
