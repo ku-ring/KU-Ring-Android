@@ -14,6 +14,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -23,6 +26,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
@@ -49,6 +53,18 @@ fun ClubSubscriptionScreen(
 ) {
     val sortOption by viewModel.sortOption.collectAsStateWithLifecycle()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    // 컴포지션 단계에서 refreshClubSubscription으로 인해
+    // 동아리 목록 api가 두 번 이상 호출되는 것을 방지하기 위한 플래그
+    var hasResumedOnce by remember { mutableStateOf(false) }
+
+    LifecycleResumeEffect(Unit) {
+        if (hasResumedOnce) {
+            viewModel.refreshSubscriptions()
+        }
+        hasResumedOnce = true
+        onPauseOrDispose { }
+    }
 
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current

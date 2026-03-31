@@ -85,6 +85,18 @@ class ClubSubscriptionViewModel @Inject constructor(
             }
     }
 
+    fun refreshSubscriptions() {
+        viewModelScope.launch {
+            if (_uiState.value !is ClubSubscriptionUiState.Success) return@launch
+            clubRepository.getSubscribedClubs()
+                .onSuccess { result ->
+                    _subscribedIds.update {
+                        result.filter { it.isSubscribed }.map { it.id }.toSet()
+                    }
+                }
+        }
+    }
+
     fun updateClubSubscription(clubId: Int) {
         val isSubscribed = !_subscribedIds.value.contains(clubId)
         val isSubscribedPrevious =
