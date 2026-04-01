@@ -120,7 +120,8 @@ class ClubListViewModel @Inject constructor(
             val filter = _clubListFilter.value ?: return@launch
 
             clubRepository.getClubs(filter.selectedCategory, filter.selectedDivisions)
-                .onSuccess(action = ::updateClubSubscriptionIds)
+                .onSuccess(::updateClubSubscriptionIds)
+                .onFailure(Timber::e)
         }
     }
 
