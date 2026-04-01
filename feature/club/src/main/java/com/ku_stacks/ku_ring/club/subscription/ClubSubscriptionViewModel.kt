@@ -93,6 +93,10 @@ class ClubSubscriptionViewModel @Inject constructor(
                     _subscribedIds.update {
                         result.filter { it.isSubscribed }.map { it.id }.toSet()
                     }
+                    _uiState.update { ClubSubscriptionUiState.Success(result) }
+                }
+                .onFailure { e ->
+                    Timber.e(e)
                 }
         }
     }
