@@ -37,6 +37,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.IntOffset
@@ -170,6 +171,7 @@ private fun ForegroundContent(
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(4.dp),
+            modifier = Modifier.weight(1f)
         ) {
             Row(
                 horizontalArrangement = Arrangement.spacedBy(2.dp),
@@ -192,6 +194,7 @@ private fun ForegroundContent(
                 style = KuringTheme.typography.body1.ensureLineHeight(),
                 color = KuringTheme.colors.textBody,
                 maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
             )
         }
 
