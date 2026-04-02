@@ -25,7 +25,7 @@ data class ClubDetailResponse(
     val applyUrl: String?,
     @SerialName("posterImageUrl")
     val descriptionImageUrl: String?,
-    val location: ClubRoomLocation,
+    val location: ClubRoomLocation?,
 )
 
 @Serializable

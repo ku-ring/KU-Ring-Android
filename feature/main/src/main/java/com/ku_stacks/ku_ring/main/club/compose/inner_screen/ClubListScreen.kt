@@ -68,13 +68,17 @@ fun ClubListScreen(
     var isLoginDialogVisible by remember { mutableStateOf(false) }
     var isDivisionBottomSheetVisible by remember { mutableStateOf(false) }
 
+    // 컴포지션 단계에서 refreshClubSubscription으로 인해
+    // 동아리 목록 api가 두 번 이상 호출되는 것을 방지하기 위한 플래그
+    var hasResumedOnce by remember { mutableStateOf(false) }
+
     LifecycleResumeEffect(Unit) {
         isLoginDialogVisible = false
-        val filterJob = viewModel.observeFilters()
-
-        onPauseOrDispose {
-            filterJob.cancel()
+        if (hasResumedOnce) {
+            viewModel.refreshClubSubscription()
         }
+        hasResumedOnce = true
+        onPauseOrDispose { }
     }
 
     val lifecycleOwner = LocalLifecycleOwner.current

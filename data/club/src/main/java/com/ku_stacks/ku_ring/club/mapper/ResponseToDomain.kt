@@ -20,7 +20,7 @@ fun ClubDetailResponse.toClub(): Club {
         category = category.uppercase().toEnumOrDefault<ClubCategory>(ClubCategory.ALL),
         division = division.uppercase().toEnumOrDefault<ClubDivision>(ClubDivision.ETC),
         description = description ?: "",
-        location = location.toLocation(),
+        location = location?.toLocation(),
         applyQualification = qualifications,
         recruitment = parseRecruitment(),
         webUrl = listOfNotNull(instagramUrl, youtubeUrl, etcUrl),

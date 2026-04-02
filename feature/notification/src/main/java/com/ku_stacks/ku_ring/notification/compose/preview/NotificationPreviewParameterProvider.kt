@@ -10,7 +10,7 @@ class NotificationPreviewParameterProvider : PreviewParameterProvider<Notificati
         id = 1,
         category = NotificationCategory.NOTICE,
         isNew = true,
-        receivedDate = "3일전",
+        receivedDate = "20260330-000000",
         content = NotificationContent.Notice(
             articleId = "1",
             noticeCategory = "공지",

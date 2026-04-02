@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ku_stacks.ku_ring.domain.ClubCategory
 import com.ku_stacks.ku_ring.domain.ClubDivision
+import com.ku_stacks.ku_ring.domain.ClubSummary
 import com.ku_stacks.ku_ring.domain.club.ClubRepository
 import com.ku_stacks.ku_ring.domain.club.usecase.ApplyClubSubscriptionUseCase
 import com.ku_stacks.ku_ring.domain.club.usecase.SortClubSummariesUseCase
@@ -67,6 +68,7 @@ class ClubListViewModel @Inject constructor(
 
     init {
         observeInitialCategory()
+        observeFilters()
     }
 
     private fun combineToUiState(
@@ -97,7 +99,7 @@ class ClubListViewModel @Inject constructor(
         }
     }
 
-    fun observeFilters() =
+    private fun observeFilters() {
         viewModelScope.launch {
             _clubListFilter
                 .filterNotNull()
@@ -107,6 +109,21 @@ class ClubListViewModel @Inject constructor(
                     fetchClubSummary(category, divisions)
                 }
         }
+    }
+
+    /**
+     * 로컬과 서버의 동아리 구독 상태를 동기화하기 위한 업데이트 메서드입니다.
+     */
+    fun refreshClubSubscription() {
+        viewModelScope.launch {
+            if (_uiState.value !is ClubListUiState.Success) return@launch
+            val filter = _clubListFilter.value ?: return@launch
+
+            clubRepository.getClubs(filter.selectedCategory, filter.selectedDivisions)
+                .onSuccess(::updateClubSubscriptionIds)
+                .onFailure(Timber::e)
+        }
+    }
 
     fun updateClubSubscription(clubId: Int) {
         val clubSummary = (_uiState.value as? ClubListUiState.Success)?.clubSummaries
@@ -179,12 +196,7 @@ class ClubListViewModel @Inject constructor(
         // API 호출 후 UI 상태 및 구독 상태 업데이트
         clubRepository.getClubs(category, divisions)
             .onSuccess { clubSummaries ->
-                _subscribedIds.update {
-                    clubSummaries.asSequence()
-                        .filter { it.isSubscribed }
-                        .map { it.id }
-                        .toSet()
-                }
+                updateClubSubscriptionIds(clubSummaries)
                 _uiState.update { ClubListUiState.Success(clubSummaries) }
             }
             .onFailure { e ->
@@ -209,5 +221,14 @@ class ClubListViewModel @Inject constructor(
 
     fun updateSortOption(sortOption: ClubSortOption) {
         _clubListFilter.update { it?.copy(sortOption = sortOption) }
+    }
+
+    fun updateClubSubscriptionIds(clubSummaries: List<ClubSummary>) {
+        _subscribedIds.update {
+            clubSummaries.asSequence()
+                .filter { it.isSubscribed }
+                .map { it.id }
+                .toSet()
+        }
     }
 }
