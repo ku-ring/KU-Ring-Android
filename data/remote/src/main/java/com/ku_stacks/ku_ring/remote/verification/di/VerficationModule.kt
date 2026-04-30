@@ -1,6 +1,5 @@
 package com.ku_stacks.ku_ring.remote.verification.di
 
-import com.ku_stacks.ku_ring.remote.verification.VerificationClient
 import com.ku_stacks.ku_ring.remote.verification.VerificationService
 import dagger.Module
 import dagger.Provides
@@ -15,6 +14,6 @@ import javax.inject.Singleton
 object VerificationModule {
     @Provides
     @Singleton
-    fun provideVerificationService(@Named("Default") retrofit: Retrofit): VerificationService =
+    fun provideVerificationService(@Named("KotlinxSerialization") retrofit: Retrofit): VerificationService =
         retrofit.create(VerificationService::class.java)
 }
