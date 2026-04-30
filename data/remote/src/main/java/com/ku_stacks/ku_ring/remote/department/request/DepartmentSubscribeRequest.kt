@@ -1,8 +1,10 @@
 package com.ku_stacks.ku_ring.remote.department.request
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class DepartmentSubscribeRequest(
-    @SerializedName(value = "departments")
+    @SerialName(value = "departments")
     val departments: List<String>,
 )

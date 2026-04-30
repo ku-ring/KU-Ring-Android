@@ -14,7 +14,7 @@ import javax.inject.Singleton
 object DepartmentModule {
     @Provides
     @Singleton
-    fun provideDepartmentService(@Named("Default") retrofit: Retrofit): DepartmentService {
+    fun provideDepartmentService(@Named("KotlinxSerialization") retrofit: Retrofit): DepartmentService {
         return retrofit.create(DepartmentService::class.java)
     }
 }
