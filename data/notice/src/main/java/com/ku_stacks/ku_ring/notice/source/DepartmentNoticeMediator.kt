@@ -64,7 +64,8 @@ class DepartmentNoticeMediator(
             important = true
         )
         val data =
-            importNoticesResponse.data ?: throw IllegalStateException("noticeResponse is null")
+            importNoticesResponse.data
+                ?: throw IllegalStateException("importNoticesResponse is null")
 
 
         val startDate = getAppStartedDate()

@@ -93,7 +93,7 @@ class UserRepositoryImpl @Inject constructor(
         )
     }.map { response ->
         with(response) {
-            if (isSuccess) data?.let { pref.accessToken = it.accessToken }
+            if (isSuccessAndDataExists) data?.let { pref.accessToken = it.accessToken }
             else Timber.e(resultMsg)
         }
     }
