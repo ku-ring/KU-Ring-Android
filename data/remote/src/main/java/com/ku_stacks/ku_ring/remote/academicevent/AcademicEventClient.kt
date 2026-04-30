@@ -1,6 +1,7 @@
 package com.ku_stacks.ku_ring.remote.academicevent
 
-import com.ku_stacks.ku_ring.remote.academicevent.response.AcademicEventListResponse
+import com.ku_stacks.ku_ring.remote.academicevent.response.AcademicEventResponse
+import com.ku_stacks.ku_ring.remote.util.DefaultResponse
 import javax.inject.Inject
 
 class AcademicEventClient @Inject constructor(
@@ -9,5 +10,6 @@ class AcademicEventClient @Inject constructor(
     suspend fun fetchAcademicEvents(
         startDate: String?,
         endDate: String?,
-    ): AcademicEventListResponse = academicEventService.fetchAcademicEvents(startDate, endDate)
+    ): DefaultResponse<List<AcademicEventResponse>> =
+        academicEventService.fetchAcademicEvents(startDate, endDate)
 }

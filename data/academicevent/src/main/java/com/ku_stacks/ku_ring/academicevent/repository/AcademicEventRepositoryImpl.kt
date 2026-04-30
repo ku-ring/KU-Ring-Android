@@ -26,7 +26,8 @@ class AcademicEventRepositoryImpl @Inject constructor(
         endDate: String?,
     ): Result<Unit> = suspendRunCatching {
         val response = academicEventClient.fetchAcademicEvents(startDate, endDate)
-        val eventEntities = response.data.toEntity()
+        val eventEntities = response.data?.toEntity()
+            ?: throw IllegalStateException(response.resultMsg)
         insertAcademicEventsIntoDB(eventEntities)
     }
 

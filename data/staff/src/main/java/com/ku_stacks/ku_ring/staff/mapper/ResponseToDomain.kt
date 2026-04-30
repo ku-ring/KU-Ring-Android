@@ -1,9 +1,10 @@
 package com.ku_stacks.ku_ring.staff.mapper
 
 import com.ku_stacks.ku_ring.domain.Staff
-import com.ku_stacks.ku_ring.remote.staff.response.SearchStaffListResponse
+import com.ku_stacks.ku_ring.remote.staff.response.SearchStaffDataResponse
+import com.ku_stacks.ku_ring.remote.util.DefaultResponse
 
-fun SearchStaffListResponse.toStaffList(): List<Staff> {
+fun DefaultResponse<SearchStaffDataResponse>.toStaffList(): List<Staff> {
     return data?.staffList?.map {
         Staff(
             name = it.name,
