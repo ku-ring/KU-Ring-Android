@@ -14,7 +14,7 @@ import javax.inject.Singleton
 object StaffModule {
     @Provides
     @Singleton
-    fun provideSearchService(@Named("Default") retrofit: Retrofit): StaffService {
+    fun provideSearchService(@Named("KotlinxSerialization") retrofit: Retrofit): StaffService {
         return retrofit.create(StaffService::class.java)
     }
 }
