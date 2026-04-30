@@ -1,7 +1,9 @@
 package com.ku_stacks.ku_ring.remote.space.response
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 class AppVersionResponse(
-    @SerializedName("minimum_version") val minimumAppVersion: String,
+    @SerialName("minimum_version") val minimumAppVersion: String,
 )
