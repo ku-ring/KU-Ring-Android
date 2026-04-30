@@ -24,7 +24,6 @@ object LibraryTestUtil {
                         roomName = "열람실",
                         sortOrder = 1
                     ),
-                    awaitable = true,
                     isChargeable = true,
                     branch = LibraryRoomBranchResponse(
                         id = 1,
