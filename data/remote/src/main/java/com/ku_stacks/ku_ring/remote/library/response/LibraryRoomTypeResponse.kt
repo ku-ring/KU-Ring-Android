@@ -1,12 +1,14 @@
 package com.ku_stacks.ku_ring.remote.library.response
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class LibraryRoomTypeResponse(
-    @SerializedName("id")
+    @SerialName("id")
     val id: Int,
-    @SerializedName("name")
+    @SerialName("name")
     val roomName: String,
-    @SerializedName("sortOrder")
+    @SerialName("sortOrder")
     val sortOrder: Int,
 )

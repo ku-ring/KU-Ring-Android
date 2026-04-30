@@ -1,22 +1,22 @@
 package com.ku_stacks.ku_ring.remote.library.response
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class LibraryRoomResponse(
-    @SerializedName("id")
+    @SerialName("id")
     val id: Int,
-    @SerializedName("name")
+    @SerialName("name")
     val roomName: String,
-    @SerializedName("roomType")
+    @SerialName("roomType")
     val roomType: LibraryRoomTypeResponse,
-    @SerializedName("awaitable")
-    val awaitable: Boolean,
-    @SerializedName("isChargeable")
+    @SerialName("isChargeable")
     val isChargeable: Boolean,
-    @SerializedName("branch")
+    @SerialName("branch")
     val branch: LibraryRoomBranchResponse,
-    @SerializedName("unableMessage")
+    @SerialName("unableMessage")
     val unableMessage: String?,
-    @SerializedName("seats")
+    @SerialName("seats")
     val seats: LibraryRoomSeatResponse,
 )

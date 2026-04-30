@@ -1,14 +1,16 @@
 package com.ku_stacks.ku_ring.remote.library.response
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class LibraryRoomSeatResponse(
-    @SerializedName("total")
+    @SerialName("total")
     val total: Int,
-    @SerializedName("occupied")
+    @SerialName("occupied")
     val occupied: Int,
-    @SerializedName("waiting")
+    @SerialName("waiting")
     val waiting: Int,
-    @SerializedName("available")
+    @SerialName("available")
     val available: Int,
 )
