@@ -1,12 +1,12 @@
 package com.ku_stacks.ku_ring.remote.department.di
 
 import com.ku_stacks.ku_ring.remote.department.DepartmentService
+import com.ku_stacks.ku_ring.remote.util.Default
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -14,7 +14,7 @@ import javax.inject.Singleton
 object DepartmentModule {
     @Provides
     @Singleton
-    fun provideDepartmentService(@Named("KotlinxSerialization") retrofit: Retrofit): DepartmentService {
+    fun provideDepartmentService(@Default retrofit: Retrofit): DepartmentService {
         return retrofit.create(DepartmentService::class.java)
     }
 }

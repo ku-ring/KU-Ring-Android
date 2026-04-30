@@ -2,12 +2,12 @@ package com.ku_stacks.ku_ring.remote.notice.di
 
 import com.ku_stacks.ku_ring.remote.notice.NoticeClient
 import com.ku_stacks.ku_ring.remote.notice.NoticeService
+import com.ku_stacks.ku_ring.remote.util.Default
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -15,7 +15,7 @@ import javax.inject.Singleton
 object NoticeModule {
     @Provides
     @Singleton
-    fun provideNoticeService(@Named("KotlinxSerialization") retrofit: Retrofit): NoticeService {
+    fun provideNoticeService(@Default retrofit: Retrofit): NoticeService {
         return retrofit.create(NoticeService::class.java)
     }
 

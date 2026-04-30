@@ -19,7 +19,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -49,7 +48,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    @Named("KotlinxSerialization")
+    @Default
     fun provideKotlinxSerializationRetrofit(
         okHttpClient: OkHttpClient,
         converterFactory: Converter.Factory,
@@ -63,7 +62,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    @Named("KuringSpace")
+    @KuringSpace
     fun provideKuringSpaceRetrofit(
         okHttpClient: OkHttpClient,
         converterFactory: Converter.Factory,
@@ -89,7 +88,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    @Named("Library")
+    @Library
     fun provideLibraryRetrofit(
         okHttpClient: OkHttpClient,
         converterFactory: Converter.Factory,

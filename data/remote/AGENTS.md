@@ -300,7 +300,7 @@ val mockService = mock<NoticeService> {
    object MyModule {
        @Provides
        @Singleton
-       fun provideMyService(@Named("Default") retrofit: Retrofit): MyService {
+       fun provideMyService(@Default retrofit: Retrofit): MyService {
            return retrofit.create(MyService::class.java)
        }
    }

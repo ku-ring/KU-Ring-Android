@@ -2,12 +2,12 @@ package com.ku_stacks.ku_ring.remote.report.di
 
 import com.ku_stacks.ku_ring.remote.report.ReportClient
 import com.ku_stacks.ku_ring.remote.report.ReportService
+import com.ku_stacks.ku_ring.remote.util.Default
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -15,7 +15,7 @@ import javax.inject.Singleton
 object ReportModule {
     @Provides
     @Singleton
-    fun provideReportService(@Named("KotlinxSerialization") retrofit: Retrofit): ReportService {
+    fun provideReportService(@Default retrofit: Retrofit): ReportService {
         return retrofit.create(ReportService::class.java)
     }
 
