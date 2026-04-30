@@ -139,7 +139,8 @@ class NoticeRepositoryImpl @Inject constructor(
     }
 
     override suspend fun fetchSubscriptionFromRemote(token: String): List<String> {
-        return noticeClient.fetchSubscribe(token).categoryList.map { it.koreanName }
+        val categories = noticeClient.fetchSubscribe(token).data
+        return categories?.map { it.koreanName } ?: emptyList()
     }
 
     override suspend fun saveSubscriptionToRemote(

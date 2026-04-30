@@ -1,22 +1,24 @@
 package com.ku_stacks.ku_ring.remote.notice.response
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class NoticeResponse(
-    @SerializedName(value = "id")
+    @SerialName(value = "id")
     val id: Int,
-    @SerializedName(value = "articleId")
+    @SerialName(value = "articleId")
     val articleId: String,
-    @SerializedName(value = "postedDate")
+    @SerialName(value = "postedDate")
     val postedDate: String,
-    @SerializedName(value = "subject")
+    @SerialName(value = "subject")
     val subject: String,
-    @SerializedName(value = "url")
+    @SerialName(value = "url")
     val url: String,
-    @SerializedName(value = "category")
+    @SerialName(value = "category")
     val category: String,
-    @SerializedName("important")
+    @SerialName("important")
     val isImportant: Boolean,
-    @SerializedName("commentCount")
-    val commentCount: Int,
+    @SerialName("commentCount")
+    val commentCount: Int = 0,
 )

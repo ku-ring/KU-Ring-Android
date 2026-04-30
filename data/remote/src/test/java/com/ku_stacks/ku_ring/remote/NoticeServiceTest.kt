@@ -33,15 +33,17 @@ class NoticeServiceTest : ApiAbstract<NoticeService>() {
         val response = service.fetchNoticeList("bch", 0, 20)
         mockWebServer.takeRequest()
 
+        val noticeResponse = response.data ?: throw IllegalStateException("Data should not be null")
+
         // then
-        assertEquals(3, response.noticeResponse.size)
+        assertEquals(3, noticeResponse.size)
 
         assertEquals(true, response.isSuccess)
-        assertEquals(12345, response.noticeResponse[0].id)
-        assertEquals("5b45b56", response.noticeResponse[0].articleId)
-        assertEquals("student", response.noticeResponse[0].category)
-        assertEquals("20220105", response.noticeResponse[0].postedDate)
-        assertEquals("subject_1", response.noticeResponse[0].subject)
+        assertEquals(12345, noticeResponse[0].id)
+        assertEquals("5b45b56", noticeResponse[0].articleId)
+        assertEquals("student", noticeResponse[0].category)
+        assertEquals("20220105", noticeResponse[0].postedDate)
+        assertEquals("subject_1", noticeResponse[0].subject)
     }
 
     @Test
@@ -54,12 +56,16 @@ class NoticeServiceTest : ApiAbstract<NoticeService>() {
         val response = service.fetchSubscribeList(mockToken)
         mockWebServer.takeRequest()
 
+        val categoryList = response.data ?: throw IllegalStateException("Data should not be null")
+
+        println(categoryList)
+
         // then
         assertEquals(true, response.isSuccess)
-        assertEquals(2, response.categoryList.size)
-        assertEquals("student", response.categoryList[0].name)
-        assertEquals("stu", response.categoryList[0].shortName)
-        assertEquals("학생", response.categoryList[0].koreanName)
+        assertEquals(2, categoryList.size)
+        assertEquals("student", categoryList[0].name)
+        assertEquals("stu", categoryList[0].shortName)
+        assertEquals("학생", categoryList[0].koreanName)
     }
 
     @Test
@@ -97,10 +103,14 @@ class NoticeServiceTest : ApiAbstract<NoticeService>() {
         )
         mockWebServer.takeRequest()
 
-        assertEquals(200, mockResponse.code)
-        assertEquals(20, mockResponse.data.size)
+        val noticeList = mockResponse.data ?: throw IllegalStateException("Data should not be null")
 
-        val notice = mockResponse.data[0]
+        // then
+
+        assertEquals(200, mockResponse.resultCode)
+        assertEquals(20, noticeList.size)
+
+        val notice = noticeList[0]
         assertEquals("182677", notice.articleId)
         assertEquals("2023-05-02", notice.postedDate)
         assertEquals(

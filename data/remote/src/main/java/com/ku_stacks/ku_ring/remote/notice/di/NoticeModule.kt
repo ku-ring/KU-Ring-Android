@@ -15,7 +15,7 @@ import javax.inject.Singleton
 object NoticeModule {
     @Provides
     @Singleton
-    fun provideNoticeService(@Named("Default") retrofit: Retrofit): NoticeService {
+    fun provideNoticeService(@Named("KotlinxSerialization") retrofit: Retrofit): NoticeService {
         return retrofit.create(NoticeService::class.java)
     }
 

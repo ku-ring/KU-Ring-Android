@@ -1,9 +1,11 @@
 package com.ku_stacks.ku_ring.remote.notice.response
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class CategoryResponse(
-    @SerializedName("name") val name: String,
-    @SerializedName("hostPrefix") val shortName: String,
-    @SerializedName("korName") val koreanName: String,
+    @SerialName("name") val name: String,
+    @SerialName("hostPrefix") val shortName: String,
+    @SerialName("korName") val koreanName: String,
 )

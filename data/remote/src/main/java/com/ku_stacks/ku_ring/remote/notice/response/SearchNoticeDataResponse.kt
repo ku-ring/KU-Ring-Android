@@ -1,7 +1,7 @@
 package com.ku_stacks.ku_ring.remote.notice.response
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 
 data class SearchNoticeDataResponse(
-    @SerializedName("noticeList") val noticeList: List<SearchNoticeResponse>
+    @SerialName("noticeList") val noticeList: List<SearchNoticeResponse>
 )
