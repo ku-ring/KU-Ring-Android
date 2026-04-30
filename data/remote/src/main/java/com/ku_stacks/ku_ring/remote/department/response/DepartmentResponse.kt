@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class DepartmentResponse(
-    val name: String?,
+    @SerialName("name") val name: String?,
     @SerialName("hostPrefix") val shortName: String?,
-    val korName: String?,
+    @SerialName("korName") val korName: String?,
 )
