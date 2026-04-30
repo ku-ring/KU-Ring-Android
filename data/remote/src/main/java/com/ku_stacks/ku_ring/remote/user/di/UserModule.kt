@@ -15,7 +15,7 @@ import javax.inject.Singleton
 object UserModule {
     @Provides
     @Singleton
-    fun provideFeedbackService(@Named("Default") retrofit: Retrofit): UserService {
+    fun provideFeedbackService(@Named("KotlinxSerialization") retrofit: Retrofit): UserService {
         return retrofit.create(UserService::class.java)
     }
 
