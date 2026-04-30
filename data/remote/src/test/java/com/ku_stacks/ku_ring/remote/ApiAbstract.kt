@@ -1,14 +1,17 @@
 package com.ku_stacks.ku_ring.remote
 
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import okio.buffer
 import okio.source
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import java.nio.charset.StandardCharsets
 
 abstract class ApiAbstract<T> {
+    private val json = Json { ignoreUnknownKeys = true }
 
     lateinit var mockWebServer: MockWebServer
 
@@ -39,7 +42,7 @@ abstract class ApiAbstract<T> {
     fun createService(clazz: Class<T>): T {
         return Retrofit.Builder()
             .baseUrl(mockWebServer.url("/"))
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
             .build()
             .create(clazz)
     }
