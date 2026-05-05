@@ -1,0 +1,26 @@
+{
+  "code": 200,
+  "message": "공지 조회에 성공하였습니다",
+  "data": {
+    "noticeList": [
+      {
+        "id": 134016,
+        "articleId": "1171245",
+        "postedDate": "2026-04-01",
+        "subject": "[수강신청] 2026학년도 2학기 지정교양 교과목 개설(운영)을 위한 사전수요 파악 조사 시행 안내",
+        "category": "department",
+        "baseUrl": "https://econ.konkuk.ac.kr/bbs/econ/423/1171245/artclView.do",
+        "commentCount": 0
+      },
+      {
+        "id": 133426,
+        "articleId": "1169790",
+        "postedDate": "2026-03-13",
+        "subject": "2026학년도 1학기 2차(최종) 폐강 교과목 수강신청자의 수강신청 방법 안내",
+        "category": "department",
+        "baseUrl": "https://ibb.konkuk.ac.kr/bbs/ibb/895/1169790/artclView.do",
+        "commentCount": 0
+      }
+    ]
+  }
+}

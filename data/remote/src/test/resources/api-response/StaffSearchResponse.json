@@ -1,0 +1,17 @@
+{
+  "code": 200,
+  "message": "교직원 조회에 성공하였습니다",
+  "data": {
+    "staffList": [
+      {
+        "name": "김은이 (Eun Yi KIm)",
+        "major": "인공지능, 컴퓨터비전",
+        "lab": "공C483-1",
+        "phone": "02-450-4135",
+        "email": "eykim@konkuk.ac.kr",
+        "deptName": "컴퓨터공학부",
+        "collegeName": "공과대학"
+      }
+    ]
+  }
+}

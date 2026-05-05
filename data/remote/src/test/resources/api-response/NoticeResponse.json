@@ -5,29 +5,32 @@
     {
       "id": 12345,
       "articleId": "5b45b56",
-      "postedDate": "20220105",
+      "postedDate": "2022-01-05",
       "subject": "subject_1",
       "url": "https://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do?id=5b45b56",
-      "category": "student",
-      "important": true
+      "category": "bachelor",
+      "important": true,
+      "commentCount": 0
     },
     {
       "id": 12346,
       "articleId": "5b45b56",
-      "postedDate": "20220105",
+      "postedDate": "2022-01-05",
       "subject": "subject_2",
       "url": "https://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do?id=5b45b56",
-      "category": "student",
-      "important": true
+      "category": "bachelor",
+      "important": true,
+      "commentCount": 0
     },
     {
       "id": 12347,
       "articleId": "5b45b56",
-      "postedDate": "20220105",
+      "postedDate": "2022-01-05",
       "subject": "subject_3",
       "url": "https://www.konkuk.ac.kr/do/MessageBoard/ArticleRead.do?id=5b45b56",
-      "category": "student",
-      "important": false
+      "category": "bachelor",
+      "important": false,
+      "commentCount": 0
     }
   ]
 }

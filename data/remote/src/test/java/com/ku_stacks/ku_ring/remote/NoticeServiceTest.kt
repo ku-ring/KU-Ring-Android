@@ -41,8 +41,8 @@ class NoticeServiceTest : ApiAbstract<NoticeService>() {
         assertEquals(true, response.isSuccess)
         assertEquals(12345, noticeResponse[0].id)
         assertEquals("5b45b56", noticeResponse[0].articleId)
-        assertEquals("student", noticeResponse[0].category)
-        assertEquals("20220105", noticeResponse[0].postedDate)
+        assertEquals("bachelor", noticeResponse[0].category)
+        assertEquals("2022-01-05", noticeResponse[0].postedDate)
         assertEquals("subject_1", noticeResponse[0].subject)
     }
 
@@ -57,8 +57,6 @@ class NoticeServiceTest : ApiAbstract<NoticeService>() {
         mockWebServer.takeRequest()
 
         val categoryList = response.data ?: throw IllegalStateException("Data should not be null")
-
-        println(categoryList)
 
         // then
         assertEquals(true, response.isSuccess)
@@ -87,6 +85,32 @@ class NoticeServiceTest : ApiAbstract<NoticeService>() {
         assertEquals(null, response.data)
     }
 
+    @Test
+    fun `fetchNotices Test`() = runTest {
+        // given
+        enqueueResponse("/SearchNoticeResponse.json")
+
+        // when
+        val response = service.fetchNotices(content = "수강신청")
+        mockWebServer.takeRequest()
+
+        val noticeList =
+            response.data?.noticeList ?: throw IllegalStateException("Data should not be null")
+
+        // then
+        assertEquals(true, response.isSuccess)
+        assertEquals(2, noticeList.size)
+
+        val notice = noticeList[0]
+        assertEquals(134016, notice.id)
+        assertEquals("1171245", notice.articleId)
+        assertEquals("2026-04-01", notice.postedDate)
+        assertEquals("department", notice.category)
+        assertEquals("https://econ.konkuk.ac.kr/bbs/econ/423/1171245/artclView.do", notice.baseUrl)
+        assertEquals(false, notice.isImportant)
+        assertEquals(0, notice.commentCount)
+    }
+
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `fetchDepartmentNoticeList Test`() = runTest {
@@ -95,7 +119,7 @@ class NoticeServiceTest : ApiAbstract<NoticeService>() {
 
         // when
         val mockResponse = service.fetchDepartmentNoticeList(
-            type = "dept",
+            type = "dep",
             shortName = "cse",
             page = 0,
             size = 20,
@@ -114,7 +138,7 @@ class NoticeServiceTest : ApiAbstract<NoticeService>() {
         assertEquals("182677", notice.articleId)
         assertEquals("2023-05-02", notice.postedDate)
         assertEquals(
-            "http://cse.konkuk.ac.kr/noticeView.do?siteId=CSE&boardSeq=882&menuSeq=6097&seq=182677",
+            "https://cse.konkuk.ac.kr/bbs/cse/775/182677/artclView.do",
             notice.url
         )
         assertEquals("2023학년도 진로총조사 설문 요청", notice.subject)
