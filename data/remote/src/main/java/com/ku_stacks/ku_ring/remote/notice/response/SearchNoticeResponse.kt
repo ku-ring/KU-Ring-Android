@@ -11,6 +11,6 @@ data class SearchNoticeResponse(
     @SerialName("subject") val subject: String,
     @SerialName("baseUrl") val baseUrl: String,
     @SerialName("category") val category: String,
-    @SerialName("important") val isImportant: Boolean,
+    @SerialName("important") val isImportant: Boolean = false,
     @SerialName("commentCount") val commentCount: Int,
 )
