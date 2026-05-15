@@ -9,8 +9,8 @@ import com.ku_stacks.ku_ring.local.room.DepartmentDao
 import com.ku_stacks.ku_ring.local.room.KuRingDatabase
 import com.ku_stacks.ku_ring.preferences.PreferenceUtil
 import com.ku_stacks.ku_ring.remote.department.DepartmentClient
-import com.ku_stacks.ku_ring.remote.department.response.DepartmentListResponse
 import com.ku_stacks.ku_ring.remote.department.response.DepartmentResponse
+import com.ku_stacks.ku_ring.remote.util.DefaultResponse
 import junit.framework.Assert
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -94,7 +94,13 @@ class DepartmentRepositoryTest {
                 )
             }
         Mockito.`when`(departmentClient.fetchDepartmentList())
-            .thenReturn(DepartmentListResponse(200, "success", updatedDepartmentsResponse))
+            .thenReturn(
+                DefaultResponse(
+                    200,
+                    "success",
+                    updatedDepartmentsResponse
+                )
+            )
         departmentRepository.updateDepartmentsFromRemote()
 
         // then

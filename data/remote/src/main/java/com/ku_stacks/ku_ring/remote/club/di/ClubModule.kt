@@ -2,12 +2,12 @@ package com.ku_stacks.ku_ring.remote.club.di
 
 import com.ku_stacks.ku_ring.remote.club.ClubClient
 import com.ku_stacks.ku_ring.remote.club.ClubService
+import com.ku_stacks.ku_ring.remote.util.Default
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -15,7 +15,7 @@ import javax.inject.Singleton
 object ClubModule {
     @Provides
     @Singleton
-    fun provideClubService(@Named("KotlinxSerialization") retrofit: Retrofit): ClubService {
+    fun provideClubService(@Default retrofit: Retrofit): ClubService {
         return retrofit.create(ClubService::class.java)
     }
 

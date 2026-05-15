@@ -1,10 +1,10 @@
 package com.ku_stacks.ku_ring.remote.notice
 
 import com.ku_stacks.ku_ring.remote.notice.request.SubscribeRequest
-import com.ku_stacks.ku_ring.remote.notice.response.DepartmentNoticeListResponse
-import com.ku_stacks.ku_ring.remote.notice.response.NoticeListResponse
-import com.ku_stacks.ku_ring.remote.notice.response.SearchNoticeListResponse
-import com.ku_stacks.ku_ring.remote.notice.response.SubscribeListResponse
+import com.ku_stacks.ku_ring.remote.notice.response.CategoryResponse
+import com.ku_stacks.ku_ring.remote.notice.response.DepartmentNoticeResponse
+import com.ku_stacks.ku_ring.remote.notice.response.NoticeResponse
+import com.ku_stacks.ku_ring.remote.notice.response.SearchNoticeDataResponse
 import com.ku_stacks.ku_ring.remote.util.DefaultResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -19,18 +19,18 @@ interface NoticeService {
         @Query("type") type: String,
         @Query("page") page: Int,
         @Query("size") size: Int,
-    ): NoticeListResponse
+    ): DefaultResponse<List<NoticeResponse>>
 
     @GET("v2/users/subscriptions/categories")
     suspend fun fetchSubscribeList(
         @Header("User-Token") token: String
-    ): SubscribeListResponse
+    ): DefaultResponse<List<CategoryResponse>>
 
     @POST("v2/users/subscriptions/categories")
     suspend fun saveSubscribeList(
         @Header("User-Token") token: String,
         @Body subscribeRequest: SubscribeRequest
-    ): DefaultResponse<Nothing>
+    ): DefaultResponse<Unit>
 
     @GET("v2/notices")
     suspend fun fetchDepartmentNoticeList(
@@ -39,10 +39,10 @@ interface NoticeService {
         @Query("page") page: Int,
         @Query("size") size: Int,
         @Query("important") important: Boolean,
-    ): DepartmentNoticeListResponse
+    ): DefaultResponse<List<DepartmentNoticeResponse>>
 
     @GET("v2/notices/search")
     suspend fun fetchNotices(
         @Query("content") content: String,
-    ): SearchNoticeListResponse
+    ): DefaultResponse<SearchNoticeDataResponse>
 }

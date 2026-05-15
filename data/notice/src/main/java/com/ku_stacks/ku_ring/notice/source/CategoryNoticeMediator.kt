@@ -37,10 +37,13 @@ class CategoryNoticeMediator(
         }
 
         return suspendRunCatching {
-            val noticeResponse = noticeClient.fetchNoticeList(categoryShortName, page, ITEM_SIZE)
-            insertNotices(noticeResponse.noticeResponse)
+            val noticeResponses =
+                noticeClient.fetchNoticeList(categoryShortName, page, ITEM_SIZE).data
+                    ?: throw IllegalStateException("noticeResponse is null")
 
-            MediatorResult.Success(endOfPaginationReached = noticeResponse.noticeResponse.isEmpty())
+            insertNotices(noticeResponses)
+
+            MediatorResult.Success(endOfPaginationReached = noticeResponses.isEmpty())
         }.getOrElse {
             MediatorResult.Error(it)
         }

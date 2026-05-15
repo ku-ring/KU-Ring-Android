@@ -2,12 +2,12 @@ package com.ku_stacks.ku_ring.remote.library.di
 
 import com.ku_stacks.ku_ring.remote.library.LibraryClient
 import com.ku_stacks.ku_ring.remote.library.LibraryService
+import com.ku_stacks.ku_ring.remote.util.Library
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -15,7 +15,7 @@ import javax.inject.Singleton
 object LibraryModule {
     @Provides
     @Singleton
-    fun provideLibraryService(@Named("Library") retrofit: Retrofit): LibraryService
+    fun provideLibraryService(@Library retrofit: Retrofit): LibraryService
         = retrofit.create(LibraryService::class.java)
 
     @Provides

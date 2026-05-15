@@ -139,7 +139,11 @@ class NoticeRepositoryImpl @Inject constructor(
     }
 
     override suspend fun fetchSubscriptionFromRemote(token: String): List<String> {
-        return noticeClient.fetchSubscribe(token).categoryList.map { it.koreanName }
+        val response = noticeClient.fetchSubscribe(token)
+        return when {
+            response.isSuccessAndDataExists -> response.data!!.map { it.koreanName }
+            else -> throw IllegalStateException(response.resultMsg)
+        }
     }
 
     override suspend fun saveSubscriptionToRemote(
@@ -161,10 +165,12 @@ class NoticeRepositoryImpl @Inject constructor(
 
     override suspend fun getNoticeSearchResult(query: String): List<Notice> =
         withContext(Dispatchers.IO) {
-            val result = noticeClient.fetchNoticeList(query).takeIf { it.isSuccess }?.toNoticeList()
-                ?: emptyList()
+            val result =
+                noticeClient.fetchNoticeList(query).takeIf { it.isSuccess }?.toNoticeList()
+                    ?: emptyList()
 
-            val savedArticleIdSet = noticeDao.getSavedNoticeList(true).map { it.articleId }.toSet()
+            val savedArticleIdSet =
+                noticeDao.getSavedNoticeList(true).map { it.articleId }.toSet()
 
             result.map {
                 it.copy(isSaved = savedArticleIdSet.contains(it.articleId))

@@ -1,0 +1,24 @@
+{
+  "code": 200,
+  "message": "지원하는 학과 조회에 성공하였습니다",
+  "data": [
+    {
+      "name": "computer_science",
+      "hostPrefix": "cse",
+      "korName": "컴퓨터공학부",
+      "graduateSupported": true
+    },
+    {
+      "name": "korean",
+      "hostPrefix": "korea",
+      "korName": "국어국문학과",
+      "graduateSupported": true
+    },
+    {
+      "name": "business_administration",
+      "hostPrefix": "biz",
+      "korName": "경영학과",
+      "graduateSupported": false
+    }
+  ]
+}

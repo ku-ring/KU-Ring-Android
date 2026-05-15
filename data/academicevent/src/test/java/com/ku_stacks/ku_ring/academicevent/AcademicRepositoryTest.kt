@@ -60,7 +60,7 @@ class AcademicRepositoryTest {
     fun `insert and get academic event test`() = runTest {
         //given
         val response = AcademicEventTestUtil.mockAcademicEventListResponse()
-        val entities = response.data.map { it.toEntity() }
+        val entities = requireNotNull(response.data?.map { it.toEntity() })
         academicEventDao.insertAcademicEvents(entities)
 
         //when

@@ -1,6 +1,7 @@
 package com.ku_stacks.ku_ring.remote
 
 import com.ku_stacks.ku_ring.remote.user.UserService
+import com.ku_stacks.ku_ring.remote.user.request.AuthorizeUserRequest
 import com.ku_stacks.ku_ring.remote.user.request.FeedbackRequest
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -54,5 +55,26 @@ class UserServiceTest : ApiAbstract<UserService>() {
         // then
         assertEquals("test@konkuk.ac.kr", response.data.email)
         assertEquals("test1234", response.data.nickname)
+    }
+
+    @Test
+    fun `sign in test`() = runTest {
+        // given
+        enqueueResponse("/SignInResponse.json")
+
+        // when
+        val request = AuthorizeUserRequest(
+            email = "test@konkuk.ac.kr",
+            password = "password1234",
+        )
+        val response = service.signIn(token = "mockToken", request = request)
+        mockWebServer.takeRequest()
+
+        val signInData = response.data ?: throw IllegalStateException("Data should not be null")
+
+        // then
+        assertEquals(true, response.isSuccess)
+        assertEquals(200, response.resultCode)
+        assertEquals("abcdabcd", signInData.accessToken)
     }
 }

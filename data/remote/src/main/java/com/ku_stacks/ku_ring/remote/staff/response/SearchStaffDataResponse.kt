@@ -1,7 +1,9 @@
 package com.ku_stacks.ku_ring.remote.staff.response
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class SearchStaffDataResponse(
-    @SerializedName("staffList") val staffList: List<SearchStaffResponse>?
+    @SerialName("staffList") val staffList: List<SearchStaffResponse>?
 )

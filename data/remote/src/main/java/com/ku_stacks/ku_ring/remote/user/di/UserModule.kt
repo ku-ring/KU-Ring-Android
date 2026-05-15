@@ -2,12 +2,12 @@ package com.ku_stacks.ku_ring.remote.user.di
 
 import com.ku_stacks.ku_ring.remote.user.UserClient
 import com.ku_stacks.ku_ring.remote.user.UserService
+import com.ku_stacks.ku_ring.remote.util.Default
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -15,7 +15,7 @@ import javax.inject.Singleton
 object UserModule {
     @Provides
     @Singleton
-    fun provideFeedbackService(@Named("Default") retrofit: Retrofit): UserService {
+    fun provideFeedbackService(@Default retrofit: Retrofit): UserService {
         return retrofit.create(UserService::class.java)
     }
 

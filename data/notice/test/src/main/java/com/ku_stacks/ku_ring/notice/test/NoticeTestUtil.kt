@@ -4,11 +4,8 @@ import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.local.entity.NoticeEntity
 import com.ku_stacks.ku_ring.remote.notice.request.SubscribeRequest
 import com.ku_stacks.ku_ring.remote.notice.response.CategoryResponse
-import com.ku_stacks.ku_ring.remote.notice.response.DepartmentNoticeListResponse
 import com.ku_stacks.ku_ring.remote.notice.response.DepartmentNoticeResponse
-import com.ku_stacks.ku_ring.remote.notice.response.NoticeListResponse
 import com.ku_stacks.ku_ring.remote.notice.response.NoticeResponse
-import com.ku_stacks.ku_ring.remote.notice.response.SubscribeListResponse
 import com.ku_stacks.ku_ring.remote.util.DefaultResponse
 
 object NoticeTestUtil {
@@ -46,10 +43,10 @@ object NoticeTestUtil {
         commentCount = 0,
     )
 
-    fun fakeSubscribeListResponse() = SubscribeListResponse(
+    fun fakeSubscribeListResponse() = DefaultResponse<List<CategoryResponse>>(
         resultMsg = "성공",
         resultCode = 200,
-        categoryList = listOf(
+        data = listOf(
             CategoryResponse("student", "stu", "학생"),
             CategoryResponse("employment", "emp", "취창업"),
         ),
@@ -59,16 +56,16 @@ object NoticeTestUtil {
         categories = mutableListOf("bachelor", "scholarship"),
     )
 
-    fun fakeDefaultResponse() = DefaultResponse(
+    fun fakeDefaultResponse() = DefaultResponse<Unit>(
         resultCode = 200,
         resultMsg = "성공",
         data = null,
     )
 
-    fun fakeNoticeListResponse() = NoticeListResponse(
+    fun fakeNoticeListResponse() = DefaultResponse(
         resultMsg = "성공",
         resultCode = 200,
-        noticeResponse = listOf(fakeNoticeResponse()),
+        data = listOf(fakeNoticeResponse()),
     )
 
     fun fakeNoticeResponse() = NoticeResponse(
@@ -82,15 +79,15 @@ object NoticeTestUtil {
         commentCount = 0,
     )
 
-    fun fakeEmptyNoticeListResponse() = NoticeListResponse(
+    fun fakeEmptyNoticeListResponse() = DefaultResponse<List<NoticeResponse>>(
         resultMsg = "성공",
         resultCode = 200,
-        noticeResponse = emptyList(),
+        data = emptyList(),
     )
 
-    fun fakeDepartmentNoticeListResponse(dataSize: Int) = DepartmentNoticeListResponse(
-        code = 200,
-        message = "공지 조회에 성공하였습니다",
+    fun fakeDepartmentNoticeListResponse(dataSize: Int) = DefaultResponse(
+        resultCode = 200,
+        resultMsg = "공지 조회에 성공하였습니다",
         data = (1..dataSize).map {
             DepartmentNoticeResponse(
                 articleId = it.toString(),
@@ -105,9 +102,9 @@ object NoticeTestUtil {
         }
     )
 
-    fun fakeEmptyDepartmentNoticeListResponse() = DepartmentNoticeListResponse(
-        code = 200,
-        message = "공지 조회에 성공하였습니다",
+    fun fakeEmptyDepartmentNoticeListResponse() = DefaultResponse<List<DepartmentNoticeResponse>>(
+        resultCode = 200,
+        resultMsg = "공지 조회에 성공하였습니다",
         data = emptyList()
     )
 }

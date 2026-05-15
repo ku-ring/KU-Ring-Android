@@ -43,12 +43,13 @@ class DepartmentNoticeMediator(
                 page = page,
                 size = ITEM_SIZE
             )
+            val data = noticeResponse.data ?: throw IllegalStateException("noticeResponse is null")
 
             val startDate = getAppStartedDate()
-            val entities = noticeResponse.data.toEntityList(shortName, startDate)
+            val entities = data.toEntityList(shortName, startDate)
             insertNotices(entities, page)
 
-            val isPageEnd = noticeResponse.data.isEmpty()
+            val isPageEnd = data.isEmpty()
             MediatorResult.Success(endOfPaginationReached = isPageEnd)
         } catch (e: Exception) {
             MediatorResult.Error(e)
@@ -62,9 +63,13 @@ class DepartmentNoticeMediator(
             size = ITEM_SIZE,
             important = true
         )
+        val data =
+            importNoticesResponse.data
+                ?: throw IllegalStateException("importNoticesResponse is null")
+
 
         val startDate = getAppStartedDate()
-        val entities = importNoticesResponse.data.toEntityList(shortName, startDate)
+        val entities = data.toEntityList(shortName, startDate)
         insertNotices(entities, 0)
     }
 
