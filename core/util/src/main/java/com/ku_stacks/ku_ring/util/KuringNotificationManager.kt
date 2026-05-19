@@ -123,6 +123,7 @@ object KuringNotificationManager {
             .setSmallIcon(smallIconRes)
             .setContentTitle(title)
             .setContentText(body)
+            .setStyle(NotificationCompat.BigTextStyle().bigText(body))
             .setSound(defaultSound)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
