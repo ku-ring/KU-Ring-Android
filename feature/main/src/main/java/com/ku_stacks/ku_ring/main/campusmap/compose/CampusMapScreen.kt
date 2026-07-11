@@ -30,6 +30,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -85,15 +86,79 @@ private const val INITIAL_ZOOM_LEVEL = 14.2
 @Composable
 internal fun CampusMapScreen(
     onLibrarySeatFabClick: () -> Unit,
+    onNavigateToSearch: () -> Unit,
+    onDetailSheetContentChange: (CampusMapDetailSheetContent?) -> Unit,
+    onSearchResultSheetContentChange: (CampusMapSearchResultSheetContent?) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: CampusMapViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+    var hasLocationPermission by remember { mutableStateOf(context.hasCampusMapLocationPermission()) }
+    val cameraPositionState = rememberCameraPositionState {
+        position = CameraPosition(
+            LatLng(INITIAL_LATITUDE, INITIAL_LONGITUDE),
+            INITIAL_ZOOM_LEVEL,
+        )
+    }
+    val fusedLocationClient = remember(context) {
+        LocationServices.getFusedLocationProviderClient(context)
+    }
+    val moveToCurrentLocation = {
+        requestCurrentLocation(fusedLocationClient) { latitude, longitude ->
+            cameraPositionState.move(
+                update = CameraUpdate
+                    .scrollTo(LatLng(latitude, longitude))
+                    .animate(CameraAnimation.Fly),
+            )
+        }
+    }
+
+    LifecycleResumeEffect(Unit) {
+        hasLocationPermission = context.hasCampusMapLocationPermission()
+        onPauseOrDispose {}
+    }
+
+    val locationPermissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestMultiplePermissions(),
+    ) { permissions ->
+        hasLocationPermission =
+            permissions[Manifest.permission.ACCESS_FINE_LOCATION] == true ||
+            permissions[Manifest.permission.ACCESS_COARSE_LOCATION] == true
+        if (hasLocationPermission) {
+            moveToCurrentLocation()
+        }
+    }
 
     CampusMapScreen(
         uiState = uiState,
         modifier = modifier,
         onMapPinClick = viewModel::updateFocusedPlace,
+        onMapClick = viewModel::clearFocusedPlace,
+        onPlaceDetailClose = viewModel::clearFocusedPlace,
+        onDetailSheetContentChange = onDetailSheetContentChange,
+        onSearchResultSheetContentChange = onSearchResultSheetContentChange,
+        onCategoryClick = viewModel::updateSelectedCategory,
+        onSearchClick = {
+            viewModel.prepareSearchInput()
+            onNavigateToSearch()
+        },
+        onSearchPlaceClick = viewModel::selectSearchPlace,
+        onActiveSelectionClear = viewModel::clearActiveSelection,
+        cameraPositionState = cameraPositionState,
+        hasLocationPermission = hasLocationPermission,
+        onCurrentLocationClick = {
+            if (context.hasCampusMapLocationPermission()) {
+                moveToCurrentLocation()
+            } else {
+                locationPermissionLauncher.launch(
+                    arrayOf(
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                    ),
+                )
+            }
+        },
         onLibrarySeatFabClick = onLibrarySeatFabClick,
     )
 }
