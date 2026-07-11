@@ -109,7 +109,14 @@
     "data": null,
     "places": {},
     "parentId": "konkuk",
-    "priority": "high"
+    "priority": "high",
+    "facilities": [
+      {
+        "name": "무인 프린터기",
+        "category": "프린터",
+        "location": "1층"
+      }
+    ]
   },
   {
     "id": "경영관",
@@ -125,7 +132,37 @@
     "data": null,
     "places": {},
     "parentId": "konkuk",
-    "priority": "high"
+    "priority": "high",
+    "facilities": [
+      {
+        "name": "CU",
+        "category": "편의점",
+        "location": "1층",
+        "operationHours": {
+          "semester": "00:00-00:00",
+          "vacation": "00:00-00:00"
+        }
+      },
+      {
+        "name": "카페 레스티오",
+        "category": "카페",
+        "location": "1층",
+        "operationHours": {
+          "semester": "평일 08:30-17:00 / 주말 휴무",
+          "vacation": "평일 08:30-17:00 / 주말 휴무"
+        }
+      },
+      {
+        "name": "휴게실",
+        "category": "휴게실",
+        "location": "203-1호"
+      },
+      {
+        "name": "흡연부스",
+        "category": "흡연부스",
+        "location": "CU 뒷문 앞"
+      }
+    ]
   },
   {
     "id": "공대별관",
@@ -173,7 +210,33 @@
     "data": null,
     "places": {},
     "parentId": "konkuk",
-    "priority": "high"
+    "priority": "high",
+    "facilities": [
+      {
+        "name": "K-Cube",
+        "category": "k-cube",
+        "location": "공학관"
+      },
+      {
+        "name": "카페 레스티오",
+        "category": "카페",
+        "location": "1층",
+        "operationHours": {
+          "semester": "평일 08:30-18:00 / 주말 휴무",
+          "vacation": "평일 08:30-18:00 / 주말 휴무"
+        }
+      },
+      {
+        "name": "휴게실",
+        "category": "휴게실",
+        "location": "여 : A동 201-2호"
+      },
+      {
+        "name": "흡연부스",
+        "category": "흡연부스",
+        "location": "공학관 안뜰"
+      }
+    ]
   },
   {
     "id": "공학관B동",
@@ -221,7 +284,14 @@
     "data": null,
     "places": {},
     "parentId": "konkuk",
-    "priority": "middle"
+    "priority": "middle",
+    "facilities": [
+      {
+        "name": "휴게실",
+        "category": "휴게실",
+        "location": "여 : B-123호"
+      }
+    ]
   },
   {
     "id": "교육과학관",
@@ -284,10 +354,38 @@
     "phone": null,
     "data": null,
     "places": {
-      "카페": ["동생대레스티오"]
+      "카페": [
+        "동생대레스티오"
+      ]
     },
     "parentId": "konkuk",
-    "priority": "high"
+    "priority": "high",
+    "facilities": [
+      {
+        "name": "K-Cube",
+        "category": "k-cube",
+        "location": "동물생명과학관"
+      },
+      {
+        "name": "카페 레스티오",
+        "category": "카페",
+        "location": "1층",
+        "operationHours": {
+          "semester": "08:30-17:00",
+          "vacation": "08:30-17:00"
+        }
+      },
+      {
+        "name": "동물생명과학관 복사실",
+        "category": "복사실",
+        "location": "1층"
+      },
+      {
+        "name": "휴게실",
+        "category": "휴게실",
+        "location": "여 : 310호"
+      }
+    ]
   },
   {
     "id": "박물관",
@@ -319,7 +417,19 @@
     "data": null,
     "places": {},
     "parentId": "konkuk",
-    "priority": "high"
+    "priority": "high",
+    "facilities": [
+      {
+        "name": "휴게실",
+        "category": "휴게실",
+        "location": "남:310호, 여:311호"
+      },
+      {
+        "name": "흡연부스",
+        "category": "흡연부스",
+        "location": "1층 길가"
+      }
+    ]
   },
   {
     "id": "산학협동관",
@@ -335,7 +445,42 @@
     "data": null,
     "places": {},
     "parentId": "konkuk",
-    "priority": "high"
+    "priority": "high",
+    "facilities": [
+      {
+        "name": "이마트24",
+        "category": "편의점",
+        "location": "1층",
+        "operationHours": {
+          "semester": "00:00-00:00",
+          "vacation": "00:00-00:00"
+        }
+      },
+      {
+        "name": "카페 레스티오",
+        "category": "카페",
+        "location": "1층",
+        "operationHours": {
+          "semester": "평일 08:30-19:00 / 주말 휴무",
+          "vacation": "평일 08:30-19:00 / 주말 휴무"
+        }
+      },
+      {
+        "name": "산학협동관 복사실",
+        "category": "복사실",
+        "location": "2층"
+      },
+      {
+        "name": "여직원 휴게실",
+        "category": "휴게실",
+        "location": "108호"
+      },
+      {
+        "name": "흡연부스",
+        "category": "흡연부스",
+        "location": "1층 주차장"
+      }
+    ]
   },
   {
     "id": "상허기념도서관",
@@ -350,12 +495,80 @@
     "phone": null,
     "data": null,
     "places": {
-      "식당": ["상허마루"],
-      "휴게실": ["상허쉼터"],
-      "카페": ["도서관레스티오"]
+      "식당": [
+        "상허마루"
+      ],
+      "휴게실": [
+        "상허쉼터"
+      ],
+      "카페": [
+        "도서관레스티오"
+      ]
     },
     "parentId": "konkuk",
-    "priority": "high"
+    "priority": "high",
+    "facilities": [
+      {
+        "name": "K-Cube",
+        "category": "k-cube",
+        "location": "상허기념도서관"
+      },
+      {
+        "name": "구시아 푸드마켓",
+        "category": "식당",
+        "location": "지하1층",
+        "operationHours": {
+          "semester": "평일 08:30-19:00 / 주말 10:30-15:00 / 일요일 휴무",
+          "vacation": "평일 08:30-19:00 / 주말 10:30-15:00 / 일요일 휴무"
+        }
+      },
+      {
+        "name": "CU",
+        "category": "편의점",
+        "location": "3층",
+        "operationHours": {
+          "semester": "00:00-00:00",
+          "vacation": "00:00-00:00"
+        }
+      },
+      {
+        "name": "카페 레스티오",
+        "category": "카페",
+        "location": "3층",
+        "operationHours": {
+          "semester": "평일 09:00-17:00 / 주말 휴무",
+          "vacation": "평일 09:00-17:00 / 주말 휴무"
+        }
+      },
+      {
+        "name": "신한 건국대학교 ATM 건대도서관",
+        "category": "은행/ATM",
+        "operationHours": {
+          "semester": "08:00-22:00",
+          "vacation": "08:00-22:00"
+        }
+      },
+      {
+        "name": "무인 프린터기",
+        "category": "프린터",
+        "location": "1층"
+      },
+      {
+        "name": "무인 프린터기",
+        "category": "프린터",
+        "location": "2층"
+      },
+      {
+        "name": "휴게실",
+        "category": "휴게실",
+        "location": "남 :4층 / 여 : 2층"
+      },
+      {
+        "name": "흡연부스",
+        "category": "흡연부스",
+        "location": "3층 출입구 앞"
+      }
+    ]
   },
   {
     "id": "상허연구관",
@@ -371,7 +584,28 @@
     "data": null,
     "places": {},
     "parentId": "konkuk",
-    "priority": "middle"
+    "priority": "middle",
+    "facilities": [
+      {
+        "name": "K-Cube",
+        "category": "k-cube",
+        "location": "상허연구관"
+      },
+      {
+        "name": "카페 블루포트",
+        "category": "카페",
+        "location": "1층",
+        "operationHours": {
+          "semester": "08:30-20:30",
+          "vacation": "08:30-20:30"
+        }
+      },
+      {
+        "name": "상허연구관 복사실",
+        "category": "복사실",
+        "location": "1층"
+      }
+    ]
   },
   {
     "id": "상허유석창박사동상",
@@ -403,7 +637,37 @@
     "data": null,
     "places": {},
     "parentId": "konkuk",
-    "priority": "high"
+    "priority": "high",
+    "facilities": [
+      {
+        "name": "식당(KU's Dining)",
+        "category": "식당",
+        "location": "지하1층",
+        "operationHours": {
+          "semester": "평일 11:15-13:15 / 주말 11:15-13:15 / 일요일 휴무",
+          "vacation": "평일 11:15-13:15 / 주말 11:15-13:15 / 일요일 휴무"
+        }
+      },
+      {
+        "name": "신한 건국대학교 ATM 건국대학교새천년관1층",
+        "category": "은행/ATM",
+        "location": "1층",
+        "operationHours": {
+          "semester": "08:00-22:00",
+          "vacation": "08:00-22:00"
+        }
+      },
+      {
+        "name": "무인 프린터기",
+        "category": "프린터",
+        "location": "1층"
+      },
+      {
+        "name": "흡연부스",
+        "category": "흡연부스",
+        "location": "지하 1층 야외"
+      }
+    ]
   },
   {
     "id": "생명과학관",
@@ -419,7 +683,14 @@
     "data": null,
     "places": {},
     "parentId": "konkuk",
-    "priority": "middle"
+    "priority": "middle",
+    "facilities": [
+      {
+        "name": "K-Cube",
+        "category": "k-cube",
+        "location": "생명과학관"
+      }
+    ]
   },
   {
     "id": "수의학관",
@@ -435,7 +706,14 @@
     "data": null,
     "places": {},
     "parentId": "konkuk",
-    "priority": "high"
+    "priority": "high",
+    "facilities": [
+      {
+        "name": "휴게실",
+        "category": "휴게실",
+        "location": "224호, 312호, 여:313호"
+      }
+    ]
   },
   {
     "id": "신공학관",
@@ -451,7 +729,19 @@
     "data": null,
     "places": {},
     "parentId": "konkuk",
-    "priority": "high"
+    "priority": "high",
+    "facilities": [
+      {
+        "name": "무인 프린터기",
+        "category": "프린터",
+        "location": "1층"
+      },
+      {
+        "name": "흡연부스",
+        "category": "흡연부스",
+        "location": "신공학관 마당"
+      }
+    ]
   },
   {
     "id": "실내체육관",
@@ -499,7 +789,23 @@
     "data": null,
     "places": {},
     "parentId": "konkuk",
-    "priority": "middle"
+    "priority": "middle",
+    "facilities": [
+      {
+        "name": "카페 레스티오",
+        "category": "카페",
+        "location": "지하1층",
+        "operationHours": {
+          "semester": "평일 8:30-17:00 / 주말 휴무",
+          "vacation": "평일 8:30-17:00 / 주말 휴무"
+        }
+      },
+      {
+        "name": "흡연부스",
+        "category": "흡연부스",
+        "location": "건물 뒷편"
+      }
+    ]
   },
   {
     "id": "의생명과학연구관",
@@ -515,7 +821,18 @@
     "data": null,
     "places": {},
     "parentId": "konkuk",
-    "priority": "low"
+    "priority": "low",
+    "facilities": [
+      {
+        "name": "CU",
+        "category": "편의점",
+        "location": "1층",
+        "operationHours": {
+          "semester": "00:00-00:00",
+          "vacation": "00:00-00:00"
+        }
+      }
+    ]
   },
   {
     "id": "인문학관",
@@ -531,7 +848,14 @@
     "data": null,
     "places": {},
     "parentId": "konkuk",
-    "priority": "middle"
+    "priority": "middle",
+    "facilities": [
+      {
+        "name": "흡연부스",
+        "category": "흡연부스",
+        "location": "인문학관과 건축관 사이"
+      }
+    ]
   },
   {
     "id": "일감호",
@@ -546,7 +870,11 @@
     "phone": null,
     "data": null,
     "places": {
-      "랜드마크": ["와우도", "홍예교", "청심대"]
+      "랜드마크": [
+        "와우도",
+        "홍예교",
+        "청심대"
+      ]
     },
     "parentId": "konkuk",
     "priority": "middle"
@@ -596,7 +924,9 @@
     "phone": null,
     "data": null,
     "places": {
-      "공연": ["노천극장"]
+      "공연": [
+        "노천극장"
+      ]
     },
     "parentId": "konkuk",
     "priority": "low"
@@ -631,7 +961,14 @@
     "data": "113 학군단",
     "places": {},
     "parentId": "konkuk",
-    "priority": "middle"
+    "priority": "middle",
+    "facilities": [
+      {
+        "name": "무인 프린터기",
+        "category": "프린터",
+        "location": "1층"
+      }
+    ]
   },
   {
     "id": "쿨하우스글로벌홀",
@@ -647,7 +984,73 @@
     "data": null,
     "places": {},
     "parentId": "konkuk",
-    "priority": "high"
+    "priority": "high",
+    "facilities": [
+      {
+        "name": "기숙사식당",
+        "category": "식당",
+        "location": "1층"
+      },
+      {
+        "name": "이마트24",
+        "category": "편의점",
+        "location": "지하1층",
+        "operationHours": {
+          "semester": "00:00-00:00",
+          "vacation": "00:00-00:00"
+        }
+      },
+      {
+        "name": "GS25",
+        "category": "편의점",
+        "location": "지하1층",
+        "operationHours": {
+          "semester": "00:00-00:00",
+          "vacation": "00:00-00:00"
+        }
+      },
+      {
+        "name": "데일리베틀주스",
+        "category": "카페",
+        "location": "1층",
+        "operationHours": {
+          "semester": "평일 08:30-19:30 / 주말 휴무",
+          "vacation": "평일 08:30-19:30 / 주말 휴무"
+        }
+      },
+      {
+        "name": "매머드익스프레스 건대레이크홀점",
+        "category": "카페",
+        "location": "1층",
+        "operationHours": {
+          "semester": "평일 08:00-20:00 / 주말 09:00-20:00",
+          "vacation": "평일 08:00-20:00 / 주말 09:00-20:00"
+        }
+      },
+      {
+        "name": "신한 건국대학교 ATM 건국대민자식댕내",
+        "category": "은행/ATM",
+        "location": "1층",
+        "operationHours": {
+          "semester": "07:00-23:30",
+          "vacation": "07:00-23:30"
+        }
+      },
+      {
+        "name": "국민은행 건국대학교 기숙사동 ATM",
+        "category": "은행/ATM",
+        "location": "1층",
+        "operationHours": {
+          "semester": "07:00-21:00",
+          "vacation": "07:00-21:00"
+        }
+      },
+      {
+        "name": "흡연부스",
+        "category": "흡연부스",
+        "location": "비젼홀과 글로벌홀 사이"
+      }
+    ]
   },
   {
     "id": "쿨하우스드림홀",
@@ -727,7 +1130,105 @@
     "data": null,
     "places": {},
     "parentId": "konkuk",
-    "priority": "high"
+    "priority": "high",
+    "facilities": [
+      {
+        "name": "식당(KU's Kitchen)",
+        "category": "식당",
+        "location": "1층",
+        "operationHours": {
+          "semester": "평일 10:30-14:00 / 주말 10:30-14:00 / 일요일 휴무",
+          "vacation": "평일 10:30-14:00 / 주말 10:30-14:00 / 일요일 휴무"
+        }
+      },
+      {
+        "name": "구시아 푸드마켓",
+        "category": "식당",
+        "location": "지하1층",
+        "operationHours": {
+          "semester": "평일 10:00-20:00 / 주말 10:30-15:30 / 일요일 휴무",
+          "vacation": "평일 10:00-20:00 / 주말 10:30-15:30 / 일요일 휴무"
+        }
+      },
+      {
+        "name": "CU",
+        "category": "편의점",
+        "location": "1층",
+        "operationHours": {
+          "semester": "00:00-00:00",
+          "vacation": "00:00-00:00"
+        }
+      },
+      {
+        "name": "1847샐러리드카페",
+        "category": "카페",
+        "location": "1층",
+        "operationHours": {
+          "semester": "평일 08:00-19:00 / 주말 휴무",
+          "vacation": "평일 08:00-18:00 / 주말 휴무"
+        }
+      },
+      {
+        "name": "카페요아정 건국대학생회관점",
+        "category": "카페",
+        "location": "1층",
+        "operationHours": {
+          "semester": "평일 10:00-19:00 / 주말 휴무",
+          "vacation": "평일 10:00-19:00 / 주말 휴무"
+        }
+      },
+      {
+        "name": "메가MGC커피 건국대점",
+        "category": "카페",
+        "location": "1층",
+        "operationHours": {
+          "semester": "09:00-16:00",
+          "vacation": "09:00-16:00"
+        }
+      },
+      {
+        "name": "신한은행",
+        "category": "은행/ATM",
+        "location": "1층",
+        "operationHours": {
+          "semester": "평일 09:00-16:00 / 주말 휴무",
+          "vacation": "평일 09:00-16:00 / 주말 휴무"
+        }
+      },
+      {
+        "name": "신한 건국대학교 ATM",
+        "category": "은행/ATM",
+        "location": "1층",
+        "operationHours": {
+          "semester": "07:00-23:30",
+          "vacation": "07:00-23:30"
+        }
+      },
+      {
+        "name": "우편취급국",
+        "category": "우체국",
+        "location": "1층",
+        "operationHours": {
+          "semester": "평일 09:00-18:00 / 주말 휴무",
+          "vacation": "평일 09:00-18:00 / 주말 휴무"
+        }
+      },
+      {
+        "name": "학생회관 복사실",
+        "category": "복사실",
+        "location": "1층"
+      },
+      {
+        "name": "무인 프린터기",
+        "category": "프린터",
+        "location": "1층"
+      },
+      {
+        "name": "휴게실",
+        "category": "휴게실",
+        "location": "남 : 302호 / 여 : 305호"
+      }
+    ]
   },
   {
     "id": "해봉부동산학관",
@@ -743,7 +1244,23 @@
     "data": null,
     "places": {},
     "parentId": "konkuk",
-    "priority": "middle"
+    "priority": "middle",
+    "facilities": [
+      {
+        "name": "카페 ING",
+        "category": "카페",
+        "location": "1층",
+        "operationHours": {
+          "semester": "평일 08:00-21:00 / 주말 09:00-18:00",
+          "vacation": "평일 08:00-21:00 / 주말 09:00-18:00"
+        }
+      },
+      {
+        "name": "무인 프린터기",
+        "category": "프린터",
+        "location": "4층"
+      }
+    ]
   },
   {
     "id": "행정관",
@@ -759,6 +1276,17 @@
     "data": null,
     "places": {},
     "parentId": "konkuk",
-    "priority": "high"
+    "priority": "high",
+    "facilities": [
+      {
+        "name": "신한 건국대학교 ATM 건대본관",
+        "category": "은행/ATM",
+        "location": "1층",
+        "operationHours": {
+          "semester": "평일 09:00-21:00 / 주말 휴무",
+          "vacation": "평일 09:00-21:00 / 주말 휴무"
+        }
+      }
+    ]
   }
 ]
