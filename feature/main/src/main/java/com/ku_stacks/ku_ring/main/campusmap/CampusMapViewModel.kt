@@ -67,6 +67,18 @@ class CampusMapViewModel @Inject constructor(
         }
     }
 
+    fun showLocationPermissionDialog() {
+        _uiState.update { currentState ->
+            currentState.copy(isLocationPermissionDialogVisible = true)
+        }
+    }
+
+    fun hideLocationPermissionDialog() {
+        _uiState.update { currentState ->
+            currentState.copy(isLocationPermissionDialogVisible = false)
+        }
+    }
+
     internal fun updateSelectedCategory(category: CampusMapCategory) {
         _uiState.update { currentState ->
             currentState.copy(

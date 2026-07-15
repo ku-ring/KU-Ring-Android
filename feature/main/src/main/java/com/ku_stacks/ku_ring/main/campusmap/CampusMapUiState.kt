@@ -20,6 +20,7 @@ internal data class CampusMapUiState(
     val selectedCategory: CampusMapCategory?,
     val searchInput: String,
     val recentSearches: ImmutableList<CampusMapRecentSearch>,
+    val isLocationPermissionDialogVisible: Boolean,
 ) {
     val visiblePlaces: ImmutableList<Place>
         get() = if (hasSubmittedQuery) {
@@ -71,6 +72,7 @@ internal data class CampusMapUiState(
             selectedCategory = null,
             searchInput = "",
             recentSearches = persistentListOf(),
+            isLocationPermissionDialogVisible = false,
         )
     }
 }

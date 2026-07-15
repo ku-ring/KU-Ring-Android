@@ -59,6 +59,10 @@ class PreferenceUtil(@ApplicationContext context: Context) {
         get() = prefs.getInt(NOTIFICATION_PERMISSION_DIALOG_COUNT, 0)
         set(value) = prefs.edit { putInt(NOTIFICATION_PERMISSION_DIALOG_COUNT, value) }
 
+    var hasRequestedCampusMapLocationPermission: Boolean
+        get() = prefs.getBoolean(CAMPUS_MAP_LOCATION_PERMISSION_REQUESTED, false)
+        set(value) = prefs.edit { putBoolean(CAMPUS_MAP_LOCATION_PERMISSION_REQUESTED, value) }
+
     var clubInitialCategory: String
         get() = prefs.getString(CLUB_INITIAL_CATEGORY, null) ?: ""
         set(value) = run {
@@ -105,6 +109,7 @@ class PreferenceUtil(@ApplicationContext context: Context) {
         const val SURVEY_2024_COMPLETE = "SURVEY_2024_COMPLETE"
         const val LAST_DATE_ACADEMIC_EVENT_SHEET_SHOWN = "LAST_DATE_ACADEMIC_EVENT_SHEET_SHOWN"
         const val NOTIFICATION_PERMISSION_DIALOG_COUNT = "NOTIFICATION_PERMISSION_DIALOG_COUNT"
+        const val CAMPUS_MAP_LOCATION_PERMISSION_REQUESTED = "CAMPUS_MAP_LOCATION_PERMISSION_REQUESTED"
         const val CLUB_INITIAL_CATEGORY = "CLUB_INITIAL_CATEGORY"
     }
 }

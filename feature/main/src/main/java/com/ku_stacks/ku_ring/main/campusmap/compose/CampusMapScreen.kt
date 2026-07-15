@@ -2,9 +2,8 @@ package com.ku_stacks.ku_ring.main.campusmap.compose
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.pm.PackageManager
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -50,13 +49,14 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.compose.LifecycleResumeEffect
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
+import com.ku_stacks.ku_ring.compose.locals.LocalPreferences
+import com.ku_stacks.ku_ring.designsystem.components.KuringAlertDialog
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.Place
 import com.ku_stacks.ku_ring.main.R
@@ -67,6 +67,9 @@ import com.ku_stacks.ku_ring.main.campusmap.compose.component.map.CurrentLocatio
 import com.ku_stacks.ku_ring.main.campusmap.compose.component.map.LibrarySeatFab
 import com.ku_stacks.ku_ring.main.campusmap.compose.component.map.NaverMapSection
 import com.ku_stacks.ku_ring.main.campusmap.type.CampusMapCategory
+import com.ku_stacks.ku_ring.util.checkHasLocationPermission
+import com.ku_stacks.ku_ring.util.isLocationPermissionPermanentlyDenied
+import com.ku_stacks.ku_ring.util.openAppSettings
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraAnimation
 import com.naver.maps.map.CameraPosition
@@ -91,7 +94,9 @@ internal fun CampusMapScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
-    var hasLocationPermission by remember { mutableStateOf(context.hasCampusMapLocationPermission()) }
+    val activity = LocalActivity.current
+    val preferences = LocalPreferences.current
+    var hasLocationPermission by remember { mutableStateOf(context.checkHasLocationPermission()) }
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition(
             LatLng(INITIAL_LATITUDE, INITIAL_LONGITUDE),
@@ -112,7 +117,7 @@ internal fun CampusMapScreen(
     }
 
     LifecycleResumeEffect(Unit) {
-        hasLocationPermission = context.hasCampusMapLocationPermission()
+        hasLocationPermission = context.checkHasLocationPermission()
         onPauseOrDispose {}
     }
 
@@ -144,19 +149,37 @@ internal fun CampusMapScreen(
         cameraPositionState = cameraPositionState,
         hasLocationPermission = hasLocationPermission,
         onCurrentLocationClick = {
-            if (context.hasCampusMapLocationPermission()) {
-                moveToCurrentLocation()
-            } else {
-                locationPermissionLauncher.launch(
-                    arrayOf(
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION,
-                    ),
-                )
+            when {
+                context.checkHasLocationPermission() -> moveToCurrentLocation()
+                activity?.isLocationPermissionPermanentlyDenied(
+                    hasRequestedPermission = preferences.hasRequestedCampusMapLocationPermission,
+                ) == true -> viewModel.showLocationPermissionDialog()
+
+                else -> {
+                    preferences.hasRequestedCampusMapLocationPermission = true
+                    locationPermissionLauncher.launch(
+                        arrayOf(
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION,
+                        ),
+                    )
+                }
             }
         },
         onLibrarySeatFabClick = onLibrarySeatFabClick,
     )
+
+    if (uiState.isLocationPermissionDialogVisible) {
+        KuringAlertDialog(
+            text = stringResource(R.string.campus_map_location_permission_dialog_text),
+            confirmText = stringResource(R.string.notification_permission_dialog_confirm),
+            onConfirm = {
+                viewModel.hideLocationPermissionDialog()
+                context.openAppSettings()
+            },
+            onCancel = viewModel::hideLocationPermissionDialog,
+        )
+    }
 }
 
 @OptIn(ExperimentalNaverMapApi::class)
@@ -531,16 +554,6 @@ private fun CampusMapSearchResultSheetEffect(
         }
     }
 }
-
-private fun Context.hasCampusMapLocationPermission(): Boolean =
-    ContextCompat.checkSelfPermission(
-        this,
-        Manifest.permission.ACCESS_FINE_LOCATION,
-    ) == PackageManager.PERMISSION_GRANTED ||
-        ContextCompat.checkSelfPermission(
-            this,
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-        ) == PackageManager.PERMISSION_GRANTED
 
 @SuppressLint("MissingPermission")
 private fun requestCurrentLocation(
