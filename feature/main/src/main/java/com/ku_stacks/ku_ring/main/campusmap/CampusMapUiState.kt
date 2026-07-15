@@ -40,11 +40,18 @@ internal data class CampusMapUiState(
             selectedCategory = selectedCategory,
         ).toImmutableList()
 
-    val liveSearchResults: ImmutableList<Place>
-        get() = searchCampusPlaces(
-            places = campusPlaces,
-            query = searchInput,
-        ).toImmutableList()
+    val liveSearchResults: ImmutableList<CampusMapSearchResult>
+        get() = if (selectedCategory != null && searchInput == selectedCategory.label) {
+            searchResults
+        } else {
+            buildCampusMapSearchResults(
+                places = searchCampusPlaces(
+                    places = campusPlaces,
+                    query = searchInput,
+                ),
+                selectedCategory = null,
+            ).toImmutableList()
+        }
 
     val activeSearchText: String?
         get() = selectedCategory?.label ?: selectedSearchPlace?.name ?: submittedSearchQuery
