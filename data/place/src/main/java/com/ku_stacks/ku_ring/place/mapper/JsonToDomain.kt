@@ -4,8 +4,9 @@ import com.ku_stacks.ku_ring.domain.Place
 import com.ku_stacks.ku_ring.domain.PlaceFacility
 import com.ku_stacks.ku_ring.domain.PlaceOperationHours
 import com.ku_stacks.ku_ring.domain.Place.Priority
-import com.ku_stacks.ku_ring.place.model.JsonPlaceFacility
 import com.ku_stacks.ku_ring.place.model.JsonPlace
+import com.ku_stacks.ku_ring.place.model.JsonPlaceFacility
+import com.ku_stacks.ku_ring.place.model.JsonPlaceOperationHours
 
 internal fun JsonPlace.toDomain() = Place(
     id = id,
@@ -41,7 +42,7 @@ private fun JsonPlaceFacility.toDomain() = PlaceFacility(
     operationHours = operationHours?.toDomain(),
 )
 
-private fun com.ku_stacks.ku_ring.place.model.JsonPlaceOperationHours.toDomain() = PlaceOperationHours(
+private fun JsonPlaceOperationHours.toDomain() = PlaceOperationHours(
     current = current,
     semester = semester,
     vacation = vacation,
