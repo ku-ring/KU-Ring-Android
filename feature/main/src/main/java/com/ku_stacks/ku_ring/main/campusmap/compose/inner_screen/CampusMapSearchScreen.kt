@@ -61,7 +61,6 @@ import com.ku_stacks.ku_ring.main.campusmap.CampusMapRecentSearch
 import com.ku_stacks.ku_ring.main.campusmap.CampusMapViewModel
 import com.ku_stacks.ku_ring.main.campusmap.compose.preview.CampusMapPlacesPreviewParameterProvider
 import com.ku_stacks.ku_ring.main.campusmap.type.CampusMapCategory
-import com.ku_stacks.ku_ring.main.campusmap.type.searchCampusPlaces
 import com.ku_stacks.ku_ring.navigation.KuringRoute
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
@@ -77,17 +76,11 @@ internal fun CampusMapSearchRoute(
     viewModel: CampusMapViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val searchResults = remember(uiState.campusPlaces, uiState.searchInput) {
-        searchCampusPlaces(
-            places = uiState.campusPlaces,
-            query = uiState.searchInput,
-        ).toImmutableList()
-    }
 
     CampusMapSearchScreen(
         searchQuery = uiState.searchInput,
         recentSearches = uiState.recentSearches,
-        searchResults = searchResults,
+        searchResults = uiState.liveSearchResults,
         onQueryChange = viewModel::updateSearchInput,
         onQueryClear = viewModel::clearSearchInput,
         onNavigateUp = onNavigateUp,
