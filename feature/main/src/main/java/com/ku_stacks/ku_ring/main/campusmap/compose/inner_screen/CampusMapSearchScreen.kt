@@ -405,7 +405,7 @@ private fun RecentSearchHeader(
                 .padding(horizontal = 4.dp),
         ) {
             Text(
-                text = stringResource(id = R.string.campus_map_recent_search_delete_all),
+                text = stringResource(id = R.string.delete_all_keyword_history),
                 style = KuringTheme.typography.caption1,
                 color = KuringTheme.colors.textCaption1,
             )
