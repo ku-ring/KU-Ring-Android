@@ -35,7 +35,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
@@ -177,12 +176,10 @@ private fun CampusMapSearchTopBar(
                 ),
         ) {
             Icon(
-                imageVector = ImageVector.vectorResource(id = R.drawable.ic_chevron_v2),
+                imageVector = ImageVector.vectorResource(id = R.drawable.ic_chevron_left_v2),
                 contentDescription = stringResource(id = R.string.campus_map_search_navigate_up),
                 tint = KuringTheme.colors.gray600,
-                modifier = Modifier
-                    .size(24.dp)
-                    .rotate(180f),
+                modifier = Modifier.size(24.dp),
             )
         }
 
