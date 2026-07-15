@@ -62,7 +62,6 @@ import com.ku_stacks.ku_ring.domain.Place
 import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.campusmap.CampusMapUiState
 import com.ku_stacks.ku_ring.main.campusmap.CampusMapViewModel
-import com.ku_stacks.ku_ring.main.campusmap.compose.component.bottomsheet.CampusMapDetailSheetContent
 import com.ku_stacks.ku_ring.main.campusmap.compose.component.bottomsheet.CampusMapSearchResultSheetContent
 import com.ku_stacks.ku_ring.main.campusmap.compose.component.map.CurrentLocationFab
 import com.ku_stacks.ku_ring.main.campusmap.compose.component.map.LibrarySeatFab
@@ -86,7 +85,6 @@ private const val INITIAL_ZOOM_LEVEL = 14.2
 internal fun CampusMapScreen(
     onLibrarySeatFabClick: () -> Unit,
     onNavigateToSearch: () -> Unit,
-    onDetailSheetContentChange: (CampusMapDetailSheetContent?) -> Unit,
     onSearchResultSheetContentChange: (CampusMapSearchResultSheetContent?) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: CampusMapViewModel = hiltViewModel(),
@@ -135,7 +133,6 @@ internal fun CampusMapScreen(
         onMapPinClick = viewModel::updateFocusedPlace,
         onMapClick = viewModel::clearFocusedPlace,
         onPlaceDetailClose = viewModel::clearFocusedPlace,
-        onDetailSheetContentChange = onDetailSheetContentChange,
         onSearchResultSheetContentChange = onSearchResultSheetContentChange,
         onCategoryClick = viewModel::updateSelectedCategory,
         onSearchClick = {
@@ -169,7 +166,6 @@ private fun CampusMapScreen(
     onMapPinClick: (Place) -> Unit,
     onMapClick: () -> Unit,
     onPlaceDetailClose: () -> Unit,
-    onDetailSheetContentChange: (CampusMapDetailSheetContent?) -> Unit,
     onSearchResultSheetContentChange: (CampusMapSearchResultSheetContent?) -> Unit,
     onCategoryClick: (CampusMapCategory) -> Unit,
     onSearchClick: () -> Unit,
@@ -190,12 +186,6 @@ private fun CampusMapScreen(
             onActiveSelectionClear()
         }
     }
-
-    CampusMapDetailSheetEffect(
-        focusedPlace = uiState.focusedPlace,
-        onDismiss = onPlaceDetailClose,
-        onContentChange = onDetailSheetContentChange,
-    )
 
     CampusMapSearchResultSheetEffect(
         uiState = uiState,
@@ -499,30 +489,6 @@ private fun CampusMapCategoryChip(
                 style = KuringTheme.typography.caption1_1,
                 color = contentColor,
             )
-        }
-    }
-}
-
-@Composable
-private fun CampusMapDetailSheetEffect(
-    focusedPlace: Place?,
-    onDismiss: () -> Unit,
-    onContentChange: (CampusMapDetailSheetContent?) -> Unit,
-) {
-    val currentOnDismiss by rememberUpdatedState(onDismiss)
-    val currentOnContentChange by rememberUpdatedState(onContentChange)
-
-    DisposableEffect(focusedPlace) {
-        currentOnContentChange(
-            focusedPlace?.let { place ->
-                CampusMapDetailSheetContent(
-                    place = place,
-                    onDismiss = { currentOnDismiss() },
-                )
-            },
-        )
-        onDispose {
-            currentOnContentChange(null)
         }
     }
 }

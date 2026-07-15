@@ -42,9 +42,8 @@ import com.ku_stacks.ku_ring.compose.locals.LocalPreferences
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.main.calendar.compose.AcademicCalendarScreen
 import com.ku_stacks.ku_ring.main.campusmap.CampusMapViewModel
-import com.ku_stacks.ku_ring.main.campusmap.compose.component.bottomsheet.CampusMapDetailSheetContent
-import com.ku_stacks.ku_ring.main.campusmap.compose.component.bottomsheet.CampusMapDetailSheetHost
 import com.ku_stacks.ku_ring.main.campusmap.compose.CampusMapScreen
+import com.ku_stacks.ku_ring.main.campusmap.compose.component.bottomsheet.CampusMapDetailSheetHost
 import com.ku_stacks.ku_ring.main.campusmap.compose.component.bottomsheet.CampusMapSearchResultSheetContent
 import com.ku_stacks.ku_ring.main.campusmap.compose.component.bottomsheet.CampusMapSearchResultSheetHost
 import com.ku_stacks.ku_ring.main.campusmap.compose.inner_screen.CampusMapSearchDestination
@@ -68,9 +67,6 @@ fun MainScreen(
     val isCampusMapSearch = currentBackStackEntry?.isCampusMapSearch == true
     val currentRoute = currentBackStackEntry?.mainScreenRoute()
         ?: MainScreenRoute.Notice
-    var campusMapDetailSheetContent by remember {
-        mutableStateOf<CampusMapDetailSheetContent?>(null)
-    }
     var campusMapSearchResultSheetContent by remember {
         mutableStateOf<CampusMapSearchResultSheetContent?>(null)
     }
@@ -128,9 +124,6 @@ fun MainScreen(
                         navController = navController,
                         navigator = navigator,
                         activity = activity,
-                        onCampusMapDetailSheetContentChange = {
-                            campusMapDetailSheetContent = it
-                        },
                         onCampusMapSearchResultSheetContentChange = {
                             campusMapSearchResultSheetContent = it
                         },
@@ -139,18 +132,24 @@ fun MainScreen(
             }
 
             if (shouldShowCampusMapSheetHost(currentRoute, isCampusMapSearch)) {
-                val detailContent = campusMapDetailSheetContent
-                if (detailContent != null) {
-                    CampusMapDetailSheetHost(
-                        content = detailContent,
-                        modifier = Modifier.fillMaxSize(),
-                    )
-                } else {
-                    campusMapSearchResultSheetContent?.let { content ->
-                        CampusMapSearchResultSheetHost(
-                            content = content,
+                currentBackStackEntry?.let { campusMapEntry ->
+                    val viewModel = hiltViewModel<CampusMapViewModel>(campusMapEntry)
+                    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+                    val focusedPlace = uiState.focusedPlace
+
+                    if (focusedPlace != null) {
+                        CampusMapDetailSheetHost(
+                            place = focusedPlace,
+                            onDismiss = viewModel::clearFocusedPlace,
                             modifier = Modifier.fillMaxSize(),
                         )
+                    } else {
+                        campusMapSearchResultSheetContent?.let { content ->
+                            CampusMapSearchResultSheetHost(
+                                content = content,
+                                modifier = Modifier.fillMaxSize(),
+                            )
+                        }
                     }
                 }
             }
@@ -195,7 +194,6 @@ internal fun NavGraphBuilder.mainScreenNavGraph(
     navController: NavHostController,
     navigator: KuringNavigator,
     activity: Activity,
-    onCampusMapDetailSheetContentChange: (CampusMapDetailSheetContent?) -> Unit,
     onCampusMapSearchResultSheetContentChange: (CampusMapSearchResultSheetContent?) -> Unit,
 ) {
     composable<MainScreenRoute.Notice> {
@@ -247,7 +245,6 @@ internal fun NavGraphBuilder.mainScreenNavGraph(
             onNavigateToSearch = {
                 navController.navigate(CampusMapSearchDestination)
             },
-            onDetailSheetContentChange = onCampusMapDetailSheetContentChange,
             onSearchResultSheetContentChange = onCampusMapSearchResultSheetContentChange,
         )
     }

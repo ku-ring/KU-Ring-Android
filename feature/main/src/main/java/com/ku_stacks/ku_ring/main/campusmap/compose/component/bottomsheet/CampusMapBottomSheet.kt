@@ -50,19 +50,15 @@ import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.campusmap.compose.preview.CampusMapPlacePreviewParameterProvider
 import com.ku_stacks.ku_ring.main.campusmap.type.CampusMapCategory
 
-internal data class CampusMapDetailSheetContent(
-    val place: Place,
-    val onDismiss: () -> Unit,
-)
-
 private val CollapsedSheetHeight = 318.dp
 
 @Composable
 internal fun CampusMapDetailSheetHost(
-    content: CampusMapDetailSheetContent,
+    place: Place,
+    onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var isExpanded by rememberSaveable(content.place.id) { mutableStateOf(false) }
+    var isExpanded by rememberSaveable(place.id) { mutableStateOf(false) }
 
     Box(
         modifier = modifier
@@ -71,10 +67,10 @@ internal fun CampusMapDetailSheetHost(
             .navigationBarsPadding(),
     ) {
         CampusMapBottomSheet(
-            place = content.place,
+            place = place,
             isExpanded = isExpanded,
             onExpandedChange = { isExpanded = it },
-            onDismiss = content.onDismiss,
+            onDismiss = onDismiss,
             modifier = Modifier.fillMaxSize(),
         )
     }
