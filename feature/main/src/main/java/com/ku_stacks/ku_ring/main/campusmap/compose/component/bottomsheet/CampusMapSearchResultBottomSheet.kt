@@ -130,6 +130,10 @@ internal fun CampusMapSearchResultBottomSheet(
     }
     val currentOnDismiss by rememberUpdatedState(onDismiss)
 
+    LaunchedEffect(results) {
+        scrollState.scrollTo(0)
+    }
+
     LaunchedEffect(anchoredDraggableState.settledValue) {
         if (anchoredDraggableState.settledValue == SearchResultSheetAnchor.Hidden) {
             currentOnDismiss()
