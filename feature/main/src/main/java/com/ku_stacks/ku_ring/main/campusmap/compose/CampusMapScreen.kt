@@ -144,7 +144,7 @@ internal fun CampusMapScreen(
             viewModel.prepareSearchInput()
             onNavigateToSearch()
         },
-        onSearchPlaceClick = viewModel::selectSearchPlace,
+        onSearchResultClick = viewModel::focusSearchResultPlace,
         onActiveSelectionClear = viewModel::clearActiveSelection,
         cameraPositionState = cameraPositionState,
         hasLocationPermission = hasLocationPermission,
@@ -192,7 +192,7 @@ private fun CampusMapScreen(
     onSearchResultSheetContentChange: (CampusMapSearchResultSheetContent?) -> Unit,
     onCategoryClick: (CampusMapCategory) -> Unit,
     onSearchClick: () -> Unit,
-    onSearchPlaceClick: (Place) -> Unit,
+    onSearchResultClick: (Place) -> Unit,
     onActiveSelectionClear: () -> Unit,
     cameraPositionState: CameraPositionState,
     hasLocationPermission: Boolean,
@@ -212,8 +212,7 @@ private fun CampusMapScreen(
 
     CampusMapSearchResultSheetEffect(
         uiState = uiState,
-        onMapPinClick = onMapPinClick,
-        onSearchPlaceClick = onSearchPlaceClick,
+        onResultClick = onSearchResultClick,
         onDismiss = onActiveSelectionClear,
         onContentChange = onSearchResultSheetContentChange,
     )
@@ -519,30 +518,21 @@ private fun CampusMapCategoryChip(
 @Composable
 private fun CampusMapSearchResultSheetEffect(
     uiState: CampusMapUiState,
-    onMapPinClick: (Place) -> Unit,
-    onSearchPlaceClick: (Place) -> Unit,
+    onResultClick: (Place) -> Unit,
     onDismiss: () -> Unit,
     onContentChange: (CampusMapSearchResultSheetContent?) -> Unit,
 ) {
-    val currentOnMapPinClick by rememberUpdatedState(onMapPinClick)
-    val currentOnSearchPlaceClick by rememberUpdatedState(onSearchPlaceClick)
+    val currentOnResultClick by rememberUpdatedState(onResultClick)
     val currentOnDismiss by rememberUpdatedState(onDismiss)
     val currentOnContentChange by rememberUpdatedState(onContentChange)
     val results = uiState.searchResults
-    val selectedCategory = uiState.selectedCategory
 
-    DisposableEffect(uiState.showSearchResultSheet, results, selectedCategory) {
+    DisposableEffect(uiState.showSearchResultSheet, results) {
         currentOnContentChange(
             if (uiState.showSearchResultSheet) {
                 CampusMapSearchResultSheetContent(
                     results = results,
-                    onResultClick = { result ->
-                        if (selectedCategory != null) {
-                            currentOnMapPinClick(result.place)
-                        } else {
-                            currentOnSearchPlaceClick(result.place)
-                        }
-                    },
+                    onResultClick = { result -> currentOnResultClick(result.place) },
                     onDismiss = { currentOnDismiss() },
                 )
             } else {

@@ -149,6 +149,12 @@ class CampusMapViewModel @Inject constructor(
         }
     }
 
+    fun focusSearchResultPlace(place: Place) {
+        _uiState.update { currentState ->
+            currentState.copy(focusedPlace = place)
+        }
+    }
+
     fun submitSearch() {
         _uiState.update { currentState ->
             val submittedQuery = currentState.searchInput.trim()

@@ -103,7 +103,7 @@ internal sealed interface CampusMapRecentSearch {
     data class PlaceResult(val place: Place) : CampusMapRecentSearch {
         override val id: String = "place:${place.id}"
         override val label: String = place.name
-        override val iconRes: Int = CampusMapCategory.iconRes(place.category)
+        override val iconRes: Int = R.drawable.ic_campus_map_recent_search
     }
 }
 
