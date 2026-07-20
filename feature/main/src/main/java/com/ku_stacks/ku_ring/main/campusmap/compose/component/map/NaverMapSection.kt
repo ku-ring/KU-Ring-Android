@@ -14,6 +14,7 @@ import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.Place
 import com.ku_stacks.ku_ring.main.campusmap.type.CampusMapCategory
 import com.naver.maps.geometry.LatLng
+import com.naver.maps.geometry.LatLngBounds
 import com.naver.maps.map.CameraAnimation
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.compose.CameraPositionState
@@ -24,8 +25,12 @@ import com.naver.maps.map.compose.MapUiSettings
 import com.naver.maps.map.compose.NaverMap
 import kotlinx.collections.immutable.ImmutableList
 
-private const val MIN_ZOOM_LEVEL = 5.0           // 사용자가 설정할 수 있는 지도의 최소 확대 레벨
-private const val MAX_ZOOM_LEVEL = 21.0          // 사용자가 설정할 수 있는 지도의 최대 확대 레벨
+private const val MIN_ZOOM_LEVEL = 13.0 // 지도를 축소할 수 있는 한계
+private const val MAX_ZOOM_LEVEL = 21.0 // 지도를 확대할 수 있는 한계
+private val CAMPUS_MAP_EXTENT = LatLngBounds(
+    LatLng(37.5320, 127.0650),
+    LatLng(37.5505, 127.0910),
+)
 
 @OptIn(ExperimentalNaverMapApi::class)
 @Composable
@@ -52,6 +57,7 @@ internal fun NaverMapSection(
     )
     val mapProperties = MapProperties(
         mapType = if (isDarkTheme) MapType.Navi else MapType.Basic,
+        extent = CAMPUS_MAP_EXTENT,
         minZoom = MIN_ZOOM_LEVEL,
         maxZoom = MAX_ZOOM_LEVEL,
         isNightModeEnabled = isDarkTheme,
