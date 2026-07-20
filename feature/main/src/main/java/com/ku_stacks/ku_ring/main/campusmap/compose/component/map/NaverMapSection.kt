@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.Place
 import com.ku_stacks.ku_ring.main.campusmap.type.CampusMapCategory
 import com.naver.maps.geometry.LatLng
@@ -18,6 +19,7 @@ import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.compose.CameraPositionState
 import com.naver.maps.map.compose.ExperimentalNaverMapApi
 import com.naver.maps.map.compose.MapProperties
+import com.naver.maps.map.compose.MapType
 import com.naver.maps.map.compose.MapUiSettings
 import com.naver.maps.map.compose.NaverMap
 import kotlinx.collections.immutable.ImmutableList
@@ -36,6 +38,7 @@ internal fun NaverMapSection(
     onMapClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val isDarkTheme = !KuringTheme.colors.isLight
     val mapUiSettings = MapUiSettings(
         isTiltGesturesEnabled = false,
         isScaleBarEnabled = false,
@@ -48,8 +51,10 @@ internal fun NaverMapSection(
         )
     )
     val mapProperties = MapProperties(
+        mapType = if (isDarkTheme) MapType.Navi else MapType.Basic,
         minZoom = MIN_ZOOM_LEVEL,
         maxZoom = MAX_ZOOM_LEVEL,
+        isNightModeEnabled = isDarkTheme,
     )
 
     LaunchedEffect(focusedPlace) {
