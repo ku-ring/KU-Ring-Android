@@ -137,7 +137,7 @@ private fun SelectedMarkerIcon(
         Icon(
             painter = painterResource(id = iconRes),
             contentDescription = null,
-            tint = Color.White,
+            tint = KuringTheme.colors.white,
             modifier = Modifier
                 .align(Alignment.TopCenter)
                 .padding(top = 10.dp)

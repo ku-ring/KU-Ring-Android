@@ -375,7 +375,7 @@ private fun FacilityInfo(
             Text(
                 text = facility.name,
                 style = KuringTheme.typography.caption1_1,
-                color = Color(0xFF39312C),
+                color = KuringTheme.colors.textBody,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.weight(1f),

@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
@@ -29,7 +28,7 @@ internal fun DragHandle(
             modifier = Modifier
                 .size(width = 35.dp, height = 4.dp)
                 .clip(RoundedCornerShape(999.dp))
-                .background(Color(0xFFD4D4D4)),
+                .background(KuringTheme.colors.gray200),
         )
     }
 }
