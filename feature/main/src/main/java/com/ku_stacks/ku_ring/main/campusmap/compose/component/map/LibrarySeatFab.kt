@@ -1,4 +1,4 @@
-package com.ku_stacks.ku_ring.main.campusmap.compose.component
+package com.ku_stacks.ku_ring.main.campusmap.compose.component.map
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
@@ -23,8 +23,8 @@ import com.ku_stacks.ku_ring.main.R
 
 @Composable
 internal fun LibrarySeatFab(
-    modifier: Modifier = Modifier,
     onClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Button(
         onClick = onClick,
@@ -61,6 +61,6 @@ internal fun LibrarySeatFab(
 @Composable
 private fun LibrarySeatFabPreview() {
     KuringTheme {
-        LibrarySeatFab {}
+        LibrarySeatFab(onClick = {})
     }
 }

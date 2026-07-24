@@ -8,6 +8,13 @@ data class Place (
     val latitude: Double,
     val longitude: Double,
     val priority: Priority,
+    val number: Int? = null,
+    val iconUrl: String? = null,
+    val phone: String? = null,
+    val data: String? = null,
+    val imageUrl: String? = null,
+    val operationHours: PlaceOperationHours? = null,
+    val facilities: List<PlaceFacility> = emptyList(),
 ) {
     enum class Priority {
         HIGH, MIDDLE, LOW
@@ -21,3 +28,16 @@ data class Place (
         }
     }
 }
+
+data class PlaceOperationHours(
+    val current: String? = null,
+    val semester: String? = null,
+    val vacation: String? = null,
+)
+
+data class PlaceFacility(
+    val name: String,
+    val category: String,
+    val location: String? = null,
+    val operationHours: PlaceOperationHours? = null,
+)
