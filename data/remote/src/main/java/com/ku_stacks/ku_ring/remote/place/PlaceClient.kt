@@ -19,8 +19,8 @@ class PlaceClient @Inject constructor(
     suspend fun fetchBuildings(): DefaultResponse<PlaceBuildingListResponse> =
         placeService.fetchBuildings()
 
-    suspend fun fetchCampusPlaces(category: String): DefaultResponse<PlaceCampusPlaceListResponse> =
-        placeService.fetchCampusPlaces(category)
+    suspend fun fetchCampusPlaces(categories: Array<String>): DefaultResponse<PlaceCampusPlaceListResponse> =
+        placeService.fetchCampusPlaces(categories)
 
     suspend fun fetchCategories(): DefaultResponse<PlaceCategoryListResponse> =
         placeService.fetchCategories()

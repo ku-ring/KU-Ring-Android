@@ -44,9 +44,9 @@ class PlaceRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getPlaceCampusPlaces(category: String): Result<List<PlaceFacility>> =
+    override suspend fun getPlaceCampusPlaces(categories: Array<String>): Result<List<PlaceFacility>> =
         suspendRunCatching {
-            val response = placeClient.fetchCampusPlaces(category)
+            val response = placeClient.fetchCampusPlaces(categories)
             when {
                 response.isSuccessAndDataExists -> response.data!!.campusPlaces.map { it.toDomain() }
                 else -> throw IllegalStateException(response.resultMsg)

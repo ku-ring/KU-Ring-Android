@@ -31,12 +31,12 @@ interface PlaceRepository {
     suspend fun getPlaceBuildings(): Result<List<Place>>
 
     /**
-     * 카테고리에 해당하는 캠퍼스맵 시설 목록을 가져온다.
+     * 카테고리(들)에 해당하는 캠퍼스맵 시설 목록을 가져온다.
      *
-     * @param category 시설 카테고리
+     * @param categories 시설 카테고리 목록
      * @return 정상 처리 시 시설 목록을 [Result]에 담아 반환. 실패 시 [Result.Failure]
      */
-    suspend fun getPlaceCampusPlaces(category: String): Result<List<PlaceFacility>>
+    suspend fun getPlaceCampusPlaces(categories: Array<String>): Result<List<PlaceFacility>>
 
     /**
      * 캠퍼스맵 카테고리 목록을 가져온다.

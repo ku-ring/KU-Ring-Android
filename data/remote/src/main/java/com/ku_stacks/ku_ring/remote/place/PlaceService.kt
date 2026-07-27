@@ -25,7 +25,7 @@ interface PlaceService {
 
     @GET("v2/maps/campus-places")
     suspend fun fetchCampusPlaces(
-        @Query("category") category: String,
+        @Query("categories") categories: Array<String>,
     ): DefaultResponse<PlaceCampusPlaceListResponse>
 
     @GET("v2/maps/categories")
