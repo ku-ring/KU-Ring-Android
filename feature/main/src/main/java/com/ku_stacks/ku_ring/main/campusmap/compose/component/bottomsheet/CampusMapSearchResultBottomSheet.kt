@@ -26,6 +26,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -37,9 +38,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -51,9 +54,9 @@ import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.Place
 import com.ku_stacks.ku_ring.main.R
-import com.ku_stacks.ku_ring.main.campusmap.CampusMapSearchResult
-import com.ku_stacks.ku_ring.main.campusmap.buildCampusMapSearchResults
 import com.ku_stacks.ku_ring.main.campusmap.compose.preview.CampusMapPlacesPreviewParameterProvider
+import com.ku_stacks.ku_ring.main.campusmap.model.CampusMapSearchResult
+import com.ku_stacks.ku_ring.main.campusmap.model.buildCampusMapSearchResults
 import kotlin.math.roundToInt
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
@@ -85,9 +88,7 @@ internal fun CampusMapSearchResultSheetHost(
     }
 }
 
-private val SearchResultSheetHeight = 359.dp
 private val SearchResultSheetBottomPadding = 96.dp
-private val EmptySearchResultContentHeight = 180.dp
 private val SearchResultSheetAnimationEasing = CubicBezierEasing(0.42f, 0f, 0.58f, 1f)
 private const val SearchResultSheetAnimationDurationMillis = 300
 private const val SearchResultSheetPositionalThresholdFraction = 0.25f
@@ -143,7 +144,7 @@ internal fun CampusMapSearchResultBottomSheet(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .height(SearchResultSheetHeight)
+            .height(CampusMapCollapsedSheetHeight)
             .onSizeChanged { sheetSize ->
                 val positions = calculateSearchResultSheetAnchorPositions(
                     sheetHeightPx = sheetSize.height.toFloat(),
@@ -356,13 +357,22 @@ private fun SearchResultListItemPreview() {
 private fun EmptySearchResultContent(
     modifier: Modifier = Modifier,
 ) {
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = modifier.height(EmptySearchResultContentHeight),
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier.padding(top = 8.dp),
     ) {
+        Icon(
+            imageVector = ImageVector.vectorResource(id = R.drawable.ic_campus_map_empty_search),
+            contentDescription = null,
+            tint = Color.Unspecified,
+            modifier = Modifier.size(150.dp),
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
         Text(
-            text = stringResource(id = R.string.campus_map_empty_search_result),
-            style = KuringTheme.typography.caption1,
+            text = stringResource(id = R.string.campus_map_empty_filtered_result),
+            style = KuringTheme.typography.body2,
             color = KuringTheme.colors.textCaption1,
         )
     }

@@ -137,7 +137,7 @@ internal fun CampusMapScreen(
     CampusMapScreen(
         uiState = uiState,
         modifier = modifier,
-        onMapPinClick = viewModel::updateFocusedPlace,
+        onMapPinClick = viewModel::focusMapPlace,
         onMapClick = viewModel::clearFocusedPlace,
         onPlaceDetailClose = viewModel::clearFocusedPlace,
         onSearchResultSheetContentChange = onSearchResultSheetContentChange,
@@ -265,6 +265,7 @@ private fun CampusMapScreen(
         CampusMapTopControls(
             selectedCategory = uiState.selectedCategory,
             activeSearchText = uiState.activeSearchText,
+            showCategoryChips = uiState.showCategoryChips,
             onSearchClick = onSearchClick,
             onActiveSearchClear = onActiveSelectionClear,
             onCategoryClick = onCategoryClick,
@@ -272,7 +273,6 @@ private fun CampusMapScreen(
                 .align(Alignment.TopCenter)
                 .fillMaxWidth(),
         )
-
     }
 }
 
@@ -280,6 +280,7 @@ private fun CampusMapScreen(
 private fun CampusMapTopControls(
     selectedCategory: CampusMapCategory?,
     activeSearchText: String?,
+    showCategoryChips: Boolean,
     onSearchClick: () -> Unit,
     onActiveSearchClear: () -> Unit,
     onCategoryClick: (CampusMapCategory) -> Unit,
@@ -316,13 +317,15 @@ private fun CampusMapTopControls(
             }
         }
 
-        Spacer(modifier = Modifier.height(8.dp))
+        if (showCategoryChips) {
+            Spacer(modifier = Modifier.height(8.dp))
 
-        CampusMapCategoryChips(
-            selectedCategory = selectedCategory,
-            onCategoryClick = onCategoryClick,
-            modifier = Modifier.fillMaxWidth(),
-        )
+            CampusMapCategoryChips(
+                selectedCategory = selectedCategory,
+                onCategoryClick = onCategoryClick,
+                modifier = Modifier.fillMaxWidth(),
+            )
+        }
     }
 }
 

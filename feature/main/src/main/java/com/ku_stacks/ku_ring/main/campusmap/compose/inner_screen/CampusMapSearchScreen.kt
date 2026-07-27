@@ -51,8 +51,10 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -60,11 +62,11 @@ import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.Place
 import com.ku_stacks.ku_ring.main.R
-import com.ku_stacks.ku_ring.main.campusmap.CampusMapRecentSearch
-import com.ku_stacks.ku_ring.main.campusmap.CampusMapSearchResult
 import com.ku_stacks.ku_ring.main.campusmap.CampusMapViewModel
-import com.ku_stacks.ku_ring.main.campusmap.buildCampusMapSearchResults
 import com.ku_stacks.ku_ring.main.campusmap.compose.preview.CampusMapPlacesPreviewParameterProvider
+import com.ku_stacks.ku_ring.main.campusmap.model.CampusMapRecentSearch
+import com.ku_stacks.ku_ring.main.campusmap.model.CampusMapSearchResult
+import com.ku_stacks.ku_ring.main.campusmap.model.buildCampusMapSearchResults
 import com.ku_stacks.ku_ring.main.campusmap.type.CampusMapCategory
 import com.ku_stacks.ku_ring.navigation.KuringRoute
 import kotlinx.collections.immutable.ImmutableList
@@ -86,12 +88,17 @@ internal fun CampusMapSearchRoute(
         searchQuery = uiState.searchInput,
         recentSearches = uiState.recentSearches,
         searchResults = uiState.liveSearchResults,
+        showEmptySearchResult = uiState.shouldShowEmptySearchResult,
         onQueryChange = viewModel::updateSearchInput,
         onQueryClear = viewModel::clearSearchInput,
         onNavigateUp = onNavigateUp,
         onSearchSubmit = {
+            val shouldShowResultList = uiState.searchInput.isNotBlank() &&
+                uiState.liveSearchResults.isNotEmpty()
             viewModel.submitSearch()
-            onNavigateUp()
+            if (shouldShowResultList) {
+                onNavigateUp()
+            }
         },
         onResultClick = { result ->
             viewModel.selectSearchPlace(result.place)
@@ -112,6 +119,7 @@ internal fun CampusMapSearchScreen(
     searchQuery: String,
     recentSearches: ImmutableList<CampusMapRecentSearch>,
     searchResults: ImmutableList<CampusMapSearchResult>,
+    showEmptySearchResult: Boolean,
     onQueryChange: (String) -> Unit,
     onQueryClear: () -> Unit,
     onNavigateUp: () -> Unit,
@@ -145,6 +153,7 @@ internal fun CampusMapSearchScreen(
             query = searchQuery,
             recentSearches = recentSearches,
             searchResults = searchResults,
+            showEmptySearchResult = showEmptySearchResult,
             onResultClick = onResultClick,
             onRecentClick = onRecentClick,
             onRecentDelete = onRecentDelete,
@@ -323,6 +332,7 @@ private fun CampusMapSearchContent(
     query: String,
     recentSearches: ImmutableList<CampusMapRecentSearch>,
     searchResults: ImmutableList<CampusMapSearchResult>,
+    showEmptySearchResult: Boolean,
     onResultClick: (CampusMapSearchResult) -> Unit,
     onRecentClick: (CampusMapRecentSearch) -> Unit,
     onRecentDelete: (CampusMapRecentSearch) -> Unit,
@@ -339,9 +349,10 @@ private fun CampusMapSearchContent(
         return
     }
 
-    if (trimmedQuery.isNotEmpty() && searchResults.isEmpty()) {
+    if (showEmptySearchResult) {
         CampusMapSearchEmptyState(
             message = stringResource(id = R.string.campus_map_empty_search_result),
+            topSpacing = 180.dp,
             modifier = modifier,
         )
         return
@@ -365,7 +376,7 @@ private fun CampusMapSearchContent(
             ) { recentSearch ->
                 CampusMapSearchPlaceItem(
                     label = recentSearch.label,
-                    iconRes = recentSearch.iconRes,
+                    iconRes = R.drawable.ic_campus_map_recent_search,
                     query = "",
                     showDelete = true,
                     onClick = { onRecentClick(recentSearch) },
@@ -380,7 +391,11 @@ private fun CampusMapSearchContent(
             ) { result ->
                 CampusMapSearchPlaceItem(
                     label = result.title,
-                    iconRes = CampusMapCategory.iconRes(result.category),
+                    iconRes = if (result.isRecentMatch) {
+                        R.drawable.ic_campus_map_recent_search
+                    } else {
+                        CampusMapCategory.iconRes(result.category)
+                    },
                     query = trimmedQuery,
                     showDelete = false,
                     onClick = { onResultClick(result) },
@@ -435,12 +450,13 @@ private fun RecentSearchHeader(
 private fun CampusMapSearchEmptyState(
     message: String,
     modifier: Modifier = Modifier,
+    topSpacing: Dp = 90.dp,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier,
     ) {
-        Spacer(modifier = Modifier.height(90.dp))
+        Spacer(modifier = Modifier.height(topSpacing))
 
         Icon(
             imageVector = ImageVector.vectorResource(id = R.drawable.ic_campus_map_empty_search),
@@ -455,6 +471,8 @@ private fun CampusMapSearchEmptyState(
             text = message,
             style = KuringTheme.typography.body2,
             color = KuringTheme.colors.textCaption1,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth(),
         )
     }
 }
@@ -568,6 +586,7 @@ private fun CampusMapSearchScreenPreview(
                 places = places,
                 selectedCategory = null,
             ).toImmutableList(),
+            showEmptySearchResult = false,
             onQueryChange = {},
             onQueryClear = {},
             onNavigateUp = {},
