@@ -63,6 +63,7 @@ import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.campusmap.CampusMapUiState
 import com.ku_stacks.ku_ring.main.campusmap.CampusMapViewModel
 import com.ku_stacks.ku_ring.main.campusmap.compose.component.bottomsheet.CampusMapSearchResultSheetContent
+import com.ku_stacks.ku_ring.main.campusmap.compose.component.map.CompassFab
 import com.ku_stacks.ku_ring.main.campusmap.compose.component.map.CurrentLocationFab
 import com.ku_stacks.ku_ring.main.campusmap.compose.component.map.LibrarySeatFab
 import com.ku_stacks.ku_ring.main.campusmap.compose.component.map.NaverMapSection
@@ -74,6 +75,7 @@ import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraAnimation
 import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.CameraUpdate
+import com.naver.maps.map.CameraUpdateParams
 import com.naver.maps.map.compose.CameraPositionState
 import com.naver.maps.map.compose.ExperimentalNaverMapApi
 import com.naver.maps.map.compose.rememberCameraPositionState
@@ -232,7 +234,7 @@ private fun CampusMapScreen(
 
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
+            verticalAlignment = Alignment.Bottom,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .fillMaxWidth()
@@ -244,10 +246,20 @@ private fun CampusMapScreen(
         ) {
             LibrarySeatFab(onClick = onLibrarySeatFabClick)
 
-            CurrentLocationFab(
-                hasLocationPermission = hasLocationPermission,
-                onClick = onCurrentLocationClick,
-            )
+            Column(
+                horizontalAlignment = Alignment.End,
+                verticalArrangement = Arrangement.spacedBy(14.dp),
+            ) {
+                CompassFab(
+                    bearing = cameraPositionState.position.bearing,
+                    onClick = cameraPositionState::resetBearing,
+                )
+
+                CurrentLocationFab(
+                    hasLocationPermission = hasLocationPermission,
+                    onClick = onCurrentLocationClick,
+                )
+            }
         }
 
         CampusMapTopControls(
@@ -557,4 +569,16 @@ private fun requestCurrentLocation(
                 onLocationAvailable(it.latitude, it.longitude)
             }
         }
+}
+
+@OptIn(ExperimentalNaverMapApi::class)
+private fun CameraPositionState.resetBearing() {
+    move(
+        update = CameraUpdate
+            .withParams(
+                CameraUpdateParams()
+                    .rotateTo(0.0),
+            )
+            .animate(CameraAnimation.Easing),
+    )
 }
