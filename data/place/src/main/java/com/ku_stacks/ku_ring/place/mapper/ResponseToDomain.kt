@@ -1,6 +1,7 @@
 package com.ku_stacks.ku_ring.place.mapper
 
 import com.ku_stacks.ku_ring.domain.Place
+import com.ku_stacks.ku_ring.domain.PlaceBuilding
 import com.ku_stacks.ku_ring.domain.PlaceCategory
 import com.ku_stacks.ku_ring.domain.PlaceFacility
 import com.ku_stacks.ku_ring.domain.PlaceOperationHours
@@ -35,13 +36,21 @@ internal fun PlaceBuildingDetailResponse.toDomain() = Place(
 
 internal fun PlaceCampusPlaceResponse.toDomain() = PlaceFacility(
     name = name,
-    category = categoryKorName,
+    category = category,
+    categoryKor = categoryKorName,
     location = listOfNotNull(floor, locationDetail).joinToString(" ").ifBlank { null },
-    operationHours = currentOperatingHours?.toDomain(),
+    operationHours = currentOperatingHours.toDomain(),
     id = id,
     imageUrl = imageUrl,
     quantity = quantity,
     externalUrl = externalUrl,
+    building = PlaceBuilding(
+        id = building.id,
+        name = building.name,
+        address = building.address,
+        latitude = building.latitude,
+        longitude = building.longitude,
+    )
 )
 
 internal fun PlaceOperatingHoursResponse.toDomain() = PlaceOperationHours(

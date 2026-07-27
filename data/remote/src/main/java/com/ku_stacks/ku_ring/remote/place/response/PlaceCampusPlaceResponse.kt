@@ -11,9 +11,10 @@ data class PlaceCampusPlaceResponse(
     @SerialName("categoryKorName") val categoryKorName: String,
     @SerialName("imageUrl") val imageUrl: String? = null,
     @SerialName("locationType") val locationType: String,
-    @SerialName("floor") val floor: String? = null,
+    @SerialName("floor") val floor: String,
     @SerialName("locationDetail") val locationDetail: String? = null,
     @SerialName("quantity") val quantity: Int? = null,
-    @SerialName("currentOperatingHours") val currentOperatingHours: PlaceOperatingHoursResponse? = null,
+    @SerialName("currentOperatingHours") val currentOperatingHours: PlaceOperatingHoursResponse,
     @SerialName("externalUrl") val externalUrl: String? = null,
+    @SerialName("building") val building: PlaceBuildingResponse,
 )

@@ -50,8 +50,10 @@ private object CampusMapPreviewSample {
         ),
         facilities = listOf(
             PlaceFacility(
+                id = 1,
                 name = "프린터",
-                category = "프린터",
+                category = "printer",
+                categoryKor = "프린터",
                 location = "1층 로비",
                 operationHours = PlaceOperationHours(
                     current = "22:00에 종료",
@@ -60,8 +62,10 @@ private object CampusMapPreviewSample {
                 ),
             ),
             PlaceFacility(
+                id = 2,
                 name = "카페",
-                category = "카페",
+                category = "cafe",
+                categoryKor = "카페",
                 location = "지하 1층",
                 operationHours = PlaceOperationHours(
                     current = "20:00에 종료",
@@ -70,8 +74,10 @@ private object CampusMapPreviewSample {
                 ),
             ),
             PlaceFacility(
+                id = 3,
                 name = "K-CUBE",
                 category = "k-cube",
+                categoryKor = "k-cube",
                 location = "2층",
                 operationHours = PlaceOperationHours(
                     current = "18:00에 종료",

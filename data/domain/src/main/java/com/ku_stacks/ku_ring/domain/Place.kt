@@ -36,18 +36,28 @@ data class PlaceOperationHours(
 )
 
 data class PlaceFacility(
-    val id: Long? = null,
+    val id: Long,
     val name: String,
     val category: String,
+    val categoryKor: String,
     val location: String? = null,
     val operationHours: PlaceOperationHours? = null,
     val imageUrl: String? = null,
     val quantity: Int? = null,
     val externalUrl: String? = null,
+    val building: PlaceBuilding? = null,
 )
 
 data class PlaceCategory(
     val name: String,
     val korName: String,
     val displayOrder: Int,
+)
+
+data class PlaceBuilding(
+    val id: Long,
+    val name: String,
+    val address: String,
+    val latitude: Double,
+    val longitude: Double,
 )
