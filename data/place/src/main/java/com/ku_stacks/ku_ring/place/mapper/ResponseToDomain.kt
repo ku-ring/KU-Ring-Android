@@ -30,7 +30,7 @@ internal fun PlaceBuildingDetailResponse.toDomain() = Place(
     longitude = longitude,
     priority = Place.Priority.MIDDLE,
     imageUrl = imageUrl,
-    operationHours = currentOperatingHours?.toDomain(),
+    operationHours = operatingHours.toDomain(),
     facilities = campusPlaces.map { it.toDomain() },
 )
 
@@ -39,28 +39,47 @@ internal fun PlaceCampusPlaceResponse.toDomain() = PlaceFacility(
     category = category,
     categoryKor = categoryKorName,
     location = listOfNotNull(floor, locationDetail).joinToString(" ").ifBlank { null },
-    operationHours = currentOperatingHours.toDomain(),
+    operationHours = operatingHours.toDomain(),
     id = id,
     imageUrl = imageUrl,
     quantity = quantity,
     externalUrl = externalUrl,
-    building = PlaceBuilding(
-        id = building.id,
-        name = building.name,
-        address = building.address,
-        latitude = building.latitude,
-        longitude = building.longitude,
-    )
+    building = building?.let {
+        PlaceBuilding(
+            id = it.id,
+            name = it.name,
+            address = it.address,
+            latitude = it.latitude,
+            longitude = it.longitude,
+        )
+    },
 )
 
-internal fun PlaceOperatingHoursResponse.toDomain() = PlaceOperationHours(
-    current = toDisplayText(),
+// 서버는 (SEMESTER/VACATION) x (WEEKDAY/WEEKEND) 4개 조합을 배열로 내려준다.
+// isCurrent=true인 항목을 current로, 요일군별 텍스트를 합쳐 semester/vacation을 만든다.
+private fun List<PlaceOperatingHoursResponse>.toDomain() = PlaceOperationHours(
+    current = firstOrNull { it.isCurrent }?.toDisplayText(),
+    semester = toPeriodDisplayText(period = "SEMESTER"),
+    vacation = toPeriodDisplayText(period = "VACATION"),
 )
+
+private fun List<PlaceOperatingHoursResponse>.toPeriodDisplayText(period: String): String? {
+    val weekday = firstOrNull { it.period == period && it.dayGroup == "WEEKDAY" }?.toDisplayText()
+    val weekend = firstOrNull { it.period == period && it.dayGroup == "WEEKEND" }?.toDisplayText()
+    return when {
+        weekday == null && weekend == null -> null
+        weekday == weekend -> weekday
+        else -> listOfNotNull(
+            weekday?.let { "평일 $it" },
+            weekend?.let { "주말 $it" },
+        ).joinToString(" / ")
+    }
+}
 
 private fun PlaceOperatingHoursResponse.toDisplayText(): String = when (status) {
     "OPEN_24_HOURS" -> "24시간 운영"
-    "CLOSED" -> "휴무"
-    else -> if (opensAt != null && closesAt != null) "$opensAt - $closesAt" else "-"
+    "SCHEDULED" -> "$opensAt - $closesAt"
+    else -> "-" // UNKNOWN: 운영시간 정보 없음
 }
 
 internal fun PlaceCategoryResponse.toDomain() = PlaceCategory(

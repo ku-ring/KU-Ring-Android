@@ -11,6 +11,6 @@ data class PlaceBuildingDetailResponse(
     @SerialName("latitude") val latitude: Double,
     @SerialName("longitude") val longitude: Double,
     @SerialName("imageUrl") val imageUrl: String? = null,
-    @SerialName("currentOperatingHours") val currentOperatingHours: PlaceOperatingHoursResponse,
+    @SerialName("operatingHours") val operatingHours: List<PlaceOperatingHoursResponse>,
     @SerialName("campusPlaces") val campusPlaces: List<PlaceCampusPlaceResponse>,
 )
