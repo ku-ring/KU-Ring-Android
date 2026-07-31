@@ -1,0 +1,43 @@
+{
+  "code": 200,
+  "message": "장소 카테고리 목록 조회에 성공하였습니다",
+  "data": {
+    "categories": [
+      {
+        "name": "cafe",
+        "korName": "카페",
+        "displayOrder": 1
+      },
+      {
+        "name": "restaurant",
+        "korName": "식당",
+        "displayOrder": 2
+      },
+      {
+        "name": "printer",
+        "korName": "프린터",
+        "displayOrder": 3
+      },
+      {
+        "name": "smoking_booth",
+        "korName": "흡연부스",
+        "displayOrder": 4
+      },
+      {
+        "name": "convenience_store",
+        "korName": "편의점",
+        "displayOrder": 5
+      },
+      {
+        "name": "lounge",
+        "korName": "휴게실",
+        "displayOrder": 6
+      },
+      {
+        "name": "kcube",
+        "korName": "KCUBE",
+        "displayOrder": 7
+      }
+    ]
+  }
+}

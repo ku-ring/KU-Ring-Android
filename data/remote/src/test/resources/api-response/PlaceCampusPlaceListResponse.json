@@ -1,0 +1,485 @@
+{
+  "code": 200,
+  "message": "카테고리 기반 시설 목록 조회에 성공하였습니다",
+  "data": {
+    "campusPlaces": [
+      {
+        "id": 201,
+        "name": "카페 레스티오",
+        "category": "cafe",
+        "categoryKorName": "카페",
+        "imageUrl": "https://placehold.co/600x400/png?text=Cafe",
+        "locationType": "INDOOR",
+        "floor": "1F",
+        "locationDetail": "경영관 1층",
+        "quantity": null,
+        "operatingHours": [
+          {
+            "period": "SEMESTER",
+            "dayGroup": "WEEKDAY",
+            "status": "SCHEDULED",
+            "opensAt": "08:00",
+            "closesAt": "22:00",
+            "isCurrent": false
+          },
+          {
+            "period": "SEMESTER",
+            "dayGroup": "WEEKEND",
+            "status": "SCHEDULED",
+            "opensAt": "09:00",
+            "closesAt": "18:00",
+            "isCurrent": false
+          },
+          {
+            "period": "VACATION",
+            "dayGroup": "WEEKDAY",
+            "status": "SCHEDULED",
+            "opensAt": "09:00",
+            "closesAt": "18:00",
+            "isCurrent": true
+          },
+          {
+            "period": "VACATION",
+            "dayGroup": "WEEKEND",
+            "status": "UNKNOWN",
+            "opensAt": null,
+            "closesAt": null,
+            "isCurrent": false
+          }
+        ],
+        "externalUrl": null,
+        "building": {
+          "id": 2,
+          "name": "경영관",
+          "address": "서울특별시 광진구 능동로 120",
+          "latitude": 37.5443474,
+          "longitude": 127.0761119
+        }
+      },
+      {
+        "id": 205,
+        "name": "경영관 흡연부스",
+        "category": "smoking_booth",
+        "categoryKorName": "흡연부스",
+        "imageUrl": "https://placehold.co/600x400/png?text=Smoking+Booth",
+        "locationType": "OUTDOOR",
+        "floor": null,
+        "locationDetail": "경영관 CU 앞",
+        "quantity": 1,
+        "operatingHours": [
+          {
+            "period": "SEMESTER",
+            "dayGroup": "WEEKDAY",
+            "status": "OPEN_24_HOURS",
+            "opensAt": null,
+            "closesAt": null,
+            "isCurrent": false
+          },
+          {
+            "period": "SEMESTER",
+            "dayGroup": "WEEKEND",
+            "status": "OPEN_24_HOURS",
+            "opensAt": null,
+            "closesAt": null,
+            "isCurrent": false
+          },
+          {
+            "period": "VACATION",
+            "dayGroup": "WEEKDAY",
+            "status": "OPEN_24_HOURS",
+            "opensAt": null,
+            "closesAt": null,
+            "isCurrent": true
+          },
+          {
+            "period": "VACATION",
+            "dayGroup": "WEEKEND",
+            "status": "OPEN_24_HOURS",
+            "opensAt": null,
+            "closesAt": null,
+            "isCurrent": false
+          }
+        ],
+        "externalUrl": null,
+        "building": {
+          "id": 2,
+          "name": "경영관",
+          "address": "서울특별시 광진구 능동로 120",
+          "latitude": 37.5443474,
+          "longitude": 127.0761119
+        }
+      },
+      {
+        "id": 405,
+        "name": "1847 샐러드카페",
+        "category": "cafe",
+        "categoryKorName": "카페",
+        "imageUrl": "https://placehold.co/600x400/png?text=Cafe",
+        "locationType": "INDOOR",
+        "floor": "1F",
+        "locationDetail": "학생회관 1층",
+        "quantity": null,
+        "operatingHours": [
+          {
+            "period": "SEMESTER",
+            "dayGroup": "WEEKDAY",
+            "status": "SCHEDULED",
+            "opensAt": "08:00",
+            "closesAt": "22:00",
+            "isCurrent": false
+          },
+          {
+            "period": "SEMESTER",
+            "dayGroup": "WEEKEND",
+            "status": "SCHEDULED",
+            "opensAt": "09:00",
+            "closesAt": "18:00",
+            "isCurrent": false
+          },
+          {
+            "period": "VACATION",
+            "dayGroup": "WEEKDAY",
+            "status": "SCHEDULED",
+            "opensAt": "09:00",
+            "closesAt": "18:00",
+            "isCurrent": true
+          },
+          {
+            "period": "VACATION",
+            "dayGroup": "WEEKEND",
+            "status": "UNKNOWN",
+            "opensAt": null,
+            "closesAt": null,
+            "isCurrent": false
+          }
+        ],
+        "externalUrl": null,
+        "building": {
+          "id": 4,
+          "name": "학생회관",
+          "address": "서울특별시 광진구 능동로 120",
+          "latitude": 37.541823,
+          "longitude": 127.0779007
+        }
+      },
+      {
+        "id": 502,
+        "name": "카페 블루포트",
+        "category": "cafe",
+        "categoryKorName": "카페",
+        "imageUrl": "https://placehold.co/600x400/png?text=Cafe",
+        "locationType": "INDOOR",
+        "floor": "1F",
+        "locationDetail": "상허연구관 1층",
+        "quantity": null,
+        "operatingHours": [
+          {
+            "period": "SEMESTER",
+            "dayGroup": "WEEKDAY",
+            "status": "SCHEDULED",
+            "opensAt": "08:00",
+            "closesAt": "22:00",
+            "isCurrent": false
+          },
+          {
+            "period": "SEMESTER",
+            "dayGroup": "WEEKEND",
+            "status": "SCHEDULED",
+            "opensAt": "09:00",
+            "closesAt": "18:00",
+            "isCurrent": false
+          },
+          {
+            "period": "VACATION",
+            "dayGroup": "WEEKDAY",
+            "status": "SCHEDULED",
+            "opensAt": "09:00",
+            "closesAt": "18:00",
+            "isCurrent": true
+          },
+          {
+            "period": "VACATION",
+            "dayGroup": "WEEKEND",
+            "status": "UNKNOWN",
+            "opensAt": null,
+            "closesAt": null,
+            "isCurrent": false
+          }
+        ],
+        "externalUrl": null,
+        "building": {
+          "id": 5,
+          "name": "상허연구관",
+          "address": "서울특별시 광진구 능동로 120",
+          "latitude": 37.5441512,
+          "longitude": 127.0752711
+        }
+      },
+      {
+        "id": 701,
+        "name": "카페 레스티오",
+        "category": "cafe",
+        "categoryKorName": "카페",
+        "imageUrl": "https://placehold.co/600x400/png?text=Cafe",
+        "locationType": "INDOOR",
+        "floor": "B1",
+        "locationDetail": "예술문화관 지하 1층",
+        "quantity": null,
+        "operatingHours": [
+          {
+            "period": "SEMESTER",
+            "dayGroup": "WEEKDAY",
+            "status": "SCHEDULED",
+            "opensAt": "08:00",
+            "closesAt": "22:00",
+            "isCurrent": false
+          },
+          {
+            "period": "SEMESTER",
+            "dayGroup": "WEEKEND",
+            "status": "SCHEDULED",
+            "opensAt": "09:00",
+            "closesAt": "18:00",
+            "isCurrent": false
+          },
+          {
+            "period": "VACATION",
+            "dayGroup": "WEEKDAY",
+            "status": "SCHEDULED",
+            "opensAt": "09:00",
+            "closesAt": "18:00",
+            "isCurrent": true
+          },
+          {
+            "period": "VACATION",
+            "dayGroup": "WEEKEND",
+            "status": "UNKNOWN",
+            "opensAt": null,
+            "closesAt": null,
+            "isCurrent": false
+          }
+        ],
+        "externalUrl": null,
+        "building": {
+          "id": 7,
+          "name": "예술문화관",
+          "address": "서울특별시 광진구 능동로 120",
+          "latitude": 37.5428728,
+          "longitude": 127.0731471
+        }
+      },
+      {
+        "id": 1301,
+        "name": "카페 레스티오",
+        "category": "cafe",
+        "categoryKorName": "카페",
+        "imageUrl": "https://placehold.co/600x400/png?text=Cafe",
+        "locationType": "INDOOR",
+        "floor": "1F",
+        "locationDetail": "동물생명과학관 1층",
+        "quantity": null,
+        "operatingHours": [
+          {
+            "period": "SEMESTER",
+            "dayGroup": "WEEKDAY",
+            "status": "SCHEDULED",
+            "opensAt": "08:00",
+            "closesAt": "22:00",
+            "isCurrent": false
+          },
+          {
+            "period": "SEMESTER",
+            "dayGroup": "WEEKEND",
+            "status": "SCHEDULED",
+            "opensAt": "09:00",
+            "closesAt": "18:00",
+            "isCurrent": false
+          },
+          {
+            "period": "VACATION",
+            "dayGroup": "WEEKDAY",
+            "status": "SCHEDULED",
+            "opensAt": "09:00",
+            "closesAt": "18:00",
+            "isCurrent": true
+          },
+          {
+            "period": "VACATION",
+            "dayGroup": "WEEKEND",
+            "status": "UNKNOWN",
+            "opensAt": null,
+            "closesAt": null,
+            "isCurrent": false
+          }
+        ],
+        "externalUrl": null,
+        "building": {
+          "id": 13,
+          "name": "동물생명과학관",
+          "address": "서울특별시 광진구 능동로 120",
+          "latitude": 37.5403172,
+          "longitude": 127.0743016
+        }
+      },
+      {
+        "id": 1702,
+        "name": "건축관 흡연부스",
+        "category": "smoking_booth",
+        "categoryKorName": "흡연부스",
+        "imageUrl": "https://placehold.co/600x400/png?text=Smoking+Booth",
+        "locationType": "OUTDOOR",
+        "floor": null,
+        "locationDetail": "건축관 뒤",
+        "quantity": 1,
+        "operatingHours": [
+          {
+            "period": "SEMESTER",
+            "dayGroup": "WEEKDAY",
+            "status": "OPEN_24_HOURS",
+            "opensAt": null,
+            "closesAt": null,
+            "isCurrent": false
+          },
+          {
+            "period": "SEMESTER",
+            "dayGroup": "WEEKEND",
+            "status": "OPEN_24_HOURS",
+            "opensAt": null,
+            "closesAt": null,
+            "isCurrent": false
+          },
+          {
+            "period": "VACATION",
+            "dayGroup": "WEEKDAY",
+            "status": "OPEN_24_HOURS",
+            "opensAt": null,
+            "closesAt": null,
+            "isCurrent": true
+          },
+          {
+            "period": "VACATION",
+            "dayGroup": "WEEKEND",
+            "status": "OPEN_24_HOURS",
+            "opensAt": null,
+            "closesAt": null,
+            "isCurrent": false
+          }
+        ],
+        "externalUrl": null,
+        "building": {
+          "id": 17,
+          "name": "건축관",
+          "address": "서울특별시 광진구 능동로 120",
+          "latitude": 37.5434694,
+          "longitude": 127.0784422
+        }
+      },
+      {
+        "id": 1801,
+        "name": "카페 ING",
+        "category": "cafe",
+        "categoryKorName": "카페",
+        "imageUrl": "https://placehold.co/600x400/png?text=Cafe",
+        "locationType": "INDOOR",
+        "floor": "1F",
+        "locationDetail": "해봉부동산학관 1층",
+        "quantity": null,
+        "operatingHours": [
+          {
+            "period": "SEMESTER",
+            "dayGroup": "WEEKDAY",
+            "status": "SCHEDULED",
+            "opensAt": "08:00",
+            "closesAt": "22:00",
+            "isCurrent": false
+          },
+          {
+            "period": "SEMESTER",
+            "dayGroup": "WEEKEND",
+            "status": "SCHEDULED",
+            "opensAt": "09:00",
+            "closesAt": "18:00",
+            "isCurrent": false
+          },
+          {
+            "period": "VACATION",
+            "dayGroup": "WEEKDAY",
+            "status": "SCHEDULED",
+            "opensAt": "09:00",
+            "closesAt": "18:00",
+            "isCurrent": true
+          },
+          {
+            "period": "VACATION",
+            "dayGroup": "WEEKEND",
+            "status": "UNKNOWN",
+            "opensAt": null,
+            "closesAt": null,
+            "isCurrent": false
+          }
+        ],
+        "externalUrl": null,
+        "building": {
+          "id": 18,
+          "name": "해봉부동산학관",
+          "address": "서울특별시 광진구 능동로 120",
+          "latitude": 37.5433334,
+          "longitude": 127.0782018
+        }
+      },
+      {
+        "id": 2002,
+        "name": "과학관 흡연부스",
+        "category": "smoking_booth",
+        "categoryKorName": "흡연부스",
+        "imageUrl": "https://placehold.co/600x400/png?text=Smoking+Booth",
+        "locationType": "OUTDOOR",
+        "floor": null,
+        "locationDetail": "과학관 주차장",
+        "quantity": 1,
+        "operatingHours": [
+          {
+            "period": "SEMESTER",
+            "dayGroup": "WEEKDAY",
+            "status": "OPEN_24_HOURS",
+            "opensAt": null,
+            "closesAt": null,
+            "isCurrent": false
+          },
+          {
+            "period": "SEMESTER",
+            "dayGroup": "WEEKEND",
+            "status": "OPEN_24_HOURS",
+            "opensAt": null,
+            "closesAt": null,
+            "isCurrent": false
+          },
+          {
+            "period": "VACATION",
+            "dayGroup": "WEEKDAY",
+            "status": "OPEN_24_HOURS",
+            "opensAt": null,
+            "closesAt": null,
+            "isCurrent": true
+          },
+          {
+            "period": "VACATION",
+            "dayGroup": "WEEKEND",
+            "status": "OPEN_24_HOURS",
+            "opensAt": null,
+            "closesAt": null,
+            "isCurrent": false
+          }
+        ],
+        "externalUrl": null,
+        "building": {
+          "id": 20,
+          "name": "과학관",
+          "address": "서울특별시 광진구 능동로 120",
+          "latitude": 37.541467,
+          "longitude": 127.0805824
+        }
+      }
+    ]
+  }
+}
