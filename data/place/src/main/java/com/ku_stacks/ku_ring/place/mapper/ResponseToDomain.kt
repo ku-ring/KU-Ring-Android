@@ -76,10 +76,10 @@ private fun List<PlaceOperatingHoursResponse>.toPeriodDisplayText(period: String
     }
 }
 
-private fun PlaceOperatingHoursResponse.toDisplayText(): String = when (status) {
+private fun PlaceOperatingHoursResponse.toDisplayText(): String? = when (status) {
     "OPEN_24_HOURS" -> "24시간 운영"
     "SCHEDULED" -> "$opensAt - $closesAt"
-    else -> "-" // UNKNOWN: 운영시간 정보 없음
+    else -> null // UNKNOWN: 운영시간 정보 없음
 }
 
 internal fun PlaceCategoryResponse.toDomain() = PlaceCategory(
