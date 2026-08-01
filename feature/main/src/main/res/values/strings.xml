@@ -128,9 +128,11 @@
     <string name="campus_map_clear_search_query">검색어 지우기</string>
     <string name="campus_map_recent_search_title">최근 검색어</string>
     <string name="campus_map_empty_recent_search">최근 검색어가 아직 없습니다.</string>
-    <string name="campus_map_empty_search_result">검색 결과가 없습니다.</string>
+    <string name="campus_map_empty_search_result">관련 검색 결과가 없습니다.\n다른 검색어를 입력해주세요.</string>
+    <string name="campus_map_empty_filtered_result">관련 건물이 없습니다.</string>
     <string name="campus_map_delete_recent_search">최근 검색어 삭제</string>
     <string name="campus_map_current_location">현재 위치 보기</string>
+    <string name="campus_map_reset_bearing">지도를 정북 방향으로 돌리기</string>
     <string name="campus_map_location_permission_dialog_text">현재 위치로 이동하려면 설정에서\n위치 권한을 허용해주세요.</string>
     <string name="campus_map_close_place_detail">장소 정보 닫기</string>
     <string name="campus_map_address">주소</string>

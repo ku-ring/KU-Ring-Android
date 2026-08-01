@@ -2,10 +2,7 @@ package com.ku_stacks.ku_ring.main.campusmap.compose.component.map
 
 import android.view.Gravity
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.statusBars
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -49,11 +46,11 @@ internal fun NaverMapSection(
         isScaleBarEnabled = false,
         isCompassEnabled = false,
         isZoomControlEnabled = false,
-        logoGravity = Gravity.TOP or Gravity.END,
+        logoGravity = Gravity.BOTTOM or Gravity.START,
         logoMargin = PaddingValues(
-            top = WindowInsets.statusBars.asPaddingValues().calculateTopPadding().plus(10.dp),
-            end = 10.dp,
-        )
+            start = 20.dp,
+            bottom = 80.dp,
+        ),
     )
     val mapProperties = MapProperties(
         mapType = if (isDarkTheme) MapType.Navi else MapType.Basic,

@@ -50,7 +50,7 @@ import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.campusmap.compose.preview.CampusMapPlacePreviewParameterProvider
 import com.ku_stacks.ku_ring.main.campusmap.type.CampusMapCategory
 
-private val CollapsedSheetHeight = 318.dp
+internal val CampusMapCollapsedSheetHeight = 318.dp
 
 @Composable
 internal fun CampusMapDetailSheetHost(
@@ -86,7 +86,7 @@ internal fun CampusMapBottomSheet(
 ) {
     CampusMapDraggableBottomSheet(
         isExpanded = isExpanded,
-        collapsedHeight = CollapsedSheetHeight,
+        collapsedHeight = CampusMapCollapsedSheetHeight,
         onExpandedChange = onExpandedChange,
         onDismiss = onDismiss,
         modifier = modifier.fillMaxWidth(),

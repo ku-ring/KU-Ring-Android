@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ku_stacks.ku_ring.domain.Place
 import com.ku_stacks.ku_ring.domain.place.repository.PlaceRepository
+import com.ku_stacks.ku_ring.main.campusmap.model.CampusMapRecentSearch
+import com.ku_stacks.ku_ring.main.campusmap.model.updateRecentSearches
 import com.ku_stacks.ku_ring.main.campusmap.type.CampusMapCategory
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -35,13 +37,14 @@ class CampusMapViewModel @Inject constructor(
         }
     }
 
-    fun updateFocusedPlace(place: Place) {
+    fun focusMapPlace(place: Place) {
         _uiState.update { currentState ->
             currentState.copy(
                 focusedPlace = place,
                 selectedSearchPlace = null,
                 submittedSearchQuery = null,
                 selectedCategory = null,
+                focusedPlaceSource = CampusMapFocusedPlaceSource.MAP_MARKER,
             )
         }
     }
@@ -51,6 +54,7 @@ class CampusMapViewModel @Inject constructor(
             currentState.copy(
                 focusedPlace = null,
                 selectedSearchPlace = null,
+                focusedPlaceSource = null,
             )
         }
     }
@@ -63,6 +67,7 @@ class CampusMapViewModel @Inject constructor(
                 submittedSearchQuery = null,
                 selectedCategory = null,
                 searchInput = "",
+                focusedPlaceSource = null,
             )
         }
     }
@@ -84,9 +89,7 @@ class CampusMapViewModel @Inject constructor(
             currentState.copy(
                 selectedCategory = if (currentState.selectedCategory == category) null else category,
                 focusedPlace = null,
-                selectedSearchPlace = null,
-                submittedSearchQuery = null,
-                searchInput = "",
+                focusedPlaceSource = null,
             )
         }
     }
@@ -151,7 +154,10 @@ class CampusMapViewModel @Inject constructor(
 
     fun focusSearchResultPlace(place: Place) {
         _uiState.update { currentState ->
-            currentState.copy(focusedPlace = place)
+            currentState.copy(
+                focusedPlace = place,
+                focusedPlaceSource = CampusMapFocusedPlaceSource.SEARCH_RESULT,
+            )
         }
     }
 
@@ -175,6 +181,7 @@ class CampusMapViewModel @Inject constructor(
             submittedSearchQuery = query,
             selectedCategory = null,
             searchInput = query,
+            focusedPlaceSource = null,
             recentSearches = updateRecentSearches(
                 current = recentSearches,
                 selected = recentSearch,
@@ -189,6 +196,7 @@ class CampusMapViewModel @Inject constructor(
             submittedSearchQuery = null,
             selectedCategory = null,
             searchInput = "",
+            focusedPlaceSource = CampusMapFocusedPlaceSource.SEARCH_RESULT,
             recentSearches = updateRecentSearches(
                 current = recentSearches,
                 selected = CampusMapRecentSearch.PlaceResult(place),

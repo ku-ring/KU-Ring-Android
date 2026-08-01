@@ -11,7 +11,10 @@ internal enum class CampusMapCategory(
 ) {
     CAFE("교내 카페", setOf("카페", "교내 카페"), R.drawable.ic_campus_map_icon_cafe),
     RESTAURANT("식당", setOf("식당"), R.drawable.ic_campus_map_icon_restaurant),
-    PRINT("프린터", setOf("프린터", "프린터기", "프린트", "복사", "복사실"), R.drawable.ic_campus_map_icon_print,
+    PRINT(
+        "프린터",
+        setOf("프린터", "프린터기", "프린트", "복사", "복사실"),
+        R.drawable.ic_campus_map_icon_print,
     ),
     SMOKE("흡연부스", setOf("흡연부스", "흡연"), R.drawable.ic_campus_map_icon_smoke),
     STORE("편의점", setOf("편의점", "매점"), R.drawable.ic_campus_map_icon_store),
@@ -67,10 +70,10 @@ internal fun searchCampusPlaces(
 
 private fun Place.containsSearchQuery(query: String): Boolean =
     name.contains(query, ignoreCase = true) ||
-            address.contains(query, ignoreCase = true) ||
-            category.contains(query, ignoreCase = true) ||
-            facilities.any { facility ->
-                facility.name.contains(query, ignoreCase = true) ||
-                        facility.category.contains(query, ignoreCase = true) ||
-                        facility.location?.contains(query, ignoreCase = true) == true
-            }
+        address.contains(query, ignoreCase = true) ||
+        category.contains(query, ignoreCase = true) ||
+        facilities.any { facility ->
+            facility.name.contains(query, ignoreCase = true) ||
+                facility.category.contains(query, ignoreCase = true) ||
+                facility.location?.contains(query, ignoreCase = true) == true
+        }
