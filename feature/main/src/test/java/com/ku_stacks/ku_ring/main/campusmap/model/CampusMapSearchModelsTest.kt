@@ -50,8 +50,18 @@ class CampusMapSearchModelsTest {
             id = "facilities",
             name = "복합 건물",
             facilities = listOf(
-                PlaceFacility(name = "학생식당", category = "식당"),
-                PlaceFacility(name = "복사실", category = "프린터"),
+                PlaceFacility(
+                    id = 1,
+                    name = "학생식당",
+                    category = "식당",
+                    categoryKor = "식당",
+                ),
+                PlaceFacility(
+                    id = 2,
+                    name = "복사실",
+                    category = "프린터",
+                    categoryKor = "프린터",
+                ),
             ),
         )
 

@@ -45,14 +45,24 @@ class CampusMapUiStateTest {
             id = "restaurant-place",
             name = "201 식당 건물",
             facilities = listOf(
-                PlaceFacility(name = "학생식당", category = "식당"),
+                PlaceFacility(
+                    id = 1,
+                    name = "학생식당",
+                    categoryKor = "식당",
+                    category = "식당",
+                ),
             ),
         )
         val cafePlace = place.copy(
             id = "cafe-place",
             name = "201 카페 건물",
             facilities = listOf(
-                PlaceFacility(name = "학생 카페", category = "카페"),
+                PlaceFacility(
+                    id = 2,
+                    name = "학생 카페",
+                    categoryKor = "카페",
+                    category = "카페",
+                ),
             ),
         )
         val state = uiState(
