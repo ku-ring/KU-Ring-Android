@@ -1,0 +1,278 @@
+{
+  "code": 200,
+  "message": "캠퍼스 건물 상세 조회에 성공하였습니다",
+  "data": {
+    "id": 2,
+    "name": "경영관",
+    "address": "서울특별시 광진구 능동로 120",
+    "latitude": 37.5443474,
+    "longitude": 127.0761119,
+    "imageUrl": "https://placehold.co/1200x800/png?text=Konkuk+University",
+    "operatingHours": [
+      {
+        "period": "SEMESTER",
+        "dayGroup": "WEEKDAY",
+        "status": "SCHEDULED",
+        "opensAt": "08:00",
+        "closesAt": "22:00",
+        "isCurrent": false
+      },
+      {
+        "period": "SEMESTER",
+        "dayGroup": "WEEKEND",
+        "status": "SCHEDULED",
+        "opensAt": "09:00",
+        "closesAt": "18:00",
+        "isCurrent": false
+      },
+      {
+        "period": "VACATION",
+        "dayGroup": "WEEKDAY",
+        "status": "SCHEDULED",
+        "opensAt": "09:00",
+        "closesAt": "18:00",
+        "isCurrent": true
+      },
+      {
+        "period": "VACATION",
+        "dayGroup": "WEEKEND",
+        "status": "UNKNOWN",
+        "opensAt": null,
+        "closesAt": null,
+        "isCurrent": false
+      }
+    ],
+    "campusPlaces": [
+      {
+        "id": 201,
+        "name": "카페 레스티오",
+        "category": "cafe",
+        "categoryKorName": "카페",
+        "imageUrl": "https://placehold.co/600x400/png?text=Cafe",
+        "locationType": "INDOOR",
+        "floor": "1F",
+        "locationDetail": "경영관 1층",
+        "quantity": null,
+        "operatingHours": [
+          {
+            "period": "SEMESTER",
+            "dayGroup": "WEEKDAY",
+            "status": "SCHEDULED",
+            "opensAt": "08:00",
+            "closesAt": "22:00",
+            "isCurrent": false
+          },
+          {
+            "period": "SEMESTER",
+            "dayGroup": "WEEKEND",
+            "status": "SCHEDULED",
+            "opensAt": "09:00",
+            "closesAt": "18:00",
+            "isCurrent": false
+          },
+          {
+            "period": "VACATION",
+            "dayGroup": "WEEKDAY",
+            "status": "SCHEDULED",
+            "opensAt": "09:00",
+            "closesAt": "18:00",
+            "isCurrent": true
+          },
+          {
+            "period": "VACATION",
+            "dayGroup": "WEEKEND",
+            "status": "UNKNOWN",
+            "opensAt": null,
+            "closesAt": null,
+            "isCurrent": false
+          }
+        ],
+        "externalUrl": null
+      },
+      {
+        "id": 202,
+        "name": "CU 경영관점",
+        "category": "convenience_store",
+        "categoryKorName": "편의점",
+        "imageUrl": "https://placehold.co/600x400/png?text=Convenience+Store",
+        "locationType": "INDOOR",
+        "floor": "1F",
+        "locationDetail": "경영관 1층",
+        "quantity": null,
+        "operatingHours": [
+          {
+            "period": "SEMESTER",
+            "dayGroup": "WEEKDAY",
+            "status": "SCHEDULED",
+            "opensAt": "08:00",
+            "closesAt": "22:00",
+            "isCurrent": false
+          },
+          {
+            "period": "SEMESTER",
+            "dayGroup": "WEEKEND",
+            "status": "SCHEDULED",
+            "opensAt": "09:00",
+            "closesAt": "18:00",
+            "isCurrent": false
+          },
+          {
+            "period": "VACATION",
+            "dayGroup": "WEEKDAY",
+            "status": "SCHEDULED",
+            "opensAt": "09:00",
+            "closesAt": "18:00",
+            "isCurrent": true
+          },
+          {
+            "period": "VACATION",
+            "dayGroup": "WEEKEND",
+            "status": "UNKNOWN",
+            "opensAt": null,
+            "closesAt": null,
+            "isCurrent": false
+          }
+        ],
+        "externalUrl": null
+      },
+      {
+        "id": 203,
+        "name": "경영관 K-Hub",
+        "category": "kcube",
+        "categoryKorName": "KCUBE",
+        "imageUrl": "https://placehold.co/600x400/png?text=K-Cube",
+        "locationType": "INDOOR",
+        "floor": "1F",
+        "locationDetail": "경영관 1층",
+        "quantity": null,
+        "operatingHours": [
+          {
+            "period": "SEMESTER",
+            "dayGroup": "WEEKDAY",
+            "status": "SCHEDULED",
+            "opensAt": "08:00",
+            "closesAt": "22:00",
+            "isCurrent": false
+          },
+          {
+            "period": "SEMESTER",
+            "dayGroup": "WEEKEND",
+            "status": "SCHEDULED",
+            "opensAt": "09:00",
+            "closesAt": "18:00",
+            "isCurrent": false
+          },
+          {
+            "period": "VACATION",
+            "dayGroup": "WEEKDAY",
+            "status": "SCHEDULED",
+            "opensAt": "09:00",
+            "closesAt": "18:00",
+            "isCurrent": true
+          },
+          {
+            "period": "VACATION",
+            "dayGroup": "WEEKEND",
+            "status": "UNKNOWN",
+            "opensAt": null,
+            "closesAt": null,
+            "isCurrent": false
+          }
+        ],
+        "externalUrl": "https://wein.konkuk.ac.kr/"
+      },
+      {
+        "id": 204,
+        "name": "경영관 휴게실",
+        "category": "lounge",
+        "categoryKorName": "휴게실",
+        "imageUrl": "https://placehold.co/600x400/png?text=Lounge",
+        "locationType": "INDOOR",
+        "floor": "1F",
+        "locationDetail": "경영관 1층",
+        "quantity": 1,
+        "operatingHours": [
+          {
+            "period": "SEMESTER",
+            "dayGroup": "WEEKDAY",
+            "status": "OPEN_24_HOURS",
+            "opensAt": null,
+            "closesAt": null,
+            "isCurrent": false
+          },
+          {
+            "period": "SEMESTER",
+            "dayGroup": "WEEKEND",
+            "status": "OPEN_24_HOURS",
+            "opensAt": null,
+            "closesAt": null,
+            "isCurrent": false
+          },
+          {
+            "period": "VACATION",
+            "dayGroup": "WEEKDAY",
+            "status": "OPEN_24_HOURS",
+            "opensAt": null,
+            "closesAt": null,
+            "isCurrent": true
+          },
+          {
+            "period": "VACATION",
+            "dayGroup": "WEEKEND",
+            "status": "OPEN_24_HOURS",
+            "opensAt": null,
+            "closesAt": null,
+            "isCurrent": false
+          }
+        ],
+        "externalUrl": null
+      },
+      {
+        "id": 205,
+        "name": "경영관 흡연부스",
+        "category": "smoking_booth",
+        "categoryKorName": "흡연부스",
+        "imageUrl": "https://placehold.co/600x400/png?text=Smoking+Booth",
+        "locationType": "OUTDOOR",
+        "floor": null,
+        "locationDetail": "경영관 CU 앞",
+        "quantity": 1,
+        "operatingHours": [
+          {
+            "period": "SEMESTER",
+            "dayGroup": "WEEKDAY",
+            "status": "OPEN_24_HOURS",
+            "opensAt": null,
+            "closesAt": null,
+            "isCurrent": false
+          },
+          {
+            "period": "SEMESTER",
+            "dayGroup": "WEEKEND",
+            "status": "OPEN_24_HOURS",
+            "opensAt": null,
+            "closesAt": null,
+            "isCurrent": false
+          },
+          {
+            "period": "VACATION",
+            "dayGroup": "WEEKDAY",
+            "status": "OPEN_24_HOURS",
+            "opensAt": null,
+            "closesAt": null,
+            "isCurrent": true
+          },
+          {
+            "period": "VACATION",
+            "dayGroup": "WEEKEND",
+            "status": "OPEN_24_HOURS",
+            "opensAt": null,
+            "closesAt": null,
+            "isCurrent": false
+          }
+        ],
+        "externalUrl": null
+      }
+    ]
+  }
+}

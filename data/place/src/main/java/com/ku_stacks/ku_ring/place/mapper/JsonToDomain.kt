@@ -1,9 +1,9 @@
 package com.ku_stacks.ku_ring.place.mapper
 
 import com.ku_stacks.ku_ring.domain.Place
+import com.ku_stacks.ku_ring.domain.Place.Priority
 import com.ku_stacks.ku_ring.domain.PlaceFacility
 import com.ku_stacks.ku_ring.domain.PlaceOperationHours
-import com.ku_stacks.ku_ring.domain.Place.Priority
 import com.ku_stacks.ku_ring.place.model.JsonPlace
 import com.ku_stacks.ku_ring.place.model.JsonPlaceFacility
 import com.ku_stacks.ku_ring.place.model.JsonPlaceOperationHours
@@ -29,15 +29,19 @@ private fun Map<String, List<String>>.toFacilities(): List<PlaceFacility> =
     flatMap { (category, names) ->
         names.map { name ->
             PlaceFacility(
+                id = 0L,    // json 미사용 예정이라 임의값 사용
                 name = name,
                 category = category,
+                categoryKor = "",  // json 미사용 예정이라 임의값 사용
             )
         }
     }
 
 private fun JsonPlaceFacility.toDomain() = PlaceFacility(
+    id = 0L,    // json 미사용 예정이라 임의값 사용
     name = name,
     category = category,
+    categoryKor = "",  // json 미사용 예정이라 임의값 사용
     location = location,
     operationHours = operationHours?.toDomain(),
 )

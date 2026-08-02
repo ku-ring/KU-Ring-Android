@@ -6,6 +6,7 @@ import com.ku_stacks.ku_ring.domain.Place
 import com.ku_stacks.ku_ring.domain.place.repository.PlaceRepository
 import com.ku_stacks.ku_ring.place.datasource.PlaceDataSource
 import com.ku_stacks.ku_ring.place.repository.PlaceRepositoryImpl
+import com.ku_stacks.ku_ring.remote.place.PlaceClient
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.TestDispatcher
@@ -14,6 +15,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
@@ -21,6 +23,7 @@ class PlaceRepositoryTest {
     private lateinit var dataSource: PlaceDataSource
     private lateinit var repository: PlaceRepository
     private lateinit var testDispatcher: TestDispatcher
+    private val placeClient = Mockito.mock(PlaceClient::class.java)
 
     @Before
     fun setUp() {
@@ -29,7 +32,7 @@ class PlaceRepositoryTest {
         testDispatcher = StandardTestDispatcher(testScheduler)
 
         dataSource = PlaceDataSource(context, testDispatcher)
-        repository = PlaceRepositoryImpl(dataSource)
+        repository = PlaceRepositoryImpl(dataSource, placeClient)
     }
 
     @Test
