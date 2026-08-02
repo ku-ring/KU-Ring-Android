@@ -27,9 +27,15 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -68,6 +74,7 @@ import com.ku_stacks.ku_ring.main.campusmap.compose.component.map.CurrentLocatio
 import com.ku_stacks.ku_ring.main.campusmap.compose.component.map.LibrarySeatFab
 import com.ku_stacks.ku_ring.main.campusmap.compose.component.map.NaverMapSection
 import com.ku_stacks.ku_ring.main.campusmap.type.CampusMapCategory
+import com.ku_stacks.ku_ring.main.campusmap.type.CampusMapCategoryItem
 import com.ku_stacks.ku_ring.util.checkHasLocationPermission
 import com.ku_stacks.ku_ring.util.isLocationPermissionPermanentlyDenied
 import com.ku_stacks.ku_ring.util.openAppSettings
@@ -79,6 +86,7 @@ import com.naver.maps.map.CameraUpdateParams
 import com.naver.maps.map.compose.CameraPositionState
 import com.naver.maps.map.compose.ExperimentalNaverMapApi
 import com.naver.maps.map.compose.rememberCameraPositionState
+import kotlinx.collections.immutable.ImmutableList
 
 private val BottomFabMargin = 16.dp
 private const val INITIAL_LATITUDE = 37.542366
@@ -98,6 +106,10 @@ internal fun CampusMapScreen(
     val context = LocalContext.current
     val activity = LocalActivity.current
     val preferences = LocalPreferences.current
+    val snackbarHostState = remember { SnackbarHostState() }
+    val loadErrorMessage = stringResource(R.string.campus_map_load_error)
+    val retryLabel = stringResource(R.string.campus_map_retry)
+    val failedRequest = uiState.mapFailedRequest
     var hasLocationPermission by remember { mutableStateOf(context.checkHasLocationPermission()) }
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition(
@@ -134,8 +146,26 @@ internal fun CampusMapScreen(
         }
     }
 
+    LaunchedEffect(failedRequest) {
+        if (failedRequest == null) {
+            snackbarHostState.currentSnackbarData?.dismiss()
+            return@LaunchedEffect
+        }
+
+        if (
+            snackbarHostState.showSnackbar(
+                message = loadErrorMessage,
+                actionLabel = retryLabel,
+                duration = SnackbarDuration.Indefinite,
+            ) == SnackbarResult.ActionPerformed
+        ) {
+            viewModel.retryFailedRequest(failedRequest)
+        }
+    }
+
     CampusMapScreen(
         uiState = uiState,
+        snackbarHostState = snackbarHostState,
         modifier = modifier,
         onMapPinClick = viewModel::focusMapPlace,
         onMapClick = viewModel::clearFocusedPlace,
@@ -188,6 +218,7 @@ internal fun CampusMapScreen(
 @Composable
 private fun CampusMapScreen(
     uiState: CampusMapUiState,
+    snackbarHostState: SnackbarHostState,
     onMapPinClick: (Place) -> Unit,
     onMapClick: () -> Unit,
     onPlaceDetailClose: () -> Unit,
@@ -203,9 +234,9 @@ private fun CampusMapScreen(
     modifier: Modifier = Modifier,
 ) {
     BackHandler(
-        enabled = uiState.focusedPlace != null || uiState.showSearchResultSheet,
+        enabled = uiState.mapFocusedPlace != null || uiState.showSearchResultSheet,
     ) {
-        if (uiState.focusedPlace != null) {
+        if (uiState.mapFocusedPlace != null) {
             onPlaceDetailClose()
         } else {
             onActiveSelectionClear()
@@ -224,7 +255,7 @@ private fun CampusMapScreen(
     ) {
         NaverMapSection(
             campusPlaces = uiState.visiblePlaces,
-            focusedPlace = uiState.focusedPlace,
+            focusedPlace = uiState.mapFocusedPlace,
             selectedCategory = uiState.selectedCategory,
             cameraPositionState = cameraPositionState,
             onMapPinClick = onMapPinClick,
@@ -263,6 +294,7 @@ private fun CampusMapScreen(
         }
 
         CampusMapTopControls(
+            categories = uiState.categories,
             selectedCategory = uiState.selectedCategory,
             activeSearchText = uiState.activeSearchText,
             showCategoryChips = uiState.showCategoryChips,
@@ -273,11 +305,26 @@ private fun CampusMapScreen(
                 .align(Alignment.TopCenter)
                 .fillMaxWidth(),
         )
+
+        if (uiState.isMapLoading) {
+            CircularProgressIndicator(
+                color = KuringTheme.colors.mainPrimary,
+                modifier = Modifier.align(Alignment.Center),
+            )
+        }
+
+        SnackbarHost(
+            hostState = snackbarHostState,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(16.dp),
+        )
     }
 }
 
 @Composable
 private fun CampusMapTopControls(
+    categories: ImmutableList<CampusMapCategoryItem>,
     selectedCategory: CampusMapCategory?,
     activeSearchText: String?,
     showCategoryChips: Boolean,
@@ -317,10 +364,11 @@ private fun CampusMapTopControls(
             }
         }
 
-        if (showCategoryChips) {
+        if (showCategoryChips && categories.isNotEmpty()) {
             Spacer(modifier = Modifier.height(8.dp))
 
             CampusMapCategoryChips(
+                categories = categories,
                 selectedCategory = selectedCategory,
                 onCategoryClick = onCategoryClick,
                 modifier = Modifier.fillMaxWidth(),
@@ -451,6 +499,7 @@ private fun SelectedSearchClearIcon(
 
 @Composable
 private fun CampusMapCategoryChips(
+    categories: ImmutableList<CampusMapCategoryItem>,
     selectedCategory: CampusMapCategory?,
     onCategoryClick: (CampusMapCategory) -> Unit,
     modifier: Modifier = Modifier,
@@ -461,11 +510,11 @@ private fun CampusMapCategoryChips(
             .horizontalScroll(rememberScrollState())
             .padding(horizontal = 20.dp),
     ) {
-        CampusMapCategory.entries.forEach { category ->
+        categories.forEach { item ->
             CampusMapCategoryChip(
-                category = category,
-                isSelected = selectedCategory == category,
-                onClick = { onCategoryClick(category) },
+                item = item,
+                isSelected = selectedCategory == item.category,
+                onClick = { onCategoryClick(item.category) },
             )
         }
     }
@@ -473,7 +522,7 @@ private fun CampusMapCategoryChips(
 
 @Composable
 private fun CampusMapCategoryChip(
-    category: CampusMapCategory,
+    item: CampusMapCategoryItem,
     isSelected: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -515,14 +564,14 @@ private fun CampusMapCategoryChip(
                 .padding(horizontal = 12.dp, vertical = 8.dp),
         ) {
             Icon(
-                painter = painterResource(id = category.iconRes),
+                painter = painterResource(id = item.category.iconRes),
                 contentDescription = null,
                 tint = contentColor,
                 modifier = Modifier.size(16.dp),
             )
 
             Text(
-                text = category.label,
+                text = item.label,
                 style = KuringTheme.typography.caption1_1,
                 color = contentColor,
             )

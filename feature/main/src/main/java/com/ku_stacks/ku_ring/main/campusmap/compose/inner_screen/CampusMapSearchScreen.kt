@@ -25,6 +25,11 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -53,24 +58,18 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
-import com.ku_stacks.ku_ring.domain.Place
 import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.campusmap.CampusMapViewModel
-import com.ku_stacks.ku_ring.main.campusmap.compose.preview.CampusMapPlacesPreviewParameterProvider
 import com.ku_stacks.ku_ring.main.campusmap.model.CampusMapRecentSearch
 import com.ku_stacks.ku_ring.main.campusmap.model.CampusMapSearchResult
-import com.ku_stacks.ku_ring.main.campusmap.model.buildCampusMapSearchResults
 import com.ku_stacks.ku_ring.main.campusmap.type.CampusMapCategory
 import com.ku_stacks.ku_ring.navigation.KuringRoute
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.toImmutableList
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -83,20 +82,41 @@ internal fun CampusMapSearchRoute(
     viewModel: CampusMapViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val snackbarHostState = remember { SnackbarHostState() }
+    val loadErrorMessage = stringResource(R.string.campus_map_load_error)
+    val retryLabel = stringResource(R.string.campus_map_retry)
+    val failedRequest = uiState.searchFailedRequest
+
+    LaunchedEffect(failedRequest) {
+        if (failedRequest == null) {
+            snackbarHostState.currentSnackbarData?.dismiss()
+            return@LaunchedEffect
+        }
+
+        if (
+            snackbarHostState.showSnackbar(
+                message = loadErrorMessage,
+                actionLabel = retryLabel,
+                duration = SnackbarDuration.Indefinite,
+            ) == SnackbarResult.ActionPerformed
+        ) {
+            viewModel.retryFailedRequest(failedRequest)
+        }
+    }
 
     CampusMapSearchScreen(
         searchQuery = uiState.searchInput,
         recentSearches = uiState.recentSearches,
         searchResults = uiState.liveSearchResults,
+        isSearchLoading = uiState.isLiveSearchLoading,
         showEmptySearchResult = uiState.shouldShowEmptySearchResult,
         onQueryChange = viewModel::updateSearchInput,
         onQueryClear = viewModel::clearSearchInput,
         onNavigateUp = onNavigateUp,
         onSearchSubmit = {
-            val shouldShowResultList = uiState.searchInput.isNotBlank() &&
-                uiState.liveSearchResults.isNotEmpty()
+            val shouldNavigateUp = uiState.searchInput.isNotBlank()
             viewModel.submitSearch()
-            if (shouldShowResultList) {
+            if (shouldNavigateUp) {
                 onNavigateUp()
             }
         },
@@ -110,6 +130,7 @@ internal fun CampusMapSearchRoute(
         },
         onRecentDelete = viewModel::deleteRecentSearch,
         onRecentClear = viewModel::clearRecentSearches,
+        snackbarHostState = snackbarHostState,
         modifier = modifier,
     )
 }
@@ -119,6 +140,7 @@ internal fun CampusMapSearchScreen(
     searchQuery: String,
     recentSearches: ImmutableList<CampusMapRecentSearch>,
     searchResults: ImmutableList<CampusMapSearchResult>,
+    isSearchLoading: Boolean,
     showEmptySearchResult: Boolean,
     onQueryChange: (String) -> Unit,
     onQueryClear: () -> Unit,
@@ -128,36 +150,47 @@ internal fun CampusMapSearchScreen(
     onRecentClick: (CampusMapRecentSearch) -> Unit,
     onRecentDelete: (CampusMapRecentSearch) -> Unit,
     onRecentClear: () -> Unit,
+    snackbarHostState: SnackbarHostState,
     modifier: Modifier = Modifier,
 ) {
-    Column(
+    Box(
         modifier = modifier
             .fillMaxSize()
             .background(KuringTheme.colors.background),
     ) {
-        Spacer(modifier = Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
+        Column(modifier = Modifier.fillMaxSize()) {
+            Spacer(modifier = Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
 
-        CampusMapSearchTopBar(
+            CampusMapSearchTopBar(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp),
+                query = searchQuery,
+                onQueryChange = onQueryChange,
+                onQueryClear = onQueryClear,
+                onNavigateUp = onNavigateUp,
+                onSearchSubmit = onSearchSubmit,
+            )
+
+            CampusMapSearchContent(
+                modifier = Modifier.fillMaxSize(),
+                query = searchQuery,
+                recentSearches = recentSearches,
+                searchResults = searchResults,
+                isSearchLoading = isSearchLoading,
+                showEmptySearchResult = showEmptySearchResult,
+                onResultClick = onResultClick,
+                onRecentClick = onRecentClick,
+                onRecentDelete = onRecentDelete,
+                onRecentClear = onRecentClear,
+            )
+        }
+
+        SnackbarHost(
+            hostState = snackbarHostState,
             modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp),
-            query = searchQuery,
-            onQueryChange = onQueryChange,
-            onQueryClear = onQueryClear,
-            onNavigateUp = onNavigateUp,
-            onSearchSubmit = onSearchSubmit,
-        )
-
-        CampusMapSearchContent(
-            modifier = Modifier.fillMaxSize(),
-            query = searchQuery,
-            recentSearches = recentSearches,
-            searchResults = searchResults,
-            showEmptySearchResult = showEmptySearchResult,
-            onResultClick = onResultClick,
-            onRecentClick = onRecentClick,
-            onRecentDelete = onRecentDelete,
-            onRecentClear = onRecentClear,
+                .align(Alignment.BottomCenter)
+                .padding(16.dp),
         )
     }
 }
@@ -332,6 +365,7 @@ private fun CampusMapSearchContent(
     query: String,
     recentSearches: ImmutableList<CampusMapRecentSearch>,
     searchResults: ImmutableList<CampusMapSearchResult>,
+    isSearchLoading: Boolean,
     showEmptySearchResult: Boolean,
     onResultClick: (CampusMapSearchResult) -> Unit,
     onRecentClick: (CampusMapRecentSearch) -> Unit,
@@ -340,6 +374,16 @@ private fun CampusMapSearchContent(
     modifier: Modifier = Modifier,
 ) {
     val trimmedQuery = query.trim()
+
+    if (trimmedQuery.isNotEmpty() && isSearchLoading) {
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = modifier,
+        ) {
+            CircularProgressIndicator(color = KuringTheme.colors.mainPrimary)
+        }
+        return
+    }
 
     if (trimmedQuery.isEmpty() && recentSearches.isEmpty()) {
         CampusMapSearchEmptyState(
@@ -568,33 +612,4 @@ private fun highlightedPlaceName(
 
     val endIndex = startIndex + query.length
     addStyle(highlightStyle, startIndex, endIndex)
-}
-
-@LightAndDarkPreview
-@Composable
-private fun CampusMapSearchScreenPreview(
-    @PreviewParameter(CampusMapPlacesPreviewParameterProvider::class)
-    places: ImmutableList<Place>,
-) {
-    KuringTheme {
-        CampusMapSearchScreen(
-            searchQuery = "도서관",
-            recentSearches = places
-                .map(CampusMapRecentSearch::PlaceResult)
-                .toImmutableList(),
-            searchResults = buildCampusMapSearchResults(
-                places = places,
-                selectedCategory = null,
-            ).toImmutableList(),
-            showEmptySearchResult = false,
-            onQueryChange = {},
-            onQueryClear = {},
-            onNavigateUp = {},
-            onSearchSubmit = {},
-            onResultClick = {},
-            onRecentClick = {},
-            onRecentDelete = {},
-            onRecentClear = {},
-        )
-    }
 }

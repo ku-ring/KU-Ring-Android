@@ -130,6 +130,8 @@
     <string name="campus_map_empty_recent_search">최근 검색어가 아직 없습니다.</string>
     <string name="campus_map_empty_search_result">관련 검색 결과가 없습니다.\n다른 검색어를 입력해주세요.</string>
     <string name="campus_map_empty_filtered_result">관련 건물이 없습니다.</string>
+    <string name="campus_map_load_error">캠퍼스맵 정보를 불러오지 못했어요.</string>
+    <string name="campus_map_retry">다시 시도</string>
     <string name="campus_map_delete_recent_search">최근 검색어 삭제</string>
     <string name="campus_map_current_location">현재 위치 보기</string>
     <string name="campus_map_reset_bearing">지도를 정북 방향으로 돌리기</string>

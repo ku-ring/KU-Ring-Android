@@ -14,21 +14,21 @@ import com.ku_stacks.ku_ring.remote.place.response.PlaceOperatingHoursResponse
 internal fun PlaceBuildingResponse.toDomain() = Place(
     id = id.toString(),
     name = name,
-    category = "",
+    category = BUILDING_CATEGORY,
     address = address,
     latitude = latitude,
     longitude = longitude,
-    priority = Place.Priority.MIDDLE,
+    priority = Place.Priority.HIGH,
 )
 
 internal fun PlaceBuildingDetailResponse.toDomain() = Place(
     id = id.toString(),
     name = name,
-    category = "",
+    category = BUILDING_CATEGORY,
     address = address,
     latitude = latitude,
     longitude = longitude,
-    priority = Place.Priority.MIDDLE,
+    priority = Place.Priority.HIGH,
     imageUrl = imageUrl,
     operationHours = operatingHours.toDomain(),
     facilities = campusPlaces.map { it.toDomain() },
@@ -38,7 +38,8 @@ internal fun PlaceCampusPlaceResponse.toDomain() = PlaceFacility(
     name = name,
     category = category,
     categoryKor = categoryKorName,
-    location = listOfNotNull(floor, locationDetail).joinToString(" ").ifBlank { null },
+    location = locationDetail.takeUnless { it.isNullOrBlank() }
+        ?: floor.takeUnless { it.isNullOrBlank() },
     operationHours = operatingHours.toDomain(),
     id = id,
     imageUrl = imageUrl,
@@ -78,7 +79,11 @@ private fun List<PlaceOperatingHoursResponse>.toPeriodDisplayText(period: String
 
 private fun PlaceOperatingHoursResponse.toDisplayText(): String? = when (status) {
     "OPEN_24_HOURS" -> "24시간 운영"
-    "SCHEDULED" -> "$opensAt - $closesAt"
+    "SCHEDULED" -> if (!opensAt.isNullOrBlank() && !closesAt.isNullOrBlank()) {
+        "$opensAt - $closesAt"
+    } else {
+        null
+    }
     else -> null // UNKNOWN: 운영시간 정보 없음
 }
 
@@ -87,3 +92,5 @@ internal fun PlaceCategoryResponse.toDomain() = PlaceCategory(
     korName = korName,
     displayOrder = displayOrder,
 )
+
+private const val BUILDING_CATEGORY = "건물"
