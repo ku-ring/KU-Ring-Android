@@ -145,6 +145,9 @@
     <string name="campus_map_operation_hours">운영시간</string>
     <string name="campus_map_semester">학기 중</string>
     <string name="campus_map_vacation">방학 중</string>
+    <string name="campus_map_weekday_operation_hours">주중 %1$s</string>
+    <string name="campus_map_weekend_operation_hours">주말 %1$s</string>
+    <string name="campus_map_operation_hours_unavailable">운영시간 정보 없음</string>
 
     <!-- academic calendar-->
     <string name="academic_event_bottom_sheet_title">이번 주 예정된 학사일정을 확인해보아요</string>

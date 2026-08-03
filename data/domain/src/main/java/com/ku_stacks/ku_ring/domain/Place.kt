@@ -31,8 +31,10 @@ data class Place (
 
 data class PlaceOperationHours(
     val current: String? = null,
-    val semester: String? = null,
-    val vacation: String? = null,
+    val semesterWeekday: String? = null,
+    val semesterWeekend: String? = null,
+    val vacationWeekday: String? = null,
+    val vacationWeekend: String? = null,
 )
 
 data class PlaceFacility(

@@ -343,7 +343,7 @@ private fun SearchResultListItemPreview() {
             title = "상허기념도서관",
             category = "프린터",
             location = "1층 로비",
-            operationHours = "22:00에 종료",
+            operationHours = "09:00 ~ 18:00",
             imageUrl = null,
             onClick = {},
             modifier = Modifier

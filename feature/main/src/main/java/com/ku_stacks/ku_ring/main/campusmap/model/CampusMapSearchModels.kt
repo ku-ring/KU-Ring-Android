@@ -120,7 +120,11 @@ private fun PlaceFacility.toSearchResult(
 )
 
 private fun PlaceOperationHours?.displayText(): String? =
-    this?.current ?: this?.semester ?: this?.vacation
+    this?.current
+        ?: this?.semesterWeekday
+        ?: this?.semesterWeekend
+        ?: this?.vacationWeekday
+        ?: this?.vacationWeekend
 
 private fun String.toSearchComparisonKey(): String = trim().lowercase()
 

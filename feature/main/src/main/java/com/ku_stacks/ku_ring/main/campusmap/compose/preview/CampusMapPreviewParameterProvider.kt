@@ -44,9 +44,10 @@ private object CampusMapPreviewSample {
         priority = Place.Priority.HIGH,
         imageUrl = null,
         operationHours = PlaceOperationHours(
-            current = "22:00에 종료",
-            semester = "09:00-22:00",
-            vacation = "10:00-17:00",
+            current = "09:00 ~ 18:00",
+            semesterWeekday = "08:00 ~ 22:00",
+            semesterWeekend = "09:00 ~ 18:00",
+            vacationWeekday = "09:00 ~ 18:00",
         ),
         facilities = listOf(
             PlaceFacility(
@@ -56,9 +57,10 @@ private object CampusMapPreviewSample {
                 categoryKor = "프린터",
                 location = "1층 로비",
                 operationHours = PlaceOperationHours(
-                    current = "22:00에 종료",
-                    semester = "09:00-22:00",
-                    vacation = "10:00-17:00",
+                    current = "09:00 ~ 18:00",
+                    semesterWeekday = "08:00 ~ 22:00",
+                    semesterWeekend = "09:00 ~ 18:00",
+                    vacationWeekday = "09:00 ~ 18:00",
                 ),
             ),
             PlaceFacility(
@@ -68,9 +70,9 @@ private object CampusMapPreviewSample {
                 categoryKor = "카페",
                 location = "지하 1층",
                 operationHours = PlaceOperationHours(
-                    current = "20:00에 종료",
-                    semester = "08:30-20:00",
-                    vacation = "10:00-16:00",
+                    current = "08:30 ~ 20:00",
+                    semesterWeekday = "08:30 ~ 20:00",
+                    vacationWeekday = "10:00 ~ 16:00",
                 ),
             ),
             PlaceFacility(
@@ -80,9 +82,8 @@ private object CampusMapPreviewSample {
                 categoryKor = "k-cube",
                 location = "2층",
                 operationHours = PlaceOperationHours(
-                    current = "18:00에 종료",
-                    semester = "09:00-18:00",
-                    vacation = "휴무",
+                    current = "09:00 ~ 18:00",
+                    semesterWeekday = "09:00 ~ 18:00",
                 ),
             ),
         ),

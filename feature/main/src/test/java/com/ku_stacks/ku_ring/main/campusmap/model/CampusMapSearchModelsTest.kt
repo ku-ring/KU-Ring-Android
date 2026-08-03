@@ -117,8 +117,8 @@ class CampusMapSearchModelsTest {
                             categoryKor = "카페",
                             imageUrl = "https://example.com/cafe.png",
                             operationHours = PlaceOperationHours(
-                                current = "09:00 - 18:00",
-                                semester = "08:00 - 22:00",
+                                current = "09:00 ~ 18:00",
+                                semesterWeekday = "08:00 ~ 22:00",
                             ),
                         ),
                     ),
@@ -128,7 +128,57 @@ class CampusMapSearchModelsTest {
         ).single()
 
         assertEquals("https://example.com/cafe.png", result.imageUrl)
-        assertEquals("09:00 - 18:00", result.operationHours)
+        assertEquals("09:00 ~ 18:00", result.operationHours)
+    }
+
+    @Test
+    fun `facility result uses the first available structured period hours`() {
+        val result = buildCampusMapSearchResults(
+            places = listOf(
+                place(
+                    id = "2",
+                    name = "경영관",
+                    facilities = listOf(
+                        facility(
+                            id = 201L,
+                            name = "카페 레스티오",
+                            category = "cafe",
+                            categoryKor = "카페",
+                            operationHours = PlaceOperationHours(
+                                semesterWeekend = "09:00 ~ 18:00",
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+            selectedCategory = CampusMapCategory.CAFE,
+        ).single()
+
+        assertEquals("09:00 ~ 18:00", result.operationHours)
+    }
+
+    @Test
+    fun `facility result shows dash when every structured period is unavailable`() {
+        val result = buildCampusMapSearchResults(
+            places = listOf(
+                place(
+                    id = "2",
+                    name = "경영관",
+                    facilities = listOf(
+                        facility(
+                            id = 201L,
+                            name = "카페 레스티오",
+                            category = "cafe",
+                            categoryKor = "카페",
+                            operationHours = PlaceOperationHours(),
+                        ),
+                    ),
+                ),
+            ),
+            selectedCategory = CampusMapCategory.CAFE,
+        ).single()
+
+        assertEquals("-", result.operationHours)
     }
 
     @Test
