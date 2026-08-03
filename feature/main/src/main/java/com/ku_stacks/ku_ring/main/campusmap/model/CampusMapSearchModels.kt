@@ -11,7 +11,7 @@ internal data class CampusMapSearchResult(
     val title: String,
     val category: String,
     val location: String,
-    val operationHours: String,
+    val operationHours: String?,
     val imageUrl: String?,
     val isRecentMatch: Boolean = false,
 )
@@ -102,8 +102,7 @@ private fun Place.toSearchResult() = CampusMapSearchResult(
     category = category,
     location = address,
     operationHours = operationHours.displayText()
-        ?: facilities.firstNotNullOfOrNull { facility -> facility.operationHours.displayText() }
-        ?: "-",
+        ?: facilities.firstNotNullOfOrNull { facility -> facility.operationHours.displayText() },
     imageUrl = imageUrl,
 )
 
@@ -115,7 +114,7 @@ private fun PlaceFacility.toSearchResult(
     title = name,
     category = categoryKor.ifBlank { category },
     location = location ?: place.address,
-    operationHours = operationHours.displayText() ?: "-",
+    operationHours = operationHours.displayText(),
     imageUrl = imageUrl ?: place.imageUrl,
 )
 

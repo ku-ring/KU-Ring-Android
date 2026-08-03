@@ -6,6 +6,7 @@ import com.ku_stacks.ku_ring.domain.PlaceOperationHours
 import com.ku_stacks.ku_ring.main.campusmap.type.CampusMapCategory
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
@@ -132,7 +133,7 @@ class CampusMapSearchModelsTest {
     }
 
     @Test
-    fun `facility result falls back to building address image and dash`() {
+    fun `facility result falls back to building address and image without inventing hours`() {
         val building = place(
             id = "4",
             name = "학생회관",
@@ -154,7 +155,25 @@ class CampusMapSearchModelsTest {
 
         assertEquals(building.address, result.location)
         assertEquals(building.imageUrl, result.imageUrl)
-        assertEquals("-", result.operationHours)
+        assertNull(result.operationHours)
+    }
+
+    @Test
+    fun `building search summary only exposes fields returned by the search API`() {
+        val result = buildCampusMapSearchResults(
+            places = listOf(
+                place(
+                    id = "10",
+                    name = "상허기념도서관",
+                ),
+            ),
+            selectedCategory = null,
+        ).single()
+
+        assertEquals("상허기념도서관", result.title)
+        assertEquals("건물", result.category)
+        assertNull(result.operationHours)
+        assertNull(result.imageUrl)
     }
 
     private fun place(
