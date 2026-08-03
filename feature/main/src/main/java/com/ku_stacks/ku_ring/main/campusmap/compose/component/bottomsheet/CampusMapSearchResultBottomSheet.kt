@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -229,7 +230,7 @@ internal fun SearchResultListItem(
     title: String,
     category: String,
     location: String,
-    operationHours: String?,
+    operationHours: String,
     imageUrl: String?,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -245,14 +246,10 @@ internal fun SearchResultListItem(
             )
             .padding(vertical = 10.dp),
     ) {
-        imageUrl
-            ?.takeIf { it.isNotBlank() }
-            ?.let { availableImageUrl ->
-                SearchResultThumbnail(
-                    imageUrl = availableImageUrl,
-                    modifier = Modifier.size(50.dp),
-                )
-            }
+        SearchResultThumbnail(
+            imageUrl = imageUrl,
+            modifier = Modifier.size(50.dp),
+        )
 
         Column(
             verticalArrangement = Arrangement.spacedBy(4.dp),
@@ -269,7 +266,7 @@ internal fun SearchResultListItem(
                     color = KuringTheme.colors.textBody,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.weight(1f, fill = false),
+                    modifier = Modifier.widthIn(max = 170.dp),
                 )
 
                 Text(
@@ -294,23 +291,19 @@ internal fun SearchResultListItem(
                     modifier = Modifier.weight(1f, fill = false),
                 )
 
-                operationHours
-                    ?.takeIf { it.isNotBlank() }
-                    ?.let { availableOperationHours ->
-                        Box(
-                            modifier = Modifier
-                                .size(width = 1.dp, height = 12.dp)
-                                .background(KuringTheme.colors.borderline),
-                        )
+                Box(
+                    modifier = Modifier
+                        .size(width = 1.dp, height = 12.dp)
+                        .background(KuringTheme.colors.borderline),
+                )
 
-                        Text(
-                            text = availableOperationHours,
-                            style = KuringTheme.typography.caption1,
-                            color = KuringTheme.colors.textBody,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                        )
-                    }
+                Text(
+                    text = operationHours,
+                    style = KuringTheme.typography.caption1,
+                    color = KuringTheme.colors.textBody,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
             }
         }
     }
@@ -318,20 +311,22 @@ internal fun SearchResultListItem(
 
 @Composable
 private fun SearchResultThumbnail(
-    imageUrl: String,
+    imageUrl: String?,
     modifier: Modifier = Modifier,
 ) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier
             .clip(RoundedCornerShape(8.dp))
-            .background(KuringTheme.colors.gray200),
+            .background(Color(0xFFD9D9D9)),
     ) {
-        AsyncImage(
-            model = imageUrl,
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize(),
-        )
+        if (!imageUrl.isNullOrBlank()) {
+            AsyncImage(
+                model = imageUrl,
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize(),
+            )
+        }
     }
 }
 

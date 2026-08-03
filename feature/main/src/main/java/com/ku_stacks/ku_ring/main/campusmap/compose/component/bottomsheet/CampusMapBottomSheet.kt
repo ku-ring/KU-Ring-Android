@@ -10,14 +10,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
@@ -145,7 +143,7 @@ private fun PlaceHeader(
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Box(modifier = modifier.heightIn(min = 60.dp)) {
+    Box(modifier = modifier.height(60.dp)) {
         Column(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier
@@ -258,7 +256,7 @@ private fun PlaceImage(
         contentAlignment = Alignment.Center,
         modifier = modifier
             .clip(RoundedCornerShape(16.dp))
-            .background(KuringTheme.colors.gray200),
+            .background(Color(0xFFD9D9D9)),
     ) {
         if (!imageUrl.isNullOrBlank()) {
             AsyncImage(
@@ -278,7 +276,7 @@ private fun CloseCircleButton(
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier
-            .size(48.dp)
+            .size(44.dp)
             .clickable(
                 role = Role.Button,
                 onClick = onClick,
@@ -309,7 +307,7 @@ private fun CopyAddressButton(
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier
-            .size(48.dp)
+            .size(44.dp)
             .clickable(
                 role = Role.Button,
                 onClick = onClick,
@@ -442,7 +440,7 @@ private fun CampusMapDetailRow(
             style = labelStyle,
             color = labelColor,
             maxLines = 1,
-            modifier = Modifier.widthIn(min = labelWidth),
+            modifier = Modifier.width(labelWidth),
         )
 
         Text(

@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
@@ -51,8 +50,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.buildAnnotatedString
@@ -209,12 +206,12 @@ private fun CampusMapSearchTopBar(
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier.padding(start = 4.dp, end = 20.dp, top = 4.dp, bottom = 4.dp),
+        modifier = modifier.padding(start = 4.dp, end = 20.dp, top = 8.dp, bottom = 8.dp),
     ) {
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier
-                .size(48.dp)
+                .size(44.dp)
                 .clickable(
                     role = Role.Button,
                     onClick = onNavigateUp,
@@ -235,7 +232,7 @@ private fun CampusMapSearchTopBar(
             onSearchSubmit = onSearchSubmit,
             modifier = Modifier
                 .weight(1f)
-                .height(48.dp),
+                .height(40.dp),
         )
     }
 }
@@ -250,7 +247,6 @@ private fun CampusMapSearchTextField(
 ) {
     val focusRequester = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
-    val searchContentDescription = stringResource(id = R.string.campus_map_search_placeholder)
     var textFieldValue by remember {
         mutableStateOf(
             TextFieldValue(
@@ -299,10 +295,7 @@ private fun CampusMapSearchTextField(
             .clip(RoundedCornerShape(12.dp))
             .background(KuringTheme.colors.gray100)
             .focusRequester(focusRequester)
-            .semantics {
-                contentDescription = searchContentDescription
-            }
-            .padding(start = 16.dp),
+            .padding(start = 16.dp, end = 12.dp),
         decorationBox = { innerTextField ->
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -344,7 +337,7 @@ private fun SearchFieldTrailingIcon(
         Box(
             contentAlignment = Alignment.Center,
             modifier = modifier
-                .size(48.dp)
+                .size(32.dp)
                 .clickable(
                     role = Role.Button,
                     onClick = onQueryClear,
@@ -358,17 +351,12 @@ private fun SearchFieldTrailingIcon(
             )
         }
     } else {
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = modifier.size(48.dp),
-        ) {
-            Icon(
-                imageVector = ImageVector.vectorResource(id = R.drawable.ic_search_v2),
-                contentDescription = null,
-                tint = KuringTheme.colors.gray300,
-                modifier = Modifier.size(24.dp),
-            )
-        }
+        Icon(
+            imageVector = ImageVector.vectorResource(id = R.drawable.ic_search_v2),
+            contentDescription = null,
+            tint = KuringTheme.colors.gray300,
+            modifier = modifier.size(24.dp),
+        )
     }
 }
 
@@ -471,7 +459,7 @@ private fun RecentSearchHeader(
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
-            .heightIn(min = 48.dp)
+            .height(44.dp)
             .padding(horizontal = 24.dp),
     ) {
         Text(
@@ -486,7 +474,7 @@ private fun RecentSearchHeader(
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier
-                .heightIn(min = 48.dp)
+                .height(44.dp)
                 .clickable(
                     role = Role.Button,
                     onClick = onRecentClear,
@@ -546,7 +534,7 @@ private fun CampusMapSearchPlaceItem(
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
-            .heightIn(min = 48.dp)
+            .height(44.dp)
             .clickable(
                 role = Role.Button,
                 onClick = onClick,
@@ -591,7 +579,7 @@ private fun CampusMapSearchPlaceItem(
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
-                    .size(48.dp)
+                    .size(32.dp)
                     .clickable(
                         role = Role.Button,
                         onClick = onDelete,
@@ -605,7 +593,7 @@ private fun CampusMapSearchPlaceItem(
                 )
             }
         } else {
-            Spacer(modifier = Modifier.size(48.dp))
+            Spacer(modifier = Modifier.size(32.dp))
         }
     }
 }
