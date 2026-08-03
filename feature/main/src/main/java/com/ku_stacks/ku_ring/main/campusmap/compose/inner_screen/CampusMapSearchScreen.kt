@@ -58,18 +58,24 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.domain.Place
 import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.campusmap.CampusMapViewModel
+import com.ku_stacks.ku_ring.main.campusmap.compose.preview.CampusMapPlacesPreviewParameterProvider
 import com.ku_stacks.ku_ring.main.campusmap.model.CampusMapRecentSearch
 import com.ku_stacks.ku_ring.main.campusmap.model.CampusMapSearchResult
+import com.ku_stacks.ku_ring.main.campusmap.model.buildCampusMapSearchResults
 import com.ku_stacks.ku_ring.main.campusmap.type.CampusMapCategory
 import com.ku_stacks.ku_ring.navigation.KuringRoute
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -612,4 +618,35 @@ private fun highlightedPlaceName(
 
     val endIndex = startIndex + query.length
     addStyle(highlightStyle, startIndex, endIndex)
+}
+
+@LightAndDarkPreview
+@Composable
+private fun CampusMapSearchScreenPreview(
+    @PreviewParameter(CampusMapPlacesPreviewParameterProvider::class)
+    places: ImmutableList<Place>,
+) {
+    KuringTheme {
+        CampusMapSearchScreen(
+            searchQuery = "도서관",
+            recentSearches = places
+                .map(CampusMapRecentSearch::PlaceResult)
+                .toImmutableList(),
+            searchResults = buildCampusMapSearchResults(
+                places = places,
+                selectedCategory = null,
+            ).toImmutableList(),
+            isSearchLoading = false,
+            showEmptySearchResult = false,
+            onQueryChange = {},
+            onQueryClear = {},
+            onNavigateUp = {},
+            onSearchSubmit = {},
+            onResultClick = {},
+            onRecentClick = {},
+            onRecentDelete = {},
+            onRecentClear = {},
+            snackbarHostState = remember { SnackbarHostState() },
+        )
+    }
 }

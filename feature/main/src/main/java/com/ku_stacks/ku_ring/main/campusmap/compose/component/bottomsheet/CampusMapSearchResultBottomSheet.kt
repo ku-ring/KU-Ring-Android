@@ -46,15 +46,20 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.domain.Place
 import com.ku_stacks.ku_ring.main.R
+import com.ku_stacks.ku_ring.main.campusmap.compose.preview.CampusMapPlacesPreviewParameterProvider
 import com.ku_stacks.ku_ring.main.campusmap.model.CampusMapSearchResult
+import com.ku_stacks.ku_ring.main.campusmap.model.buildCampusMapSearchResults
 import kotlin.math.roundToInt
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
 internal data class CampusMapSearchResultSheetContent(
     val results: ImmutableList<CampusMapSearchResult>,
@@ -370,5 +375,30 @@ private fun EmptySearchResultContent(
             style = KuringTheme.typography.body2,
             color = KuringTheme.colors.textCaption1,
         )
+    }
+}
+
+@LightAndDarkPreview
+@Composable
+private fun CampusMapSearchResultBottomSheetPreview(
+    @PreviewParameter(CampusMapPlacesPreviewParameterProvider::class)
+    places: ImmutableList<Place>,
+) {
+    KuringTheme {
+        Box(
+            contentAlignment = Alignment.BottomCenter,
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color(0xFFE9EEF2)),
+        ) {
+            CampusMapSearchResultBottomSheet(
+                results = buildCampusMapSearchResults(
+                    places = places,
+                    selectedCategory = null,
+                ).toImmutableList(),
+                onResultClick = {},
+                onDismiss = {},
+            )
+        }
     }
 }

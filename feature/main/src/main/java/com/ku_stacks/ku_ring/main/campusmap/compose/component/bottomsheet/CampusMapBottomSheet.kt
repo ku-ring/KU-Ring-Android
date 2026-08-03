@@ -37,14 +37,17 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.Place
 import com.ku_stacks.ku_ring.domain.PlaceFacility
 import com.ku_stacks.ku_ring.domain.PlaceOperationHours
 import com.ku_stacks.ku_ring.main.R
+import com.ku_stacks.ku_ring.main.campusmap.compose.preview.CampusMapPlacePreviewParameterProvider
 import com.ku_stacks.ku_ring.main.campusmap.type.CampusMapCategory
 
 internal val CampusMapCollapsedSheetHeight = 318.dp
@@ -478,3 +481,47 @@ private fun CampusMapFacilityIcon(
 
 private fun String?.orDash(): String =
     takeUnless { it.isNullOrBlank() } ?: "-"
+
+@LightAndDarkPreview
+@Composable
+private fun CampusMapBottomSheetExpandedPreview(
+    @PreviewParameter(CampusMapPlacePreviewParameterProvider::class) place: Place,
+) {
+    KuringTheme {
+        Box(
+            contentAlignment = Alignment.BottomCenter,
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color(0xFFE9EEF2)),
+        ) {
+            CampusMapBottomSheet(
+                place = place,
+                isExpanded = true,
+                onExpandedChange = {},
+                onDismiss = {},
+            )
+        }
+    }
+}
+
+@LightAndDarkPreview
+@Composable
+private fun CampusMapBottomSheetCollapsedPreview(
+    @PreviewParameter(CampusMapPlacePreviewParameterProvider::class) place: Place,
+) {
+    KuringTheme {
+        Box(
+            contentAlignment = Alignment.BottomCenter,
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color(0xFFE9EEF2)),
+        ) {
+            CampusMapBottomSheet(
+                place = place,
+                isExpanded = false,
+                onExpandedChange = {},
+                onDismiss = {},
+            )
+        }
+    }
+}
