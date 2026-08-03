@@ -214,8 +214,9 @@ class CampusMapUiStateTest {
 
     @Test
     fun `empty live search state waits for a successful API response`() {
-        val noResult = CampusMapUiState(searchInput = "없는 건물")
-        val loading = noResult.copy(isLiveSearchLoading = true)
+        val beforeResponse = CampusMapUiState(searchInput = "없는 건물")
+        val noResult = beforeResponse.copy(liveSearchResultQuery = "없는 건물")
+        val loading = beforeResponse.copy(isLiveSearchLoading = true)
         val failed = noResult.copy(
             failedLiveSearchQuery = "없는 건물",
         )
@@ -224,6 +225,7 @@ class CampusMapUiStateTest {
             liveSearchResultQuery = "없는 건물",
         )
 
+        assertFalse(beforeResponse.shouldShowEmptySearchResult)
         assertTrue(noResult.shouldShowEmptySearchResult)
         assertFalse(loading.shouldShowEmptySearchResult)
         assertFalse(failed.shouldShowEmptySearchResult)

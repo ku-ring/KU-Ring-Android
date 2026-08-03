@@ -98,6 +98,7 @@ internal data class CampusMapUiState(
 
     val shouldShowEmptySearchResult: Boolean
         get() = searchInput.isNotBlank() &&
+            liveSearchResultQuery == searchInput.trim() &&
             !isLiveSearchLoading &&
             searchFailedRequest == null &&
             liveSearchResults.isEmpty()

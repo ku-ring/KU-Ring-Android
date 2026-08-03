@@ -128,6 +128,100 @@ class CampusMapViewModelTest {
     }
 
     @Test
+    fun `submitting a completed live search reuses its result without another API call`() = runTest {
+        val repository = FakePlaceRepository().apply {
+            searchResponse = { Result.success(listOf(librarySummary)) }
+        }
+        val viewModel = CampusMapViewModel(repository)
+        advanceUntilIdle()
+
+        viewModel.updateSearchInput("도서관")
+        advanceUntilIdle()
+        viewModel.submitSearch()
+        runCurrent()
+
+        with(viewModel.uiState.value) {
+            assertEquals("도서관", submittedSearchQuery)
+            assertEquals("도서관", searchResultQuery)
+            assertEquals(listOf(librarySummary), searchPlaces)
+            assertEquals(listOf(librarySummary), visiblePlaces)
+            assertFalse(isSubmittedSearchLoading)
+        }
+        assertEquals(listOf("도서관"), repository.searchQueries)
+    }
+
+    @Test
+    fun `reused live result is not replaced by a canceled submitted request`() = runTest {
+        val stalePlace = place(id = "1", name = "오래된 검색 결과")
+        val freshPlace = place(id = "2", name = "최신 검색 결과")
+        var requestCount = 0
+        val repository = FakePlaceRepository().apply {
+            searchResponse = {
+                requestCount += 1
+                if (requestCount == 1) {
+                    withContext(NonCancellable) { delay(1_000) }
+                    Result.success(listOf(stalePlace))
+                } else {
+                    Result.success(listOf(freshPlace))
+                }
+            }
+        }
+        val viewModel = CampusMapViewModel(repository)
+        advanceUntilIdle()
+
+        viewModel.updateSearchInput("반복")
+        viewModel.submitSearch()
+        runCurrent()
+        viewModel.prepareSearchInput()
+        advanceTimeBy(300)
+        runCurrent()
+
+        assertEquals(listOf(freshPlace), viewModel.uiState.value.liveSearchPlaces)
+
+        viewModel.submitSearch()
+        runCurrent()
+
+        assertEquals(listOf(freshPlace), viewModel.uiState.value.searchPlaces)
+
+        advanceUntilIdle()
+
+        assertEquals(listOf(freshPlace), viewModel.uiState.value.searchPlaces)
+        assertEquals(listOf("반복", "반복"), repository.searchQueries)
+    }
+
+    @Test
+    fun `submitting after a failed live search retries as a submitted search`() = runTest {
+        var attempt = 0
+        val repository = FakePlaceRepository().apply {
+            searchResponse = {
+                attempt += 1
+                if (attempt == 1) {
+                    Result.failure(IllegalStateException("live search"))
+                } else {
+                    Result.success(listOf(librarySummary))
+                }
+            }
+        }
+        val viewModel = CampusMapViewModel(repository)
+        advanceUntilIdle()
+
+        viewModel.updateSearchInput("도서관")
+        advanceUntilIdle()
+        assertEquals("도서관", viewModel.uiState.value.failedLiveSearchQuery)
+
+        viewModel.submitSearch()
+        advanceUntilIdle()
+
+        with(viewModel.uiState.value) {
+            assertEquals("도서관", submittedSearchQuery)
+            assertEquals("도서관", searchResultQuery)
+            assertEquals(listOf(librarySummary), searchPlaces)
+            assertNull(failedSubmittedSearchQuery)
+        }
+        assertEquals(listOf("도서관", "도서관"), repository.searchQueries)
+    }
+
+    @Test
     fun `live search cannot replace a submitted result when returning to the map`() = runTest {
         val businessBuilding = place(id = "11", name = "경영관")
         val repository = FakePlaceRepository().apply {
@@ -528,6 +622,52 @@ class CampusMapViewModelTest {
         assertEquals(listOf(newPlace), viewModel.uiState.value.liveSearchPlaces)
         assertEquals("최신", viewModel.uiState.value.liveSearchResultQuery)
         assertEquals(listOf("이전", "최신"), repository.searchQueries)
+    }
+
+    @Test
+    fun `a late response cannot replace a newer request for the same query`() = runTest {
+        val stalePlace = place(id = "1", name = "오래된 검색 결과")
+        val freshPlace = place(id = "2", name = "최신 검색 결과")
+        var firstRequest = true
+        val repository = FakePlaceRepository().apply {
+            searchResponse = { query ->
+                when {
+                    query == "반복" && firstRequest -> {
+                        firstRequest = false
+                        withContext(NonCancellable) { delay(1_000) }
+                        Result.success(listOf(stalePlace))
+                    }
+
+                    query == "반복" -> {
+                        delay(10)
+                        Result.success(listOf(freshPlace))
+                    }
+
+                    else -> Result.success(emptyList())
+                }
+            }
+        }
+        val viewModel = CampusMapViewModel(repository)
+        advanceUntilIdle()
+
+        viewModel.updateSearchInput("반복")
+        advanceTimeBy(300)
+        runCurrent()
+        viewModel.updateSearchInput("다른 검색")
+        viewModel.updateSearchInput("반복")
+        advanceTimeBy(300)
+        runCurrent()
+        advanceTimeBy(10)
+        runCurrent()
+
+        assertEquals(listOf(freshPlace), viewModel.uiState.value.liveSearchPlaces)
+        assertEquals("반복", viewModel.uiState.value.liveSearchResultQuery)
+
+        advanceUntilIdle()
+
+        assertEquals(listOf(freshPlace), viewModel.uiState.value.liveSearchPlaces)
+        assertEquals("반복", viewModel.uiState.value.liveSearchResultQuery)
+        assertEquals(listOf("반복", "반복"), repository.searchQueries)
     }
 
     private class FakePlaceRepository : PlaceRepository {

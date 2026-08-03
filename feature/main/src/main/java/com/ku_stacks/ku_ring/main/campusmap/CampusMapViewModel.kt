@@ -36,6 +36,10 @@ class CampusMapViewModel @Inject constructor(
     private var liveSearchJob: Job? = null
     private var submittedSearchJob: Job? = null
     private var placeDetailJob: Job? = null
+    private var categoryRequestGeneration = 0L
+    private var liveSearchRequestGeneration = 0L
+    private var submittedSearchRequestGeneration = 0L
+    private var placeDetailRequestGeneration = 0L
 
     init {
         fetchInitialData()
@@ -76,9 +80,9 @@ class CampusMapViewModel @Inject constructor(
     }
 
     fun focusMapPlace(place: Place) {
-        categoryJob?.cancel()
-        liveSearchJob?.cancel()
-        submittedSearchJob?.cancel()
+        cancelCategoryRequest()
+        cancelLiveSearchRequest()
+        cancelSubmittedSearchRequest()
         _uiState.update { currentState ->
             currentState.copy(
                 focusedPlace = null,
@@ -103,7 +107,7 @@ class CampusMapViewModel @Inject constructor(
     }
 
     fun clearFocusedPlace() {
-        placeDetailJob?.cancel()
+        cancelPlaceDetailRequest()
         _uiState.update { currentState ->
             currentState.copy(
                 focusedPlace = null,
@@ -116,10 +120,10 @@ class CampusMapViewModel @Inject constructor(
     }
 
     fun clearActiveSelection() {
-        categoryJob?.cancel()
-        liveSearchJob?.cancel()
-        submittedSearchJob?.cancel()
-        placeDetailJob?.cancel()
+        cancelCategoryRequest()
+        cancelLiveSearchRequest()
+        cancelSubmittedSearchRequest()
+        cancelPlaceDetailRequest()
         _uiState.update { currentState ->
             currentState.copy(
                 focusedPlace = null,
@@ -159,8 +163,8 @@ class CampusMapViewModel @Inject constructor(
 
     internal fun updateSelectedCategory(category: CampusMapCategory) {
         val shouldSelect = _uiState.value.selectedCategory != category
-        categoryJob?.cancel()
-        placeDetailJob?.cancel()
+        cancelCategoryRequest()
+        cancelPlaceDetailRequest()
 
         if (!shouldSelect) {
             _uiState.update { currentState ->
@@ -194,7 +198,8 @@ class CampusMapViewModel @Inject constructor(
     }
 
     private fun fetchCategoryPlaces(category: CampusMapCategory) {
-        categoryJob?.cancel()
+        cancelCategoryRequest()
+        val requestGeneration = categoryRequestGeneration
         _uiState.update { currentState ->
             currentState.copy(
                 isCategoryLoading = true,
@@ -204,7 +209,10 @@ class CampusMapViewModel @Inject constructor(
         categoryJob = viewModelScope.launch {
             val result = placeRepository.getPlaceCampusPlaces(arrayOf(category.apiName))
             _uiState.update { currentState ->
-                if (currentState.selectedCategory != category) {
+                if (
+                    requestGeneration != categoryRequestGeneration ||
+                    currentState.selectedCategory != category
+                ) {
                     return@update currentState
                 }
 
@@ -262,7 +270,7 @@ class CampusMapViewModel @Inject constructor(
     }
 
     fun clearSearchInput() {
-        liveSearchJob?.cancel()
+        cancelLiveSearchRequest()
         _uiState.update { currentState ->
             currentState.copy(
                 searchInput = "",
@@ -325,20 +333,56 @@ class CampusMapViewModel @Inject constructor(
     }
 
     fun submitSearch() {
-        val submittedQuery = _uiState.value.searchInput.trim()
+        val currentState = _uiState.value
+        val submittedQuery = currentState.searchInput.trim()
         if (submittedQuery.isEmpty()) return
+        val reusableLiveSearchPlaces = currentState.liveSearchPlaces.takeIf {
+            currentState.liveSearchResultQuery == submittedQuery &&
+                !currentState.isLiveSearchLoading &&
+                currentState.failedLiveSearchQuery != submittedQuery
+        }
 
         cancelRequestsForCommittedSearch()
         _uiState.update { currentState ->
-            currentState.withSubmittedSearchQuery(submittedQuery)
+            val submittedState = currentState.withSubmittedSearchQuery(submittedQuery)
+            if (reusableLiveSearchPlaces == null) {
+                submittedState
+            } else {
+                submittedState.copy(
+                    searchPlaces = reusableLiveSearchPlaces,
+                    searchResultQuery = submittedQuery,
+                )
+            }
         }
-        searchSubmittedBuildings(submittedQuery)
+        if (reusableLiveSearchPlaces == null) {
+            searchSubmittedBuildings(submittedQuery)
+        }
     }
 
     private fun cancelRequestsForCommittedSearch() {
+        cancelCategoryRequest()
+        cancelLiveSearchRequest()
+        cancelSubmittedSearchRequest()
+        cancelPlaceDetailRequest()
+    }
+
+    private fun cancelCategoryRequest() {
+        categoryRequestGeneration += 1
         categoryJob?.cancel()
+    }
+
+    private fun cancelLiveSearchRequest() {
+        liveSearchRequestGeneration += 1
         liveSearchJob?.cancel()
+    }
+
+    private fun cancelSubmittedSearchRequest() {
+        submittedSearchRequestGeneration += 1
         submittedSearchJob?.cancel()
+    }
+
+    private fun cancelPlaceDetailRequest() {
+        placeDetailRequestGeneration += 1
         placeDetailJob?.cancel()
     }
 
@@ -347,7 +391,8 @@ class CampusMapViewModel @Inject constructor(
         debounce: Boolean,
     ) {
         val normalizedQuery = query.trim()
-        liveSearchJob?.cancel()
+        cancelLiveSearchRequest()
+        val requestGeneration = liveSearchRequestGeneration
 
         if (normalizedQuery.isEmpty()) {
             _uiState.update { currentState ->
@@ -381,7 +426,10 @@ class CampusMapViewModel @Inject constructor(
 
             val result = placeRepository.searchPlaceBuildings(normalizedQuery)
             _uiState.update { currentState ->
-                if (currentState.searchInput.trim() != normalizedQuery) {
+                if (
+                    requestGeneration != liveSearchRequestGeneration ||
+                    currentState.searchInput.trim() != normalizedQuery
+                ) {
                     return@update currentState
                 }
 
@@ -409,7 +457,8 @@ class CampusMapViewModel @Inject constructor(
 
     private fun searchSubmittedBuildings(query: String) {
         val normalizedQuery = query.trim()
-        submittedSearchJob?.cancel()
+        cancelSubmittedSearchRequest()
+        val requestGeneration = submittedSearchRequestGeneration
 
         if (normalizedQuery.isEmpty()) {
             _uiState.update { currentState ->
@@ -440,7 +489,10 @@ class CampusMapViewModel @Inject constructor(
         submittedSearchJob = viewModelScope.launch {
             val result = placeRepository.searchPlaceBuildings(normalizedQuery)
             _uiState.update { currentState ->
-                if (currentState.submittedSearchQuery != normalizedQuery) {
+                if (
+                    requestGeneration != submittedSearchRequestGeneration ||
+                    currentState.submittedSearchQuery != normalizedQuery
+                ) {
                     return@update currentState
                 }
 
@@ -470,7 +522,8 @@ class CampusMapViewModel @Inject constructor(
         place: Place,
         source: CampusMapFocusedPlaceSource,
     ) {
-        placeDetailJob?.cancel()
+        cancelPlaceDetailRequest()
+        val requestGeneration = placeDetailRequestGeneration
         placeDetailCache[place.id]?.let { cachedPlace ->
             _uiState.update { currentState ->
                 currentState.copy(
@@ -506,7 +559,10 @@ class CampusMapViewModel @Inject constructor(
         placeDetailJob = viewModelScope.launch {
             val result = placeRepository.getPlaceBuildingDetail(buildingId)
             _uiState.update { currentState ->
-                if (currentState.pendingFocusedPlace?.id != place.id) {
+                if (
+                    requestGeneration != placeDetailRequestGeneration ||
+                    currentState.pendingFocusedPlace?.id != place.id
+                ) {
                     return@update currentState
                 }
 
