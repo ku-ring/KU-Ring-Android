@@ -3,6 +3,7 @@ package com.ku_stacks.ku_ring.main.campusmap.compose.inner_screen
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -31,6 +32,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -56,6 +58,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -252,6 +255,7 @@ private fun CampusMapSearchTextField(
     modifier: Modifier = Modifier,
 ) {
     val focusRequester = remember { FocusRequester() }
+    val interactionSource = remember { MutableInteractionSource() }
     val keyboardController = LocalSoftwareKeyboardController.current
     var textFieldValue by remember {
         mutableStateOf(
@@ -290,6 +294,7 @@ private fun CampusMapSearchTextField(
             fontWeight = FontWeight.Medium,
         ),
         cursorBrush = SolidColor(KuringTheme.colors.mainPrimary),
+        interactionSource = interactionSource,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
         keyboardActions = KeyboardActions(
             onSearch = {
@@ -298,37 +303,40 @@ private fun CampusMapSearchTextField(
             },
         ),
         modifier = modifier
-            .clip(RoundedCornerShape(12.dp))
-            .background(KuringTheme.colors.gray100)
-            .focusRequester(focusRequester)
-            .padding(start = 16.dp, end = 12.dp),
+            .focusRequester(focusRequester),
         decorationBox = { innerTextField ->
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxSize(),
-            ) {
-                Box(
-                    contentAlignment = Alignment.CenterStart,
-                    modifier = Modifier.weight(1f),
-                ) {
-                    if (textFieldValue.text.isEmpty()) {
-                        Text(
-                            text = stringResource(id = R.string.campus_map_search_placeholder),
-                            style = KuringTheme.typography.body2,
-                            color = KuringTheme.colors.textCaption1,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                        )
-                    }
-
-                    innerTextField()
-                }
-
-                SearchFieldTrailingIcon(
-                    hasQuery = textFieldValue.text.isNotEmpty(),
-                    onQueryClear = onQueryClear,
-                )
-            }
+            TextFieldDefaults.DecorationBox(
+                value = textFieldValue.text,
+                innerTextField = innerTextField,
+                enabled = true,
+                singleLine = true,
+                visualTransformation = VisualTransformation.None,
+                interactionSource = interactionSource,
+                placeholder = {
+                    Text(
+                        text = stringResource(id = R.string.campus_map_search_placeholder),
+                        style = KuringTheme.typography.body2,
+                        color = KuringTheme.colors.textCaption1,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                },
+                trailingIcon = {
+                    SearchFieldTrailingIcon(
+                        hasQuery = textFieldValue.text.isNotEmpty(),
+                        onQueryClear = onQueryClear,
+                    )
+                },
+                shape = RoundedCornerShape(12.dp),
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = KuringTheme.colors.gray100,
+                    unfocusedContainerColor = KuringTheme.colors.gray100,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    cursorColor = KuringTheme.colors.mainPrimary,
+                ),
+                contentPadding = PaddingValues(start = 16.dp, end = 12.dp),
+            )
         },
     )
 }
