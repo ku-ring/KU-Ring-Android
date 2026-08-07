@@ -36,6 +36,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.Dp
@@ -408,18 +409,14 @@ private fun CampusMapOperationHours(
             label = stringResource(id = R.string.campus_map_semester),
             weekdayHours = operationHours?.semesterWeekday,
             weekendHours = operationHours?.semesterWeekend,
-            labelWidth = 72.dp,
             labelStyle = KuringTheme.typography.caption1_1,
             labelColor = KuringTheme.colors.textBody,
             valueStyle = KuringTheme.typography.caption1_1,
-            modifier = Modifier.padding(start = 4.dp),
         )
         CampusMapPeriodOperationHoursRow(
             label = stringResource(id = R.string.campus_map_vacation),
             weekdayHours = operationHours?.vacationWeekday,
             weekendHours = operationHours?.vacationWeekend,
-            labelWidth = 72.dp,
-            modifier = Modifier.padding(start = 4.dp),
         )
     }
 }
@@ -454,6 +451,7 @@ private fun CampusMapPeriodOperationHoursRow(
             text = label,
             style = labelStyle,
             color = labelColor,
+            textAlign = TextAlign.Start,
             maxLines = 1,
             modifier = Modifier.width(labelWidth),
         )
@@ -465,11 +463,13 @@ private fun CampusMapPeriodOperationHoursRow(
                 text = weekday,
                 style = valueStyle,
                 color = valueColor,
+                textAlign = TextAlign.Start,
             )
             Text(
                 text = weekend,
                 style = valueStyle,
                 color = valueColor,
+                textAlign = TextAlign.Start,
             )
         }
     }
