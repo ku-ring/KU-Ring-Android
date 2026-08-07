@@ -11,6 +11,7 @@ import com.ku_stacks.ku_ring.main.campusmap.type.CampusMapCategory
 import com.ku_stacks.ku_ring.main.campusmap.type.toCampusMapCategoryItems
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Job
@@ -88,7 +89,7 @@ class CampusMapViewModel @Inject constructor(
                 focusedPlace = null,
                 selectedSearchPlace = null,
                 submittedSearchQuery = null,
-                selectedCategory = null,
+                selectedCategories = persistentListOf(),
                 categoryPlaces = persistentListOf(),
                 searchPlaces = persistentListOf(),
                 searchResultQuery = null,
@@ -98,7 +99,7 @@ class CampusMapViewModel @Inject constructor(
                 isCategoryLoading = false,
                 isSubmittedSearchLoading = false,
                 isLiveSearchLoading = false,
-                failedCategory = null,
+                failedCategories = null,
                 failedSubmittedSearchQuery = null,
                 failedLiveSearchQuery = null,
             )
@@ -130,7 +131,7 @@ class CampusMapViewModel @Inject constructor(
                 pendingFocusedPlace = null,
                 selectedSearchPlace = null,
                 submittedSearchQuery = null,
-                selectedCategory = null,
+                selectedCategories = persistentListOf(),
                 categoryPlaces = persistentListOf(),
                 searchPlaces = persistentListOf(),
                 searchResultQuery = null,
@@ -141,7 +142,7 @@ class CampusMapViewModel @Inject constructor(
                 isSubmittedSearchLoading = false,
                 isLiveSearchLoading = false,
                 focusedPlaceSource = null,
-                failedCategory = null,
+                failedCategories = null,
                 failedSubmittedSearchQuery = null,
                 failedLiveSearchQuery = null,
                 failedPlaceDetail = null,
@@ -162,20 +163,28 @@ class CampusMapViewModel @Inject constructor(
     }
 
     internal fun updateSelectedCategory(category: CampusMapCategory) {
-        val shouldSelect = _uiState.value.selectedCategory != category
+        val selectedCategories = _uiState.value.selectedCategories
+            .let { currentCategories ->
+                if (category in currentCategories) {
+                    currentCategories.filterNot { it == category }
+                } else {
+                    currentCategories + category
+                }
+            }
+            .toImmutableList()
         cancelCategoryRequest()
         cancelPlaceDetailRequest()
 
-        if (!shouldSelect) {
+        if (selectedCategories.isEmpty()) {
             _uiState.update { currentState ->
                 currentState.copy(
-                    selectedCategory = null,
+                    selectedCategories = persistentListOf(),
                     categoryPlaces = persistentListOf(),
                     focusedPlace = null,
                     pendingFocusedPlace = null,
                     focusedPlaceSource = null,
                     isCategoryLoading = false,
-                    failedCategory = null,
+                    failedCategories = null,
                     failedPlaceDetail = null,
                 )
             }
@@ -184,34 +193,38 @@ class CampusMapViewModel @Inject constructor(
 
         _uiState.update { currentState ->
             currentState.copy(
-                selectedCategory = category,
+                selectedCategories = selectedCategories,
                 categoryPlaces = persistentListOf(),
                 focusedPlace = null,
                 pendingFocusedPlace = null,
                 focusedPlaceSource = null,
                 isCategoryLoading = true,
-                failedCategory = null,
+                failedCategories = null,
                 failedPlaceDetail = null,
             )
         }
-        fetchCategoryPlaces(category)
+        fetchCategoryPlaces(selectedCategories)
     }
 
-    private fun fetchCategoryPlaces(category: CampusMapCategory) {
+    private fun fetchCategoryPlaces(
+        categories: ImmutableList<CampusMapCategory>,
+    ) {
         cancelCategoryRequest()
         val requestGeneration = categoryRequestGeneration
         _uiState.update { currentState ->
             currentState.copy(
                 isCategoryLoading = true,
-                failedCategory = null,
+                failedCategories = null,
             )
         }
         categoryJob = viewModelScope.launch {
-            val result = placeRepository.getPlaceCampusPlaces(arrayOf(category.apiName))
+            val result = placeRepository.getPlaceCampusPlaces(
+                categories.map(CampusMapCategory::apiName).toTypedArray(),
+            )
             _uiState.update { currentState ->
                 if (
                     requestGeneration != categoryRequestGeneration ||
-                    currentState.selectedCategory != category
+                    currentState.selectedCategories != categories
                 ) {
                     return@update currentState
                 }
@@ -223,14 +236,14 @@ class CampusMapViewModel @Inject constructor(
                                 .groupByCampusBuilding()
                                 .toImmutableList(),
                             isCategoryLoading = false,
-                            failedCategory = null,
+                            failedCategories = null,
                         )
                     },
                     onFailure = {
                         currentState.copy(
                             categoryPlaces = persistentListOf(),
                             isCategoryLoading = false,
-                            failedCategory = category,
+                            failedCategories = categories,
                         )
                     },
                 )
@@ -596,10 +609,10 @@ class CampusMapViewModel @Inject constructor(
             is CampusMapFailedRequest.Category -> {
                 val currentState = _uiState.value
                 if (
-                    currentState.selectedCategory == request.category &&
-                    currentState.failedCategory == request.category
+                    currentState.selectedCategories == request.categories &&
+                    currentState.failedCategories == request.categories
                 ) {
-                    fetchCategoryPlaces(request.category)
+                    fetchCategoryPlaces(request.categories)
                 }
             }
 
@@ -642,14 +655,14 @@ class CampusMapViewModel @Inject constructor(
             pendingFocusedPlace = null,
             selectedSearchPlace = null,
             submittedSearchQuery = query,
-            selectedCategory = null,
+            selectedCategories = persistentListOf(),
             categoryPlaces = persistentListOf(),
             searchInput = query,
             isCategoryLoading = false,
             isSubmittedSearchLoading = false,
             isLiveSearchLoading = false,
             focusedPlaceSource = null,
-            failedCategory = null,
+            failedCategories = null,
             failedSubmittedSearchQuery = null,
             failedLiveSearchQuery = null,
             failedPlaceDetail = null,
@@ -665,7 +678,7 @@ class CampusMapViewModel @Inject constructor(
         pendingFocusedPlace = null,
         selectedSearchPlace = place,
         submittedSearchQuery = null,
-        selectedCategory = null,
+        selectedCategories = persistentListOf(),
         categoryPlaces = persistentListOf(),
         searchPlaces = persistentListOf(),
         searchResultQuery = null,
@@ -676,7 +689,7 @@ class CampusMapViewModel @Inject constructor(
         isSubmittedSearchLoading = false,
         isLiveSearchLoading = false,
         focusedPlaceSource = CampusMapFocusedPlaceSource.SEARCH_RESULT,
-        failedCategory = null,
+        failedCategories = null,
         failedSubmittedSearchQuery = null,
         failedLiveSearchQuery = null,
         failedPlaceDetail = null,

@@ -34,7 +34,7 @@ private val CAMPUS_MAP_EXTENT = LatLngBounds(
 internal fun NaverMapSection(
     campusPlaces: ImmutableList<Place>,
     focusedPlace: Place?,
-    selectedCategory: CampusMapCategory?,
+    selectedCategories: ImmutableList<CampusMapCategory>,
     cameraPositionState: CameraPositionState,
     onMapPinClick: (Place) -> Unit,
     onMapClick: () -> Unit,
@@ -84,7 +84,7 @@ internal fun NaverMapSection(
             CampusPlaceMarker(
                 place = place,
                 isFocused = isFocused,
-                selectedCategory = selectedCategory,
+                selectedCategories = selectedCategories,
             ) {
                 onMapPinClick(place)
             }

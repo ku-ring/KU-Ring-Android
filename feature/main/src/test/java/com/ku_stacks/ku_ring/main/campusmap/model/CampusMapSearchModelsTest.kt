@@ -17,7 +17,7 @@ class CampusMapSearchModelsTest {
         val recentPlace = place(id = "recent", name = "최근 건물")
         val results = buildCampusMapSearchResults(
             places = listOf(firstPlace, recentPlace),
-            selectedCategory = null,
+            selectedCategories = emptyList(),
         )
 
         val prioritizedResults = prioritizeRecentSearchResults(
@@ -68,13 +68,51 @@ class CampusMapSearchModelsTest {
 
         val results = buildCampusMapSearchResults(
             places = listOf(place),
-            selectedCategory = CampusMapCategory.RESTAURANT,
+            selectedCategories = listOf(CampusMapCategory.RESTAURANT),
         )
 
         assertEquals(1, results.size)
         assertEquals("facility:201", results.single().id)
         assertEquals("학생식당", results.single().title)
         assertEquals("식당", results.single().category)
+    }
+
+    @Test
+    fun `multiple categories create facility results for every selected category`() {
+        val place = place(
+            id = "facilities",
+            name = "복합 건물",
+            facilities = listOf(
+                facility(
+                    id = 201L,
+                    name = "학생식당",
+                    category = "restaurant",
+                    categoryKor = "식당",
+                ),
+                facility(
+                    id = 202L,
+                    name = "복사실",
+                    category = "printer",
+                    categoryKor = "프린터",
+                ),
+                facility(
+                    id = 203L,
+                    name = "교내 카페",
+                    category = "cafe",
+                    categoryKor = "카페",
+                ),
+            ),
+        )
+
+        val results = buildCampusMapSearchResults(
+            places = listOf(place),
+            selectedCategories = listOf(
+                CampusMapCategory.RESTAURANT,
+                CampusMapCategory.PRINT,
+            ),
+        )
+
+        assertEquals(listOf("학생식당", "복사실"), results.map { it.title })
     }
 
     @Test
@@ -94,7 +132,7 @@ class CampusMapSearchModelsTest {
 
         val results = buildCampusMapSearchResults(
             places = listOf(place),
-            selectedCategory = CampusMapCategory.PRINT,
+            selectedCategories = listOf(CampusMapCategory.PRINT),
         )
 
         assertEquals(listOf("무인 프린터기"), results.map { it.title })
@@ -124,7 +162,7 @@ class CampusMapSearchModelsTest {
                     ),
                 ),
             ),
-            selectedCategory = CampusMapCategory.CAFE,
+            selectedCategories = listOf(CampusMapCategory.CAFE),
         ).single()
 
         assertEquals("https://example.com/cafe.png", result.imageUrl)
@@ -151,7 +189,7 @@ class CampusMapSearchModelsTest {
                     ),
                 ),
             ),
-            selectedCategory = CampusMapCategory.CAFE,
+            selectedCategories = listOf(CampusMapCategory.CAFE),
         ).single()
 
         assertEquals("09:00 ~ 18:00", result.operationHours)
@@ -175,7 +213,7 @@ class CampusMapSearchModelsTest {
                     ),
                 ),
             ),
-            selectedCategory = CampusMapCategory.CAFE,
+            selectedCategories = listOf(CampusMapCategory.CAFE),
         ).single()
 
         assertEquals("-", result.operationHours)
@@ -199,7 +237,7 @@ class CampusMapSearchModelsTest {
 
         val result = buildCampusMapSearchResults(
             places = listOf(building),
-            selectedCategory = CampusMapCategory.RESTAURANT,
+            selectedCategories = listOf(CampusMapCategory.RESTAURANT),
         ).single()
 
         assertEquals(building.address, result.location)

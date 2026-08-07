@@ -22,7 +22,7 @@ internal data class CampusMapUiState(
     val liveSearchPlaces: ImmutableList<Place> = persistentListOf(),
     val liveSearchResultQuery: String? = null,
     val categories: ImmutableList<CampusMapCategoryItem> = persistentListOf(),
-    val selectedCategory: CampusMapCategory? = null,
+    val selectedCategories: ImmutableList<CampusMapCategory> = persistentListOf(),
     val searchInput: String = "",
     val recentSearches: ImmutableList<CampusMapRecentSearch> = persistentListOf(),
     val isInitialLoading: Boolean = false,
@@ -33,7 +33,7 @@ internal data class CampusMapUiState(
     val isLocationPermissionDialogVisible: Boolean = false,
     val focusedPlaceSource: CampusMapFocusedPlaceSource? = null,
     val isInitialLoadFailed: Boolean = false,
-    val failedCategory: CampusMapCategory? = null,
+    val failedCategories: ImmutableList<CampusMapCategory>? = null,
     val failedSubmittedSearchQuery: String? = null,
     val failedLiveSearchQuery: String? = null,
     val failedPlaceDetail: CampusMapFailedRequest.PlaceDetail? = null,
@@ -43,7 +43,7 @@ internal data class CampusMapUiState(
 
     val visiblePlaces: ImmutableList<Place>
         get() {
-            val hasCategory = selectedCategory != null
+            val hasCategory = selectedCategories.isNotEmpty()
             val searchedPlaces = searchPlaces.takeIf {
                 hasSubmittedQuery && searchResultQuery == submittedSearchQuery
             }.orEmpty()
@@ -63,7 +63,7 @@ internal data class CampusMapUiState(
     val searchResults: ImmutableList<CampusMapSearchResult>
         get() = buildCampusMapSearchResults(
             places = visiblePlaces,
-            selectedCategory = selectedCategory.takeUnless { hasSubmittedQuery },
+            selectedCategories = selectedCategories.takeUnless { hasSubmittedQuery }.orEmpty(),
         ).toImmutableList()
 
     val liveSearchResults: ImmutableList<CampusMapSearchResult>
@@ -76,7 +76,7 @@ internal data class CampusMapUiState(
             return prioritizeRecentSearchResults(
                 results = buildCampusMapSearchResults(
                     places = matchingPlaces,
-                    selectedCategory = null,
+                    selectedCategories = emptyList(),
                 ),
                 recentSearches = recentSearches,
             ).toImmutableList()
@@ -90,7 +90,7 @@ internal data class CampusMapUiState(
             !isCategoryLoading &&
             !(hasSubmittedQuery && isSubmittedSearchLoading) &&
             !hasFailedActiveSelection &&
-            (selectedCategory != null || hasSubmittedQuery)
+            (selectedCategories.isNotEmpty() || hasSubmittedQuery)
 
     val showCategoryChips: Boolean
         get() = mapFocusedPlace == null ||
@@ -114,9 +114,9 @@ internal data class CampusMapUiState(
             ?: failedSubmittedSearchQuery
                 ?.takeIf { query -> query == submittedSearchQuery }
                 ?.let { query -> CampusMapFailedRequest.Search(query, isSubmitted = true) }
-            ?: failedCategory
-                ?.takeIf { category -> category == selectedCategory }
-                ?.let { category -> CampusMapFailedRequest.Category(category) }
+            ?: failedCategories
+                ?.takeIf { categories -> categories == selectedCategories }
+                ?.let { categories -> CampusMapFailedRequest.Category(categories) }
             ?: CampusMapFailedRequest.InitialData.takeIf { isInitialLoadFailed }
 
     val searchFailedRequest: CampusMapFailedRequest.Search?
@@ -128,7 +128,7 @@ internal data class CampusMapUiState(
         get() = !submittedSearchQuery.isNullOrBlank()
 
     private val hasFailedActiveSelection: Boolean
-        get() = failedCategory?.let { category -> category == selectedCategory } == true ||
+        get() = failedCategories?.let { categories -> categories == selectedCategories } == true ||
             failedSubmittedSearchQuery?.let { query -> query == submittedSearchQuery } == true
 
     companion object {
@@ -145,7 +145,7 @@ internal sealed interface CampusMapFailedRequest {
     data object InitialData : CampusMapFailedRequest
 
     data class Category(
-        val category: CampusMapCategory,
+        val categories: ImmutableList<CampusMapCategory>,
     ) : CampusMapFailedRequest
 
     data class Search(

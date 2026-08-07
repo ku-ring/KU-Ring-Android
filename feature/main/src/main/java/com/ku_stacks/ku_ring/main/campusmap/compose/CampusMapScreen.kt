@@ -256,7 +256,7 @@ private fun CampusMapScreen(
         NaverMapSection(
             campusPlaces = uiState.visiblePlaces,
             focusedPlace = uiState.mapFocusedPlace,
-            selectedCategory = uiState.selectedCategory,
+            selectedCategories = uiState.selectedCategories,
             cameraPositionState = cameraPositionState,
             onMapPinClick = onMapPinClick,
             onMapClick = onMapClick,
@@ -295,7 +295,7 @@ private fun CampusMapScreen(
 
         CampusMapTopControls(
             categories = uiState.categories,
-            selectedCategory = uiState.selectedCategory,
+            selectedCategories = uiState.selectedCategories,
             activeSearchText = uiState.activeSearchText,
             showCategoryChips = uiState.showCategoryChips,
             onSearchClick = onSearchClick,
@@ -325,7 +325,7 @@ private fun CampusMapScreen(
 @Composable
 private fun CampusMapTopControls(
     categories: ImmutableList<CampusMapCategoryItem>,
-    selectedCategory: CampusMapCategory?,
+    selectedCategories: ImmutableList<CampusMapCategory>,
     activeSearchText: String?,
     showCategoryChips: Boolean,
     onSearchClick: () -> Unit,
@@ -369,7 +369,7 @@ private fun CampusMapTopControls(
 
             CampusMapCategoryChips(
                 categories = categories,
-                selectedCategory = selectedCategory,
+                selectedCategories = selectedCategories,
                 onCategoryClick = onCategoryClick,
                 modifier = Modifier.fillMaxWidth(),
             )
@@ -500,7 +500,7 @@ private fun SelectedSearchClearIcon(
 @Composable
 private fun CampusMapCategoryChips(
     categories: ImmutableList<CampusMapCategoryItem>,
-    selectedCategory: CampusMapCategory?,
+    selectedCategories: ImmutableList<CampusMapCategory>,
     onCategoryClick: (CampusMapCategory) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -513,7 +513,7 @@ private fun CampusMapCategoryChips(
         categories.forEach { item ->
             CampusMapCategoryChip(
                 item = item,
-                isSelected = selectedCategory == item.category,
+                isSelected = item.category in selectedCategories,
                 onClick = { onCategoryClick(item.category) },
             )
         }

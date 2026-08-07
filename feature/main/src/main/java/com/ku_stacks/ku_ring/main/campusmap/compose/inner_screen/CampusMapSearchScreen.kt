@@ -642,7 +642,7 @@ private fun CampusMapSearchScreenPreview(
                 .toImmutableList(),
             searchResults = buildCampusMapSearchResults(
                 places = places,
-                selectedCategory = null,
+                selectedCategories = emptyList(),
             ).toImmutableList(),
             isSearchLoading = false,
             showEmptySearchResult = false,

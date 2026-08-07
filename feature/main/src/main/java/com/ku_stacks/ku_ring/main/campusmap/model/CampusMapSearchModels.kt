@@ -33,18 +33,15 @@ internal sealed interface CampusMapRecentSearch {
 
 internal fun buildCampusMapSearchResults(
     places: List<Place>,
-    selectedCategory: CampusMapCategory?,
+    selectedCategories: List<CampusMapCategory>,
 ): List<CampusMapSearchResult> {
-    if (selectedCategory == null) {
+    if (selectedCategories.isEmpty()) {
         return places.map(Place::toSearchResult)
     }
 
     return places.flatMap { place ->
         place.facilities.mapNotNull { facility ->
-            if (
-                selectedCategory.matches(facility.category) ||
-                selectedCategory.matches(facility.categoryKor)
-            ) {
+            if (selectedCategories.any { category -> category.matches(facility) }) {
                 facility.toSearchResult(
                     place = place,
                 )
@@ -54,6 +51,9 @@ internal fun buildCampusMapSearchResults(
         }
     }
 }
+
+private fun CampusMapCategory.matches(facility: PlaceFacility): Boolean =
+    matches(facility.category) || matches(facility.categoryKor)
 
 internal fun prioritizeRecentSearchResults(
     results: List<CampusMapSearchResult>,

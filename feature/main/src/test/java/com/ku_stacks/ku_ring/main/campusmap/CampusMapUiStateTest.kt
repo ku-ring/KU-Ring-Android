@@ -74,7 +74,7 @@ class CampusMapUiStateTest {
         )
         val state = CampusMapUiState(
             categoryPlaces = persistentListOf(categoryPlace),
-            selectedCategory = CampusMapCategory.CAFE,
+            selectedCategories = persistentListOf(CampusMapCategory.CAFE),
         )
 
         assertEquals(listOf(categoryPlace), state.visiblePlaces)
@@ -101,7 +101,7 @@ class CampusMapUiStateTest {
             categoryPlaces = persistentListOf(restaurantCategoryPlace),
             searchPlaces = persistentListOf(restaurantSearchPlace, cafeSearchPlace),
             searchResultQuery = "201",
-            selectedCategory = CampusMapCategory.RESTAURANT,
+            selectedCategories = persistentListOf(CampusMapCategory.RESTAURANT),
             searchInput = "201",
         )
 
@@ -234,13 +234,14 @@ class CampusMapUiStateTest {
 
     @Test
     fun `active category loading or failure suppresses the result sheet`() {
-        val selected = CampusMapUiState(selectedCategory = CampusMapCategory.CAFE)
+        val selectedCategories = persistentListOf(CampusMapCategory.CAFE)
+        val selected = CampusMapUiState(selectedCategories = selectedCategories)
         val loading = selected.copy(isCategoryLoading = true)
         val failed = selected.copy(
-            failedCategory = CampusMapCategory.CAFE,
+            failedCategories = selectedCategories,
         )
         val unrelatedFailure = selected.copy(
-            failedCategory = CampusMapCategory.PRINT,
+            failedCategories = persistentListOf(CampusMapCategory.PRINT),
         )
 
         assertTrue(selected.showSearchResultSheet)

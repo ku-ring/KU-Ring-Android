@@ -394,7 +394,7 @@ private fun CampusMapSearchResultBottomSheetPreview(
             CampusMapSearchResultBottomSheet(
                 results = buildCampusMapSearchResults(
                     places = places,
-                    selectedCategory = null,
+                    selectedCategories = emptyList(),
                 ).toImmutableList(),
                 onResultClick = {},
                 onDismiss = {},
