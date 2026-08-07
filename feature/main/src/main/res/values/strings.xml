@@ -130,6 +130,8 @@
     <string name="campus_map_empty_recent_search">최근 검색어가 아직 없습니다.</string>
     <string name="campus_map_empty_search_result">관련 검색 결과가 없습니다.\n다른 검색어를 입력해주세요.</string>
     <string name="campus_map_empty_filtered_result">관련 건물이 없습니다.</string>
+    <string name="campus_map_load_error">캠퍼스맵 정보를 불러오지 못했어요.</string>
+    <string name="campus_map_retry">다시 시도</string>
     <string name="campus_map_delete_recent_search">최근 검색어 삭제</string>
     <string name="campus_map_current_location">현재 위치 보기</string>
     <string name="campus_map_reset_bearing">지도를 정북 방향으로 돌리기</string>
@@ -143,6 +145,9 @@
     <string name="campus_map_operation_hours">운영시간</string>
     <string name="campus_map_semester">학기 중</string>
     <string name="campus_map_vacation">방학 중</string>
+    <string name="campus_map_weekday_operation_hours">주중 %1$s</string>
+    <string name="campus_map_weekend_operation_hours">주말 %1$s</string>
+    <string name="campus_map_operation_hours_unavailable">운영시간 정보 없음</string>
 
     <!-- academic calendar-->
     <string name="academic_event_bottom_sheet_title">이번 주 예정된 학사일정을 확인해보아요</string>

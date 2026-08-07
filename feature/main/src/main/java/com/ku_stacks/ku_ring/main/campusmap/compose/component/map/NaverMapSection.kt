@@ -60,7 +60,7 @@ internal fun NaverMapSection(
         isNightModeEnabled = isDarkTheme,
     )
 
-    LaunchedEffect(focusedPlace) {
+    LaunchedEffect(focusedPlace?.id) {
         focusedPlace?.let { place ->
             cameraPositionState.move(
                 update = CameraUpdate
@@ -80,7 +80,7 @@ internal fun NaverMapSection(
         modifier = modifier.fillMaxSize(),
     ) {
         campusPlaces.forEach { place ->
-            val isFocused = place == focusedPlace
+            val isFocused = place.id == focusedPlace?.id
             CampusPlaceMarker(
                 place = place,
                 isFocused = isFocused,

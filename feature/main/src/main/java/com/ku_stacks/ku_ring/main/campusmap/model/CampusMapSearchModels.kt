@@ -40,11 +40,13 @@ internal fun buildCampusMapSearchResults(
     }
 
     return places.flatMap { place ->
-        place.facilities.mapIndexedNotNull { index, facility ->
-            if (selectedCategory.matches(facility.category)) {
+        place.facilities.mapNotNull { facility ->
+            if (
+                selectedCategory.matches(facility.category) ||
+                selectedCategory.matches(facility.categoryKor)
+            ) {
                 facility.toSearchResult(
                     place = place,
-                    index = index,
                 )
             } else {
                 null
@@ -107,19 +109,22 @@ private fun Place.toSearchResult() = CampusMapSearchResult(
 
 private fun PlaceFacility.toSearchResult(
     place: Place,
-    index: Int,
 ) = CampusMapSearchResult(
-    id = "facility:${place.id}:$index",
+    id = "facility:$id",
     place = place,
     title = name,
-    category = category,
+    category = categoryKor.ifBlank { category },
     location = location ?: place.address,
     operationHours = operationHours.displayText() ?: "-",
-    imageUrl = place.imageUrl,
+    imageUrl = imageUrl ?: place.imageUrl,
 )
 
 private fun PlaceOperationHours?.displayText(): String? =
-    this?.current ?: this?.semester ?: this?.vacation
+    this?.current
+        ?: this?.semesterWeekday
+        ?: this?.semesterWeekend
+        ?: this?.vacationWeekday
+        ?: this?.vacationWeekend
 
 private fun String.toSearchComparisonKey(): String = trim().lowercase()
 

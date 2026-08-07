@@ -2,6 +2,7 @@ package com.ku_stacks.ku_ring.main.campusmap.model
 
 import com.ku_stacks.ku_ring.domain.Place
 import com.ku_stacks.ku_ring.domain.PlaceFacility
+import com.ku_stacks.ku_ring.domain.PlaceOperationHours
 import com.ku_stacks.ku_ring.main.campusmap.type.CampusMapCategory
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
@@ -45,13 +46,23 @@ class CampusMapSearchModelsTest {
     }
 
     @Test
-    fun `category search results contain only matching facilities`() {
+    fun `category results match API category code and display Korean category`() {
         val place = place(
             id = "facilities",
             name = "복합 건물",
             facilities = listOf(
-                PlaceFacility(name = "학생식당", category = "식당"),
-                PlaceFacility(name = "복사실", category = "프린터"),
+                facility(
+                    id = 201L,
+                    name = "학생식당",
+                    category = "restaurant",
+                    categoryKor = "식당",
+                ),
+                facility(
+                    id = 202L,
+                    name = "복사실",
+                    category = "printer",
+                    categoryKor = "프린터",
+                ),
             ),
         )
 
@@ -61,13 +72,145 @@ class CampusMapSearchModelsTest {
         )
 
         assertEquals(1, results.size)
+        assertEquals("facility:201", results.single().id)
         assertEquals("학생식당", results.single().title)
         assertEquals("식당", results.single().category)
+    }
+
+    @Test
+    fun `category results also match Korean category aliases`() {
+        val place = place(
+            id = "legacy-category",
+            name = "복합 건물",
+            facilities = listOf(
+                facility(
+                    id = 301L,
+                    name = "무인 프린터기",
+                    category = "프린터기",
+                    categoryKor = "",
+                ),
+            ),
+        )
+
+        val results = buildCampusMapSearchResults(
+            places = listOf(place),
+            selectedCategory = CampusMapCategory.PRINT,
+        )
+
+        assertEquals(listOf("무인 프린터기"), results.map { it.title })
+        assertEquals("프린터기", results.single().category)
+    }
+
+    @Test
+    fun `facility result prefers facility image and current operating hours`() {
+        val result = buildCampusMapSearchResults(
+            places = listOf(
+                place(
+                    id = "2",
+                    name = "경영관",
+                    imageUrl = "https://example.com/building.png",
+                    facilities = listOf(
+                        facility(
+                            id = 201L,
+                            name = "카페 레스티오",
+                            category = "cafe",
+                            categoryKor = "카페",
+                            imageUrl = "https://example.com/cafe.png",
+                            operationHours = PlaceOperationHours(
+                                current = "09:00 ~ 18:00",
+                                semesterWeekday = "08:00 ~ 22:00",
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+            selectedCategory = CampusMapCategory.CAFE,
+        ).single()
+
+        assertEquals("https://example.com/cafe.png", result.imageUrl)
+        assertEquals("09:00 ~ 18:00", result.operationHours)
+    }
+
+    @Test
+    fun `facility result uses the first available structured period hours`() {
+        val result = buildCampusMapSearchResults(
+            places = listOf(
+                place(
+                    id = "2",
+                    name = "경영관",
+                    facilities = listOf(
+                        facility(
+                            id = 201L,
+                            name = "카페 레스티오",
+                            category = "cafe",
+                            categoryKor = "카페",
+                            operationHours = PlaceOperationHours(
+                                semesterWeekend = "09:00 ~ 18:00",
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+            selectedCategory = CampusMapCategory.CAFE,
+        ).single()
+
+        assertEquals("09:00 ~ 18:00", result.operationHours)
+    }
+
+    @Test
+    fun `facility result shows dash when every structured period is unavailable`() {
+        val result = buildCampusMapSearchResults(
+            places = listOf(
+                place(
+                    id = "2",
+                    name = "경영관",
+                    facilities = listOf(
+                        facility(
+                            id = 201L,
+                            name = "카페 레스티오",
+                            category = "cafe",
+                            categoryKor = "카페",
+                            operationHours = PlaceOperationHours(),
+                        ),
+                    ),
+                ),
+            ),
+            selectedCategory = CampusMapCategory.CAFE,
+        ).single()
+
+        assertEquals("-", result.operationHours)
+    }
+
+    @Test
+    fun `facility result falls back to building address image and dash`() {
+        val building = place(
+            id = "4",
+            name = "학생회관",
+            imageUrl = "https://example.com/building.png",
+            facilities = listOf(
+                facility(
+                    id = 401L,
+                    name = "학생식당",
+                    category = "restaurant",
+                    categoryKor = "식당",
+                ),
+            ),
+        )
+
+        val result = buildCampusMapSearchResults(
+            places = listOf(building),
+            selectedCategory = CampusMapCategory.RESTAURANT,
+        ).single()
+
+        assertEquals(building.address, result.location)
+        assertEquals(building.imageUrl, result.imageUrl)
+        assertEquals("-", result.operationHours)
     }
 
     private fun place(
         id: String,
         name: String,
+        imageUrl: String? = null,
         facilities: List<PlaceFacility> = emptyList(),
     ) = Place(
         id = id,
@@ -77,6 +220,23 @@ class CampusMapSearchModelsTest {
         latitude = 37.542366,
         longitude = 127.076846,
         priority = Place.Priority.HIGH,
+        imageUrl = imageUrl,
         facilities = facilities,
+    )
+
+    private fun facility(
+        id: Long,
+        name: String,
+        category: String,
+        categoryKor: String,
+        imageUrl: String? = null,
+        operationHours: PlaceOperationHours? = null,
+    ) = PlaceFacility(
+        id = id,
+        name = name,
+        category = category,
+        categoryKor = categoryKor,
+        imageUrl = imageUrl,
+        operationHours = operationHours,
     )
 }

@@ -5,8 +5,6 @@ import com.ku_stacks.ku_ring.domain.PlaceCategory
 import com.ku_stacks.ku_ring.domain.PlaceFacility
 
 interface PlaceRepository {
-    suspend fun getPlaces(): List<Place>
-
     /**
      * 캠퍼스맵 건물의 상세 정보를 가져온다.
      *

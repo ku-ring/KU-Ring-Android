@@ -6,38 +6,58 @@ import com.ku_stacks.ku_ring.main.campusmap.model.CampusMapSearchResult
 import com.ku_stacks.ku_ring.main.campusmap.model.buildCampusMapSearchResults
 import com.ku_stacks.ku_ring.main.campusmap.model.prioritizeRecentSearchResults
 import com.ku_stacks.ku_ring.main.campusmap.type.CampusMapCategory
-import com.ku_stacks.ku_ring.main.campusmap.type.filterCampusPlaces
-import com.ku_stacks.ku_ring.main.campusmap.type.searchCampusPlaces
+import com.ku_stacks.ku_ring.main.campusmap.type.CampusMapCategoryItem
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 
 internal data class CampusMapUiState(
-    val focusedPlace: Place?,
-    val selectedSearchPlace: Place?,
-    val submittedSearchQuery: String?,
-    val campusPlaces: ImmutableList<Place>,
-    val selectedCategory: CampusMapCategory?,
-    val searchInput: String,
-    val recentSearches: ImmutableList<CampusMapRecentSearch>,
-    val isLocationPermissionDialogVisible: Boolean,
+    val focusedPlace: Place? = null,
+    val selectedSearchPlace: Place? = null,
+    val submittedSearchQuery: String? = null,
+    val campusPlaces: ImmutableList<Place> = persistentListOf(),
+    val categoryPlaces: ImmutableList<Place> = persistentListOf(),
+    val searchPlaces: ImmutableList<Place> = persistentListOf(),
+    val searchResultQuery: String? = null,
+    val liveSearchPlaces: ImmutableList<Place> = persistentListOf(),
+    val liveSearchResultQuery: String? = null,
+    val categories: ImmutableList<CampusMapCategoryItem> = persistentListOf(),
+    val selectedCategory: CampusMapCategory? = null,
+    val searchInput: String = "",
+    val recentSearches: ImmutableList<CampusMapRecentSearch> = persistentListOf(),
+    val isInitialLoading: Boolean = false,
+    val isCategoryLoading: Boolean = false,
+    val isSubmittedSearchLoading: Boolean = false,
+    val isLiveSearchLoading: Boolean = false,
+    val pendingFocusedPlace: Place? = null,
+    val isLocationPermissionDialogVisible: Boolean = false,
     val focusedPlaceSource: CampusMapFocusedPlaceSource? = null,
+    val isInitialLoadFailed: Boolean = false,
+    val failedCategory: CampusMapCategory? = null,
+    val failedSubmittedSearchQuery: String? = null,
+    val failedLiveSearchQuery: String? = null,
+    val failedPlaceDetail: CampusMapFailedRequest.PlaceDetail? = null,
 ) {
+    val mapFocusedPlace: Place?
+        get() = focusedPlace ?: pendingFocusedPlace
+
     val visiblePlaces: ImmutableList<Place>
         get() {
-            val searchedPlaces = if (hasSubmittedQuery) {
-                searchCampusPlaces(
-                    places = campusPlaces,
-                    query = submittedSearchQuery.orEmpty(),
-                )
-            } else {
-                campusPlaces
-            }
+            val hasCategory = selectedCategory != null
+            val searchedPlaces = searchPlaces.takeIf {
+                hasSubmittedQuery && searchResultQuery == submittedSearchQuery
+            }.orEmpty()
 
-            return filterCampusPlaces(
-                places = searchedPlaces,
-                selectedCategory = selectedCategory,
-            ).toImmutableList()
+            return when {
+                hasCategory && hasSubmittedQuery -> {
+                    val categoryPlaceIds = categoryPlaces.mapTo(mutableSetOf(), Place::id)
+                    searchedPlaces.filter { it.id in categoryPlaceIds }
+                }
+
+                hasCategory -> categoryPlaces
+                hasSubmittedQuery -> searchedPlaces
+                else -> campusPlaces
+            }.toImmutableList()
         }
 
     val searchResults: ImmutableList<CampusMapSearchResult>
@@ -47,48 +67,94 @@ internal data class CampusMapUiState(
         ).toImmutableList()
 
     val liveSearchResults: ImmutableList<CampusMapSearchResult>
-        get() = prioritizeRecentSearchResults(
-            results = buildCampusMapSearchResults(
-                places = searchCampusPlaces(
-                    places = campusPlaces,
-                    query = searchInput,
+        get() {
+            val normalizedInput = searchInput.trim()
+            val matchingPlaces = liveSearchPlaces.takeIf {
+                normalizedInput.isNotEmpty() && liveSearchResultQuery == normalizedInput
+            }.orEmpty()
+
+            return prioritizeRecentSearchResults(
+                results = buildCampusMapSearchResults(
+                    places = matchingPlaces,
+                    selectedCategory = null,
                 ),
-                selectedCategory = null,
-            ),
-            recentSearches = recentSearches,
-        ).toImmutableList()
+                recentSearches = recentSearches,
+            ).toImmutableList()
+        }
 
     val activeSearchText: String?
         get() = selectedSearchPlace?.name ?: submittedSearchQuery
 
     val showSearchResultSheet: Boolean
-        get() = focusedPlace == null && (selectedCategory != null || hasSubmittedQuery)
+        get() = mapFocusedPlace == null &&
+            !isCategoryLoading &&
+            !(hasSubmittedQuery && isSubmittedSearchLoading) &&
+            !hasFailedActiveSelection &&
+            (selectedCategory != null || hasSubmittedQuery)
 
     val showCategoryChips: Boolean
-        get() = focusedPlace == null ||
+        get() = mapFocusedPlace == null ||
             focusedPlaceSource == CampusMapFocusedPlaceSource.MAP_MARKER
 
     val shouldShowEmptySearchResult: Boolean
-        get() = searchInput.isNotBlank() && liveSearchResults.isEmpty()
+        get() = searchInput.isNotBlank() &&
+            liveSearchResultQuery == searchInput.trim() &&
+            !isLiveSearchLoading &&
+            searchFailedRequest == null &&
+            liveSearchResults.isEmpty()
+
+    val isMapLoading: Boolean
+        get() = isInitialLoading ||
+            isCategoryLoading ||
+            (hasSubmittedQuery && isSubmittedSearchLoading) ||
+            pendingFocusedPlace != null
+
+    val mapFailedRequest: CampusMapFailedRequest?
+        get() = failedPlaceDetail
+            ?: failedSubmittedSearchQuery
+                ?.takeIf { query -> query == submittedSearchQuery }
+                ?.let { query -> CampusMapFailedRequest.Search(query, isSubmitted = true) }
+            ?: failedCategory
+                ?.takeIf { category -> category == selectedCategory }
+                ?.let { category -> CampusMapFailedRequest.Category(category) }
+            ?: CampusMapFailedRequest.InitialData.takeIf { isInitialLoadFailed }
+
+    val searchFailedRequest: CampusMapFailedRequest.Search?
+        get() = failedLiveSearchQuery
+            ?.takeIf { query -> query == searchInput.trim() }
+            ?.let { query -> CampusMapFailedRequest.Search(query, isSubmitted = false) }
 
     private val hasSubmittedQuery: Boolean
         get() = !submittedSearchQuery.isNullOrBlank()
 
+    private val hasFailedActiveSelection: Boolean
+        get() = failedCategory?.let { category -> category == selectedCategory } == true ||
+            failedSubmittedSearchQuery?.let { query -> query == submittedSearchQuery } == true
+
     companion object {
-        val Empty = CampusMapUiState(
-            focusedPlace = null,
-            selectedSearchPlace = null,
-            submittedSearchQuery = null,
-            campusPlaces = persistentListOf(),
-            selectedCategory = null,
-            searchInput = "",
-            recentSearches = persistentListOf(),
-            isLocationPermissionDialogVisible = false,
-        )
+        val Empty = CampusMapUiState()
     }
 }
 
 internal enum class CampusMapFocusedPlaceSource {
     MAP_MARKER,
     SEARCH_RESULT,
+}
+
+internal sealed interface CampusMapFailedRequest {
+    data object InitialData : CampusMapFailedRequest
+
+    data class Category(
+        val category: CampusMapCategory,
+    ) : CampusMapFailedRequest
+
+    data class Search(
+        val query: String,
+        val isSubmitted: Boolean,
+    ) : CampusMapFailedRequest
+
+    data class PlaceDetail(
+        val place: Place,
+        val source: CampusMapFocusedPlaceSource,
+    ) : CampusMapFailedRequest
 }

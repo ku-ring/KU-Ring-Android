@@ -5,12 +5,18 @@ import androidx.lifecycle.viewModelScope
 import com.ku_stacks.ku_ring.domain.Place
 import com.ku_stacks.ku_ring.domain.place.repository.PlaceRepository
 import com.ku_stacks.ku_ring.main.campusmap.model.CampusMapRecentSearch
+import com.ku_stacks.ku_ring.main.campusmap.model.groupByCampusBuilding
 import com.ku_stacks.ku_ring.main.campusmap.model.updateRecentSearches
 import com.ku_stacks.ku_ring.main.campusmap.type.CampusMapCategory
+import com.ku_stacks.ku_ring.main.campusmap.type.toCampusMapCategoryItems
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -24,50 +30,121 @@ class CampusMapViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(CampusMapUiState.Empty)
     internal val uiState: StateFlow<CampusMapUiState> = _uiState.asStateFlow()
 
+    private val placeDetailCache = mutableMapOf<String, Place>()
+    private var initialLoadJob: Job? = null
+    private var categoryJob: Job? = null
+    private var liveSearchJob: Job? = null
+    private var submittedSearchJob: Job? = null
+    private var placeDetailJob: Job? = null
+    private var categoryRequestGeneration = 0L
+    private var liveSearchRequestGeneration = 0L
+    private var submittedSearchRequestGeneration = 0L
+    private var placeDetailRequestGeneration = 0L
+
     init {
-        fetchCampusPlaces()
+        fetchInitialData()
     }
 
-    private fun fetchCampusPlaces() = viewModelScope.launch {
-        val places = placeRepository.getPlaces()
-        _uiState.update { currentState ->
-            currentState.copy(
-                campusPlaces = places.toImmutableList(),
-            )
+    private fun fetchInitialData() {
+        initialLoadJob?.cancel()
+        initialLoadJob = viewModelScope.launch {
+            _uiState.update { currentState ->
+                currentState.copy(
+                    isInitialLoading = true,
+                    isInitialLoadFailed = false,
+                )
+            }
+
+            val (buildingResult, categoryResult) = coroutineScope {
+                val buildings = async { placeRepository.getPlaceBuildings() }
+                val categories = async { placeRepository.getPlaceCategories() }
+                buildings.await() to categories.await()
+            }
+
+            _uiState.update { currentState ->
+                currentState.copy(
+                    campusPlaces = buildingResult
+                        .getOrNull()
+                        ?.toImmutableList()
+                        ?: currentState.campusPlaces,
+                    categories = categoryResult
+                        .getOrNull()
+                        ?.toCampusMapCategoryItems()
+                        ?.toImmutableList()
+                        ?: currentState.categories,
+                    isInitialLoading = false,
+                    isInitialLoadFailed = buildingResult.isFailure || categoryResult.isFailure,
+                )
+            }
         }
     }
 
     fun focusMapPlace(place: Place) {
-        _uiState.update { currentState ->
-            currentState.copy(
-                focusedPlace = place,
-                selectedSearchPlace = null,
-                submittedSearchQuery = null,
-                selectedCategory = null,
-                focusedPlaceSource = CampusMapFocusedPlaceSource.MAP_MARKER,
-            )
-        }
-    }
-
-    fun clearFocusedPlace() {
+        cancelCategoryRequest()
+        cancelLiveSearchRequest()
+        cancelSubmittedSearchRequest()
         _uiState.update { currentState ->
             currentState.copy(
                 focusedPlace = null,
                 selectedSearchPlace = null,
+                submittedSearchQuery = null,
+                selectedCategory = null,
+                categoryPlaces = persistentListOf(),
+                searchPlaces = persistentListOf(),
+                searchResultQuery = null,
+                liveSearchPlaces = persistentListOf(),
+                liveSearchResultQuery = null,
+                searchInput = "",
+                isCategoryLoading = false,
+                isSubmittedSearchLoading = false,
+                isLiveSearchLoading = false,
+                failedCategory = null,
+                failedSubmittedSearchQuery = null,
+                failedLiveSearchQuery = null,
+            )
+        }
+        fetchPlaceDetail(place, CampusMapFocusedPlaceSource.MAP_MARKER)
+    }
+
+    fun clearFocusedPlace() {
+        cancelPlaceDetailRequest()
+        _uiState.update { currentState ->
+            currentState.copy(
+                focusedPlace = null,
+                pendingFocusedPlace = null,
+                selectedSearchPlace = null,
                 focusedPlaceSource = null,
+                failedPlaceDetail = null,
             )
         }
     }
 
     fun clearActiveSelection() {
+        cancelCategoryRequest()
+        cancelLiveSearchRequest()
+        cancelSubmittedSearchRequest()
+        cancelPlaceDetailRequest()
         _uiState.update { currentState ->
             currentState.copy(
                 focusedPlace = null,
+                pendingFocusedPlace = null,
                 selectedSearchPlace = null,
                 submittedSearchQuery = null,
                 selectedCategory = null,
+                categoryPlaces = persistentListOf(),
+                searchPlaces = persistentListOf(),
+                searchResultQuery = null,
+                liveSearchPlaces = persistentListOf(),
+                liveSearchResultQuery = null,
                 searchInput = "",
+                isCategoryLoading = false,
+                isSubmittedSearchLoading = false,
+                isLiveSearchLoading = false,
                 focusedPlaceSource = null,
+                failedCategory = null,
+                failedSubmittedSearchQuery = null,
+                failedLiveSearchQuery = null,
+                failedPlaceDetail = null,
             )
         }
     }
@@ -85,19 +162,99 @@ class CampusMapViewModel @Inject constructor(
     }
 
     internal fun updateSelectedCategory(category: CampusMapCategory) {
+        val shouldSelect = _uiState.value.selectedCategory != category
+        cancelCategoryRequest()
+        cancelPlaceDetailRequest()
+
+        if (!shouldSelect) {
+            _uiState.update { currentState ->
+                currentState.copy(
+                    selectedCategory = null,
+                    categoryPlaces = persistentListOf(),
+                    focusedPlace = null,
+                    pendingFocusedPlace = null,
+                    focusedPlaceSource = null,
+                    isCategoryLoading = false,
+                    failedCategory = null,
+                    failedPlaceDetail = null,
+                )
+            }
+            return
+        }
+
         _uiState.update { currentState ->
             currentState.copy(
-                selectedCategory = if (currentState.selectedCategory == category) null else category,
+                selectedCategory = category,
+                categoryPlaces = persistentListOf(),
                 focusedPlace = null,
+                pendingFocusedPlace = null,
                 focusedPlaceSource = null,
+                isCategoryLoading = true,
+                failedCategory = null,
+                failedPlaceDetail = null,
             )
+        }
+        fetchCategoryPlaces(category)
+    }
+
+    private fun fetchCategoryPlaces(category: CampusMapCategory) {
+        cancelCategoryRequest()
+        val requestGeneration = categoryRequestGeneration
+        _uiState.update { currentState ->
+            currentState.copy(
+                isCategoryLoading = true,
+                failedCategory = null,
+            )
+        }
+        categoryJob = viewModelScope.launch {
+            val result = placeRepository.getPlaceCampusPlaces(arrayOf(category.apiName))
+            _uiState.update { currentState ->
+                if (
+                    requestGeneration != categoryRequestGeneration ||
+                    currentState.selectedCategory != category
+                ) {
+                    return@update currentState
+                }
+
+                result.fold(
+                    onSuccess = { facilities ->
+                        currentState.copy(
+                            categoryPlaces = facilities
+                                .groupByCampusBuilding()
+                                .toImmutableList(),
+                            isCategoryLoading = false,
+                            failedCategory = null,
+                        )
+                    },
+                    onFailure = {
+                        currentState.copy(
+                            categoryPlaces = persistentListOf(),
+                            isCategoryLoading = false,
+                            failedCategory = category,
+                        )
+                    },
+                )
+            }
         }
     }
 
     fun prepareSearchInput() {
+        val preparedInput = _uiState.value.activeSearchText.orEmpty()
         _uiState.update { currentState ->
-            currentState.copy(
-                searchInput = currentState.activeSearchText.orEmpty(),
+            currentState.copy(searchInput = preparedInput)
+        }
+
+        if (preparedInput.isBlank()) {
+            clearSearchInput()
+            return
+        }
+
+        if (
+            _uiState.value.liveSearchResultQuery != preparedInput.trim()
+        ) {
+            searchLiveBuildings(
+                query = preparedInput,
+                debounce = true,
             )
         }
     }
@@ -106,24 +263,43 @@ class CampusMapViewModel @Inject constructor(
         _uiState.update { currentState ->
             currentState.copy(searchInput = input)
         }
+        searchLiveBuildings(
+            query = input,
+            debounce = true,
+        )
     }
 
     fun clearSearchInput() {
+        cancelLiveSearchRequest()
         _uiState.update { currentState ->
-            currentState.copy(searchInput = "")
+            currentState.copy(
+                searchInput = "",
+                liveSearchPlaces = persistentListOf(),
+                liveSearchResultQuery = null,
+                isLiveSearchLoading = false,
+                failedLiveSearchQuery = null,
+            )
         }
     }
 
     internal fun selectRecentSearch(recentSearch: CampusMapRecentSearch) {
-        _uiState.update { currentState ->
-            when (recentSearch) {
-                is CampusMapRecentSearch.PlaceResult -> {
+        cancelRequestsForCommittedSearch()
+        when (recentSearch) {
+            is CampusMapRecentSearch.PlaceResult -> {
+                _uiState.update { currentState ->
                     currentState.withSelectedSearchPlace(recentSearch.place)
                 }
+                fetchPlaceDetail(
+                    place = recentSearch.place,
+                    source = CampusMapFocusedPlaceSource.SEARCH_RESULT,
+                )
+            }
 
-                is CampusMapRecentSearch.Query -> {
+            is CampusMapRecentSearch.Query -> {
+                _uiState.update { currentState ->
                     currentState.withSubmittedSearchQuery(recentSearch.query)
                 }
+                searchSubmittedBuildings(recentSearch.query)
             }
         }
     }
@@ -140,35 +316,321 @@ class CampusMapViewModel @Inject constructor(
 
     fun clearRecentSearches() {
         _uiState.update { currentState ->
-            currentState.copy(
-                recentSearches = persistentListOf(),
-            )
+            currentState.copy(recentSearches = persistentListOf())
         }
     }
 
     fun selectSearchPlace(place: Place) {
+        cancelRequestsForCommittedSearch()
         _uiState.update { currentState ->
             currentState.withSelectedSearchPlace(place)
         }
+        fetchPlaceDetail(place, CampusMapFocusedPlaceSource.SEARCH_RESULT)
     }
 
     fun focusSearchResultPlace(place: Place) {
-        _uiState.update { currentState ->
-            currentState.copy(
-                focusedPlace = place,
-                focusedPlaceSource = CampusMapFocusedPlaceSource.SEARCH_RESULT,
-            )
-        }
+        fetchPlaceDetail(place, CampusMapFocusedPlaceSource.SEARCH_RESULT)
     }
 
     fun submitSearch() {
-        _uiState.update { currentState ->
-            val submittedQuery = currentState.searchInput.trim()
+        val currentState = _uiState.value
+        val submittedQuery = currentState.searchInput.trim()
+        if (submittedQuery.isEmpty()) return
+        val reusableLiveSearchPlaces = currentState.liveSearchPlaces.takeIf {
+            currentState.liveSearchResultQuery == submittedQuery &&
+                !currentState.isLiveSearchLoading &&
+                currentState.failedLiveSearchQuery != submittedQuery
+        }
 
-            if (submittedQuery.isEmpty()) {
-                currentState
+        cancelRequestsForCommittedSearch()
+        _uiState.update { currentState ->
+            val submittedState = currentState.withSubmittedSearchQuery(submittedQuery)
+            if (reusableLiveSearchPlaces == null) {
+                submittedState
             } else {
-                currentState.withSubmittedSearchQuery(submittedQuery)
+                submittedState.copy(
+                    searchPlaces = reusableLiveSearchPlaces,
+                    searchResultQuery = submittedQuery,
+                )
+            }
+        }
+        if (reusableLiveSearchPlaces == null) {
+            searchSubmittedBuildings(submittedQuery)
+        }
+    }
+
+    private fun cancelRequestsForCommittedSearch() {
+        cancelCategoryRequest()
+        cancelLiveSearchRequest()
+        cancelSubmittedSearchRequest()
+        cancelPlaceDetailRequest()
+    }
+
+    private fun cancelCategoryRequest() {
+        categoryRequestGeneration += 1
+        categoryJob?.cancel()
+    }
+
+    private fun cancelLiveSearchRequest() {
+        liveSearchRequestGeneration += 1
+        liveSearchJob?.cancel()
+    }
+
+    private fun cancelSubmittedSearchRequest() {
+        submittedSearchRequestGeneration += 1
+        submittedSearchJob?.cancel()
+    }
+
+    private fun cancelPlaceDetailRequest() {
+        placeDetailRequestGeneration += 1
+        placeDetailJob?.cancel()
+    }
+
+    private fun searchLiveBuildings(
+        query: String,
+        debounce: Boolean,
+    ) {
+        val normalizedQuery = query.trim()
+        cancelLiveSearchRequest()
+        val requestGeneration = liveSearchRequestGeneration
+
+        if (normalizedQuery.isEmpty()) {
+            _uiState.update { currentState ->
+                currentState.copy(
+                    liveSearchPlaces = persistentListOf(),
+                    liveSearchResultQuery = null,
+                    isLiveSearchLoading = false,
+                    failedLiveSearchQuery = null,
+                )
+            }
+            return
+        }
+
+        _uiState.update { currentState ->
+            val alreadyHasResult = currentState.liveSearchResultQuery == normalizedQuery
+            currentState.copy(
+                liveSearchPlaces = if (alreadyHasResult) {
+                    currentState.liveSearchPlaces
+                } else {
+                    persistentListOf()
+                },
+                liveSearchResultQuery = currentState.liveSearchResultQuery
+                    .takeIf { alreadyHasResult },
+                isLiveSearchLoading = true,
+                failedLiveSearchQuery = null,
+            )
+        }
+
+        liveSearchJob = viewModelScope.launch {
+            if (debounce) delay(SEARCH_DEBOUNCE_MILLIS)
+
+            val result = placeRepository.searchPlaceBuildings(normalizedQuery)
+            _uiState.update { currentState ->
+                if (
+                    requestGeneration != liveSearchRequestGeneration ||
+                    currentState.searchInput.trim() != normalizedQuery
+                ) {
+                    return@update currentState
+                }
+
+                result.fold(
+                    onSuccess = { places ->
+                        currentState.copy(
+                            liveSearchPlaces = places.toImmutableList(),
+                            liveSearchResultQuery = normalizedQuery,
+                            isLiveSearchLoading = false,
+                            failedLiveSearchQuery = null,
+                        )
+                    },
+                    onFailure = {
+                        currentState.copy(
+                            liveSearchPlaces = persistentListOf(),
+                            liveSearchResultQuery = normalizedQuery,
+                            isLiveSearchLoading = false,
+                            failedLiveSearchQuery = normalizedQuery,
+                        )
+                    },
+                )
+            }
+        }
+    }
+
+    private fun searchSubmittedBuildings(query: String) {
+        val normalizedQuery = query.trim()
+        cancelSubmittedSearchRequest()
+        val requestGeneration = submittedSearchRequestGeneration
+
+        if (normalizedQuery.isEmpty()) {
+            _uiState.update { currentState ->
+                currentState.copy(
+                    searchPlaces = persistentListOf(),
+                    searchResultQuery = null,
+                    isSubmittedSearchLoading = false,
+                    failedSubmittedSearchQuery = null,
+                )
+            }
+            return
+        }
+
+        _uiState.update { currentState ->
+            val alreadyHasResult = currentState.searchResultQuery == normalizedQuery
+            currentState.copy(
+                searchPlaces = if (alreadyHasResult) {
+                    currentState.searchPlaces
+                } else {
+                    persistentListOf()
+                },
+                searchResultQuery = currentState.searchResultQuery.takeIf { alreadyHasResult },
+                isSubmittedSearchLoading = true,
+                failedSubmittedSearchQuery = null,
+            )
+        }
+
+        submittedSearchJob = viewModelScope.launch {
+            val result = placeRepository.searchPlaceBuildings(normalizedQuery)
+            _uiState.update { currentState ->
+                if (
+                    requestGeneration != submittedSearchRequestGeneration ||
+                    currentState.submittedSearchQuery != normalizedQuery
+                ) {
+                    return@update currentState
+                }
+
+                result.fold(
+                    onSuccess = { places ->
+                        currentState.copy(
+                            searchPlaces = places.toImmutableList(),
+                            searchResultQuery = normalizedQuery,
+                            isSubmittedSearchLoading = false,
+                            failedSubmittedSearchQuery = null,
+                        )
+                    },
+                    onFailure = {
+                        currentState.copy(
+                            searchPlaces = persistentListOf(),
+                            searchResultQuery = normalizedQuery,
+                            isSubmittedSearchLoading = false,
+                            failedSubmittedSearchQuery = normalizedQuery,
+                        )
+                    },
+                )
+            }
+        }
+    }
+
+    private fun fetchPlaceDetail(
+        place: Place,
+        source: CampusMapFocusedPlaceSource,
+    ) {
+        cancelPlaceDetailRequest()
+        val requestGeneration = placeDetailRequestGeneration
+        placeDetailCache[place.id]?.let { cachedPlace ->
+            _uiState.update { currentState ->
+                currentState.copy(
+                    focusedPlace = cachedPlace,
+                    pendingFocusedPlace = null,
+                    focusedPlaceSource = source,
+                    failedPlaceDetail = null,
+                )
+            }
+            return
+        }
+
+        _uiState.update { currentState ->
+            currentState.copy(
+                focusedPlace = null,
+                pendingFocusedPlace = place,
+                focusedPlaceSource = source,
+                failedPlaceDetail = null,
+            )
+        }
+
+        val buildingId = place.id.toLongOrNull()
+        if (buildingId == null) {
+            _uiState.update { currentState ->
+                currentState.copy(
+                    pendingFocusedPlace = null,
+                    failedPlaceDetail = CampusMapFailedRequest.PlaceDetail(place, source),
+                )
+            }
+            return
+        }
+
+        placeDetailJob = viewModelScope.launch {
+            val result = placeRepository.getPlaceBuildingDetail(buildingId)
+            _uiState.update { currentState ->
+                if (
+                    requestGeneration != placeDetailRequestGeneration ||
+                    currentState.pendingFocusedPlace?.id != place.id
+                ) {
+                    return@update currentState
+                }
+
+                result.fold(
+                    onSuccess = { detailedPlace ->
+                        placeDetailCache[detailedPlace.id] = detailedPlace
+                        currentState.copy(
+                            focusedPlace = detailedPlace,
+                            pendingFocusedPlace = null,
+                            focusedPlaceSource = source,
+                            failedPlaceDetail = null,
+                        )
+                    },
+                    onFailure = {
+                        currentState.copy(
+                            pendingFocusedPlace = null,
+                            failedPlaceDetail = CampusMapFailedRequest.PlaceDetail(place, source),
+                        )
+                    },
+                )
+            }
+        }
+    }
+
+    internal fun retryFailedRequest(request: CampusMapFailedRequest) {
+        when (request) {
+            CampusMapFailedRequest.InitialData -> {
+                if (_uiState.value.isInitialLoadFailed) fetchInitialData()
+            }
+
+            is CampusMapFailedRequest.Category -> {
+                val currentState = _uiState.value
+                if (
+                    currentState.selectedCategory == request.category &&
+                    currentState.failedCategory == request.category
+                ) {
+                    fetchCategoryPlaces(request.category)
+                }
+            }
+
+            is CampusMapFailedRequest.Search -> if (request.isSubmitted) {
+                val currentState = _uiState.value
+                if (
+                    currentState.submittedSearchQuery == request.query &&
+                    currentState.failedSubmittedSearchQuery == request.query
+                ) {
+                    searchSubmittedBuildings(request.query)
+                }
+            } else {
+                val currentState = _uiState.value
+                if (
+                    currentState.searchInput.trim() == request.query &&
+                    currentState.failedLiveSearchQuery == request.query
+                ) {
+                    searchLiveBuildings(
+                        query = request.query,
+                        debounce = false,
+                    )
+                }
+            }
+
+            is CampusMapFailedRequest.PlaceDetail -> {
+                if (_uiState.value.failedPlaceDetail == request) {
+                    fetchPlaceDetail(
+                        place = request.place,
+                        source = request.source,
+                    )
+                }
             }
         }
     }
@@ -177,11 +639,20 @@ class CampusMapViewModel @Inject constructor(
         val recentSearch = CampusMapRecentSearch.Query(query)
         return copy(
             focusedPlace = null,
+            pendingFocusedPlace = null,
             selectedSearchPlace = null,
             submittedSearchQuery = query,
             selectedCategory = null,
+            categoryPlaces = persistentListOf(),
             searchInput = query,
+            isCategoryLoading = false,
+            isSubmittedSearchLoading = false,
+            isLiveSearchLoading = false,
             focusedPlaceSource = null,
+            failedCategory = null,
+            failedSubmittedSearchQuery = null,
+            failedLiveSearchQuery = null,
+            failedPlaceDetail = null,
             recentSearches = updateRecentSearches(
                 current = recentSearches,
                 selected = recentSearch,
@@ -189,18 +660,33 @@ class CampusMapViewModel @Inject constructor(
         )
     }
 
-    private fun CampusMapUiState.withSelectedSearchPlace(place: Place): CampusMapUiState {
-        return copy(
-            focusedPlace = place,
-            selectedSearchPlace = place,
-            submittedSearchQuery = null,
-            selectedCategory = null,
-            searchInput = "",
-            focusedPlaceSource = CampusMapFocusedPlaceSource.SEARCH_RESULT,
-            recentSearches = updateRecentSearches(
-                current = recentSearches,
-                selected = CampusMapRecentSearch.PlaceResult(place),
-            ).toImmutableList(),
-        )
+    private fun CampusMapUiState.withSelectedSearchPlace(place: Place): CampusMapUiState = copy(
+        focusedPlace = null,
+        pendingFocusedPlace = null,
+        selectedSearchPlace = place,
+        submittedSearchQuery = null,
+        selectedCategory = null,
+        categoryPlaces = persistentListOf(),
+        searchPlaces = persistentListOf(),
+        searchResultQuery = null,
+        liveSearchPlaces = persistentListOf(),
+        liveSearchResultQuery = null,
+        searchInput = "",
+        isCategoryLoading = false,
+        isSubmittedSearchLoading = false,
+        isLiveSearchLoading = false,
+        focusedPlaceSource = CampusMapFocusedPlaceSource.SEARCH_RESULT,
+        failedCategory = null,
+        failedSubmittedSearchQuery = null,
+        failedLiveSearchQuery = null,
+        failedPlaceDetail = null,
+        recentSearches = updateRecentSearches(
+            current = recentSearches,
+            selected = CampusMapRecentSearch.PlaceResult(place),
+        ).toImmutableList(),
+    )
+
+    private companion object {
+        const val SEARCH_DEBOUNCE_MILLIS = 300L
     }
 }

@@ -3,6 +3,7 @@ package com.ku_stacks.ku_ring.main.campusmap.compose.inner_screen
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -25,7 +26,13 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -51,6 +58,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -83,20 +91,41 @@ internal fun CampusMapSearchRoute(
     viewModel: CampusMapViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val snackbarHostState = remember { SnackbarHostState() }
+    val loadErrorMessage = stringResource(R.string.campus_map_load_error)
+    val retryLabel = stringResource(R.string.campus_map_retry)
+    val failedRequest = uiState.searchFailedRequest
+
+    LaunchedEffect(failedRequest) {
+        if (failedRequest == null) {
+            snackbarHostState.currentSnackbarData?.dismiss()
+            return@LaunchedEffect
+        }
+
+        if (
+            snackbarHostState.showSnackbar(
+                message = loadErrorMessage,
+                actionLabel = retryLabel,
+                duration = SnackbarDuration.Indefinite,
+            ) == SnackbarResult.ActionPerformed
+        ) {
+            viewModel.retryFailedRequest(failedRequest)
+        }
+    }
 
     CampusMapSearchScreen(
         searchQuery = uiState.searchInput,
         recentSearches = uiState.recentSearches,
         searchResults = uiState.liveSearchResults,
+        isSearchLoading = uiState.isLiveSearchLoading,
         showEmptySearchResult = uiState.shouldShowEmptySearchResult,
         onQueryChange = viewModel::updateSearchInput,
         onQueryClear = viewModel::clearSearchInput,
         onNavigateUp = onNavigateUp,
         onSearchSubmit = {
-            val shouldShowResultList = uiState.searchInput.isNotBlank() &&
-                uiState.liveSearchResults.isNotEmpty()
+            val shouldNavigateUp = uiState.searchInput.isNotBlank()
             viewModel.submitSearch()
-            if (shouldShowResultList) {
+            if (shouldNavigateUp) {
                 onNavigateUp()
             }
         },
@@ -110,6 +139,7 @@ internal fun CampusMapSearchRoute(
         },
         onRecentDelete = viewModel::deleteRecentSearch,
         onRecentClear = viewModel::clearRecentSearches,
+        snackbarHostState = snackbarHostState,
         modifier = modifier,
     )
 }
@@ -119,6 +149,7 @@ internal fun CampusMapSearchScreen(
     searchQuery: String,
     recentSearches: ImmutableList<CampusMapRecentSearch>,
     searchResults: ImmutableList<CampusMapSearchResult>,
+    isSearchLoading: Boolean,
     showEmptySearchResult: Boolean,
     onQueryChange: (String) -> Unit,
     onQueryClear: () -> Unit,
@@ -128,36 +159,47 @@ internal fun CampusMapSearchScreen(
     onRecentClick: (CampusMapRecentSearch) -> Unit,
     onRecentDelete: (CampusMapRecentSearch) -> Unit,
     onRecentClear: () -> Unit,
+    snackbarHostState: SnackbarHostState,
     modifier: Modifier = Modifier,
 ) {
-    Column(
+    Box(
         modifier = modifier
             .fillMaxSize()
             .background(KuringTheme.colors.background),
     ) {
-        Spacer(modifier = Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
+        Column(modifier = Modifier.fillMaxSize()) {
+            Spacer(modifier = Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
 
-        CampusMapSearchTopBar(
+            CampusMapSearchTopBar(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp),
+                query = searchQuery,
+                onQueryChange = onQueryChange,
+                onQueryClear = onQueryClear,
+                onNavigateUp = onNavigateUp,
+                onSearchSubmit = onSearchSubmit,
+            )
+
+            CampusMapSearchContent(
+                modifier = Modifier.fillMaxSize(),
+                query = searchQuery,
+                recentSearches = recentSearches,
+                searchResults = searchResults,
+                isSearchLoading = isSearchLoading,
+                showEmptySearchResult = showEmptySearchResult,
+                onResultClick = onResultClick,
+                onRecentClick = onRecentClick,
+                onRecentDelete = onRecentDelete,
+                onRecentClear = onRecentClear,
+            )
+        }
+
+        SnackbarHost(
+            hostState = snackbarHostState,
             modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp),
-            query = searchQuery,
-            onQueryChange = onQueryChange,
-            onQueryClear = onQueryClear,
-            onNavigateUp = onNavigateUp,
-            onSearchSubmit = onSearchSubmit,
-        )
-
-        CampusMapSearchContent(
-            modifier = Modifier.fillMaxSize(),
-            query = searchQuery,
-            recentSearches = recentSearches,
-            searchResults = searchResults,
-            showEmptySearchResult = showEmptySearchResult,
-            onResultClick = onResultClick,
-            onRecentClick = onRecentClick,
-            onRecentDelete = onRecentDelete,
-            onRecentClear = onRecentClear,
+                .align(Alignment.BottomCenter)
+                .padding(16.dp),
         )
     }
 }
@@ -213,6 +255,7 @@ private fun CampusMapSearchTextField(
     modifier: Modifier = Modifier,
 ) {
     val focusRequester = remember { FocusRequester() }
+    val interactionSource = remember { MutableInteractionSource() }
     val keyboardController = LocalSoftwareKeyboardController.current
     var textFieldValue by remember {
         mutableStateOf(
@@ -251,6 +294,7 @@ private fun CampusMapSearchTextField(
             fontWeight = FontWeight.Medium,
         ),
         cursorBrush = SolidColor(KuringTheme.colors.mainPrimary),
+        interactionSource = interactionSource,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
         keyboardActions = KeyboardActions(
             onSearch = {
@@ -259,37 +303,40 @@ private fun CampusMapSearchTextField(
             },
         ),
         modifier = modifier
-            .clip(RoundedCornerShape(12.dp))
-            .background(KuringTheme.colors.gray100)
-            .focusRequester(focusRequester)
-            .padding(start = 16.dp, end = 12.dp),
+            .focusRequester(focusRequester),
         decorationBox = { innerTextField ->
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxSize(),
-            ) {
-                Box(
-                    contentAlignment = Alignment.CenterStart,
-                    modifier = Modifier.weight(1f),
-                ) {
-                    if (textFieldValue.text.isEmpty()) {
-                        Text(
-                            text = stringResource(id = R.string.campus_map_search_placeholder),
-                            style = KuringTheme.typography.body2,
-                            color = KuringTheme.colors.textCaption1,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                        )
-                    }
-
-                    innerTextField()
-                }
-
-                SearchFieldTrailingIcon(
-                    hasQuery = textFieldValue.text.isNotEmpty(),
-                    onQueryClear = onQueryClear,
-                )
-            }
+            TextFieldDefaults.DecorationBox(
+                value = textFieldValue.text,
+                innerTextField = innerTextField,
+                enabled = true,
+                singleLine = true,
+                visualTransformation = VisualTransformation.None,
+                interactionSource = interactionSource,
+                placeholder = {
+                    Text(
+                        text = stringResource(id = R.string.campus_map_search_placeholder),
+                        style = KuringTheme.typography.body2,
+                        color = KuringTheme.colors.textCaption1,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                },
+                trailingIcon = {
+                    SearchFieldTrailingIcon(
+                        hasQuery = textFieldValue.text.isNotEmpty(),
+                        onQueryClear = onQueryClear,
+                    )
+                },
+                shape = RoundedCornerShape(12.dp),
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = KuringTheme.colors.gray100,
+                    unfocusedContainerColor = KuringTheme.colors.gray100,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    cursorColor = KuringTheme.colors.mainPrimary,
+                ),
+                contentPadding = PaddingValues(start = 16.dp, end = 12.dp),
+            )
         },
     )
 }
@@ -332,6 +379,7 @@ private fun CampusMapSearchContent(
     query: String,
     recentSearches: ImmutableList<CampusMapRecentSearch>,
     searchResults: ImmutableList<CampusMapSearchResult>,
+    isSearchLoading: Boolean,
     showEmptySearchResult: Boolean,
     onResultClick: (CampusMapSearchResult) -> Unit,
     onRecentClick: (CampusMapRecentSearch) -> Unit,
@@ -340,6 +388,16 @@ private fun CampusMapSearchContent(
     modifier: Modifier = Modifier,
 ) {
     val trimmedQuery = query.trim()
+
+    if (trimmedQuery.isNotEmpty() && isSearchLoading) {
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = modifier,
+        ) {
+            CircularProgressIndicator(color = KuringTheme.colors.mainPrimary)
+        }
+        return
+    }
 
     if (trimmedQuery.isEmpty() && recentSearches.isEmpty()) {
         CampusMapSearchEmptyState(
@@ -586,6 +644,7 @@ private fun CampusMapSearchScreenPreview(
                 places = places,
                 selectedCategory = null,
             ).toImmutableList(),
+            isSearchLoading = false,
             showEmptySearchResult = false,
             onQueryChange = {},
             onQueryClear = {},
@@ -595,6 +654,7 @@ private fun CampusMapSearchScreenPreview(
             onRecentClick = {},
             onRecentDelete = {},
             onRecentClear = {},
+            snackbarHostState = remember { SnackbarHostState() },
         )
     }
 }

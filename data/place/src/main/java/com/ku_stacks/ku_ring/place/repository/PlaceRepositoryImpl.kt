@@ -4,20 +4,14 @@ import com.ku_stacks.ku_ring.domain.Place
 import com.ku_stacks.ku_ring.domain.PlaceCategory
 import com.ku_stacks.ku_ring.domain.PlaceFacility
 import com.ku_stacks.ku_ring.domain.place.repository.PlaceRepository
-import com.ku_stacks.ku_ring.place.datasource.PlaceDataSource
 import com.ku_stacks.ku_ring.place.mapper.toDomain
 import com.ku_stacks.ku_ring.remote.place.PlaceClient
 import com.ku_stacks.ku_ring.util.suspendRunCatching
 import javax.inject.Inject
 
 class PlaceRepositoryImpl @Inject constructor(
-    private val placeDataSource: PlaceDataSource,
     private val placeClient: PlaceClient,
 ) : PlaceRepository {
-    override suspend fun getPlaces(): List<Place> {
-        return placeDataSource.getJsonPlaces().map { it.toDomain() }
-    }
-
     override suspend fun getPlaceBuildingDetail(buildingId: Long): Result<Place> =
         suspendRunCatching {
             val response = placeClient.fetchBuildingDetail(buildingId)

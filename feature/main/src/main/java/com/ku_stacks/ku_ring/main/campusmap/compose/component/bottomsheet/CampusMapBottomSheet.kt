@@ -404,21 +404,74 @@ private fun CampusMapOperationHours(
             label = stringResource(id = R.string.campus_map_operation_hours),
             value = operationHours?.current.orDash(),
         )
-        CampusMapDetailRow(
+        CampusMapPeriodOperationHoursRow(
             label = stringResource(id = R.string.campus_map_semester),
-            value = operationHours?.semester.orDash(),
-            labelWidth = 76.dp,
+            weekdayHours = operationHours?.semesterWeekday,
+            weekendHours = operationHours?.semesterWeekend,
+            labelWidth = 72.dp,
             labelStyle = KuringTheme.typography.caption1_1,
             labelColor = KuringTheme.colors.textBody,
             valueStyle = KuringTheme.typography.caption1_1,
             modifier = Modifier.padding(start = 4.dp),
         )
-        CampusMapDetailRow(
+        CampusMapPeriodOperationHoursRow(
             label = stringResource(id = R.string.campus_map_vacation),
-            value = operationHours?.vacation.orDash(),
-            labelWidth = 76.dp,
+            weekdayHours = operationHours?.vacationWeekday,
+            weekendHours = operationHours?.vacationWeekend,
+            labelWidth = 72.dp,
             modifier = Modifier.padding(start = 4.dp),
         )
+    }
+}
+
+@Composable
+private fun CampusMapPeriodOperationHoursRow(
+    label: String,
+    weekdayHours: String?,
+    weekendHours: String?,
+    modifier: Modifier = Modifier,
+    labelWidth: Dp = 76.dp,
+    labelStyle: TextStyle = KuringTheme.typography.caption1,
+    labelColor: Color = KuringTheme.colors.textCaption1,
+    valueStyle: TextStyle = KuringTheme.typography.caption1,
+    valueColor: Color = KuringTheme.colors.textBody,
+) {
+    val unavailable = stringResource(id = R.string.campus_map_operation_hours_unavailable)
+    val weekday = stringResource(
+        id = R.string.campus_map_weekday_operation_hours,
+        weekdayHours ?: unavailable,
+    )
+    val weekend = stringResource(
+        id = R.string.campus_map_weekend_operation_hours,
+        weekendHours ?: unavailable,
+    )
+
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        modifier = modifier,
+    ) {
+        Text(
+            text = label,
+            style = labelStyle,
+            color = labelColor,
+            maxLines = 1,
+            modifier = Modifier.width(labelWidth),
+        )
+
+        Column(
+            modifier = Modifier.weight(1f, fill = false),
+        ) {
+            Text(
+                text = weekday,
+                style = valueStyle,
+                color = valueColor,
+            )
+            Text(
+                text = weekend,
+                style = valueStyle,
+                color = valueColor,
+            )
+        }
     }
 }
 
@@ -427,7 +480,7 @@ private fun CampusMapDetailRow(
     label: String,
     value: String,
     modifier: Modifier = Modifier,
-    labelWidth: Dp = 80.dp,
+    labelWidth: Dp = 76.dp,
     labelStyle: TextStyle = KuringTheme.typography.caption1,
     labelColor: Color = KuringTheme.colors.textCaption1,
     valueStyle: TextStyle = KuringTheme.typography.caption1,
