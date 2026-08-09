@@ -153,7 +153,10 @@ class PlaceRepositoryTest {
 
         assertEquals(listOf("행정관", "경영관"), places.map(Place::name))
         assertTrue(places.all { it.category == "건물" })
-        assertTrue(places.all { it.priority == Place.Priority.HIGH })
+        assertEquals(
+            listOf(Place.Priority.MIDDLE, Place.Priority.HIGH),
+            places.map(Place::priority),
+        )
         verify(placeClient).fetchBuildings()
     }
 
