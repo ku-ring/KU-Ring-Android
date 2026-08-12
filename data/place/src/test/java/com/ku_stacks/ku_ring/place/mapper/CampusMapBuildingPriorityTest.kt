@@ -76,4 +76,17 @@ class CampusMapBuildingPriorityTest {
             assertEquals(Place.Priority.HIGH, buildingName.toCampusMapBuildingPriority())
         }
     }
+
+    @Test
+    fun `display order maps to marker priority`() {
+        assertEquals(Place.Priority.HIGH, 1.toCampusMapBuildingPriority("새 건물"))
+        assertEquals(Place.Priority.MIDDLE, 2.toCampusMapBuildingPriority("새 건물"))
+        assertEquals(Place.Priority.LOW, 3.toCampusMapBuildingPriority("새 건물"))
+    }
+
+    @Test
+    fun `missing or unknown display order falls back to building name`() {
+        assertEquals(Place.Priority.HIGH, null.toCampusMapBuildingPriority("경영관"))
+        assertEquals(Place.Priority.LOW, 4.toCampusMapBuildingPriority("새 건물"))
+    }
 }

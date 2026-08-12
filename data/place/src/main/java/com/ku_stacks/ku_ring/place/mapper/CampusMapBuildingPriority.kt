@@ -39,7 +39,19 @@ private val CAMPUS_MAP_BUILDING_PRIORITY_BY_NAME = mapOf(
     "교육연수원" to Place.Priority.LOW,
 )
 
-internal fun String.toCampusMapBuildingPriority(): Place.Priority = when {
+internal fun Int?.toCampusMapBuildingPriority(
+    buildingName: String,
+): Place.Priority = when (this) {
+    1 -> Place.Priority.HIGH
+    2 -> Place.Priority.MIDDLE
+    3 -> Place.Priority.LOW
+    else -> buildingName.toCampusMapBuildingPriorityByName()
+}
+
+internal fun String.toCampusMapBuildingPriority(): Place.Priority =
+    toCampusMapBuildingPriorityByName()
+
+private fun String.toCampusMapBuildingPriorityByName(): Place.Priority = when {
     this == "쿨하우스" || startsWith("쿨하우스 ") -> Place.Priority.HIGH
     else -> CAMPUS_MAP_BUILDING_PRIORITY_BY_NAME[this] ?: Place.Priority.LOW
 }

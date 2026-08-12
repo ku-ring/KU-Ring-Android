@@ -43,6 +43,7 @@ class PlaceServiceTest : ApiAbstract<PlaceService>() {
         assertEquals(1L, first.id)
         assertEquals("행정관", first.name)
         assertEquals("서울특별시 광진구 능동로 120", first.address)
+        assertEquals(2, first.displayOrder)
     }
 
     @Test

@@ -161,6 +161,27 @@ class PlaceRepositoryTest {
     }
 
     @Test
+    fun `building list uses server display order for marker priority`() = runTest {
+        whenever(placeClient.fetchBuildings()).thenReturn(
+            success(
+                PlaceBuildingListResponse(
+                    buildings = listOf(
+                        building(id = 1L, name = "행정관", displayOrder = 3),
+                        building(id = 2L, name = "경영관", displayOrder = 2),
+                    ),
+                ),
+            ),
+        )
+
+        val places = repository.getPlaceBuildings().getOrThrow()
+
+        assertEquals(
+            listOf(Place.Priority.LOW, Place.Priority.MIDDLE),
+            places.map(Place::priority),
+        )
+    }
+
+    @Test
     fun `campus places map category building location hours and optional metadata`() = runTest {
         val building = building(id = 2L, name = "경영관")
         val responses = listOf(
@@ -284,12 +305,14 @@ class PlaceRepositoryTest {
     private fun building(
         id: Long,
         name: String,
+        displayOrder: Int? = null,
     ) = PlaceBuildingResponse(
         id = id,
         name = name,
         address = "서울특별시 광진구 능동로 120",
         latitude = 37.5443474,
         longitude = 127.0761119,
+        displayOrder = displayOrder,
     )
 
     private fun campusPlace(

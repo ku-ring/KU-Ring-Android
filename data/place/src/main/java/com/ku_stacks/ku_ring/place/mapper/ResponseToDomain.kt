@@ -18,7 +18,7 @@ internal fun PlaceBuildingResponse.toDomain() = Place(
     address = address,
     latitude = latitude,
     longitude = longitude,
-    priority = name.toCampusMapBuildingPriority(),
+    priority = displayOrder.toCampusMapBuildingPriority(buildingName = name),
 )
 
 internal fun PlaceBuildingDetailResponse.toDomain() = Place(

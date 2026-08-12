@@ -8,14 +8,16 @@
         "name": "행정관",
         "address": "서울특별시 광진구 능동로 120",
         "latitude": 37.5444801,
-        "longitude": 127.0748518
+        "longitude": 127.0748518,
+        "displayOrder": 2
       },
       {
         "id": 2,
         "name": "경영관",
         "address": "서울특별시 광진구 능동로 120",
         "latitude": 37.5443474,
-        "longitude": 127.0761119
+        "longitude": 127.0761119,
+        "displayOrder": 1
       },
       {
         "id": 3,
