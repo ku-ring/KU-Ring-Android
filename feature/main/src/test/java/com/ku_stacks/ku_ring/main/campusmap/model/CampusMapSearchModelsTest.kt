@@ -6,6 +6,7 @@ import com.ku_stacks.ku_ring.domain.PlaceOperationHours
 import com.ku_stacks.ku_ring.main.campusmap.type.CampusMapCategory
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
@@ -170,7 +171,7 @@ class CampusMapSearchModelsTest {
     }
 
     @Test
-    fun `facility result uses the first available structured period hours`() {
+    fun `facility result hides hours when current operating hours are unavailable`() {
         val result = buildCampusMapSearchResults(
             places = listOf(
                 place(
@@ -192,11 +193,11 @@ class CampusMapSearchModelsTest {
             selectedCategories = listOf(CampusMapCategory.CAFE),
         ).single()
 
-        assertEquals("09:00 ~ 18:00", result.operationHours)
+        assertNull(result.operationHours)
     }
 
     @Test
-    fun `facility result shows dash when every structured period is unavailable`() {
+    fun `facility result hides hours when every structured period is unavailable`() {
         val result = buildCampusMapSearchResults(
             places = listOf(
                 place(
@@ -216,11 +217,11 @@ class CampusMapSearchModelsTest {
             selectedCategories = listOf(CampusMapCategory.CAFE),
         ).single()
 
-        assertEquals("-", result.operationHours)
+        assertNull(result.operationHours)
     }
 
     @Test
-    fun `facility result falls back to building address image and dash`() {
+    fun `facility result falls back to building address image and hides hours`() {
         val building = place(
             id = "4",
             name = "학생회관",
@@ -242,7 +243,7 @@ class CampusMapSearchModelsTest {
 
         assertEquals(building.address, result.location)
         assertEquals(building.imageUrl, result.imageUrl)
-        assertEquals("-", result.operationHours)
+        assertNull(result.operationHours)
     }
 
     private fun place(
