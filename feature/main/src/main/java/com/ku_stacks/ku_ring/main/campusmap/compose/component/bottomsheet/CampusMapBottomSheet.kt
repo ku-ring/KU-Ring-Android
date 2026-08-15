@@ -69,6 +69,7 @@ internal fun CampusMapDetailSheetHost(
     modifier: Modifier = Modifier,
 ) {
     var isExpanded by rememberSaveable(place.id) { mutableStateOf(false) }
+    var isImageViewerVisible by remember(place.id) { mutableStateOf(false) }
 
     Box(
         modifier = modifier
@@ -81,8 +82,20 @@ internal fun CampusMapDetailSheetHost(
             isExpanded = isExpanded,
             onExpandedChange = { isExpanded = it },
             onDismiss = onDismiss,
+            onImageClick = { isImageViewerVisible = true },
             modifier = Modifier.fillMaxSize(),
         )
+
+        if (isImageViewerVisible) {
+            place.imageUrl
+                ?.takeUnless(String::isBlank)
+                ?.let { imageUrl ->
+                    CampusMapImageViewer(
+                        imageUrl = imageUrl,
+                        onDismissRequest = { isImageViewerVisible = false },
+                    )
+                }
+        }
     }
 }
 
@@ -92,6 +105,7 @@ internal fun CampusMapBottomSheet(
     isExpanded: Boolean,
     onExpandedChange: (Boolean) -> Unit,
     onDismiss: () -> Unit,
+    onImageClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     CampusMapDraggableBottomSheet(
@@ -113,6 +127,7 @@ internal fun CampusMapBottomSheet(
             CampusMapPlaceSummary(
                 place = place,
                 onDismiss = onDismiss,
+                onImageClick = onImageClick,
                 modifier = Modifier.fillMaxWidth(),
             )
 
@@ -132,6 +147,7 @@ internal fun CampusMapBottomSheet(
 private fun CampusMapPlaceSummary(
     place: Place,
     onDismiss: () -> Unit,
+    onImageClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
@@ -145,6 +161,7 @@ private fun CampusMapPlaceSummary(
 
         PlaceTopInfo(
             place = place,
+            onImageClick = onImageClick,
             modifier = Modifier.fillMaxWidth(),
         )
     }
@@ -210,6 +227,7 @@ private fun PlaceHeader(
 @Composable
 private fun PlaceTopInfo(
     place: Place,
+    onImageClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val clipboardManager = LocalClipboardManager.current
@@ -238,6 +256,7 @@ private fun PlaceTopInfo(
 
         PlaceImage(
             imageUrl = place.imageUrl,
+            onClick = onImageClick,
             modifier = Modifier.size(80.dp),
         )
     }
@@ -263,18 +282,29 @@ private fun AddressRow(
 @Composable
 private fun PlaceImage(
     imageUrl: String?,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val imageClickModifier = if (imageUrl.isNullOrBlank()) {
+        Modifier
+    } else {
+        Modifier.clickable(
+            role = Role.Button,
+            onClick = onClick,
+        )
+    }
+
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier
+            .then(imageClickModifier)
             .clip(RoundedCornerShape(16.dp))
             .background(Color(0xFFD9D9D9)),
     ) {
         if (!imageUrl.isNullOrBlank()) {
             AsyncImage(
                 model = imageUrl,
-                contentDescription = null,
+                contentDescription = stringResource(id = R.string.campus_map_view_place_image),
                 modifier = Modifier.fillMaxSize(),
             )
         }
@@ -645,6 +675,7 @@ private fun CampusMapBottomSheetExpandedPreview(
                 isExpanded = true,
                 onExpandedChange = {},
                 onDismiss = {},
+                onImageClick = {},
             )
         }
     }
@@ -667,6 +698,7 @@ private fun CampusMapBottomSheetCollapsedPreview(
                 isExpanded = false,
                 onExpandedChange = {},
                 onDismiss = {},
+                onImageClick = {},
             )
         }
     }
