@@ -1,5 +1,11 @@
 package com.ku_stacks.ku_ring.main.campusmap.compose.component.bottomsheet
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -24,11 +30,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.res.painterResource
@@ -41,6 +49,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.em
 import coil.compose.AsyncImage
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
@@ -388,7 +397,11 @@ private fun FacilityInfo(
             value = facility.location.orDash(),
         )
 
-        CampusMapOperationHours(operationHours = facility.operationHours)
+        facility.operationHours
+            ?.takeIf { !it.current.isNullOrBlank() }
+            ?.let { operationHours ->
+                CampusMapOperationHours(operationHours = operationHours)
+            }
     }
 }
 
@@ -397,27 +410,107 @@ private fun CampusMapOperationHours(
     operationHours: PlaceOperationHours?,
     modifier: Modifier = Modifier,
 ) {
+    val availableOperationHours = operationHours
+        ?.takeIf { !it.current.isNullOrBlank() }
+    var isExpanded by remember {
+        mutableStateOf(false)
+    }
+    val chevronRotation by animateFloatAsState(
+        targetValue = if (isExpanded) 180f else 0f,
+        label = "operation hours chevron rotation",
+    )
+
     Column(
         verticalArrangement = Arrangement.spacedBy(2.dp),
-        modifier = modifier,
+        modifier = modifier.fillMaxWidth(),
     ) {
-        CampusMapDetailRow(
-            label = stringResource(id = R.string.campus_map_operation_hours),
-            value = operationHours?.current.orDash(),
-        )
-        CampusMapPeriodOperationHoursRow(
-            label = stringResource(id = R.string.campus_map_semester),
-            weekdayHours = operationHours?.semesterWeekday,
-            weekendHours = operationHours?.semesterWeekend,
-            labelStyle = KuringTheme.typography.caption1_1,
-            labelColor = KuringTheme.colors.textBody,
-            valueStyle = KuringTheme.typography.caption1_1,
-        )
-        CampusMapPeriodOperationHoursRow(
-            label = stringResource(id = R.string.campus_map_vacation),
-            weekdayHours = operationHours?.vacationWeekday,
-            weekendHours = operationHours?.vacationWeekend,
-        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Text(
+                text = stringResource(id = R.string.campus_map_operation_hours),
+                style = KuringTheme.typography.caption1,
+                color = KuringTheme.colors.textCaption1,
+                maxLines = 1,
+                modifier = Modifier.width(76.dp),
+            )
+
+            Text(
+                text = availableOperationHours?.current
+                    ?: stringResource(id = R.string.campus_map_operation_hours_unavailable),
+                style = KuringTheme.typography.caption1,
+                color = KuringTheme.colors.textBody,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.weight(1f, fill = false),
+            )
+
+            if (availableOperationHours != null) {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .size(24.dp)
+                        .clickable(
+                            role = Role.Button,
+                            onClick = { isExpanded = !isExpanded },
+                        ),
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_chevron_down_v2),
+                        contentDescription = stringResource(
+                            id = if (isExpanded) {
+                                R.string.campus_map_collapse_operation_hours
+                            } else {
+                                R.string.campus_map_expand_operation_hours
+                            },
+                        ),
+                        tint = KuringTheme.colors.gray300,
+                        modifier = Modifier
+                            .size(24.dp)
+                            .rotate(chevronRotation),
+                    )
+                }
+            }
+        }
+
+        if (availableOperationHours != null) {
+            AnimatedVisibility(
+                visible = isExpanded,
+                enter = expandVertically() + fadeIn(),
+                exit = shrinkVertically() + fadeOut(),
+            ) {
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(2.dp),
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    CampusMapPeriodOperationHoursRow(
+                        label = stringResource(id = R.string.campus_map_semester),
+                        weekdayHours = availableOperationHours.semesterWeekday,
+                        weekendHours = availableOperationHours.semesterWeekend,
+                        labelStyle = KuringTheme.typography.caption1_1.copy(
+                            lineHeight = 1.5.em,
+                        ),
+                        labelColor = KuringTheme.colors.textBody,
+                        valueStyle = KuringTheme.typography.caption1_1.copy(
+                            lineHeight = 1.5.em,
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 4.dp),
+                    )
+                    CampusMapPeriodOperationHoursRow(
+                        label = stringResource(id = R.string.campus_map_vacation),
+                        weekdayHours = availableOperationHours.vacationWeekday,
+                        weekendHours = availableOperationHours.vacationWeekend,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 4.dp),
+                    )
+                }
+            }
+        }
     }
 }
 
