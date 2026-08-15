@@ -51,6 +51,30 @@ internal enum class CampusMapCategory(
         "K-CUBE",
         setOf("k-cube", "K-CUBE", "케이큐브"),
         R.drawable.ic_campus_map_icon_kcube,
+    ),
+    BANK_ATM(
+        "bank_atm",
+        "은행·ATM",
+        setOf("은행", "ATM", "은행/ATM", "은행·ATM"),
+        R.drawable.ic_campus_map_icon_atm,
+    ),
+    POST_OFFICE(
+        "post_office",
+        "우편",
+        setOf("우편", "우편취급국", "우체국"),
+        R.drawable.ic_campus_map_icon_postoffice,
+    ),
+    RESTROOM(
+        "restroom",
+        "화장실",
+        setOf("화장실"),
+        R.drawable.ic_campus_map_icon_restroom,
+    ),
+    LIBRARY(
+        "library",
+        "도서관",
+        setOf("도서관", "열람실"),
+        R.drawable.ic_campus_map_icon_library,
     );
 
     fun matches(category: String): Boolean =
@@ -62,10 +86,26 @@ internal enum class CampusMapCategory(
             entries.firstOrNull { it.apiName.equals(apiName, ignoreCase = true) }
 
         @DrawableRes
-        fun iconRes(category: String): Int = entries
-            .firstOrNull { it.matches(category) }
-            ?.iconRes
-            ?: R.drawable.ic_campus_map_icon_building
+        fun iconRes(
+            category: String,
+            facilityName: String? = null,
+        ): Int {
+            if (category.isCulturalFacility() && facilityName.isKuCinema()) {
+                return R.drawable.ic_campus_map_icon_cinema
+            }
+
+            return entries
+                .firstOrNull { it.matches(category) }
+                ?.iconRes
+                ?: R.drawable.ic_campus_map_icon_building
+        }
+
+        private fun String.isCulturalFacility(): Boolean =
+            equals("cultural_facility", ignoreCase = true) || this == "문화시설"
+
+        private fun String?.isKuCinema(): Boolean =
+            this?.contains("KU시네마", ignoreCase = true) == true ||
+                this?.contains("KU Cinema", ignoreCase = true) == true
     }
 }
 

@@ -208,6 +208,7 @@ private fun PlaceHeader(
                         .forEach { facility ->
                             CampusMapFacilityIcon(
                                 category = facility.category,
+                                facilityName = facility.name,
                                 tint = KuringTheme.colors.textBody,
                             )
                         }
@@ -409,6 +410,7 @@ private fun FacilityInfo(
         ) {
             CampusMapFacilityIcon(
                 category = facility.category,
+                facilityName = facility.name,
                 tint = KuringTheme.colors.mainPrimary,
             )
 
@@ -636,6 +638,7 @@ private fun CampusMapDetailRow(
 @Composable
 private fun CampusMapFacilityIcon(
     category: String,
+    facilityName: String,
     tint: Color,
     modifier: Modifier = Modifier,
 ) {
@@ -647,7 +650,12 @@ private fun CampusMapFacilityIcon(
             .background(KuringTheme.colors.gray100),
     ) {
         Icon(
-            painter = painterResource(id = CampusMapCategory.iconRes(category)),
+            painter = painterResource(
+                id = CampusMapCategory.iconRes(
+                    category = category,
+                    facilityName = facilityName,
+                ),
+            ),
             contentDescription = null,
             tint = tint,
             modifier = Modifier.size(16.dp),
