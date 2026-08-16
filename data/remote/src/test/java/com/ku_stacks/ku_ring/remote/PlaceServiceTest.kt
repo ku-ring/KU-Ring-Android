@@ -77,20 +77,30 @@ class PlaceServiceTest : ApiAbstract<PlaceService>() {
     }
 
     @Test
-    fun `search buildings test`() = runTest {
+    fun `search places deserializes buildings and campus places`() = runTest {
         // given
         enqueueResponse("/PlaceBuildingSearchResponse.json")
 
         // when
-        val response = service.searchBuildings("도서관")
-        mockWebServer.takeRequest()
-        val buildings =
-            response.data?.buildings ?: throw IllegalStateException("Data should not be null")
+        val response = service.searchPlaces("학생회관")
+        val request = mockWebServer.takeRequest()
+        val data = response.data ?: throw IllegalStateException("Data should not be null")
+        val buildings = data.buildings
+        val campusPlaces = data.campusPlaces
 
         // then
         assertEquals(200, response.resultCode)
         assertEquals(1, buildings.size)
-        assertEquals("상허기념도서관", buildings[0].name)
+        assertEquals("학생회관", buildings[0].name)
+        assertNull(buildings[0].displayOrder)
+        assertEquals(1, campusPlaces.size)
+        assertEquals("학생회관 복사실", campusPlaces[0].name)
+        assertEquals("printer", campusPlaces[0].category)
+        assertEquals("프린터", campusPlaces[0].categoryKorName)
+        assertNull(campusPlaces[0].imageUrl)
+        assertEquals(39L, campusPlaces[0].building?.id)
+        assertEquals("학생회관", campusPlaces[0].building?.name)
+        assertEquals("학생회관", request.requestUrl?.queryParameter("keyword"))
     }
 
     @Test

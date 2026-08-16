@@ -3,6 +3,7 @@ package com.ku_stacks.ku_ring.place.repository
 import com.ku_stacks.ku_ring.domain.Place
 import com.ku_stacks.ku_ring.domain.PlaceCategory
 import com.ku_stacks.ku_ring.domain.PlaceFacility
+import com.ku_stacks.ku_ring.domain.PlaceSearchResult
 import com.ku_stacks.ku_ring.domain.place.repository.PlaceRepository
 import com.ku_stacks.ku_ring.place.mapper.toDomain
 import com.ku_stacks.ku_ring.remote.place.PlaceClient
@@ -21,11 +22,11 @@ class PlaceRepositoryImpl @Inject constructor(
             }
         }
 
-    override suspend fun searchPlaceBuildings(keyword: String): Result<List<Place>> =
+    override suspend fun searchPlaces(keyword: String): Result<PlaceSearchResult> =
         suspendRunCatching {
-            val response = placeClient.searchBuildings(keyword)
+            val response = placeClient.searchPlaces(keyword)
             when {
-                response.isSuccessAndDataExists -> response.data!!.buildings.map { it.toDomain() }
+                response.isSuccessAndDataExists -> response.data!!.toDomain()
                 else -> throw IllegalStateException(response.resultMsg)
             }
         }

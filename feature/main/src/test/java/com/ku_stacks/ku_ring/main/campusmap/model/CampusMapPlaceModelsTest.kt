@@ -80,6 +80,31 @@ class CampusMapPlaceModelsTest {
         assertTrue(emptyList<PlaceFacility>().groupByCampusBuilding().isEmpty())
     }
 
+    @Test
+    fun `search places merge facilities into one marker per parent building`() {
+        val building = building(id = 2L, name = "경영관")
+        val buildingPlace = Place(
+            id = "2",
+            name = "경영관",
+            category = "건물",
+            address = building.address,
+            latitude = building.latitude,
+            longitude = building.longitude,
+            priority = Place.Priority.HIGH,
+        )
+        val cafe = facility(id = 201L, name = "카페 레스티오", building = building)
+        val printer = facility(id = 202L, name = "경영관 복사실", building = building)
+
+        val places = mergeCampusMapSearchPlaces(
+            buildings = listOf(buildingPlace),
+            campusPlaces = listOf(cafe, printer),
+        )
+
+        assertEquals(1, places.size)
+        assertEquals("2", places.single().id)
+        assertEquals(listOf(cafe, printer), places.single().facilities)
+    }
+
     private fun building(
         id: Long,
         name: String,

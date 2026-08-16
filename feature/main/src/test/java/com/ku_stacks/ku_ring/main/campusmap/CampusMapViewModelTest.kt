@@ -4,6 +4,7 @@ import com.ku_stacks.ku_ring.domain.Place
 import com.ku_stacks.ku_ring.domain.PlaceBuilding
 import com.ku_stacks.ku_ring.domain.PlaceCategory
 import com.ku_stacks.ku_ring.domain.PlaceFacility
+import com.ku_stacks.ku_ring.domain.PlaceSearchResult
 import com.ku_stacks.ku_ring.domain.place.repository.PlaceRepository
 import com.ku_stacks.ku_ring.main.campusmap.type.CampusMapCategory
 import kotlinx.collections.immutable.persistentListOf
@@ -464,6 +465,37 @@ class CampusMapViewModelTest {
     }
 
     @Test
+    fun `facility search result opens its parent building detail`() = runTest {
+        val facility = facility(
+            id = 105L,
+            name = "상허기념도서관 복사실",
+            category = "printer",
+            building = libraryBuilding,
+        )
+        val repository = FakePlaceRepository().apply {
+            searchCampusPlacesResponse = { listOf(facility) }
+            detailResponse = { Result.success(libraryDetail) }
+        }
+        val viewModel = CampusMapViewModel(repository)
+        advanceUntilIdle()
+
+        viewModel.updateSearchInput("프린터")
+        advanceUntilIdle()
+
+        val result = viewModel.uiState.value.liveSearchResults.single()
+        assertEquals("facility:105", result.id)
+        assertEquals("10", result.place.id)
+
+        viewModel.selectSearchResult(result)
+        advanceUntilIdle()
+
+        assertEquals(listOf(10L), repository.detailBuildingIds)
+        assertEquals(libraryDetail, viewModel.uiState.value.focusedPlace)
+        assertEquals("상허기념도서관 복사실", viewModel.uiState.value.activeSearchText)
+        assertEquals("facility:105", viewModel.uiState.value.recentSearches.first().id)
+    }
+
+    @Test
     fun `successful live search does not clear an initial load error`() = runTest {
         val repository = FakePlaceRepository().apply {
             buildingsResponse = { Result.failure(IllegalStateException("initial")) }
@@ -751,6 +783,9 @@ class CampusMapViewModelTest {
         var searchResponse: suspend (String) -> Result<List<Place>> = {
             Result.success(emptyList())
         }
+        var searchCampusPlacesResponse: suspend (String) -> List<PlaceFacility> = {
+            emptyList()
+        }
         var campusPlacesResponse: suspend (Array<String>) -> Result<List<PlaceFacility>> = {
             Result.success(emptyList())
         }
@@ -771,9 +806,14 @@ class CampusMapViewModelTest {
             return detailResponse(buildingId)
         }
 
-        override suspend fun searchPlaceBuildings(keyword: String): Result<List<Place>> {
+        override suspend fun searchPlaces(keyword: String): Result<PlaceSearchResult> {
             searchQueries += keyword
-            return searchResponse(keyword)
+            return searchResponse(keyword).map { buildings ->
+                PlaceSearchResult(
+                    buildings = buildings,
+                    campusPlaces = searchCampusPlacesResponse(keyword),
+                )
+            }
         }
 
         override suspend fun getPlaceBuildings(): Result<List<Place>> {

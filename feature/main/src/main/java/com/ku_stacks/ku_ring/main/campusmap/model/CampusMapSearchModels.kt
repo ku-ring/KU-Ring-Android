@@ -25,9 +25,35 @@ internal sealed interface CampusMapRecentSearch {
         override val label: String = query
     }
 
-    data class PlaceResult(val place: Place) : CampusMapRecentSearch {
-        override val id: String = "place:${place.id}"
-        override val label: String = place.name
+    data class PlaceResult(
+        val place: Place,
+        override val label: String = place.name,
+        val searchResultId: String = "place:${place.id}",
+    ) : CampusMapRecentSearch {
+        override val id: String = searchResultId
+    }
+}
+
+internal fun buildCampusMapKeywordSearchResults(
+    buildings: List<Place>,
+    campusPlaces: List<PlaceFacility>,
+    referenceBuildings: List<Place> = emptyList(),
+): List<CampusMapSearchResult> {
+    val placesByBuildingId = mergeCampusMapSearchPlaces(
+        buildings = buildings,
+        campusPlaces = campusPlaces,
+        referenceBuildings = referenceBuildings,
+    ).associateBy(Place::id)
+
+    return buildList {
+        buildings.forEach { building ->
+            add(placesByBuildingId.getValue(building.id).toSearchResult())
+        }
+        campusPlaces.forEach { facility ->
+            val buildingId = facility.building?.id?.toString() ?: return@forEach
+            val place = placesByBuildingId[buildingId] ?: return@forEach
+            add(facility.toSearchResult(place = place))
+        }
     }
 }
 
@@ -52,7 +78,7 @@ internal fun buildCampusMapSearchResults(
     }
 }
 
-private fun CampusMapCategory.matches(facility: PlaceFacility): Boolean =
+internal fun CampusMapCategory.matches(facility: PlaceFacility): Boolean =
     matches(facility.category) || matches(facility.categoryKor)
 
 internal fun prioritizeRecentSearchResults(
@@ -61,12 +87,21 @@ internal fun prioritizeRecentSearchResults(
 ): List<CampusMapSearchResult> {
     if (results.isEmpty() || recentSearches.isEmpty()) return results
 
+    val resultsById = results.associateBy(CampusMapSearchResult::id)
     val resultsByTitle = results.groupBy { result ->
         result.title.toSearchComparisonKey()
     }
     val recentResults = recentSearches
         .flatMap { recentSearch ->
-            resultsByTitle[recentSearch.label.toSearchComparisonKey()].orEmpty()
+            when (recentSearch) {
+                is CampusMapRecentSearch.PlaceResult -> {
+                    listOfNotNull(resultsById[recentSearch.searchResultId])
+                }
+
+                is CampusMapRecentSearch.Query -> {
+                    resultsByTitle[recentSearch.label.toSearchComparisonKey()].orEmpty()
+                }
+            }
         }
         .distinctBy(CampusMapSearchResult::id)
 
@@ -94,6 +129,8 @@ internal fun updateRecentSearches(
         .take(maxSize - 1)
         .forEach(::add)
 }
+
+internal fun Place.toCampusMapSearchResult() = toSearchResult()
 
 private fun Place.toSearchResult() = CampusMapSearchResult(
     id = "place:$id",

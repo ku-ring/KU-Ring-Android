@@ -130,7 +130,7 @@ internal fun CampusMapSearchRoute(
             }
         },
         onResultClick = { result ->
-            viewModel.selectSearchPlace(result.place)
+            viewModel.selectSearchResult(result)
             onNavigateUp()
         },
         onRecentClick = { recentSearch ->
@@ -452,7 +452,10 @@ private fun CampusMapSearchContent(
                     iconRes = if (result.isRecentMatch) {
                         R.drawable.ic_campus_map_recent_search
                     } else {
-                        CampusMapCategory.iconRes(result.category)
+                        CampusMapCategory.iconRes(
+                            category = result.category,
+                            facilityName = result.title,
+                        )
                     },
                     query = trimmedQuery,
                     showDelete = false,

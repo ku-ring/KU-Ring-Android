@@ -1,6 +1,7 @@
 package com.ku_stacks.ku_ring.main.campusmap.model
 
 import com.ku_stacks.ku_ring.domain.Place
+import com.ku_stacks.ku_ring.domain.PlaceBuilding
 import com.ku_stacks.ku_ring.domain.PlaceFacility
 import com.ku_stacks.ku_ring.domain.PlaceOperationHours
 import com.ku_stacks.ku_ring.main.campusmap.type.CampusMapCategory
@@ -246,6 +247,86 @@ class CampusMapSearchModelsTest {
         assertNull(result.operationHours)
     }
 
+    @Test
+    fun `keyword search keeps building and facility rows with distinct identities`() {
+        val buildingPlace = place(id = "39", name = "학생회관")
+        val facility = facility(
+            id = 39L,
+            name = "학생회관 복사실",
+            category = "printer",
+            categoryKor = "프린터",
+            building = building(id = 39L, name = "학생회관"),
+        )
+
+        val results = buildCampusMapKeywordSearchResults(
+            buildings = listOf(buildingPlace),
+            campusPlaces = listOf(facility),
+        )
+
+        assertEquals(listOf("place:39", "facility:39"), results.map { it.id })
+        assertEquals(listOf("학생회관", "학생회관 복사실"), results.map { it.title })
+        assertEquals("프린터", results.last().category)
+        assertEquals("39", results.last().place.id)
+    }
+
+    @Test
+    fun `facility-only keyword search targets its parent building and keeps nullable image`() {
+        val facility = facility(
+            id = 105L,
+            name = "학생회관 복사실",
+            category = "printer",
+            categoryKor = "프린터",
+            building = building(id = 39L, name = "학생회관"),
+        )
+
+        val result = buildCampusMapKeywordSearchResults(
+            buildings = emptyList(),
+            campusPlaces = listOf(facility),
+        ).single()
+
+        assertEquals("facility:105", result.id)
+        assertEquals("39", result.place.id)
+        assertEquals("학생회관", result.place.name)
+        assertNull(result.imageUrl)
+    }
+
+    @Test
+    fun `recent facility result prioritizes only the facility with the same id`() {
+        val first = facility(
+            id = 201L,
+            name = "카페 레스티오",
+            category = "cafe",
+            categoryKor = "카페",
+            building = building(id = 2L, name = "경영관"),
+        )
+        val second = facility(
+            id = 202L,
+            name = "카페 레스티오",
+            category = "cafe",
+            categoryKor = "카페",
+            building = building(id = 5L, name = "공학관"),
+        )
+        val results = buildCampusMapKeywordSearchResults(
+            buildings = emptyList(),
+            campusPlaces = listOf(first, second),
+        )
+
+        val prioritized = prioritizeRecentSearchResults(
+            results = results,
+            recentSearches = listOf(
+                CampusMapRecentSearch.PlaceResult(
+                    place = results.last().place,
+                    label = results.last().title,
+                    searchResultId = results.last().id,
+                ),
+            ),
+        )
+
+        assertEquals(listOf("facility:202", "facility:201"), prioritized.map { it.id })
+        assertTrue(prioritized.first().isRecentMatch)
+        assertFalse(prioritized.last().isRecentMatch)
+    }
+
     private fun place(
         id: String,
         name: String,
@@ -270,6 +351,7 @@ class CampusMapSearchModelsTest {
         categoryKor: String,
         imageUrl: String? = null,
         operationHours: PlaceOperationHours? = null,
+        building: PlaceBuilding? = null,
     ) = PlaceFacility(
         id = id,
         name = name,
@@ -277,5 +359,17 @@ class CampusMapSearchModelsTest {
         categoryKor = categoryKor,
         imageUrl = imageUrl,
         operationHours = operationHours,
+        building = building,
+    )
+
+    private fun building(
+        id: Long,
+        name: String,
+    ) = PlaceBuilding(
+        id = id,
+        name = name,
+        address = "서울특별시 광진구 능동로 120",
+        latitude = 37.542366,
+        longitude = 127.076846,
     )
 }

@@ -1,6 +1,7 @@
 package com.ku_stacks.ku_ring.main.campusmap
 
 import com.ku_stacks.ku_ring.domain.Place
+import com.ku_stacks.ku_ring.domain.PlaceBuilding
 import com.ku_stacks.ku_ring.domain.PlaceFacility
 import com.ku_stacks.ku_ring.main.campusmap.type.CampusMapCategory
 import kotlinx.collections.immutable.persistentListOf
@@ -105,8 +106,81 @@ class CampusMapUiStateTest {
             searchInput = "201",
         )
 
-        assertEquals(listOf(restaurantSearchPlace), state.visiblePlaces)
+        assertEquals(listOf("4"), state.visiblePlaces.map { it.id })
+        assertEquals(listOf("학생식당"), state.visiblePlaces.single().facilities.map { it.name })
         assertEquals(listOf("201 식당 건물"), state.searchResults.map { it.title })
+    }
+
+    @Test
+    fun `a category intersects unified facility results by parent building`() {
+        val managementBuilding = building(id = 2L, name = "경영관")
+        val cafeSearchResult = facility(
+            id = 201L,
+            name = "카페 레스티오",
+            category = "cafe",
+            categoryKor = "카페",
+            building = managementBuilding,
+        )
+        val printerCategoryPlace = place.copy(
+            id = "2",
+            name = "경영관",
+            facilities = listOf(
+                facility(
+                    id = 202L,
+                    name = "경영관 복사실",
+                    category = "printer",
+                    categoryKor = "프린터",
+                ),
+            ),
+        )
+        val state = CampusMapUiState(
+            submittedSearchQuery = "카페",
+            categoryPlaces = persistentListOf(printerCategoryPlace),
+            searchCampusPlaces = persistentListOf(cafeSearchResult),
+            searchResultQuery = "카페",
+            selectedCategories = persistentListOf(CampusMapCategory.PRINT),
+            searchInput = "카페",
+        )
+
+        assertEquals(listOf("2"), state.visiblePlaces.map { it.id })
+        assertEquals(
+            listOf("카페 레스티오", "경영관 복사실"),
+            state.visiblePlaces.single().facilities.map { it.name },
+        )
+        assertEquals(listOf("카페 레스티오"), state.searchResults.map { it.title })
+    }
+
+    @Test
+    fun `multiple categories keep their facilities on an intersected search marker`() {
+        val searchPlace = place.copy(id = "2", name = "경영관")
+        val cafe = facility(
+            id = 201L,
+            name = "카페 레스티오",
+            category = "cafe",
+            categoryKor = "카페",
+        )
+        val printer = facility(
+            id = 202L,
+            name = "경영관 복사실",
+            category = "printer",
+            categoryKor = "프린터",
+        )
+        val state = CampusMapUiState(
+            submittedSearchQuery = "경영관",
+            categoryPlaces = persistentListOf(
+                searchPlace.copy(facilities = listOf(cafe, printer)),
+            ),
+            searchPlaces = persistentListOf(searchPlace),
+            searchResultQuery = "경영관",
+            selectedCategories = persistentListOf(
+                CampusMapCategory.CAFE,
+                CampusMapCategory.PRINT,
+            ),
+            searchInput = "경영관",
+        )
+
+        assertEquals(listOf(cafe, printer), state.visiblePlaces.single().facilities)
+        assertEquals(listOf("경영관"), state.searchResults.map { it.title })
     }
 
     @Test
@@ -151,6 +225,61 @@ class CampusMapUiStateTest {
         assertEquals(listOf(library), state.visiblePlaces)
         assertEquals(listOf("상허기념도서관"), state.searchResults.map { it.title })
         assertEquals(listOf("경영관"), state.liveSearchResults.map { it.title })
+    }
+
+    @Test
+    fun `facility-only submitted search keeps facility rows and one parent marker`() {
+        val building = building(id = 2L, name = "경영관")
+        val canonicalBuilding = place.copy(
+            id = "2",
+            name = "경영관",
+            priority = Place.Priority.LOW,
+        )
+        val cafe = facility(
+            id = 201L,
+            name = "카페 레스티오",
+            category = "cafe",
+            categoryKor = "카페",
+            building = building,
+        )
+        val printer = facility(
+            id = 202L,
+            name = "경영관 복사실",
+            category = "printer",
+            categoryKor = "프린터",
+            building = building,
+        )
+        val state = CampusMapUiState(
+            submittedSearchQuery = "경영관",
+            campusPlaces = persistentListOf(canonicalBuilding),
+            searchCampusPlaces = persistentListOf(cafe, printer),
+            searchResultQuery = "경영관",
+            searchInput = "경영관",
+        )
+
+        assertEquals(listOf("2"), state.visiblePlaces.map { it.id })
+        assertEquals(Place.Priority.LOW, state.visiblePlaces.single().priority)
+        assertEquals(listOf("카페 레스티오", "경영관 복사실"), state.searchResults.map { it.title })
+        assertTrue(state.showSearchResultSheet)
+    }
+
+    @Test
+    fun `facility-only live search is not treated as empty`() {
+        val cafe = facility(
+            id = 201L,
+            name = "카페 레스티오",
+            category = "cafe",
+            categoryKor = "카페",
+            building = building(id = 2L, name = "경영관"),
+        )
+        val state = CampusMapUiState(
+            searchInput = "카페",
+            liveSearchCampusPlaces = persistentListOf(cafe),
+            liveSearchResultQuery = "카페",
+        )
+
+        assertEquals(listOf("카페 레스티오"), state.liveSearchResults.map { it.title })
+        assertFalse(state.shouldShowEmptySearchResult)
     }
 
     @Test
@@ -273,11 +402,24 @@ class CampusMapUiStateTest {
             name: String,
             category: String,
             categoryKor: String,
+            building: PlaceBuilding? = null,
         ) = PlaceFacility(
             id = id,
             name = name,
             category = category,
             categoryKor = categoryKor,
+            building = building,
+        )
+
+        fun building(
+            id: Long,
+            name: String,
+        ) = PlaceBuilding(
+            id = id,
+            name = name,
+            address = "서울특별시 광진구 능동로 120",
+            latitude = 37.542366,
+            longitude = 127.076846,
         )
     }
 }

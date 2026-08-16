@@ -3,9 +3,12 @@ package com.ku_stacks.ku_ring.main.campusmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ku_stacks.ku_ring.domain.Place
+import com.ku_stacks.ku_ring.domain.PlaceSearchResult
 import com.ku_stacks.ku_ring.domain.place.repository.PlaceRepository
 import com.ku_stacks.ku_ring.main.campusmap.model.CampusMapRecentSearch
+import com.ku_stacks.ku_ring.main.campusmap.model.CampusMapSearchResult
 import com.ku_stacks.ku_ring.main.campusmap.model.groupByCampusBuilding
+import com.ku_stacks.ku_ring.main.campusmap.model.toCampusMapSearchResult
 import com.ku_stacks.ku_ring.main.campusmap.model.updateRecentSearches
 import com.ku_stacks.ku_ring.main.campusmap.type.CampusMapCategory
 import com.ku_stacks.ku_ring.main.campusmap.type.toCampusMapCategoryItems
@@ -88,12 +91,15 @@ class CampusMapViewModel @Inject constructor(
             currentState.copy(
                 focusedPlace = null,
                 selectedSearchPlace = null,
+                selectedSearchLabel = null,
                 submittedSearchQuery = null,
                 selectedCategories = persistentListOf(),
                 categoryPlaces = persistentListOf(),
                 searchPlaces = persistentListOf(),
+                searchCampusPlaces = persistentListOf(),
                 searchResultQuery = null,
                 liveSearchPlaces = persistentListOf(),
+                liveSearchCampusPlaces = persistentListOf(),
                 liveSearchResultQuery = null,
                 searchInput = "",
                 isCategoryLoading = false,
@@ -114,6 +120,7 @@ class CampusMapViewModel @Inject constructor(
                 focusedPlace = null,
                 pendingFocusedPlace = null,
                 selectedSearchPlace = null,
+                selectedSearchLabel = null,
                 focusedPlaceSource = null,
                 failedPlaceDetail = null,
             )
@@ -130,12 +137,15 @@ class CampusMapViewModel @Inject constructor(
                 focusedPlace = null,
                 pendingFocusedPlace = null,
                 selectedSearchPlace = null,
+                selectedSearchLabel = null,
                 submittedSearchQuery = null,
                 selectedCategories = persistentListOf(),
                 categoryPlaces = persistentListOf(),
                 searchPlaces = persistentListOf(),
+                searchCampusPlaces = persistentListOf(),
                 searchResultQuery = null,
                 liveSearchPlaces = persistentListOf(),
+                liveSearchCampusPlaces = persistentListOf(),
                 liveSearchResultQuery = null,
                 searchInput = "",
                 isCategoryLoading = false,
@@ -265,7 +275,7 @@ class CampusMapViewModel @Inject constructor(
         if (
             _uiState.value.liveSearchResultQuery != preparedInput.trim()
         ) {
-            searchLiveBuildings(
+            searchLivePlaces(
                 query = preparedInput,
                 debounce = true,
             )
@@ -276,7 +286,7 @@ class CampusMapViewModel @Inject constructor(
         _uiState.update { currentState ->
             currentState.copy(searchInput = input)
         }
-        searchLiveBuildings(
+        searchLivePlaces(
             query = input,
             debounce = true,
         )
@@ -288,6 +298,7 @@ class CampusMapViewModel @Inject constructor(
             currentState.copy(
                 searchInput = "",
                 liveSearchPlaces = persistentListOf(),
+                liveSearchCampusPlaces = persistentListOf(),
                 liveSearchResultQuery = null,
                 isLiveSearchLoading = false,
                 failedLiveSearchQuery = null,
@@ -300,7 +311,11 @@ class CampusMapViewModel @Inject constructor(
         when (recentSearch) {
             is CampusMapRecentSearch.PlaceResult -> {
                 _uiState.update { currentState ->
-                    currentState.withSelectedSearchPlace(recentSearch.place)
+                    currentState.withSelectedSearchPlace(
+                        place = recentSearch.place,
+                        label = recentSearch.label,
+                        searchResultId = recentSearch.searchResultId,
+                    )
                 }
                 fetchPlaceDetail(
                     place = recentSearch.place,
@@ -312,7 +327,7 @@ class CampusMapViewModel @Inject constructor(
                 _uiState.update { currentState ->
                     currentState.withSubmittedSearchQuery(recentSearch.query)
                 }
-                searchSubmittedBuildings(recentSearch.query)
+                searchSubmittedPlaces(recentSearch.query)
             }
         }
     }
@@ -333,12 +348,18 @@ class CampusMapViewModel @Inject constructor(
         }
     }
 
-    fun selectSearchPlace(place: Place) {
+    internal fun selectSearchResult(result: CampusMapSearchResult) {
         cancelRequestsForCommittedSearch()
         _uiState.update { currentState ->
-            currentState.withSelectedSearchPlace(place)
+            currentState.withSelectedSearchResult(result)
         }
-        fetchPlaceDetail(place, CampusMapFocusedPlaceSource.SEARCH_RESULT)
+        fetchPlaceDetail(result.place, CampusMapFocusedPlaceSource.SEARCH_RESULT)
+    }
+
+    fun selectSearchPlace(place: Place) = selectSearchResult(place.toCampusMapSearchResult())
+
+    internal fun focusSearchResult(result: CampusMapSearchResult) {
+        fetchPlaceDetail(result.place, CampusMapFocusedPlaceSource.SEARCH_RESULT)
     }
 
     fun focusSearchResultPlace(place: Place) {
@@ -349,26 +370,34 @@ class CampusMapViewModel @Inject constructor(
         val currentState = _uiState.value
         val submittedQuery = currentState.searchInput.trim()
         if (submittedQuery.isEmpty()) return
-        val reusableLiveSearchPlaces = currentState.liveSearchPlaces.takeIf {
+        val reusableLiveSearchResult = if (
             currentState.liveSearchResultQuery == submittedQuery &&
-                !currentState.isLiveSearchLoading &&
-                currentState.failedLiveSearchQuery != submittedQuery
+            !currentState.isLiveSearchLoading &&
+            currentState.failedLiveSearchQuery != submittedQuery
+        ) {
+            PlaceSearchResult(
+                buildings = currentState.liveSearchPlaces,
+                campusPlaces = currentState.liveSearchCampusPlaces,
+            )
+        } else {
+            null
         }
 
         cancelRequestsForCommittedSearch()
         _uiState.update { currentState ->
             val submittedState = currentState.withSubmittedSearchQuery(submittedQuery)
-            if (reusableLiveSearchPlaces == null) {
+            if (reusableLiveSearchResult == null) {
                 submittedState
             } else {
                 submittedState.copy(
-                    searchPlaces = reusableLiveSearchPlaces,
+                    searchPlaces = reusableLiveSearchResult.buildings.toImmutableList(),
+                    searchCampusPlaces = reusableLiveSearchResult.campusPlaces.toImmutableList(),
                     searchResultQuery = submittedQuery,
                 )
             }
         }
-        if (reusableLiveSearchPlaces == null) {
-            searchSubmittedBuildings(submittedQuery)
+        if (reusableLiveSearchResult == null) {
+            searchSubmittedPlaces(submittedQuery)
         }
     }
 
@@ -399,7 +428,7 @@ class CampusMapViewModel @Inject constructor(
         placeDetailJob?.cancel()
     }
 
-    private fun searchLiveBuildings(
+    private fun searchLivePlaces(
         query: String,
         debounce: Boolean,
     ) {
@@ -411,6 +440,7 @@ class CampusMapViewModel @Inject constructor(
             _uiState.update { currentState ->
                 currentState.copy(
                     liveSearchPlaces = persistentListOf(),
+                    liveSearchCampusPlaces = persistentListOf(),
                     liveSearchResultQuery = null,
                     isLiveSearchLoading = false,
                     failedLiveSearchQuery = null,
@@ -427,6 +457,11 @@ class CampusMapViewModel @Inject constructor(
                 } else {
                     persistentListOf()
                 },
+                liveSearchCampusPlaces = if (alreadyHasResult) {
+                    currentState.liveSearchCampusPlaces
+                } else {
+                    persistentListOf()
+                },
                 liveSearchResultQuery = currentState.liveSearchResultQuery
                     .takeIf { alreadyHasResult },
                 isLiveSearchLoading = true,
@@ -437,7 +472,7 @@ class CampusMapViewModel @Inject constructor(
         liveSearchJob = viewModelScope.launch {
             if (debounce) delay(SEARCH_DEBOUNCE_MILLIS)
 
-            val result = placeRepository.searchPlaceBuildings(normalizedQuery)
+            val result = placeRepository.searchPlaces(normalizedQuery)
             _uiState.update { currentState ->
                 if (
                     requestGeneration != liveSearchRequestGeneration ||
@@ -447,9 +482,10 @@ class CampusMapViewModel @Inject constructor(
                 }
 
                 result.fold(
-                    onSuccess = { places ->
+                    onSuccess = { searchResult ->
                         currentState.copy(
-                            liveSearchPlaces = places.toImmutableList(),
+                            liveSearchPlaces = searchResult.buildings.toImmutableList(),
+                            liveSearchCampusPlaces = searchResult.campusPlaces.toImmutableList(),
                             liveSearchResultQuery = normalizedQuery,
                             isLiveSearchLoading = false,
                             failedLiveSearchQuery = null,
@@ -458,6 +494,7 @@ class CampusMapViewModel @Inject constructor(
                     onFailure = {
                         currentState.copy(
                             liveSearchPlaces = persistentListOf(),
+                            liveSearchCampusPlaces = persistentListOf(),
                             liveSearchResultQuery = normalizedQuery,
                             isLiveSearchLoading = false,
                             failedLiveSearchQuery = normalizedQuery,
@@ -468,7 +505,7 @@ class CampusMapViewModel @Inject constructor(
         }
     }
 
-    private fun searchSubmittedBuildings(query: String) {
+    private fun searchSubmittedPlaces(query: String) {
         val normalizedQuery = query.trim()
         cancelSubmittedSearchRequest()
         val requestGeneration = submittedSearchRequestGeneration
@@ -477,6 +514,7 @@ class CampusMapViewModel @Inject constructor(
             _uiState.update { currentState ->
                 currentState.copy(
                     searchPlaces = persistentListOf(),
+                    searchCampusPlaces = persistentListOf(),
                     searchResultQuery = null,
                     isSubmittedSearchLoading = false,
                     failedSubmittedSearchQuery = null,
@@ -493,6 +531,11 @@ class CampusMapViewModel @Inject constructor(
                 } else {
                     persistentListOf()
                 },
+                searchCampusPlaces = if (alreadyHasResult) {
+                    currentState.searchCampusPlaces
+                } else {
+                    persistentListOf()
+                },
                 searchResultQuery = currentState.searchResultQuery.takeIf { alreadyHasResult },
                 isSubmittedSearchLoading = true,
                 failedSubmittedSearchQuery = null,
@@ -500,7 +543,7 @@ class CampusMapViewModel @Inject constructor(
         }
 
         submittedSearchJob = viewModelScope.launch {
-            val result = placeRepository.searchPlaceBuildings(normalizedQuery)
+            val result = placeRepository.searchPlaces(normalizedQuery)
             _uiState.update { currentState ->
                 if (
                     requestGeneration != submittedSearchRequestGeneration ||
@@ -510,9 +553,10 @@ class CampusMapViewModel @Inject constructor(
                 }
 
                 result.fold(
-                    onSuccess = { places ->
+                    onSuccess = { searchResult ->
                         currentState.copy(
-                            searchPlaces = places.toImmutableList(),
+                            searchPlaces = searchResult.buildings.toImmutableList(),
+                            searchCampusPlaces = searchResult.campusPlaces.toImmutableList(),
                             searchResultQuery = normalizedQuery,
                             isSubmittedSearchLoading = false,
                             failedSubmittedSearchQuery = null,
@@ -521,6 +565,7 @@ class CampusMapViewModel @Inject constructor(
                     onFailure = {
                         currentState.copy(
                             searchPlaces = persistentListOf(),
+                            searchCampusPlaces = persistentListOf(),
                             searchResultQuery = normalizedQuery,
                             isSubmittedSearchLoading = false,
                             failedSubmittedSearchQuery = normalizedQuery,
@@ -622,7 +667,7 @@ class CampusMapViewModel @Inject constructor(
                     currentState.submittedSearchQuery == request.query &&
                     currentState.failedSubmittedSearchQuery == request.query
                 ) {
-                    searchSubmittedBuildings(request.query)
+                    searchSubmittedPlaces(request.query)
                 }
             } else {
                 val currentState = _uiState.value
@@ -630,7 +675,7 @@ class CampusMapViewModel @Inject constructor(
                     currentState.searchInput.trim() == request.query &&
                     currentState.failedLiveSearchQuery == request.query
                 ) {
-                    searchLiveBuildings(
+                    searchLivePlaces(
                         query = request.query,
                         debounce = false,
                     )
@@ -654,6 +699,7 @@ class CampusMapViewModel @Inject constructor(
             focusedPlace = null,
             pendingFocusedPlace = null,
             selectedSearchPlace = null,
+            selectedSearchLabel = null,
             submittedSearchQuery = query,
             selectedCategories = persistentListOf(),
             categoryPlaces = persistentListOf(),
@@ -673,16 +719,31 @@ class CampusMapViewModel @Inject constructor(
         )
     }
 
-    private fun CampusMapUiState.withSelectedSearchPlace(place: Place): CampusMapUiState = copy(
+    private fun CampusMapUiState.withSelectedSearchResult(
+        result: CampusMapSearchResult,
+    ): CampusMapUiState = withSelectedSearchPlace(
+        place = result.place,
+        label = result.title,
+        searchResultId = result.id,
+    )
+
+    private fun CampusMapUiState.withSelectedSearchPlace(
+        place: Place,
+        label: String = place.name,
+        searchResultId: String = "place:${place.id}",
+    ): CampusMapUiState = copy(
         focusedPlace = null,
         pendingFocusedPlace = null,
         selectedSearchPlace = place,
+        selectedSearchLabel = label,
         submittedSearchQuery = null,
         selectedCategories = persistentListOf(),
         categoryPlaces = persistentListOf(),
         searchPlaces = persistentListOf(),
+        searchCampusPlaces = persistentListOf(),
         searchResultQuery = null,
         liveSearchPlaces = persistentListOf(),
+        liveSearchCampusPlaces = persistentListOf(),
         liveSearchResultQuery = null,
         searchInput = "",
         isCategoryLoading = false,
@@ -695,7 +756,11 @@ class CampusMapViewModel @Inject constructor(
         failedPlaceDetail = null,
         recentSearches = updateRecentSearches(
             current = recentSearches,
-            selected = CampusMapRecentSearch.PlaceResult(place),
+            selected = CampusMapRecentSearch.PlaceResult(
+                place = place,
+                label = label,
+                searchResultId = searchResultId,
+            ),
         ).toImmutableList(),
     )
 

@@ -1,9 +1,12 @@
 package com.ku_stacks.ku_ring.main.campusmap
 
 import com.ku_stacks.ku_ring.domain.Place
+import com.ku_stacks.ku_ring.domain.PlaceFacility
 import com.ku_stacks.ku_ring.main.campusmap.model.CampusMapRecentSearch
 import com.ku_stacks.ku_ring.main.campusmap.model.CampusMapSearchResult
+import com.ku_stacks.ku_ring.main.campusmap.model.buildCampusMapKeywordSearchResults
 import com.ku_stacks.ku_ring.main.campusmap.model.buildCampusMapSearchResults
+import com.ku_stacks.ku_ring.main.campusmap.model.mergeCampusMapSearchPlaces
 import com.ku_stacks.ku_ring.main.campusmap.model.prioritizeRecentSearchResults
 import com.ku_stacks.ku_ring.main.campusmap.type.CampusMapCategory
 import com.ku_stacks.ku_ring.main.campusmap.type.CampusMapCategoryItem
@@ -14,12 +17,15 @@ import kotlinx.collections.immutable.toImmutableList
 internal data class CampusMapUiState(
     val focusedPlace: Place? = null,
     val selectedSearchPlace: Place? = null,
+    val selectedSearchLabel: String? = null,
     val submittedSearchQuery: String? = null,
     val campusPlaces: ImmutableList<Place> = persistentListOf(),
     val categoryPlaces: ImmutableList<Place> = persistentListOf(),
     val searchPlaces: ImmutableList<Place> = persistentListOf(),
+    val searchCampusPlaces: ImmutableList<PlaceFacility> = persistentListOf(),
     val searchResultQuery: String? = null,
     val liveSearchPlaces: ImmutableList<Place> = persistentListOf(),
+    val liveSearchCampusPlaces: ImmutableList<PlaceFacility> = persistentListOf(),
     val liveSearchResultQuery: String? = null,
     val categories: ImmutableList<CampusMapCategoryItem> = persistentListOf(),
     val selectedCategories: ImmutableList<CampusMapCategory> = persistentListOf(),
@@ -44,14 +50,28 @@ internal data class CampusMapUiState(
     val visiblePlaces: ImmutableList<Place>
         get() {
             val hasCategory = selectedCategories.isNotEmpty()
-            val searchedPlaces = searchPlaces.takeIf {
-                hasSubmittedQuery && searchResultQuery == submittedSearchQuery
-            }.orEmpty()
+            val searchedPlaces = if (hasCurrentSubmittedSearchResult) {
+                mergeCampusMapSearchPlaces(
+                    buildings = searchPlaces,
+                    campusPlaces = searchCampusPlaces,
+                    referenceBuildings = campusPlaces,
+                )
+            } else {
+                emptyList()
+            }
 
             return when {
                 hasCategory && hasSubmittedQuery -> {
-                    val categoryPlaceIds = categoryPlaces.mapTo(mutableSetOf(), Place::id)
-                    searchedPlaces.filter { it.id in categoryPlaceIds }
+                    val categoryPlacesById = categoryPlaces.associateBy(Place::id)
+                    searchedPlaces.mapNotNull { searchedPlace ->
+                        val categoryPlace = categoryPlacesById[searchedPlace.id]
+                            ?: return@mapNotNull null
+                        searchedPlace.copy(
+                            imageUrl = searchedPlace.imageUrl ?: categoryPlace.imageUrl,
+                            facilities = (searchedPlace.facilities + categoryPlace.facilities)
+                                .distinctBy(PlaceFacility::id),
+                        )
+                    }
                 }
 
                 hasCategory -> categoryPlaces
@@ -61,10 +81,26 @@ internal data class CampusMapUiState(
         }
 
     val searchResults: ImmutableList<CampusMapSearchResult>
-        get() = buildCampusMapSearchResults(
-            places = visiblePlaces,
-            selectedCategories = selectedCategories.takeUnless { hasSubmittedQuery }.orEmpty(),
-        ).toImmutableList()
+        get() {
+            if (!hasSubmittedQuery) {
+                return buildCampusMapSearchResults(
+                    places = visiblePlaces,
+                    selectedCategories = selectedCategories,
+                ).toImmutableList()
+            }
+            if (!hasCurrentSubmittedSearchResult) return persistentListOf()
+
+            val visiblePlaceIds = visiblePlaces.mapTo(mutableSetOf(), Place::id)
+            val matchingBuildings = searchPlaces.filter { place -> place.id in visiblePlaceIds }
+            val matchingCampusPlaces = searchCampusPlaces.filter { facility ->
+                facility.building?.id?.toString() in visiblePlaceIds
+            }
+            return buildCampusMapKeywordSearchResults(
+                buildings = matchingBuildings,
+                campusPlaces = matchingCampusPlaces,
+                referenceBuildings = campusPlaces,
+            ).toImmutableList()
+        }
 
     val liveSearchResults: ImmutableList<CampusMapSearchResult>
         get() {
@@ -72,18 +108,22 @@ internal data class CampusMapUiState(
             val matchingPlaces = liveSearchPlaces.takeIf {
                 normalizedInput.isNotEmpty() && liveSearchResultQuery == normalizedInput
             }.orEmpty()
+            val matchingCampusPlaces = liveSearchCampusPlaces.takeIf {
+                normalizedInput.isNotEmpty() && liveSearchResultQuery == normalizedInput
+            }.orEmpty()
 
             return prioritizeRecentSearchResults(
-                results = buildCampusMapSearchResults(
-                    places = matchingPlaces,
-                    selectedCategories = emptyList(),
+                results = buildCampusMapKeywordSearchResults(
+                    buildings = matchingPlaces,
+                    campusPlaces = matchingCampusPlaces,
+                    referenceBuildings = campusPlaces,
                 ),
                 recentSearches = recentSearches,
             ).toImmutableList()
         }
 
     val activeSearchText: String?
-        get() = selectedSearchPlace?.name ?: submittedSearchQuery
+        get() = selectedSearchLabel ?: selectedSearchPlace?.name ?: submittedSearchQuery
 
     val showSearchResultSheet: Boolean
         get() = mapFocusedPlace == null &&
@@ -126,6 +166,9 @@ internal data class CampusMapUiState(
 
     private val hasSubmittedQuery: Boolean
         get() = !submittedSearchQuery.isNullOrBlank()
+
+    private val hasCurrentSubmittedSearchResult: Boolean
+        get() = hasSubmittedQuery && searchResultQuery == submittedSearchQuery
 
     private val hasFailedActiveSelection: Boolean
         get() = failedCategories?.let { categories -> categories == selectedCategories } == true ||
