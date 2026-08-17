@@ -44,11 +44,13 @@ internal fun CampusPlaceMarker(
     place: Place,
     isFocused: Boolean,
     selectedCategories: ImmutableList<CampusMapCategory>,
+    isSearchResultVisible: Boolean,
     onClick: () -> Unit,
 ) {
     val position = LatLng(place.latitude, place.longitude)
     val markerState = rememberUpdatedMarkerState(position)
-    val shouldForceVisible = isFocused || selectedCategories.isNotEmpty()
+    val shouldForceVisible =
+        isFocused || selectedCategories.isNotEmpty() || isSearchResultVisible
     val iconRes = place.markerCategory(selectedCategories)?.iconRes
         ?: R.drawable.ic_campus_map_icon_building
 

@@ -35,6 +35,7 @@ internal fun NaverMapSection(
     campusPlaces: ImmutableList<Place>,
     focusedPlace: Place?,
     selectedCategories: ImmutableList<CampusMapCategory>,
+    isSearchResultVisible: Boolean,
     cameraPositionState: CameraPositionState,
     onMapPinClick: (Place) -> Unit,
     onMapClick: () -> Unit,
@@ -85,6 +86,7 @@ internal fun NaverMapSection(
                 place = place,
                 isFocused = isFocused,
                 selectedCategories = selectedCategories,
+                isSearchResultVisible = isSearchResultVisible,
             ) {
                 onMapPinClick(place)
             }

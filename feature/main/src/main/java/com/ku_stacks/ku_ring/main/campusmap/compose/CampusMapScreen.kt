@@ -258,6 +258,8 @@ private fun CampusMapScreen(
             campusPlaces = uiState.visiblePlaces,
             focusedPlace = uiState.mapFocusedPlace,
             selectedCategories = uiState.selectedCategories,
+            isSearchResultVisible = uiState.showSearchResultSheet &&
+                !uiState.submittedSearchQuery.isNullOrBlank(),
             cameraPositionState = cameraPositionState,
             onMapPinClick = onMapPinClick,
             onMapClick = onMapClick,
