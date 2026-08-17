@@ -95,7 +95,7 @@ class PlaceRepositoryTest {
         assertEquals("2", place.id)
         assertEquals("경영관", place.name)
         assertEquals("건물", place.category)
-        assertEquals(Place.Priority.HIGH, place.priority)
+        assertEquals(Place.Priority.LOW, place.priority)
         assertEquals("https://example.com/building.png", place.imageUrl)
         assertEquals("08:00 ~ 22:00", place.operationHours?.current)
         assertEquals("08:00 ~ 22:00", place.operationHours?.semesterWeekday)
@@ -144,7 +144,7 @@ class PlaceRepositoryTest {
         assertEquals("39", result.buildings.single().id)
         assertEquals("학생회관", result.buildings.single().name)
         assertEquals("건물", result.buildings.single().category)
-        assertEquals(Place.Priority.HIGH, result.buildings.single().priority)
+        assertEquals(Place.Priority.LOW, result.buildings.single().priority)
 
         val facility = result.campusPlaces.single()
         assertEquals(105L, facility.id)
@@ -175,7 +175,7 @@ class PlaceRepositoryTest {
         assertEquals(listOf("행정관", "경영관"), places.map(Place::name))
         assertTrue(places.all { it.category == "건물" })
         assertEquals(
-            listOf(Place.Priority.MIDDLE, Place.Priority.HIGH),
+            listOf(Place.Priority.LOW, Place.Priority.LOW),
             places.map(Place::priority),
         )
         verify(placeClient).fetchBuildings()

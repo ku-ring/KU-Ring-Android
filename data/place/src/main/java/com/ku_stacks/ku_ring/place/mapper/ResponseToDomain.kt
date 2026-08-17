@@ -20,7 +20,7 @@ internal fun PlaceBuildingResponse.toDomain() = Place(
     address = address,
     latitude = latitude,
     longitude = longitude,
-    priority = displayOrder.toCampusMapBuildingPriority(buildingName = name),
+    priority = displayOrder.toCampusMapBuildingPriority(),
 )
 
 internal fun PlaceSearchResponse.toDomain() = PlaceSearchResult(
@@ -35,7 +35,7 @@ internal fun PlaceBuildingDetailResponse.toDomain() = Place(
     address = address,
     latitude = latitude,
     longitude = longitude,
-    priority = name.toCampusMapBuildingPriority(),
+    priority = Place.Priority.LOW,
     imageUrl = imageUrl,
     operationHours = operatingHours.toDomain(),
     facilities = campusPlaces.map { it.toDomain() },
