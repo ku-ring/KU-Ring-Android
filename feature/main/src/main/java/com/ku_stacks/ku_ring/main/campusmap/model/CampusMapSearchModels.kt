@@ -151,7 +151,7 @@ private fun PlaceFacility.toSearchResult(
     category = categoryKor.ifBlank { category },
     location = location ?: place.address,
     operationHours = operationHours.displayText(),
-    imageUrl = imageUrl ?: place.imageUrl,
+    imageUrl = imageUrl,
 )
 
 private fun PlaceOperationHours?.displayText(): String? =

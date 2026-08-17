@@ -40,9 +40,6 @@ internal fun mergeCampusMapSearchPlaces(
             add(
                 building.copy(
                     priority = referenceBuilding?.priority ?: building.priority,
-                    imageUrl = building.imageUrl
-                        ?: facilityPlace?.imageUrl
-                        ?: referenceBuilding?.imageUrl,
                     operationHours = building.operationHours
                         ?: referenceBuilding?.operationHours,
                     facilities = facilityPlace?.facilities ?: building.facilities,
@@ -55,7 +52,6 @@ internal fun mergeCampusMapSearchPlaces(
                 val referenceBuilding = referenceBuildingsById[facilityPlace.id]
                 add(
                     referenceBuilding?.copy(
-                        imageUrl = referenceBuilding.imageUrl ?: facilityPlace.imageUrl,
                         facilities = facilityPlace.facilities,
                     ) ?: facilityPlace,
                 )

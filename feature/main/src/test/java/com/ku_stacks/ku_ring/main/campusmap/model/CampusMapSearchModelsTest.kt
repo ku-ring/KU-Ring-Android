@@ -222,7 +222,7 @@ class CampusMapSearchModelsTest {
     }
 
     @Test
-    fun `facility result falls back to building address image and hides hours`() {
+    fun `facility result keeps missing image when facility image is unavailable`() {
         val building = place(
             id = "4",
             name = "학생회관",
@@ -243,7 +243,7 @@ class CampusMapSearchModelsTest {
         ).single()
 
         assertEquals(building.address, result.location)
-        assertEquals(building.imageUrl, result.imageUrl)
+        assertNull(result.imageUrl)
         assertNull(result.operationHours)
     }
 

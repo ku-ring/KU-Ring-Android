@@ -21,6 +21,7 @@ internal fun PlaceBuildingResponse.toDomain() = Place(
     latitude = latitude,
     longitude = longitude,
     priority = displayOrder.toCampusMapBuildingPriority(),
+    imageUrl = imageUrl,
 )
 
 internal fun PlaceSearchResponse.toDomain() = PlaceSearchResult(

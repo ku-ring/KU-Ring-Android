@@ -67,7 +67,6 @@ internal data class CampusMapUiState(
                         val categoryPlace = categoryPlacesById[searchedPlace.id]
                             ?: return@mapNotNull null
                         searchedPlace.copy(
-                            imageUrl = searchedPlace.imageUrl ?: categoryPlace.imageUrl,
                             facilities = (searchedPlace.facilities + categoryPlace.facilities)
                                 .distinctBy(PlaceFacility::id),
                         )
