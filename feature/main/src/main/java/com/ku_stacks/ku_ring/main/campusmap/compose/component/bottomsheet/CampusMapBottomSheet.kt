@@ -298,8 +298,8 @@ private fun PlaceImage(
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier
-            .then(imageClickModifier)
             .clip(RoundedCornerShape(16.dp))
+            .then(imageClickModifier)
             .background(Color(0xFFD9D9D9)),
     ) {
         if (!imageUrl.isNullOrBlank()) {
