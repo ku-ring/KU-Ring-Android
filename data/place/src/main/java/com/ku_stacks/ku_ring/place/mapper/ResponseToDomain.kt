@@ -5,11 +5,13 @@ import com.ku_stacks.ku_ring.domain.PlaceBuilding
 import com.ku_stacks.ku_ring.domain.PlaceCategory
 import com.ku_stacks.ku_ring.domain.PlaceFacility
 import com.ku_stacks.ku_ring.domain.PlaceOperationHours
+import com.ku_stacks.ku_ring.domain.PlaceSearchResult
 import com.ku_stacks.ku_ring.remote.place.response.PlaceBuildingDetailResponse
 import com.ku_stacks.ku_ring.remote.place.response.PlaceBuildingResponse
 import com.ku_stacks.ku_ring.remote.place.response.PlaceCampusPlaceResponse
 import com.ku_stacks.ku_ring.remote.place.response.PlaceCategoryResponse
 import com.ku_stacks.ku_ring.remote.place.response.PlaceOperatingHoursResponse
+import com.ku_stacks.ku_ring.remote.place.response.PlaceSearchResponse
 
 internal fun PlaceBuildingResponse.toDomain() = Place(
     id = id.toString(),
@@ -18,7 +20,13 @@ internal fun PlaceBuildingResponse.toDomain() = Place(
     address = address,
     latitude = latitude,
     longitude = longitude,
-    priority = Place.Priority.HIGH,
+    priority = displayOrder.toCampusMapBuildingPriority(),
+    imageUrl = imageUrl,
+)
+
+internal fun PlaceSearchResponse.toDomain() = PlaceSearchResult(
+    buildings = buildings.map { it.toDomain() },
+    campusPlaces = campusPlaces.map { it.toDomain() },
 )
 
 internal fun PlaceBuildingDetailResponse.toDomain() = Place(
@@ -28,7 +36,7 @@ internal fun PlaceBuildingDetailResponse.toDomain() = Place(
     address = address,
     latitude = latitude,
     longitude = longitude,
-    priority = Place.Priority.HIGH,
+    priority = Place.Priority.LOW,
     imageUrl = imageUrl,
     operationHours = operatingHours.toDomain(),
     facilities = campusPlaces.map { it.toDomain() },

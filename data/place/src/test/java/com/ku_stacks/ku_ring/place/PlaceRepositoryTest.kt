@@ -12,6 +12,7 @@ import com.ku_stacks.ku_ring.remote.place.response.PlaceCampusPlaceResponse
 import com.ku_stacks.ku_ring.remote.place.response.PlaceCategoryListResponse
 import com.ku_stacks.ku_ring.remote.place.response.PlaceCategoryResponse
 import com.ku_stacks.ku_ring.remote.place.response.PlaceOperatingHoursResponse
+import com.ku_stacks.ku_ring.remote.place.response.PlaceSearchResponse
 import com.ku_stacks.ku_ring.remote.util.DefaultResponse
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertArrayEquals
@@ -94,7 +95,7 @@ class PlaceRepositoryTest {
         assertEquals("2", place.id)
         assertEquals("경영관", place.name)
         assertEquals("건물", place.category)
-        assertEquals(Place.Priority.HIGH, place.priority)
+        assertEquals(Place.Priority.LOW, place.priority)
         assertEquals("https://example.com/building.png", place.imageUrl)
         assertEquals("08:00 ~ 22:00", place.operationHours?.current)
         assertEquals("08:00 ~ 22:00", place.operationHours?.semesterWeekday)
@@ -117,23 +118,43 @@ class PlaceRepositoryTest {
     }
 
     @Test
-    fun `building search maps buildings and forwards keyword`() = runTest {
-        whenever(placeClient.searchBuildings("도서관")).thenReturn(
+    fun `place search maps buildings and campus places and forwards keyword`() = runTest {
+        val building = building(id = 39L, name = "학생회관")
+        whenever(placeClient.searchPlaces("학생회관")).thenReturn(
             success(
-                PlaceBuildingListResponse(
-                    buildings = listOf(building(id = 10L, name = "상허기념도서관")),
+                PlaceSearchResponse(
+                    buildings = listOf(building),
+                    campusPlaces = listOf(
+                        campusPlace(
+                            id = 105L,
+                            name = "학생회관 복사실",
+                            category = "printer",
+                            categoryKorName = "프린터",
+                            floor = "1F",
+                            building = building,
+                        ),
+                    ),
                 ),
             ),
         )
 
-        val places = repository.searchPlaceBuildings("도서관").getOrThrow()
+        val result = repository.searchPlaces("학생회관").getOrThrow()
 
-        assertEquals(1, places.size)
-        assertEquals("10", places.single().id)
-        assertEquals("상허기념도서관", places.single().name)
-        assertEquals("건물", places.single().category)
-        assertEquals(Place.Priority.HIGH, places.single().priority)
-        verify(placeClient).searchBuildings("도서관")
+        assertEquals(1, result.buildings.size)
+        assertEquals("39", result.buildings.single().id)
+        assertEquals("학생회관", result.buildings.single().name)
+        assertEquals("건물", result.buildings.single().category)
+        assertEquals(Place.Priority.LOW, result.buildings.single().priority)
+
+        val facility = result.campusPlaces.single()
+        assertEquals(105L, facility.id)
+        assertEquals("학생회관 복사실", facility.name)
+        assertEquals("printer", facility.category)
+        assertEquals("프린터", facility.categoryKor)
+        assertEquals("1F", facility.location)
+        assertNull(facility.imageUrl)
+        assertEquals(39L, facility.building?.id)
+        verify(placeClient).searchPlaces("학생회관")
     }
 
     @Test
@@ -153,8 +174,32 @@ class PlaceRepositoryTest {
 
         assertEquals(listOf("행정관", "경영관"), places.map(Place::name))
         assertTrue(places.all { it.category == "건물" })
-        assertTrue(places.all { it.priority == Place.Priority.HIGH })
+        assertEquals(
+            listOf(Place.Priority.LOW, Place.Priority.LOW),
+            places.map(Place::priority),
+        )
         verify(placeClient).fetchBuildings()
+    }
+
+    @Test
+    fun `building list uses server display order for marker priority`() = runTest {
+        whenever(placeClient.fetchBuildings()).thenReturn(
+            success(
+                PlaceBuildingListResponse(
+                    buildings = listOf(
+                        building(id = 1L, name = "행정관", displayOrder = 3),
+                        building(id = 2L, name = "경영관", displayOrder = 2),
+                    ),
+                ),
+            ),
+        )
+
+        val places = repository.getPlaceBuildings().getOrThrow()
+
+        assertEquals(
+            listOf(Place.Priority.LOW, Place.Priority.MIDDLE),
+            places.map(Place::priority),
+        )
     }
 
     @Test
@@ -239,7 +284,7 @@ class PlaceRepositoryTest {
     @Test
     fun `unsuccessful API responses become failures for every repository call`() = runTest {
         whenever(placeClient.fetchBuildingDetail(2L)).thenReturn(failure("detail failed"))
-        whenever(placeClient.searchBuildings("도서관")).thenReturn(failure("search failed"))
+        whenever(placeClient.searchPlaces("도서관")).thenReturn(failure("search failed"))
         whenever(placeClient.fetchBuildings()).thenReturn(failure("buildings failed"))
         whenever(placeClient.fetchCampusPlaces(arrayOf("cafe"))).thenReturn(
             failure("campus places failed"),
@@ -248,7 +293,7 @@ class PlaceRepositoryTest {
 
         val failures = listOf(
             repository.getPlaceBuildingDetail(2L),
-            repository.searchPlaceBuildings("도서관"),
+            repository.searchPlaces("도서관"),
             repository.getPlaceBuildings(),
             repository.getPlaceCampusPlaces(arrayOf("cafe")),
             repository.getPlaceCategories(),
@@ -281,12 +326,14 @@ class PlaceRepositoryTest {
     private fun building(
         id: Long,
         name: String,
+        displayOrder: Int? = null,
     ) = PlaceBuildingResponse(
         id = id,
         name = name,
         address = "서울특별시 광진구 능동로 120",
         latitude = 37.5443474,
         longitude = 127.0761119,
+        displayOrder = displayOrder,
     )
 
     private fun campusPlace(

@@ -73,6 +73,7 @@ import com.ku_stacks.ku_ring.main.campusmap.compose.component.map.CompassFab
 import com.ku_stacks.ku_ring.main.campusmap.compose.component.map.CurrentLocationFab
 import com.ku_stacks.ku_ring.main.campusmap.compose.component.map.LibrarySeatFab
 import com.ku_stacks.ku_ring.main.campusmap.compose.component.map.NaverMapSection
+import com.ku_stacks.ku_ring.main.campusmap.model.CampusMapSearchResult
 import com.ku_stacks.ku_ring.main.campusmap.type.CampusMapCategory
 import com.ku_stacks.ku_ring.main.campusmap.type.CampusMapCategoryItem
 import com.ku_stacks.ku_ring.util.checkHasLocationPermission
@@ -176,7 +177,7 @@ internal fun CampusMapScreen(
             viewModel.prepareSearchInput()
             onNavigateToSearch()
         },
-        onSearchResultClick = viewModel::focusSearchResultPlace,
+        onSearchResultClick = viewModel::focusSearchResult,
         onActiveSelectionClear = viewModel::clearActiveSelection,
         cameraPositionState = cameraPositionState,
         hasLocationPermission = hasLocationPermission,
@@ -225,7 +226,7 @@ private fun CampusMapScreen(
     onSearchResultSheetContentChange: (CampusMapSearchResultSheetContent?) -> Unit,
     onCategoryClick: (CampusMapCategory) -> Unit,
     onSearchClick: () -> Unit,
-    onSearchResultClick: (Place) -> Unit,
+    onSearchResultClick: (CampusMapSearchResult) -> Unit,
     onActiveSelectionClear: () -> Unit,
     cameraPositionState: CameraPositionState,
     hasLocationPermission: Boolean,
@@ -256,7 +257,9 @@ private fun CampusMapScreen(
         NaverMapSection(
             campusPlaces = uiState.visiblePlaces,
             focusedPlace = uiState.mapFocusedPlace,
-            selectedCategory = uiState.selectedCategory,
+            selectedCategories = uiState.selectedCategories,
+            isSearchResultVisible = uiState.showSearchResultSheet &&
+                !uiState.submittedSearchQuery.isNullOrBlank(),
             cameraPositionState = cameraPositionState,
             onMapPinClick = onMapPinClick,
             onMapClick = onMapClick,
@@ -295,7 +298,7 @@ private fun CampusMapScreen(
 
         CampusMapTopControls(
             categories = uiState.categories,
-            selectedCategory = uiState.selectedCategory,
+            selectedCategories = uiState.selectedCategories,
             activeSearchText = uiState.activeSearchText,
             showCategoryChips = uiState.showCategoryChips,
             onSearchClick = onSearchClick,
@@ -325,7 +328,7 @@ private fun CampusMapScreen(
 @Composable
 private fun CampusMapTopControls(
     categories: ImmutableList<CampusMapCategoryItem>,
-    selectedCategory: CampusMapCategory?,
+    selectedCategories: ImmutableList<CampusMapCategory>,
     activeSearchText: String?,
     showCategoryChips: Boolean,
     onSearchClick: () -> Unit,
@@ -369,7 +372,7 @@ private fun CampusMapTopControls(
 
             CampusMapCategoryChips(
                 categories = categories,
-                selectedCategory = selectedCategory,
+                selectedCategories = selectedCategories,
                 onCategoryClick = onCategoryClick,
                 modifier = Modifier.fillMaxWidth(),
             )
@@ -500,7 +503,7 @@ private fun SelectedSearchClearIcon(
 @Composable
 private fun CampusMapCategoryChips(
     categories: ImmutableList<CampusMapCategoryItem>,
-    selectedCategory: CampusMapCategory?,
+    selectedCategories: ImmutableList<CampusMapCategory>,
     onCategoryClick: (CampusMapCategory) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -513,7 +516,7 @@ private fun CampusMapCategoryChips(
         categories.forEach { item ->
             CampusMapCategoryChip(
                 item = item,
-                isSelected = selectedCategory == item.category,
+                isSelected = item.category in selectedCategories,
                 onClick = { onCategoryClick(item.category) },
             )
         }
@@ -582,7 +585,7 @@ private fun CampusMapCategoryChip(
 @Composable
 private fun CampusMapSearchResultSheetEffect(
     uiState: CampusMapUiState,
-    onResultClick: (Place) -> Unit,
+    onResultClick: (CampusMapSearchResult) -> Unit,
     onDismiss: () -> Unit,
     onContentChange: (CampusMapSearchResultSheetContent?) -> Unit,
 ) {
@@ -596,7 +599,7 @@ private fun CampusMapSearchResultSheetEffect(
             if (uiState.showSearchResultSheet) {
                 CampusMapSearchResultSheetContent(
                     results = results,
-                    onResultClick = { result -> currentOnResultClick(result.place) },
+                    onResultClick = currentOnResultClick,
                     onDismiss = { currentOnDismiss() },
                 )
             } else {

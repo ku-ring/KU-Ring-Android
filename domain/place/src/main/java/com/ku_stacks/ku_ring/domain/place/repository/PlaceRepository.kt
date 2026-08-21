@@ -3,6 +3,7 @@ package com.ku_stacks.ku_ring.domain.place.repository
 import com.ku_stacks.ku_ring.domain.Place
 import com.ku_stacks.ku_ring.domain.PlaceCategory
 import com.ku_stacks.ku_ring.domain.PlaceFacility
+import com.ku_stacks.ku_ring.domain.PlaceSearchResult
 
 interface PlaceRepository {
     /**
@@ -14,12 +15,12 @@ interface PlaceRepository {
     suspend fun getPlaceBuildingDetail(buildingId: Long): Result<Place>
 
     /**
-     * 키워드로 캠퍼스맵 건물을 검색한다.
+     * 키워드로 캠퍼스맵 건물과 시설을 검색한다.
      *
      * @param keyword 검색 키워드
-     * @return 정상 처리 시 검색된 건물 목록을 [Result]에 담아 반환. 실패 시 [Result.Failure]
+     * @return 정상 처리 시 검색된 건물과 시설을 [Result]에 담아 반환. 실패 시 [Result.Failure]
      */
-    suspend fun searchPlaceBuildings(keyword: String): Result<List<Place>>
+    suspend fun searchPlaces(keyword: String): Result<PlaceSearchResult>
 
     /**
      * 캠퍼스맵 전체 건물 목록을 가져온다.

@@ -235,7 +235,7 @@ internal fun SearchResultListItem(
     title: String,
     category: String,
     location: String,
-    operationHours: String,
+    operationHours: String?,
     imageUrl: String?,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -296,19 +296,21 @@ internal fun SearchResultListItem(
                     modifier = Modifier.weight(1f, fill = false),
                 )
 
-                Box(
-                    modifier = Modifier
-                        .size(width = 1.dp, height = 12.dp)
-                        .background(KuringTheme.colors.borderline),
-                )
+                operationHours?.let { hours ->
+                    Box(
+                        modifier = Modifier
+                            .size(width = 1.dp, height = 12.dp)
+                            .background(KuringTheme.colors.borderline),
+                    )
 
-                Text(
-                    text = operationHours,
-                    style = KuringTheme.typography.caption1,
-                    color = KuringTheme.colors.textBody,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                )
+                    Text(
+                        text = hours,
+                        style = KuringTheme.typography.caption1,
+                        color = KuringTheme.colors.textBody,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                }
             }
         }
     }
@@ -394,7 +396,7 @@ private fun CampusMapSearchResultBottomSheetPreview(
             CampusMapSearchResultBottomSheet(
                 results = buildCampusMapSearchResults(
                     places = places,
-                    selectedCategory = null,
+                    selectedCategories = emptyList(),
                 ).toImmutableList(),
                 onResultClick = {},
                 onDismiss = {},

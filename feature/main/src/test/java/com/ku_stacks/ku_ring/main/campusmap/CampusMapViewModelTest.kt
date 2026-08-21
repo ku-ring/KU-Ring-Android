@@ -4,8 +4,10 @@ import com.ku_stacks.ku_ring.domain.Place
 import com.ku_stacks.ku_ring.domain.PlaceBuilding
 import com.ku_stacks.ku_ring.domain.PlaceCategory
 import com.ku_stacks.ku_ring.domain.PlaceFacility
+import com.ku_stacks.ku_ring.domain.PlaceSearchResult
 import com.ku_stacks.ku_ring.domain.place.repository.PlaceRepository
 import com.ku_stacks.ku_ring.main.campusmap.type.CampusMapCategory
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.NonCancellable
@@ -277,13 +279,79 @@ class CampusMapViewModelTest {
         advanceUntilIdle()
 
         with(viewModel.uiState.value) {
-            assertEquals(CampusMapCategory.CAFE, selectedCategory)
+            assertEquals(listOf(CampusMapCategory.CAFE), selectedCategories)
             assertFalse(isCategoryLoading)
             assertEquals(1, categoryPlaces.size)
             assertEquals(libraryBuilding.id.toString(), categoryPlaces.single().id)
             assertEquals(listOf(cafe), categoryPlaces.single().facilities)
         }
         assertEquals(listOf(listOf("cafe")), repository.campusPlaceCategories)
+    }
+
+    @Test
+    fun `category selections accumulate and each toggle fetches the complete selection`() = runTest {
+        val cafe = facility(
+            id = 101,
+            name = "카페 쿠",
+            category = "cafe",
+            building = libraryBuilding,
+        )
+        val printer = facility(
+            id = 102,
+            name = "무인 프린터",
+            category = "printer",
+            building = libraryBuilding,
+        )
+        val repository = FakePlaceRepository().apply {
+            campusPlacesResponse = { categories ->
+                Result.success(
+                    listOfNotNull(
+                        cafe.takeIf { "cafe" in categories },
+                        printer.takeIf { "printer" in categories },
+                    ),
+                )
+            }
+        }
+        val viewModel = CampusMapViewModel(repository)
+        advanceUntilIdle()
+
+        viewModel.updateSelectedCategory(CampusMapCategory.CAFE)
+        advanceUntilIdle()
+        viewModel.updateSelectedCategory(CampusMapCategory.PRINT)
+        advanceUntilIdle()
+
+        with(viewModel.uiState.value) {
+            assertEquals(
+                listOf(CampusMapCategory.CAFE, CampusMapCategory.PRINT),
+                selectedCategories,
+            )
+            assertEquals(listOf(cafe, printer), categoryPlaces.single().facilities)
+        }
+
+        viewModel.updateSelectedCategory(CampusMapCategory.CAFE)
+        advanceUntilIdle()
+
+        with(viewModel.uiState.value) {
+            assertEquals(listOf(CampusMapCategory.PRINT), selectedCategories)
+            assertEquals(listOf(printer), categoryPlaces.single().facilities)
+        }
+
+        viewModel.updateSelectedCategory(CampusMapCategory.PRINT)
+        runCurrent()
+
+        with(viewModel.uiState.value) {
+            assertTrue(selectedCategories.isEmpty())
+            assertTrue(categoryPlaces.isEmpty())
+            assertFalse(isCategoryLoading)
+        }
+        assertEquals(
+            listOf(
+                listOf("cafe"),
+                listOf("cafe", "printer"),
+                listOf("printer"),
+            ),
+            repository.campusPlaceCategories,
+        )
     }
 
     @Test
@@ -312,7 +380,7 @@ class CampusMapViewModelTest {
         viewModel.submitSearch()
 
         with(viewModel.uiState.value) {
-            assertNull(selectedCategory)
+            assertTrue(selectedCategories.isEmpty())
             assertFalse(isCategoryLoading)
             assertTrue(categoryPlaces.isEmpty())
         }
@@ -320,7 +388,7 @@ class CampusMapViewModelTest {
         advanceUntilIdle()
 
         with(viewModel.uiState.value) {
-            assertNull(selectedCategory)
+            assertTrue(selectedCategories.isEmpty())
             assertFalse(isCategoryLoading)
             assertTrue(categoryPlaces.isEmpty())
             assertEquals("도서관", submittedSearchQuery)
@@ -353,7 +421,7 @@ class CampusMapViewModelTest {
         viewModel.selectSearchPlace(librarySummary)
 
         with(viewModel.uiState.value) {
-            assertNull(selectedCategory)
+            assertTrue(selectedCategories.isEmpty())
             assertFalse(isCategoryLoading)
             assertTrue(categoryPlaces.isEmpty())
         }
@@ -361,7 +429,7 @@ class CampusMapViewModelTest {
         advanceUntilIdle()
 
         with(viewModel.uiState.value) {
-            assertNull(selectedCategory)
+            assertTrue(selectedCategories.isEmpty())
             assertFalse(isCategoryLoading)
             assertTrue(categoryPlaces.isEmpty())
             assertEquals(libraryDetail, focusedPlace)
@@ -394,6 +462,37 @@ class CampusMapViewModelTest {
 
         assertEquals(libraryDetail, viewModel.uiState.value.focusedPlace)
         assertEquals(listOf(10L), repository.detailBuildingIds)
+    }
+
+    @Test
+    fun `facility search result opens its parent building detail`() = runTest {
+        val facility = facility(
+            id = 105L,
+            name = "상허기념도서관 복사실",
+            category = "printer",
+            building = libraryBuilding,
+        )
+        val repository = FakePlaceRepository().apply {
+            searchCampusPlacesResponse = { listOf(facility) }
+            detailResponse = { Result.success(libraryDetail) }
+        }
+        val viewModel = CampusMapViewModel(repository)
+        advanceUntilIdle()
+
+        viewModel.updateSearchInput("프린터")
+        advanceUntilIdle()
+
+        val result = viewModel.uiState.value.liveSearchResults.single()
+        assertEquals("facility:105", result.id)
+        assertEquals("10", result.place.id)
+
+        viewModel.selectSearchResult(result)
+        advanceUntilIdle()
+
+        assertEquals(listOf(10L), repository.detailBuildingIds)
+        assertEquals(libraryDetail, viewModel.uiState.value.focusedPlace)
+        assertEquals("상허기념도서관 복사실", viewModel.uiState.value.activeSearchText)
+        assertEquals("facility:105", viewModel.uiState.value.recentSearches.first().id)
     }
 
     @Test
@@ -431,9 +530,11 @@ class CampusMapViewModelTest {
 
         with(viewModel.uiState.value) {
             assertEquals(listOf(librarySummary), liveSearchPlaces)
-            assertEquals(CampusMapCategory.CAFE, failedCategory)
+            assertEquals(listOf(CampusMapCategory.CAFE), failedCategories)
             assertEquals(
-                CampusMapFailedRequest.Category(CampusMapCategory.CAFE),
+                CampusMapFailedRequest.Category(
+                    persistentListOf(CampusMapCategory.CAFE),
+                ),
                 mapFailedRequest,
             )
         }
@@ -502,7 +603,11 @@ class CampusMapViewModelTest {
         advanceUntilIdle()
 
         viewModel.retryFailedRequest(CampusMapFailedRequest.InitialData)
-        viewModel.retryFailedRequest(CampusMapFailedRequest.Category(CampusMapCategory.CAFE))
+        viewModel.retryFailedRequest(
+            CampusMapFailedRequest.Category(
+                persistentListOf(CampusMapCategory.CAFE),
+            ),
+        )
         viewModel.retryFailedRequest(
             CampusMapFailedRequest.Search("도서관", isSubmitted = true),
         )
@@ -678,6 +783,9 @@ class CampusMapViewModelTest {
         var searchResponse: suspend (String) -> Result<List<Place>> = {
             Result.success(emptyList())
         }
+        var searchCampusPlacesResponse: suspend (String) -> List<PlaceFacility> = {
+            emptyList()
+        }
         var campusPlacesResponse: suspend (Array<String>) -> Result<List<PlaceFacility>> = {
             Result.success(emptyList())
         }
@@ -698,9 +806,14 @@ class CampusMapViewModelTest {
             return detailResponse(buildingId)
         }
 
-        override suspend fun searchPlaceBuildings(keyword: String): Result<List<Place>> {
+        override suspend fun searchPlaces(keyword: String): Result<PlaceSearchResult> {
             searchQueries += keyword
-            return searchResponse(keyword)
+            return searchResponse(keyword).map { buildings ->
+                PlaceSearchResult(
+                    buildings = buildings,
+                    campusPlaces = searchCampusPlacesResponse(keyword),
+                )
+            }
         }
 
         override suspend fun getPlaceBuildings(): Result<List<Place>> {

@@ -22,4 +22,41 @@ internal fun List<PlaceFacility>.groupByCampusBuilding(): List<Place> =
             )
         }
 
+internal fun mergeCampusMapSearchPlaces(
+    buildings: List<Place>,
+    campusPlaces: List<PlaceFacility>,
+    referenceBuildings: List<Place> = emptyList(),
+): List<Place> {
+    val referenceBuildingsById = referenceBuildings.associateBy(Place::id)
+    val facilityPlacesByBuildingId = campusPlaces
+        .groupByCampusBuilding()
+        .associateBy(Place::id)
+    val buildingIds = buildings.mapTo(mutableSetOf(), Place::id)
+
+    return buildList {
+        buildings.forEach { building ->
+            val facilityPlace = facilityPlacesByBuildingId[building.id]
+            val referenceBuilding = referenceBuildingsById[building.id]
+            add(
+                building.copy(
+                    priority = referenceBuilding?.priority ?: building.priority,
+                    operationHours = building.operationHours
+                        ?: referenceBuilding?.operationHours,
+                    facilities = facilityPlace?.facilities ?: building.facilities,
+                ),
+            )
+        }
+        facilityPlacesByBuildingId.values
+            .filterNot { place -> place.id in buildingIds }
+            .forEach { facilityPlace ->
+                val referenceBuilding = referenceBuildingsById[facilityPlace.id]
+                add(
+                    referenceBuilding?.copy(
+                        facilities = facilityPlace.facilities,
+                    ) ?: facilityPlace,
+                )
+            }
+    }
+}
+
 private const val BUILDING_CATEGORY_LABEL = "건물"

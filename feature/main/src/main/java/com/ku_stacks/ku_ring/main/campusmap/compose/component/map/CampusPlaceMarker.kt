@@ -31,6 +31,7 @@ import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.compose.ExperimentalNaverMapApi
 import com.naver.maps.map.compose.MarkerComposable
 import com.naver.maps.map.compose.rememberUpdatedMarkerState
+import kotlinx.collections.immutable.ImmutableList
 
 private const val ZOOM_LEVEL_PRIORITY_HIGH = 0.0
 private const val ZOOM_LEVEL_PRIORITY_MID = 14.8
@@ -42,13 +43,16 @@ private const val FOCUSED_MARKER_Z_INDEX = 100
 internal fun CampusPlaceMarker(
     place: Place,
     isFocused: Boolean,
-    selectedCategory: CampusMapCategory?,
+    selectedCategories: ImmutableList<CampusMapCategory>,
+    isSearchResultVisible: Boolean,
     onClick: () -> Unit,
 ) {
     val position = LatLng(place.latitude, place.longitude)
     val markerState = rememberUpdatedMarkerState(position)
-    val shouldForceVisible = isFocused || selectedCategory != null
-    val iconRes = selectedCategory?.iconRes ?: R.drawable.ic_campus_map_icon_building
+    val shouldForceVisible =
+        isFocused || selectedCategories.isNotEmpty() || isSearchResultVisible
+    val iconRes = place.markerCategory(selectedCategories)?.iconRes
+        ?: R.drawable.ic_campus_map_icon_building
 
     val iconWidth = if (isFocused) 40.dp else 26.dp
     val iconHeight = if (isFocused) 48.dp else 26.dp
@@ -88,6 +92,14 @@ internal fun CampusPlaceMarker(
         )
     }
 }
+
+private fun Place.markerCategory(
+    selectedCategories: List<CampusMapCategory>,
+): CampusMapCategory? = selectedCategories.firstOrNull { category ->
+    facilities.any { facility ->
+        category.matches(facility.category) || category.matches(facility.categoryKor)
+    }
+} ?: selectedCategories.singleOrNull()
 
 @Composable
 private fun CampusMapMarkerIcon(
