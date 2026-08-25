@@ -18,7 +18,7 @@ class CampusMapCategoryTest {
         assertEquals(CampusMapCategory.POST_OFFICE, CampusMapCategory.fromApiName("POST_OFFICE"))
         assertEquals(CampusMapCategory.RESTROOM, CampusMapCategory.fromApiName("restroom"))
         assertEquals(CampusMapCategory.LIBRARY, CampusMapCategory.fromApiName("LIBRARY"))
-        assertNull(CampusMapCategory.fromApiName("cultural_facility"))
+        assertEquals(CampusMapCategory.CULTURAL_FACILITY, CampusMapCategory.fromApiName("cultural_facility"))
         assertNull(CampusMapCategory.fromApiName("future_category"))
     }
 
@@ -32,6 +32,10 @@ class CampusMapCategoryTest {
         assertTrue(CampusMapCategory.POST_OFFICE.matches("우편취급국"))
         assertTrue(CampusMapCategory.RESTROOM.matches("화장실"))
         assertTrue(CampusMapCategory.LIBRARY.matches("열람실"))
+        assertTrue(CampusMapCategory.PARKING.matches("주차장"))
+        assertTrue(CampusMapCategory.CULTURAL_FACILITY.matches("문화시설"))
+        assertTrue(CampusMapCategory.WELFARE_STORE.matches("복지매장"))
+        assertTrue(CampusMapCategory.GENERAL.matches("일반"))
     }
 
     @Test
@@ -59,6 +63,14 @@ class CampusMapCategoryTest {
     }
 
     @Test
+    fun `facility-only API categories use their dedicated icons`() {
+        assertEquals(R.drawable.ic_campus_map_icon_parking, CampusMapCategory.iconRes("parking"))
+        assertEquals(R.drawable.ic_campus_map_icon_culture, CampusMapCategory.iconRes("cultural_facility"))
+        assertEquals(R.drawable.ic_campus_map_icon_welfare, CampusMapCategory.iconRes("welfare_store"))
+        assertEquals(R.drawable.ic_campus_map_icon_general, CampusMapCategory.iconRes("general"))
+    }
+
+    @Test
     fun `cinema icon is used only for KU Cinema among cultural facilities`() {
         assertEquals(
             R.drawable.ic_campus_map_icon_cinema,
@@ -68,7 +80,7 @@ class CampusMapCategoryTest {
             ),
         )
         assertEquals(
-            R.drawable.ic_campus_map_icon_building,
+            R.drawable.ic_campus_map_icon_culture,
             CampusMapCategory.iconRes(
                 category = "cultural_facility",
                 facilityName = "학생회관 문화시설",

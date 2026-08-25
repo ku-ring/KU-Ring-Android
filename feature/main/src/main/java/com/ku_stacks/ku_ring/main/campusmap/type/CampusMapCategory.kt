@@ -75,6 +75,30 @@ internal enum class CampusMapCategory(
         "도서관",
         setOf("도서관", "열람실"),
         R.drawable.ic_campus_map_icon_library,
+    ),
+    PARKING(
+        "parking",
+        "주차장",
+        setOf("주차장"),
+        R.drawable.ic_campus_map_icon_parking,
+    ),
+    CULTURAL_FACILITY(
+        "cultural_facility",
+        "문화시설",
+        setOf("문화시설"),
+        R.drawable.ic_campus_map_icon_culture,
+    ),
+    WELFARE_STORE(
+        "welfare_store",
+        "복지매장",
+        setOf("복지매장"),
+        R.drawable.ic_campus_map_icon_welfare,
+    ),
+    GENERAL(
+        "general",
+        "일반",
+        setOf("일반"),
+        R.drawable.ic_campus_map_icon_general,
     );
 
     fun matches(category: String): Boolean =
@@ -90,7 +114,7 @@ internal enum class CampusMapCategory(
             category: String,
             facilityName: String? = null,
         ): Int {
-            if (category.isCulturalFacility() && facilityName.isKuCinema()) {
+            if (CULTURAL_FACILITY.matches(category) && facilityName.isKuCinema()) {
                 return R.drawable.ic_campus_map_icon_cinema
             }
 
@@ -99,9 +123,6 @@ internal enum class CampusMapCategory(
                 ?.iconRes
                 ?: R.drawable.ic_campus_map_icon_building
         }
-
-        private fun String.isCulturalFacility(): Boolean =
-            equals("cultural_facility", ignoreCase = true) || this == "문화시설"
 
         private fun String?.isKuCinema(): Boolean =
             this?.contains("KU시네마", ignoreCase = true) == true ||
