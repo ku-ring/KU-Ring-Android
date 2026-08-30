@@ -11,8 +11,8 @@ compileSdk = "36"
 targetSdk = "35"
 minSdk = "24"
 # Update appVersion, versionCode both
-appVersion = "2.5.0"
-versionCode = "20500"
+appVersion = "2.6.0"
+versionCode = "20600"
 
 # app-level dependency
 # Kotlin
