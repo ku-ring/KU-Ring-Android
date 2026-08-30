@@ -91,10 +91,10 @@ class UserRepositoryImpl @Inject constructor(
             token = pref.fcmToken,
             request = AuthorizeUserRequest(email, password),
         )
-    }.map {
-        with(it) {
-            if (isSuccess) pref.accessToken = data.accessToken
-            else Timber.e(message)
+    }.map { response ->
+        with(response) {
+            if (isSuccessAndDataExists) data?.let { pref.accessToken = it.accessToken }
+            else Timber.e(resultMsg)
         }
     }
 

@@ -31,8 +31,10 @@ class AcademicEventServiceTest : ApiAbstract<AcademicEventService>() {
         val response = service.fetchAcademicEvents()
         mockWebServer.takeRequest()
 
+        val data = response.data ?: throw IllegalStateException("Data should not be null")
+
         // then
-        with(response.data.first()) {
+        with(data.first()) {
             assertEquals(2417, id)
             assertEquals("EC66FB8098", eventUid)
             assertEquals("ETC", category)

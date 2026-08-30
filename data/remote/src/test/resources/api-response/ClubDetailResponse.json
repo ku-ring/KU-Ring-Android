@@ -1,0 +1,29 @@
+{
+  "code": 200,
+  "message": "동아리 상세 조회에 성공하였습니다",
+  "data": {
+    "id": 3,
+    "name": "우주탐구회",
+    "summary": "우주의 낭만을 탐구하는 교내 유일 천체 관측 동아리",
+    "category": "academic",
+    "division": "central",
+    "subscriberCount": 0,
+    "isSubscribed": false,
+    "instagramUrl": "https://www.instagram.com/konkuk.taurus/",
+    "youtubeUrl": null,
+    "etcUrl": null,
+    "description": "우주탐구회는 별과 달, 그리고 우주의 낭만을 탐구하는 교내 유일 천문 중앙동아리입니다.",
+    "qualifications": "별을 좋아하는 누구나, 우주에 진심인 누구나",
+    "recruitmentStatus": "closed",
+    "recruitStartAt": "2026-02-16T00:00:00",
+    "recruitEndAt": "2026-03-08T23:59:00",
+    "applyUrl": null,
+    "posterImageUrl": "https://example.com/clubs/3_poster.png",
+    "location": {
+      "building": "제1학생회관",
+      "room": "307호",
+      "lon": null,
+      "lat": null
+    }
+  }
+}

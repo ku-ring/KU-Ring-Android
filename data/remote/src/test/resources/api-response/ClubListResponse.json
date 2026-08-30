@@ -1,0 +1,44 @@
+{
+  "code": 200,
+  "message": "동아리 목록 조회에 성공하였습니다",
+  "data": {
+    "clubs": [
+      {
+        "id": 1,
+        "name": "동굴탐사",
+        "summary": "",
+        "iconImageUrl": null,
+        "category": "academic",
+        "division": "central",
+        "isSubscribed": false,
+        "subscriberCount": 0,
+        "recruitStartDate": null,
+        "recruitEndDate": null
+      },
+      {
+        "id": 2,
+        "name": "멋쟁이사자처럼",
+        "summary": "",
+        "iconImageUrl": null,
+        "category": "academic",
+        "division": "central",
+        "isSubscribed": false,
+        "subscriberCount": 0,
+        "recruitStartDate": null,
+        "recruitEndDate": null
+      },
+      {
+        "id": 3,
+        "name": "우주탐구회",
+        "summary": "우주의 낭만을 탐구하는 교내 유일 천체 관측 동아리",
+        "iconImageUrl": "https://example.com/clubs/3.jpeg",
+        "category": "academic",
+        "division": "central",
+        "isSubscribed": false,
+        "subscriberCount": 0,
+        "recruitStartDate": "2026-02-16T00:00:00",
+        "recruitEndDate": "2026-03-08T23:59:00"
+      }
+    ]
+  }
+}

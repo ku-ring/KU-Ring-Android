@@ -1,14 +1,16 @@
 package com.ku_stacks.ku_ring.remote.library.response
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class LibrarySeatResponse(
-    @SerializedName("success")
+    @SerialName("success")
     val success: Boolean,
-    @SerializedName("code")
+    @SerialName("code")
     val code: String,
-    @SerializedName("message")
+    @SerialName("message")
     val message: String,
-    @SerializedName("data")
+    @SerialName("data")
     val data: LibraryRoomListResponse,
 )

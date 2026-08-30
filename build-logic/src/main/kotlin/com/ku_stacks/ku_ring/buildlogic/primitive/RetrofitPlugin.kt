@@ -13,7 +13,6 @@ class RetrofitPlugin: Plugin<Project> {
         dependencies {
             implementationPlatform(libs.library("retrofit-bom"))
             implementation(libs.library("retrofit"))
-            implementation(libs.library("retrofit-converter-gson"))
             implementation(libs.library("retrofit-converter-kotlinx-serialization"))
         }
     }

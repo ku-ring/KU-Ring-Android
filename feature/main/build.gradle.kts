@@ -49,4 +49,6 @@ dependencies {
     implementation(libs.shimmer)
     implementation(libs.androidx.swiperefreshlayout)
     implementation(libs.bundles.naver.map)
+
+    testImplementation(libs.kotlinx.coroutines.test)
 }

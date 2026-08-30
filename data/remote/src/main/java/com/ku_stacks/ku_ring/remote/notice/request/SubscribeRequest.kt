@@ -1,8 +1,10 @@
 package com.ku_stacks.ku_ring.remote.notice.request
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class SubscribeRequest(
-    @SerializedName(value = "categories")
+    @SerialName(value = "categories")
     val categories: List<String>
 )

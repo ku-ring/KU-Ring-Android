@@ -1,6 +1,5 @@
 package com.ku_stacks.ku_ring.remote.util
 
-import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
@@ -11,11 +10,9 @@ import kotlinx.serialization.json.JsonNames
 @OptIn(ExperimentalSerializationApi::class)
 @Serializable
 data class DefaultResponse<T>(
-    @SerializedName("code")
     @SerialName("code")
     @JsonNames("resultCode")
     val resultCode: Int,
-    @SerializedName("message")
     @SerialName("message")
     @JsonNames("resultMsg")
     val resultMsg: String,

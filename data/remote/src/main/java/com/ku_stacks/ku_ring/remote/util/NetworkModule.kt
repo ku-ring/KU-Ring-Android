@@ -16,18 +16,23 @@ import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Converter
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
+    private val kotlinxJson = Json { ignoreUnknownKeys = true }
+
     @Provides
     @Singleton
-    @Named("Default")
+    fun provideConverterFactory(): Converter.Factory = kotlinxJson
+        .asConverterFactory("application/json; charset=UTF8".toMediaType())
+
+    @Provides
+    @Singleton
     fun provideOkHttpClient(@ApplicationContext context: Context): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().apply {
@@ -43,36 +48,29 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    @Named("Default")
-    fun provideRetrofit(@Named("Default") okHttpClient: OkHttpClient): Retrofit {
+    @Default
+    fun provideKotlinxSerializationRetrofit(
+        okHttpClient: OkHttpClient,
+        converterFactory: Converter.Factory,
+    ): Retrofit {
         return Retrofit.Builder()
             .client(okHttpClient)
             .baseUrl(BuildConfig.API_BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-    }
-
-    private val kotlinxJson = Json { ignoreUnknownKeys = true }
-
-    @Provides
-    @Singleton
-    @Named("KotlinxSerialization")
-    fun provideKotlinxSerializationRetrofit(@Named("Default") okHttpClient: OkHttpClient): Retrofit {
-        return Retrofit.Builder()
-            .client(okHttpClient)
-            .baseUrl(BuildConfig.API_BASE_URL)
-            .addConverterFactory(kotlinxJson.asConverterFactory("application/json; charset=UTF8".toMediaType()))
+            .addConverterFactory(converterFactory)
             .build()
     }
 
     @Provides
     @Singleton
-    @Named("KuringSpace")
-    fun provideKuringSpaceRetrofit(@Named("Default") okHttpClient: OkHttpClient): Retrofit {
+    @KuringSpace
+    fun provideKuringSpaceRetrofit(
+        okHttpClient: OkHttpClient,
+        converterFactory: Converter.Factory,
+    ): Retrofit {
         return Retrofit.Builder()
             .client(okHttpClient)
             .baseUrl("https://raw.githubusercontent.com/ku-ring/space/main/")
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(converterFactory)
             .build()
     }
 
@@ -90,12 +88,15 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    @Named("Library")
-    fun provideLibraryRetrofit(@Named("Default") okHttpClient: OkHttpClient): Retrofit {
+    @Library
+    fun provideLibraryRetrofit(
+        okHttpClient: OkHttpClient,
+        converterFactory: Converter.Factory,
+    ): Retrofit {
         return Retrofit.Builder()
             .client(okHttpClient)
             .baseUrl("https://library.konkuk.ac.kr/pyxis-api/")
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(converterFactory)
             .build()
     }
 }

@@ -1,12 +1,12 @@
 package com.ku_stacks.ku_ring.academicevent
 
-import com.ku_stacks.ku_ring.remote.academicevent.response.AcademicEventListResponse
 import com.ku_stacks.ku_ring.remote.academicevent.response.AcademicEventResponse
+import com.ku_stacks.ku_ring.remote.util.DefaultResponse
 
 object AcademicEventTestUtil {
-    fun mockAcademicEventListResponse() = AcademicEventListResponse(
-        code = 200,
-        message = "조회되었습니다.",
+    fun mockAcademicEventListResponse() = DefaultResponse(
+        resultCode = 200,
+        resultMsg = "조회되었습니다.",
         data = listOf(
             AcademicEventResponse(
                 id = 2417,

@@ -75,7 +75,7 @@ class NoticeRepositoryTest {
         val mockSubscribeList = NoticeTestUtil.fakeSubscribeListResponse()
 
         Mockito.`when`(client.fetchSubscribe(mockToken)).thenReturn(mockSubscribeList)
-        val expected = mockSubscribeList.categoryList.map { it.koreanName }
+        val expected = mockSubscribeList.data?.map { it.koreanName }
 
         // when + then
         val result = repository.fetchSubscriptionFromRemote(mockToken)

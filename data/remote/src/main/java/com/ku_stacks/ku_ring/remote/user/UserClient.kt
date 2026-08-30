@@ -15,19 +15,19 @@ class UserClient @Inject constructor(
 ) {
     suspend fun setAcademicEventNotification(
         request: AcademicEventNotificationRequest,
-    ): DefaultResponse<Nothing> = userService.patchAcademicEventNotification(request)
+    ): DefaultResponse<Unit> = userService.patchAcademicEventNotification(request)
 
     suspend fun sendFeedback(
         token: String,
         feedbackRequest: FeedbackRequest,
-    ): DefaultResponse<Nothing> {
+    ): DefaultResponse<Unit> {
         return userService.sendFeedback(
             token = token,
             feedbackRequest = feedbackRequest
         )
     }
 
-    suspend fun registerUser(token: String): DefaultResponse<Nothing> =
+    suspend fun registerUser(token: String): DefaultResponse<Unit> =
         userService.registerUser(RegisterUserRequest(token))
 
     suspend fun getKuringBotQueryCount(token: String): Int {
@@ -39,25 +39,28 @@ class UserClient @Inject constructor(
     suspend fun getUserData(): UserDataResponse =
         userService.getUserData()
 
-    suspend fun signUp(token: String, request: AuthorizeUserRequest): DefaultResponse<Nothing> =
+    suspend fun signUp(token: String, request: AuthorizeUserRequest): DefaultResponse<Unit> =
         userService.signUp(
             token = token,
             request = request
         )
 
-    suspend fun signIn(token: String, request: AuthorizeUserRequest): SignInResponse =
+    suspend fun signIn(
+        token: String,
+        request: AuthorizeUserRequest
+    ): DefaultResponse<SignInResponse> =
         userService.signIn(
             token = token,
             request = request
         )
 
-    suspend fun logout(): DefaultResponse<Nothing> =
+    suspend fun logout(): DefaultResponse<Unit> =
         userService.logout()
 
-    suspend fun patchPassword(request: AuthorizeUserRequest): DefaultResponse<Nothing> =
+    suspend fun patchPassword(request: AuthorizeUserRequest): DefaultResponse<Unit> =
         userService.patchPassword(
             request = request,
         )
 
-    suspend fun withdrawUser(): DefaultResponse<Nothing> = userService.withdraw()
+    suspend fun withdrawUser(): DefaultResponse<Unit> = userService.withdraw()
 }

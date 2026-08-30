@@ -1,10 +1,12 @@
 package com.ku_stacks.ku_ring.remote.library.response
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class LibraryRoomListResponse(
-    @SerializedName(value = "totalCount")
+    @SerialName(value = "totalCount")
     val resultCount: Int,
-    @SerializedName(value = "list")
+    @SerialName(value = "list")
     val libraryRooms: List<LibraryRoomResponse>,
 )

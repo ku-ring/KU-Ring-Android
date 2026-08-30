@@ -10,5 +10,5 @@ class ReportClient @Inject constructor(
     suspend fun reportComment(
         targetId: Int,
         comment: String,
-    ): DefaultResponse<Nothing> = reportService.report(ReportRequest.comment(targetId, comment))
+    ): DefaultResponse<Unit> = reportService.report(ReportRequest.comment(targetId, comment))
 }

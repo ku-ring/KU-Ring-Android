@@ -19,16 +19,16 @@ interface UserService {
     @PATCH("v2/users/notifications/academic-events")
     suspend fun patchAcademicEventNotification(
         @Body request: AcademicEventNotificationRequest,
-    ): DefaultResponse<Nothing>
+    ): DefaultResponse<Unit>
 
     @POST("v2/users/feedbacks")
     suspend fun sendFeedback(
         @Header("User-Token") token: String,
         @Body feedbackRequest: FeedbackRequest,
-    ): DefaultResponse<Nothing>
+    ): DefaultResponse<Unit>
 
     @POST("v2/users")
-    suspend fun registerUser(@Body registerUserRequest: RegisterUserRequest): DefaultResponse<Nothing>
+    suspend fun registerUser(@Body registerUserRequest: RegisterUserRequest): DefaultResponse<Unit>
 
     @GET("v2/users/ask-counts")
     suspend fun getKuringBotQueryCount(@Header("User-Token") token: String): KuringBotQueryCountResponse
@@ -40,22 +40,22 @@ interface UserService {
     suspend fun signUp(
         @Header("User-Token") token: String,
         @Body request: AuthorizeUserRequest,
-    ): DefaultResponse<Nothing>
+    ): DefaultResponse<Unit>
 
     @POST("v2/users/login")
     suspend fun signIn(
         @Header("User-Token") token: String,
         @Body request: AuthorizeUserRequest,
-    ): SignInResponse
+    ): DefaultResponse<SignInResponse>
 
     @POST("v2/users/logout")
-    suspend fun logout(): DefaultResponse<Nothing>
+    suspend fun logout(): DefaultResponse<Unit>
 
     @PATCH("v2/users/password")
     suspend fun patchPassword(
         @Body request: AuthorizeUserRequest,
-    ): DefaultResponse<Nothing>
+    ): DefaultResponse<Unit>
 
     @DELETE("v2/users/withdraw")
-    suspend fun withdraw(): DefaultResponse<Nothing>
+    suspend fun withdraw(): DefaultResponse<Unit>
 }

@@ -33,15 +33,17 @@ class NoticeServiceTest : ApiAbstract<NoticeService>() {
         val response = service.fetchNoticeList("bch", 0, 20)
         mockWebServer.takeRequest()
 
+        val noticeResponse = response.data ?: throw IllegalStateException("Data should not be null")
+
         // then
-        assertEquals(3, response.noticeResponse.size)
+        assertEquals(3, noticeResponse.size)
 
         assertEquals(true, response.isSuccess)
-        assertEquals(12345, response.noticeResponse[0].id)
-        assertEquals("5b45b56", response.noticeResponse[0].articleId)
-        assertEquals("student", response.noticeResponse[0].category)
-        assertEquals("20220105", response.noticeResponse[0].postedDate)
-        assertEquals("subject_1", response.noticeResponse[0].subject)
+        assertEquals(12345, noticeResponse[0].id)
+        assertEquals("5b45b56", noticeResponse[0].articleId)
+        assertEquals("bachelor", noticeResponse[0].category)
+        assertEquals("2022-01-05", noticeResponse[0].postedDate)
+        assertEquals("subject_1", noticeResponse[0].subject)
     }
 
     @Test
@@ -54,12 +56,14 @@ class NoticeServiceTest : ApiAbstract<NoticeService>() {
         val response = service.fetchSubscribeList(mockToken)
         mockWebServer.takeRequest()
 
+        val categoryList = response.data ?: throw IllegalStateException("Data should not be null")
+
         // then
         assertEquals(true, response.isSuccess)
-        assertEquals(2, response.categoryList.size)
-        assertEquals("student", response.categoryList[0].name)
-        assertEquals("stu", response.categoryList[0].shortName)
-        assertEquals("학생", response.categoryList[0].koreanName)
+        assertEquals(2, categoryList.size)
+        assertEquals("student", categoryList[0].name)
+        assertEquals("stu", categoryList[0].shortName)
+        assertEquals("학생", categoryList[0].koreanName)
     }
 
     @Test
@@ -81,6 +85,32 @@ class NoticeServiceTest : ApiAbstract<NoticeService>() {
         assertEquals(null, response.data)
     }
 
+    @Test
+    fun `fetchNotices Test`() = runTest {
+        // given
+        enqueueResponse("/SearchNoticeResponse.json")
+
+        // when
+        val response = service.fetchNotices(content = "수강신청")
+        mockWebServer.takeRequest()
+
+        val noticeList =
+            response.data?.noticeList ?: throw IllegalStateException("Data should not be null")
+
+        // then
+        assertEquals(true, response.isSuccess)
+        assertEquals(2, noticeList.size)
+
+        val notice = noticeList[0]
+        assertEquals(134016, notice.id)
+        assertEquals("1171245", notice.articleId)
+        assertEquals("2026-04-01", notice.postedDate)
+        assertEquals("department", notice.category)
+        assertEquals("https://econ.konkuk.ac.kr/bbs/econ/423/1171245/artclView.do", notice.baseUrl)
+        assertEquals(false, notice.isImportant)
+        assertEquals(0, notice.commentCount)
+    }
+
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `fetchDepartmentNoticeList Test`() = runTest {
@@ -89,7 +119,7 @@ class NoticeServiceTest : ApiAbstract<NoticeService>() {
 
         // when
         val mockResponse = service.fetchDepartmentNoticeList(
-            type = "dept",
+            type = "dep",
             shortName = "cse",
             page = 0,
             size = 20,
@@ -97,14 +127,18 @@ class NoticeServiceTest : ApiAbstract<NoticeService>() {
         )
         mockWebServer.takeRequest()
 
-        assertEquals(200, mockResponse.code)
-        assertEquals(20, mockResponse.data.size)
+        val noticeList = mockResponse.data ?: throw IllegalStateException("Data should not be null")
 
-        val notice = mockResponse.data[0]
+        // then
+
+        assertEquals(200, mockResponse.resultCode)
+        assertEquals(20, noticeList.size)
+
+        val notice = noticeList[0]
         assertEquals("182677", notice.articleId)
         assertEquals("2023-05-02", notice.postedDate)
         assertEquals(
-            "http://cse.konkuk.ac.kr/noticeView.do?siteId=CSE&boardSeq=882&menuSeq=6097&seq=182677",
+            "https://cse.konkuk.ac.kr/bbs/cse/775/182677/artclView.do",
             notice.url
         )
         assertEquals("2023학년도 진로총조사 설문 요청", notice.subject)

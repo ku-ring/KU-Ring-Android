@@ -1,0 +1,37 @@
+{
+  "code": 200,
+  "message": "캠퍼스맵 검색에 성공하였습니다",
+  "data": {
+    "buildings": [
+      {
+        "id": 39,
+        "name": "학생회관",
+        "address": "서울특별시 광진구 능동로 120",
+        "latitude": 37.541875,
+        "longitude": 127.077966
+      }
+    ],
+    "campusPlaces": [
+      {
+        "id": 105,
+        "name": "학생회관 복사실",
+        "category": "printer",
+        "categoryKorName": "프린터",
+        "imageUrl": null,
+        "locationType": "INDOOR",
+        "floor": "1F",
+        "locationDetail": null,
+        "quantity": null,
+        "operatingHours": [],
+        "externalUrl": null,
+        "building": {
+          "id": 39,
+          "name": "학생회관",
+          "address": "서울특별시 광진구 능동로 120",
+          "latitude": 37.541875,
+          "longitude": 127.077966
+        }
+      }
+    ]
+  }
+}

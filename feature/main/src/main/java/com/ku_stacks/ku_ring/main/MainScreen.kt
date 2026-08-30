@@ -6,7 +6,10 @@ import android.content.pm.PackageManager
 import androidx.activity.compose.LocalActivity
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.consumeWindowInsets
@@ -19,11 +22,15 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.core.net.toUri
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -34,7 +41,13 @@ import com.ku_stacks.ku_ring.compose.locals.LocalNavigator
 import com.ku_stacks.ku_ring.compose.locals.LocalPreferences
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.main.calendar.compose.AcademicCalendarScreen
+import com.ku_stacks.ku_ring.main.campusmap.CampusMapViewModel
 import com.ku_stacks.ku_ring.main.campusmap.compose.CampusMapScreen
+import com.ku_stacks.ku_ring.main.campusmap.compose.component.bottomsheet.CampusMapDetailSheetHost
+import com.ku_stacks.ku_ring.main.campusmap.compose.component.bottomsheet.CampusMapSearchResultSheetContent
+import com.ku_stacks.ku_ring.main.campusmap.compose.component.bottomsheet.CampusMapSearchResultSheetHost
+import com.ku_stacks.ku_ring.main.campusmap.compose.inner_screen.CampusMapSearchDestination
+import com.ku_stacks.ku_ring.main.campusmap.compose.inner_screen.CampusMapSearchRoute
 import com.ku_stacks.ku_ring.main.club.compose.inner_screen.ClubListScreen
 import com.ku_stacks.ku_ring.main.notice.compose.NoticeScreen
 import com.ku_stacks.ku_ring.main.setting.SettingViewModel
@@ -51,62 +64,113 @@ fun MainScreen(
     startDestination: MainScreenRoute = MainScreenRoute.Notice,
 ) {
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = currentBackStackEntry?.let { MainScreenRoute.of(it) }
+    val isCampusMapSearch = currentBackStackEntry?.isCampusMapSearch == true
+    val currentRoute = currentBackStackEntry?.mainScreenRoute()
         ?: MainScreenRoute.Notice
+    var campusMapSearchResultSheetContent by remember {
+        mutableStateOf<CampusMapSearchResultSheetContent?>(null)
+    }
 
     KuringCompositionLocalProvider {
         val navigator = LocalNavigator.current
         val activity = LocalActivity.current ?: return@KuringCompositionLocalProvider
 
-        Scaffold(
-            bottomBar = {
-                MainScreenNavigationBar(
-                    currentRoute = currentRoute,
-                    onNavigationItemClick = { navController.navigate(it) },
-                    modifier = Modifier.fillMaxWidth(),
-                )
-            },
-            contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Start + WindowInsetsSides.End + WindowInsetsSides.Bottom),
-            containerColor = KuringTheme.colors.background,
-            modifier = modifier,
-        ) {
-            NavHost(
-                navController = navController,
-                startDestination = startDestination,
-                modifier = Modifier
-                    .padding(it)
-                    .consumeWindowInsets(it)
-                    .fillMaxSize(),
-                enterTransition = {
-                    val initialRoute = MainScreenRoute.of(initialState)
-                    val targetRoute = MainScreenRoute.of(targetState)
-                    val enterDirection =
-                        slideDirection(
-                            initialRoute = initialRoute,
-                            targetRoute = targetRoute,
+        Box(modifier = modifier.fillMaxSize()) {
+            Scaffold(
+                bottomBar = {
+                    if (!isCampusMapSearch) {
+                        MainScreenNavigationBar(
+                            currentRoute = currentRoute,
+                            onNavigationItemClick = { navController.navigate(it) },
+                            modifier = Modifier.fillMaxWidth(),
                         )
-                    slideIntoContainer(enterDirection)
+                    }
                 },
-                exitTransition = {
-                    val initialRoute = MainScreenRoute.of(initialState)
-                    val targetRoute = MainScreenRoute.of(targetState)
-                    val enterDirection =
-                        slideDirection(
-                            initialRoute = initialRoute,
-                            targetRoute = targetRoute,
-                        )
-                    slideOutOfContainer(enterDirection)
-                },
-            ) {
-                mainScreenNavGraph(
+                contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Start + WindowInsetsSides.End + WindowInsetsSides.Bottom),
+                containerColor = KuringTheme.colors.background,
+                modifier = Modifier.fillMaxSize(),
+            ) { innerPadding ->
+                NavHost(
                     navController = navController,
-                    navigator = navigator,
-                    activity = activity,
-                )
+                    startDestination = startDestination,
+                    modifier = Modifier
+                        .padding(innerPadding)
+                        .consumeWindowInsets(innerPadding)
+                        .fillMaxSize(),
+                    enterTransition = {
+                        if (initialState.isCampusMapSearch || targetState.isCampusMapSearch) {
+                            EnterTransition.None
+                        } else {
+                            val enterDirection = slideDirection(
+                                initialRoute = initialState.mainScreenRoute(),
+                                targetRoute = targetState.mainScreenRoute(),
+                            )
+                            slideIntoContainer(enterDirection)
+                        }
+                    },
+                    exitTransition = {
+                        if (initialState.isCampusMapSearch || targetState.isCampusMapSearch) {
+                            ExitTransition.None
+                        } else {
+                            val enterDirection = slideDirection(
+                                initialRoute = initialState.mainScreenRoute(),
+                                targetRoute = targetState.mainScreenRoute(),
+                            )
+                            slideOutOfContainer(enterDirection)
+                        }
+                    },
+                ) {
+                    mainScreenNavGraph(
+                        navController = navController,
+                        navigator = navigator,
+                        activity = activity,
+                        onCampusMapSearchResultSheetContentChange = {
+                            campusMapSearchResultSheetContent = it
+                        },
+                    )
+                }
+            }
+
+            if (shouldShowCampusMapSheetHost(currentRoute, isCampusMapSearch)) {
+                currentBackStackEntry?.let { campusMapEntry ->
+                    val viewModel = hiltViewModel<CampusMapViewModel>(campusMapEntry)
+                    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+                    val focusedPlace = uiState.focusedPlace
+
+                    if (focusedPlace != null) {
+                        CampusMapDetailSheetHost(
+                            place = focusedPlace,
+                            onDismiss = viewModel::clearFocusedPlace,
+                            modifier = Modifier.fillMaxSize(),
+                        )
+                    } else {
+                        campusMapSearchResultSheetContent?.let { content ->
+                            CampusMapSearchResultSheetHost(
+                                content = content,
+                                modifier = Modifier.fillMaxSize(),
+                            )
+                        }
+                    }
+                }
             }
         }
     }
 }
+
+private val NavBackStackEntry.isCampusMapSearch: Boolean
+    get() = destination.route == CampusMapSearchDestination.route
+
+private fun NavBackStackEntry.mainScreenRoute(): MainScreenRoute =
+    if (isCampusMapSearch) {
+        MainScreenRoute.CampusMap
+    } else {
+        MainScreenRoute.of(this)
+    }
+
+internal fun shouldShowCampusMapSheetHost(
+    currentRoute: MainScreenRoute,
+    isCampusMapSearch: Boolean,
+): Boolean = currentRoute == MainScreenRoute.CampusMap && !isCampusMapSearch
 
 private fun MainScreenRoute.screenOrder() =
     when (this) {
@@ -126,10 +190,11 @@ private fun slideDirection(
     AnimatedContentTransitionScope.SlideDirection.Left
 }
 
-fun NavGraphBuilder.mainScreenNavGraph(
+internal fun NavGraphBuilder.mainScreenNavGraph(
     navController: NavHostController,
     navigator: KuringNavigator,
     activity: Activity,
+    onCampusMapSearchResultSheetContentChange: (CampusMapSearchResultSheetContent?) -> Unit,
 ) {
     composable<MainScreenRoute.Notice> {
         NoticeScreen(
@@ -176,7 +241,23 @@ fun NavGraphBuilder.mainScreenNavGraph(
         CampusMapScreen(
             onLibrarySeatFabClick = {
                 navigator.navigateToLibrarySeat(activity)
-            }
+            },
+            onNavigateToSearch = {
+                navController.navigate(CampusMapSearchDestination)
+            },
+            onSearchResultSheetContentChange = onCampusMapSearchResultSheetContentChange,
+        )
+    }
+    composable<CampusMapSearchDestination> { backStackEntry ->
+        val campusMapEntry = remember(backStackEntry) {
+            navController.getBackStackEntry(MainScreenRoute.CampusMap.route)
+        }
+        val viewModel = hiltViewModel<CampusMapViewModel>(campusMapEntry)
+
+        CampusMapSearchRoute(
+            onNavigateUp = { navController.popBackStack() },
+            viewModel = viewModel,
+            modifier = Modifier.fillMaxSize(),
         )
     }
     composable<MainScreenRoute.Club> {
