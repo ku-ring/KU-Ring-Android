@@ -29,6 +29,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.ku_stacks.ku_ring.firebase.analytics.event.AnalyticsEvent
+import com.ku_stacks.ku_ring.compose.locals.LocalAnalytics
 import com.ku_stacks.ku_ring.designsystem.R.color.kus_label
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.components.indicator.PagingLoadingIndicator
@@ -58,6 +60,32 @@ fun AcademicCalendarScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val calendarState = rememberMonthCalendarState()
+    val analytics = LocalAnalytics.current
+
+    LaunchedEffect(Unit) {
+        analytics.log(
+            AnalyticsEvent.calendarView(
+                displayedMonth = calendarState.currentYearMonth.toString(),
+            ),
+        )
+    }
+
+    LaunchedEffect(calendarState.pagerState) {
+        var previousPage = calendarState.pagerState.settledPage
+        snapshotFlow { calendarState.pagerState.settledPage }
+            .distinctUntilChanged()
+            .collect { currentPage ->
+                if (currentPage != previousPage) {
+                    analytics.log(
+                        AnalyticsEvent.calendarMonthNavigate(
+                            direction = if (currentPage < previousPage) "previous" else "next",
+                            displayedMonth = calendarState.getYearMonth(currentPage).toString(),
+                        ),
+                    )
+                    previousPage = currentPage
+                }
+            }
+    }
 
     LaunchedEffect(calendarState.currentMonthModel) {
         snapshotFlow { calendarState.currentMonthModel }
@@ -81,7 +109,17 @@ fun AcademicCalendarScreen(
     AcademicCalendarScreen(
         uiState = uiState,
         calendarState = calendarState,
-        onDateClick = viewModel::updateSelectedDateOnClick,
+        onDateClick = { day ->
+            val eventCount = uiState.monthEvent[day.mapKey].orEmpty().size
+            analytics.log(
+                AnalyticsEvent.calendarDateClick(
+                    date = day.date.toString(),
+                    hasEvent = eventCount > 0,
+                    eventCount = eventCount,
+                ),
+            )
+            viewModel.updateSelectedDateOnClick(day)
+        },
         modifier = modifier,
     )
 }

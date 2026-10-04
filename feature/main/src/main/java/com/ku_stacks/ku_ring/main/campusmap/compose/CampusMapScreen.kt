@@ -61,6 +61,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
+import com.ku_stacks.ku_ring.firebase.analytics.event.AnalyticsEvent
+import com.ku_stacks.ku_ring.compose.locals.LocalAnalytics
 import com.ku_stacks.ku_ring.compose.locals.LocalPreferences
 import com.ku_stacks.ku_ring.designsystem.components.KuringAlertDialog
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
@@ -104,6 +106,7 @@ internal fun CampusMapScreen(
     viewModel: CampusMapViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val analytics = LocalAnalytics.current
     val context = LocalContext.current
     val activity = LocalActivity.current
     val preferences = LocalPreferences.current
@@ -129,6 +132,10 @@ internal fun CampusMapScreen(
                     .animate(CameraAnimation.Fly),
             )
         }
+    }
+
+    LaunchedEffect(Unit) {
+        analytics.log(AnalyticsEvent.mapView)
     }
 
     LifecycleResumeEffect(Unit) {
@@ -168,12 +175,32 @@ internal fun CampusMapScreen(
         uiState = uiState,
         snackbarHostState = snackbarHostState,
         modifier = modifier,
-        onMapPinClick = viewModel::focusMapPlace,
+        onMapPinClick = { place ->
+            analytics.log(AnalyticsEvent.mapPinClick(buildingName = place.name))
+            viewModel.focusMapPlace(place)
+        },
         onMapClick = viewModel::clearFocusedPlace,
         onPlaceDetailClose = viewModel::clearFocusedPlace,
         onSearchResultSheetContentChange = onSearchResultSheetContentChange,
-        onCategoryClick = viewModel::updateSelectedCategory,
+        onCategoryClick = { category ->
+            val isSelected = category !in uiState.selectedCategories
+            val selectedCategoryCount = uiState.selectedCategories.size + if (isSelected) 1 else -1
+            analytics.log(
+                AnalyticsEvent.mapCategoryChipClick(
+                    category = category.label,
+                    isSelected = isSelected,
+                    selectedCategoryCount = selectedCategoryCount,
+                ),
+            )
+            viewModel.updateSelectedCategory(category)
+        },
         onSearchClick = {
+            analytics.log(
+                AnalyticsEvent.mapSearchClick(
+                    keyword = uiState.activeSearchText.orEmpty(),
+                    action = "open",
+                ),
+            )
             viewModel.prepareSearchInput()
             onNavigateToSearch()
         },
@@ -199,7 +226,10 @@ internal fun CampusMapScreen(
                 }
             }
         },
-        onLibrarySeatFabClick = onLibrarySeatFabClick,
+        onLibrarySeatFabClick = {
+            analytics.log(AnalyticsEvent.mapSeatStatusClick)
+            onLibrarySeatFabClick()
+        },
     )
 
     if (uiState.isLocationPermissionDialogVisible) {
