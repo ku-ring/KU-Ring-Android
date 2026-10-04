@@ -2,6 +2,7 @@ package com.ku_stacks.ku_ring.firebase.analytics.di
 
 import android.content.Context
 import com.ku_stacks.ku_ring.firebase.analytics.EventAnalytics
+import com.ku_stacks.ku_ring.firebase.analytics.initializer.AmplitudeApiKey
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,6 +17,10 @@ object EventAnalyticsModule {
     @Singleton
     @Provides
     fun provideEventAnalytics(
-        @ApplicationContext context: Context
-    ) = EventAnalytics(context)
+        @ApplicationContext context: Context,
+        @AmplitudeApiKey amplitudeApiKey: String,
+    ): EventAnalytics = EventAnalytics(
+        context = context,
+        amplitudeApiKey = amplitudeApiKey,
+    )
 }

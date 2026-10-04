@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import com.ku_stacks.ku_ring.designsystem.components.DoubleTapBackHandler
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
@@ -19,7 +18,6 @@ import com.ku_stacks.ku_ring.domain.Notice
 import com.ku_stacks.ku_ring.main.notice.compose.components.KuringBotFab
 import com.ku_stacks.ku_ring.main.notice.compose.components.NoticeScreenHeader
 import com.ku_stacks.ku_ring.main.notice.compose.inner_screen.NoticeTabScreens
-import com.ku_stacks.ku_ring.compose.locals.LocalNavigator
 
 @Composable
 internal fun NoticeScreen(
@@ -27,6 +25,8 @@ internal fun NoticeScreen(
     onArchiveIconClick: () -> Unit,
     onNotificationIconClick: () -> Unit,
     onNoticeClick: (Notice) -> Unit,
+    onTopTabSelect: (String) -> Unit,
+    onKuringBotClick: () -> Unit,
     onNavigateToEditDepartment: () -> Unit,
     onNavigateToAcademicEvent: () -> Unit,
     onNavigateToLibrarySeat: () -> Unit,
@@ -42,8 +42,6 @@ internal fun NoticeScreen(
     )
 
     NoticeCompositionLocalProvider {
-        val navigator = LocalNavigator.current
-        val context = LocalContext.current
         val kuringBotFabState = LocalKuringBotFabState.current
         Scaffold(
             topBar = {
@@ -60,7 +58,7 @@ internal fun NoticeScreen(
                     enter = fadeIn(tween(40)),
                     exit = fadeOut(targetAlpha = 1f),
                 ) {
-                    KuringBotFab(onClick = { navigator.navigateToKuringBot(context) })
+                    KuringBotFab(onClick = onKuringBotClick)
                 }
             },
             modifier = modifier,
@@ -68,6 +66,7 @@ internal fun NoticeScreen(
         ) { contentPadding ->
             NoticeTabScreens(
                 onNoticeClick = onNoticeClick,
+                onTopTabSelect = onTopTabSelect,
                 onNavigateToEditDepartment = onNavigateToEditDepartment,
                 onNavigateToAcademicEvent = onNavigateToAcademicEvent,
                 onNavigateToLibrarySeat = onNavigateToLibrarySeat,
@@ -88,6 +87,8 @@ private fun NoticeScreenPreview() {
             onArchiveIconClick = {},
             onNotificationIconClick = {},
             onNoticeClick = {},
+            onTopTabSelect = {},
+            onKuringBotClick = {},
             onNavigateToEditDepartment = {},
             onNavigateToAcademicEvent = {},
             onNavigateToLibrarySeat = {},
