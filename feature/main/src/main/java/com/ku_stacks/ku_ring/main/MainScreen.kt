@@ -36,7 +36,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.ku_stacks.ku_ring.firebase.analytics.event.AnalyticsEvent
 import com.ku_stacks.ku_ring.compose.locals.KuringCompositionLocalProvider
+import com.ku_stacks.ku_ring.compose.locals.LocalAnalytics
 import com.ku_stacks.ku_ring.compose.locals.LocalNavigator
 import com.ku_stacks.ku_ring.compose.locals.LocalPreferences
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
@@ -197,18 +199,41 @@ internal fun NavGraphBuilder.mainScreenNavGraph(
     onCampusMapSearchResultSheetContentChange: (CampusMapSearchResultSheetContent?) -> Unit,
 ) {
     composable<MainScreenRoute.Notice> {
+        val analytics = LocalAnalytics.current
+        LaunchedEffect(Unit) {
+            analytics.log(AnalyticsEvent.noticeHomeView)
+        }
+
         NoticeScreen(
             onSearchIconClick = {
+                analytics.log(AnalyticsEvent.noticeHeaderIconClick(icon = "search"))
                 navigator.navigateToSearch(activity)
             },
             onArchiveIconClick = {
+                analytics.log(AnalyticsEvent.noticeHeaderIconClick(icon = "archive"))
                 navigator.navigateToArchive(activity)
             },
             onNotificationIconClick = {
+                analytics.log(AnalyticsEvent.noticeHeaderIconClick(icon = "notification"))
                 navigator.navigateToNotification(activity)
             },
-            onNoticeClick = {
-                navigator.navigateToNoticeWeb(activity, it)
+            onNoticeClick = { notice ->
+                analytics.log(
+                    AnalyticsEvent.noticeItemClick(
+                        noticeTitle = notice.subject,
+                        noticeId = notice.id,
+                        articleId = notice.articleId,
+                        postedDate = notice.postedDate,
+                    ),
+                )
+                navigator.navigateToNoticeWeb(activity, notice)
+            },
+            onTopTabSelect = { tabName ->
+                analytics.log(AnalyticsEvent.noticeTopTabSelect(tabName = tabName))
+            },
+            onKuringBotClick = {
+                analytics.log(AnalyticsEvent.botView)
+                navigator.navigateToKuringBot(activity)
             },
             onNavigateToEditDepartment = {
                 navigator.navigateToEditSubscribedDepartment(activity)

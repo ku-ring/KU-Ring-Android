@@ -66,9 +66,11 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.ku_stacks.ku_ring.compose.locals.LocalAnalytics
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.Place
+import com.ku_stacks.ku_ring.firebase.analytics.event.AnalyticsEvent
 import com.ku_stacks.ku_ring.main.R
 import com.ku_stacks.ku_ring.main.campusmap.CampusMapViewModel
 import com.ku_stacks.ku_ring.main.campusmap.compose.preview.CampusMapPlacesPreviewParameterProvider
@@ -91,6 +93,7 @@ internal fun CampusMapSearchRoute(
     viewModel: CampusMapViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val analytics = LocalAnalytics.current
     val snackbarHostState = remember { SnackbarHostState() }
     val loadErrorMessage = stringResource(R.string.campus_map_load_error)
     val retryLabel = stringResource(R.string.campus_map_retry)
@@ -123,17 +126,35 @@ internal fun CampusMapSearchRoute(
         onQueryClear = viewModel::clearSearchInput,
         onNavigateUp = onNavigateUp,
         onSearchSubmit = {
-            val shouldNavigateUp = uiState.searchInput.isNotBlank()
+            val keyword = uiState.searchInput.trim()
+            val shouldNavigateUp = keyword.isNotEmpty()
+            if (shouldNavigateUp) {
+                analytics.log(
+                    AnalyticsEvent.mapSearchClick(keyword = keyword, action = "submit"),
+                )
+            }
             viewModel.submitSearch()
             if (shouldNavigateUp) {
                 onNavigateUp()
             }
         },
         onResultClick = { result ->
+            analytics.log(
+                AnalyticsEvent.mapSearchClick(
+                    keyword = uiState.searchInput.trim(),
+                    action = "result_select",
+                ),
+            )
             viewModel.selectSearchResult(result)
             onNavigateUp()
         },
         onRecentClick = { recentSearch ->
+            analytics.log(
+                AnalyticsEvent.mapSearchClick(
+                    keyword = recentSearch.label,
+                    action = "recent_select",
+                ),
+            )
             viewModel.selectRecentSearch(recentSearch)
             onNavigateUp()
         },

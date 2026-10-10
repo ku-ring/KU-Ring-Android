@@ -12,6 +12,22 @@ plugins {
 
 val keystorePropertiesFile = rootProject.file("app/signing/keystore.properties")
 val keystoreFile = rootProject.file("app/signing/ku_ring_keystore.jks")
+val localProperties = Properties().apply {
+    val localPropertiesFile = rootProject.file("local.properties")
+    if (localPropertiesFile.exists()) {
+        localPropertiesFile.inputStream().use(::load)
+    }
+}
+val amplitudeApiKey = providers.environmentVariable("AMPLITUDE_API_KEY")
+    .orElse(providers.gradleProperty("AMPLITUDE_API_KEY"))
+    .getOrElse(
+        localProperties.getProperty(
+            "amplitude.api.key",
+            localProperties.getProperty("AMPLITUDE_API_KEY", ""),
+        ),
+    )
+    .replace("\\", "\\\\")
+    .replace("\"", "\\\"")
 
 android {
     namespace = "com.ku_stacks.ku_ring"
@@ -51,6 +67,7 @@ android {
     buildTypes {
         debug {
             isMinifyEnabled = false
+            buildConfigField("String", "AMPLITUDE_API_KEY", "\"\"")
             manifestPlaceholders.putAll(
                 mapOf(
                     "appName" to "@string/app_name_debug",
@@ -61,6 +78,7 @@ android {
         }
         release {
             isDebuggable = false
+            buildConfigField("String", "AMPLITUDE_API_KEY", "\"$amplitudeApiKey\"")
             signingConfig = signingConfigs.getByName("release")
             manifestPlaceholders.putAll(
                 mapOf(
