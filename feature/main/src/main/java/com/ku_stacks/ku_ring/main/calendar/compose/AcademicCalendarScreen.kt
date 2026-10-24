@@ -19,7 +19,10 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,6 +32,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.ku_stacks.ku_ring.firebase.analytics.event.AnalyticsEvent
+import com.ku_stacks.ku_ring.compose.locals.LocalAnalytics
 import com.ku_stacks.ku_ring.designsystem.R.color.kus_label
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.components.indicator.PagingLoadingIndicator
@@ -58,6 +63,36 @@ fun AcademicCalendarScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val calendarState = rememberMonthCalendarState()
+    val analytics = LocalAnalytics.current
+    var hasLoggedView by rememberSaveable { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        if (!hasLoggedView) {
+            analytics.log(
+                AnalyticsEvent.calendarView(
+                    displayedMonth = calendarState.currentYearMonth.toString(),
+                ),
+            )
+            hasLoggedView = true
+        }
+    }
+
+    LaunchedEffect(calendarState.pagerState) {
+        var previousPage = calendarState.pagerState.settledPage
+        snapshotFlow { calendarState.pagerState.settledPage }
+            .distinctUntilChanged()
+            .collect { currentPage ->
+                if (currentPage != previousPage) {
+                    analytics.log(
+                        AnalyticsEvent.calendarMonthNavigate(
+                            direction = if (currentPage < previousPage) "previous" else "next",
+                            displayedMonth = calendarState.getYearMonth(currentPage).toString(),
+                        ),
+                    )
+                    previousPage = currentPage
+                }
+            }
+    }
 
     LaunchedEffect(calendarState.currentMonthModel) {
         snapshotFlow { calendarState.currentMonthModel }
@@ -81,7 +116,17 @@ fun AcademicCalendarScreen(
     AcademicCalendarScreen(
         uiState = uiState,
         calendarState = calendarState,
-        onDateClick = viewModel::updateSelectedDateOnClick,
+        onDateClick = { day ->
+            val eventCount = uiState.monthEvent[day.mapKey].orEmpty().size
+            analytics.log(
+                AnalyticsEvent.calendarDateClick(
+                    date = day.date.toString(),
+                    hasEvent = eventCount > 0,
+                    eventCount = eventCount,
+                ),
+            )
+            viewModel.updateSelectedDateOnClick(day)
+        },
         modifier = modifier,
     )
 }

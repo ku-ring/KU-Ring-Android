@@ -20,6 +20,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,6 +34,8 @@ import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
+import com.ku_stacks.ku_ring.firebase.analytics.event.AnalyticsEvent
+import com.ku_stacks.ku_ring.compose.locals.LocalAnalytics
 import com.ku_stacks.ku_ring.compose.locals.LocalNavigator
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.components.indicator.PagingLoadingIndicator
@@ -65,8 +68,10 @@ fun ClubListScreen(
 ) {
     val clubFilter by viewModel.clubListFilter.collectAsStateWithLifecycle()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val analytics = LocalAnalytics.current
     var isLoginDialogVisible by remember { mutableStateOf(false) }
     var isDivisionBottomSheetVisible by remember { mutableStateOf(false) }
+    var lastLoggedCategory by rememberSaveable { mutableStateOf<String?>(null) }
 
     // 컴포지션 단계에서 refreshClubSubscription으로 인해
     // 동아리 목록 api가 두 번 이상 호출되는 것을 방지하기 위한 플래그
@@ -100,6 +105,20 @@ fun ClubListScreen(
 
         LaunchedEffect(pagerState.settledPage) {
             val category = ClubCategory.entries[pagerState.settledPage]
+            if (lastLoggedCategory != category.name) {
+                analytics.log(
+                    if (lastLoggedCategory == null) {
+                        AnalyticsEvent.clubTabView(
+                            selectedCategory = category.koreanName,
+                        )
+                    } else {
+                        AnalyticsEvent.clubCategoryTabSelect(
+                            selectedCategory = category.koreanName,
+                        )
+                    },
+                )
+                lastLoggedCategory = category.name
+            }
             viewModel.updateSelectedCategory(category)
         }
 
@@ -121,8 +140,30 @@ fun ClubListScreen(
                 }
             },
             onNavigateToNotification = onNavigateToNotification,
-            onSelectedDivisionsChange = viewModel::updateSelectedDivisions,
-            onSelectedDivisionReset = viewModel::resetSelectedDivisions,
+            onSelectedDivisionsChange = { selectedDivisions ->
+                val changedDivisions = (filter.selectedDivisions union selectedDivisions) -
+                    (filter.selectedDivisions intersect selectedDivisions)
+                changedDivisions.forEach { division ->
+                    analytics.log(
+                        AnalyticsEvent.clubFilterSelect(
+                            selectedFilter = division.koreanName,
+                            isSelected = division in selectedDivisions,
+                        ),
+                    )
+                }
+                viewModel.updateSelectedDivisions(selectedDivisions)
+            },
+            onSelectedDivisionReset = {
+                filter.selectedDivisions.forEach { division ->
+                    analytics.log(
+                        AnalyticsEvent.clubFilterSelect(
+                            selectedFilter = division.koreanName,
+                            isSelected = false,
+                        ),
+                    )
+                }
+                viewModel.resetSelectedDivisions()
+            },
             onBottomSheetVisibilityChange = {
                 isDivisionBottomSheetVisible = !isDivisionBottomSheetVisible
             },
@@ -133,7 +174,12 @@ fun ClubListScreen(
                     isLoginDialogVisible = true
                 }
             },
-            onSortOptionChange = viewModel::updateSortOption,
+            onSortOptionChange = { sortOption ->
+                analytics.log(
+                    AnalyticsEvent.clubSortSelect(sortOption = sortOption.text),
+                )
+                viewModel.updateSortOption(sortOption)
+            },
         )
 
         if (isLoginDialogVisible) {
