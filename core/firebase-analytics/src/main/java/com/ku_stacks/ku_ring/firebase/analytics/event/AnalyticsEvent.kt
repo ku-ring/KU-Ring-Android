@@ -81,11 +81,10 @@ class AnalyticsEvent private constructor(
             params = mapOf("building_name" to buildingName),
         )
 
-        fun mapSearchClick(keyword: String, action: String) = AnalyticsEvent(
+        fun mapSearchClick(keyword: String) = AnalyticsEvent(
             name = "search_click",
             params = mapOf(
-                "keyword" to keyword,
-                "action" to action,
+                "keyword" to keyword.take(100),
             ),
         )
 

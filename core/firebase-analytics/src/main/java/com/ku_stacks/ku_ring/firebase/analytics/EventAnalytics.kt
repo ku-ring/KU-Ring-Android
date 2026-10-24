@@ -19,18 +19,16 @@ class EventAnalytics(
         FirebaseAnalytics.getInstance(context)
     }
 
-    private val amplitude: Amplitude? by lazy {
+    private val amplitude: Amplitude? =
         amplitudeApiKey.takeIf(String::isNotBlank)?.let { apiKey ->
             createAmplitude(apiKey)
         }
-    }
 
     @SuppressLint("MissingPermission")
     private fun createAmplitude(apiKey: String) = Amplitude(
         Configuration(
             apiKey = apiKey,
             context = context.applicationContext,
-            minIdLength = 1,
             autocapture = setOf(
                 AutocaptureOption.SESSIONS,
                 AutocaptureOption.APP_LIFECYCLES,

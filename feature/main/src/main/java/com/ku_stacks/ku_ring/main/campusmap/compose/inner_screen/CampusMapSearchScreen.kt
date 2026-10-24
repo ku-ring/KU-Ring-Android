@@ -130,7 +130,7 @@ internal fun CampusMapSearchRoute(
             val shouldNavigateUp = keyword.isNotEmpty()
             if (shouldNavigateUp) {
                 analytics.log(
-                    AnalyticsEvent.mapSearchClick(keyword = keyword, action = "submit"),
+                    AnalyticsEvent.mapSearchClick(keyword = keyword),
                 )
             }
             viewModel.submitSearch()
@@ -142,7 +142,6 @@ internal fun CampusMapSearchRoute(
             analytics.log(
                 AnalyticsEvent.mapSearchClick(
                     keyword = uiState.searchInput.trim(),
-                    action = "result_select",
                 ),
             )
             viewModel.selectSearchResult(result)
@@ -152,7 +151,6 @@ internal fun CampusMapSearchRoute(
             analytics.log(
                 AnalyticsEvent.mapSearchClick(
                     keyword = recentSearch.label,
-                    action = "recent_select",
                 ),
             )
             viewModel.selectRecentSearch(recentSearch)

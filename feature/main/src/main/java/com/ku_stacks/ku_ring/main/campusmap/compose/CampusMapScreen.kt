@@ -200,12 +200,6 @@ internal fun CampusMapScreen(
             viewModel.updateSelectedCategory(category)
         },
         onSearchClick = {
-            analytics.log(
-                AnalyticsEvent.mapSearchClick(
-                    keyword = uiState.activeSearchText.orEmpty(),
-                    action = "open",
-                ),
-            )
             viewModel.prepareSearchInput()
             onNavigateToSearch()
         },
