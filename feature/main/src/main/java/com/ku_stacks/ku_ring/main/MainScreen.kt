@@ -24,6 +24,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.core.net.toUri
@@ -37,9 +38,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.ku_stacks.ku_ring.compose.locals.KuringCompositionLocalProvider
+import com.ku_stacks.ku_ring.compose.locals.LocalAnalytics
 import com.ku_stacks.ku_ring.compose.locals.LocalNavigator
 import com.ku_stacks.ku_ring.compose.locals.LocalPreferences
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
+import com.ku_stacks.ku_ring.firebase.analytics.event.AnalyticsEvent
 import com.ku_stacks.ku_ring.main.calendar.compose.AcademicCalendarScreen
 import com.ku_stacks.ku_ring.main.campusmap.CampusMapViewModel
 import com.ku_stacks.ku_ring.main.campusmap.compose.CampusMapScreen
@@ -197,6 +200,15 @@ internal fun NavGraphBuilder.mainScreenNavGraph(
     onCampusMapSearchResultSheetContentChange: (CampusMapSearchResultSheetContent?) -> Unit,
 ) {
     composable<MainScreenRoute.Notice> {
+        val analytics = LocalAnalytics.current
+        var hasLoggedView by rememberSaveable { mutableStateOf(false) }
+        LaunchedEffect(Unit) {
+            if (!hasLoggedView) {
+                analytics.log(AnalyticsEvent.noticeHomeView)
+                hasLoggedView = true
+            }
+        }
+
         NoticeScreen(
             onSearchIconClick = {
                 navigator.navigateToSearch(activity)
@@ -231,6 +243,15 @@ internal fun NavGraphBuilder.mainScreenNavGraph(
         )
     }
     composable<MainScreenRoute.Calendar> {
+        val analytics = LocalAnalytics.current
+        var hasLoggedView by rememberSaveable { mutableStateOf(false) }
+        LaunchedEffect(Unit) {
+            if (!hasLoggedView) {
+                analytics.log(AnalyticsEvent.calendarView)
+                hasLoggedView = true
+            }
+        }
+
         AcademicCalendarScreen(
             modifier = Modifier
                 .background(KuringTheme.colors.background)
@@ -238,6 +259,15 @@ internal fun NavGraphBuilder.mainScreenNavGraph(
         )
     }
     composable<MainScreenRoute.CampusMap> {
+        val analytics = LocalAnalytics.current
+        var hasLoggedView by rememberSaveable { mutableStateOf(false) }
+        LaunchedEffect(Unit) {
+            if (!hasLoggedView) {
+                analytics.log(AnalyticsEvent.mapView)
+                hasLoggedView = true
+            }
+        }
+
         CampusMapScreen(
             onLibrarySeatFabClick = {
                 navigator.navigateToLibrarySeat(activity)
@@ -261,6 +291,15 @@ internal fun NavGraphBuilder.mainScreenNavGraph(
         )
     }
     composable<MainScreenRoute.Club> {
+        val analytics = LocalAnalytics.current
+        var hasLoggedView by rememberSaveable { mutableStateOf(false) }
+        LaunchedEffect(Unit) {
+            if (!hasLoggedView) {
+                analytics.log(AnalyticsEvent.clubTabView)
+                hasLoggedView = true
+            }
+        }
+
         val preferences = LocalPreferences.current
         val clubCategory by preferences.clubCategoryFlow.collectAsStateWithLifecycle()
         LaunchedEffect(Unit) {
