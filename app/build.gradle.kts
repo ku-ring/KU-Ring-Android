@@ -26,8 +26,6 @@ val amplitudeApiKey = providers.environmentVariable("AMPLITUDE_API_KEY")
             localProperties.getProperty("AMPLITUDE_API_KEY", ""),
         ),
     )
-    .replace("\\", "\\\\")
-    .replace("\"", "\\\"")
 
 android {
     namespace = "com.ku_stacks.ku_ring"
