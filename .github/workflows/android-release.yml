@@ -13,6 +13,8 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    env:
+      AMPLITUDE_API_KEY: ${{ secrets.AMPLITUDE_API_KEY }}
 
     steps:
     - uses: actions/checkout@v6
@@ -39,6 +41,9 @@ jobs:
 
     - name: Create local.properties
       run: echo '${{ secrets.LOCAL_PROPERTIES }}' > ./local.properties
+
+    - name: Verify Amplitude API key
+      run: test -n "$AMPLITUDE_API_KEY"
 
     # Run unit test
     - name: Run unit test
