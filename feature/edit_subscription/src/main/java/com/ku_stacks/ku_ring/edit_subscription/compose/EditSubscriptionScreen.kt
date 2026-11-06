@@ -29,10 +29,12 @@ import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material.Text
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -45,6 +47,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.ku_stacks.ku_ring.compose.locals.LocalAnalytics
 import com.ku_stacks.ku_ring.designsystem.components.KuringCallToAction
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.components.LightPreview
@@ -58,6 +61,7 @@ import com.ku_stacks.ku_ring.edit_subscription.compose.components.DepartmentSubs
 import com.ku_stacks.ku_ring.edit_subscription.compose.components.NormalSubscriptionItem
 import com.ku_stacks.ku_ring.edit_subscription.uimodel.DepartmentSubscriptionUiModel
 import com.ku_stacks.ku_ring.edit_subscription.uimodel.NormalSubscriptionUiModel
+import com.ku_stacks.ku_ring.firebase.analytics.event.AnalyticsEvent
 import kotlinx.coroutines.launch
 
 @Composable
@@ -70,6 +74,15 @@ fun EditSubscriptionScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val scope = rememberCoroutineScope()
+    val analytics = LocalAnalytics.current
+    var hasLoggedView by rememberSaveable { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        if (!hasLoggedView) {
+            analytics.log(AnalyticsEvent.pushSettingView)
+            hasLoggedView = true
+        }
+    }
 
     EditSubscriptionScreen(
         categories = uiState.categories,
