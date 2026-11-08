@@ -11,8 +11,8 @@ compileSdk = "36"
 targetSdk = "35"
 minSdk = "24"
 # Update appVersion, versionCode both
-appVersion = "2.6.0"
-versionCode = "20600"
+appVersion = "2.6.1"
+versionCode = "20601"
 
 # app-level dependency
 # Kotlin
@@ -64,6 +64,7 @@ javax-inject = "1"
 naver-map = "1.9.0"
 play-service-location = "21.3.0"
 naver-map-location = "21.0.2"
+amplitude = "1.32.0"
 
 [libraries]
 # Project-level dependencies
@@ -203,6 +204,7 @@ ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negoti
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 
 # Other libraries
+amplitude-analytics = { module = "com.amplitude:analytics-android", version.ref = "amplitude" }
 keyboardvisibilityevent = 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:3.0.0-RC3'
 leakcanary-android = 'com.squareup.leakcanary:leakcanary-android:2.14'
 pageindicatorview = 'com.romandanylyk:pageindicatorview:1.0.3'

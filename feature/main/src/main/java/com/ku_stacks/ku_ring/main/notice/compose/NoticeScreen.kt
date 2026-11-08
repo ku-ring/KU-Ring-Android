@@ -12,10 +12,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import com.ku_stacks.ku_ring.compose.locals.LocalAnalytics
 import com.ku_stacks.ku_ring.designsystem.components.DoubleTapBackHandler
 import com.ku_stacks.ku_ring.designsystem.components.LightAndDarkPreview
 import com.ku_stacks.ku_ring.designsystem.kuringtheme.KuringTheme
 import com.ku_stacks.ku_ring.domain.Notice
+import com.ku_stacks.ku_ring.firebase.analytics.event.AnalyticsEvent
 import com.ku_stacks.ku_ring.main.notice.compose.components.KuringBotFab
 import com.ku_stacks.ku_ring.main.notice.compose.components.NoticeScreenHeader
 import com.ku_stacks.ku_ring.main.notice.compose.inner_screen.NoticeTabScreens
@@ -42,6 +44,7 @@ internal fun NoticeScreen(
     )
 
     NoticeCompositionLocalProvider {
+        val analytics = LocalAnalytics.current
         val navigator = LocalNavigator.current
         val context = LocalContext.current
         val kuringBotFabState = LocalKuringBotFabState.current
@@ -60,7 +63,10 @@ internal fun NoticeScreen(
                     enter = fadeIn(tween(40)),
                     exit = fadeOut(targetAlpha = 1f),
                 ) {
-                    KuringBotFab(onClick = { navigator.navigateToKuringBot(context) })
+                    KuringBotFab(onClick = {
+                        analytics.log(AnalyticsEvent.botView)
+                        navigator.navigateToKuringBot(context)
+                    })
                 }
             },
             modifier = modifier,
