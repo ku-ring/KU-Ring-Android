@@ -33,6 +33,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
+    @Default
     fun provideOkHttpClient(@ApplicationContext context: Context): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().apply {
@@ -48,9 +49,25 @@ object NetworkModule {
 
     @Provides
     @Singleton
+    @Library
+    fun provideLibraryOkHttpClient(): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(HttpLoggingInterceptor().apply {
+                level = if (BuildConfig.DEBUG) {
+                    HttpLoggingInterceptor.Level.BODY
+                } else {
+                    HttpLoggingInterceptor.Level.NONE
+                }
+            })
+            .addInterceptor(LibraryHeaderInterceptor())
+            .build()
+    }
+
+    @Provides
+    @Singleton
     @Default
     fun provideKotlinxSerializationRetrofit(
-        okHttpClient: OkHttpClient,
+        @Default okHttpClient: OkHttpClient,
         converterFactory: Converter.Factory,
     ): Retrofit {
         return Retrofit.Builder()
@@ -64,7 +81,7 @@ object NetworkModule {
     @Singleton
     @KuringSpace
     fun provideKuringSpaceRetrofit(
-        okHttpClient: OkHttpClient,
+        @Default okHttpClient: OkHttpClient,
         converterFactory: Converter.Factory,
     ): Retrofit {
         return Retrofit.Builder()
@@ -90,7 +107,7 @@ object NetworkModule {
     @Singleton
     @Library
     fun provideLibraryRetrofit(
-        okHttpClient: OkHttpClient,
+        @Library okHttpClient: OkHttpClient,
         converterFactory: Converter.Factory,
     ): Retrofit {
         return Retrofit.Builder()
